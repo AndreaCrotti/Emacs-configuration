@@ -1,0 +1,31 @@
+## abstract for http://www.pycon.it/ talk
+# TODO: insert something about automatic testing and .el 
+
+* DONE Submit final paper [[http://assopy.pycon.it/index][on assopy]]
+  DEADLINE: <2010-03-10 Mer> CLOSED: [2010-04-07 Mer 16:05]
+  - CLOSING NOTE [2010-04-07 Mer 16:05] \\
+    Got the talk!
+
+* TODO Write the slides and print out something
+
+* Italiano
+  In questo talk voglio mostrarvi come si può spremere il massimo emacs per migliorare drasticamente la vostra produttività.
+  Darò una breve introduzione di elisp, python mode, auto complete e yasnippet e nella parte finale vi mostrerò org-mode.
+  
+  Org-mode insieme ad org-babel [[http://orgmode.org/worg/org-contrib/babel/intro.php]] è lo strumento perfetto per il /literate programming/ e la /reproducible research/.
+  
+  Il talk sarà in gran parte interattivo, dopo una breve carrellata di slides vi mostrerà all'opera questi strumenti meravigliosi.
+
+* English
+  In this talk I want to show you some how you can configure emacs to improve drastically your productivity.
+  Emacs is wonderful and amazingly powerful, but as you probably know not so easy to master.
+  I'll give a brief overview of elisp, python mode, auto complete and yasnippet, and in the last part I'll show you org-mode.
+
+  Org-mode combined with org-babel (http://orgmode.org/worg/org-contrib/babel/intro.php) it's the perfect instrument for /literate programming/ and /reproducible research/.
+
+  The talk will be mostly interactive with real world examples after a short session of introductory slides.
+
+* Presentation
+  - intro to emacs and elisp
+  - yasnippet/auto-complete and ropemacs maybe
+  - a quick view of all the possibilities given by org-mode

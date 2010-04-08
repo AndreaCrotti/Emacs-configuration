@@ -1,0 +1,34 @@
+* Org mode
+** Clock configuration
+#+begin_src elisp :tangle yes
+;; Clock configuration
+(setq org-clock-persist t)
+(org-clock-persistence-insinuate)
+#+end_src
+
+** Add eventually
+#+begin_src elisp :tangle yes
+(defun org-add-eventually()
+  "Adding a file to org-agenda when saved"
+  (interactive)
+  (if (string= major-mode "org-mode")
+      (org-agenda-file-to-front)))
+
+(add-hook 'before-save-hook 'org-add-eventually)
+#+end_src
+
+* Yasnippet
+
+* Auto complete
+  
+* Python mode
+
+* Versions of software
+  In this table we collect the actual version of the packages used
+
+  | PKG           | version |
+  |---------------+---------|
+  | python mode   |         |
+  | yasnippet     |         |
+  | auto-complete |         |
+  | org-mode      |         |
