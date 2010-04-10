@@ -1,17 +1,31 @@
+MINIMAL EMACS CONFIGURATION
+* TODO See if it's possible to have python auto completion without ropemacs
+* TODO Make the table of software versions regenerating every time
+* TODO Something about latex might also be necessary
+* TODO fix the paths, better maybe using a base path and set up from there
+
+Given that org-mode and other things make use of the customization framework, we set it up to a different file
+#+begin_src emacs-lisp :tangle yes
+(setq custom-file "~/Documents/pycon/custom.el")
+#+end_src
+
 * Org mode
 ** Clock configuration
-#+begin_src elisp :tangle yes
+#+begin_src emacs-lisp :tangle yes
 ;; Clock configuration
 (setq org-clock-persist t)
 (org-clock-persistence-insinuate)
 #+end_src
 
 ** Add eventually
-#+begin_src elisp :tangle yes
+#+begin_src emacs-lisp :tangle yes
 (defun org-add-eventually()
   "Adding a file to org-agenda when saved"
   (interactive)
-  (if (string= major-mode "org-mode")
+  (if (and
+       (string= major-mode "org-mode")
+       (not (member buffer-file-name org-agenda-files))
+       (yes-or-no-p "add the file to agenda?"))
       (org-agenda-file-to-front)))
 
 (add-hook 'before-save-hook 'org-add-eventually)
@@ -23,12 +37,66 @@
   
 * Python mode
 
+* General settings
+
+#+begin_src emacs-lisp :tangle yes
+(display-time-mode 1)
+(transient-mark-mode 1)
+(setq inhibit-startup-message t)
+(setq initial-scratch-message nil)
+
+(show-paren-mode t)
+(column-number-mode t)
+;; always truncate lines (useful for netbook), not working yet in ORG MODE
+(setq truncate-lines nil)
+;; Setting indent-tabs-mode for only spaces
+(setq-default indent-tabs-mode nil)
+#+end_src
+
+#+begin_src elisp
+(require 'ido)
+(ido-mode t)
+#+end_src
+
+* Flymake (pylint ...)
+** Setting up flymake
+#+begin_src emacs-lisp :tangle yes
+(require 'flymake)
+   
+(defun activate-flymake ()
+  "Activates flymake when real buffer and you have write access"
+  (if (and
+       (buffer-file-name)
+       (file-writable-p buffer-file-name))
+      (flymake-mode t)))
+#+end_src
+
+** Flymake for python
+   
+#+begin_src emacs-lisp :tangle yes
+(defun flymake-python-init () 
+  (let* ((temp-file (flymake-init-create-temp-buffer-copy 
+		     'flymake-create-temp-inplace)) 
+	 (local-file (file-relative-name 
+		      temp-file 
+		      (file-name-directory buffer-file-name)))) 
+    (list "pycheckers" (list local-file))))
+
+(add-to-list 'flymake-allowed-file-name-masks 
+	     '("\\.py\\'" flymake-python-init))
+
+;; Using function is preferred when quoting functions
+(add-hook 'python-mode-hook (function activate-flymake))
+#+end_src
+
 * Versions of software
   In this table we collect the actual version of the packages used
 
-  | PKG           | version |
-  |---------------+---------|
-  | python mode   |         |
-  | yasnippet     |         |
-  | auto-complete |         |
-  | org-mode      |         |
+  | PKG           | version                                      |
+  |---------------+----------------------------------------------|
+  | emacs         | GNU Emacs 23.1.50.1                          |
+  | python mode   |                                              |
+  | yasnippet     | yasnippet (version 0.6.1b)                   |
+  | auto-complete |                                              |
+  | org-mode      | Org-mode version 6.35f (release_6.35f.dirty) |
+  #+TBLFM: @2$2='(emacs-version)::@3$2='(yas/about)::@5$2='(org-version)

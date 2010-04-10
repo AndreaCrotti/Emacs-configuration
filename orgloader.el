@@ -4,4 +4,5 @@
 (require 'org)
 (require 'org-babel)
 (require 'org-babel-tangle)
-;; (require 'org-babel-python)
+
+(org-babel-load-file "~/Documents/pycon/miniconf.org")
