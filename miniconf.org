@@ -6,6 +6,8 @@ MINIMAL EMACS CONFIGURATION
 * TODO See if it's worthy to byte compile everything or not
 
 * Some useful functions
+  We suppose that the global variable *conf* has been already set from the outside.
+  
 ** Make path
 #+begin_src emacs-lisp :tangle yes
   (defun make-path (path)

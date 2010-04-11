@@ -1,0 +1,7 @@
+This is an example of how org-mode can manage your emacs configuration
+
+To try it out just
+- modify your base directory in orgloader.el "(setq base
+  "~/Documents/pycon/")"
+- Lauch it with something like   
+  /Applications/Emacs.app/Contents/MacOS/Emacs -q --load="orgloader.el"
