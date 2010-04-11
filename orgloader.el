@@ -8,4 +8,4 @@
 (require 'org-babel)
 (require 'org-babel-tangle)
 
-(org-babel-tangle (concat base "miniconf.org"))
+(org-babel-load-file (concat base "miniconf.org"))

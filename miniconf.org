@@ -1,8 +1,15 @@
-* Path general setting
-#+begin_src emacs-lisp :tangle yes
-(setq base "~/Documents/pycon/")
-#+end_src
+MINIMAL EMACS CONFIGURATION
+* TODO See if it's possible to have python auto completion without ropemacs
+* TODO Make the table of software versions regenerating every time
+* TODO Write a function that setups all the possible paths automatically
+* TODO Something about latex might also be necessary
 
+* Some useful functions
+#+begin_src emacs-lisp :tangle yes
+  (defun make-path (path)
+    (concat conf path))
+#+end_src
+ 
 * Operating system detection
 #+begin_src emacs-lisp :tangle yes
 (defconst linux (string-match "linux" system-configuration))
@@ -42,8 +49,48 @@
 #+end_src
 
 * Yasnippet
+#+begin_src emacs-lisp :tangle yes
+  (require 'yasnippet)
+  
+  (setq yas/root-directory
+        (mapcar 'make-path
+                '("yasnippet/" "my-snippets/")))
+  
+  ;; Maybe needed to set to fixed for some modes
+  (setq yas/indent-line 'auto)
+  
+  (yas/initialize)
+  
+  (setq yas/ignore-filenames-as-triggers nil)
+  
+  (mapc 'yas/load-directory yas/root-directory)
+  
+  ;; don't make backups in the snippet folder, they mess up yasnippet
+  (add-to-list 'backup-directory-alist '("/my-snippets/" . "/tmp/"))
+#+end_src
 
 * Auto complete
+** Importing all packages
+#+begin_src emacs-lisp :tangle yes
+  ;;; Require
+  (require 'auto-complete)
+  ;; Various configurations
+  (require 'auto-complete-config)
+  (require 'auto-complete-extension nil t) ;optional
+  (require 'auto-complete-yasnippet nil t) ;optional
+  (require 'auto-complete-semantic nil t)  ;optional
+  (require 'auto-complete-gtags nil t)     ;optional
+  (require 'auto-complete-octave)
+  
+  ;; Generic setup.
+  (global-auto-complete-mode t)           ;enable global-mode
+  
+  (setq ac-auto-start 3)                  ;automatically start
+  (setq ac-override-local-map nil)        ;don't override local map
+  
+  (define-key ac-complete-mode-map "\C-n" 'ac-next)
+  (define-key ac-complete-mode-map "\C-p" 'ac-previous)
+#+end_src
   
 * Python mode
 #+begin_src emacs-lisp :tangle no
