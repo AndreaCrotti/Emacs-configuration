@@ -1,12 +1,22 @@
-MINIMAL EMACS CONFIGURATION
-* TODO See if it's possible to have python auto completion without ropemacs
-* TODO Make the table of software versions regenerating every time
-* TODO Something about latex might also be necessary
-* TODO fix the paths, better maybe using a base path and set up from there
-
-Given that org-mode and other things make use of the customization framework, we set it up to a different file
+* Path general setting
 #+begin_src emacs-lisp :tangle yes
-(setq custom-file "~/Documents/pycon/custom.el")
+(setq base "~/Documents/pycon/")
+#+end_src
+
+* Operating system detection
+#+begin_src emacs-lisp :tangle yes
+(defconst linux (string-match "linux" system-configuration))
+(defconst mac (string-match "apple" system-configuration))
+(defconst win (string-match "win" system-configuration))
+#+end_src
+
+** Mac configuration
+#+begin_src emacs-lisp :tangle yes
+(if mac
+    (progn
+      (add-to-list 'exec-path "/opt/local/bin")
+      (setq ns-alternate-modifier (quote none))
+      (setq ns-command-modifier (quote meta))))
 #+end_src
 
 * Org mode
@@ -36,9 +46,20 @@ Given that org-mode and other things make use of the customization framework, we
 * Auto complete
   
 * Python mode
+#+begin_src emacs-lisp :tangle no
+(add-to-list 'load-path (concat conf "python-mode/"))
+(add-to-list 'auto-mode-alist (cons '("\\.py$" . python-mode)))
+(add-to-list 'interpreter-mode-alist (cons '("python" . python-mode)))
+(autoload 'python-mode "python-mode" "Python editing mode." t)
+#+end_src
 
 * General settings
+** Custom file
+#+begin_src emacs-lisp :tangle yes
+(setq custom-file (concat base "custom.el"))
+#+end_src
 
+** Showing more things
 #+begin_src emacs-lisp :tangle yes
 (display-time-mode 1)
 (transient-mark-mode 1)
@@ -53,7 +74,8 @@ Given that org-mode and other things make use of the customization framework, we
 (setq-default indent-tabs-mode nil)
 #+end_src
 
-#+begin_src elisp
+** IDO mode
+#+begin_src emacs-lisp :tangle yes
 (require 'ido)
 (ido-mode t)
 #+end_src

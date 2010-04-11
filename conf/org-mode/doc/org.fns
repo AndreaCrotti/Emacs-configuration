@@ -1,0 +1,17 @@
+\entry {\code {org-buffer-property-keys}}{159}
+\entry {\code {org-demote}}{161}
+\entry {\code {org-entry-add-to-multivalued-property}}{159}
+\entry {\code {org-entry-delete}}{159}
+\entry {\code {org-entry-get}}{159}
+\entry {\code {org-entry-get-multivalued-property}}{159}
+\entry {\code {org-entry-member-in-multivalued-property}}{159}
+\entry {\code {org-entry-properties}}{158}
+\entry {\code {org-entry-put}}{159}
+\entry {\code {org-entry-put-multivalued-property}}{159}
+\entry {\code {org-entry-remove-from-multivalued-property}}{159}
+\entry {\code {org-insert-property-drawer}}{159}
+\entry {\code {org-map-entries}}{160}
+\entry {\code {org-priority}}{161}
+\entry {\code {org-promote}}{161}
+\entry {\code {org-todo}}{161}
+\entry {\code {org-toggle-tag}}{161}

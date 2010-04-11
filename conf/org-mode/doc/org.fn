@@ -1,0 +1,17 @@
+\entry{org-entry-properties}{158}{\code {org-entry-properties}}
+\entry{org-entry-get}{159}{\code {org-entry-get}}
+\entry{org-entry-delete}{159}{\code {org-entry-delete}}
+\entry{org-entry-put}{159}{\code {org-entry-put}}
+\entry{org-buffer-property-keys}{159}{\code {org-buffer-property-keys}}
+\entry{org-insert-property-drawer}{159}{\code {org-insert-property-drawer}}
+\entry{org-entry-put-multivalued-property}{159}{\code {org-entry-put-multivalued-property}}
+\entry{org-entry-get-multivalued-property}{159}{\code {org-entry-get-multivalued-property}}
+\entry{org-entry-add-to-multivalued-property}{159}{\code {org-entry-add-to-multivalued-property}}
+\entry{org-entry-remove-from-multivalued-property}{159}{\code {org-entry-remove-from-multivalued-property}}
+\entry{org-entry-member-in-multivalued-property}{159}{\code {org-entry-member-in-multivalued-property}}
+\entry{org-map-entries}{160}{\code {org-map-entries}}
+\entry{org-todo}{161}{\code {org-todo}}
+\entry{org-priority}{161}{\code {org-priority}}
+\entry{org-toggle-tag}{161}{\code {org-toggle-tag}}
+\entry{org-promote}{161}{\code {org-promote}}
+\entry{org-demote}{161}{\code {org-demote}}
