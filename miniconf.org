@@ -3,6 +3,7 @@ MINIMAL EMACS CONFIGURATION
 * TODO Make the table of software versions regenerating every time
 * TODO Write a function that setups all the possible paths automatically
 * TODO Something about latex might also be necessary
+* TODO See if it's worthy to byte compile everything or not
 
 * Some useful functions
 ** Make path
@@ -15,17 +16,17 @@ MINIMAL EMACS CONFIGURATION
    All all the directories in the first level of the configuration directory to the load path.
 
 #+begin_src emacs-lisp :tangle yes
-  (defun gen-path-dirs ()
-    "Add to load path all the subdirectories of first level"
-    (interactive)
-    (dolist (dir (directory-files conf t))
-      (if (and 
-           (file-directory-p dir)
-           (not (file-symlink-p dir)))
-          (add-to-list 'load-path dir))))
-  
+(defun gen-path-dirs ()
+  "Add to load path all the subdirectories of first level"
+  (interactive)
   (message "adding all directories in the first level to the load-path")
-  (gen-path-dirs)
+  (dolist (dir (directory-files conf t))
+    (if (and 
+         (file-directory-p dir)
+         (not (file-symlink-p dir)))
+        (add-to-list 'load-path dir))))
+
+(gen-path-dirs)
 #+end_src
 
 * Operating system detection
@@ -74,7 +75,6 @@ MINIMAL EMACS CONFIGURATION
 
 * Yasnippet
 #+begin_src emacs-lisp :tangle yes
-  (add-to-list 'load-path (make-path "yasnippet"))
   (require 'yasnippet)
   
   (setq yas/root-directory
@@ -104,7 +104,10 @@ MINIMAL EMACS CONFIGURATION
   (require 'auto-complete-extension nil t) ;optional
   (require 'auto-complete-yasnippet nil t) ;optional
   (require 'auto-complete-semantic nil t)  ;optional
-  
+#+end_src  
+
+** Setting up
+#+begin_src emacs-lisp :tangle yes
   ;; Generic setup.
   (global-auto-complete-mode t)           ;enable global-mode
   
@@ -113,6 +116,43 @@ MINIMAL EMACS CONFIGURATION
   
   (define-key ac-complete-mode-map "\C-n" 'ac-next)
   (define-key ac-complete-mode-map "\C-p" 'ac-previous)
+#+end_src
+
+** Define allowed modes
+#+begin_src emacs-lisp :tangle yes
+(setq ac-modes 
+      '(python-mode
+        emacs-lisp-mode
+        lisp-interaction-mode
+        ))
+(add-to-list 'ac-trigger-commands 'org-self-insert-command) ; if you want enable auto-complete at org-mode, uncomment this line
+
+#+end_src
+
+** More sources for all modes
+#+begin_src emacs-lisp :tangle yes
+;; The sources for common all mode.
+(custom-set-variables
+ '(ac-sources
+   '(
+     ac-source-yasnippet ;this source need file `auto-complete-yasnippet.el'
+     ;; ac-source-semantic    ;this source need file `auto-complete-semantic.el'
+     ac-source-imenu
+     ac-source-abbrev
+     ac-source-words-in-buffer
+     ac-source-files-in-current-dir
+     ac-source-filename
+     )))
+#+end_src
+
+** Elisp configuration
+#+begin_src emacs-lisp :tangle yes
+(dolist (hook (list
+               'emacs-lisp-mode-hook
+               'lisp-interaction-mode
+               ))
+  (add-hook hook '(lambda ()
+                    (add-to-list 'ac-sources 'ac-source-symbols))))
 #+end_src
   
 * Python mode
@@ -124,6 +164,33 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 * General settings
+** Aliasing and other useful shortcuts
+#+begin_src emacs-lisp :tangle yes
+(defalias 'eb 'eval-buffer)
+(defalias 'er 'eval-region)
+(defalias 'yes-or-no-p 'y-or-n-p)
+(defalias 'rs 'replace-string)
+(defalias 'qs 'query-replace)
+(defalias 'ac 'auto-complete-mode)
+(defalias 'go 'google-search-it)
+(defalias 'gs 'google-search-selection)
+(defalias 'spell 'flyspell-mode)
+
+(defalias 'ys 'yas/reload-all)
+(defalias 'yv 'yas/visit-snippet-file)
+
+(defalias 'ascii 'org-export-as-ascii)
+(defalias 'html 'org-export-as-html-and-open)
+(defalias 'pdf 'org-export-as-pdf-and-open)
+(defalias 'box 'comment-box)
+(defalias 'rb 'revert-buffer)
+
+(defalias 'sh 'shell)
+
+(defalias 'ws 'whitespace-mode)
+(defalias 'bu 'browse-url)
+#+end_src   
+
 ** Custom file
 #+begin_src emacs-lisp :tangle yes
 (setq custom-file (concat base "custom.el"))
@@ -150,7 +217,7 @@ MINIMAL EMACS CONFIGURATION
 (ido-mode t)
 #+end_src
 
-* Flymake (pylint ...)
+* Flymake
 ** Setting up flymake
 #+begin_src emacs-lisp :tangle yes
 (require 'flymake)
@@ -161,6 +228,17 @@ MINIMAL EMACS CONFIGURATION
        (buffer-file-name)
        (file-writable-p buffer-file-name))
       (flymake-mode t)))
+#+end_src
+
+** Adding errors to modeline
+   With this the error output of othe current line will appear right below in the modeline
+#+begin_src emacs-lisp :tangle yes
+(defun my-flymake-show-help ()
+  (when (get-char-property (point) 'flymake-overlay)
+    (let ((help (get-char-property (point) 'help-echo)))
+      (if help (message "%s" help)))))
+
+(add-hook 'post-command-hook 'my-flymake-show-help)
 #+end_src
 
 ** Flymake for python
