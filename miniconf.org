@@ -5,11 +5,29 @@ MINIMAL EMACS CONFIGURATION
 * TODO Something about latex might also be necessary
 
 * Some useful functions
+** Make path
 #+begin_src emacs-lisp :tangle yes
   (defun make-path (path)
     (concat conf path))
 #+end_src
  
+** Gen path dirs
+   All all the directories in the first level of the configuration directory to the load path.
+
+#+begin_src emacs-lisp :tangle yes
+  (defun gen-path-dirs ()
+    "Add to load path all the subdirectories of first level"
+    (interactive)
+    (dolist (dir (directory-files conf t))
+      (if (and 
+           (file-directory-p dir)
+           (not (file-symlink-p dir)))
+          (add-to-list 'load-path dir))))
+  
+  (message "adding all directories in the first level to the load-path")
+  (gen-path-dirs)
+#+end_src
+
 * Operating system detection
 #+begin_src emacs-lisp :tangle yes
 (defconst linux (string-match "linux" system-configuration))
@@ -27,6 +45,11 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 * Org mode
+** Info configuration
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'Info-default-directory-list "~/.emacs.d/org-mode/doc/")
+#+end_src
+
 ** Clock configuration
 #+begin_src emacs-lisp :tangle yes
 ;; Clock configuration
@@ -35,21 +58,23 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 ** Add eventually
+   This hook enables to expand your KB very easily, every time you create a new org-file it will check if it's already in the agenda and asks to add it.
 #+begin_src emacs-lisp :tangle yes
-(defun org-add-eventually()
-  "Adding a file to org-agenda when saved"
-  (interactive)
-  (if (and
-       (string= major-mode "org-mode")
-       (not (member buffer-file-name org-agenda-files))
-       (yes-or-no-p "add the file to agenda?"))
-      (org-agenda-file-to-front)))
-
-(add-hook 'before-save-hook 'org-add-eventually)
+  (defun org-add-eventually()
+    "Adding a file to org-agenda when saved"
+    (interactive)
+    (if (and
+         (string= major-mode "org-mode")
+         (not (member (abbreviate-file-name buffer-file-name) org-agenda-files))
+         (yes-or-no-p "add the file to agenda?"))
+        (org-agenda-file-to-front)))
+  
+  (add-hook 'before-save-hook 'org-add-eventually)
 #+end_src
 
 * Yasnippet
 #+begin_src emacs-lisp :tangle yes
+  (add-to-list 'load-path (make-path "yasnippet"))
   (require 'yasnippet)
   
   (setq yas/root-directory
@@ -79,8 +104,6 @@ MINIMAL EMACS CONFIGURATION
   (require 'auto-complete-extension nil t) ;optional
   (require 'auto-complete-yasnippet nil t) ;optional
   (require 'auto-complete-semantic nil t)  ;optional
-  (require 'auto-complete-gtags nil t)     ;optional
-  (require 'auto-complete-octave)
   
   ;; Generic setup.
   (global-auto-complete-mode t)           ;enable global-mode

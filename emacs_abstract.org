@@ -25,7 +25,3 @@
 
   The talk will be mostly interactive with real world examples after a short session of introductory slides.
 
-* Presentation
-  - intro to emacs and elisp
-  - yasnippet/auto-complete and ropemacs maybe
-  - a quick view of all the possibilities given by org-mode
