@@ -1,4 +1,4 @@
 #name : for ... in ... : ...
 # --
-for ${var} in ${collection}:
+for ${var} in ${iterable}:
     $0
