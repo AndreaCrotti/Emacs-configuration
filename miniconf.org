@@ -6,11 +6,54 @@ MINIMAL EMACS CONFIGURATION
 * TODO Something about latex might also be necessary
 * TODO See if it's worthy to byte compile everything or not
 
+* TODO Write a dependency tree of the various chapters in the configuration
 
 * Assumptions
   - $HOME/.emacs.d/scripts is in the $PATH
   - flymake is installed
   - in general probably working only with emacs 23
+
+* Visualization
+** Color theme setting
+#+begin_src emacs-lisp :tangle yes
+  (require 'color-theme)
+  (eval-after-load "color-theme"
+    '(progn
+       (color-theme-initialize)))
+#+end_src
+
+** Menu and tool-bar disabling
+#+begin_src emacs-lisp :tangle yes
+  (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+  (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+#+end_src
+
+* Font settings
+  Defininig some nice fonts and how to switch between theme.
+  [[http://xahlee.org/emacs/emacs_unicode_fonts.html][Cycling function definition]]
+#+begin_src emacs-lisp :tangle yes
+  (setq current "monaco-12")
+  (setq font-list
+        (list "monaco-12" "inconsolata-14" "courier-13"))
+  
+  (defun cycle-font ()
+    "Change font in current frame"
+    (interactive)
+  
+    (let (fontToUse currentState)
+      ;; states starts from 1.
+      (setq currentState (if (get this-command 'state) (get this-command 'state) 1))
+      (setq fontToUse (nth (1- currentState) font-list))
+  
+      (set-frame-parameter nil 'font fontToUse)
+      (message "Current font is: %s" fontToUse)
+      (put this-command 'state (1+ (% currentState (length font-list))))
+      (redraw-frame (selected-frame))
+      )
+    )
+  
+  (global-set-key (kbd "<C-f9>") 'cycle-font)
+#+end_src
 
 * Constants and some global settings
 #+begin_src emacs-lisp :tangle yes
@@ -162,6 +205,18 @@ MINIMAL EMACS CONFIGURATION
   (add-to-list 'backup-directory-alist '("/my-snippets/" . "/tmp/"))
 #+end_src
 
+* Eldoc mode
+#+begin_src emacs-lisp :tangle yes
+  (require 'eldoc)
+  ;; Maybe better a direct activation??
+  (dolist (hook '(python-mode-hook
+                  c-mode-hook
+                  ruby-mode-hook
+                  lisp-interaction-mode-hook
+                  emacs-lisp-mode-hook))
+    (add-hook hook 'turn-on-eldoc-mode))
+#+end_src
+
 * Auto complete
 ** Importing all packages
 #+begin_src emacs-lisp :tangle yes
@@ -226,12 +281,22 @@ MINIMAL EMACS CONFIGURATION
 * Python mode
   [[http://hide1713.wordpress.com/2009/01/30/setup-perfect-python-environment-in-emacs/][Possible configuration for auto completion with ropemacs]]
 
-#+begin_src emacs-lisp :tangle no
-(add-to-list 'load-path (concat conf "python-mode/"))
-(add-to-list 'auto-mode-alist (cons '("\\.py$" . python-mode)))
-(add-to-list 'interpreter-mode-alist (cons '("python" . python-mode)))
-(autoload 'doctest-mode "doctest-mode" "doc test python mode" t)
-(autoload 'python-mode "python-mode" "Python editing mode." t)
+#+begin_src emacs-lisp :tangle yes
+  (require 'pycomplete)
+
+  (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
+  (add-to-list 'interpreter-mode-alist '("python" . python-mode))
+  (autoload 'doctest-mode "doctest-mode" "doc test python mode" t)
+  (autoload 'python-mode "python-mode" "Python editing mode." t)
+#+end_src
+
+** Pymacs
+#+begin_src emacs-lisp :tangle yes
+  (setq pymacs-load-path '("~/Documents/pycon/conf/python-mode/" "/usr/local/bin" "opt/local/Library/Frameworks/Python.framework/Versions/2.6/lib/python2.6/site-packages/"))
+  (autoload 'pymacs-load "pymacs" nil t)
+  (autoload 'pymacs-eval "pymacs" nil t)
+  (autoload 'pymacs-apply "pymacs")
+  (autoload 'pymacs-call "pymacs")
 #+end_src
 
 * General settings
