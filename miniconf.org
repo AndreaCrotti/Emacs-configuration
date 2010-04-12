@@ -13,21 +13,6 @@ MINIMAL EMACS CONFIGURATION
   - flymake is installed
   - in general probably working only with emacs 23
 
-* Visualization
-** Color theme setting
-#+begin_src emacs-lisp :tangle yes
-  (require 'color-theme)
-  (eval-after-load "color-theme"
-    '(progn
-       (color-theme-initialize)))
-#+end_src
-
-** Menu and tool-bar disabling
-#+begin_src emacs-lisp :tangle yes
-  (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-  (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-#+end_src
-
 * Font settings
   Defininig some nice fonts and how to switch between theme.
   [[http://xahlee.org/emacs/emacs_unicode_fonts.html][Cycling function definition]]
@@ -154,6 +139,21 @@ MINIMAL EMACS CONFIGURATION
       (add-to-list 'exec-path "/opt/local/bin")
       (setq ns-alternate-modifier (quote none))
       (setq ns-command-modifier (quote meta))))
+#+end_src
+** Color theme setting
+#+begin_src emacs-lisp :tangle yes
+  (require 'color-theme)
+  (eval-after-load "color-theme"
+    '(progn
+       (color-theme-initialize)))
+#+end_src
+
+* Visualization
+
+** Menu and tool-bar disabling
+#+begin_src emacs-lisp :tangle yes
+  (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+  (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 #+end_src
 
 * Org mode
