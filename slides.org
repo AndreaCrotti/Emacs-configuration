@@ -1,0 +1,37 @@
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [presentation]
+#+BEAMER_FRAME_LEVEL: 1
+#+BEAMER_HEADER_EXTRA: \usetheme{default}\usecolortheme{default}
+#+COLUMNS: %40ITEM %10BEAMER_env(Env) %10BEAMER_envargs(Env Args) %4BEAMER_col(Col) %8BEAMER_extra(Extra)
+#+TITLE: NEXT LEVEL EMACS
+#+AUTHOR: Andrea Crotti
+
+# * TODO Insert something about hooks
+
+* Emacs, perché?
+  - potente
+  - estensibile
+
+* Packages utilizzati
+  - flymake
+  - yasnippet
+  - auto complete
+  - org-mode
+  - python-mode
+  
+* Org Exporting options
+  - html
+  - latex
+  - ascii
+  - docbook
+  - ics
+  - *generic* export functions
+
+* Possibili scenari
+  - literate programming
+  - planning
+  - todo list e lista della 
+  - gestione della conoscenza wiki-like
+
+  $File \rightarrow Publishing$
+

@@ -282,21 +282,10 @@ MINIMAL EMACS CONFIGURATION
   [[http://hide1713.wordpress.com/2009/01/30/setup-perfect-python-environment-in-emacs/][Possible configuration for auto completion with ropemacs]]
 
 #+begin_src emacs-lisp :tangle yes
-  (require 'pycomplete)
-
   (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
   (add-to-list 'interpreter-mode-alist '("python" . python-mode))
   (autoload 'doctest-mode "doctest-mode" "doc test python mode" t)
   (autoload 'python-mode "python-mode" "Python editing mode." t)
-#+end_src
-
-** Pymacs
-#+begin_src emacs-lisp :tangle yes
-  (setq pymacs-load-path '("~/Documents/pycon/conf/python-mode/" "/usr/local/bin" "opt/local/Library/Frameworks/Python.framework/Versions/2.6/lib/python2.6/site-packages/"))
-  (autoload 'pymacs-load "pymacs" nil t)
-  (autoload 'pymacs-eval "pymacs" nil t)
-  (autoload 'pymacs-apply "pymacs")
-  (autoload 'pymacs-call "pymacs")
 #+end_src
 
 * General settings

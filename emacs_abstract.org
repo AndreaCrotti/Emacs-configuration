@@ -5,8 +5,12 @@
   DEADLINE: <2010-03-10 Mer> CLOSED: [2010-04-07 Mer 16:05]
   - CLOSING NOTE [2010-04-07 Mer 16:05] \\
     Got the talk!
-
+    
 * TODO Write the slides and print out something
+
+* [[http://github.com/mattharrison/pykeyview][show the keys pressed on notify]]
+
+* [[http://emacs-fu.blogspot.com/2009/11/showing-pop-ups.html][showing up popups from emacs]]
 
 * Italiano
   In questo talk voglio mostrarvi come si può spremere il massimo emacs per migliorare drasticamente la vostra produttività.
