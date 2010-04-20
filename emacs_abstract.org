@@ -8,6 +8,8 @@
     
 * TODO Write the slides and print out something
 
+- [[gnus:gmane.emacs.orgmode#m1iq83xsy4.fsf@84-014.eduroam.rwth-aachen.de][Let's TALK about it from orgmode group]]
+
 * [[http://github.com/mattharrison/pykeyview][show the keys pressed on notify]]
 
 * [[http://emacs-fu.blogspot.com/2009/11/showing-pop-ups.html][showing up popups from emacs]]

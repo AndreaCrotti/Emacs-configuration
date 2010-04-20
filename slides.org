@@ -35,3 +35,6 @@
 
   $File \rightarrow Publishing$
 
+* Links utili
+  - [[http://doc.norang.ca/org-mode.html][organize your life in plain text]]
+  - [[http://github.com/AndreaCrotti/Org-mode-notes][sorgenti di queste note e configurazione utilizzata]]
