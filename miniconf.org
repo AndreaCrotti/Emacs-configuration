@@ -5,7 +5,6 @@ MINIMAL EMACS CONFIGURATION
 * TODO Write a function that setups all the possible paths automatically
 * TODO Something about latex might also be necessary
 * TODO See if it's worthy to byte compile everything or not
-
 * TODO Write a dependency tree of the various chapters in the configuration
 
 * Assumptions
@@ -146,10 +145,10 @@ MINIMAL EMACS CONFIGURATION
   (eval-after-load "color-theme"
     '(progn
        (color-theme-initialize)))
+  (color-theme-deep-blue)
 #+end_src
 
 * Visualization
-
 ** Menu and tool-bar disabling
 #+begin_src emacs-lisp :tangle yes
   (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -246,6 +245,8 @@ MINIMAL EMACS CONFIGURATION
 (setq ac-modes 
       '(python-mode
         emacs-lisp-mode
+        c-mode
+        nesc-mode
         lisp-interaction-mode
         ))
 (add-to-list 'ac-trigger-commands 'org-self-insert-command) ; if you want enable auto-complete at org-mode, uncomment this line
@@ -288,6 +289,21 @@ MINIMAL EMACS CONFIGURATION
   (autoload 'python-mode "python-mode" "Python editing mode." t)
 #+end_src
 
+* Doxymacs
+#+begin_src emacs-lisp :tangle yes
+  (require 'doxymacs)
+#+end_src
+* Other languages
+#+begin_src emacs-lisp :tangle yes
+  (autoload 'nesc-mode "nesc" nil t)
+  (add-to-list 'auto-mode-alist '("\\.nc$" . nesc-mode))
+#+end_src
+* Revision control systems
+#+begin_src emacs-lisp :tangle yes
+(require 'magit)
+(global-set-key "\C-xg" 'magit-status)
+#+end_src
+
 * General settings
 ** Aliasing and other useful shortcuts
 #+begin_src emacs-lisp :tangle yes
@@ -314,6 +330,10 @@ MINIMAL EMACS CONFIGURATION
 
 (defalias 'ws 'whitespace-mode)
 (defalias 'bu 'browse-url)
+
+(defalias 'mem 'doxymacs-insert-member-comment)
+(defalias 'fun 'doxymacs-insert-function-comment)
+(defalias 'file 'doxymacs-insert-file-comment)
 #+end_src   
 
 ** Custom file
@@ -340,6 +360,11 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
 (require 'ido)
 (ido-mode t)
+#+end_src
+
+** Windmove
+#+begin_src emacs-lisp :tangle yes
+(windmove-default-keybindings 'shift)
 #+end_src
 
 * Flymake
@@ -387,9 +412,9 @@ MINIMAL EMACS CONFIGURATION
                '("\\.py\\'" flymake-python-init))
   
   ;; Using function is preferred when quoting functions
-  (add-hook 'python-mode-hook (function activate-flymake))
+ ;; (add-hook 'python-mode-hook (function activate-flymake))
 #+end_src
-
+  
 * Versions of software
   In this table we collect the actual version of the packages used
 
@@ -401,3 +426,4 @@ MINIMAL EMACS CONFIGURATION
   | auto-complete |                                              |
   | org-mode      | Org-mode version 6.35f (release_6.35f.dirty) |
   #+TBLFM: @2$2='(emacs-version)::@3$2='(yas/about)::@5$2='(org-version)
+  

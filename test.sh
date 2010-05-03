@@ -1,2 +1,2 @@
 #!/bin/sh
-Emacs -q --load="orgloader.el"
+/Applications/Emacs.app/Contents/MacOS/Emacs -q --load="orgloader.el"
