@@ -1,50 +1,82 @@
+#+STARTUP: beamer
+#+OPTIONS: toc:nil
 #+LaTeX_CLASS: beamer
 #+LaTeX_CLASS_OPTIONS: [presentation]
-#+BEAMER_FRAME_LEVEL: 1
+#+BEAMER_FRAME_LEVEL: 2
 #+BEAMER_HEADER_EXTRA: \usetheme{JuanLesPins}\usecolortheme{default}
 #+COLUMNS: %40ITEM %10BEAMER_env(Env) %10BEAMER_envargs(Env Args) %4BEAMER_col(Col) %8BEAMER_extra(Extra)
 #+TITLE: NEXT LEVEL EMACS
 #+AUTHOR: Andrea Crotti
 
-# * TODO Insert something about hooks
 
+* Emacs
+** Emacs, perché?                                                   :B_block:
+   :PROPERTIES:
+   :BEAMER_env: block
+   :END:
+   - potente
+   - estensibile
+   - 30 anni di storia
+   - i "veri programmatori" usano emacs...
 
-* Emacs, perché?
-  - potente
-  - estensibile
-  - 30 anni di storia
-  - i "veri programmatori" usano emacs...
+** Real programmers                                                 :B_block:
+   :PROPERTIES:
+   :BEAMER_env: block
+   :END:
+   #+ATTR_LATEX: width=\textwidth
+   [[file:images/real_programmers.png]]
 
-* Real programmers
-  [[file:images/real_programmers.png]]
+** La miglior curva d'apprendimento                                 :B_block:
+   :PROPERTIES:
+   :BEAMER_env: block
+   :END:
+   #+ATTR_LATEX: width=\textwidth
+   [[file:images/curves.jpg]]
 
-* Packages utilizzati
+** Altri esempi                                                     :B_block:
+   :PROPERTIES:
+   :BEAMER_env: block
+   :END:
+   - newsreader (gnus)
+   - psichiatra (M-x doctor)
+   - tetris
+
+* Pacchetti utilizzati
   - python-mode
   - yasnippet
   - auto complete
   - flymake
   - org-mode
-  
-* Org mode
+
+** Flymake                                                          :B_block:
+   :PROPERTIES:
+   :BEAMER_env: block
+   :END:
+   Syntax warning nel buffer direttamente.
+   Esecuzione in background di tool:
+   - epylint
+   - pyflakes
+   - pep8
+   
+* Org mode                                                          :B_block:
+  :PROPERTIES:
+  :BEAMER_env: block
+  :END:
   - knowledge management
   - project management
   - literate programming
   - ...e molto altro
 
-* Opzioni di esportazione
-  - html
-  - latex
-  - ascii
-  - docbook
-  - ics
-  - *generic* export functions
-
-* Flymake
-  Syntax warning nel buffer direttamente.
-  Esecuzione in background di tool:
-  - epylint
-  - pyflakes
-  - pep8
+** Opzioni di esportazione                                        :B_example:
+   :PROPERTIES:
+   :BEAMER_env: example
+   :END:
+   - html
+   - latex
+   - ascii
+   - docbook
+   - ics
+   - *generic* export functions
 
 * Links utili
   - [[http://github.com/AndreaCrotti/Org-mode-notes][sorgenti di queste note e configurazione utilizzata]]
