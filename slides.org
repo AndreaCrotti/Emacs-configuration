@@ -1,25 +1,37 @@
 #+LaTeX_CLASS: beamer
 #+LaTeX_CLASS_OPTIONS: [presentation]
 #+BEAMER_FRAME_LEVEL: 1
-#+BEAMER_HEADER_EXTRA: \usetheme{default}\usecolortheme{default}
+#+BEAMER_HEADER_EXTRA: \usetheme{JuanLesPins}\usecolortheme{default}
 #+COLUMNS: %40ITEM %10BEAMER_env(Env) %10BEAMER_envargs(Env Args) %4BEAMER_col(Col) %8BEAMER_extra(Extra)
 #+TITLE: NEXT LEVEL EMACS
 #+AUTHOR: Andrea Crotti
 
 # * TODO Insert something about hooks
 
+
 * Emacs, perché?
   - potente
   - estensibile
+  - 30 anni di storia
+  - i "veri programmatori" usano emacs...
+
+* Real programmers
+  [[file:images/real_programmers.png]]
 
 * Packages utilizzati
-  - flymake
+  - python-mode
   - yasnippet
   - auto complete
+  - flymake
   - org-mode
-  - python-mode
   
-* Org Exporting options
+* Org mode
+  - knowledge management
+  - project management
+  - literate programming
+  - ...e molto altro
+
+* Opzioni di esportazione
   - html
   - latex
   - ascii
@@ -27,14 +39,30 @@
   - ics
   - *generic* export functions
 
-* Possibili scenari
-  - literate programming
-  - planning
-  - todo list e lista della 
-  - gestione della conoscenza wiki-like
-
-  $File \rightarrow Publishing$
+* Flymake
+  Syntax warning nel buffer direttamente.
+  Esecuzione in background di tool:
+  - epylint
+  - pyflakes
+  - pep8
 
 * Links utili
-  - [[http://doc.norang.ca/org-mode.html][organize your life in plain text]]
   - [[http://github.com/AndreaCrotti/Org-mode-notes][sorgenti di queste note e configurazione utilizzata]]
+  - [[http://doc.norang.ca/org-mode.html][org mode: organize your life in plain text]]
+
+** Emacs blogs e vari
+   - [[http://www.emacswiki.org/][emacs wiki]]
+   - [[http://github.com/purcell/emacs.d/][purcell configuration]]
+   - [[http://www.emacsblog.org/][emacs blog]]
+   - [[http://orgmode.org/][org mode]]
+   - [[http://www.linuxjournal.com/article/6771][intermediate emacs hacking]]
+   - [[http://emacs-fu.blogspot.com/][emacs fu]], interesting blog about emacs
+   - [[http://geosoft.no/development/emacs.html][emacs tricks and tips]]
+   - [[http://lispservice.posterous.com/][lisp emacs blog]]
+   - [[http://emacs.wordpress.com/][emacs wordpress blog]]
+   - [[http://wttools.sourceforge.net/emacs-stuff/package.html][emacs suggestions (jdee)]]
+   - [[http://mytechrants.wordpress.com/][my tech rants, emacs fan blog]]
+   - [[http://livollmers.net/index.php/2008/10/06/back-to-myemacs/][back to my emacs]]
+   - [[http://steve-yegge.blogspot.com/2008/01/emergency-elisp.html][emergency lisp]]
+   - [[http://deep.syminet.com/emacside.html][emacsside, emacs cheatsheet]]
+   - [[http://platypope.org/yada/emacs-demo/][emacs video demo]], with [[http://platypope.org/blog/2006/9/8/i-need-a-cool-european-accent][explanation of the features showed]]
