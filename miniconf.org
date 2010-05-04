@@ -1,8 +1,9 @@
-#+OPTIONS: num:nil
+#+OPTIONS: num:nil todo:nil
 MINIMAL EMACS CONFIGURATION
 * TODO See if it's possible to have python auto completion without ropemacs
 * TODO Make the table of software versions regenerating every time
-* TODO Write a function that setups all the possible paths automatically
+* DONE Write a function that setups all the possible paths automatically
+  CLOSED: [2010-05-04 Mar 11:41]
 * TODO Something about latex might also be necessary
 * TODO See if it's worthy to byte compile everything or not
 * TODO Write a dependency tree of the various chapters in the configuration

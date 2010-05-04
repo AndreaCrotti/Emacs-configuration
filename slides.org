@@ -1,56 +1,43 @@
 #+STARTUP: beamer
-#+OPTIONS: toc:nil
+#+OPTIONS: toc:t
+#+LANGUAGE: it
 #+LaTeX_CLASS: beamer
 #+LaTeX_CLASS_OPTIONS: [presentation]
 #+BEAMER_FRAME_LEVEL: 2
-#+BEAMER_HEADER_EXTRA: \usetheme{JuanLesPins}\usecolortheme{default}
+#+BEAMER_HEADER_EXTRA: \usetheme{Dresden} \usecolortheme{default}
 #+COLUMNS: %40ITEM %10BEAMER_env(Env) %10BEAMER_envargs(Env Args) %4BEAMER_col(Col) %8BEAMER_extra(Extra)
 #+TITLE: NEXT LEVEL EMACS
 #+AUTHOR: Andrea Crotti
 
-
 * Emacs
-** Emacs, perché?                                                   :B_block:
-   :PROPERTIES:
-   :BEAMER_env: block
-   :END:
+** Emacs, perché?
    - potente
    - estensibile
    - 30 anni di storia
    - i "veri programmatori" usano emacs...
 
-** Real programmers                                                 :B_block:
-   :PROPERTIES:
-   :BEAMER_env: block
-   :END:
+** Real programmers
    #+ATTR_LATEX: width=\textwidth
    [[file:images/real_programmers.png]]
 
-** La miglior curva d'apprendimento                                 :B_block:
-   :PROPERTIES:
-   :BEAMER_env: block
-   :END:
-   #+ATTR_LATEX: width=\textwidth
-   [[file:images/curves.jpg]]
+** La miglior curva d'apprendimento
+    #+ATTR_LATEX: width=\textwidth
+    [[file:images/curves.jpg]]
 
-** Altri esempi                                                     :B_block:
-   :PROPERTIES:
-   :BEAMER_env: block
-   :END:
+** Altri esempi
    - newsreader (gnus)
    - psichiatra (M-x doctor)
    - tetris
 
-* Pacchetti utilizzati
-  - python-mode
-  - yasnippet
-  - auto complete
-  - flymake
-  - org-mode
+** Pacchetti utilizzati
+   - python-mode
+   - yasnippet
+   - auto complete
+   - flymake
+   - org-mode
 
-** Flymake                                                          :B_block:
+** Flymake
    :PROPERTIES:
-   :BEAMER_env: block
    :END:
    Syntax warning nel buffer direttamente.
    Esecuzione in background di tool:
@@ -58,18 +45,16 @@
    - pyflakes
    - pep8
    
-* Org mode                                                          :B_block:
+* Org mode
   :PROPERTIES:
-  :BEAMER_env: block
   :END:
   - knowledge management
   - project management
   - literate programming
   - ...e molto altro
 
-** Opzioni di esportazione                                        :B_example:
+** Opzioni di esportazione
    :PROPERTIES:
-   :BEAMER_env: example
    :END:
    - html
    - latex
@@ -98,3 +83,6 @@
    - [[http://steve-yegge.blogspot.com/2008/01/emergency-elisp.html][emergency lisp]]
    - [[http://deep.syminet.com/emacside.html][emacsside, emacs cheatsheet]]
    - [[http://platypope.org/yada/emacs-demo/][emacs video demo]], with [[http://platypope.org/blog/2006/9/8/i-need-a-cool-european-accent][explanation of the features showed]]
+
+** Pacchetti esterni
+   - [[http://orgmode.org/worg/org-tutorials/org-beamer/tutorial.php][org beamer tutorial]]
