@@ -35,3 +35,4 @@ I minor modes invece sono invece possono essere attivati a piacere e sono solita
 Vedremo più tardi nella parte pratica come associare major e minor modes a file con varie estensioni.
 
 Per questa dimostrazione ho creato una semplice configurazione (scritta in org-mode) con i seguenti pacchetti esterni utilizzati su emacs 23.
+

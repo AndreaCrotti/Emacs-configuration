@@ -1,0 +1,9 @@
+ORG BABEL TRYOUT
+#+OPTIONS:   toc:t
+
+#+begin_src python :tangle yes :results both
+return "hello"
+#+end_src
+
+#+results:
+: hello
