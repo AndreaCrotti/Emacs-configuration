@@ -4,12 +4,17 @@
 #+LaTeX_CLASS: beamer
 #+LaTeX_CLASS_OPTIONS: [presentation]
 #+BEAMER_FRAME_LEVEL: 2
-#+BEAMER_HEADER_EXTRA: \usetheme{Dresden} \usecolortheme{default}
+#+BEAMER_HEADER_EXTRA: \usetheme{Madrid} \usecolortheme{default}
 #+COLUMNS: %40ITEM %10BEAMER_env(Env) %10BEAMER_envargs(Env Args) %4BEAMER_col(Col) %8BEAMER_extra(Extra)
 #+TITLE: NEXT LEVEL EMACS
 #+AUTHOR: Andrea Crotti
 
 * Emacs
+
+** Emacs
+   - (Sistema operativo) editor Scritto in C/elisp.
+   - Creato da Richard Stallman
+
 ** Emacs, perché?
    - potente
    - estensibile
@@ -22,46 +27,112 @@
 
 ** La miglior curva d'apprendimento
     #+ATTR_LATEX: width=\textwidth
-    [[file:images/curves.jpg]]
+   [[file:images/curves.jpg]]
 
-** Altri esempi
-   - newsreader (gnus)
-   - psichiatra (M-x doctor)
-   - tetris
+** Architettura
+   - Tutto è \alert{buffer}
+   - Configurazione è un *cittadino di primo livello*
+   - 1 *Major mode* e n *Minor modes*
+   - Hooks
 
-** Pacchetti utilizzati
-   - python-mode
-   - yasnippet
-   - auto complete
-   - flymake
-   - org-mode
+** Problemi
+   Non è perfetto
+   - concorrenza
+   - gestione pacchetti esterni
+   - difficoltà configurazione
+
+* Pacchetti esterni utilizzati
+  - python-mode
+  - yasnippet
+  - auto complete
+  - flymake
+  - org-mode
 
 ** Flymake
-   :PROPERTIES:
-   :END:
    Syntax warning nel buffer direttamente.
    Esecuzione in background di tool:
    - epylint
    - pyflakes
    - pep8
-   
+
+** Yasnippet
+  - Textmate like snippets
+  - Possono eseguire codice elisp
+  Ad esempio python class snippet:
+
+*** Classe                                                        :B_example:
+    :PROPERTIES:
+    :BEAMER_env: example
+    :END:
+#+begin_src python
+  class ${1:class}(${2:object}):
+      $0
+#+end_src
+
 * Org mode
-  :PROPERTIES:
-  :END:
-  - knowledge management
-  - project management
-  - literate programming
-  - ...e molto altro
+** Org mode
+*** Portabile                                                       :B_block:
+    :PROPERTIES:
+    :BEAMER_env: block
+    :END:
+    Testo semplice è l'*unico* vero formato \alert{portabile}
+    - ricerca
+    - revision control
+
+** Possibili utilizzi
+   - knowledge management
+   - project management
+   - literate programming
+   - ...e molto altro
 
 ** Opzioni di esportazione
-   :PROPERTIES:
-   :END:
    - html
    - latex
    - ascii
    - docbook
    - ics
-   - *generic* export functions
+   - xoxo
+   - freemind
+   - funzioni di esportazione *generica*
+
+** Org babel
+   Estensione di org-babel literate programming e reproducible research.
+   Linguaggi supportati alla versione /6.35f/:
+
+*** columns                                                       :B_columns:
+    :PROPERTIES:
+    :BEAMER_env: columns
+    :END:
+
+**** .5                                                            :B_column:
+     :PROPERTIES:
+     :BEAMER_env: column
+     :END:
+     - R
+     - asymptote
+     - clojure
+     - css
+     - ditaa
+     - dot
+     - emacs-lisp
+     - gnuplot
+     - haskell
+
+**** .5                                                            :B_column:
+     :PROPERTIES:
+     :BEAMER_col: .5
+     :BEAMER_env: column
+     :END:
+     - latex
+     - ocaml
+     - perl
+     - python
+     - ruby
+     - sass
+     - screen
+     - sh
+     - sql
+
 
 * Links utili
   - [[http://github.com/AndreaCrotti/Org-mode-notes][sorgenti di queste note e configurazione utilizzata]]
@@ -71,18 +142,17 @@
    - [[http://www.emacswiki.org/][emacs wiki]]
    - [[http://github.com/purcell/emacs.d/][purcell configuration]]
    - [[http://www.emacsblog.org/][emacs blog]]
-   - [[http://orgmode.org/][org mode]]
-   - [[http://www.linuxjournal.com/article/6771][intermediate emacs hacking]]
-   - [[http://emacs-fu.blogspot.com/][emacs fu]], interesting blog about emacs
+   - [[http://www.linuxjournal.com/article/6771][emacs hacking]]
+   - [[http://emacs-fu.blogspot.com/][emacs fu]]
    - [[http://geosoft.no/development/emacs.html][emacs tricks and tips]]
    - [[http://lispservice.posterous.com/][lisp emacs blog]]
    - [[http://emacs.wordpress.com/][emacs wordpress blog]]
-   - [[http://wttools.sourceforge.net/emacs-stuff/package.html][emacs suggestions (jdee)]]
+   - [[http://wttools.sourceforge.net/emacs-stuff/package.html][emacs suggestions]]
    - [[http://mytechrants.wordpress.com/][my tech rants, emacs fan blog]]
    - [[http://livollmers.net/index.php/2008/10/06/back-to-myemacs/][back to my emacs]]
    - [[http://steve-yegge.blogspot.com/2008/01/emergency-elisp.html][emergency lisp]]
-   - [[http://deep.syminet.com/emacside.html][emacsside, emacs cheatsheet]]
-   - [[http://platypope.org/yada/emacs-demo/][emacs video demo]], with [[http://platypope.org/blog/2006/9/8/i-need-a-cool-european-accent][explanation of the features showed]]
+   - [[http://deep.syminet.com/emacside.html][emacs cheatsheet]]
 
 ** Pacchetti esterni
    - [[http://orgmode.org/worg/org-tutorials/org-beamer/tutorial.php][org beamer tutorial]]
+   - [[http://orgmode.org/][org mode]]

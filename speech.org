@@ -1,0 +1,37 @@
+#+LANGUAGE: it
+
+Il protagonista principale del mio talk non sarà python ma, come si può capire dal titolo, Emacs.
+
+Nell'ultimo anno sono tornato ad utilizzare emacs dopo anni dal mio primo tentativo, e dopo un po' di fatica iniziale, il mio modo di lavorare è migliorato in modo incredibile.
+Scrivere e programmare in qualsiasi linguaggio (a parte java) è diventato un piacere, e ho pensato di condividere con voi l'esperienza che sono riuscito ad accumulare.
+
+In queste poche slide che seguono darò una veloce panoramica a emacs e ad alcune estensioni che trovo ormai fondamentali.
+
+Emacs ha un core scritto in C ma la maggior parte è scritto in elisp, e questo permette di modificare ed estendere qualsiasi cosa a runtime.
+
+E' stato inizialmente scritto da Richard Stallman negli anni 70 e ha tutt'ora una comunità molto attiva.
+
+Qui vediamo alcuni motivi validi per usare emacs, e questa vignetta serve un po' per farvi un'idea della potenza di python.
+
+--
+Spesso quando mi trovo a voler una nuova features nel mio emacs dopo averla implementata buttando giù un po' di codice mi accorgo che c'era già, e naturalmente funzionava meglio della mia.
+--
+
+Purtroppo come alcuni di voi sapranno emacs non è facile da usare, inizialmente si cozza con combinazioni senza senso e codice pieno di parentesi, ma in seguito come vedete in questo grafico le cose vanno molto peggio.
+
+In emacs qualsiasi cosa è un buffer, quando in un altro editor diremmo "apro il file X " in emacs lingo è più corretto dire "passo a un buffer che visita il X".
+
+Questo perché non tutti i buffer sono associati ad un file, come ad esempio i buffer delle pagine Info o i buffer di qualche interprete (via comint).
+
+Ogni buffer ha però associato un major mode, che definisce
+- la grammatica
+- una mappa di scorciatoie da tastiera
+# TODO: insert more stuff about it
+
+Ci sono major modes per praticamente qualsiasi linguaggio che abbia avuto più di due utenti (statisticamente uno su due era un emacs user :D).
+
+I minor modes invece sono invece possono essere attivati a piacere e sono solitamente estensioni trasversali, come ad esempio potrebbero essere yasnippet, auto complete o la modalità longlines.
+
+Vedremo più tardi nella parte pratica come associare major e minor modes a file con varie estensioni.
+
+Per questa dimostrazione ho creato una semplice configurazione (scritta in org-mode) con i seguenti pacchetti esterni utilizzati su emacs 23.
