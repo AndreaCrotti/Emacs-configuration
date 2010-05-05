@@ -4,7 +4,7 @@
 #+LaTeX_CLASS: beamer
 #+LaTeX_CLASS_OPTIONS: [presentation]
 #+BEAMER_FRAME_LEVEL: 2
-#+BEAMER_HEADER_EXTRA: \usetheme{Madrid} \usecolortheme{default}
+#+BEAMER_HEADER_EXTRA: \usetheme{Berlin} \usecolortheme{default}
 #+COLUMNS: %40ITEM %10BEAMER_env(Env) %10BEAMER_envargs(Env Args) %4BEAMER_col(Col) %8BEAMER_extra(Extra)
 #+TITLE: NEXT LEVEL EMACS
 #+AUTHOR: Andrea Crotti
@@ -12,14 +12,14 @@
 * Emacs
 
 ** Emacs
-   - (Sistema operativo) editor Scritto in C/elisp.
+   - (Sistema operativo) editor scritto in C/elisp.
    - Creato da Richard Stallman
 
-** Emacs, perché?
+** Perché usarlo?
    - potente
    - estensibile
    - 30 anni di storia
-   - i "veri programmatori" usano emacs...
+   - i "veri programmatori" usano emacs
 
 ** Real programmers
    #+ATTR_LATEX: width=\textwidth
@@ -36,17 +36,18 @@
    - Hooks
 
 ** Problemi
-   Non è perfetto
+   Non è perfetto:
    - concorrenza
    - gestione pacchetti esterni
    - difficoltà configurazione
 
-* Pacchetti esterni utilizzati
-  - python-mode
-  - yasnippet
-  - auto complete
-  - flymake
-  - org-mode
+* Pacchetti esterni
+** Configurazione minimale
+   - python-mode
+   - yasnippet
+   - auto complete
+   - flymake
+   - org-mode
 
 ** Flymake
    Syntax warning nel buffer direttamente.
@@ -54,6 +55,8 @@
    - epylint
    - pyflakes
    - pep8
+
+   Molto utile per rilevare semplici errori di sintassi
 
 ** Yasnippet
   - Textmate like snippets
@@ -69,8 +72,24 @@
       $0
 #+end_src
 
+** Auto complete
+   Completa stringhe da una lista di possibili completamenti.
+
+** Python mode
+   - Syntax highlighting
+   - electric tabs
+   - Interazione con l'interprete python
+
 * Org mode
 ** Org mode
+*** Origine                                                         :B_block:
+    :PROPERTIES:
+    :BEAMER_env: block
+    :END:
+
+    Creato da /Carsten Dominik/ inizialmente per gestire le note.
+
+\pause
 *** Portabile                                                       :B_block:
     :PROPERTIES:
     :BEAMER_env: block
@@ -135,8 +154,11 @@
 
 
 * Links utili
-  - [[http://github.com/AndreaCrotti/Org-mode-notes][sorgenti di queste note e configurazione utilizzata]]
-  - [[http://doc.norang.ca/org-mode.html][org mode: organize your life in plain text]]
+** Note e org
+   - [[http://orgmode.org/worg/org-tutorials/org-beamer/tutorial.php][org beamer tutorial]]
+   - [[http://orgmode.org/][org mode]]
+   - [[http://github.com/AndreaCrotti/Org-mode-notes][sorgenti di queste note e configurazione utilizzata]]
+   - [[http://doc.norang.ca/org-mode.html][org mode: organize your life in plain text]]
 
 ** Emacs blogs e vari
    - [[http://www.emacswiki.org/][emacs wiki]]
@@ -152,7 +174,3 @@
    - [[http://livollmers.net/index.php/2008/10/06/back-to-myemacs/][back to my emacs]]
    - [[http://steve-yegge.blogspot.com/2008/01/emergency-elisp.html][emergency lisp]]
    - [[http://deep.syminet.com/emacside.html][emacs cheatsheet]]
-
-** Pacchetti esterni
-   - [[http://orgmode.org/worg/org-tutorials/org-beamer/tutorial.php][org beamer tutorial]]
-   - [[http://orgmode.org/][org mode]]
