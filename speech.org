@@ -105,6 +105,8 @@ SPEEDY EMACS
    - Mostrare altri esempi di tangling e sessioni
 
 ** Configurazione emacs
+   Differenza variabili globali / hooks / variabili locali.
+   Qualche accenno possibile
 
 *** Loader per org mode
 

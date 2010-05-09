@@ -1,10 +1,10 @@
 #+OPTIONS: num:nil todo:nil
 MINIMAL EMACS CONFIGURATION
-* TODO See if it's possible to have python auto completion without ropemacs
-* TODO Make the table of software versions regenerating every time
+* DONE See if it's possible to have python auto completion without ropemacs
+  CLOSED: [2010-05-09 Dom 14:24]
 * DONE Write a function that setups all the possible paths automatically
   CLOSED: [2010-05-04 Mar 11:41]
-* TODO Something about latex might also be necessary
+* TODO Make the table of software versions regenerating every time
 * TODO See if it's worthy to byte compile everything or not
 * TODO Write a dependency tree of the various chapters in the configuration
 
@@ -123,6 +123,13 @@ MINIMAL EMACS CONFIGURATION
         (when (not (looking-at closing-char))
           (insert closing-char))
         (newline-force))))
+#+end_src
+
+** Reload this configuration
+#+begin_src emacs-lisp :tangle yes
+  (defun reload-conf ()
+    (interactive)
+    (org-babel-load-file "miniconf.org"))
 #+end_src
 
 * Operating system detection
@@ -355,7 +362,7 @@ MINIMAL EMACS CONFIGURATION
 
 ** Ropemacs configuration from [[http://www.enigmacurry.com/2009/01/21/autocompleteel-python-code-completion-in-emacs/][ryan code]]
   
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
   ;; Initialize Pymacs                                                                                           
   (autoload 'pymacs-apply "pymacs")
   (autoload 'pymacs-call "pymacs")
@@ -366,13 +373,7 @@ MINIMAL EMACS CONFIGURATION
   (pymacs-load "ropemacs" "rope-")
   (setq ropemacs-enable-autoimport t)
   
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;                                         
-    ;;; Auto-completion                                                                                            
-    ;;;  Integrates:                                                                                               
-    ;;;   1) Rope                                                                                                  
-    ;;;   2) Yasnippet                                                                                             
-    ;;;   all with AutoComplete.el                                                                                 
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;                                         
+  
   (defun prefix-list-elements (list prefix)
     (let (value)
       (nreverse
@@ -422,28 +423,22 @@ MINIMAL EMACS CONFIGURATION
               (set (make-local-variable 'ac-sources)
                    (append ac-sources '(ac-source-rope) '(ac-source-yasnippet)))
               (set (make-local-variable 'ac-find-function) 'ac-python-find)
-              (set (make-local-variable 'ac-candidate-function) 'ac-python-candidate)))
+              (set (make-local-variable 'ac-candidate-function) 'ac-python-candidate)
   
-  ;; without those last two lines works better in theory but it's too slow in practice
-  ;; (set (make-local-variable 'ac-auto-start) nil)))
-  ;; (define-key py-mode-map "\t" 'python-tab)))
+              ;; without those last two lines works better in theory but it's too slow in practice
+              (set (make-local-variable 'ac-auto-start) nil)
+              (define-key py-mode-map "\t" 'python-tab)))
   
-  ;;Ryan's python specific tab completion                                                                        
   (defun python-tab ()
-                                          ; Try the following:                                                                                         
-                                          ; 1) Do a yasnippet expansion                                                                                
-                                          ; 2) Do a Rope code completion                                                                               
-                                          ; 3) Do an indent                                                                                            
     (interactive)
     (if (eql (ac-start) 0)
         (indent-for-tab-command)))
   
-  ;; (defadvice ac-start (before advice-turn-on-auto-start activate)
-  ;;   (set (make-local-variable 'ac-auto-start) t))
-  ;; (defadvice ac-cleanup (after advice-turn-off-auto-start activate)
-  ;;   (set (make-local-variable 'ac-auto-start) nil))
+  (defadvice ac-start (before advice-turn-on-auto-start activate)
+    (set (make-local-variable 'ac-auto-start) t))
+  (defadvice ac-cleanup (after advice-turn-off-auto-start activate)
+    (set (make-local-variable 'ac-auto-start) nil))
 #+end_src
-
 
 * Haskell mode
 #+begin_src emacs-lisp :tangle yes

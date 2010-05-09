@@ -74,7 +74,6 @@ digraph G {
 
 
 * Some babel stuff
-
 ** Haskell code
    This is executed during exportation and only the result is printed out
 #+begin_src haskell :exports results
@@ -102,6 +101,35 @@ digraph G {
 #+begin_src python :session sqrt :exports results
       print func(10)
 #+end_src
+
+* Effort setting
+** Effort for task1
+   :PROPERTIES:
+   :Effort:   10
+   :END:
+
+
+* How many days been in Pycon
+  <2010-05-07 Ven>--<2010-05-09 Dom>
+
+  This other format of time-stamp will not go into the agenda [2010-05-10 Lun].
+
+* Today task repeating next year
+  :PROPERTIES:
+  :Effort:   10
+  :END:
+  <2010-05-09 Dom>
+
+0:00:08 
+
+#+BEGIN: clocktable :maxlevel 2 :scope file
+Clock summary at [2010-05-09 Dom 14:54]
+
+| L | Headline     | Time   |
+|---+--------------+--------|
+|   | *Total time* | *0:00* |
+|---+--------------+--------|
+#+END:
 
 
 * [[http://projecteuler.net/index.php%3Fsection%3Dproblems&id%3D1][Problem 1]]
@@ -192,7 +220,7 @@ main = do
     (setq ext (downcase ext))
     (cond
      ((file-exists-p (solved-problem id ext))
-      (format "[[file:%s][X]]" (solved-problem id ext)))
+      (format "[[file:%s][X]]" (solved-prIoblem id ext)))
      ((file-exists-p (temp-problem id ext))
       (format "[[file:%s][?]]" (temp-problem id ext)))
      (t
