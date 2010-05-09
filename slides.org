@@ -1,5 +1,5 @@
 #+STARTUP: beamer
-#+OPTIONS: toc:t
+#+OPTIONS: toc:nil
 #+LANGUAGE: it
 #+LaTeX_CLASS: beamer
 #+LaTeX_CLASS_OPTIONS: [presentation]
@@ -10,20 +10,11 @@
 #+AUTHOR: Andrea Crotti
 
 * Emacs
-
-** Emacs
-   - (Sistema operativo) editor scritto in C/elisp.
-   - Creato da Richard Stallman
-
-** Perché usarlo?
-   - potente
-   - estensibile
-   - 30 anni di storia
-   - i "veri programmatori" usano emacs
-
-** Real programmers
-   #+ATTR_LATEX: width=\textwidth
-   [[file:images/real_programmers.png]]
+# ** Perché usarlo?
+#    - potente
+#    - estensibile
+#    - 30 anni di storia
+#    - i "veri programmatori" usano emacs
 
 ** La miglior curva d'apprendimento
     #+ATTR_LATEX: width=\textwidth
@@ -32,14 +23,14 @@
 ** Architettura
    - Tutto è \alert{buffer}
    - Configurazione è un *cittadino di primo livello*
-   - 1 *Major mode* e n *Minor modes*
+   - 1 *Major mode* e n *Minor modes* per buffer
    - Hooks
 
-** Problemi
-   Non è perfetto:
-   - concorrenza
-   - gestione pacchetti esterni
-   - difficoltà configurazione
+# ** Problemi
+#    Non è perfetto:
+#    - concorrenza
+#    - gestione pacchetti esterni
+#    - difficoltà configurazione
 
 * Pacchetti esterni
 ** Configurazione minimale
@@ -50,13 +41,17 @@
    - org-mode
 
 ** Flymake
-   Syntax warning nel buffer direttamente.
-   Esecuzione in background di tool:
-   - epylint
-   - pyflakes
-   - pep8
+   - Errori di compilazione/check *direttamente* nel buffer.
+   - Funzionante potenzialmente con qualsiasi linguaggio.
 
-   Molto utile per rilevare semplici errori di sintassi
+*** Python                                                          :B_block:
+    :PROPERTIES:
+    :BEAMER_env: block
+    :END:
+    In python esecuzione in background dei tool
+    - epylint
+    - pyflakes
+    - pep8
 
 ** Yasnippet
   - Textmate like snippets
@@ -72,15 +67,12 @@
       $0
 #+end_src
 
-** Auto complete
-   Completa stringhe da una lista di possibili completamenti.
+# ** Python mode
+#    - Syntax highlighting
+#    - electric tabs
+#    - Interazione con l'interprete python
 
-** Python mode
-   - Syntax highlighting
-   - electric tabs
-   - Interazione con l'interprete python
-
-* Org mode
+* Org mode/babel
 ** Org mode
 *** Origine                                                         :B_block:
     :PROPERTIES:
@@ -99,9 +91,10 @@
     - revision control
 
 ** Possibili utilizzi
-   - knowledge management
-   - project management
+   - gestione appunti/conoscenza
+   - gestione progetto
    - literate programming
+   - foglio di calcolo
    - ...e molto altro
 
 ** Opzioni di esportazione
@@ -115,7 +108,7 @@
    - funzioni di esportazione *generica*
 
 ** Org babel
-   Estensione di org-babel literate programming e reproducible research.
+   Estensione di org-babel per /literate programming/ e /reproducible research/.
    Linguaggi supportati alla versione /6.35f/:
 
 *** columns                                                       :B_columns:
@@ -152,9 +145,8 @@
      - sh
      - sql
 
-
 * Links utili
-** Note e org
+** Org links
    - [[http://orgmode.org/worg/org-tutorials/org-beamer/tutorial.php][org beamer tutorial]]
    - [[http://orgmode.org/][org mode]]
    - [[http://github.com/AndreaCrotti/Org-mode-notes][sorgenti di queste note e configurazione utilizzata]]
@@ -174,3 +166,9 @@
    - [[http://livollmers.net/index.php/2008/10/06/back-to-myemacs/][back to my emacs]]
    - [[http://steve-yegge.blogspot.com/2008/01/emergency-elisp.html][emergency lisp]]
    - [[http://deep.syminet.com/emacside.html][emacs cheatsheet]]
+
+* Real programmers
+** Real programmers
+   #+ATTR_LATEX: width=\textwidth
+   [[file:images/real_programmers.png]]
+

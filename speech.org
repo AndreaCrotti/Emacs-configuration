@@ -1,38 +1,115 @@
 #+LANGUAGE: it
+# TODO: more info about emacs architecture
+# TODO: check historical informations better
 
-Il protagonista principale del mio talk non sarà python ma, come si può capire dal titolo, Emacs.
+SPEEDY EMACS
 
-Nell'ultimo anno sono tornato ad utilizzare emacs dopo anni dal mio primo tentativo, e dopo un po' di fatica iniziale, il mio modo di lavorare è migliorato in modo incredibile.
-Scrivere e programmare in qualsiasi linguaggio (a parte java) è diventato un piacere, e ho pensato di condividere con voi l'esperienza che sono riuscito ad accumulare.
+* Emacs
+  Nell'ultimo anno sono tornato ad utilizzare emacs dopo anni dal mio primo tentativo, e dopo un po' di fatica iniziale, il mio modo di lavorare è migliorato in modo incredibile.
+  Scrivere e programmare in qualsiasi linguaggio (a parte java) è diventato un piacere, e ho pensato di condividere con voi l'esperienza che sono riuscito ad accumulare.
 
-In queste poche slide che seguono darò una veloce panoramica a emacs e ad alcune estensioni che trovo ormai fondamentali.
+  In queste poche slide che seguono vi darò una veloce panoramica a emacs e ad alcune estensioni che trovo ormai fondamentali, poi ve le mostrerò dal vivo in tutto il loro splendore.
 
-Emacs ha un core scritto in C ma la maggior parte è scritto in elisp, e questo permette di modificare ed estendere qualsiasi cosa a runtime.
+  Emacs ha un core scritto in C ma la maggior parte è scritto in elisp, e questo permette di modificare ed estendere qualsiasi cosa a runtime.
 
-E' stato inizialmente scritto da Richard Stallman negli anni 70 e ha tutt'ora una comunità molto attiva.
+  E' stato inizialmente scritto da Richard Stallman nel 1984 e ha tutt'ora una comunità molto attiva.
+  Qui vediamo alcuni motivi validi per usare emacs, e questa vignetta serve un po' per farvi un'idea della potenza di python.
 
-Qui vediamo alcuni motivi validi per usare emacs, e questa vignetta serve un po' per farvi un'idea della potenza di python.
+  --
+  Spesso quando mi trovo a voler una nuova features nel mio emacs dopo averla implementata buttando giù un po' di codice mi accorgo che c'era già, e naturalmente funzionava meglio della mia.
+  --
 
---
-Spesso quando mi trovo a voler una nuova features nel mio emacs dopo averla implementata buttando giù un po' di codice mi accorgo che c'era già, e naturalmente funzionava meglio della mia.
---
+  Purtroppo come alcuni di voi sapranno emacs non è facile da usare, inizialmente si cozza con combinazioni senza senso e codice pieno di parentesi, ma in seguito come vedete in questo grafico le cose vanno molto peggio.
 
-Purtroppo come alcuni di voi sapranno emacs non è facile da usare, inizialmente si cozza con combinazioni senza senso e codice pieno di parentesi, ma in seguito come vedete in questo grafico le cose vanno molto peggio.
+  In emacs qualsiasi cosa è un buffer, quando in un altro editor diremmo "apro il file X " in emacs lingo è più corretto dire "passo a un buffer che visita il X".
 
-In emacs qualsiasi cosa è un buffer, quando in un altro editor diremmo "apro il file X " in emacs lingo è più corretto dire "passo a un buffer che visita il X".
+  Questo perché non tutti i buffer sono associati ad un file, come ad esempio i buffer delle pagine Info o i buffer di qualche interprete (via comint).
 
-Questo perché non tutti i buffer sono associati ad un file, come ad esempio i buffer delle pagine Info o i buffer di qualche interprete (via comint).
+  Ogni buffer ha però associato un major mode, che definisce
+  - la grammatica
+  - una mappa di scorciatoie da tastiera
 
-Ogni buffer ha però associato un major mode, che definisce
-- la grammatica
-- una mappa di scorciatoie da tastiera
-# TODO: insert more stuff about it
+  Ci sono major modes per praticamente qualsiasi linguaggio che abbia avuto più di due utenti (statisticamente uno su due era un emacs user :D).
 
-Ci sono major modes per praticamente qualsiasi linguaggio che abbia avuto più di due utenti (statisticamente uno su due era un emacs user :D).
+  I minor modes invece sono invece possono essere attivati a piacere e sono solitamente estensioni trasversali, come ad esempio potrebbero essere yasnippet, auto complete o la modalità longlines.
 
-I minor modes invece sono invece possono essere attivati a piacere e sono solitamente estensioni trasversali, come ad esempio potrebbero essere yasnippet, auto complete o la modalità longlines.
+  Vedremo più tardi nella parte pratica come associare major e minor modes a file con varie estensioni.
 
-Vedremo più tardi nella parte pratica come associare major e minor modes a file con varie estensioni.
+  Per questa dimostrazione ho creato una semplice configurazione (scritta in org-mode) con i seguenti pacchetti esterni utilizzati su emacs 23.
 
-Per questa dimostrazione ho creato una semplice configurazione (scritta in org-mode) con i seguenti pacchetti esterni utilizzati su emacs 23.
+* Esterni
+  - python mode
+  - yasnippet
+  - auto complete
+  - flymake
+  - org-mode (e org babel)
 
+  i mostrerò molto brevemente le caratteristiche di ognuno di essi per poi passare alla parte interattiva, dove finalmente vedremo tutto questo all'opera.
+ 
+  Flymake è un'ottima estensione che in sostanza esegue alcuni processi in background (tipicamente compilazione/lint), parsa l'output di questi processi ricavandone il numero di linea e il tipo di problema e va a riportare questa informazione direttamente nel buffer su cui stiamo lavorando.
+ 
+  Funziona potenzialmente con qualsiasi linguaggio e ad esempio nella mia configurazione mentre programmo in python vedo automaticamente gli errori e gli warning generati da questi 3 tools.
+ 
+  Yasnippet è un'altra magnifica estensione che prende spunto da textmate che permette di ridurre notevolmente la scrittura di codice ripetitivo.
+ 
+  Ogni qualvolta ci troviamo a dover scrivere la stessa cosa definiamo uno snippet (una sorta di template), e possiamo poi andare a modificare i campi del template usando semplicemente il TAB.
+ 
+  A differenza degli snippet di Textmate in yasnippet possiamo anche includere codice elisp, che li rende in grado di eseguire sostanzialmente qualsiasi cosa.
+ 
+  Usando auto-complete insieme ad yasnippet non dobbiamo nemmeno ricordarci come si chiama lo snippet o quale combinazione di tasti gli abbiamo dato, dato che apparirà tra i possibili auto completamenti.
+ 
+  Qui vediamo il semplicissimo snippet per creare una classe.
+ 
+  : insert some python mode stuff
+ 
+  Ho deciso di lasciar perdere pymacs e di conseguenza ropemacs o altre estensioni molto interessanti dato che lo sviluppo di pymacs è ormai defunto, quindi non credo valga la pena.
+ 
+  Al momento non ho ancora sentito la necessità di un auto completamento, ma se sapeste come fare in modo semplice senza appoggiarsi a pymacs fatemelo sapere.
+ 
+
+* Vantaggi
+  - Un solo editor per dominarli tutti
+  - Estensibilità estrema via elisp
+  - Tutto è modificato a runtime
+
+* Programmazione elisp
+
+** Programmazione in macro-style
+   E' necessario pensare a cosa fareste manualmente per capire quali funzioni chiamaree
+
+** Mode map
+   Mostrare differenze tra global keys e mode map special keys.
+
+** Variabili globali/locali
+
+** Hooks, come aggangiare cose
+
+** defadvice (solo se rimane tempo)
+   Come i decoratori di python.
+
+* Org mode
+  Ultimo ma forse più importante è org-mode, un'estensione assolutamente geniale che se avrete la pazienza di imparare ad usarla vi assicuro che cambierà il vostro modo di salvare le vostre informazioni.
+
+  In breve org-mode è estensione ideata da Carsten Dominik inizialmente per la necessità di avere un sistema più intelligente per tenere traccia della sua conoscenza.
+  Il concetto alla base è che nessun formato è più portabile del puro testo.
+  Su qualsiasi piattaforma (a patto di avere il giusto codec) viene visto allo stesso modo, e abbiamo milioni di strumenti già adatti e rodati per lavorare su testo.
+
+** Clocking / effort
+   Possiamo tenere traccia del tempo speso per ciascun task.
+   Possiamo anche dare una stima del tempo che spenderemo o tenere traccia del cambiamento di stato dei vari tasks.
+
+   Un task può avere un tipo o uno stato (che può essere equivalente oppure no).
+
+** Org babel
+   - Mostrare la configurazione di emacs
+   - Mostrare altri esempi di tangling e sessioni
+
+** Configurazione emacs
+
+*** Loader per org mode
+
+** Pubblicazione progetti
+
+** Remember e templates
+
+** Spell checking e altri modi simili

@@ -1,9 +1,243 @@
-ORG BABEL TRYOUT
+Org Mode Stress Page
+# TODO: show that also links can generate code
+# TODO: show how to generate templates for notes
+# TODO: show how to move away the stuff
+# TODO: show something about managing the knowledge with the nice function
 #+OPTIONS:   toc:t
+#+SEQ_TODO: pippo pluto mario | DONE
 
-#+begin_src python :tangle yes :results both
-return "hello"
+
+* Possible links
+  - [[file:miniconf.org:org-remember][file link]]
+  - [[shell:ls%20-l][shell link with ls -l]]
+
+* Deadline and setting dates
+* pippo Task with deadline
+  DEADLINE: <2010-05-12 Mer>
+
+* Some task stuff, here is a date that doesn't go into the agenda, with time: [2010-05-08 Sab 11:44], without time: [2010-05-08 Sab]
+  SCHEDULED: <2010-05-16 Dom> DEADLINE: <2010-05-10 Lun +1w>
+  
+  
+* pluto Ordering
+  :PROPERTIES:
+  :ORDERED:  t
+  :END:
+** mario Do something with Clara
+** Other stuff
+
+
+** A possible graph
+#+srcname: dot_diagram
+#+begin_src dot :file vg.pdf :cmdline -Tpdf :exports none :results silent
+digraph G {
+  size="8,6"
+  ratio=expand
+  edge [dir=both]
+  plcnet [shape=box, label="PLC Network"]
+  subgraph cluster_wrapline {
+    label="Wrapline Control System"
+    color=purple
+    subgraph {
+    rank=same
+    exec
+    sharedmem [style=filled, fillcolor=lightgrey, shape=box]
+    }
+    edge[style=dotted, dir=none]
+    exec -> opserver
+    exec -> db
+    plc -> exec
+    edge [style=line, dir=both]
+    exec -> sharedmem
+    sharedmem -> db
+    plc -> sharedmem
+    sharedmem -> opserver
+  }
+  plcnet -> plc [constraint=false]
+  millwide [shape=box, label="Millwide System"]
+  db -> millwide
+
+  subgraph cluster_opclients {
+    color=blue
+    label="Operator Clients"
+    rankdir=LR
+    labelloc=b
+    node[label=client]
+    client1 -> client2 -> client3 [constraint=false]
+    opserver -> client1
+    opserver -> client2
+    opserver -> client3
+  }
+}
+#+end_src
+
+
+
+* Some babel stuff
+
+** Haskell code
+   This is executed during exportation and only the result is printed out
+#+begin_src haskell :exports results
+   print $ [x**2 | x <- [0..10]]
+#+end_src
+
+** Python stuff
+   We can do of course the same thing in python
+
+#+begin_src python :exports results
+   return str([x**2 for x in range(10)])
+#+end_src
+
+
+** Show up some session stuff
+#+srcname: my_sqrt(x)
+#+begin_src python :session sqrt :exports none
+  def func(x):
+      return x**2
+#+end_src
+
+
+  During exporting it will generate a session and pass data through it automatically.
+
+#+begin_src python :session sqrt :exports results
+      print func(10)
+#+end_src
+
+
+* [[http://projecteuler.net/index.php%3Fsection%3Dproblems&id%3D1][Problem 1]]
+** Description
+  If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.
+  Find the sum of all the multiples of 3 or 5 below 1000.
+  
+** Python
+#+begin_src python
+# OR is short circuiting, putting n % 3 before n % 5 can already
+# greatly reduce the number of calls
+# Using directly a generator instead of list comprehension is always a good thing
+return sum(n for n in xrange(1000) if (n % 3 == 0 or n % 5 == 0))    
 #+end_src
 
 #+results:
-: hello
+: 233168
+
+* [[http://projecteuler.net/index.php%3Fsection%3Dproblems&id%3D2][Problem 2]]
+** Description
+
+** Python
+#+begin_src python
+  # Find the sum of all the even-valued terms in the Fibonacci sequence which do not exceed four million.
+  
+  # need a dynamic programming approach, using only one two cells array
+   
+  def sum_fib(n):
+      "sum up even fibonacci numbers until max"
+      tot = 0
+      tup = [1, 1]
+      while True:
+          tup[0], tup[1] = sum(tup), tup[0]
+          if tup[0] > n:
+              return tot
+          if tup[0] % 2 == 0:
+              tot += tup[0]
+              
+  print sum_fib(4000000)
+#+end_src
+
+#+results:
+: 4613732
+
+** Haskell
+#+begin_src haskell
+module Main where
+
+import Utils (fib)
+
+main = do
+  print $ head $ filter (\x -> (length $ show $ fib x) == 1000) [0..]
+#+end_src
+
+* [[http://projecteuler.net/index.php%3Fsection%3Dproblems&id%3D79][Problem 79]]
+  A common security method used for online banking is to ask the user
+  for three random characters from a passcode. For example, if the
+  passcode was 531278, they may asked for the 2nd, 3rd, and 5th
+  characters; the expected reply would be: 317.
+
+  The text file, keylog.txt, contains fifty successful login attempts.
+  
+  Given that the three characters are always asked for in order, analyse the file so as to determine the shortest possible secret passcode of unknown length.
+  
+** Python
+   
+
+* Problems
+
+ | ID | DESCRIPTION                    | PY | HS |  RESULT | SUBMITTED |
+ |----+--------------------------------+----+----+---------+-----------|
+ |    | <30>                           |    |    |         |           |
+ |  1 | Add all the natural numbers below one thousand that are multiples of 3 or 5 | [[file:prob_1/prob_1.py][X]]  | [[file:prob_1/prob_1.hs][X]]  |  233168 | Y         |
+ |  2 | Find the sum of all the even-valued terms in the Fibonacci sequence which do not exceed four million. | [[file:prob_2/prob_2.py][X]]  | [[file:prob_2/prob_2.hs][X]]  | 4613732 | Y         |
+ |  4 | Find largest palindrome made from the product of two 3-digit numbers | [[elisp:(find-file "temp/prob_4.py")][_]]  | [[elisp:(find-file "temp/prob_4.hs")][_]]  |         | N         |
+#+TBLFM: $3='(check-problem $1 @1)::$4='(check-problem $1 @1)::$6='(if (string-match $5 "") "N" "Y")
+# I can do even better taking the extension form the header of the table
+
+* Functions
+  
+#+begin_src emacs-lisp
+  (defvar temp-dir "temp/")
+  (defvar solved-dir "prob_%s/")
+  (defvar prob-file "prob_%s.%s")
+  
+  (defun check-problem (id ext)
+    (interactive)
+    (setq ext (downcase ext))
+    (cond
+     ((file-exists-p (solved-problem id ext))
+      (format "[[file:%s][X]]" (solved-problem id ext)))
+     ((file-exists-p (temp-problem id ext))
+      (format "[[file:%s][?]]" (temp-problem id ext)))
+     (t
+      ;; Otherwise create a link for a new file
+      (concat "[[elisp:(find-file \"" (temp-problem id ext) "\")][_]]"))))
+  
+  (defun create-new (msg fname)
+    "creates a new file inserting the text as comment"
+    (progn 
+      (find-file fname)
+      ;; TODO: adding automatically commenting
+      (insert msg)))
+  
+  (defun temp-problem (id ext)
+    (concat temp-dir
+            (format prob-file id ext)))
+  
+  (defun solved-problem (id ext)
+    (concat 
+     (format solved-dir id)
+     (format prob-file id ext)))
+  
+  (defun done ()
+    "This function move the file when it's working"
+    (interactive)
+    (if (not buffer-file-name)
+        (message "your file is not saved, save it before")
+      (let*
+          ((dir (concat "../" (sans-extension (file-name-nondirectory buffer-file-name))))
+           (newfile (concat dir "/" (file-name-nondirectory buffer-file-name))))
+        (if
+            (yes-or-no-p "sure you solved the problem?")
+            (progn
+              (if (not (file-exists-p dir))
+                  (progn 
+                    (message "creating directory for this problem")
+                    (make-directory dir)))
+              (rename-file buffer-file-name newfile)
+              (kill-buffer))
+          (message "yes check better your results first")))))
+  
+  (defun sans-extension (fname)
+    (substring fname 0 (string-match "\\." fname)))
+#+end_src
+
+#+results:
+: sans-extension
+    

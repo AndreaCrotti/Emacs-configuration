@@ -10,7 +10,7 @@ MINIMAL EMACS CONFIGURATION
 
 * Assumptions
   - $HOME/.emacs.d/scripts is in the $PATH
-  - flymake is installed
+  - flymake is installed (distributed with emacs 23 also)
   - in general probably working only with emacs 23
 
 * Font settings
@@ -157,6 +157,23 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 * Org mode
+** Setting up what happens when closing a task
+#+begin_src emacs-lisp :tangle yes
+(setq org-log-done 'note)
+#+end_src
+
+** General TODO keywords
+#+begin_src emacs-lisp :tangle yes
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "FEEDBACK(f)" "VERIFY(v)" "|" "DONE(d)" "DELEGATED(D)")))
+#+end_src
+
+** Enforcing TODO dependencies
+#+begin_src emacs-lisp :tangle yes
+   (setq org-enforce-todo-dependencies t)
+   (setq org-enforce-todo-checkbox-dependencies t)
+#+end_src
+   
 ** Info configuration
 #+begin_src emacs-lisp :tangle yes
   (add-to-list 'Info-default-directory-list "~/.emacs.d/org-mode/doc/")
@@ -182,6 +199,50 @@ MINIMAL EMACS CONFIGURATION
         (org-agenda-file-to-front)))
   
   (add-hook 'before-save-hook 'org-add-eventually)
+#+end_src
+
+** Remember mode
+   Org mode can be used in conjunction with remember mode to keep track of repetitive things to remember.
+
+*** Setting up
+#+begin_src emacs-lisp :tangle yes
+(require 'remember)
+(require 'org-remember)
+(org-remember-insinuate)
+#+end_src
+
+*** Define templates
+#+begin_src emacs-lisp :tangle yes
+  (setq org-remember-templates
+        '(
+          ("Note" ?n "* " "~/Documents/pycon/notes.org")))
+          ;; ("Note" ?n "* " "~/org/notes.org")
+          ;; ("Homeworks" ?h "* TODO %^{homework|german|functional|database|scientific|graphics} \n DEADLINE: %^T" "~/org/homeworks.org")
+          ;; ("TOBUY" ?b "* TODO %^{what you want}\n %t" "~/org/tobuy.org")))
+#+end_src
+
+** Global keys
+   Here below some global key mappings 
+
+#+begin_src emacs-lisp :tangle yes
+  (global-set-key "\C-c\C-l" 'org-annotate-file)
+  ;; Defining a setup where org-mode takes care of remember notes
+  (setq org-directory "~/org/")
+  (setq org-default-notes-file (concat org-directory "notes.org"))
+  (global-set-key "\C-cr" 'org-remember)
+  (global-set-key "\C-ca" 'org-agenda)
+  (global-set-key "\C-c\C-x\C-o" 'org-clock-out)
+#+end_src
+
+** Other org babel modes
+#+begin_src emacs-lisp :tangle yes
+  (require 'org-babel-dot)       ;; dot
+  (require 'org-babel-haskell)   ;; haskell, haskell-mode, inf-haskell
+  (require 'org-babel-python)    ;; python, and python-mode
+  (require 'org-babel-ditaa)
+  ;; (require 'org-babel-ruby)      ;; ruby, irb, ruby-mode, and inf-ruby
+  (require 'org-babel-sql)       ;; none
+  (require 'org-babel-sh)
 #+end_src
 
 * Yasnippet
@@ -249,6 +310,7 @@ MINIMAL EMACS CONFIGURATION
         c-mode
         nesc-mode
         lisp-interaction-mode
+        org-mode
         ))
 (add-to-list 'ac-trigger-commands 'org-self-insert-command) ; if you want enable auto-complete at org-mode, uncomment this line
 
@@ -280,7 +342,8 @@ MINIMAL EMACS CONFIGURATION
                     (add-to-list 'ac-sources 'ac-source-symbols))))
 #+end_src
   
-* Python mode
+* Python
+** Python mode
   [[http://hide1713.wordpress.com/2009/01/30/setup-perfect-python-environment-in-emacs/][Possible configuration for auto completion with ropemacs]]
 
 #+begin_src emacs-lisp :tangle yes
@@ -288,6 +351,132 @@ MINIMAL EMACS CONFIGURATION
   (add-to-list 'interpreter-mode-alist '("python" . python-mode))
   (autoload 'doctest-mode "doctest-mode" "doc test python mode" t)
   (autoload 'python-mode "python-mode" "Python editing mode." t)
+#+end_src
+
+** Ropemacs configuration from [[http://www.enigmacurry.com/2009/01/21/autocompleteel-python-code-completion-in-emacs/][ryan code]]
+  
+#+begin_src emacs-lisp :tangle yes
+  ;; Initialize Pymacs                                                                                           
+  (autoload 'pymacs-apply "pymacs")
+  (autoload 'pymacs-call "pymacs")
+  (autoload 'pymacs-eval "pymacs" nil t)
+  (autoload 'pymacs-exec "pymacs" nil t)
+  (autoload 'pymacs-load "pymacs" nil t)
+  ;; Initialize Rope                                                                                             
+  (pymacs-load "ropemacs" "rope-")
+  (setq ropemacs-enable-autoimport t)
+  
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;                                         
+    ;;; Auto-completion                                                                                            
+    ;;;  Integrates:                                                                                               
+    ;;;   1) Rope                                                                                                  
+    ;;;   2) Yasnippet                                                                                             
+    ;;;   all with AutoComplete.el                                                                                 
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;                                         
+  (defun prefix-list-elements (list prefix)
+    (let (value)
+      (nreverse
+       (dolist (element list value)
+         (setq value (cons (format "%s%s" prefix element) value))))))
+  
+  (defvar ac-source-rope
+    '((candidates
+       . (lambda ()
+           (prefix-list-elements (rope-completions) ac-target))))
+    "Source for Rope")
+  
+  (defun ac-python-find ()
+    "Python `ac-find-function'."
+    (require 'thingatpt)
+    (let ((symbol (car-safe (bounds-of-thing-at-point 'symbol))))
+      (if (null symbol)
+          (if (string= "." (buffer-substring (- (point) 1) (point)))
+              (point)
+            nil)
+        symbol)))
+  
+  (defun ac-python-candidate ()
+    "Python `ac-candidates-function'"
+    (let (candidates)
+      (dolist (source ac-sources)
+        (if (symbolp source)
+            (setq source (symbol-value source)))
+        (let* ((ac-limit (or (cdr-safe (assq 'limit source)) ac-limit))
+               (requires (cdr-safe (assq 'requires source)))
+               cand)
+          (if (or (null requires)
+                  (>= (length ac-target) requires))
+              (setq cand
+                    (delq nil
+                          (mapcar (lambda (candidate)
+                                    (propertize candidate 'source source))
+                                  (funcall (cdr (assq 'candidates source)))))))
+          (if (and (> ac-limit 1)
+                   (> (length cand) ac-limit))
+              (setcdr (nthcdr (1- ac-limit) cand) nil))
+          (setq candidates (append candidates cand))))
+      (delete-dups candidates)))
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (auto-complete-mode 1)
+              (set (make-local-variable 'ac-sources)
+                   (append ac-sources '(ac-source-rope) '(ac-source-yasnippet)))
+              (set (make-local-variable 'ac-find-function) 'ac-python-find)
+              (set (make-local-variable 'ac-candidate-function) 'ac-python-candidate)))
+  
+  ;; without those last two lines works better in theory but it's too slow in practice
+  ;; (set (make-local-variable 'ac-auto-start) nil)))
+  ;; (define-key py-mode-map "\t" 'python-tab)))
+  
+  ;;Ryan's python specific tab completion                                                                        
+  (defun python-tab ()
+                                          ; Try the following:                                                                                         
+                                          ; 1) Do a yasnippet expansion                                                                                
+                                          ; 2) Do a Rope code completion                                                                               
+                                          ; 3) Do an indent                                                                                            
+    (interactive)
+    (if (eql (ac-start) 0)
+        (indent-for-tab-command)))
+  
+  ;; (defadvice ac-start (before advice-turn-on-auto-start activate)
+  ;;   (set (make-local-variable 'ac-auto-start) t))
+  ;; (defadvice ac-cleanup (after advice-turn-off-auto-start activate)
+  ;;   (set (make-local-variable 'ac-auto-start) nil))
+#+end_src
+
+
+* Haskell mode
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
+  (autoload 'haskell-mode "haskell-mode" "haskell mode" t)
+  (autoload 'turn-on-haskell-doc-mode "haskell-doc" "haskell doc mode" t)
+  (autoload 'turn-on-haskell-indentation "haskell-indent" "haskell indent facilities" t)
+  
+  (add-hook 'inf-haskell "inf-haskell" "inf-haskell" t)
+  (add-hook 'hs-lint "hs-lint" "haskell checker" t)
+  
+  ;; here some haskell variables
+  (setq haskell-doc-show-global-types t)
+  (setq haskell-program-name "ghci")
+                                          ; where haskell-hoogle is loaded?
+  
+  ;; enabled to get indentation over if-then-else
+  (setq haskell-indent-thenelse 1)
+  
+  ;; If nothing found pass the control
+  (add-hook 'haskell-mode-hook
+            '(lambda ()
+               (require 'haskell-doc) ; Is this the only way?
+               (require 'haskell-indent)
+               (turn-on-haskell-doc-mode)
+               (turn-on-haskell-indentation)
+               ;; This would be very nice but it conflicts with yasnippet
+               (define-key haskell-mode-map [tab] 'haskell-indent-cycle)
+               (define-key haskell-mode-map "\C-ch" 'haskell-hoogle)
+               (define-key haskell-mode-map "\C-cl" 'hs-lint)
+               (make-variable-buffer-local 'yas/trigger-key)
+               (setq yas/trigger-key [tab])
+               (define-key yas/keymap [tab] 'yas/next-field)))
 #+end_src
 
 * Doxymacs
@@ -308,38 +497,46 @@ MINIMAL EMACS CONFIGURATION
 * General settings
 ** Aliasing and other useful shortcuts
 #+begin_src emacs-lisp :tangle yes
-(defalias 'eb 'eval-buffer)
-(defalias 'er 'eval-region)
-(defalias 'yes-or-no-p 'y-or-n-p)
-(defalias 'rs 'replace-string)
-(defalias 'qs 'query-replace)
-(defalias 'ac 'auto-complete-mode)
-(defalias 'go 'google-search-it)
-(defalias 'gs 'google-search-selection)
-(defalias 'spell 'flyspell-mode)
-
-(defalias 'ys 'yas/reload-all)
-(defalias 'yv 'yas/visit-snippet-file)
-
-(defalias 'ascii 'org-export-as-ascii)
-(defalias 'html 'org-export-as-html-and-open)
-(defalias 'pdf 'org-export-as-pdf-and-open)
-(defalias 'box 'comment-box)
-(defalias 'rb 'revert-buffer)
-
-(defalias 'sh 'shell)
-
-(defalias 'ws 'whitespace-mode)
-(defalias 'bu 'browse-url)
-
-(defalias 'mem 'doxymacs-insert-member-comment)
-(defalias 'fun 'doxymacs-insert-function-comment)
-(defalias 'file 'doxymacs-insert-file-comment)
+  (defalias 'eb 'eval-buffer)
+  (defalias 'er 'eval-region)
+  (defalias 'yes-or-no-p 'y-or-n-p)
+  (defalias 'rs 'replace-string)
+  (defalias 'qs 'query-replace)
+  (defalias 'ac 'auto-complete-mode)
+  (defalias 'go 'google-search-it)
+  (defalias 'gs 'google-search-selection)
+  (defalias 'spell 'flyspell-mode)
+  
+  (defalias 'ys 'yas/reload-all)
+  (defalias 'yv 'yas/visit-snippet-file)
+  
+  (defalias 'ascii 'org-export-as-ascii)
+  (defalias 'html 'org-export-as-html-and-open)
+  (defalias 'pdf 'org-export-as-pdf-and-open)
+  (defalias 'box 'comment-box)
+  (defalias 'rb 'revert-buffer)
+  
+  (defalias 'sh 'shell)
+  
+  (defalias 'ws 'whitespace-mode)
+  (defalias 'bu 'browse-url)
+  
+  (defalias 'mem 'doxymacs-insert-member-comment)
+  (defalias 'fun 'doxymacs-insert-function-comment)
+  (defalias 'file 'doxymacs-insert-file-comment)
+  
+  (defalias 'black 'color-theme-hober)
+  (defalias 'blue 'color-theme-deep-blue)
+  (defalias 'grey 'color-theme-black-on-gray)
+  (defalias 'blipp 'color-theme-blippblopp)
+  (defalias 'high 'color-theme-high-contrast)
 #+end_src   
 
 ** Custom file
 #+begin_src emacs-lisp :tangle yes
 (setq custom-file (concat base "custom.el"))
+;; we only need to load it at boot time
+(load-file (concat base "custom.el"))
 #+end_src
 
 ** Showing more things
