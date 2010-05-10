@@ -132,6 +132,13 @@ MINIMAL EMACS CONFIGURATION
     (org-babel-load-file "miniconf.org"))
 #+end_src
 
+* Buffer management
+** Ibuffer
+   Nice improvement over the default buffer list code
+#+begin_src emacs-lisp :tangle yes
+(global-set-key "\C-x\C-b" 'ibuffer) ;; manage buffers with ibuffer
+#+end_src
+
 * Operating system detection
 #+begin_src emacs-lisp :tangle yes
 (defconst linux (string-match "linux" system-configuration))
@@ -141,11 +148,11 @@ MINIMAL EMACS CONFIGURATION
 
 ** Mac configuration
 #+begin_src emacs-lisp :tangle yes
-(if mac
-    (progn
-      (add-to-list 'exec-path "/opt/local/bin")
-      (setq ns-alternate-modifier (quote none))
-      (setq ns-command-modifier (quote meta))))
+  (if mac
+      (progn
+        (add-to-list 'exec-path "/opt/local/bin")
+        (setq ns-alternate-modifier (quote none))
+        (setq ns-command-modifier (quote meta))))
 #+end_src
 ** Color theme setting
 #+begin_src emacs-lisp :tangle yes
@@ -320,23 +327,6 @@ MINIMAL EMACS CONFIGURATION
         org-mode
         ))
 (add-to-list 'ac-trigger-commands 'org-self-insert-command) ; if you want enable auto-complete at org-mode, uncomment this line
-
-#+end_src
-
-** More sources for all modes
-#+begin_src emacs-lisp :tangle yes
-;; The sources for common all mode.
-(custom-set-variables
- '(ac-sources
-   '(
-     ac-source-yasnippet ;this source need file `auto-complete-yasnippet.el'
-     ;; ac-source-semantic    ;this source need file `auto-complete-semantic.el'
-     ac-source-imenu
-     ac-source-abbrev
-     ac-source-words-in-buffer
-     ac-source-files-in-current-dir
-     ac-source-filename
-     )))
 #+end_src
 
 ** Elisp configuration

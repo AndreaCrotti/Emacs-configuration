@@ -1,7 +1,23 @@
-This is an example of how org-mode can manage your emacs configuration
+Emacs configuration
 
-To try it out just
+To try it out:
+
 - modify your base directory in orgloader.el "(setq base
   "~/Documents/pycon/")"
-- Lauch it with something like   
-  /Applications/Emacs.app/Contents/MacOS/Emacs -q --load="orgloader.el"
+- Lauch it with something like
+  /path/to/your/emacs -q --load="orgloader.el"
+
+Be aware that you *might need Emacs 23* for some of the features.
+
+Where you can get emacs 23:
+* OSX:
+  Emacs has bindings for many different UI systems, there are native versions for most of the operating systems.
+  [[http://atomized.org/wp-content/cocoa-emacs-nightly/][emacs osx nightly builds]]
+  If you want an easier fork for OSX there is [[http://aquamacs.org/][aquamacs]]
+
+* Windows:
+  For windows there is an external package to simplify, [[http://www.ourcomments.org/Emacs/EmacsW32Util.html][emacsW32, make it easier on windows]]
+  [[http://ftp.gnu.org/gnu/emacs/windows/][Emacs build for windows]]
+
+* Linux
+  Normally a emacs23 package is included in every distribution

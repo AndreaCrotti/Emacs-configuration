@@ -6,10 +6,18 @@ Org Mode Stress Page
 #+OPTIONS:   toc:t
 #+SEQ_TODO: pippo pluto mario | DONE
 
-
+[[shell:ls%20-l][ls -l]]
 * Possible links
-  - [[file:miniconf.org:org-remember][file link]]
+  - [[file:miniconf.org][file link]]
   - [[shell:ls%20-l][shell link with ls -l]]
+
+* DONE 
+  CLOSED: [2010-05-09 Dom 18:35]
+  - CLOSING NOTE [2010-05-09 Dom 18:35] \\
+    done
+
+* Nuova voce
+  <2010-05-20 Gio>
 
 * Deadline and setting dates
 * pippo Task with deadline
@@ -17,7 +25,6 @@ Org Mode Stress Page
 
 * Some task stuff, here is a date that doesn't go into the agenda, with time: [2010-05-08 Sab 11:44], without time: [2010-05-08 Sab]
   SCHEDULED: <2010-05-16 Dom> DEADLINE: <2010-05-10 Lun +1w>
-  
   
 * pluto Ordering
   :PROPERTIES:
@@ -72,6 +79,22 @@ digraph G {
 #+end_src
 
 
+* Voce
+  CLOCK: [2010-05-09 Dom 18:23]--[2010-05-09 Dom 18:24] =>  0:01
+  #+BEGIN: clocktable :maxlevel 2 :scope file
+  Clock summary at [2010-05-09 Dom 18:25]
+  
+  | L | Headline     | Time   |
+  |---+--------------+--------|
+  |   | *Total time* | *0:01* |
+  |---+--------------+--------|
+  | 1 | Voce         | 0:01   |
+
+
+| TAB |   |   |
+|-----+---+---|
+| 1   | 2 | 3 |
+#+TBLFM: @2$3=$1 + $2
 
 * Some babel stuff
 ** Haskell code
@@ -79,7 +102,6 @@ digraph G {
 #+begin_src haskell :exports results
    print $ [x**2 | x <- [0..10]]
 #+end_src
-
 ** Python stuff
    We can do of course the same thing in python
 
@@ -120,8 +142,6 @@ digraph G {
   :END:
   <2010-05-09 Dom>
 
-0:00:08 
-
 #+BEGIN: clocktable :maxlevel 2 :scope file
 Clock summary at [2010-05-09 Dom 14:54]
 
@@ -130,7 +150,6 @@ Clock summary at [2010-05-09 Dom 14:54]
 |   | *Total time* | *0:00* |
 |---+--------------+--------|
 #+END:
-
 
 * [[http://projecteuler.net/index.php%3Fsection%3Dproblems&id%3D1][Problem 1]]
 ** Description
@@ -199,15 +218,15 @@ main = do
 
 * Problems
 
- | ID | DESCRIPTION                    | PY | HS |  RESULT | SUBMITTED |
- |----+--------------------------------+----+----+---------+-----------|
- |    | <30>                           |    |    |         |           |
- |  1 | Add all the natural numbers below one thousand that are multiples of 3 or 5 | [[file:prob_1/prob_1.py][X]]  | [[file:prob_1/prob_1.hs][X]]  |  233168 | Y         |
- |  2 | Find the sum of all the even-valued terms in the Fibonacci sequence which do not exceed four million. | [[file:prob_2/prob_2.py][X]]  | [[file:prob_2/prob_2.hs][X]]  | 4613732 | Y         |
- |  4 | Find largest palindrome made from the product of two 3-digit numbers | [[elisp:(find-file "temp/prob_4.py")][_]]  | [[elisp:(find-file "temp/prob_4.hs")][_]]  |         | N         |
+ | ID | DESCRIPTION                    | PY     | HS     |  RESULT | SUBMITTED |
+ |----+--------------------------------+--------+--------+---------+-----------|
+ |    | <30>                           | [[elisp:(find-file "temp/prob_.py")][_]]      | [[elisp:(find-file "temp/prob_.hs")][_]]      |         | N         |
+ |  1 | Add all the natural numbers below one thousand that are multiples of 3 or 5 | #ERROR | #ERROR |  233168 | Y         |
+ |  2 | Find the sum of all the even-valued terms in the Fibonacci sequence which do not exceed four million. | #ERROR | #ERROR | 4613732 | Y         |
+ |  4 | Find largest palindrome made from the product of two 3-digit numbers | #ERROR | [[elisp:(find-file "temp/prob_4.hs")][_]]      |         | N         |
 #+TBLFM: $3='(check-problem $1 @1)::$4='(check-problem $1 @1)::$6='(if (string-match $5 "") "N" "Y")
 # I can do even better taking the extension form the header of the table
-
+  
 * Functions
   
 #+begin_src emacs-lisp
