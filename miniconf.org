@@ -15,46 +15,9 @@ MINIMAL EMACS CONFIGURATION
 
 * Dependencies                                                     :noexport:
 # insert the dependencies
-* Font settings
-  Defininig some nice fonts and how to switch between theme.
-  [[http://xahlee.org/emacs/emacs_unicode_fonts.html][Cycling function definition]]
-#+begin_src emacs-lisp :tangle yes
-  (setq current "monaco-12")
-  (setq font-list
-        (list "monaco-12" "inconsolata-14" "courier-13"))
-  
-  (defun cycle-font ()
-    "Change font in current frame"
-    (interactive)
-  
-    (let (fontToUse currentState)
-      ;; states starts from 1.
-      (setq currentState (if (get this-command 'state) (get this-command 'state) 1))
-      (setq fontToUse (nth (1- currentState) font-list))
-  
-      (set-frame-parameter nil 'font fontToUse)
-      (message "Current font is: %s" fontToUse)
-      (put this-command 'state (1+ (% currentState (length font-list))))
-      (redraw-frame (selected-frame))
-      )
-    )
-  
-  (global-set-key (kbd "<C-f9>") 'cycle-font)
-#+end_src
 
-* Elscreen
-#+begin_src emacs-lisp :tangle yes
-  (require 'alist)
-  (setq elscreen-path (concat conf "elscreen/"))
-  (add-to-list 'load-path (concat elscreen-path "elscreen"))
-  (add-to-list 'load-path (concat elscreen-path "elscreen-server"))
-  (add-to-list 'load-path (concat elscreen-path "elscreen-color-theme"))
-  (require 'elscreen)
-  (require 'elscreen-color-theme)
-  (require 'elscreen-server)
-#+end_src
-
-* Constants and some global settings
+* Prerequisites
+** Constants and some global settings
 #+begin_src emacs-lisp :tangle yes
 (defconst default-closing-char ";"
   "default closing char, change in newline-force-close-alist if needed")
@@ -71,16 +34,16 @@ MINIMAL EMACS CONFIGURATION
 (global-set-key [M-S-return] 'newline-force-close)
 #+end_src
 
-* Some useful functions
-  We suppose that the global variable *conf* has been already set from the outside.
-  
-** Make path
+** Some useful functions
+   We suppose that the global variable *conf* has been already set from the outside.
+   
+*** Make path
 #+begin_src emacs-lisp :tangle yes
   (defun make-path (path)
     (concat conf path))
 #+end_src
  
-** Gen path dirs
+*** Gen path dirs
    All all the directories in the first level of the configuration directory to the load path.
 
 #+begin_src emacs-lisp :tangle yes
@@ -98,7 +61,7 @@ MINIMAL EMACS CONFIGURATION
   (gen-path-dirs)
 #+end_src
 
-** Google map it
+*** Google map it
    Search an address in google map
 #+begin_src emacs-lisp :tangle yes
   (defun google-map-it (address)
@@ -109,7 +72,7 @@ MINIMAL EMACS CONFIGURATION
       (browse-url (format base (url-hexify-string address)))))
 #+end_src   
 
-** New line
+*** New line
    Those functions are inspired by textmate
 #+begin_src emacs-lisp :tangle yes
   ;; My own functions
@@ -146,22 +109,43 @@ MINIMAL EMACS CONFIGURATION
     (interactive)
     (org-babel-load-file "miniconf.org"))
 #+end_src
-
-* Buffer management
-** Ibuffer
-   Nice improvement over the default buffer list code
+* Font settings
+  Defininig some nice fonts and how to switch between theme.
+  [[http://xahlee.org/emacs/emacs_unicode_fonts.html][Cycling function definition]]
 #+begin_src emacs-lisp :tangle yes
-(global-set-key "\C-x\C-b" 'ibuffer) ;; manage buffers with ibuffer
+  (setq current "monaco-12")
+  (setq font-list
+        (list "monaco-12" "inconsolata-14" "courier-13"))
+  
+  (defun cycle-font ()
+    "Change font in current frame"
+    (interactive)
+  
+    (let (fontToUse currentState)
+      ;; states starts from 1.
+      (setq currentState (if (get this-command 'state) (get this-command 'state) 1))
+      (setq fontToUse (nth (1- currentState) font-list))
+  
+      (set-frame-parameter nil 'font fontToUse)
+      (message "Current font is: %s" fontToUse)
+      (put this-command 'state (1+ (% currentState (length font-list))))
+      (redraw-frame (selected-frame))
+      )
+    )
+  
+  (global-set-key (kbd "<C-f9>") 'cycle-font)
 #+end_src
 
-* Operating system detection
+** Operating system detection
 #+begin_src emacs-lisp :tangle yes
 (defconst linux (string-match "linux" system-configuration))
 (defconst mac (string-match "apple" system-configuration))
 (defconst win (string-match "win" system-configuration))
 #+end_src
 
-** Mac configuration
+*** Mac configuration
+    This will setup the Command key ot be used as meta.
+    I also add the path normally used for macports to the exec-path.
 #+begin_src emacs-lisp :tangle yes
   (if mac
       (progn
@@ -169,7 +153,7 @@ MINIMAL EMACS CONFIGURATION
         (setq ns-alternate-modifier (quote none))
         (setq ns-command-modifier (quote meta))))
 #+end_src
-** Color theme setting
+*** Color theme setting
 #+begin_src emacs-lisp :tangle yes
   (require 'color-theme)
   (eval-after-load "color-theme"
@@ -178,12 +162,31 @@ MINIMAL EMACS CONFIGURATION
   (color-theme-deep-blue)
 #+end_src
 
+* Buffer management
+** Ibuffer
+   Nice improvement over the default buffer list code
+#+begin_src emacs-lisp :tangle yes
+(global-set-key "\C-x\C-b" 'ibuffer) ;; manage buffers with ibuffer
+#+end_src
+
 * Visualization
 ** Menu and tool-bar disabling
 #+begin_src emacs-lisp :tangle yes
   (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
   (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 #+end_src
+** Elscreen
+#+begin_src emacs-lisp :tangle yes
+  (require 'alist)
+  (setq elscreen-path (concat conf "elscreen/"))
+  (add-to-list 'load-path (concat elscreen-path "elscreen"))
+  (add-to-list 'load-path (concat elscreen-path "elscreen-server"))
+  (add-to-list 'load-path (concat elscreen-path "elscreen-color-theme"))
+  (require 'elscreen)
+  (require 'elscreen-color-theme)
+  (require 'elscreen-server)
+#+end_src
+
 
 * Org mode
 ** Setting up what happens when closing a task
@@ -527,6 +530,7 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (require 'doxymacs)
 #+end_src
+
 * Other languages
 #+begin_src emacs-lisp :tangle yes
   (autoload 'nesc-mode "nesc" nil t)
