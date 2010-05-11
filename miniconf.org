@@ -15,7 +15,6 @@ MINIMAL EMACS CONFIGURATION
 
 * Dependencies                                                     :noexport:
 # insert the dependencies
-
 * Font settings
   Defininig some nice fonts and how to switch between theme.
   [[http://xahlee.org/emacs/emacs_unicode_fonts.html][Cycling function definition]]
@@ -44,8 +43,8 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 * Elscreen
-# TODO: must also include ALIST before it's working
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle yes
+  (require 'alist)
   (setq elscreen-path (concat conf "elscreen/"))
   (add-to-list 'load-path (concat elscreen-path "elscreen"))
   (add-to-list 'load-path (concat elscreen-path "elscreen-server"))
