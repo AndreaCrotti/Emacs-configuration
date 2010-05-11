@@ -2,8 +2,8 @@ Emacs configuration
 
 To try it out:
 
-- modify your base directory in orgloader.el "(setq base
-  "~/Documents/pycon/")"
+- Create a file "base.el" with something like:
+  (setq base "~/your/base/path/")
 - Lauch it with something like
   /path/to/your/emacs -q --load="orgloader.el"
 

@@ -13,6 +13,9 @@ MINIMAL EMACS CONFIGURATION
   - flymake is installed (distributed with emacs 23 also)
   - in general probably working only with emacs 23
 
+* Dependencies                                                     :noexport:
+# insert the dependencies
+
 * Font settings
   Defininig some nice fonts and how to switch between theme.
   [[http://xahlee.org/emacs/emacs_unicode_fonts.html][Cycling function definition]]
