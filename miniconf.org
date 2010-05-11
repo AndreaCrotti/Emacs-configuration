@@ -40,6 +40,18 @@ MINIMAL EMACS CONFIGURATION
   (global-set-key (kbd "<C-f9>") 'cycle-font)
 #+end_src
 
+* Elscreen
+# TODO: must also include ALIST before it's working
+#+begin_src emacs-lisp :tangle no
+  (setq elscreen-path (concat conf "elscreen/"))
+  (add-to-list 'load-path (concat elscreen-path "elscreen"))
+  (add-to-list 'load-path (concat elscreen-path "elscreen-server"))
+  (add-to-list 'load-path (concat elscreen-path "elscreen-color-theme"))
+  (require 'elscreen)
+  (require 'elscreen-color-theme)
+  (require 'elscreen-server)
+#+end_src
+
 * Constants and some global settings
 #+begin_src emacs-lisp :tangle yes
 (defconst default-closing-char ";"
@@ -70,17 +82,18 @@ MINIMAL EMACS CONFIGURATION
    All all the directories in the first level of the configuration directory to the load path.
 
 #+begin_src emacs-lisp :tangle yes
-(defun gen-path-dirs ()
-  "Add to load path all the subdirectories of first level"
-  (interactive)
-  (message "adding all directories in the first level to the load-path")
-  (dolist (dir (directory-files conf t))
-    (if (and 
-         (file-directory-p dir)
-         (not (file-symlink-p dir)))
-        (add-to-list 'load-path dir))))
-
-(gen-path-dirs)
+  ;; TODO: make it more general
+  (defun gen-path-dirs ()
+    "Add to load path all the subdirectories of first level"
+    (interactive)
+    (message "adding all directories in the first level to the load-path")
+    (dolist (dir (directory-files conf t))
+      (if (and 
+           (file-directory-p dir)
+           (not (file-symlink-p dir)))
+          (add-to-list 'load-path dir))))
+  
+  (gen-path-dirs)
 #+end_src
 
 ** Google map it
@@ -257,6 +270,50 @@ MINIMAL EMACS CONFIGURATION
   ;; (require 'org-babel-ruby)      ;; ruby, irb, ruby-mode, and inf-ruby
   (require 'org-babel-sql)       ;; none
   (require 'org-babel-sh)
+#+end_src
+
+* Tags
+** Etags-select
+   This extension to etags helps choosing from equal names of functions.
+#+begin_src emacs-lisp :tangle yes
+  (require 'etags-select)
+  (global-set-key "\M-?" 'etags-select-find-tag-at-point)
+  (global-set-key "\M-." 'etags-select-find-tag)  
+#+end_src
+
+** Extending functions
+   This functions help to look for the TAGS file in the filesystem when is not in the same working directory
+# FIXME: still not working correctly, more iteration is needed here
+#+begin_src emacs-lisp :tangle no
+  (defun jds-find-tags-file ()
+    "recursively searches each parent directory for a file named 'TAGS' and returns the
+  path to that file or nil if a tags file is not found. Returns nil if the buffer is
+  not visiting a file"
+    (progn
+      (defun find-tags-file-r (path)
+        "find the tags file from the parent directories"
+        (let* ((parent (file-name-directory path))
+               (possible-tags-file (concat parent "TAGS")))
+          (cond
+           ((file-exists-p possible-tags-file) (throw 'found-it possible-tags-file))
+           ((string= "/TAGS" possible-tags-file) (error "no tags file found"))
+           (t (find-tags-file-r (directory-file-name parent))))))
+  
+      (if (buffer-file-name)
+          (catch 'found-it 
+            (find-tags-file-r (buffer-file-name)))
+        (error "buffer is not visiting a file"))))
+  
+  (defun jds-set-tags-file-path ()
+    "calls `jds-find-tags-file' to recursively search up the directory tree to find
+  a file named 'TAGS'. If found, set 'tags-table-list' with that path as an argument
+  otherwise raises an error."
+    (interactive)
+    (setq tags-table-list (list (jds-find-tags-file))))
+  
+  ;; delay search the TAGS file after open the source file
+  (add-hook 'emacs-startup-hook 
+            '(lambda () (jds-set-tags-file-path)))
 #+end_src
 
 * Yasnippet
