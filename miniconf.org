@@ -187,6 +187,34 @@ MINIMAL EMACS CONFIGURATION
   (require 'elscreen-server)
 #+end_src
 
+* Spelling functions
+#+begin_src emacs-lisp :tangle yes
+  (setq ispell-dictionary "english")
+  
+  (defun en ()
+    "Check spelling in english"
+    (interactive)
+    (ispell-change-dictionary "english")
+    (flyspell-mode t))
+  
+  (defun it ()
+    "Check spelling in english"
+    (interactive)
+    (ispell-change-dictionary "italian")
+    (flyspell-mode t))
+  
+  (defun fr ()
+    "Check spelling in english"
+    (interactive)
+    (ispell-change-dictionary "french")
+    (flyspell-mode t))
+  
+  (defun de ()
+    "Check spelling in english"
+    (interactive)
+    (ispell-change-dictionary "german")
+    (flyspell-mode t))
+#+end_src
 
 * Org mode
 ** Setting up what happens when closing a task

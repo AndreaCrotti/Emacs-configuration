@@ -6,6 +6,8 @@ To try it out:
   (setq base "~/your/base/path/")
 - Lauch it with something like
   /path/to/your/emacs -q --load="orgloader.el"
+- Make sure that you (or create an empty one) the file, "custom.el"
+  That file will be managed automatically by the customization framework if you wish to use it.
 
 Be aware that you *might need Emacs 23* for some of the features.
 
