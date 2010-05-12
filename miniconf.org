@@ -8,6 +8,8 @@ MINIMAL EMACS CONFIGURATION
 * TODO See if it's worthy to byte compile everything or not
 * TODO Write a dependency tree of the various chapters in the configuration
 
+* TODO Add options to create encrypted org-files for storing password and more delicate informations
+
 * Assumptions
   - $HOME/.emacs.d/scripts is in the $PATH
   - flymake is installed (distributed with emacs 23 also)
@@ -15,6 +17,15 @@ MINIMAL EMACS CONFIGURATION
 
 * Dependencies                                                     :noexport:
 # insert the dependencies
+#+begin_src dot :file dependecy.pdf :cmdline -Tpdf :exports none :results silent
+  digraph dep {
+          elib -> jdee;
+          cedet -> jdee;
+          apel -> elscreen;
+  }
+#+end_src
+  
+  [[file:dependecy.pdf]]
 
 * Prerequisites
 ** Constants and some global settings
@@ -415,6 +426,7 @@ MINIMAL EMACS CONFIGURATION
         c-mode
         nesc-mode
         lisp-interaction-mode
+        java-mode
         org-mode
         ))
 (add-to-list 'ac-trigger-commands 'org-self-insert-command) ; if you want enable auto-complete at org-mode, uncomment this line
@@ -429,9 +441,26 @@ MINIMAL EMACS CONFIGURATION
   (add-hook hook '(lambda ()
                     (add-to-list 'ac-sources 'ac-source-symbols))))
 #+end_src
-  
-* Python
-** Python mode
+
+
+* Cedet
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'load-path (concat conf "cedet/common"))
+  (add-to-list 'load-path (concat conf "cedet/semantic"))
+  (add-to-list 'load-path (concat conf "cedet/eieio"))
+#+end_src
+
+* Programming
+** C-mode
+#+begin_src emacs-lisp :tangle yes
+  (setq c-default-style
+        '((java-mode . "java")
+         (awk-mode . "awk")
+         (other . "cc-mode")))
+#+end_src
+
+** Python
+*** Python mode
   [[http://hide1713.wordpress.com/2009/01/30/setup-perfect-python-environment-in-emacs/][Possible configuration for auto completion with ropemacs]]
 
 #+begin_src emacs-lisp :tangle yes
@@ -441,7 +470,7 @@ MINIMAL EMACS CONFIGURATION
   (autoload 'python-mode "python-mode" "Python editing mode." t)
 #+end_src
 
-** Ropemacs configuration from [[http://www.enigmacurry.com/2009/01/21/autocompleteel-python-code-completion-in-emacs/][ryan code]]
+*** Ropemacs configuration from [[http://www.enigmacurry.com/2009/01/21/autocompleteel-python-code-completion-in-emacs/][ryan code]]
   
 #+begin_src emacs-lisp :tangle no
   ;; Initialize Pymacs                                                                                           
@@ -521,7 +550,7 @@ MINIMAL EMACS CONFIGURATION
     (set (make-local-variable 'ac-auto-start) nil))
 #+end_src
 
-* Haskell mode
+** Haskell mode
 #+begin_src emacs-lisp :tangle yes
   (add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
   (autoload 'haskell-mode "haskell-mode" "haskell mode" t)
@@ -555,15 +584,43 @@ MINIMAL EMACS CONFIGURATION
                (define-key yas/keymap [tab] 'yas/next-field)))
 #+end_src
 
-* Doxymacs
-#+begin_src emacs-lisp :tangle yes
-  (require 'doxymacs)
-#+end_src
-
-* Other languages
+** Other languages
 #+begin_src emacs-lisp :tangle yes
   (autoload 'nesc-mode "nesc" nil t)
   (add-to-list 'auto-mode-alist '("\\.nc$" . nesc-mode))
+#+end_src
+
+** Java
+*** Jdee settings
+#+begin_src emacs-lisp :tangle no
+  (add-to-list 'load-path (concat conf "jdee/lisp"))
+  
+  (autoload 'jde-mode "jde" "jde mode" t)
+  
+  ;; In this way we only load if really necessary
+  (add-hook 'jde-mode-hook
+            '(lambda ()
+               (require 'ecb)
+               (setq indent-tabs-mode nil)))
+  
+  ;; (defun turn-on-font-lock-if-enabled ()
+  ;;   "set up to make jdee shut up")
+  
+  ;; TODO: put some conditional stuff for the different operating systems
+  ;; make it more general usage
+  (setq jde-jdk-registry
+        '(("1.6" . "/System/Library/Frameworks/JavaVM.framework/Versions/1.6/")
+          ("1.5" . "/System/Library/Frameworks/JavaVM.framework/Versions/1.5/")
+          ("1.3.1" . "/System/Library/Frameworks/JavaVM.framework/Versions/1.3.1/")))
+  
+  (setq jde-jdk '("1.6" . "/System/Library/Frameworks/JavaVM.framework/Versions/1.6/"))
+  
+  (setq bsh-jar "/opt/local/share/java/bsh.jar")
+#+end_src
+
+* Doxymacs
+#+begin_src emacs-lisp :tangle yes
+  (require 'doxymacs)
 #+end_src
 * Revision control systems
 #+begin_src emacs-lisp :tangle yes
