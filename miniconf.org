@@ -191,6 +191,7 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (setq ispell-dictionary "english")
   
+  ;; TODO: possible to refactor this code maybe?
   (defun en ()
     "Check spelling in english"
     (interactive)

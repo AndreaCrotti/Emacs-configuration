@@ -1,25 +1,35 @@
 Emacs configuration
 
-To try it out:
+* Features
+  - yasnippet
+  - auto completion with auto-complete
+  - python-mode
+  - haskell-mode
+  - org-mode & org-babel
+  - elscreen for tabs navigation
+  - flymake
 
-- Create a file "base.el" with something like:
-  (setq base "~/your/base/path/")
-- Lauch it with something like
-  /path/to/your/emacs -q --load="orgloader.el"
-- Make sure that you (or create an empty one) the file, "custom.el"
-  That file will be managed automatically by the customization framework if you wish to use it.
+* Usage
+  To try it out:
 
-Be aware that you *might need Emacs 23* for some of the features.
+  - Create a file "base.el" with something like:
+    (setq base "~/your/base/path/")
+  - Lauch it with something like
+    /path/to/your/emacs -q --load="orgloader.el"
+  - Make sure that you (or create an empty one) the file, "custom.el"
+    That file will be managed automatically by the customization framework if you wish to use it.
 
-Where you can get emacs 23:
-* OSX:
-  Emacs has bindings for many different UI systems, there are native versions for most of the operating systems.
-  [[http://atomized.org/wp-content/cocoa-emacs-nightly/][emacs osx nightly builds]]
-  If you want an easier fork for OSX there is [[http://aquamacs.org/][aquamacs]]
+    Be aware that you *might need Emacs 23* for some of the features.
 
-* Windows:
-  For windows there is an external package to simplify, [[http://www.ourcomments.org/Emacs/EmacsW32Util.html][emacsW32, make it easier on windows]]
-  [[http://ftp.gnu.org/gnu/emacs/windows/][Emacs build for windows]]
+* Where you can get emacs 23:
+** OSX:
+   Emacs has bindings for many different UI systems, there are native versions for most of the operating systems.
+   [[http://atomized.org/wp-content/cocoa-emacs-nightly/][emacs osx nightly builds]]
+   If you want an easier fork for OSX there is [[http://aquamacs.org/][aquamacs]]
 
-* Linux
-  Normally a emacs23 package is included in every distribution
+** Windows:
+   For windows there is an external package to simplify, [[http://www.ourcomments.org/Emacs/EmacsW32Util.html][emacsW32, make it easier on windows]]
+   [[http://ftp.gnu.org/gnu/emacs/windows/][Emacs build for windows]]
+
+** Linux
+   Normally a emacs23 package is included in every distribution
