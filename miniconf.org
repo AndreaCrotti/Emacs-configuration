@@ -114,6 +114,17 @@ MINIMAL EMACS CONFIGURATION
         (newline-force))))
 #+end_src
 
+*** Error switch
+    Useful function to toogle on and off the debug mode
+#+begin_src emacs-lisp :tangle yes
+  (defun err-switch()
+    "switch on/off error debugging"
+    (interactive)
+    (if debug-on-error
+        (setq debug-on-error nil)
+      (setq debug-on-error t)))
+#+end_src
+
 ** Reload this configuration
 #+begin_src emacs-lisp :tangle yes
   (defun reload-conf ()
@@ -442,7 +453,6 @@ MINIMAL EMACS CONFIGURATION
                     (add-to-list 'ac-sources 'ac-source-symbols))))
 #+end_src
 
-
 * Cedet
 #+begin_src emacs-lisp :tangle yes
   (add-to-list 'load-path (concat conf "cedet/common"))
@@ -471,7 +481,7 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 *** Ropemacs configuration from [[http://www.enigmacurry.com/2009/01/21/autocompleteel-python-code-completion-in-emacs/][ryan code]]
-  
+
 #+begin_src emacs-lisp :tangle no
   ;; Initialize Pymacs                                                                                           
   (autoload 'pymacs-apply "pymacs")
