@@ -11,15 +11,12 @@ Emacs configuration
 
 * Usage
   To try it out:
-
-  - Create a file "base.el" with something like:
-    (setq base "~/your/base/path/")
-  - Lauch it with something like
-    /path/to/your/emacs -q --load="orgloader.el"
-  - Make sure that you (or create an empty one) the file, "custom.el"
-    That file will be managed automatically by the customization framework if you wish to use it.
-
-    Be aware that you *might need Emacs 23* for some of the features.
+  - git clone git://github.com/AndreaCrotti/Emacs-configuration.git
+  - Create a file "custom.el" in /your/path/Emacs-configuration and write it in it
+    (setq base "~/your/path/Emacs-configuration/")
+  - Create or modify your *.emacs* in your $HOME with the following:
+    + (cd "/your/path")
+    + (load-file "/your/path/orgloader.el")
 
 * Where you can get emacs 23:
 ** OSX:

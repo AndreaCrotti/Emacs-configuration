@@ -340,6 +340,17 @@ MINIMAL EMACS CONFIGURATION
   (require 'org-babel-sh)
 #+end_src
 
+** Org functionalities in other modes
+#+begin_src emacs-lisp :tangle yes
+  (setq org-struct-hooks
+        '(message-mode-hook
+          mail-mode-hook))
+  
+  (dolist (hook org-struct-hooks)
+    (add-hook hook 'turn-on-orgstruct)
+    (add-hook hook 'turn-on-orgtbl))
+#+end_src
+
 * Tags
 ** Etags-select
    This extension to etags helps choosing from equal names of functions.
