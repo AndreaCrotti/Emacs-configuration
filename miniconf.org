@@ -676,12 +676,6 @@ MINIMAL EMACS CONFIGURATION
   (defalias 'high 'color-theme-high-contrast)
 #+end_src   
 
-** Custom file
-#+begin_src emacs-lisp :tangle yes
-(setq custom-file (concat base "custom.el"))
-;; we only need to load it at boot time
-(load-file (concat base "custom.el"))
-#+end_src
 
 ** Showing more things
 #+begin_src emacs-lisp :tangle yes

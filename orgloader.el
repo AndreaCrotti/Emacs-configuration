@@ -1,4 +1,4 @@
-(load-file "base.el")
+(load-file "custom.el")
 (setq conf (concat base "conf/"))
 
 (add-to-list 'load-path (concat conf "org-mode/lisp"))
