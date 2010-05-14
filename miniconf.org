@@ -209,6 +209,18 @@ MINIMAL EMACS CONFIGURATION
   (require 'elscreen-server)
 #+end_src
 
+** Fullscreen mode
+   *Doesn't work* yet on OSX 10.6 with emacs 23
+  
+#+begin_src emacs-lisp :tangle yes
+  (defun fullscreen (&optional f)
+    (interactive)
+    (set-frame-parameter f 'fullscreen
+                         (if (frame-parameter f 'fullscreen) nil 'fullboth)))
+  (global-set-key [f11] 'fullscreen)
+  (add-hook 'after-make-frame-functions 'fullscreen)
+#+end_src
+
 * Spelling functions
 #+begin_src emacs-lisp :tangle yes
   (setq ispell-dictionary "english")
