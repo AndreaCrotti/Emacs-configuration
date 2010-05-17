@@ -132,9 +132,17 @@ Works on grep, compile, or other type mode.
 
 ;;;***
 
-;;;### (autoloads nil nil ("eieio-base.el" "eieio-comp.el" "eieio-custom.el"
-;;;;;;  "eieio-doc.el" "eieio-load.el" "eieio-speedbar.el" "eieio-test-methodinvoke.el"
-;;;;;;  "eieio-tests.el" "eieio.el") (19434 43819 984295))
+;;;### (autoloads nil nil ("../../cedet/eieio/chart.el" "../../cedet/eieio/eieio-base.el"
+;;;;;;  "../../cedet/eieio/eieio-comp.el" "../../cedet/eieio/eieio-custom.el"
+;;;;;;  "../../cedet/eieio/eieio-datadebug.el" "../../cedet/eieio/eieio-doc.el"
+;;;;;;  "../../cedet/eieio/eieio-load.el" "../../cedet/eieio/eieio-loaddefs.el"
+;;;;;;  "../../cedet/eieio/eieio-opt.el" "../../cedet/eieio/eieio-perftest.el"
+;;;;;;  "../../cedet/eieio/eieio-speedbar.el" "../../cedet/eieio/eieio-test-methodinvoke.el"
+;;;;;;  "../../cedet/eieio/eieio-tests.el" "../../cedet/eieio/eieio.el"
+;;;;;;  "../../cedet/eieio/linemark.el" "../../cedet/eieio/lmcompile.el"
+;;;;;;  "eieio-base.el" "eieio-comp.el" "eieio-custom.el" "eieio-doc.el"
+;;;;;;  "eieio-load.el" "eieio-speedbar.el" "eieio-test-methodinvoke.el"
+;;;;;;  "eieio-tests.el" "eieio.el") (19437 35034 666212))
 
 ;;;***
 

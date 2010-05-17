@@ -96,9 +96,15 @@ selected.  If the speedbar frame is active, then select the attached frame.
 
 ;;;***
 
-;;;### (autoloads nil nil ("bigclock.el" "dframe.el" "sb-ant.el"
-;;;;;;  "sb-html.el" "sb-image.el" "sb-texinfo.el" "speedbar-load.el")
-;;;;;;  (19434 43818 530299))
+;;;### (autoloads nil nil ("../../cedet/speedbar/bigclock.el" "../../cedet/speedbar/dframe.el"
+;;;;;;  "../../cedet/speedbar/rpm.el" "../../cedet/speedbar/sb-ant.el"
+;;;;;;  "../../cedet/speedbar/sb-gud.el" "../../cedet/speedbar/sb-html.el"
+;;;;;;  "../../cedet/speedbar/sb-image.el" "../../cedet/speedbar/sb-info.el"
+;;;;;;  "../../cedet/speedbar/sb-rmail.el" "../../cedet/speedbar/sb-texinfo.el"
+;;;;;;  "../../cedet/speedbar/sb-w3.el" "../../cedet/speedbar/speedbar-load.el"
+;;;;;;  "../../cedet/speedbar/speedbar-loaddefs.el" "../../cedet/speedbar/speedbar.el"
+;;;;;;  "bigclock.el" "dframe.el" "sb-ant.el" "sb-html.el" "sb-image.el"
+;;;;;;  "sb-texinfo.el" "speedbar-load.el") (19437 35032 793844))
 
 ;;;***
 

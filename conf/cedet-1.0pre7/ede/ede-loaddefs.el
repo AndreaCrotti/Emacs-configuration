@@ -384,13 +384,31 @@ Argument NEWVERSION is the version number to use in the current project.
 
 ;;;***
 
-;;;### (autoloads nil nil ("autoconf-compat.el" "ede-dired.el" "ede-load.el"
-;;;;;;  "ede-pconf.el" "ede-proj-archive.el" "ede-proj-aux.el" "ede-proj-comp.el"
-;;;;;;  "ede-proj-elisp.el" "ede-proj-info.el" "ede-proj-misc.el"
-;;;;;;  "ede-proj-obj.el" "ede-proj-prog.el" "ede-proj-scheme.el"
+;;;### (autoloads nil nil ("../../cedet/ede/autoconf-compat.el" "../../cedet/ede/autoconf-edit.el"
+;;;;;;  "../../cedet/ede/ede-auto.el" "../../cedet/ede/ede-base.el"
+;;;;;;  "../../cedet/ede/ede-cpp-root.el" "../../cedet/ede/ede-custom.el"
+;;;;;;  "../../cedet/ede/ede-dired.el" "../../cedet/ede/ede-emacs.el"
+;;;;;;  "../../cedet/ede/ede-files.el" "../../cedet/ede/ede-linux.el"
+;;;;;;  "../../cedet/ede/ede-load.el" "../../cedet/ede/ede-locate.el"
+;;;;;;  "../../cedet/ede/ede-make.el" "../../cedet/ede/ede-pconf.el"
+;;;;;;  "../../cedet/ede/ede-pmake.el" "../../cedet/ede/ede-proj-archive.el"
+;;;;;;  "../../cedet/ede/ede-proj-aux.el" "../../cedet/ede/ede-proj-comp.el"
+;;;;;;  "../../cedet/ede/ede-proj-elisp.el" "../../cedet/ede/ede-proj-info.el"
+;;;;;;  "../../cedet/ede/ede-proj-misc.el" "../../cedet/ede/ede-proj-obj.el"
+;;;;;;  "../../cedet/ede/ede-proj-prog.el" "../../cedet/ede/ede-proj-scheme.el"
+;;;;;;  "../../cedet/ede/ede-proj-shared.el" "../../cedet/ede/ede-proj-skel.el"
+;;;;;;  "../../cedet/ede/ede-proj.el" "../../cedet/ede/ede-shell.el"
+;;;;;;  "../../cedet/ede/ede-simple.el" "../../cedet/ede/ede-source.el"
+;;;;;;  "../../cedet/ede/ede-speedbar.el" "../../cedet/ede/ede-srecode.el"
+;;;;;;  "../../cedet/ede/ede-system.el" "../../cedet/ede/ede-util.el"
+;;;;;;  "../../cedet/ede/ede.el" "../../cedet/ede/makefile-edit.el"
+;;;;;;  "../../cedet/ede/project-am.el" "autoconf-compat.el" "ede-dired.el"
+;;;;;;  "ede-load.el" "ede-pconf.el" "ede-proj-archive.el" "ede-proj-aux.el"
+;;;;;;  "ede-proj-comp.el" "ede-proj-elisp.el" "ede-proj-info.el"
+;;;;;;  "ede-proj-misc.el" "ede-proj-obj.el" "ede-proj-prog.el" "ede-proj-scheme.el"
 ;;;;;;  "ede-proj-shared.el" "ede-proj-skel.el" "ede-source.el" "ede-speedbar.el"
-;;;;;;  "ede-system.el" "makefile-edit.el" "project-am.el") (19434
-;;;;;;  43885 959170))
+;;;;;;  "ede-system.el" "makefile-edit.el" "project-am.el") (19437
+;;;;;;  35063 422563))
 
 ;;;***
 

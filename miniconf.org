@@ -186,9 +186,40 @@ MINIMAL EMACS CONFIGURATION
 
 * Buffer management
 ** Ibuffer
-   Nice improvement over the default buffer list code
+   Nice improvement over the default buffer list code.
+   It can be used to mark many buffers with some criteria and operates on them.
 #+begin_src emacs-lisp :tangle yes
-(global-set-key "\C-x\C-b" 'ibuffer) ;; manage buffers with ibuffer
+  (global-set-key "\C-x\C-b" 'ibuffer) ;; manage buffers with ibuffer
+#+end_src
+
+** TempBuf
+   TempBuf will automatically kill some of the normally useless buffers
+#+begin_src emacs-lisp :tangle yes
+  (require 'tempbuf)
+  
+  ;; Enabling tempbuf mode for some kind of buffers
+  (add-hook 'dired-mode-hook 'turn-on-tempbuf-mode)
+  (add-hook 'custom-mode-hook 'turn-on-tempbuf-mode)
+  (add-hook 'w3-mode-hook 'turn-on-tempbuf-mode)
+  (add-hook 'Man-mode-hook 'turn-on-tempbuf-mode)
+  (add-hook 'view-mode-hook 'turn-on-tempbuf-mode)
+#+end_src
+
+** Uniquify
+   Uniquify is used to distinguish easily from buffers with the same name.
+#+begin_src emacs-lisp :tangle yes
+  ;; Using uniquify for better handling of buffers with same name
+  (require 'uniquify)
+  ;; Using part of the directory in this case
+  (setq uniquify-buffer-name-style 'forward)
+#+end_src   
+
+* Package management
+  Auto install is a nice way to install packages from emacswiki repository.
+#+begin_src emacs-lisp :tangle yes
+  ; Other autoloads
+  (autoload 'auto-install-from-emacswiki "auto-install" "auto install from emacswiki" t)
+  (setq auto-install-directory (concat conf "auto-install/"))
 #+end_src
 
 * Visualization
@@ -210,7 +241,7 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 ** Fullscreen mode
-   *Doesn't work* yet on OSX 10.6 with emacs 23
+   *Doesn't work* yet on OSX 10.6 with emacs 23, works fine with linux and emacs 22 on OSX.
   
 #+begin_src emacs-lisp :tangle yes
   (defun fullscreen (&optional f)
@@ -218,7 +249,15 @@ MINIMAL EMACS CONFIGURATION
     (set-frame-parameter f 'fullscreen
                          (if (frame-parameter f 'fullscreen) nil 'fullboth)))
   (global-set-key [f11] 'fullscreen)
+  ;; this toogle the fullscreen for every new frame (window) created
   (add-hook 'after-make-frame-functions 'fullscreen)
+#+end_src
+
+** Winner mode
+   Winner mode remember the window configuration and allows you to go back and forth
+#+begin_src emacs-lisp :tangle yes
+  ;; enabling winner mode for window reconfiguration
+  (winner-mode t)
 #+end_src
 
 * Spelling functions
@@ -395,7 +434,7 @@ MINIMAL EMACS CONFIGURATION
             '(lambda () (jds-set-tags-file-path)))
 #+end_src
 
-* Yasnippet
+* [[http://code.google.com/p/yasnippet/][Yasnippet]]  
 #+begin_src emacs-lisp :tangle yes
   (require 'yasnippet)
   
@@ -417,6 +456,7 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 * Eldoc mode
+  Show the documentation of some functions directly in the minibuffer.
 #+begin_src emacs-lisp :tangle yes
   (require 'eldoc)
   ;; Maybe better a direct activation??
@@ -482,7 +522,7 @@ MINIMAL EMACS CONFIGURATION
   (add-to-list 'load-path (concat conf "cedet/semantic"))
   (add-to-list 'load-path (concat conf "cedet/eieio"))
 #+end_src
-
+  
 * Programming
 ** C-mode
 #+begin_src emacs-lisp :tangle yes
@@ -490,6 +530,10 @@ MINIMAL EMACS CONFIGURATION
         '((java-mode . "java")
          (awk-mode . "awk")
          (other . "cc-mode")))
+  
+  ;; FIXME: eldoc mode, not working correctly apparently
+  ;; See http://www.emacswiki.org/emacs/CEldocMode for more info
+  (add-hook 'c-mode-hook 'c-turn-on-eldoc-mode)
 #+end_src
 
 ** Python
@@ -651,10 +695,20 @@ MINIMAL EMACS CONFIGURATION
   (setq bsh-jar "/opt/local/share/java/bsh.jar")
 #+end_src
 
-* Doxymacs
+** Changelog settings and time
+#+begin_src emacs-lisp :tangle yes
+  ;; for changelogs
+  (setq add-log-always-start-new-record 1)
+  (add-hook 'before-save-hook 'time-stamp)
+  (setq time-stamp-format "%02d-%02m-%:y, %02H:%02M")
+#+end_src
+
+** Doc
+*** Doxymacs
 #+begin_src emacs-lisp :tangle yes
   (require 'doxymacs)
 #+end_src
+  
 * Revision control systems
 #+begin_src emacs-lisp :tangle yes
 (require 'magit)

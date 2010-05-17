@@ -267,8 +267,15 @@ Setup buffer for parse.
 
 ;;;***
 
-;;;### (autoloads nil nil ("cogre-load.el" "wisent-dot-wy.el") (19434
-;;;;;;  43891 885086))
+;;;### (autoloads nil nil ("../../cedet/cogre/cogre-ascii.el" "../../cedet/cogre/cogre-convert.el"
+;;;;;;  "../../cedet/cogre/cogre-dot-mode.el" "../../cedet/cogre/cogre-layout.el"
+;;;;;;  "../../cedet/cogre/cogre-load.el" "../../cedet/cogre/cogre-loaddefs.el"
+;;;;;;  "../../cedet/cogre/cogre-mode.el" "../../cedet/cogre/cogre-periodic.el"
+;;;;;;  "../../cedet/cogre/cogre-semantic.el" "../../cedet/cogre/cogre-srecode.el"
+;;;;;;  "../../cedet/cogre/cogre-uml.el" "../../cedet/cogre/cogre-utest.el"
+;;;;;;  "../../cedet/cogre/cogre.el" "../../cedet/cogre/picture-hack.el"
+;;;;;;  "../../cedet/cogre/wisent-dot-wy.el" "../../cedet/cogre/wisent-dot.el"
+;;;;;;  "cogre-load.el" "wisent-dot-wy.el") (19437 35068 147057))
 
 ;;;***
 

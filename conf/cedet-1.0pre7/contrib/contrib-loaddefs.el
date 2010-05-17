@@ -100,9 +100,15 @@ Use the alternate LALR(1) parser.
 
 ;;;***
 
-;;;### (autoloads nil nil ("cedet-contrib-load.el" "cedet-contrib.el"
-;;;;;;  "semantic-ectag-scala.el" "wisent-csharp-wy.el" "wisent-php-wy.el"
-;;;;;;  "wisent-ruby-wy.el" "wisent-ruby.el") (19434 43895 209766))
+;;;### (autoloads nil nil ("../../cedet/contrib/cedet-contrib-load.el"
+;;;;;;  "../../cedet/contrib/cedet-contrib.el" "../../cedet/contrib/contrib-loaddefs.el"
+;;;;;;  "../../cedet/contrib/eassist.el" "../../cedet/contrib/ede-gnustep.el"
+;;;;;;  "../../cedet/contrib/semantic-ectag-scala.el" "../../cedet/contrib/semantic-tag-folding.el"
+;;;;;;  "../../cedet/contrib/wisent-csharp-wy.el" "../../cedet/contrib/wisent-csharp.el"
+;;;;;;  "../../cedet/contrib/wisent-php-wy.el" "../../cedet/contrib/wisent-php.el"
+;;;;;;  "../../cedet/contrib/wisent-ruby-wy.el" "../../cedet/contrib/wisent-ruby.el"
+;;;;;;  "cedet-contrib-load.el" "cedet-contrib.el" "semantic-ectag-scala.el"
+;;;;;;  "wisent-ruby.el") (19437 35071 181554))
 
 ;;;***
 

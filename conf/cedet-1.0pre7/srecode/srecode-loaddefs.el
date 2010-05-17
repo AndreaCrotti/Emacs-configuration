@@ -637,9 +637,23 @@ Insert TAG into the current buffer with SRecode.
 
 ;;;***
 
-;;;### (autoloads nil nil ("srecode-document-vars.el" "srecode-extract.el"
-;;;;;;  "srecode-load.el" "srecode-template-wy.el" "srecode.el")
-;;;;;;  (19434 43880 66518))
+;;;### (autoloads nil nil ("../../cedet/srecode/srecode-args.el"
+;;;;;;  "../../cedet/srecode/srecode-compile.el" "../../cedet/srecode/srecode-cpp.el"
+;;;;;;  "../../cedet/srecode/srecode-ctxt.el" "../../cedet/srecode/srecode-dictionary.el"
+;;;;;;  "../../cedet/srecode/srecode-document-vars.el" "../../cedet/srecode/srecode-document.el"
+;;;;;;  "../../cedet/srecode/srecode-el.el" "../../cedet/srecode/srecode-expandproto.el"
+;;;;;;  "../../cedet/srecode/srecode-extract.el" "../../cedet/srecode/srecode-fields.el"
+;;;;;;  "../../cedet/srecode/srecode-filters.el" "../../cedet/srecode/srecode-find.el"
+;;;;;;  "../../cedet/srecode/srecode-getset.el" "../../cedet/srecode/srecode-insert.el"
+;;;;;;  "../../cedet/srecode/srecode-java.el" "../../cedet/srecode/srecode-load.el"
+;;;;;;  "../../cedet/srecode/srecode-map.el" "../../cedet/srecode/srecode-mode.el"
+;;;;;;  "../../cedet/srecode/srecode-semantic.el" "../../cedet/srecode/srecode-srt.el"
+;;;;;;  "../../cedet/srecode/srecode-table.el" "../../cedet/srecode/srecode-template-mode.el"
+;;;;;;  "../../cedet/srecode/srecode-template-wy.el" "../../cedet/srecode/srecode-template.el"
+;;;;;;  "../../cedet/srecode/srecode-test-getset.el" "../../cedet/srecode/srecode-test.el"
+;;;;;;  "../../cedet/srecode/srecode-texi.el" "../../cedet/srecode/srecode.el"
+;;;;;;  "srecode-document-vars.el" "srecode-extract.el" "srecode-load.el"
+;;;;;;  "srecode-template-wy.el" "srecode.el") (19437 35060 442790))
 
 ;;;***
 

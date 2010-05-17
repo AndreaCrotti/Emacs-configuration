@@ -469,8 +469,18 @@ Only pulses the line if `pulse-command-advice-flag' is non-nil.
 
 ;;;***
 
-;;;### (autoloads nil nil ("cedet-load.el" "cedet.el" "ezimage.el"
-;;;;;;  "working.el") (19434 43816 725238))
+;;;### (autoloads nil nil ("../../cedet/common/cedet-autogen.el"
+;;;;;;  "../../cedet/common/cedet-compat.el" "../../cedet/common/cedet-cscope.el"
+;;;;;;  "../../cedet/common/cedet-edebug.el" "../../cedet/common/cedet-files.el"
+;;;;;;  "../../cedet/common/cedet-global.el" "../../cedet/common/cedet-graphviz.el"
+;;;;;;  "../../cedet/common/cedet-idutils.el" "../../cedet/common/cedet-load.el"
+;;;;;;  "../../cedet/common/cedet-loaddefs.el" "../../cedet/common/cedet-utests.el"
+;;;;;;  "../../cedet/common/cedet.el" "../../cedet/common/data-debug.el"
+;;;;;;  "../../cedet/common/ezimage.el" "../../cedet/common/fame.el"
+;;;;;;  "../../cedet/common/inversion.el" "../../cedet/common/mode-local.el"
+;;;;;;  "../../cedet/common/pprint.el" "../../cedet/common/pulse.el"
+;;;;;;  "../../cedet/common/working.el" "cedet-load.el" "cedet.el"
+;;;;;;  "ezimage.el" "working.el") (19437 35029 781690))
 
 ;;;***
 
