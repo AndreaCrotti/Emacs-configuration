@@ -709,6 +709,34 @@ MINIMAL EMACS CONFIGURATION
   (require 'doxymacs)
 #+end_src
   
+* Gnus settings
+** Server settings
+#+begin_src emacs-lisp :tangle yes
+  (setq gnus-select-method '(nntp "news.gmane.org"))
+  ;; Set also comp.* hierarchy
+  (setq gnus-secondary-select-methods
+        '(
+          ;; Configuration for http://www.eternal-september.org/
+          (nntp "eternal"
+                (nntp-authinfo-file "~/.authinfo")
+                (nntp-address "news.eternal-september.org")
+                (nntp-port-number 119))))
+#+end_src
+
+** Old messages settings
+#+begin_src emacs-lisp :tangle yes
+  (setq gnus-large-newsgroup 500)
+  (setq gnus-fetch-old-headers nil)
+#+end_src
+
+** Appearance
+#+begin_src emacs-lisp :tangle yes
+  ;; Changing modeline to include also the date of the message
+  (setq gnus-summary-line-format "%U%R%z%I%(%[%4L: %-23,23f%]%) %s--%d\n")
+#+end_src
+
+** TODO Setting up some posting styles and other nice settings
+
 * Revision control systems
 #+begin_src emacs-lisp :tangle yes
 (require 'magit)
