@@ -9,11 +9,19 @@ MINIMAL EMACS CONFIGURATION
 * TODO Write a dependency tree of the various chapters in the configuration
 
 * TODO Add options to create encrypted org-files for storing password and more delicate informations
+* TODO Define *defcustom* stuff instead of constants for setting up variables
+* TODO Set a separate and configurable section for global keys
 
 * Assumptions
   - $HOME/.emacs.d/scripts is in the $PATH
   - flymake is installed (distributed with emacs 23 also)
   - in general probably working only with emacs 23
+
+  All the other libraries configured here are always included in the standard distribution or in *conf*.
+
+* Things not working in emacs 22
+  - autoload stuff from ORG-clock
+  - remember mode (not present)
 
 * Dependencies                                                     :noexport:
 # insert the dependencies
@@ -184,6 +192,20 @@ MINIMAL EMACS CONFIGURATION
   (color-theme-deep-blue)
 #+end_src
 
+* Private settings
+** Private
+   In this file you can store your own personal settings
+
+#+begin_src emacs-lisp :tangle no
+  ;; not complain if not existing
+  (load-file "private.el")
+#+end_src
+
+** Custom settings
+#+begin_src emacs-lisp :tangle yes
+   (setq custom-file (concat base "custom.el"))
+#+end_src
+  
 * Buffer management
 ** Ibuffer
    Nice improvement over the default buffer list code.
@@ -709,6 +731,18 @@ MINIMAL EMACS CONFIGURATION
   (require 'doxymacs)
 #+end_src
   
+* Mail settings
+
+#+begin_src emacs-lisp :tangle yes
+  ;; setting where the mail is coming from
+  (setq mail-setup-with-from t)
+  
+  ;; This is just to enable flyspell in mail-mode
+  ;; FIXME: check if this dirty hack is still needed
+  (defvar message-signature-separator "^-- *$" "\
+      Regexp matching the signature separator.")
+#+end_src
+
 * Gnus settings
 ** Server settings
 #+begin_src emacs-lisp :tangle yes
@@ -738,9 +772,11 @@ MINIMAL EMACS CONFIGURATION
 ** TODO Setting up some posting styles and other nice settings
 
 * Revision control systems
+** [[http://zagadka.vm.bytemark.co.uk/magit/][Magit]]
+   Nice interface for git.
 #+begin_src emacs-lisp :tangle yes
-(require 'magit)
-(global-set-key "\C-xg" 'magit-status)
+  (require 'magit)
+  (global-set-key "\C-xg" 'magit-status)
 #+end_src
 
 * General settings
@@ -856,6 +892,14 @@ MINIMAL EMACS CONFIGURATION
  ;; (add-hook 'python-mode-hook (function activate-flymake))
 #+end_src
   
+* Customizable variables
+  Still thinking how to manage this for best usage
+#+begin_src emacs-lisp :tangle no
+  (defgroup variables nil "private variables")
+  (defcustom private "private" "file with private settings"
+  :group 'variables)
+#+end_src
+
 * Versions of software
   In this table we collect the actual version of the packages used
 
