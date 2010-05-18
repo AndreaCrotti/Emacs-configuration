@@ -49,8 +49,6 @@ MINIMAL EMACS CONFIGURATION
     (tuareg-mode . ";;")
     (html-mode . " <br>")))
 
-(global-set-key (kbd "M-RET") 'newline-force)
-(global-set-key [M-S-return] 'newline-force-close)
 #+end_src
 
 ** Some useful functions
@@ -139,6 +137,7 @@ MINIMAL EMACS CONFIGURATION
     (interactive)
     (org-babel-load-file "miniconf.org"))
 #+end_src
+    
 * Font settings
   Defininig some nice fonts and how to switch between theme.
   [[http://xahlee.org/emacs/emacs_unicode_fonts.html][Cycling function definition]]
@@ -207,13 +206,6 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
   
 * Buffer management
-** Ibuffer
-   Nice improvement over the default buffer list code.
-   It can be used to mark many buffers with some criteria and operates on them.
-#+begin_src emacs-lisp :tangle yes
-  (global-set-key "\C-x\C-b" 'ibuffer) ;; manage buffers with ibuffer
-#+end_src
-
 ** TempBuf
    TempBuf will automatically kill some of the normally useless buffers
 #+begin_src emacs-lisp :tangle yes
@@ -270,7 +262,6 @@ MINIMAL EMACS CONFIGURATION
     (interactive)
     (set-frame-parameter f 'fullscreen
                          (if (frame-parameter f 'fullscreen) nil 'fullboth)))
-  (global-set-key [f11] 'fullscreen)
   ;; this toogle the fullscreen for every new frame (window) created
   (add-hook 'after-make-frame-functions 'fullscreen)
 #+end_src
@@ -348,13 +339,27 @@ MINIMAL EMACS CONFIGURATION
   (defun org-add-eventually()
     "Adding a file to org-agenda when saved"
     (interactive)
-    (if (and
+    (if 
+        (and
          (string= major-mode "org-mode")
-         (not (member (abbreviate-file-name buffer-file-name) org-agenda-files))
-         (yes-or-no-p "add the file to agenda?"))
-        (org-agenda-file-to-front)))
+         (not (member (abbreviate-file-name buffer-file-name) org-agenda-files)))
+        (if
+            (yes-or-no-p "add the file to agenda?")
+            (org-agenda-file-to-front)
+          ;; adds some regular expressions checks to filter out some buffers
+            )))
   
   (add-hook 'before-save-hook 'org-add-eventually)
+#+end_src
+
+*** Org agenda blacklist list
+    Having to say "n" every time for a file that we don't want to add to the agenda can be annoying, so every time we say no we call another function.
+
+#+begin_src emacs-lisp :tangle no
+  (defun org-agenda-add-to-blacklist ()
+    (setq org-agenda-blacklist
+          (add-to-list 'org-agenda-blacklist (abbreviate-file-name buffer-file-name)))
+    (customize-save-variable org-agenda-blacklist org-agenda-blacklist))
 #+end_src
 
 ** Remember mode
@@ -381,13 +386,9 @@ MINIMAL EMACS CONFIGURATION
    Here below some global key mappings 
 
 #+begin_src emacs-lisp :tangle yes
-  (global-set-key "\C-c\C-l" 'org-annotate-file)
   ;; Defining a setup where org-mode takes care of remember notes
   (setq org-directory "~/org/")
   (setq org-default-notes-file (concat org-directory "notes.org"))
-  (global-set-key "\C-cr" 'org-remember)
-  (global-set-key "\C-ca" 'org-agenda)
-  (global-set-key "\C-c\C-x\C-o" 'org-clock-out)
 #+end_src
 
 ** Other org babel modes
@@ -417,8 +418,6 @@ MINIMAL EMACS CONFIGURATION
    This extension to etags helps choosing from equal names of functions.
 #+begin_src emacs-lisp :tangle yes
   (require 'etags-select)
-  (global-set-key "\M-?" 'etags-select-find-tag-at-point)
-  (global-set-key "\M-." 'etags-select-find-tag)  
 #+end_src
 
 ** Extending functions
@@ -546,6 +545,13 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
   
 * Programming
+** Web nice utilities
+*** Gist
+    Use simply *gist-buffer* or *gist-region* to paste code online.
+#+begin_src emacs-lisp :tangle yes
+    (require 'gist)
+#+end_src
+    
 ** C-mode
 #+begin_src emacs-lisp :tangle yes
   (setq c-default-style
@@ -776,7 +782,6 @@ MINIMAL EMACS CONFIGURATION
    Nice interface for git.
 #+begin_src emacs-lisp :tangle yes
   (require 'magit)
-  (global-set-key "\C-xg" 'magit-status)
 #+end_src
 
 * General settings
@@ -898,6 +903,36 @@ MINIMAL EMACS CONFIGURATION
   (defgroup variables nil "private variables")
   (defcustom private "private" "file with private settings"
   :group 'variables)
+#+end_src
+
+* Gloabal keys settings
+#+begin_src emacs-lisp :tangle yes
+  ;; compile facilities
+  (global-set-key [f5] 'recompile)
+  
+  ;; newline like textmate
+  (global-set-key (kbd "M-RET") 'newline-force)
+  (global-set-key [M-S-return] 'newline-force-close)
+  
+  ;; cvs stuff
+  (global-set-key "\C-xg" 'magit-status)
+  
+  ;; tags related
+  (global-set-key "\M-?" 'etags-select-find-tag-at-point)
+  (global-set-key "\M-." 'etags-select-find-tag)  
+  
+  ;; org keys
+  (global-set-key "\C-c\C-l" 'org-annotate-file)
+  (global-set-key "\C-cr" 'org-remember)
+  (global-set-key "\C-ca" 'org-agenda)
+  (global-set-key "\C-c\C-x\C-o" 'org-clock-out)
+
+  ;; overriding defualt not so smart visualization
+  (global-set-key "\C-x\C-b" 'ibuffer) ;; manage buffers with ibuffer
+
+  ;; visualization
+  (global-set-key [f11] 'fullscreen)
+
 #+end_src
 
 * Versions of software
