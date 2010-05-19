@@ -35,6 +35,20 @@ MINIMAL EMACS CONFIGURATION
   
   [[file:dependecy.pdf]]
 
+* Private settings
+** Private
+   In this file you can store your own personal settings
+
+#+begin_src emacs-lisp :tangle no
+  ;; not complain if not existing
+  (load-file "private.el")
+#+end_src
+
+** Custom settings
+#+begin_src emacs-lisp :tangle yes
+   (setq custom-file (concat base "custom.el"))
+#+end_src
+
 * Prerequisites
 ** Constants and some global settings
 #+begin_src emacs-lisp :tangle yes
@@ -179,6 +193,18 @@ MINIMAL EMACS CONFIGURATION
         (progn         (copy-file filename newname 1)  (delete-file filename)  (set-visited-file-name newname)         (set-buffer-modified-p nil)     t))))
 #+end_src
 
+*** Delete current file
+#+begin_src emacs-lisp :tangle yes
+  (defun delete-current-file () 
+    "Delete the file associated with the current buffer." 
+    (interactive) 
+    (let (currentFile) 
+      (setq currentFile (buffer-file-name)) 
+      (when (yes-or-no-p (format "Delete file % s and kill buffer? " currentFile)) 
+        (kill-buffer (current-buffer)) 
+        (delete-file currentFile) 
+        (message "Deleted file: %s " currentFile))))
+#+end_src
 
 ** Reload this configuration
 #+begin_src emacs-lisp :tangle yes
@@ -214,14 +240,14 @@ MINIMAL EMACS CONFIGURATION
   (global-set-key (kbd "<C-f9>") 'cycle-font)
 #+end_src
 
-** Operating system detection
+* Operating system detection
 #+begin_src emacs-lisp :tangle yes
 (defconst linux (string-match "linux" system-configuration))
 (defconst mac (string-match "apple" system-configuration))
 (defconst win (string-match "win" system-configuration))
 #+end_src
 
-*** Mac configuration
+** Mac configuration
     This will setup the Command key ot be used as meta.
     I also add the path normally used for macports to the exec-path.
 #+begin_src emacs-lisp :tangle yes
@@ -231,29 +257,6 @@ MINIMAL EMACS CONFIGURATION
         (setq ns-alternate-modifier (quote none))
         (setq ns-command-modifier (quote meta))))
 #+end_src
-*** Color theme setting
-#+begin_src emacs-lisp :tangle yes
-  (require 'color-theme)
-  (eval-after-load "color-theme"
-    '(progn
-       (color-theme-initialize)))
-  (color-theme-deep-blue)
-#+end_src
-
-* Private settings
-** Private
-   In this file you can store your own personal settings
-
-#+begin_src emacs-lisp :tangle no
-  ;; not complain if not existing
-  (load-file "private.el")
-#+end_src
-
-** Custom settings
-#+begin_src emacs-lisp :tangle yes
-   (setq custom-file (concat base "custom.el"))
-#+end_src
-  
 * Buffer management
 ** TempBuf
    TempBuf will automatically kill some of the normally useless buffers
@@ -276,6 +279,18 @@ MINIMAL EMACS CONFIGURATION
   ;; Using part of the directory in this case
   (setq uniquify-buffer-name-style 'forward)
 #+end_src   
+
+** Other nice packages
+#+begin_src emacs-lisp :tangle yes
+   ;; it will remember where were you in the buffer
+   (require 'saveplace)
+#+end_src   
+
+** Minibuffer nice stuff
+#+begin_src emacs-lisp :tangle yes
+  (setq visible-bell t) ; Turn beep off
+  (savehist-mode t) ; save also minibuffer history, very useful
+#+end_src
 
 * Package management
   Auto install is a nice way to install packages from emacswiki repository.
@@ -320,6 +335,14 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   ;; enabling winner mode for window reconfiguration
   (winner-mode t)
+#+end_src
+** Color theme setting
+#+begin_src emacs-lisp :tangle yes
+  (require 'color-theme)
+  (eval-after-load "color-theme"
+    '(progn
+       (color-theme-initialize)))
+  (color-theme-deep-blue)
 #+end_src
 
 * Spelling functions
