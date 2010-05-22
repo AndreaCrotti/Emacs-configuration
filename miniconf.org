@@ -258,6 +258,8 @@ MINIMAL EMACS CONFIGURATION
         (setq ns-command-modifier (quote meta))))
 #+end_src
 * Buffer management
+  See also [[http://scottfrazersblog.blogspot.com/2010/01/emacs-filtered-buffer-switching.html][this nice article]] for a better filtering of buffers while switching.
+
 ** TempBuf
    TempBuf will automatically kill some of the normally useless buffers
 #+begin_src emacs-lisp :tangle yes
@@ -322,12 +324,16 @@ MINIMAL EMACS CONFIGURATION
    *Doesn't work* yet on OSX 10.6 with emacs 23, works fine with linux and emacs 22 on OSX.
   
 #+begin_src emacs-lisp :tangle yes
-  (defun fullscreen (&optional f)
+  (defun fullscreen-portable (&optional f)
     (interactive)
-    (set-frame-parameter f 'fullscreen
-                         (if (frame-parameter f 'fullscreen) nil 'fullboth)))
+    (if
+        ;; more checks on the version and the OS should be necessary here
+        mac
+        (ns-toggle-fullscreen)
+      (set-frame-parameter f 'fullscreen
+                         (if (frame-parameter f 'fullscreen) nil 'fullboth))))
   ;; this toogle the fullscreen for every new frame (window) created
-  (add-hook 'after-make-frame-functions 'fullscreen)
+  (add-hook 'after-make-frame-functions 'fullscreen-portable)
 #+end_src
 
 ** Winner mode
@@ -343,6 +349,11 @@ MINIMAL EMACS CONFIGURATION
     '(progn
        (color-theme-initialize)))
   (color-theme-deep-blue)
+#+end_src
+
+** Setting TODO highlight
+#+begin_src emacs-lisp :tangle yes
+   (highlight-lines-matching-regexp "\\<\\(FIXME\\|TODO\\|BUG\\):" 'hi-green-b)
 #+end_src
 
 * Spelling functions
@@ -875,6 +886,7 @@ MINIMAL EMACS CONFIGURATION
   (defalias 'go 'google-search-it)
   (defalias 'gs 'google-search-selection)
   (defalias 'spell 'flyspell-mode)
+  (defalias 'dml 'delete-matching-lines)
   
   (defalias 'ys 'yas/reload-all)
   (defalias 'yv 'yas/visit-snippet-file)
@@ -899,8 +911,8 @@ MINIMAL EMACS CONFIGURATION
   (defalias 'grey 'color-theme-black-on-gray)
   (defalias 'blipp 'color-theme-blippblopp)
   (defalias 'high 'color-theme-high-contrast)
+  (defalias 'billw 'color-theme-billw)
 #+end_src   
-
 
 ** Showing more things
 #+begin_src emacs-lisp :tangle yes
@@ -1005,16 +1017,16 @@ MINIMAL EMACS CONFIGURATION
   (global-set-key "\C-cr" 'org-remember)
   (global-set-key "\C-ca" 'org-agenda)
   (global-set-key "\C-c\C-x\C-o" 'org-clock-out)
-
+  
   ;; overriding defualt not so smart visualization
   (global-set-key "\C-x\C-b" 'ibuffer) ;; manage buffers with ibuffer
-
+  
   ;; visualization
-  (global-set-key [f11] 'fullscreen)
-
-
+  (global-set-key [f11] 'fullscreen-portable)
+  
   ;; splitting windows facilitites
-  (global-set-key [f2] 'split-window-vertically)
+  ;; TODO: pass to a sensible splitting instead
+  (global-set-key [f2] 'split-window-horizontally)
   (global-set-key [f1] 'delete-window)
 #+end_src
 

@@ -24,6 +24,8 @@ Emacs configuration
    [[http://atomized.org/wp-content/cocoa-emacs-nightly/][emacs osx nightly builds]]
    If you want an easier fork for OSX there is [[http://aquamacs.org/][aquamacs]]
 
+   [[http://lds.li/post/583988654/cocoa-emacs-23-2-final-build-for-os-x][Here]] you can find a build for cocoa emacs 23.2, now fullscreen finally works calling *ns-toggle-fullscreen*
+
 ** Windows:
    For windows there is an external package to simplify, [[http://www.ourcomments.org/Emacs/EmacsW32Util.html][emacsW32, make it easier on windows]]
    [[http://ftp.gnu.org/gnu/emacs/windows/][Emacs build for windows]]
