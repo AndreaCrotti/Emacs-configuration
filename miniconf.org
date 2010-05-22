@@ -39,7 +39,7 @@ MINIMAL EMACS CONFIGURATION
 ** Private
    In this file you can store your own personal settings
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle yes
   ;; not complain if not existing
   (load-file "private.el")
 #+end_src
@@ -349,11 +349,6 @@ MINIMAL EMACS CONFIGURATION
     '(progn
        (color-theme-initialize)))
   (color-theme-deep-blue)
-#+end_src
-
-** Setting TODO highlight
-#+begin_src emacs-lisp :tangle yes
-   (highlight-lines-matching-regexp "\\<\\(FIXME\\|TODO\\|BUG\\):" 'hi-green-b)
 #+end_src
 
 * Spelling functions
@@ -906,12 +901,14 @@ MINIMAL EMACS CONFIGURATION
   (defalias 'fun 'doxymacs-insert-function-comment)
   (defalias 'file 'doxymacs-insert-file-comment)
   
+  ;; Those below are my favourite themes
   (defalias 'black 'color-theme-hober)
   (defalias 'blue 'color-theme-deep-blue)
   (defalias 'grey 'color-theme-black-on-gray)
   (defalias 'blipp 'color-theme-blippblopp)
   (defalias 'high 'color-theme-high-contrast)
   (defalias 'billw 'color-theme-billw)
+  (defalias 'charcoal 'color-theme-charcoal-black)
 #+end_src   
 
 ** Showing more things

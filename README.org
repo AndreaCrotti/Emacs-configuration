@@ -18,6 +18,13 @@ Emacs configuration
     + (cd "/your/path")
     + (load-file "/your/path/orgloader.el")
 
+** Your own settings
+   If you want to add some personal settings you can
+   - modify directly this file
+   - add them to an external "file.el" (or in "private.el" or in "custom.el")
+   
+   Just keep in mind that if you modify directly the file miniconf.org when you try to pull my last changes there could be some conflicts and you might need to merge them.
+
 * Where you can get emacs 23:
 ** OSX:
    Emacs has bindings for many different UI systems, there are native versions for most of the operating systems.
