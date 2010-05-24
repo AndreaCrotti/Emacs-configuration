@@ -16,7 +16,11 @@ Emacs configuration
     (setq base "~/your/path/Emacs-configuration/")
   - Create or modify your *.emacs* in your $HOME with the following:
     + (cd "/your/path")
-    + (load-file "/your/path/orgloader.el")
+    + (load-file "orgloader.el")
+
+  When you want to update the configuration just run a 
+  *git pull*
+  Unless you changed some code that generates a conflict the merge should be automatic.
 
 ** Your own settings
    If you want to add some personal settings you can

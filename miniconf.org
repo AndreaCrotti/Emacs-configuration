@@ -336,7 +336,9 @@ MINIMAL EMACS CONFIGURATION
    It's also possible to put some more files in the blacklist.
 
 #+begin_src emacs-lisp :tangle yes
-   (require 'byte-code-cache)
+  (require 'byte-code-cache)
+  ;; FIXME: This is still not fixing the recursive stuff
+  (add-to-list 'bcc-blacklist "eieio")
 #+end_src   
 
 * Visualization
@@ -1127,19 +1129,26 @@ MINIMAL EMACS CONFIGURATION
 ** Growl popup
    This function can be pretty nice during presentations, it will popup the last pressed key via growl.
 #+begin_src emacs-lisp :tangle yes
-   (defun growl-popup (msg)
-  "Pop up a growl notification with MSG, or display an Emacs message.
-The \"growlnotify\" program is used if `window-system' is non-nil and
-the program is found in `exec-path'; otherwise `message' is used."
-  (interactive)
-  (if (and window-system (executable-find "growlnotify"))
-      (shell-command (concat "growlnotify -a /Applications/Emacs.app/ -m "
-			     (shell-quote-argument msg)))
-    (message msg)))
-
-(defun popup-last ()
-  (interactive)
-  (growl-popup (key-description (this-command-keys))))
+     (defun growl-popup (msg)
+    "Pop up a growl notification with MSG, or display an Emacs message.
+  The \"growlnotify\" program is used if `window-system' is non-nil and
+  the program is found in `exec-path'; otherwise `message' is used."
+    (interactive)
+    (if (and window-system (executable-find "growlnotify"))
+        (shell-command (concat "growlnotify -a /Applications/Emacs.app/ -m "
+                               (shell-quote-argument msg)))
+      (message msg)))
+  
+  (defun popup-last ()
+    (interactive)
+    (let
+        ((last-key (key-description (this-command-keys))))
+      (if
+          (or
+           ;; only enable some combinations discarding the not intersesting ones
+           (string-prefix-p "C-" last-key)
+           (string-prefix-p "M-" last-key))
+          (growl-popup last-key))))
 #+end_src
 
   Now we also create two other functions to enable and disable it
@@ -1159,7 +1168,7 @@ the program is found in `exec-path'; otherwise `message' is used."
 (setq fortune-dir "/opt/local/share/games/fortune/")
 #+end_src
 
-* Gloabal keys settings
+* Global keys settings
 #+begin_src emacs-lisp :tangle yes
   ;; compile facilities
   (global-set-key [f5] 'recompile)
@@ -1195,13 +1204,12 @@ the program is found in `exec-path'; otherwise `message' is used."
 
 * Versions of software
   In this table we collect the actual version of the packages used
-
+  
   | PKG           | version                                      |
   |---------------+----------------------------------------------|
-  | emacs         | GNU Emacs 23.1.50.1                          |
-  | python mode   |                                              |
-  | yasnippet     | yasnippet (version 0.6.1b)                   |
-  | auto-complete |                                              |
+  | emacs         | 23.2.1                                       |
+  | yasnippet     |                                              |
+  | python mode   | 0.6.1b)                                      |
+  | auto-complete | Org-mode version 6.34trans                   |
   | org-mode      | Org-mode version 6.35f (release_6.35f.dirty) |
-  #+TBLFM: @2$2='(emacs-version)::@3$2='(yas/about)::@5$2='(org-version)
-  
+  #+TBLFM: @2$2='(nth 2 (split-string (emacs-version)))::@4$2='(nth 2 (split-string (yas/about)))::@5$2='(org-version)
