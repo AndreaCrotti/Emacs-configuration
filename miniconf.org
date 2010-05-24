@@ -67,11 +67,22 @@ MINIMAL EMACS CONFIGURATION
 
 ** Some useful functions
    We suppose that the global variable *conf* has been already set from the outside.
-   
+
 *** Make path
 #+begin_src emacs-lisp :tangle yes
   (defun make-path (path)
     (concat conf path))
+#+end_src
+
+*** Make fortune
+    Print below a fortune cookie if the command is present in the system.
+
+#+begin_src emacs-lisp :tangle yes
+  (defun make-fortune ()
+  (interactive)
+  (let ((beg (point)))
+    (insert (shell-command-to-string "fortune"))
+    (end-of-paragraph-text)))
 #+end_src
  
 *** Gen path dirs
@@ -752,7 +763,7 @@ MINIMAL EMACS CONFIGURATION
   (add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
   (autoload 'haskell-mode "haskell-mode" "haskell mode" t)
   (autoload 'turn-on-haskell-doc-mode "haskell-doc" "haskell doc mode" t)
-  (autoload 'turn-on-haskell-indentation "haskell-indent" "haskell indent facilities" t)
+  (autoload 'turn-on-haskell-indent "haskell-indent" "haskell indent facilities" t)
   
   (add-hook 'inf-haskell "inf-haskell" "inf-haskell" t)
   (add-hook 'hs-lint "hs-lint" "haskell checker" t)
@@ -837,6 +848,7 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
   
 * Mail settings
+** General settings for message creation
 
 #+begin_src emacs-lisp :tangle yes
   ;; setting where the mail is coming from
@@ -846,6 +858,25 @@ MINIMAL EMACS CONFIGURATION
   ;; FIXME: check if this dirty hack is still needed
   (defvar message-signature-separator "^-- *$" "\
       Regexp matching the signature separator.")
+#+end_src
+
+** Setting up gmail smtp server
+   Make sure you configure correctly your .authinfo for login and password
+
+#+begin_src emacs-lisp :tangle yes
+  (setq send-mail-function 'smtpmail-send-it
+        message-send-mail-function 'smtpmail-send-it
+        smtpmail-starttls-credentials
+        '(("smtp.gmail.com" 587 nil nil))
+        smtpmail-auth-credentials
+        (expand-file-name "~/.authinfo")
+        smtpmail-default-smtp-server "smtp.gmail.com"
+        smtpmail-smtp-server "smtp.gmail.com"
+        smtpmail-smtp-service 587
+        ;; This can be commented out for a less verbose output
+        smtpmail-debug-info t)
+  
+  (require 'smtpmail)
 #+end_src
 
 * Gnus settings
@@ -872,6 +903,15 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   ;; Changing modeline to include also the date of the message
   (setq gnus-summary-line-format "%U%R%z%I%(%[%4L: %-23,23f%]%) %s--%d\n")
+#+end_src
+
+** Avoid the annoying saving of the .news file
+#+begin_src emacs-lisp :tangle yes
+  (add-hook 'gnus-started-hook
+            (lambda ()
+              (when (buffer-live-p gnus-dribble-buffer)
+                (with-current-buffer gnus-dribble-buffer
+                  (setq buffer-save-without-query t)))))
 #+end_src
 
 ** TODO Setting up some posting styles and other nice settings
