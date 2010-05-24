@@ -389,7 +389,7 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 ** Fringe and TODO list
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
   (defun annotate-todo ()
     "put fringe marker on TODO: lines in the curent buffer"
     (interactive)
@@ -1008,6 +1008,8 @@ MINIMAL EMACS CONFIGURATION
   (defalias 'billw 'color-theme-billw)
   (defalias 'charcoal 'color-theme-charcoal-black)
   
+  (defalias 'batt 'display-battery-mode)
+
   (defun get-some-messages ()
     (interactive)
     (gnus-summary-rescan-group 1000))
@@ -1120,6 +1122,35 @@ MINIMAL EMACS CONFIGURATION
     end try
   end tell" dir))
       ))
+#+end_src
+
+** Growl popup
+   This function can be pretty nice during presentations, it will popup the last pressed key via growl.
+#+begin_src emacs-lisp :tangle yes
+   (defun growl-popup (msg)
+  "Pop up a growl notification with MSG, or display an Emacs message.
+The \"growlnotify\" program is used if `window-system' is non-nil and
+the program is found in `exec-path'; otherwise `message' is used."
+  (interactive)
+  (if (and window-system (executable-find "growlnotify"))
+      (shell-command (concat "growlnotify -a /Applications/Emacs.app/ -m "
+			     (shell-quote-argument msg)))
+    (message msg)))
+
+(defun popup-last ()
+  (interactive)
+  (growl-popup (key-description (this-command-keys))))
+#+end_src
+
+  Now we also create two other functions to enable and disable it
+#+begin_src emacs-lisp :tangle yes
+  (defun growl-mode-on ()
+    (interactive)
+    (add-hook 'pre-command-hook 'popup-last))
+  
+  (defun growl-mode-off ()
+    (interactive)
+    (setq-default pre-command-hook (remq 'popup-last pre-command-hook)))
 #+end_src
       
 * Fun
