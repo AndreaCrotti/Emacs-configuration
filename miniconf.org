@@ -41,7 +41,8 @@ MINIMAL EMACS CONFIGURATION
 
 #+begin_src emacs-lisp :tangle yes
   ;; not complain if not existing
-  (load-file "private.el")
+  (if (file-exists-p "private.el")
+      (load-file "private.el"))
 #+end_src
 
 ** Custom settings
@@ -986,6 +987,9 @@ MINIMAL EMACS CONFIGURATION
   (defalias 'high 'color-theme-high-contrast)
   (defalias 'billw 'color-theme-billw)
   (defalias 'charcoal 'color-theme-charcoal-black)
+
+  ;; gnus
+  (defalias 'gg '(lambda () (gnus-group-rescan 1000)))
 #+end_src   
 
 ** Showing more things
