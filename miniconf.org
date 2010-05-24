@@ -264,8 +264,6 @@ MINIMAL EMACS CONFIGURATION
       (redraw-frame (selected-frame))
       )
     )
-  
-  (global-set-key (kbd "<C-f9>") 'cycle-font)
 #+end_src
 
 * Operating system detection
@@ -1153,15 +1151,35 @@ MINIMAL EMACS CONFIGURATION
 
   Now we also create two other functions to enable and disable it
 #+begin_src emacs-lisp :tangle yes
-  (defun growl-mode-on ()
-    (interactive)
-    (add-hook 'pre-command-hook 'popup-last))
+  (setq growl-mode nil)
   
-  (defun growl-mode-off ()
+  (defun growl ()
     (interactive)
-    (setq-default pre-command-hook (remq 'popup-last pre-command-hook)))
+    (if (not growl-mode)
+        (progn
+          (message "enabling growl mode notification")
+          (add-hook 'pre-command-hook 'popup-last)
+          (setq growl-mode t))
+      (progn
+        (setq-default pre-command-hook (remq 'popup-last pre-command-hook))
+        (message "disabling growl mode notification")
+        (setq growl-mode nil))))
 #+end_src
       
+* Server stuff
+  This will start the server for the GUI version of emacs, make sure you set up correctly the emacsclient, for example on the mac
+#+begin_src sh
+  alias emacsclient='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient'
+  # and then setup your $EDITOR to emacsclient...
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+  (if window-system
+      (progn
+        (require 'server)
+        (server-start)))
+#+end_src
+  
 * Fun
 ** Fortune settings
 #+begin_src emacs-lisp :tangle yes
@@ -1200,6 +1218,8 @@ MINIMAL EMACS CONFIGURATION
   ;; TODO: pass to a sensible splitting instead
   (global-set-key [f2] 'split-window-horizontally)
   (global-set-key [f1] 'delete-window)
+
+  (global-set-key (kbd "<C-f9>") 'cycle-font)
 #+end_src
 
 * Versions of software
