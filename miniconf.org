@@ -5,7 +5,10 @@ MINIMAL EMACS CONFIGURATION
 * DONE Write a function that setups all the possible paths automatically
   CLOSED: [2010-05-04 Mar 11:41]
 * TODO Make the table of software versions regenerating every time
-* TODO See if it's worthy to byte compile everything or not
+* DONE See if it's worthy to byte compile everything or not
+  CLOSED: [2010-05-24 Lun 14:01]
+  - CLOSING NOTE [2010-05-24 Lun 14:01] \\
+    Solved nicely with byte-compile-cache, some cases it could not work
 * TODO Write a dependency tree of the various chapters in the configuration
 
 * TODO Add options to create encrypted org-files for storing password and more delicate informations
@@ -383,6 +386,23 @@ MINIMAL EMACS CONFIGURATION
     '(progn
        (color-theme-initialize)))
   (color-theme-deep-blue)
+#+end_src
+
+** Fringe and TODO list
+#+begin_src emacs-lisp :tangle yes
+  (defun annotate-todo ()
+    "put fringe marker on TODO: lines in the curent buffer"
+    (interactive)
+    (save-excursion
+      ;; TODO: add also other regexps like FIXME or others
+      (goto-char (point-min))
+      (while (re-search-forward "TODO:" nil t)
+        (let ((overlay (make-overlay (- (point) 5) (point))))
+          (overlay-put overlay 'before-string (propertize "A"
+                                                          'display '(left-fringe right-triangle)))))))
+  
+  
+  (add-hook 'find-file-hooks 'annotate-todo)
 #+end_src
 
 * Spelling functions
@@ -987,9 +1007,12 @@ MINIMAL EMACS CONFIGURATION
   (defalias 'high 'color-theme-high-contrast)
   (defalias 'billw 'color-theme-billw)
   (defalias 'charcoal 'color-theme-charcoal-black)
-
+  
+  (defun get-some-messages ()
+    (interactive)
+    (gnus-summary-rescan-group 1000))
   ;; gnus
-  (defalias 'gg '(lambda () (gnus-group-rescan 1000)))
+  (defalias 'gg 'get-some-messages)
 #+end_src   
 
 ** Showing more things
