@@ -326,6 +326,15 @@ MINIMAL EMACS CONFIGURATION
   (setq auto-install-directory (concat conf "auto-install/"))
 #+end_src
 
+** Byte compilation
+   Byte compilation can be done automatically by this package that keeps a cache of the compiled packages.
+
+   It's also possible to put some more files in the blacklist.
+
+#+begin_src emacs-lisp :tangle yes
+   (require 'byte-code-cache)
+#+end_src   
+
 * Visualization
 ** Menu and tool-bar disabling
 #+begin_src emacs-lisp :tangle yes
@@ -879,6 +888,19 @@ MINIMAL EMACS CONFIGURATION
   (require 'smtpmail)
 #+end_src
 
+** Setting up completion over the addresses with the Mac address book
+#+begin_src emacs-lisp :tangle yes
+  (if mac
+      (progn
+        (require 'external-abook)
+         (setq external-abook-command "contacts -lf '%%e\t%%n' %s")
+         (eval-after-load "message" 
+           '(progn 
+              (add-to-list 'message-mode-hook 
+                           '(lambda ()
+                              (define-key message-mode-map "\C-c\t" 'external-abook-try-expand)))))))
+#+end_src
+
 * Gnus settings
 ** Server settings
 #+begin_src emacs-lisp :tangle yes
@@ -1046,6 +1068,37 @@ MINIMAL EMACS CONFIGURATION
   (defgroup variables nil "private variables")
   (defcustom private "private" "file with private settings"
   :group 'variables)
+#+end_src
+
+* Some mac tricks
+** Open the terminal
+#+begin_src emacs-lisp :tangle yes
+  (defun mac-open-terminal ()
+    (interactive)
+    (let ((dir ""))
+      (cond
+       ((and (local-variable-p 'dired-directory) dired-directory)
+        (setq dir dired-directory))
+       ((stringp (buffer-file-name))
+        (setq dir (file-name-directory (buffer-file-name))))
+       )
+      (do-applescript
+       (format "
+  tell application \"Terminal\"
+    activate
+    try
+      do script with command \"cd %s\"
+    on error
+      beep
+    end try
+  end tell" dir))
+      ))
+#+end_src
+      
+* Fun
+** Fortune settings
+#+begin_src emacs-lisp :tangle yes
+(setq fortune-dir "/opt/local/share/games/fortune/")
 #+end_src
 
 * Gloabal keys settings
