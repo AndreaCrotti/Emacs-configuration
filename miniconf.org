@@ -240,32 +240,6 @@ MINIMAL EMACS CONFIGURATION
     (interactive)
     (org-babel-load-file "miniconf.org"))
 #+end_src
-    
-* Font settings
-  Defininig some nice fonts and how to switch between theme.
-  [[http://xahlee.org/emacs/emacs_unicode_fonts.html][Cycling function definition]]
-#+begin_src emacs-lisp :tangle yes
-  (setq current "monaco-12")
-  (setq font-list
-        (list "monaco-12" "inconsolata-14" "courier-13"))
-  
-  (defun cycle-font ()
-    "Change font in current frame"
-    (interactive)
-  
-    (let (fontToUse currentState)
-      ;; states starts from 1.
-      (setq currentState (if (get this-command 'state) (get this-command 'state) 1))
-      (setq fontToUse (nth (1- currentState) font-list))
-  
-      (set-frame-parameter nil 'font fontToUse)
-      (message "Current font is: %s" fontToUse)
-      (put this-command 'state (1+ (% currentState (length font-list))))
-      (redraw-frame (selected-frame))
-      )
-    )
-#+end_src
-
 * Operating system detection
 #+begin_src emacs-lisp :tangle yes
 (defconst linux (string-match "linux" system-configuration))
@@ -319,7 +293,6 @@ MINIMAL EMACS CONFIGURATION
   (setq visible-bell t) ; Turn beep off
   (savehist-mode t) ; save also minibuffer history, very useful
 #+end_src
-
 * Package management
   Auto install is a nice way to install packages from emacswiki repository.
 #+begin_src emacs-lisp :tangle yes
@@ -404,8 +377,33 @@ MINIMAL EMACS CONFIGURATION
   
   (add-hook 'find-file-hooks 'annotate-todo)
 #+end_src
+** Font settings
+  Defininig some nice fonts and how to switch between theme.
+  [[http://xahlee.org/emacs/emacs_unicode_fonts.html][Cycling function definition]]
+#+begin_src emacs-lisp :tangle yes
+  (setq current "monaco-12")
+  (setq font-list
+        (list "monaco-12" "inconsolata-14" "courier-13"))
+  
+  (defun cycle-font ()
+    "Change font in current frame"
+    (interactive)
+  
+    (let (fontToUse currentState)
+      ;; states starts from 1.
+      (setq currentState (if (get this-command 'state) (get this-command 'state) 1))
+      (setq fontToUse (nth (1- currentState) font-list))
+  
+      (set-frame-parameter nil 'font fontToUse)
+      (message "Current font is: %s" fontToUse)
+      (put this-command 'state (1+ (% currentState (length font-list))))
+      (redraw-frame (selected-frame))
+      )
+    )
+#+end_src
 
 * Spelling functions
+# TODO: make it easier to manage and to scroll through in general
 #+begin_src emacs-lisp :tangle yes
   (setq ispell-dictionary "english")
   
@@ -876,7 +874,13 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (require 'doxymacs)
 #+end_src
-  
+
+** Fixme mode
+   This is a mode to highlight stuff, adding some more modes
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'fixme-modes 'org-mode)
+#+end_src 
+
 * Mail settings
 ** General settings for message creation
 
