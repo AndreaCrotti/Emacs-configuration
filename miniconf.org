@@ -158,7 +158,7 @@ MINIMAL EMACS CONFIGURATION
     (if debug-on-error
         (setq debug-on-error nil)
       (setq debug-on-error t)))
-#+end_src
+1#+end_src
 
 *** Swap windows
 #+begin_src emacs-lisp :tangle yes
@@ -1145,11 +1145,9 @@ MINIMAL EMACS CONFIGURATION
     (interactive)
     (let
         ((last-key (key-description (this-command-keys))))
-      (if
-          (or
-           ;; only enable some combinations discarding the not intersesting ones
-           (string-prefix-p "C-" last-key)
-           (string-prefix-p "M-" last-key))
+      ;; check if we don't have a "stupid" sequence
+      (unless
+          (= (length (this-command-keys-vector)) 1)
           (growl-popup last-key))))
 #+end_src
 
