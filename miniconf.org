@@ -397,9 +397,7 @@ MINIMAL EMACS CONFIGURATION
       (set-frame-parameter nil 'font fontToUse)
       (message "Current font is: %s" fontToUse)
       (put this-command 'state (1+ (% currentState (length font-list))))
-      (redraw-frame (selected-frame))
-      )
-    )
+      (redraw-frame (selected-frame))))
 #+end_src
 
 * Spelling functions
@@ -465,6 +463,7 @@ MINIMAL EMACS CONFIGURATION
 
 ** Add eventually
    This hook enables to expand your KB very easily, every time you create a new org-file it will check if it's already in the agenda and asks to add it.
+   Disable this if you don't plan to use org mode and its agenda
 #+begin_src emacs-lisp :tangle yes
   (defun org-add-eventually()
     "Adding a file to org-agenda when saved"
@@ -475,9 +474,7 @@ MINIMAL EMACS CONFIGURATION
          (not (member (abbreviate-file-name buffer-file-name) org-agenda-files)))
         (if
             (yes-or-no-p "add the file to agenda?")
-            (org-agenda-file-to-front)
-          ;; adds some regular expressions checks to filter out some buffers
-            )))
+            (org-agenda-file-to-front))))
   
   (add-hook 'before-save-hook 'org-add-eventually)
 #+end_src
@@ -878,6 +875,7 @@ MINIMAL EMACS CONFIGURATION
 ** Fixme mode
    This is a mode to highlight stuff, adding some more modes
 #+begin_src emacs-lisp :tangle yes
+  (require 'fixme-mode)
   (add-to-list 'fixme-modes 'org-mode)
 #+end_src 
 
@@ -984,6 +982,7 @@ MINIMAL EMACS CONFIGURATION
   (defalias 'spell 'flyspell-mode)
   (defalias 'dml 'delete-matching-lines)
   (defalias 'bb 'bury-buffer)
+  (defalias 'elm 'emacs-lisp-mode)
   
   (defalias 'ys 'yas/reload-all)
   (defalias 'yv 'yas/visit-snippet-file)
@@ -1220,7 +1219,7 @@ MINIMAL EMACS CONFIGURATION
   ;; TODO: pass to a sensible splitting instead
   (global-set-key [f2] 'split-window-horizontally)
   (global-set-key [f1] 'delete-window)
-
+  
   (global-set-key (kbd "<C-f9>") 'cycle-font)
 #+end_src
 
