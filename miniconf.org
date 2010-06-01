@@ -293,6 +293,7 @@ MINIMAL EMACS CONFIGURATION
   (setq visible-bell t) ; Turn beep off
   (savehist-mode t) ; save also minibuffer history, very useful
 #+end_src
+
 * Package management
   Auto install is a nice way to install packages from emacswiki repository.
 #+begin_src emacs-lisp :tangle yes
@@ -318,6 +319,7 @@ MINIMAL EMACS CONFIGURATION
   (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
   (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 #+end_src
+
 ** Elscreen
 #+begin_src emacs-lisp :tangle yes
   (require 'alist)
@@ -361,7 +363,8 @@ MINIMAL EMACS CONFIGURATION
   (color-theme-deep-blue)
 #+end_src
 
-** Fringe and TODO list
+** Fringe and stuff todo
+   Nice but unable to update itself automatically, but only set when the file is visited first time.
 #+begin_src emacs-lisp :tangle no
   (defun annotate-todo ()
     "put fringe marker on TODO: lines in the curent buffer"
@@ -377,6 +380,7 @@ MINIMAL EMACS CONFIGURATION
   
   (add-hook 'find-file-hooks 'annotate-todo)
 #+end_src
+  
 ** Font settings
   Defininig some nice fonts and how to switch between theme.
   [[http://xahlee.org/emacs/emacs_unicode_fonts.html][Cycling function definition]]
@@ -876,6 +880,7 @@ MINIMAL EMACS CONFIGURATION
    This is a mode to highlight stuff, adding some more modes
 #+begin_src emacs-lisp :tangle yes
   (require 'fixme-mode)
+  ;;TODO: make it working everywhere automatically if possible
   (add-to-list 'fixme-modes 'org-mode)
 #+end_src 
 
@@ -1209,6 +1214,9 @@ MINIMAL EMACS CONFIGURATION
   (global-set-key "\C-ca" 'org-agenda)
   (global-set-key "\C-c\C-x\C-o" 'org-clock-out)
   
+  ;; senator
+  (global-set-key "\C-cj" 'senator-jump)
+  
   ;; overriding defualt not so smart visualization
   (global-set-key "\C-x\C-b" 'ibuffer) ;; manage buffers with ibuffer
   
@@ -1221,16 +1229,8 @@ MINIMAL EMACS CONFIGURATION
   (global-set-key [f1] 'delete-window)
   
   (global-set-key (kbd "<C-f9>") 'cycle-font)
-#+end_src
-
-* Versions of software
-  In this table we collect the actual version of the packages used
   
-  | PKG           | version                                      |
-  |---------------+----------------------------------------------|
-  | emacs         | 23.2.1                                       |
-  | yasnippet     |                                              |
-  | python mode   | 0.6.1b)                                      |
-  | auto-complete | Org-mode version 6.34trans                   |
-  | org-mode      | Org-mode version 6.35f (release_6.35f.dirty) |
-  #+TBLFM: @2$2='(nth 2 (split-string (emacs-version)))::@4$2='(nth 2 (split-string (yas/about)))::@5$2='(org-version)
+  ;; elscreen nice stuff
+  (global-set-key (kbd "M-<left>") 'elscreen-previous)
+  (global-set-key (kbd "M-<right>") 'elscreen-previous)
+#+end_src
