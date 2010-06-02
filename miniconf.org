@@ -404,7 +404,14 @@ MINIMAL EMACS CONFIGURATION
       (redraw-frame (selected-frame))))
 #+end_src
 
-* Spelling functions
+* General useful things
+** Searching info
+   Look for in google
+#+begin_src emacs-lisp :tangle yes
+   (require 'google_search)
+#+end_src
+
+** Spelling functions
 # TODO: make it easier to manage and to scroll through in general
 #+begin_src emacs-lisp :tangle yes
   (setq ispell-dictionary "english")
@@ -674,7 +681,13 @@ MINIMAL EMACS CONFIGURATION
   (add-to-list 'load-path (concat conf "cedet/semantic"))
   (add-to-list 'load-path (concat conf "cedet/eieio"))
 #+end_src
-  
+
+** Enable semantic everywhere it's possible
+#+begin_src emacs-lisp :tangle yes
+   (setq semantic-load-turn-everything-on t)
+   (require 'semantic-load)
+#+end_src   
+   
 * Programming
 ** Web nice utilities
 *** Gist
@@ -1014,7 +1027,7 @@ MINIMAL EMACS CONFIGURATION
   (defalias 'blipp 'color-theme-blippblopp)
   (defalias 'high 'color-theme-high-contrast)
   (defalias 'billw 'color-theme-billw)
-  (defalias 'charcoal 'color-theme-charcoal-black)
+  (defalias 'coal 'color-theme-charcoal-black)
   
   (defalias 'batt 'display-battery-mode)
 
