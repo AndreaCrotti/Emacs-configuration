@@ -1055,8 +1055,10 @@ MINIMAL EMACS CONFIGURATION
 
 ** IDO mode
 #+begin_src emacs-lisp :tangle yes
-(require 'ido)
-(ido-mode t)
+  (require 'ido)
+  (ido-mode t)
+  ;; otherwise it will try to connect to old servers all the time
+  (setq ido-enable-tramp-completion nil)
 #+end_src
 
 ** Windmove
@@ -1247,3 +1249,15 @@ MINIMAL EMACS CONFIGURATION
   (global-set-key (kbd "M-<left>") 'elscreen-previous)
   (global-set-key (kbd "M-<right>") 'elscreen-previous)
 #+end_src
+  
+* External configuration files
+  Some packages use to store their configuration in external files and not in elisp code.
+  For example:
+  - gnus:
+    + ~/.newsrc
+    + ~/.newsrc-dribble (an open buffer saving actual status)
+    + ~/News (all the message fetched and so on)
+
+  - javadoc-help
+    + ~/.javadoc-help (configuration about the sdks)
+      

@@ -5,6 +5,9 @@
 (add-to-list 'load-path (concat conf "org-mode/contrib/babel/lisp"))
 (add-to-list 'load-path (concat conf "org-mode/contrib/babel/lisp/langs"))
 
+;; this variable must be set BEFORE org-mode is loaded or it will have no effect
+(setq org-replace-disputed-keys t)
+
 (require 'org)
 (require 'org-babel)
 (require 'org-babel-tangle)
