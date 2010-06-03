@@ -1,0 +1,56 @@
+@SET_MAKE@
+
+# no csh please
+SHELL = /bin/sh
+
+##############################################################################
+# location of required programms
+prefix = @prefix@
+MKDIR = @MKDIR@
+RM   = @RM@
+LS   = @LS@
+INSTALL = @INSTALL@
+INSTALL_DATA = @INSTALL_DATA@
+
+srcdir = @srcdir@
+datadir= @datadir@/vm
+datarootdir= @datarootdir@
+pixmapdir = @pixmapdir@
+
+SYMLINKS = @SYMLINKS@
+LINKPATH = @LINKPATH@
+
+##############################################################################
+
+all:
+
+Makefile: @srcdir@/Makefile.in
+	cd @srcdir@/..; ./config.status
+
+install: install-pkg
+
+install-pkg: 
+	$(MKDIR) -p "$(DESTDIR)$(pixmapdir)"
+	for i in `$(LS) *.xpm` ; do                                    \
+	    echo "Installing $$i in '$(DESTDIR)$(pixmapdir)'" ;        \
+	    $(INSTALL_DATA) $$i "$(DESTDIR)$(pixmapdir)" ;             \
+	done ;
+	$(MKDIR) -p "$(DESTDIR)$(pixmapdir)/mime"
+	for i in `ls mime/*.xpm` ; do                                  \
+	    echo "Installing $$i in '$(DESTDIR)$(pixmapdir)'" ;        \
+	    $(INSTALL_DATA) $$i "$(DESTDIR)$(pixmapdir)/mime" ;        \
+	done ;                                                         
+	$(MKDIR) -p "$(DESTDIR)$(pixmapdir)/gtk"
+	for i in `ls gtk/*.xpm` ; do                                   \
+	    echo "Installing $$i in '$(DESTDIR)$(pixmapdir)'" ;        \
+	    $(INSTALL_DATA) $$i "$(DESTDIR)$(pixmapdir)/gtk" ;         \
+	done ;                                                         
+	@echo VM pixmaps successfully installed\!
+
+##############################################################################
+clean:
+	-$(RM) -f *~
+
+distclean: clean
+	-$(RM) -f Makefile
+

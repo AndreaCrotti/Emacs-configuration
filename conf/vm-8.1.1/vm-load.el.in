@@ -1,0 +1,6 @@
+; -*- mode: emacs-lisp -*-
+;; Load VM easily
+
+(add-to-list 'load-path "@abs_top_builddir@/lisp")
+
+(load "vm-autoloads")

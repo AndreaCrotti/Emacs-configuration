@@ -1,0 +1,134 @@
+=== modified file 'vm-mime.el'
+--- vm-mime.el	2006-08-21 21:17:05 +0000
++++ vm-mime.el	2006-09-18 23:09:23 +0000
+@@ -2060,49 +2060,87 @@
+ (defun vm-mime-display-internal-text (layout)
+   (vm-mime-display-internal-text/plain layout))
+ 
++(autoload 'w3m-region "w3m" "Render region using w3m")
++  
++(defcustom vm-mime-renderer-for-text/html 'w3
++  "The HTML renderer to use for internal display.
++W3M is usually faster and better than W3."
++  :group 'vm
++  :type '(choice (const w3)
++                 (const w3m)))
++  
++(defun vm-mime-display-internal-text/html-with-w3m (start end)
++  (save-restriction
++    (narrow-to-region start end)
++    (let ((w3m-safe-url-regexp "\\`cid:")
++          w3m-force-redisplay)
++      (goto-char (point-max))
++      (insert-before-markers "z")
++      (w3m-region (point-min) (1- (point-max)))
++      (goto-char (point-max))
++      (delete-char -1))
++    
++    (when (and (boundp 'w3m-minor-mode-map) w3m-minor-mode-map)
++      (add-text-properties (point-min) (point-max)
++                           (list 'keymap w3m-minor-mode-map)))))
++
++(defun vm-mime-display-internal-text/html-with-w3 (start end)
++  ;; w3-region apparently deletes all the text in the
++  ;; region and then insert new text.  This makes the
++  ;; end == start.  The fix is to move the end marker
++  ;; forward with a placeholder character so that when
++  ;; w3-region delete all the text, end will still be
++  ;; ahead of the insertion point and so will be moved
++  ;; forward when the new text is inserted.  We'll
++  ;; delete the placeholder afterward.
++  (goto-char end)
++  (insert-before-markers "z")
++  (w3-region start (1- end))
++  (goto-char end)
++  (delete-char -1))
++  
+ (defun vm-mime-display-internal-text/html (layout)
+-  (if (and (fboundp 'w3-region)
+-	   vm-mime-use-w3-for-text/html)
+-      (condition-case error-data
+-	  (let ((buffer-read-only nil)
+-		(start (point))
+-		(charset (or (vm-mime-get-parameter layout "charset")
+-			     "us-ascii"))
+-		end buffer-size)
+-	    (message "Inlining text/html, be patient...")
+-	    (vm-mime-insert-mime-body layout)
+-	    (setq end (point-marker))
+-	    (vm-mime-transfer-decode-region layout start end)
+-	    (vm-mime-charset-decode-region charset start end)
+-	    ;; w3-region apparently deletes all the text in the
+-	    ;; region and then insert new text.  This makes the
+-	    ;; end == start.  The fix is to move the end marker
+-	    ;; forward with a placeholder character so that when
+-	    ;; w3-region delete all the text, end will still be
+-	    ;; ahead of the insertion point and so will be moved
+-	    ;; forward when the new text is inserted.  We'll
+-	    ;; delete the placeholder afterward.
+-	    (goto-char end)
+-	    (insert-before-markers "z")
+-	    (w3-region start (1- end))
+-	    (goto-char end)
+-	    (delete-char -1)
+-	    ;; remove read-only text properties
+-	    (let ((inhibit-read-only t))
+-	      (remove-text-properties start end '(read-only nil)))
+-	    (goto-char end)
+-	    (message "Inlining text/html... done")
+-	    t )
+-	(error (vm-set-mm-layout-display-error
+-		layout
+-		(format "Inline HTML display failed: %s"
+-			(prin1-to-string error-data)))
+-	       (message "%s" (vm-mm-layout-display-error layout))
+-	       (sleep-for 2)
+-	       nil ))
+-    (vm-set-mm-layout-display-error layout "Need W3 to inline HTML")
+-    (message "%s" (vm-mm-layout-display-error layout))
+-    nil ))
++  (let ((render-func
++         (cond ((eq vm-mime-renderer-for-text/html 'w3m)
++                'vm-mime-display-internal-text/html-with-w3m)
++               ((eq vm-mime-renderer-for-text/html 'w3)
++                'vm-mime-display-internal-text/html-with-w3)
++               (t
++                (vm-set-mm-layout-display-error
++                 layout
++                 (concat "Inline HTML display failed: function "
++                         (symbol-name vm-mime-inline-render-function-for-text/html)
++                         " not found.  Please bind a valid function to vm-mime-inline-render-function-for-text/html."))
++                (message "%s" (vm-mm-layout-display-error layout))
++                nil))))
++    (if (fboundp render-func)
++        (condition-case error-data
++            (let ((buffer-read-only nil)
++                  (start (point))
++                  (charset (or (vm-mime-get-parameter layout "charset")
++                               "us-ascii"))
++                  end buffer-size)
++              (message "Inlining text/html, be patient...")
++              (vm-mime-insert-mime-body layout)
++              (setq end (point-marker))
++              (vm-mime-transfer-decode-region layout start end)
++              (vm-mime-charset-decode-region charset start end)
++  
++              (funcall render-func start end)
++  
++              ;; remove read-only text properties
++              (let ((inhibit-read-only t))
++                (remove-text-properties start end '(read-only nil)))
++              (goto-char end)
++              (message "Inlining text/html... done")
++              t )
++          (error (vm-set-mm-layout-display-error
++                  layout
++                  (format "Inline HTML display failed: %s"
++                          (prin1-to-string error-data)))
++                 (message "%s" (vm-mm-layout-display-error layout))
++                 (sleep-for 2)
++                 nil ))))))
+ 
+ (defun vm-mime-display-internal-text/plain (layout &optional no-highlighting)
+   (let ((start (point)) end need-conversion
+

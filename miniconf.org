@@ -15,6 +15,8 @@ MINIMAL EMACS CONFIGURATION
 * TODO Define *defcustom* stuff instead of constants for setting up variables
 * TODO Understand why sometimes auto-complete disables by itself
 
+* TODO See how to use variables like *special-buffer-regexps* to have a better control over the buffer windows
+
 * Assumptions
   - $HOME/.emacs.d/scripts is in the $PATH
   - flymake is installed (distributed with emacs 23 also)
@@ -1238,9 +1240,14 @@ MINIMAL EMACS CONFIGURATION
   ;; visualization
   (global-set-key [f11] 'fullscreen-portable)
   
+  (defun win-split ()
+    "Split current window sensibly"
+    (interactive)
+    (split-window-sensibly (window-buffer)))
+  
   ;; splitting windows facilitites
   ;; TODO: pass to a sensible splitting instead
-  (global-set-key [f2] 'split-window-horizontally)
+  (global-set-key [f2] 'win-split)
   (global-set-key [f1] 'delete-window)
   
   (global-set-key (kbd "<C-f9>") 'cycle-font)

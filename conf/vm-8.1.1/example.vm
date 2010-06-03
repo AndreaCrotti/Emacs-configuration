@@ -1,0 +1,295 @@
+;;; .vm --- Example ~/.vm
+;;;
+;;; -*- emacs-lisp -*-
+;;;
+;;; Copyright (C) 2007 Robert Widhopf-Fenk
+;;;
+;;; This program is free software; you can redistribute it and/or modify
+;;; it under the terms of the GNU General Public License as published by
+;;; the Free Software Foundation; either version 1, or (at your option)
+;;; any later version.
+;;;
+;;; This program is distributed in the hope that it will be useful,
+;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;;; GNU General Public License for more details.
+;;;
+;;; You should have received a copy of the GNU General Public License
+;;; along with this program; if not, write to the Free Software
+;;; Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+;;;
+
+;;; You may use this file as a starting point for setting up and customizing
+;;; VM to your own needs.
+
+;;*****************************************************************************
+;; Make VM your default mail agent in Emacs
+(setq mail-user-agent 'vm-user-agent)
+
+;;*****************************************************************************
+
+;; Two ways of using VM:
+;; - downloading mail to local folders
+;; - reading mail on mail servers from anywhere on the internet
+
+;; For local folders, set these variables:
+
+(setq vm-folder-directory "~/mail")
+
+(setq 
+ ;; vm-primary-inbox is the filesystem path to where VM stores
+ ;; downloaded messages: 
+ vm-primary-inbox "~/INBOX"
+ ;; vm-crash-box is where messages are stored temporarily as it is moved into
+ ;; your primary inbox file (vm-primary-inbox). Here we just tack on a
+ ;; .crash to name it separately:
+ vm-crash-box (concat vm-primary-inbox ".crash"))
+
+;; vm-spool-files is a list of lists, each sublist should be of the form
+;;   (INBOX SPOOLNAME CRASHBOX)
+(setq vm-spool-files
+      (list
+       ;; You can drop mail to the same inbox from different spool files.
+       (list vm-primary-inbox "/var/spool/mail/username1" vm-crash-box)
+       (list vm-primary-inbox "/var/spool/mail/username2" vm-crash-box)
+       ;; Another spool file
+       (list "spam" (expand-file-name "~spam/drop")
+             (concat vm-folder-directory "spam.crash"))
+       ;; POP
+       (list "gmail.pop" 
+	     "pop:pop.google.com:110:pass:YourEmailAddress:*"
+             (concat vm-folder-directory "gmail.pop.crash"))
+       ;; POP-SSL 
+       (list "gmail.pop" 
+	     "pop-ssl:pop.google.com:995:pass:YourEmailAddress:*"
+             (concat vm-folder-directory "gmail.pop.crash"))
+       ;; IMAP
+       (list "gmail.imap" 
+	     "imap:imap.google.com:143:inbox:login:YourEmailAddress:*"
+             (concat vm-folder-directory "gmail.imap.crash"))
+       ))
+       
+;; For server folders, set these variables:
+
+(setq vm-primary-inbox
+      ;; use one of these two
+      ;; for POP server 
+      "pop:pop.google.com:110:pass:YourEmailAddress:*"
+      ;; for IMAP server 
+      "imap:imap.google.com:143:inbox:login:YourEmailAddress:*"
+      )
+
+(setq vm-pop-folder-cache-directory "~/mailcache")
+(setq vm-imap-folder-cache-directory "~/mailcache")
+
+(setq vm-pop-folder-alist
+      ;; for other POP servers
+      '(("pop:pop3.blueyonder.co.uk:110:pass:YourEmailAddress:*" 
+	 "blueyonder")
+	("pop:mailhost.cs.bham.ac.uk:110:pass:YourEmailAddress:*" 
+	 "bham")))
+(setq vm-imap-account-alist
+      ;; for other IMAP servers
+      '(("imap:imap4.blueyonder.co.uk:143:*:login:YourEmailAddress:*" 
+	 "blueyonder")
+	("imap:mailhost.cs.bham.ac.uk:143:*:login:YourEmailAddress:*" 
+	 "bham")
+	))
+
+;;*****************************************************************************
+;; Summary 
+
+;; See the recipients for emails you sent instead of yourself.
+(setq vm-summary-uninteresting-senders 
+      (regexp-opt '("@robf.de" "Robert Widhopf-Fenk")))
+
+;; Change the summary format by setting `vm-summary-format'.
+;; Run "M-x vm-fix-my-summary!!! RET" to fix existing summaries.
+
+;;*****************************************************************************
+;; Viewing messages
+;;
+;; HTML messages can be converted to text or the w3 resp. w3m Emacs viewers
+;; can be used for displaying. 
+
+(setq  vm-mime-type-converter-alist
+      '(("text/html" "text/plain" "lynx -force_html -dump /dev/stdin")
+        ("message/delivery-status"  "text/plain")
+        ("application/zip"  "text/plain" "listzip")
+        ("application/x-zip-compressed"  "text/plain" "zipinfo /dev/stdin")
+        ("application/x-www-form-urlencoded"  "text/plain")
+        ("message/disposition-notification"  "text/plain")
+        ("application/mac-binhex40" "application/octet-stream" "hexbin -s"))
+
+      
+;; Set up w3m (you should check if it exists)
+(require 'vm-w3m)
+(setq vm-included-mime-types-list
+      '("text/plain" "text/html" "text/enriched" "message/rfc822"))
+
+;;*****************************************************************************
+;; Composing email
+
+(setq mail-default-headers "From: Robert Widhopf-Fenk <hack@robf.de>\n")
+
+(vmpc-my-identities "me@company1.nil" "me@home.nil" "me@alterego.nil")
+(require 'vm-pcrisis)
+
+;;*****************************************************************************
+;; A hook function to setup mail-composing buffers
+(defun robf-vm-mail-mode-hook ()
+  "Robert Widhopf-Fenks `vm-mail-mode-hook'."
+  (interactive)
+
+  (when (string-match "received" (buffer-name))
+    (make-local-variable 'vm-confirm-quit)
+    (setq vm-confirm-quit t))
+  
+  (setq fill-column 60
+        comment-start "> "
+        indent-line-function 'indent-relative-maybe)
+  
+  ;; mark lines longer than `fill-column' chars red 
+  (add-to-list 'mail-font-lock-keywords
+               (list (concat "^" (make-string fill-column ?.)
+                             "\\(.+$\\)")
+                     '(1 font-lock-warning-face t)))
+  
+  (ispell-change-dictionary "deutsch8")
+
+  (font-lock-mode 1)
+  (turn-on-auto-fill)
+  (turn-on-filladapt-mode)
+  (flyspell-mode 1)
+;  (enriched-mode 1)
+;  (auto-capitalize-mode)
+;  (vm-mail-subject-prefix-cleanup)
+  )
+
+(add-hook 'vm-mail-mode-hook 'robf-vm-mail-mode-hook)
+
+;; Do you like boxquotes? 
+(require 'boxquote)
+
+(defun boxquote-region-and-edit-title (s e)
+  (interactive "r")
+  (boxquote-region s e)
+  (call-interactively 'boxquote-title))
+
+;;*****************************************************************************
+;; Sending email via SMTP.
+;;
+;; This is not done by VM, but by separate packages.  The standard package is
+;; smtpmail.el and it should come with your Emacs. If you have more than one
+;; email address and have to send them using different SMTP servers, the you
+;; might want to take a look at esmtpmail.el a fork from smtpmail.el targeted
+;; to deal with personal crisis support.
+(require 'esmtpmail)
+(setq send-mail-function 'esmtpmail-send-it
+      esmtpmail-default-smtp-server "smtp.someprovider.com"
+      ;; trace buffers help debugging problems 
+      esmtpmail-debug-info t)
+
+;; Select the SMTP server based on the From: header, i.e. the email address of
+;; the author.  There are also other authentication  methods, see the docs.
+(setq esmtpmail-send-it-by-alist 
+      (list
+       '("YourEmaiAddress1" "SMTPSERVER1"
+         (vm-pop-login "pop:SMTPSERVER1:110:pass:YourEmailAddress:*"))
+       '("YourEmaiAddress2" "SMTPSERVER2"
+         (vm-after-pop "pop:SMTPSERVER2:110:pass:YourEmailAddress:*"))))
+
+;;*****************************************************************************
+;; Feed mail to a local queue if you are offline
+(require 'feedmail)
+
+(setq send-mail-function 'vm-mail-send-or-feed-it
+      feedmail-enable-queue t
+      feedmail-ask-before-queue nil
+      feedmail-buffer-eating-function 'feedmail-buffer-to-smtpmail
+      feedmail-queue-directory (expand-file-name "~/Mail/QUEUE"))
+
+(define-key vm-mode-map "Qr"     'feedmail-run-the-queue)
+(define-key vm-mode-map "Qc"     'vm-smtp-server-online-p)
+(define-key vm-mode-map "Qw"     'feedmail-queue-reminder-medium)
+
+(setq auto-mode-alist (cons '("\\.fqm$" . mail-mode) auto-mode-alist))
+
+;; Check the queue on startup 
+(when (and (> (car (feedmail-look-at-queue-directory
+                    feedmail-queue-directory)) 0))
+  (feedmail-queue-reminder-medium)
+  (sit-for 2)
+  (if (y-or-n-p "Send messages now? ")
+      (feedmail-run-the-queue)))
+
+;;*****************************************************************************
+;; BBDB - the address book for Emacs
+(require 'bbdb)
+(require 'bbdb-autoloads)
+(bbdb-initialize 'vm 'sendmail)
+(bbdb-insinuate-vm)
+
+;; create records for people you reply to
+(add-hook 'vm-reply-hook 'bbdb-force-record-create)
+
+;;*****************************************************************************
+;; Now change some keyboard bindings 
+(define-key vm-mode-map [(meta up)]    'vm-previous-unread-message)
+(define-key vm-mode-map [(meta down)]  'vm-next-unread-message)
+(define-key vm-mode-map "\C- "  'vm-scroll-backward)
+(define-key vm-mode-map " "     'vm-scroll-forward)
+(define-key vm-mode-map "c"     'vm-continue-what-message-other-frame)
+(define-key vm-mode-map "C"     'vm-continue-postponed-message)
+(define-key vm-mode-map "R"     'vm-reply-other-frame)
+(define-key vm-mode-map "r"     'vm-reply-include-text-other-frame)
+(define-key vm-mode-map "\C-R"  'vm-followup-other-frame)
+(define-key vm-mode-map "\C-r"  'vm-followup-include-text-other-frame)
+(define-key vm-mode-map "f"     'vm-forward-message-other-frame)
+(define-key vm-mode-map "m"     'vm-toggle-mark)
+(define-key vm-mode-map "d"     'vm-delete-message-action)
+(define-key vm-mode-map "s"     'vm-virtual-save-message)
+(define-key vm-mode-map "w"     'vm-save-message-preview)
+(define-key vm-mode-map "lr"    'vm-delete-message-labels)
+(define-key vm-mode-map "li"    'rf-vm-label-toggle-important)
+(define-key vm-mode-map "ls"    'rf-vm-label-toggle-spam)
+(define-key vm-mode-map "W"     'vm-save-message-sans-headers)
+(define-key vm-mode-map "W"     (make-sparse-keymap))
+(define-key vm-mode-map "WW"    'vm-apply-window-configuration)
+(define-key vm-mode-map "WS"    'vm-save-window-configuration)
+(define-key vm-mode-map "WD"    'vm-delete-window-configuration)
+(define-key vm-mode-map "W?"    'vm-window-help)
+(define-key vm-mode-map "x"     'vm-expunge-folder)
+(define-key vm-mode-map "X"     'vm-expunge-pop-messages)
+(define-key vm-mode-map "#"     nil)
+(define-key vm-mode-map "/"      'bbdb)
+(define-key vm-mode-map [(control return)] 'vm-edit-init-file)
+(define-key vm-mode-map "S"     'vm-save-everything)
+(define-key vm-mode-map "\C-a"  'vm-mime-auto-save-all-attachments)
+(define-key vm-mode-map "VO"    'vm-virtual-omit-message)
+(define-key vm-mode-map "VU"    'vm-virtual-update-folders)
+(define-key vm-mode-map [(control s)] 'isearch-forward)
+(define-key vm-mode-map "o"     'vm-switch-to-folder)
+
+(define-key vm-summary-mode-map [(control up)] 'previous-line)
+(define-key vm-summary-mode-map [(control down)] 'next-line)
+(define-key vm-summary-mode-map [(control s)] 'vm-isearch-forward)
+
+(define-key vm-mail-mode-map [tab] 'indent-relative)
+(define-key vm-mail-mode-map [(control tab)] 'mail-interactive-insert-alias)
+(define-key vm-mail-mode-map [return] 'newline-and-indent)
+(define-key vm-mail-mode-map "\C-c\C-i" 'vm-serial-yank-mail)
+(define-key vm-mail-mode-map "\C-c\C-o" 'vm-serial-expand-tokens)
+(define-key vm-mail-mode-map [(control c) (control I)] 'vm-serial-insert-token)
+(define-key vm-mail-mode-map [(control meta delete)] 'kill-this-buffer)
+(define-key vm-mail-mode-map "\C-c\C-c" 'vm-mail-mode-comment-region)
+(define-key vm-mail-mode-map "\C-c\C-d" 'vm-mail-mode-elide-reply-region)
+(define-key vm-mail-mode-map "\C-c\C-k" 'vm-mail-mode-citation-clean-up)
+(define-key vm-mail-mode-map "\C-c\C-a" 'vm-mime-attach-file)
+(define-key vm-mail-mode-map "\C-c\C-b" 'boxquote-region-and-edit-title)
+
+;;; Local Variables: ***
+;;; mode:emacs-lisp ***
+;;; End: ***
+
+;;; .vm ends here

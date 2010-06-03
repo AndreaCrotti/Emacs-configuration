@@ -1,0 +1,156 @@
+VM was written by Kyle Jones! Hail Kyle! The last release from Kyle
+was 7.19. 
+
+VM's home page up to version 7.19 on the World Wide Web is at
+http://www.wonderworks.com/vm and the FAQ is still hosted there.
+
+This VM is based on Robert Widhopf-Fenk's patches against VM 7.19.
+The current version is maintained by the 'VM development team'
+(vm@lists.launchpad.net) consisting of Robert, Ulrich Müller and Uday
+Reddy.
+
+The persons who have contributed to this version of VM are:
+
+ * Aidan Kehoe
+ * Glenn <unknown>
+ * Jens Gustedt
+ * John J Foerch
+ * Kevin Rogers
+ * Kyle Jones
+ * Rob Hodges
+ * Robert Marshall
+ * Robert P. Goldman
+ * Katsumi Yamaoka
+ * Julian Bradfield
+ * Samuel Bronson
+ * Brent Goodrick
+ * Ulrich Müller
+ * Uday S. Reddy
+ * Robert Widhopf-Fenk
+
+Please mail us a note, if I have forgotten someone or accidently put
+you on the list.
+
+Read INSTALL and follow the instructions to compile and setup VM.
+
+If you are new to VM, see example.vm for example configuration
+settings (in a '~/.vm' file).  Read more in the VM manual on 'info'. 
+
+*******************************************************************************
+BUGS
+
+Please report bugs in VM using the VM function
+	   M-x vm-submit-bug-report
+This function formats an email report including the entire state of VM
+which can be used to diagnose and fix the bug.  Please include
+information about how to reproduce the problem.
+
+Please report any problems or bugs otherwise they cannot be fixed!
+
+If you are not sure that the problem is a bug or that it could be of
+general importance to other users, you are welcome to discuss it on
+the USENET groups gnu.emacs.vm.bugs or gnu.emacs.vm.info!  However, it
+is not always possible to diagnose problems without full information
+about your VM settings.  So, filing a bug report is necessary.
+
+*******************************************************************************
+Homepage
+
+The new homepage of VM is at http://www.nongnu.org/viewmail/ hosted by
+Savannah.  The latest downloads of VM can also be found here.
+
+The source code of VM is at http://launchpad.net/vm hosted by
+Launchpad.
+
+Eventually, we may migrate to a single site for both the facilities.  
+
+*******************************************************************************
+Wiki
+
+The Wiki at http://www.emacswiki.org/emacs/CategoryViewMail is best
+suited to conserve code snippets, cooking guides or feature requests.
+
+*******************************************************************************
+Code Repository
+
+We maintain the source code using Bazaar (http://bazaar-vcs.org/).
+
+If you want to get the latest development version of VM, or want to
+contribute changes you may want to branch from the follwing launchpad
+URI:
+
+  lp:vm
+
+which is short for the full URL:
+
+  http://bazaar.launchpad.net/~vm/vm/trunk
+
+
+# create your own branch from the trunk
+# the 'lp' URL's do they same job as the 'http' URL's above.
+bzr get lp:vm
+(or)
+bzr get lp:~vm/vm/trunk
+# get updates
+bzr pull
+# start hacking 
+emacs vm-pgg.el
+# commit your changes 
+bzr commit
+# Generate a bundle of your changes for merging
+bzr bundle-revisions --output=xy-changes.diff
+# Attach the bundle to a mail (rather than doing cut&paste) and send
+# it to vm @ lists.launchpad.net with a descriptive subject.  
+
+*******************************************************************************
+Get involved
+
+The project home is at 
+
+   http://launchpad.net/vm
+
+Registering on launchpad is painless process and makes it convenient
+to participate in the development of VM (or other Launchpad projects).
+
+The "Bugs" tracker is where we keep track of the bugs that need fixing
+as well as TODO items.
+
+The "Blueprints" section records our future development plans.
+
+
+
+*******************************************************************************
+COMMENTS
+
+In addition to Kyle Jones's original VM, this version includes
+various contributions from Robert Widhopf-Fenk and others.
+
+Extensions for VM written by Robert:
+- vm-pine.el	      for draft handling and other Pine inspired functions.
+- vm-ps-print.el      for nice ps-printing functions
+- vm-rfaddons.el      adds various add-ons to VM
+- vm-grepmail	      a grepmail interface for VM
+- vm-avirtual.el      brings additional virtual folder selectors and functions
+		      for spam tagging
+- vm-biff.el	      is a xbiff within VM, notifying you of new mail
+- vm-serial.el	      templates for mails, personalized serial mails 
+- vm-summary-faces.el face base on virtual selectors 
+
+Additional extensions for VM from other people:
+- vm-pcrisis.el	      by Rob Hodges for people with personal crisis which need
+		      to rewrite headers automatically. 
+- vcard.el            by Noah Friedman <friedman 'at' splode.com> for
+  vm-vcard.el	      displaying vcards within VM.
+
+Enhancements:
+
+- Support for reading HTML messages using Emacs packages and external
+applications, as well as replying to HTML messages.
+
+- IMAP server support by Uday Reddy
+
+
+Local Variables:
+mode: text
+coding: utf-8
+End:

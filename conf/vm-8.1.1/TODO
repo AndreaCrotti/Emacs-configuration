@@ -1,0 +1,149 @@
+This file lists the bugs, feature requests and wishes for future versions
+of VM.  If you are missing anything please let me know!
+
+******************************************************************************
+EVERGREENS
+
+There are some things which probably will never be fixed ...
+
+ * Update the info file. News should also be there not in the NEWS file?
+
+ * Cleanup and reorganize the code.
+
+ * Better doc strings: VM has nearly none in the core, just my own extensions
+   have been documented properly using "M-x checkdoc RET".
+
+ * Enable sane extensions and configurations: The default should satisfy most
+   people, but still allow one to disable what they dislike. 
+
+ * Integrate more extensions from others into the core.
+
+******************************************************************************
+BUGS
+
+The bugs which should be fixed before the next release:
+
+ * Syncing with Mozilla-Status may corrupt folder
+
+The bugs that remain unsolved:
+
+ * Sometimes the cursor is not restored correctly in GNU Emacs when visiting
+   a folder multiple times during an Emacs session.
+
+ * VM is dead slow in marking/deleting/... when a folder has thousands of 
+   messages.
+
+******************************************************************************
+ROADMAP
+
+The features planed for one of the next releases.  
+
+The order hints on the priority, but it is no gurantee.
+
+ * Folding of threads in the summary
+
+ * Display draft status in the modeline. (partially done)
+
+ * Break up the customize stuff into more and smaller sub categories.
+
+ * GNU Emacs: does not highlight attachment buttons in compositions
+
+ * Merge changes from the Debian package.
+
+ * Some of the user defined summary functions should become internal ones.
+   E.g.: has-attachments, text/html, size, draft, ...
+
+ * Better HTML support for both displaying and replying, but probably not for
+   composition as there is no urge to surrender here!  There should be a test 
+   for w3m-emacs, w3, lynx, w3m and the best method should be selected by 
+   default if not configured by the user.  
+
+   HTML only messages should be converted to mixed/alternative parts by 
+   vm-assimilate-html-message.  vm-mime-show-alternatives should probably 
+   be smart enough to display all but the chosen part as button.
+
+   "D" should switch between mixed/alternative parts and the undecoded
+   resp. button representation.
+
+ * Click in mailto: link does not work when being used from w3 buffers.
+
+ * Virtual selectors matching on specific mime parts, e.g.
+   (vm-vs-text regexp): matching only text parts and those which can be
+      converted to text. 
+   (vm-vs-attachment regexp):  matching the disposition of parts
+
+ * Improved (i)search support: Only text parts and certain headers should be
+   searched and it should also work for virtual folders.  We might utilize
+   virtual folder selectors here. [1]
+
+ * Better IMAP support, i.e. just fetch headers, sync, offline, search.  It is
+   really bad now and thus I do use Thunderbird at work!
+
+ * Maildir support: It is a nice format and possibly can fix the problem of
+   huge mail folders, as VM must not read the whole buffer into memory, just
+   the index.  Also it would allow for using external indexing tools like
+   http://www.rpcurnow.force9.co.uk/mairix/ and make folders really virtual.
+
+ * Virtual folders everywhere, i.e. only one physical folder.  VM should
+   not read the folder into a buffer, but only query relevant messages from
+   an maildb-backend.
+
+ * S/MIME PKI support.
+ 
+******************************************************************************
+REST
+
+The unsorted and remaining ones.
+
+ * Marking + Delete is dead slow on folders with many (>2000) messages.
+
+ * Shortcut to expunge a single message.
+
+From EU
+
+ * Fix bugs when marking threads by "M T".  Sometimes it misses some messages,
+   IMHO ones of broken MUAs not setting the References: header, but hey we
+   cannot fix them so let's work around them.
+
+ * for text/alternative messages, when the plain text part is
+   displayed internally, [add variable that will allow to] show icon
+   for the html (or rich text) part, which will allow to delete it
+   easily using $d.  I now have to edit these by hand...
+
+ * The binding of mouse-3 overrides the usual usage of mouse-3 which
+   is very useful.  An option to allow binding this menu to another
+   key (C-mouse-3?) would be great.
+
+ * when attachments appear with no empty line separating them from the
+   text, the attachment icon appears on the same line as the text
+   before it.  this results in poor appearance (I think), Would be
+   much nicer to show the attachment icon on a separate line, rather
+   than continued on the last text line as now.
+
+ * Typing h when in the presentation window makes vm display only a
+   single windows with headers rather than adding a headers window to
+   the presentation mode window. (when in vm, change to presentation
+   buffer, type C-x1 and then h"
+
+ * When reading mail I have the frame divided into three windows:
+   headers, presentation and BBDB.  When replying from the header
+   window, the reply window just replaces the headers window, leaving
+   the presentation window and the BBDB window unchanged.  The
+   resulting reply window is too small...  would be good to have it
+   replace all three windows (headers, presentation, BBDB) until the
+   reply is sent.
+
+******************************************************************************
+REFERENCES
+
+[1] Newsgroups: gnu.emacs.vm.info
+    Subject: Re: Improved search for mixed (mime) ascii/html folders?
+
+[2] Message-ID: <1159541555.884682.318660@c28g2000cwb.googlegroups.com>
+    Newsgroups: gnu.emacs.vm.info
+    Subject: VM feature requests
+    Date: 29 Sep 2006 07:52:35 -0700
+
+;;; Local Variables: ***
+;;; mode:text ***
+;;; End: ***
