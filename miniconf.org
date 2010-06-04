@@ -40,6 +40,58 @@ MINIMAL EMACS CONFIGURATION
   
   [[file:dependecy.pdf]]
 
+* Aliasing and other useful shortcuts
+#+begin_src emacs-lisp :tangle yes
+  (defalias 'eb 'eval-buffer)
+  (defalias 'er 'eval-region)
+  (defalias 'yes-or-no-p 'y-or-n-p)
+  (defalias 'rs 'replace-string)
+  (defalias 'qs 'query-replace)
+  (defalias 'ac 'auto-complete-mode)
+  (defalias 'go 'google-search-it)
+  (defalias 'gs 'google-search-selection)
+  (defalias 'spell 'flyspell-mode)
+  (defalias 'dml 'delete-matching-lines)
+  (defalias 'bb 'bury-buffer)
+  (defalias 'elm 'emacs-lisp-mode)
+  
+  (defalias 'ys 'yas/reload-all)
+  (defalias 'yv 'yas/visit-snippet-file)
+  
+  (defalias 'ascii 'org-export-as-ascii)
+  (defalias 'html 'org-export-as-html-and-open)
+  (defalias 'pdf 'org-export-as-pdf-and-open)
+  (defalias 'box 'comment-box)
+  (defalias 'rb 'revert-buffer)
+  
+  (defalias 'sh 'shell)
+  
+  (defalias 'ws 'whitespace-mode)
+  (defalias 'bu 'browse-url)
+  
+  (defalias 'mem 'doxymacs-insert-member-comment)
+  (defalias 'fun 'doxymacs-insert-function-comment)
+  (defalias 'file 'doxymacs-insert-file-comment)
+  
+  ;; Those below are my favourite themes
+  (defalias 'black 'color-theme-hober)
+  (defalias 'blue 'color-theme-deep-blue)
+  (defalias 'grey 'color-theme-black-on-gray)
+  (defalias 'blipp 'color-theme-blippblopp)
+  (defalias 'high 'color-theme-high-contrast)
+  (defalias 'billw 'color-theme-billw)
+  (defalias 'coal 'color-theme-charcoal-black)
+  
+  (defalias 'batt 'display-battery-mode)
+
+  (defun get-some-messages ()
+    (interactive)
+    (gnus-summary-rescan-group 1000))
+  ;; gnus
+  (defalias 'gg 'get-some-messages)
+  (defalias 'jd 'javadoc-lookup)
+#+end_src   
+
 * Private settings
 ** Private
    In this file you can store your own personal settings
@@ -61,6 +113,7 @@ MINIMAL EMACS CONFIGURATION
 (defconst default-closing-char ";"
   "default closing char, change in newline-force-close-alist if needed")
 
+;; TODO: use a defcustom instead
 (setq newline-force-close-alist
   '((python-mode . ":")
     (prolog-mode . ".")
@@ -132,6 +185,7 @@ MINIMAL EMACS CONFIGURATION
       (newline-and-indent)))
   
   (defun newline-force-close()
+    "Same as newline-force but putting a closing char at end"
     (interactive)
     (end-of-line)
     (let ((closing-way (assoc major-mode newline-force-close-alist))
@@ -146,6 +200,7 @@ MINIMAL EMACS CONFIGURATION
         ;; if we're at beginning of buffer, the backward-char will beep
         ;; :( This works even in the case of narrowing (e.g. we don't
         ;; look outside of the narrowed area.
+        ;; FIXME: looking-at not working as expected
         (when (not (looking-at closing-char))
           (insert closing-char))
         (newline-force))))
@@ -362,7 +417,7 @@ MINIMAL EMACS CONFIGURATION
   (eval-after-load "color-theme"
     '(progn
        (color-theme-initialize)))
-  (color-theme-deep-blue)
+  (coal)
 #+end_src
 
 ** Fringe and stuff todo
@@ -414,14 +469,14 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 ** Spelling functions
-# TODO: make it easier to manage and to scroll through in general
+# TODO: make it easier to manage and to scroll through lists of possibilities
 #+begin_src emacs-lisp :tangle yes
   (setq ispell-dictionary "english")
   
   ;; TODO: possible to refactor this code maybe?
   (defun en ()
     "Check spelling in english"
-    (interactive)
+     (interactive)
     (ispell-change-dictionary "english")
     (flyspell-mode t))
   
@@ -689,7 +744,7 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (require 'cedet)
   ;; This is not working with the stupid code cache stuff
-  ;;(global-ede-mode t)
+  (global-ede-mode t)
 #+end_src
 
 ** Enable semantic everywhere it's possible
@@ -697,6 +752,12 @@ MINIMAL EMACS CONFIGURATION
    (setq semantic-load-turn-everything-on t)
    (require 'semantic-load)
 #+end_src   
+
+** Use semantic for C/C++
+#+begin_src emacs-lisp :tangle yes
+  (semanticdb-enable-gnu-global-databases 'c-mode)
+  (semanticdb-enable-gnu-global-databases 'c++-mode)
+#+end_src
    
 * Programming
 ** Web nice utilities
@@ -952,11 +1013,17 @@ MINIMAL EMACS CONFIGURATION
       (progn
         (require 'external-abook)
          (setq external-abook-command "contacts -lf '%%e\t%%n' %s")
-         (eval-after-load "message" 
+         ;; TODO: check if it's dynamic enough
+         (eval-after-load "message"
            '(progn 
               (add-to-list 'message-mode-hook 
                            '(lambda ()
                               (define-key message-mode-map "\C-c\t" 'external-abook-try-expand)))))))
+#+end_src
+
+** Setting default sending modality
+#+begin_src emacs-lisp :tangle yes
+  (setq mail-user-agent 'sendmail-user-agent)
 #+end_src
 
 * Gnus settings
@@ -1004,58 +1071,6 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 * General settings
-** Aliasing and other useful shortcuts
-#+begin_src emacs-lisp :tangle yes
-  (defalias 'eb 'eval-buffer)
-  (defalias 'er 'eval-region)
-  (defalias 'yes-or-no-p 'y-or-n-p)
-  (defalias 'rs 'replace-string)
-  (defalias 'qs 'query-replace)
-  (defalias 'ac 'auto-complete-mode)
-  (defalias 'go 'google-search-it)
-  (defalias 'gs 'google-search-selection)
-  (defalias 'spell 'flyspell-mode)
-  (defalias 'dml 'delete-matching-lines)
-  (defalias 'bb 'bury-buffer)
-  (defalias 'elm 'emacs-lisp-mode)
-  
-  (defalias 'ys 'yas/reload-all)
-  (defalias 'yv 'yas/visit-snippet-file)
-  
-  (defalias 'ascii 'org-export-as-ascii)
-  (defalias 'html 'org-export-as-html-and-open)
-  (defalias 'pdf 'org-export-as-pdf-and-open)
-  (defalias 'box 'comment-box)
-  (defalias 'rb 'revert-buffer)
-  
-  (defalias 'sh 'shell)
-  
-  (defalias 'ws 'whitespace-mode)
-  (defalias 'bu 'browse-url)
-  
-  (defalias 'mem 'doxymacs-insert-member-comment)
-  (defalias 'fun 'doxymacs-insert-function-comment)
-  (defalias 'file 'doxymacs-insert-file-comment)
-  
-  ;; Those below are my favourite themes
-  (defalias 'black 'color-theme-hober)
-  (defalias 'blue 'color-theme-deep-blue)
-  (defalias 'grey 'color-theme-black-on-gray)
-  (defalias 'blipp 'color-theme-blippblopp)
-  (defalias 'high 'color-theme-high-contrast)
-  (defalias 'billw 'color-theme-billw)
-  (defalias 'coal 'color-theme-charcoal-black)
-  
-  (defalias 'batt 'display-battery-mode)
-
-  (defun get-some-messages ()
-    (interactive)
-    (gnus-summary-rescan-group 1000))
-  ;; gnus
-  (defalias 'gg 'get-some-messages)
-  (defalias 'jd 'javadoc-lookup)
-#+end_src   
-
 ** Showing more things
 #+begin_src emacs-lisp :tangle yes
 (display-time-mode 1)
@@ -1112,7 +1127,6 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
 (windmove-default-keybindings 'shift)
 #+end_src
-
 * Flymake
 ** Setting up flymake
 #+begin_src emacs-lisp :tangle yes
