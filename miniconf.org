@@ -309,7 +309,7 @@ MINIMAL EMACS CONFIGURATION
 
    It's also possible to put some more files in the blacklist.
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
   (require 'byte-code-cache)
   ;; FIXME: This is still not fixing the recursive stuff
   (add-to-list 'bcc-blacklist "eieio")
@@ -410,7 +410,7 @@ MINIMAL EMACS CONFIGURATION
 ** Searching info
    Look for in google
 #+begin_src emacs-lisp :tangle yes
-   (require 'google_search)
+   (load-library "google_search")
 #+end_src
 
 ** Spelling functions
@@ -629,7 +629,7 @@ MINIMAL EMACS CONFIGURATION
     (add-hook hook 'turn-on-eldoc-mode))
 #+end_src
 
-* Auto complete
+** Auto complete
 ** Importing all packages
 #+begin_src emacs-lisp :tangle yes
   ;;; Require
@@ -678,10 +678,18 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 * Cedet
+  See [[http://alexott.net/en/writings/emacs-devenv/EmacsCedet.html][gentle introduction to cedet]] for a nicer tutorial
 #+begin_src emacs-lisp :tangle yes
   (add-to-list 'load-path (concat conf "cedet/common"))
   (add-to-list 'load-path (concat conf "cedet/semantic"))
   (add-to-list 'load-path (concat conf "cedet/eieio"))
+#+end_src
+
+** Use cedet and gloabally ede-mode for projects
+#+begin_src emacs-lisp :tangle yes
+  (require 'cedet)
+  ;; This is not working with the stupid code cache stuff
+  ;;(global-ede-mode t)
 #+end_src
 
 ** Enable semantic everywhere it's possible
@@ -891,6 +899,13 @@ MINIMAL EMACS CONFIGURATION
   (require 'doxymacs)
 #+end_src
 
+** Applescript mode
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'auto-mode-alist
+               '("\\.applescript$" . applescript-mode))
+  (autoload 'applescript-mode "applescript-mode" "mode for applescript files" t)
+#+end_src
+   
 ** Fixme mode
    This is a mode to highlight stuff, adding some more modes
 #+begin_src emacs-lisp :tangle yes
@@ -1038,6 +1053,7 @@ MINIMAL EMACS CONFIGURATION
     (gnus-summary-rescan-group 1000))
   ;; gnus
   (defalias 'gg 'get-some-messages)
+  (defalias 'jd 'javadoc-lookup)
 #+end_src   
 
 ** Showing more things
@@ -1061,6 +1077,35 @@ MINIMAL EMACS CONFIGURATION
   (ido-mode t)
   ;; otherwise it will try to connect to old servers all the time
   (setq ido-enable-tramp-completion nil)
+#+end_src
+
+*** Use IDO when possible
+    We can advice the *completing-read* default function to use IDO when it's possible
+#+begin_src emacs-lisp :tangle yes
+  (defvar ido-enable-replace-completing-read t
+    "If t, use ido-completing-read instead of completing-read if possible.
+      
+      Set it to nil using let in around-advice for functions where the
+      original completing-read is required.  For example, if a function
+      foo absolutely must use the original completing-read, define some
+      advice like this:
+      
+      (defadvice foo (around original-completing-read-only activate)
+        (let (ido-enable-replace-completing-read) ad-do-it))")
+  
+  ;; Replace completing-read wherever possible, unless directed otherwise
+  (defadvice completing-read
+    (around use-ido-when-possible activate)
+    (if (or (not ido-enable-replace-completing-read) ; Manual override disable ido
+            (boundp 'ido-cur-list)) ; Avoid infinite loop from ido calling this
+        ad-do-it
+      (let ((allcomp (all-completions "" collection predicate)))
+        (if allcomp
+            (setq ad-return-value
+                  (ido-completing-read prompt
+                                       allcomp
+                                       nil require-match initial-input hist def))
+          ad-do-it))))
 #+end_src
 
 ** Windmove
@@ -1232,7 +1277,7 @@ MINIMAL EMACS CONFIGURATION
   (global-set-key "\C-c\C-x\C-o" 'org-clock-out)
   
   ;; senator
-  (global-set-key "\C-cj" 'senator-jump)
+  (global-set-key "\M-." 'senator-jump)
   
   ;; overriding defualt not so smart visualization
   (global-set-key "\C-x\C-b" 'ibuffer) ;; manage buffers with ibuffer
