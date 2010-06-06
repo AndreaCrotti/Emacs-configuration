@@ -180,9 +180,8 @@ MINIMAL EMACS CONFIGURATION
   (defun newline-force()
     "Goes to newline leaving untouched the rest of the line"
     (interactive)
-    (progn
-      (end-of-line)
-      (newline-and-indent)))
+    (end-of-line)
+    (newline-and-indent))
   
   (defun newline-force-close()
     "Same as newline-force but putting a closing char at end"
@@ -203,7 +202,7 @@ MINIMAL EMACS CONFIGURATION
         ;; FIXME: looking-at not working as expected
         (when (not (looking-at closing-char))
           (insert closing-char))
-        (newline-force))))
+        (newline-force))))))
 #+end_src
 
 *** Error switch
@@ -325,6 +324,44 @@ MINIMAL EMACS CONFIGURATION
                                t nil s)))
       (downcase s)))
 #+end_src    
+
+      We also have [[http://www.eecs.ucf.edu/~leavens/emacs/camelCase/camelCase-mode.html][camel case mode]] which makes moving in camelized words smarter
+#+begin_src emacs-lisp :tangle yes
+  (autoload 'camelCase-mode "camelCase-mode")
+#+end_src
+
+*** Find project
+    This functions are take from textmate.el and are used to check if we're on a project of some kind.
+#+begin_src emacs-lisp :tangle yes
+  (defvar *project-roots*
+    '(".git" ".hg" "Rakefile" "Makefile" "README" "build.xml")
+    "The presence of any file/directory in this list indicates a project root.")
+  
+  (defun root-match(root names)
+    (member (car names) (directory-files root)))
+  
+  (defun root-matches(root names)
+    (if (root-match root names)
+        (root-match root names)
+      (if (eq (length (cdr names)) 0)
+          'nil
+        (root-matches root (cdr names)))))
+  
+  (defun find-project-root (&optional root)
+    "Determines the current project root by recursively searching for an indicator."
+    (interactive)
+    (when (null root)
+      (setq root default-directory))
+    (cond
+     ((root-matches root *project-roots*)
+      (expand-file-name root))
+     ((equal (expand-file-name root) "/") nil)
+     (t
+      ;; recursive call
+      (find-project-root (concat (file-name-as-directory root) "..")))))
+  
+  (find-project-root)
+#+end_src
 
 ** Reload this configuration
 #+begin_src emacs-lisp :tangle yes
