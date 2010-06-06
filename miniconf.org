@@ -215,7 +215,7 @@ MINIMAL EMACS CONFIGURATION
     (if debug-on-error
         (setq debug-on-error nil)
       (setq debug-on-error t)))
-1#+end_src
+#+end_src
 
 *** Swap windows
 #+begin_src emacs-lisp :tangle yes
@@ -291,6 +291,41 @@ MINIMAL EMACS CONFIGURATION
       (find-file file)))
 #+end_src
 
+*** Camelizing
+    (un)Camelizing allows to convert quickly function/variables names from camelized to non camelized mode.
+
+#+begin_src emacs-lisp :tangle yes
+  (defun mapcar-head (fn-head fn-rest list)
+    "Like MAPCAR, but applies a different function to the first element."
+    (if list
+        (cons (funcall fn-head (car list)) (mapcar fn-rest (cdr list)))))
+  
+  (defun camelize (s)
+    "Convert under_score string S to CamelCase string."
+    (mapconcat 'identity (mapcar
+                          '(lambda (word) (capitalize (downcase word)))
+                          (split-string s "_")) ""))
+  
+  (defun camelize-method (s)
+    "Convert under_score string S to camelCase string."
+    (mapconcat 'identity (mapcar-head
+                          '(lambda (word) (downcase word))
+                          '(lambda (word) (capitalize (downcase word)))
+                          (split-string s "_")) ""))
+  
+  (defun un-camelcase-string (s &optional sep start)
+    "Convert CamelCase string S to lower case with word separator SEP.
+      Default for SEP is a hyphen \"-\".
+      If third argument START is non-nil, convert words after that
+      index in STRING."
+    (let ((case-fold-search nil))
+      (while (string-match "[A-Z]" s (or start 1))
+        (setq s (replace-match (concat (or sep "-") 
+                                       (downcase (match-string 0 s))) 
+                               t nil s)))
+      (downcase s)))
+#+end_src    
+
 ** Reload this configuration
 #+begin_src emacs-lisp :tangle yes
   (defun reload-conf ()
@@ -353,6 +388,7 @@ MINIMAL EMACS CONFIGURATION
 
 * Package management
   Auto install is a nice way to install packages from emacswiki repository.
+  There are other possible ways to manage the emacs packages.
 #+begin_src emacs-lisp :tangle yes
   ; Other autoloads
   (autoload 'auto-install-from-emacswiki "auto-install" "auto install from emacswiki" t)
@@ -975,6 +1011,7 @@ MINIMAL EMACS CONFIGURATION
   (add-to-list 'fixme-modes 'org-mode)
 #+end_src 
 
+
 * Mail settings
 ** General settings for message creation
 
@@ -1306,7 +1343,7 @@ MINIMAL EMACS CONFIGURATION
   
   ;; splitting windows facilitites
   ;; TODO: pass to a sensible splitting instead
-  (global-set-key [f2] 'win-split)
+  (global-set-key [f2] 'split-window-horizontally)
   (global-set-key [f1] 'delete-window)
   
   (global-set-key (kbd "<C-f9>") 'cycle-font)
