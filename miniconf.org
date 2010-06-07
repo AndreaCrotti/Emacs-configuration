@@ -202,7 +202,7 @@ MINIMAL EMACS CONFIGURATION
         ;; FIXME: looking-at not working as expected
         (when (not (looking-at closing-char))
           (insert closing-char))
-        (newline-force))))))
+        (newline-force))))
 #+end_src
 
 *** Error switch
@@ -813,7 +813,7 @@ MINIMAL EMACS CONFIGURATION
 
 * Cedet
   See [[http://alexott.net/en/writings/emacs-devenv/EmacsCedet.html][gentle introduction to cedet]] for a nicer tutorial
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
   (add-to-list 'load-path (concat conf "cedet/common"))
   (add-to-list 'load-path (concat conf "cedet/semantic"))
   (add-to-list 'load-path (concat conf "cedet/eieio"))
@@ -829,13 +829,17 @@ MINIMAL EMACS CONFIGURATION
 ** Enable semantic everywhere it's possible
 #+begin_src emacs-lisp :tangle yes
    (setq semantic-load-turn-everything-on t)
-   (require 'semantic-load)
+   (load-library "semantic/senator")
 #+end_src   
 
 ** Use semantic for C/C++
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
+  ;; check which modes are really working and if it's needed
   (semanticdb-enable-gnu-global-databases 'c-mode)
   (semanticdb-enable-gnu-global-databases 'c++-mode)
+  (semanticdb-enable-gnu-global-databases 'python-mode)
+  (semanticdb-enable-gnu-global-databases 'java-mode)
+  (semanticdb-enable-gnu-global-databases 'emacs-lisp-mode)
 #+end_src
    
 * Programming
