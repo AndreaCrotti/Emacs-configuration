@@ -333,6 +333,11 @@ MINIMAL EMACS CONFIGURATION
 *** Find project
     This functions are take from textmate.el and are used to check if we're on a project of some kind.
 #+begin_src emacs-lisp :tangle yes
+  ;; When it's a git project we can use a grep over git ls-files
+  ;; same thing for mercurial
+  ;; check also with the Makefiles in general if we can do something like this
+  ;; In this way is too simplicistic
+  
   (defvar *project-roots*
     '(".git" ".hg" "Rakefile" "Makefile" "README" "build.xml")
     "The presence of any file/directory in this list indicates a project root.")
@@ -347,6 +352,7 @@ MINIMAL EMACS CONFIGURATION
           'nil
         (root-matches root (cdr names)))))
   
+  ;; should return also the type and the certainty level
   (defun find-project-root (&optional root)
     "Determines the current project root by recursively searching for an indicator."
     (interactive)
@@ -466,7 +472,7 @@ MINIMAL EMACS CONFIGURATION
    *Doesn't work* yet on OSX 10.6 with emacs 23, works fine with linux and emacs 22 on OSX.
   
 #+begin_src emacs-lisp :tangle yes
-  (defun fullscreen-portable (&optional f)
+  (defun full (&optional f)
     (interactive)
     (if
         ;; more checks on the version and the OS should be necessary here
@@ -475,7 +481,7 @@ MINIMAL EMACS CONFIGURATION
       (set-frame-parameter f 'fullscreen
                          (if (frame-parameter f 'fullscreen) nil 'fullboth))))
   ;; this toogle the fullscreen for every new frame (window) created
-  (add-hook 'after-make-frame-functions 'fullscreen-portable)
+  (add-hook 'after-make-frame-functions 'full)
 #+end_src
 
 ** Winner mode
@@ -1371,7 +1377,7 @@ MINIMAL EMACS CONFIGURATION
   (global-set-key "\C-x\C-b" 'ibuffer) ;; manage buffers with ibuffer
   
   ;; visualization
-  (global-set-key [f11] 'fullscreen-portable)
+  (global-set-key [f11] 'full)
   
   (defun win-split ()
     "Split current window sensibly"
