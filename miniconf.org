@@ -24,6 +24,9 @@ MINIMAL EMACS CONFIGURATION
 
   All the other libraries configured here are always included in the standard distribution or in *conf*.
 
+* Links
+  - [[http://www.gnu.org/software/emacs/tour/][A guided tour of emacs features]]
+
 * Things not working in emacs 22
   - autoload stuff from ORG-clock
   - remember mode (not present)
@@ -841,6 +844,12 @@ MINIMAL EMACS CONFIGURATION
   (semanticdb-enable-gnu-global-databases 'java-mode)
   (semanticdb-enable-gnu-global-databases 'emacs-lisp-mode)
 #+end_src
+
+** Decorations
+#+begin_src emacs-lisp :tangle yes
+  (global-semantic-decoration-mode)
+  (global-semantic-highlight-func-mode)
+#+end_src
    
 * Programming
 ** Web nice utilities
@@ -1057,7 +1066,6 @@ MINIMAL EMACS CONFIGURATION
   ;;TODO: make it working everywhere automatically if possible
   (add-to-list 'fixme-modes 'org-mode)
 #+end_src 
-
 
 * Mail settings
 ** General settings for message creation
@@ -1375,7 +1383,7 @@ MINIMAL EMACS CONFIGURATION
   (global-set-key "\C-c\C-x\C-o" 'org-clock-out)
   
   ;; senator
-  (global-set-key "\M-." 'senator-jump)
+  (global-set-key "\M-." 'semantic-complete-jump-local)
   
   ;; overriding defualt not so smart visualization
   (global-set-key "\C-x\C-b" 'ibuffer) ;; manage buffers with ibuffer
