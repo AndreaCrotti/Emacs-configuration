@@ -550,6 +550,12 @@ MINIMAL EMACS CONFIGURATION
    (load-library "google_search")
 #+end_src
 
+** Kill ring stuff
+   Sometimes the key ring is not easy to manage, we can browse inside it to see what we saved
+#+begin_src emacs-lisp :tangle yes
+   (require 'browse-kill-ring)
+#+end_src
+
 ** Spelling functions
 # TODO: make it easier to manage and to scroll through lists of possibilities
 #+begin_src emacs-lisp :tangle yes
@@ -659,9 +665,7 @@ MINIMAL EMACS CONFIGURATION
           ;; ("TOBUY" ?b "* TODO %^{what you want}\n %t" "~/org/tobuy.org")))
 #+end_src
 
-** Global keys
-   Here below some global key mappings 
-
+** Notes
 #+begin_src emacs-lisp :tangle yes
   ;; Defining a setup where org-mode takes care of remember notes
   (setq org-directory "~/org/")
@@ -816,39 +820,27 @@ MINIMAL EMACS CONFIGURATION
 
 * Cedet
   See [[http://alexott.net/en/writings/emacs-devenv/EmacsCedet.html][gentle introduction to cedet]] for a nicer tutorial
-#+begin_src emacs-lisp :tangle no
-  (add-to-list 'load-path (concat conf "cedet/common"))
-  (add-to-list 'load-path (concat conf "cedet/semantic"))
-  (add-to-list 'load-path (concat conf "cedet/eieio"))
-#+end_src
 
 ** Use cedet and gloabally ede-mode for projects
 #+begin_src emacs-lisp :tangle yes
   (require 'cedet)
   ;; This is not working with the stupid code cache stuff
   (global-ede-mode t)
+  (require 'semantic)
+  (load-library "semantic/senator")
 #+end_src
 
-** Enable semantic everywhere it's possible
+** Options for semantic
 #+begin_src emacs-lisp :tangle yes
-   (setq semantic-load-turn-everything-on t)
-   (load-library "semantic/senator")
-#+end_src   
-
-** Use semantic for C/C++
-#+begin_src emacs-lisp :tangle no
-  ;; check which modes are really working and if it's needed
-  (semanticdb-enable-gnu-global-databases 'c-mode)
-  (semanticdb-enable-gnu-global-databases 'c++-mode)
-  (semanticdb-enable-gnu-global-databases 'python-mode)
-  (semanticdb-enable-gnu-global-databases 'java-mode)
-  (semanticdb-enable-gnu-global-databases 'emacs-lisp-mode)
-#+end_src
-
-** Decorations
-#+begin_src emacs-lisp :tangle yes
+  (semantic-mode t)
+  (global-semantic-stickyfunc-mode)
+  (global-semantic-idle-completions-mode)
   (global-semantic-decoration-mode)
   (global-semantic-highlight-func-mode)
+  (global-semantic-idle-summary-mode)
+  ;; enable working on nesc-code, a superset of C
+  (add-to-list 'semantic-new-buffer-setup-functions
+               '(nesc-mode . semantic-default-c-setup))
 #+end_src
    
 * Programming
@@ -1160,6 +1152,20 @@ MINIMAL EMACS CONFIGURATION
    Nice interface for git.
 #+begin_src emacs-lisp :tangle yes
   (require 'magit)
+#+end_src
+
+** Function to enable revert mode when in a git repository
+   It's nice to enable auto-revert-mode automatically on files which are surely in a git repository.
+   To do this we can simply add a hook to find-file-hook
+#+begin_src emacs-lisp :tangle yes
+  (defun is-git-file ()
+    "Return nil unless the file is in the git files"
+    (if
+        (member (file-name-nondirectory buffer-file-name)
+                (split-string  (shell-command-to-string "git ls-files")))
+        (auto-revert-mode t)))
+  
+  (add-hook 'find-file-hook 'is-git-file)
 #+end_src
 
 * General settings
