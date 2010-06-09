@@ -54,6 +54,7 @@ MINIMAL EMACS CONFIGURATION
   (defalias 'go 'google-search-it)
   (defalias 'gs 'google-search-selection)
   (defalias 'spell 'flyspell-mode)
+  (defalias 'spell-prog 'flyspell-prog-mode)
   (defalias 'dml 'delete-matching-lines)
   (defalias 'bb 'bury-buffer)
   (defalias 'elm 'emacs-lisp-mode)
@@ -86,7 +87,7 @@ MINIMAL EMACS CONFIGURATION
   (defalias 'coal 'color-theme-charcoal-black)
   
   (defalias 'batt 'display-battery-mode)
-
+  
   (defun get-some-messages ()
     (interactive)
     (gnus-summary-rescan-group 1000))
@@ -794,6 +795,12 @@ MINIMAL EMACS CONFIGURATION
   (define-key ac-complete-mode-map "\C-p" 'ac-previous)
 #+end_src
 
+** Setting up generic sources
+#+begin_src emacs-lisp :tangle no
+  (setq-default ac-sources
+                (append ac-sources '(ac-source-semantic)))
+#+end_src 
+
 ** Define allowed modes
 #+begin_src emacs-lisp :tangle yes
 (setq ac-modes 
@@ -838,12 +845,23 @@ MINIMAL EMACS CONFIGURATION
   (global-semantic-decoration-mode)
   (global-semantic-highlight-func-mode)
   (global-semantic-idle-summary-mode)
-  ;; enable working on nesc-code, a superset of C
+  ;; enable working on nesc-code, a superset of C, add another language to semantic instead
   (add-to-list 'semantic-new-buffer-setup-functions
                '(nesc-mode . semantic-default-c-setup))
 #+end_src
    
 * Programming
+** To spell mode
+   Most of the programming languages we can have syntax checking on the comments and strings.
+   Flyspell-prog-mode is just for this
+#+begin_src emacs-lisp :tangle yes
+  (setq to-spell-langs
+        '(emacs-lisp-mode-hook python-mode-hook c-mode-hook nesc-mode-hook java-mode-hook jde-mode-hook haskell-mode-hook))
+  
+  (dolist (lang-hook to-spell-langs)
+    (add-hook  lang-hook 'flyspell-prog-mode))
+#+end_src
+
 ** Web nice utilities
 *** Gist
     Use simply *gist-buffer* or *gist-region* to paste code online.
@@ -1225,6 +1243,13 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
 (windmove-default-keybindings 'shift)
 #+end_src
+
+** Workarounds
+   Compiling on emacs 23.2 often gives some strange errors, this is to avoid them
+#+begin_src emacs-lisp :tangle yes
+  (setq warning-suppress-types nil)
+#+end_src
+
 * Flymake
 ** Setting up flymake
 #+begin_src emacs-lisp :tangle yes
@@ -1411,7 +1436,7 @@ MINIMAL EMACS CONFIGURATION
   
   ;; elscreen nice stuff
   (global-set-key (kbd "M-<left>") 'elscreen-previous)
-  (global-set-key (kbd "M-<right>") 'elscreen-previous)
+  (global-set-key (kbd "M-<right>") 'elscreen-next)
 #+end_src
   
 * External configuration files
