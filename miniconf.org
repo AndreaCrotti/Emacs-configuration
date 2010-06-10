@@ -1,4 +1,4 @@
-#+OPTIONS: num:nil todo:nil H:2
+#+OPTIONS: toc:t
 MINIMAL EMACS CONFIGURATION
 * DONE See if it's possible to have python auto completion without ropemacs
   CLOSED: [2010-05-09 Dom 14:24]
@@ -1077,6 +1077,19 @@ MINIMAL EMACS CONFIGURATION
   (add-to-list 'fixme-modes 'org-mode)
 #+end_src 
 
+* Latex
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'load-path (concat conf "auctex"))
+  (autoload 'latex-mode "auctex" "latex mode" t)
+  (autoload 'preview-latex "preview-latex" "preview latex in buffer" t)
+  
+  (setq TeX-auto-save t)
+  (setq TeX-parse-self t)
+  (setq LaTeX-command "latex")
+  (setq TeX-PDF-mode t)
+  (setq TeX-master nil)
+  (add-hook 'latex-mode-hook 'turn-on-flyspell)
+#+end_src
 * Mail settings
 ** General settings for message creation
 
