@@ -16,6 +16,7 @@ MINIMAL EMACS CONFIGURATION
 * TODO Understand why sometimes auto-complete disables by itself
 
 * TODO See how to use variables like *special-buffer-regexps* to have a better control over the buffer windows
+* TODO Everything that should be changed by the user must be put in a defcustom
 
 * Assumptions
   - $HOME/.emacs.d/scripts is in the $PATH
@@ -96,6 +97,14 @@ MINIMAL EMACS CONFIGURATION
   (defalias 'jd 'javadoc-lookup)
 #+end_src   
 
+* User customization
+#+begin_src emacs-lisp :tangle yes
+  (defgroup miniconf nil
+    "miniconf"
+    :group 'miniconf
+    :prefix "mini-")
+#+end_src
+
 * Private settings
 ** Private
    In this file you can store your own personal settings
@@ -108,24 +117,32 @@ MINIMAL EMACS CONFIGURATION
 
 ** Custom settings
 #+begin_src emacs-lisp :tangle yes
-   (setq custom-file (concat base "custom.el"))
+  (defcustom custom-file
+    (concat base "custom.el")
+    "customization file"
+    :type 'string
+    :group 'miniconf)
 #+end_src
 
 * Prerequisites
 ** Constants and some global settings
 #+begin_src emacs-lisp :tangle yes
-(defconst default-closing-char ";"
-  "default closing char, change in newline-force-close-alist if needed")
-
-;; TODO: use a defcustom instead
-(setq newline-force-close-alist
-  '((python-mode . ":")
-    (prolog-mode . ".")
-    (latex-mode . " \\\\")
-    (org-mode . " \\\\")
-    (tuareg-mode . ";;")
-    (html-mode . " <br>")))
-
+  (defcustom default-closing-char ";"
+    "default closing char, change in newline-force-close-alist if needed"
+    :type 'string
+    :group 'miniconf)
+  
+  ;; TODO: use a defcustom instead
+  (defcustom newline-force-close-alist
+    '((python-mode . ":")
+      (prolog-mode . ".")
+      (latex-mode . " \\\\")
+      (org-mode . " \\\\")
+      (tuareg-mode . ";;")
+      (html-mode . " <br>"))
+    "Closing char for different modes"
+    :type 'list
+    :group 'miniconf)
 #+end_src
 
 ** Some useful functions
@@ -771,7 +788,7 @@ MINIMAL EMACS CONFIGURATION
     (add-hook hook 'turn-on-eldoc-mode))
 #+end_src
 
-** Auto complete
+* Auto complete
 ** Importing all packages
 #+begin_src emacs-lisp :tangle yes
   ;;; Require
@@ -849,14 +866,26 @@ MINIMAL EMACS CONFIGURATION
   (add-to-list 'semantic-new-buffer-setup-functions
                '(nesc-mode . semantic-default-c-setup))
 #+end_src
+
+** Using semanticdb
+#+begin_src emacs-lisp :tangle yes
+  (global-semanticdb-minor-mode)
+  (semanticdb-enable-gnu-global-databases 'c-mode)
+  (semanticdb-enable-gnu-global-databases 'java-mode)
+  (semanticdb-enable-gnu-global-databases 'jde-mode)
+#+end_src
    
 * Programming
 ** To spell mode
    Most of the programming languages we can have syntax checking on the comments and strings.
    Flyspell-prog-mode is just for this
 #+begin_src emacs-lisp :tangle yes
-  (setq to-spell-langs
-        '(emacs-lisp-mode-hook python-mode-hook c-mode-hook nesc-mode-hook java-mode-hook jde-mode-hook haskell-mode-hook))
+  (defcustom to-spell-langs
+    '(emacs-lisp-mode-hook python-mode-hook c-mode-hook nesc-mode-hook java-mode-hook jde-mode-hook haskell-mode-hook)
+    "Set of programming modes for which I want to enable spelling in comments and strings"
+    :type 'list
+    :group 'miniconf)
+  ;; (setq to-spell-langs
   
   (dolist (lang-hook to-spell-langs)
     (add-hook  lang-hook 'flyspell-prog-mode))
@@ -1078,6 +1107,8 @@ MINIMAL EMACS CONFIGURATION
 #+end_src 
 
 * Latex
+** Configuring Auctex
+   Auctex is much more powerful than the default latex mode, enabling it using pdf as default mode
 #+begin_src emacs-lisp :tangle yes
   (add-to-list 'load-path (concat conf "auctex"))
   (autoload 'latex-mode "auctex" "latex mode" t)
@@ -1088,8 +1119,30 @@ MINIMAL EMACS CONFIGURATION
   (setq LaTeX-command "latex")
   (setq TeX-PDF-mode t)
   (setq TeX-master nil)
+  
+  ;; using flyspell also here
   (add-hook 'latex-mode-hook 'turn-on-flyspell)
 #+end_src
+
+** Accessing to latex symbols
+#+begin_src emacs-lisp :tangle yes
+  (setq latex-symbols-file
+        (expand-file-name "~/howto_guide/languages/latex/symbols-a4.pdf"))
+  
+  (defvar latex-command-program
+    (cond
+     (mac "open")
+     (linux "evince"))
+    "latex program to execute for viewing pdf")
+  
+  (defun latex-symbols ()
+    "open the latex symbols file"
+    (interactive)
+    (if (file-exists-p latex-symbols-file)
+        (shell-command (concat latex-command-program " " latex-symbols-file))
+      (message "file not found")))
+#+end_src
+
 * Mail settings
 ** General settings for message creation
 
@@ -1131,7 +1184,7 @@ MINIMAL EMACS CONFIGURATION
          ;; TODO: check if it's dynamic enough
          (eval-after-load "message"
            '(progn 
-              (add-to-list 'message-mode-hook 
+              (add-hook 'mail-mode-hook
                            '(lambda ()
                               (define-key message-mode-map "\C-c\t" 'external-abook-try-expand)))))))
 #+end_src
@@ -1450,6 +1503,10 @@ MINIMAL EMACS CONFIGURATION
   ;; elscreen nice stuff
   (global-set-key (kbd "M-<left>") 'elscreen-previous)
   (global-set-key (kbd "M-<right>") 'elscreen-next)
+  
+  ;; narrows to the actual function or class analyzed
+  ;; C-x n w to widen again
+  (global-set-key "\C-xnn" 'semantic-narrow-to-tag)
 #+end_src
   
 * External configuration files
