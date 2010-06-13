@@ -349,6 +349,14 @@ MINIMAL EMACS CONFIGURATION
       We also have [[http://www.eecs.ucf.edu/~leavens/emacs/camelCase/camelCase-mode.html][camel case mode]] which makes moving in camelized words smarter
 #+begin_src emacs-lisp :tangle yes
   (autoload 'camelCase-mode "camelCase-mode")
+  (defcustom camelCase-modes
+    '(python-mode-hook java-mode-hook c-mode-hook nesc-mode-hook)
+    "Modes where camelizing is allowed"
+    :type 'list
+    :group 'miniconf)
+  
+  (dolist (hook camelCase-modes)
+    (add-hook hook 'camelCase-mode))
 #+end_src
 
 *** Find project
@@ -901,7 +909,7 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (global-semanticdb-minor-mode)
   (semanticdb-enable-gnu-global-databases 'c-mode)
-  (semanticdb-enable-gnu-global-databases 'java-mode)
+c  (semanticdb-enable-gnu-global-databases 'java-mode)
   (semanticdb-enable-gnu-global-databases 'jde-mode)
   (semanticdb-enable-gnu-global-databases 'python-mode)
 #+end_src
