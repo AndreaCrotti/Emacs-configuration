@@ -390,6 +390,36 @@ MINIMAL EMACS CONFIGURATION
   (find-project-root)
 #+end_src
 
+*** Select current line
+#+begin_src emacs-lisp :tangle yes
+  (defun select-line ()
+    "If the mark is not active, select the current line.
+  Otherwise, expand the current region to select the lines the region touches."
+    (interactive)
+    (if mark-active ;; expand the selection to select lines
+        (let ((top (= (point) (region-beginning)))
+              (p1 (region-beginning))
+              (p2 (region-end)))
+          (goto-char p1)
+          (beginning-of-line)
+          (push-mark (point))
+          (goto-char p2)
+          (unless (looking-back "\n")
+            (progn
+              (end-of-line)
+              (if (< (point) (point-max)) (forward-char))))
+          (setq mark-active t
+                transient-mark-mode t)
+          (if top (exchange-point-and-mark)))
+      (progn
+        (beginning-of-line)
+        (push-mark (point))
+        (end-of-line)
+        (if (< (point) (point-max)) (forward-char))
+        (setq mark-active t
+              transient-mark-mode t))))
+#+end_src
+
 ** Reload this configuration
 #+begin_src emacs-lisp :tangle yes
   (defun reload-conf ()
@@ -857,11 +887,11 @@ MINIMAL EMACS CONFIGURATION
 ** Options for semantic
 #+begin_src emacs-lisp :tangle yes
   (semantic-mode t)
-  (global-semantic-stickyfunc-mode)
-  (global-semantic-idle-completions-mode)
-  (global-semantic-decoration-mode)
-  (global-semantic-highlight-func-mode)
-  (global-semantic-idle-summary-mode)
+  (global-semantic-stickyfunc-mode 1)
+  (global-semantic-idle-completions-mode 1)
+  (global-semantic-decoration-mode 1)
+  (global-semantic-highlight-func-mode 1)
+  (global-semantic-idle-summary-mode 1)
   ;; enable working on nesc-code, a superset of C, add another language to semantic instead
   (add-to-list 'semantic-new-buffer-setup-functions
                '(nesc-mode . semantic-default-c-setup))
@@ -873,6 +903,7 @@ MINIMAL EMACS CONFIGURATION
   (semanticdb-enable-gnu-global-databases 'c-mode)
   (semanticdb-enable-gnu-global-databases 'java-mode)
   (semanticdb-enable-gnu-global-databases 'jde-mode)
+  (semanticdb-enable-gnu-global-databases 'python-mode)
 #+end_src
    
 * Programming
@@ -1253,6 +1284,11 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 * General settings
+** Mode for startup
+#+begin_src emacs-lisp :tangle yes
+  (setq initial-major-mode 'python-mode) 
+#+end_src
+
 ** Showing more things
 #+begin_src emacs-lisp :tangle yes
 (display-time-mode 1)
@@ -1507,6 +1543,8 @@ MINIMAL EMACS CONFIGURATION
   ;; narrows to the actual function or class analyzed
   ;; C-x n w to widen again
   (global-set-key "\C-xnn" 'semantic-narrow-to-tag)
+
+  (global-set-key [(meta shift l)] select-line)
 #+end_src
   
 * External configuration files
