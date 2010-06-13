@@ -83,7 +83,7 @@
 
 ;;; MODE:
 
-(defvar camelCase-modeline-indicator " cml"
+(defvar camelCase-modeline-indicator " camelCase"
   "call (camelCase-install-mode) again if this is changed")
 (defvar camelCase-mode nil) 
 (make-variable-buffer-local 'camelCase-mode)
@@ -174,7 +174,7 @@
 				 modeline-indicator-string mode-map)
   (let ((old-mode-entry (assq mode-toggle-variable-name minor-mode-alist)))
     (setq minor-mode-alist
-	  (cons (list mode-toggle-acvariable-name modeline-indicator-string)
+	  (cons (list mode-toggle-variable-name modeline-indicator-string)
 		(delq old-mode-entry minor-mode-alist))))
   (let ((old-map-entry (assq mode-toggle-variable-name
 			     minor-mode-map-alist)))

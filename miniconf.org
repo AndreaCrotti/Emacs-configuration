@@ -1129,6 +1129,12 @@ MINIMAL EMACS CONFIGURATION
   (autoload 'applescript-mode "applescript-mode" "mode for applescript files" t)
 #+end_src
    
+** Lua
+#+begin_src emacs-lisp :tangle yes
+  ;; lua mode
+  (autoload 'lua-mode "lua-mode" "mode for lua" t)
+#+end_src
+
 ** Fixme mode
    This is a mode to highlight stuff, adding some more modes
 #+begin_src emacs-lisp :tangle yes
