@@ -902,7 +902,6 @@ MINIMAL EMACS CONFIGURATION
   ;; This is not working with the stupid code cache stuff
   (global-ede-mode t)
   (require 'semantic)
-  (load-library "semantic/senator")
 #+end_src
 
 ** Options for semantic
@@ -1587,7 +1586,7 @@ MINIMAL EMACS CONFIGURATION
   ;; C-x n w to widen again
   (global-set-key "\C-xnn" 'semantic-narrow-to-tag)
 
-  (global-set-key [(meta shift l)] select-line)
+  (global-set-key [(meta shift l)] 'select-line)
 #+end_src
   
 * External configuration files
