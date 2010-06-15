@@ -27,6 +27,7 @@ MINIMAL EMACS CONFIGURATION
 
 * Links
   - [[http://www.gnu.org/software/emacs/tour/][A guided tour of emacs features]]
+  - [[http://www.delorie.com/gnu/docs/emacs-lisp-intro/emacs-lisp-intro_toc.html][nice emacs lisp intro]]
 
 * Things not working in emacs 22
   - autoload stuff from ORG-clock
@@ -135,6 +136,7 @@ MINIMAL EMACS CONFIGURATION
   ;; TODO: use a defcustom instead
   (defcustom newline-force-close-alist
     '((python-mode . ":")
+      (jython-mode . ":")
       (prolog-mode . ".")
       (latex-mode . " \\\\")
       (org-mode . " \\\\")
@@ -880,6 +882,17 @@ MINIMAL EMACS CONFIGURATION
                     (add-to-list 'ac-sources 'ac-source-symbols))))
 #+end_src
 
+* Predictive modes
+#+begin_src emacs-lisp :tangle yes
+  (autoload 'predictive-mode "predictive" "predictive" t)
+  (set-default 'predictive-auto-add-to-dict t)
+  (setq predictive-main-dict 'dict-english
+        predictive-auto-learn t
+        predictive-add-to-dict-ask nil
+        predictive-use-auto-learn-cache nil
+        predictive-which-dict t)
+#+end_src
+
 * Cedet
   See [[http://alexott.net/en/writings/emacs-devenv/EmacsCedet.html][gentle introduction to cedet]] for a nicer tutorial
 
@@ -1150,6 +1163,21 @@ MINIMAL EMACS CONFIGURATION
   ;;TODO: make it working everywhere automatically if possible
   (add-to-list 'fixme-modes 'org-mode)
 #+end_src 
+** Yaml
+#+begin_src emacs-lisp :tangle yes
+  (autoload 'yaml-mode "yaml-mode" "mode for yaml" t)
+#+end_src
+
+** Go mode
+#+begin_src emacs-lisp :tangle yes
+  (autoload 'go-mode "go-mode" "go mode" t)
+#+end_src
+
+* Security
+#+begin_src emacs-lisp :tangle yes
+  (require 'epa)
+  (epa-file-enable)
+#+end_src
 
 * Latex
 ** Configuring Auctex
@@ -1504,6 +1532,7 @@ MINIMAL EMACS CONFIGURATION
 * Fun
 ** Fortune settings
 #+begin_src emacs-lisp :tangle yes
+;; TODO: make it a defcustom also 
 (setq fortune-dir "/opt/local/share/games/fortune/")
 #+end_src
 
