@@ -900,7 +900,7 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (require 'cedet)
   ;; This is not working with the stupid code cache stuff
-  (global-ede-mode t)
+  ;; (global-ede-mode t)
   (require 'semantic)
 #+end_src
 
@@ -912,6 +912,7 @@ MINIMAL EMACS CONFIGURATION
   (global-semantic-decoration-mode 1)
   (global-semantic-highlight-func-mode 1)
   (global-semantic-idle-summary-mode 1)
+  (global-semantic-highlight-edits-mode 1)
   ;; enable working on nesc-code, a superset of C, add another language to semantic instead
   (add-to-list 'semantic-new-buffer-setup-functions
                '(nesc-mode . semantic-default-c-setup))
@@ -1165,11 +1166,15 @@ MINIMAL EMACS CONFIGURATION
 ** Yaml
 #+begin_src emacs-lisp :tangle yes
   (autoload 'yaml-mode "yaml-mode" "mode for yaml" t)
+  (add-to-list 'auto-mode-alist
+               '("\\.yaml$" . yaml-mode))
 #+end_src
 
 ** Go mode
 #+begin_src emacs-lisp :tangle yes
   (autoload 'go-mode "go-mode" "go mode" t)
+  (add-to-list 'auto-mode-alist
+               '("\\.go$" . go-mode))
 #+end_src
 
 * Security
@@ -1547,10 +1552,6 @@ MINIMAL EMACS CONFIGURATION
   ;; cvs stuff
   (global-set-key "\C-xg" 'magit-status)
   
-  ;; tags related
-  (global-set-key "\M-?" 'etags-select-find-tag-at-point)
-  (global-set-key "\M-." 'etags-select-find-tag)  
-  
   ;; org keys
   (global-set-key "\C-c\C-l" 'org-annotate-file)
   (global-set-key "\C-cr" 'org-remember)
@@ -1559,6 +1560,7 @@ MINIMAL EMACS CONFIGURATION
   
   ;; senator
   (global-set-key "\M-." 'semantic-complete-jump-local)
+  (global-set-key "\M-?" 'semantic-ia-fast-jump)
   
   ;; overriding defualt not so smart visualization
   (global-set-key "\C-x\C-b" 'ibuffer) ;; manage buffers with ibuffer
@@ -1585,7 +1587,7 @@ MINIMAL EMACS CONFIGURATION
   ;; narrows to the actual function or class analyzed
   ;; C-x n w to widen again
   (global-set-key "\C-xnn" 'semantic-narrow-to-tag)
-
+  
   (global-set-key [(meta shift l)] 'select-line)
 #+end_src
   
