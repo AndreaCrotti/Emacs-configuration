@@ -33,6 +33,16 @@ MINIMAL EMACS CONFIGURATION
   - autoload stuff from ORG-clock
   - remember mode (not present)
 
+* Some documentation
+** How to extend emacs in general
+   [[http://www.enigmacurry.com/2009/01/14/extending-emacs-with-advice/][example about advising functions]]
+   - If you can use the mode hooks provided by the author, use them instead.
+   - If there is a bug in the original mode, just fix it in the original code and submit a patch.
+   - If there is a new feature you want, add it to the original mode and submit a patch. Talk to the author, work with him, and it will most likely end up in the next release.
+   - If you are an Emacs developer, working on Emacs itself, or one of the modes shipped with Emacs, never use advice. It's the least maintainable method of extending Emacs with the exception of a pure fork, and since you're working on Emacs itself, it's not a fork.
+   - If your patch is not accepted, or you know that what you want is fringe enough or hackish enough to not warrant submitting a patch, only then should you use advice or fork the project.
+   
+
 * Dependencies                                                     :noexport:
 # insert the dependencies
 #+begin_src dot :file dependecy.pdf :cmdline -Tpdf :exports none :results silent
@@ -96,6 +106,7 @@ MINIMAL EMACS CONFIGURATION
   ;; gnus
   (defalias 'gg 'get-some-messages)
   (defalias 'jd 'javadoc-lookup)
+  (defalias 'br 'babel-region-default)
 #+end_src   
 
 * User customization
@@ -428,6 +439,13 @@ MINIMAL EMACS CONFIGURATION
         (if (< (point) (point-max)) (forward-char))
         (setq mark-active t
               transient-mark-mode t))))
+#+end_src
+
+*** De to en
+#+begin_src emacs-lisp :tangle yes
+  (defun en-de (word)
+    (interactive "sSearching for:")
+    (browse-url (concat "http://www.wordreference.com/deen/" word)))
 #+end_src
 
 ** Reload this configuration
@@ -860,16 +878,18 @@ MINIMAL EMACS CONFIGURATION
 
 ** Define allowed modes
 #+begin_src emacs-lisp :tangle yes
-(setq ac-modes 
-      '(python-mode
-        emacs-lisp-mode
-        c-mode
-        nesc-mode
-        lisp-interaction-mode
-        java-mode
-        org-mode
-        ))
-(add-to-list 'ac-trigger-commands 'org-self-insert-command) ; if you want enable auto-complete at org-mode, uncomment this line
+  (setq ac-modes 
+        '(python-mode
+          emacs-lisp-mode
+          c-mode
+          nesc-mode
+          lisp-interaction-mode
+          java-mode
+          org-mode
+          html-mode
+          xml-mode))
+  
+  (add-to-list 'ac-trigger-commands 'org-self-insert-command) ; if you want enable auto-complete at org-mode, uncomment this line
 #+end_src
 
 ** Elisp configuration
@@ -1175,6 +1195,14 @@ MINIMAL EMACS CONFIGURATION
   (autoload 'go-mode "go-mode" "go mode" t)
   (add-to-list 'auto-mode-alist
                '("\\.go$" . go-mode))
+#+end_src
+
+** [[http://code.djangoproject.com/wiki/Emacs][Django modes]]
+   This mode is derived from html and helps writing django templates
+#+begin_src emacs-lisp :tangle yes
+  (autoload 'django-html-mode "django-html-mode" "mode for django templates" t)
+  (add-to-list 'auto-mode-alist
+               '("views" . django-html-mode))
 #+end_src
 
 * Security
@@ -1557,6 +1585,7 @@ MINIMAL EMACS CONFIGURATION
   (global-set-key "\C-cr" 'org-remember)
   (global-set-key "\C-ca" 'org-agenda)
   (global-set-key "\C-c\C-x\C-o" 'org-clock-out)
+  (global-set-key "\C-c\C-x\C-i" 'org-clock-in)
   
   ;; senator
   (global-set-key "\M-." 'semantic-complete-jump-local)
