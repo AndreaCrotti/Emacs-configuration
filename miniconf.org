@@ -108,6 +108,8 @@ MINIMAL EMACS CONFIGURATION
   (defalias 'jd 'javadoc-lookup)
   (defalias 'br 'babel-region-default)
   (defalias 'git 'open-git-files)
+  
+  (defalias 'fold 'senator-fold-tag-toggle)
 #+end_src   
 
 * User customization
@@ -990,6 +992,7 @@ MINIMAL EMACS CONFIGURATION
   [[http://hide1713.wordpress.com/2009/01/30/setup-perfect-python-environment-in-emacs/][Possible configuration for auto completion with ropemacs]]
 
 #+begin_src emacs-lisp :tangle yes
+  ;; TODO: check why is not working with the autoload
   (load-library "python-mode")
   (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
   (add-to-list 'interpreter-mode-alist '("python" . python-mode))
@@ -1626,6 +1629,11 @@ MINIMAL EMACS CONFIGURATION
   (global-set-key "\C-xnn" 'semantic-narrow-to-tag)
   
   (global-set-key [(meta shift l)] 'select-line)
+  
+  (global-set-key [f6] 'senator-fold-tag-toggle)
+  
+  (global-set-key (kbd "M-n") 'senator-next-tag)
+  (global-set-key (kbd "M-p") 'senator-previous-tag)
 #+end_src
   
 * External configuration files
