@@ -107,6 +107,7 @@ MINIMAL EMACS CONFIGURATION
   (defalias 'gg 'get-some-messages)
   (defalias 'jd 'javadoc-lookup)
   (defalias 'br 'babel-region-default)
+  (defalias 'git 'open-git-files)
 #+end_src   
 
 * User customization
@@ -247,7 +248,8 @@ MINIMAL EMACS CONFIGURATION
     (interactive)
     (if debug-on-error
         (setq debug-on-error nil)
-      (setq debug-on-error t)))
+      (setq debug-on-error t))
+    (message "debug-on-error now %s" debug-on-error))
 #+end_src
 
 *** Swap windows
@@ -988,14 +990,20 @@ MINIMAL EMACS CONFIGURATION
   [[http://hide1713.wordpress.com/2009/01/30/setup-perfect-python-environment-in-emacs/][Possible configuration for auto completion with ropemacs]]
 
 #+begin_src emacs-lisp :tangle yes
+  (load-library "python-mode")
   (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
   (add-to-list 'interpreter-mode-alist '("python" . python-mode))
   (autoload 'doctest-mode "doctest-mode" "doc test python mode" t)
-  (autoload 'python-mode "python-mode" "Python editing mode." t)
 #+end_src
 
-*** Ropemacs configuration from [[http://www.enigmacurry.com/2009/01/21/autocompleteel-python-code-completion-in-emacs/][ryan code]]
+*** Jython mode
+    Jython code is automatically detected from the shabang better activating the right interpreter
+#+begin_src emacs-lisp :tangle yes
+  (autoload 'jython-mode "python-mode" "new python mode" t)
+#+end_src    
 
+*** Ropemacs configuration from [[http://www.enigmacurry.com/2009/01/21/autocompleteel-python-code-completion-in-emacs/][ryan code]]
+    Would allow for some fancy stuff like autocompletion, better use semantic instead
 #+begin_src emacs-lisp :tangle no
   ;; Initialize Pymacs                                                                                           
   (autoload 'pymacs-apply "pymacs")
