@@ -530,7 +530,7 @@ MINIMAL EMACS CONFIGURATION
   (require 'byte-code-cache)
   ;; FIXME: This is still not fixing the recursive stuff
   (add-to-list 'bcc-blacklist "eieio")
-#+end_src   
+#+end_src
 
 * Visualization
 ** Menu and tool-bar disabling
@@ -1428,7 +1428,13 @@ MINIMAL EMACS CONFIGURATION
 
 ** Windmove
 #+begin_src emacs-lisp :tangle yes
-(windmove-default-keybindings 'shift)
+  (defcustom windmove-key
+    'shift
+    "key for moving between windows"
+    :type 'symbol
+    :group 'miniconf)
+  
+  (windmove-default-keybindings windmove-key)
 #+end_src
 
 ** Workarounds
