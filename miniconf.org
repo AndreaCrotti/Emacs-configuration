@@ -17,6 +17,7 @@ MINIMAL EMACS CONFIGURATION
 
 * TODO See how to use variables like *special-buffer-regexps* to have a better control over the buffer windows
 * TODO Everything that should be changed by the user must be put in a defcustom
+  Add also custom keys for all the global-key-set combinations
 
 * Assumptions
   - $HOME/.emacs.d/scripts is in the $PATH
@@ -952,6 +953,21 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
    
 * Programming
+** Internationalization
+   Editing po files
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'auto-mode-alist
+               '("\\.po\\'\\|\\.po\\." . po-mode))
+  
+  (autoload 'po-mode "po-mode+"
+    "Major mode for translators to edit PO files" t)
+  
+  ;; to automatically find out the coding system
+  (modify-coding-system-alist 'file "\\.po\\'\\|\\.po\\."
+                              'po-find-file-coding-system)
+  (autoload 'po-find-file-coding-system "po-mode")
+#+end_src
+
 ** To spell mode
    Most of the programming languages we can have syntax checking on the comments and strings.
    Flyspell-prog-mode is just for this
@@ -990,6 +1006,7 @@ MINIMAL EMACS CONFIGURATION
 ** Python
 *** Python mode
   [[http://hide1713.wordpress.com/2009/01/30/setup-perfect-python-environment-in-emacs/][Possible configuration for auto completion with ropemacs]]
+  Ropmacs though is not up to date and needs and may not work correctly
 
 #+begin_src emacs-lisp :tangle yes
   ;; TODO: check why is not working with the autoload
@@ -999,13 +1016,7 @@ MINIMAL EMACS CONFIGURATION
   (autoload 'doctest-mode "doctest-mode" "doc test python mode" t)
 #+end_src
 
-*** Jython mode
-    Jython code is automatically detected from the shabang better activating the right interpreter
-#+begin_src emacs-lisp :tangle yes
-  (autoload 'jython-mode "python-mode" "new python mode" t)
-#+end_src    
-
-*** Ropemacs configuration from [[http://www.enigmacurry.com/2009/01/21/autocompleteel-python-code-completion-in-emacs/][ryan code]]
+*** Ropemacs configuration from [[http://www.enigmacurry.com/2009/01/21/autocompleteel-python-code-completion-in-emacs/][ryan code]]                           :ARCHIVE:
     Would allow for some fancy stuff like autocompletion, better use semantic instead
 #+begin_src emacs-lisp :tangle no
   ;; Initialize Pymacs                                                                                           
@@ -1499,8 +1510,29 @@ MINIMAL EMACS CONFIGURATION
   :group 'variables)
 #+end_src
 
-* Some mac tricks
-** Open the terminal
+* Server stuff
+  This will start the server for the GUI version of emacs, make sure you set up correctly the emacsclient, for example on the mac
+#+begin_src sh
+  alias emacsclient='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient'
+  # and then setup your $EDITOR to emacsclient...
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+  (if window-system
+      (progn
+        (require 'server)
+        (server-start)))
+#+end_src
+  
+* Fun
+** Fortune settings
+#+begin_src emacs-lisp :tangle yes
+;; TODO: make it a defcustom also 
+(setq fortune-dir "/opt/local/share/games/fortune/")
+#+end_src
+
+** Some mac tricks
+*** Open the terminal
 #+begin_src emacs-lisp :tangle yes
   (defun mac-open-terminal ()
     (interactive)
@@ -1524,7 +1556,7 @@ MINIMAL EMACS CONFIGURATION
       ))
 #+end_src
 
-** Growl popup
+*** Growl popup
    This function can be pretty nice during presentations, it will popup the last pressed key via growl.
 #+begin_src emacs-lisp :tangle yes
      (defun growl-popup (msg)
@@ -1564,27 +1596,6 @@ MINIMAL EMACS CONFIGURATION
         (setq growl-mode nil))))
 #+end_src
       
-* Server stuff
-  This will start the server for the GUI version of emacs, make sure you set up correctly the emacsclient, for example on the mac
-#+begin_src sh
-  alias emacsclient='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient'
-  # and then setup your $EDITOR to emacsclient...
-#+end_src
-
-#+begin_src emacs-lisp :tangle yes
-  (if window-system
-      (progn
-        (require 'server)
-        (server-start)))
-#+end_src
-  
-* Fun
-** Fortune settings
-#+begin_src emacs-lisp :tangle yes
-;; TODO: make it a defcustom also 
-(setq fortune-dir "/opt/local/share/games/fortune/")
-#+end_src
-
 * Global keys settings
 #+begin_src emacs-lisp :tangle yes
   ;; compile facilities
@@ -1614,11 +1625,6 @@ MINIMAL EMACS CONFIGURATION
   ;; visualization
   (global-set-key [f11] 'full)
   
-  (defun win-split ()
-    "Split current window sensibly"
-    (interactive)
-    (split-window-sensibly (window-buffer)))
-  
   ;; splitting windows facilitites
   ;; TODO: pass to a sensible splitting instead
   (global-set-key [f2] 'split-window-horizontally)
@@ -1636,6 +1642,7 @@ MINIMAL EMACS CONFIGURATION
   
   (global-set-key [(meta shift l)] 'select-line)
   
+  ;; TODO: the senator stuff should be enabled only where senator actually works!!
   (global-set-key [f6] 'senator-fold-tag-toggle)
   
   (global-set-key (kbd "M-n") 'senator-next-tag)
