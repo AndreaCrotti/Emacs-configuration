@@ -446,12 +446,6 @@ MINIMAL EMACS CONFIGURATION
               transient-mark-mode t))))
 #+end_src
 
-*** De to en
-#+begin_src emacs-lisp :tangle yes
-  (defun en-de (word)
-    (interactive "sSearching for:")
-    (browse-url (concat "http://www.wordreference.com/deen/" word)))
-#+end_src
 
 ** Reload this configuration
 #+begin_src emacs-lisp :tangle yes
@@ -459,6 +453,7 @@ MINIMAL EMACS CONFIGURATION
     (interactive)
     (org-babel-load-file "miniconf.org"))
 #+end_src
+
 * Operating system detection
 #+begin_src emacs-lisp :tangle yes
 (defconst linux (string-match "linux" system-configuration))
@@ -637,7 +632,19 @@ MINIMAL EMACS CONFIGURATION
    (require 'browse-kill-ring)
 #+end_src
 
-** Spelling functions
+** Translations
+*** Org babel
+#+begin_src emacs-lisp :tangle yes
+  (setq babel-preferred-from-language "German")
+  (setq babel-preferred-to-language "English")
+  
+  (autoload 'babel-region-default "babel" "translating default" t)
+  (autoload 'babel-region "babel" "translating a region" t)
+  (autoload 'babel "babel" "translating interactively" t)
+  (autoload 'babel-buffer "babel" "translate buffer" t)
+#+end_src
+
+*** Spelling functions
 # TODO: make it easier to manage and to scroll through lists of possibilities
 #+begin_src emacs-lisp :tangle yes
   (setq ispell-dictionary "english")
@@ -952,15 +959,16 @@ MINIMAL EMACS CONFIGURATION
   (semanticdb-enable-gnu-global-databases 'python-mode)
 #+end_src
    
+
 * Programming
 ** Internationalization
    Editing po files
 #+begin_src emacs-lisp :tangle yes
-  (add-to-list 'auto-mode-alist
-               '("\\.po\\'\\|\\.po\\." . po-mode))
-  
   (autoload 'po-mode "po-mode+"
     "Major mode for translators to edit PO files" t)
+  
+  (add-to-list 'auto-mode-alist
+               '("\\.po\\'\\|\\.po\\." . po-mode))
   
   ;; to automatically find out the coding system
   (modify-coding-system-alist 'file "\\.po\\'\\|\\.po\\."
