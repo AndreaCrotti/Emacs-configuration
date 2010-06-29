@@ -379,6 +379,8 @@ MINIMAL EMACS CONFIGURATION
 
 *** Find project
     This functions are take from textmate.el and are used to check if we're on a project of some kind.
+    Not used at the moment.
+
 #+begin_src emacs-lisp :tangle yes
   ;; When it's a git project we can use a grep over git ls-files
   ;; same thing for mercurial
@@ -471,6 +473,7 @@ MINIMAL EMACS CONFIGURATION
         (setq ns-alternate-modifier (quote none))
         (setq ns-command-modifier (quote meta))))
 #+end_src
+
 * Buffer management
   See also [[http://scottfrazersblog.blogspot.com/2010/01/emacs-filtered-buffer-switching.html][this nice article]] for a better filtering of buffers while switching.
 
@@ -950,6 +953,20 @@ MINIMAL EMACS CONFIGURATION
                '(nesc-mode . semantic-default-c-setup))
 #+end_src
 
+** Hook for inline documentation setting local keys
+#+begin_src emacs-lisp :tangle yes
+  (defun my-cedet-hook ()
+    (local-set-key [(control return)] 'semantic-ia-complete-symbol)
+    (local-set-key "\C-c?" 'semantic-ia-complete-symbol-menu)
+    (local-set-key "\C-c>" 'semantic-complete-analyze-inline)
+    (local-set-key "\C-cj" 'semantic-ia-fast-jump)
+    (local-set-key "\C-cq" 'semantic-ia-show-doc)
+    (local-set-key "\C-cs" 'semantic-ia-show-summary)
+    (local-set-key "." 'semantic-complete-self-insert)
+    (local-set-key ">" 'semantic-complete-self-insert)
+    (local-set-key "\C-cp" 'semantic-analyze-proto-impl-toggle))
+#+end_src
+
 ** Using semanticdb
 #+begin_src emacs-lisp :tangle yes
   (global-semanticdb-minor-mode)
@@ -968,7 +985,11 @@ MINIMAL EMACS CONFIGURATION
     "Major mode for translators to edit PO files" t)
   
   (add-to-list 'auto-mode-alist
-               '("\\.po\\'\\|\\.po\\." . po-mode))
+               '("\\.po$" . po-mode))
+  
+  (add-to-list 'auto-mode-alist
+               '("\\.pot$" . po-mode))
+  
   
   ;; to automatically find out the coding system
   (modify-coding-system-alist 'file "\\.po\\'\\|\\.po\\."
@@ -1009,6 +1030,8 @@ MINIMAL EMACS CONFIGURATION
   ;; FIXME: eldoc mode, not working correctly apparently
   ;; See http://www.emacswiki.org/emacs/CEldocMode for more info
   (add-hook 'c-mode-hook 'c-turn-on-eldoc-mode)
+  ;; adding the hook from cedet
+  (add-hook 'c-mode-common-hook 'my-cedet-hook)
 #+end_src
 
 ** Python
@@ -1138,7 +1161,16 @@ MINIMAL EMACS CONFIGURATION
                (define-key yas/keymap [tab] 'yas/next-field)))
 #+end_src
 
-** Other languages
+** Prolog
+#+begin_src emacs-lisp :tangle yes
+  (autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
+  (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
+  (autoload 'mercury-mode "prolog" "Major mode for editing Mercury programs." t)
+  (setq prolog-system 'swi)
+  (add-to-list 'auto-mode-alist '("\\.pl$" . prolog-mode))
+#+end_src
+
+** Nesc
 #+begin_src emacs-lisp :tangle yes
   (autoload 'nesc-mode "nesc" nil t)
   (add-to-list 'auto-mode-alist '("\\.nc$" . nesc-mode))
@@ -1200,6 +1232,19 @@ MINIMAL EMACS CONFIGURATION
   (autoload 'applescript-mode "applescript-mode" "mode for applescript files" t)
 #+end_src
    
+** Web programming
+  Enabling nxhtml mode
+#+begin_src emacs-lisp :tangle yes
+  (load (concat conf "nxhtml/autostart.el"))
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'auto-mode-alist '("\\.mak$" . mako-html-mumamo))
+  (add-to-list 'auto-mode-alist '("\\.mako$" . mako-html-mumamo))
+#+end_src
+
+
+
 ** Lua
 #+begin_src emacs-lisp :tangle yes
   ;; lua mode

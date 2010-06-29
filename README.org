@@ -21,13 +21,15 @@ Emacs configuration
   When you want to update the configuration just run a 
   *git pull*
   Unless you changed some code that generates a conflict the merge should be automatic.
-
+  
 ** Your own settings
    If you want to add some personal settings you can
    - modify directly this file
    - add them to an external "file.el" (or in "private.el" or in "custom.el")
    
    Just keep in mind that if you modify directly the file miniconf.org when you try to pull my last changes there could be some conflicts and you might need to merge them.
+
+   Also notice that the file miniconf.el is automatically generated from the org file, any change to it will be discarded next time you load emacs.
 
 * Where you can get emacs 23:
 ** OSX:
