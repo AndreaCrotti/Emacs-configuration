@@ -89,6 +89,69 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Define tests using ert.el
 
+(ert-deftest nxhtml-ert-indent-bug381191 ()
+  "Test of eRuby indentation."
+  (ert-with-temp-buffer-include-file "bug-381191-dh-test.php"
+    (load-file (ert-get-test-file-name "bug-381191-dh-test.el"))
+    (add-hook 'ert-simulate-command-post-hook
+              'nxhtmltest-should-no-mumamo-errors
+              nil t)
+    (ert-simulate-command '(html-mumamo-mode) t)
+    (ert-simulate-command '(goto-line 2) t)
+    (c-set-style "drupal")
+    (nxhtmltest-get-fontification-method)
+    (nxhtmltest-fontify-default-way 2 "trans")
+    (ert-simulate-command '(mark-whole-buffer) t)
+    (ert-simulate-command '(indent-for-tab-command) t)
+    (nxhtmltest-goto-line 3)  (ert-should (= 2 (current-indentation)))
+    (nxhtmltest-goto-line 4)  (ert-should (= 2 (current-indentation)))
+    (nxhtmltest-goto-line 5)  (ert-should (= 0 (current-indentation)))
+    ))
+
+(ert-deftest nxhtml-ert-indent-bug370417 ()
+  "Test of eRuby indentation."
+  (ert-with-temp-buffer-include-file "bug370417.php"
+    (add-hook 'ert-simulate-command-post-hook
+              'nxhtmltest-should-no-mumamo-errors
+              nil t)
+    (ert-simulate-command '(html-mumamo-mode) t)
+    (nxhtmltest-get-fontification-method)
+    (nxhtmltest-fontify-default-way 2 "trans")
+    (ert-simulate-command '(mark-whole-buffer) t)
+    (ert-simulate-command '(indent-for-tab-command) t)
+    (nxhtmltest-goto-line 5)  (ert-should (= 8 (current-indentation)))
+    (nxhtmltest-goto-line 6)  (ert-should (= 8 (current-indentation)))
+    ))
+
+(ert-deftest nxhtml-ert-indent-bug272871 ()
+  "Test of eRuby indentation."
+  (ert-with-temp-buffer-include-file "bug272871.php"
+    (add-hook 'ert-simulate-command-post-hook
+              'nxhtmltest-should-no-mumamo-errors
+              nil t)
+    (ert-simulate-command '(html-mumamo-mode) t)
+    (nxhtmltest-get-fontification-method)
+    (nxhtmltest-fontify-default-way 2 "trans")
+    (nxhtmltest-goto-line 5)
+    (ert-simulate-command '(indent-for-tab-command) t)
+    (ert-should (= 2 (current-indentation)))
+    ))
+
+(ert-deftest nxhtml-ert-indent-bug592009 ()
+  "Test of eRuby indentation."
+  (ert-with-temp-buffer-include-file "bug592009-edit.html.erb"
+    (add-hook 'ert-simulate-command-post-hook
+              'nxhtmltest-should-no-mumamo-errors
+              nil t)
+    (ert-simulate-command '(eruby-html-mumamo-mode) t)
+    (nxhtmltest-get-fontification-method)
+    (nxhtmltest-fontify-default-way 2 "trans")
+    (ert-simulate-command '(mark-whole-buffer) t)
+    (ert-simulate-command '(indent-for-tab-command) t)
+    (nxhtmltest-goto-line 14)  (ert-should (= 2 (current-indentation)))
+    (nxhtmltest-goto-line 18)  (ert-should (= 2 (current-indentation)))
+    ))
+
 (ert-deftest nxhtml-ert-bug531328 ()
   "Test of eRuby chunks with nothing between."
   (ert-with-temp-buffer-include-file "bug531328.rhtml"
@@ -620,6 +683,7 @@ fail (they corresponds to known errors in nXhtml/Emacs):
 "
   (interactive)
   (setq message-log-max t)
+  (setq resize-mini-windows nil)
   (when (called-interactively-p)
     (nxhtmltest-get-fontification-method))
   (nxhtmltest-run-ert nil))

@@ -47,9 +47,14 @@
 
 (message "Nxml/Nxhtml Autostart.el loading ...")
 
-(defconst nxhtml-autostart-trace nil)
+(defconst nxhtml-autostart-trace t)
+(when (and nil nxhtml-autostart-trace)
+  (setq trace-buffer "*Messages*")
+  (trace-function-background 'require))
 (defsubst nxhtml-autostart-trace (format-string &rest args)
   (when nxhtml-autostart-trace
+    (when (fboundp 'gdb-deb-print)
+      (apply 'gdb-deb-print format-string args))
     (apply 'message format-string args)))
 
 (defconst nxhtml-load-time-start (float-time))
@@ -61,9 +66,13 @@
                                       buffer-file-name)))
 
 (require 'nxhtml-base)
+;; Fix-me: How to I tell the compile that `nxhtml-menu-mode' is there?
+;;(declare-function 'nxhtml-menu-mode (expand-file-name "nxhtml/nxhtml-menu" nxhtml-install-dir) t t)
+
 (eval-and-compile (when (fboundp 'nxml-mode)
-                     (load (expand-file-name "etc/schema/schema-path-patch"
-                                             nxhtml-install-dir))))
+                    (let ((patching-file "etc/schema/schema-path-patch"))
+                      (unless (load (expand-file-name patching-file nxhtml-install-dir) t)
+                        (message "File %S not found (OK during download)" patching-file)))))
 
 ;; (defun nxhtml-custom-load-and-get-value (symbol)
 ;;   (custom-load-symbol symbol)
@@ -153,10 +162,14 @@
   ;;   (nxhtml-setup-auto-download nxhtml-install-dir))
 
   (unless (featurep 'web-autoload)
+    (nxhtml-autostart-trace "... loading web-autoload")
     (load (expand-file-name "web-autoload" nxhtml-install-dir) (not nxhtml-autoload-web)))
+  (nxhtml-autostart-trace "... nXhtml loading %.1f seconds elapsed ..." (- (float-time) nxhtml-load-time-start))
 
   (when nxhtml-autoload-web
+    (nxhtml-autostart-trace "... advicing require")
     (ad-activate 'require t))
+  (nxhtml-autostart-trace "... nXhtml loading %.1f seconds elapsed ..." (- (float-time) nxhtml-load-time-start))
 
   ;; Fix-me: Why must as-external be loaded? Why doesn't it work in batch?
   ;;(unless noninteractive (require 'as-external))
@@ -167,8 +180,11 @@
 
   ;; Turn on `nxhtml-menu-mode' unconditionally
   (nxhtml-autostart-trace "Turn on `nxhtml-menu-mode' unconditionally")
-  (nxhtml-menu-mode 1)
-  (nxhtml-autostart-trace "... nXhtml loading %.1f seconds elapsed ..." (- (float-time) nxhtml-load-time-start))
+  (require 'nxhtml-menu nil t)
+  (if (not (featurep 'nxhtml-menu))
+      (nxhtml-autostart-trace "... Not loaded yet? Downloading?")
+    (nxhtml-menu-mode 1)
+    (nxhtml-autostart-trace "... nXhtml loading %.1f seconds elapsed ..." (- (float-time) nxhtml-load-time-start)))
 
   ;; Patch the rnc include paths
   (when (fboundp 'rncpp-patch-xhtml-loader) (rncpp-patch-xhtml-loader))
@@ -176,7 +192,9 @@
 
   ;; Load nXhtml
   (unless (featurep 'nxhtml-autoload)
-    (load (expand-file-name "nxhtml/nxhtml-autoload" nxhtml-install-dir))))
+    (unless (load (expand-file-name "nxhtml/nxhtml-autoload" nxhtml-install-dir) t)
+      (nxhtml-autostart-trace "Could not load nxhtml-autoload. Downloading?"))))
+
 (nxhtml-autostart-trace "... nXhtml loading %.1f seconds elapsed ..." (- (float-time) nxhtml-load-time-start))
 
 

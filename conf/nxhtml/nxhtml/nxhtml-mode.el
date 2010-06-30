@@ -203,7 +203,7 @@ You can add additional elisp code for completing to
   (put 'hs-set-up-overlay 'permanent-local t)
   (when (featurep 'appmenu-fold)
     (appmenu-fold-setup))
-  (foldit-mode 1))
+  (when (fboundp 'foldit-mode) (foldit-mode 1)))
 
 (defun nxhtml-hs-start-tag-end (beg)
   (save-excursion
@@ -1929,7 +1929,8 @@ This mode may be turned on automatically in two ways:
 
 (when (featurep 'typesetter)
   (defun typesetter-init-nxhtml-mode ()
-    (typesetter-init-html-mode))
+    (when (fboundp 'typesetter-init-html-mode)
+      (typesetter-init-html-mode)))
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2074,7 +2075,7 @@ This guess is made by matching the entries in
               key
               (guesses nxhtml-guess-validation-header-alist))
           (goto-char (point-min))
-          (if (not (search-forward "</" 2000 t))
+          (if (not (search-forward "<" 2000 t))
               (progn
                 (setq rec (car guesses))
                 (setq key (cdr rec)))
@@ -2084,23 +2085,11 @@ This guess is made by matching the entries in
               (setq guesses (cdr guesses))
               (setq regexp (car rec))
               (goto-char (point-min))
-              ;; Fix-me: check for chunk and check if in string.
               (let (found)
                 (while (and (not found)
                             (re-search-forward regexp nil t))
-                  ;; ensure fontified, but how?
-                  (when (and (boundp 'mumamo-multi-major-mode) mumamo-multi-major-mode)
-                    (let ((mumamo-just-changed-major nil))
-                      ;;(unless (and (mumamo-get-existing-chunk-at (point))
-                      (unless (and (mumamo-find-chunks (point) "guess-validation-header")
-                                   (eq t (get-text-property (point) 'fontified)))
-                        (mumamo-fontify-region (point-min) (+ 1000 (point))))))
-                  (unless (memq (get-text-property (point) 'face)
-                                '(font-lock-comment-face
-                                  font-lock-comment-delimiter-face
-                                  font-lock-doc-face
-                                  font-lock-string-face
-                                  ))
+                  ;; check if in string or comment
+                  (when (mumamo-end-in-code 1 (point) (mumamo-main-major-mode))
                     (setq found t)))
                 (unless found
                   (setq key (cdr rec))))))

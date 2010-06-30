@@ -194,8 +194,7 @@
 (eval-when-compile (require 'ediff))
 (eval-when-compile (require 'mumamo nil t))
 (eval-when-compile (require 'ourcomments-util nil t))
-(eval-when-compile
-  (add-to-list 'load-path default-directory))
+;;(eval-when-compile (add-to-list 'load-path default-directory))
 (eval-when-compile (require 'html-site nil t))
 (require 'easymenu) ;; This makes menus so much easier!
 (require 'compile)  ;; To make the error buffer more sexy

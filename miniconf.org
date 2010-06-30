@@ -955,16 +955,18 @@ MINIMAL EMACS CONFIGURATION
 
 ** Hook for inline documentation setting local keys
 #+begin_src emacs-lisp :tangle yes
-  (defun my-cedet-hook ()
+  (defun my-c-like-cedet-hook ()
     (local-set-key [(control return)] 'semantic-ia-complete-symbol)
     (local-set-key "\C-c?" 'semantic-ia-complete-symbol-menu)
     (local-set-key "\C-c>" 'semantic-complete-analyze-inline)
     (local-set-key "\C-cj" 'semantic-ia-fast-jump)
     (local-set-key "\C-cq" 'semantic-ia-show-doc)
     (local-set-key "\C-cs" 'semantic-ia-show-summary)
-    (local-set-key "." 'semantic-complete-self-insert)
-    (local-set-key ">" 'semantic-complete-self-insert)
     (local-set-key "\C-cp" 'semantic-analyze-proto-impl-toggle))
+  
+  (defun my-c-only-cedet-hook ()
+    (local-set-key "." 'semantic-complete-self-insert)
+    (local-set-key ">" 'semantic-complete-self-insert))
 #+end_src
 
 ** Using semanticdb
@@ -1031,7 +1033,9 @@ MINIMAL EMACS CONFIGURATION
   ;; See http://www.emacswiki.org/emacs/CEldocMode for more info
   (add-hook 'c-mode-hook 'c-turn-on-eldoc-mode)
   ;; adding the hook from cedet
-  (add-hook 'c-mode-common-hook 'my-cedet-hook)
+  (add-hook 'c-mode-common-hook 'my-c-like-cedet-hook)
+  
+  (add-hook 'c-mode-hook 'my-c-only-cedet-hook)
 #+end_src
 
 ** Python
@@ -1242,8 +1246,6 @@ MINIMAL EMACS CONFIGURATION
   (add-to-list 'auto-mode-alist '("\\.mak$" . mako-html-mumamo))
   (add-to-list 'auto-mode-alist '("\\.mako$" . mako-html-mumamo))
 #+end_src
-
-
 
 ** Lua
 #+begin_src emacs-lisp :tangle yes

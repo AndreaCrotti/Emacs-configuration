@@ -288,8 +288,10 @@ Use the entry with this name in `html-site-list'."
                (completing-read prompt site-names nil t nil 'site-names))))))
   (unless (or (string= name "")
               (string= name html-site-current))
-    (setq html-site-current name)
-    (customize-save-variable 'html-site-current html-site-current)))
+    ;;(setq html-site-current name)
+    (customize-set-variable 'html-site-current name)
+    (customize-set-value 'html-site-current name)
+    (customize-save-variable 'html-site-current name)))
 
 ;;;###autoload
 (defun html-site-dired-current ()

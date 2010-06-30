@@ -50,7 +50,7 @@
 (eval-when-compile (require 'flymake-css nil t))
 (eval-when-compile (require 'flymake-java-1 nil t))
 
-(defconst nxhtml-menu:version "2.08")
+(defconst nxhtml-menu:version "beta 2.09")
 (setq message-log-max t)
 (setq debug-on-error t)
 
@@ -131,7 +131,7 @@ Otherwise setup for normal local autoloading."
   "Let nXhtml add some addtions to flymake.
 This adds support for CSS and JavaScript files.
 
-It also adds showing of errors in minibuffer when point is on
+It also adds showing errors in minibuffer when point is on
 them.
 
 If you turn this off you must restart Emacs for it to take

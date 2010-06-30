@@ -66,13 +66,13 @@
   "Full path to css-validor.jar file.
 You need the css-validator.jar and some other files for flymake
 for CSS to work. The instructions below tell you how to get and
-install it. The instructions are copied from
+install it. The instructions are copied from url
 
-  http://www.emacswiki.org/emacs/FlymakeCSS
+  `http://www.emacswiki.org/emacs/FlymakeCSS'
 
-Get http://www.w3.org/QA/Tools/css-validator/css-validator.jar
-create a directory named ‘lib’ in the same directory. Copy to the
-‘lib’ dir the following jars:
+Get url `http://www.w3.org/QA/Tools/css-validator/css-validator.jar'
+and create a directory named ‘lib’ in the same directory. Copy to
+the ‘lib’ dir the following jars:
 
  * commons-collections-3.2.1.jar
  * jigsaw.jar
@@ -87,7 +87,7 @@ From:
  URL `http://jigsaw.w3.org/Distrib/jigsaw_2.2.6.tar.gz'
  URL `http://www.apache.org/dist/commons/collections/binaries/commons-collections-3.2.1-bin.tar.gz'
  URL `http://www.apache.org/dist/commons/lang/binaries/commons-lang-2.4-bin.tar.gz'
- URL `http://www.apache.org/dist/velocity/engine/1.6.1/velocity-1.6.1.tar.gz'
+ URL `http://archive.apache.org/dist/velocity/engine/1.6.1/velocity-1.6.1.tar.gz'
  URL `http://www.apache.org/dist/xerces/j/Xerces-J-bin.2.9.1.tar.gz'
  URL `http://home.ccil.org/~cowan/XML/tagsoup/tagsoup-1.2.jar'
 

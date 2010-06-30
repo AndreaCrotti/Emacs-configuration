@@ -3,7 +3,7 @@
 ;; Author: Lennart Borgman (lennart O borgman A gmail O com)
 ;; Created: Sat Apr 21 2007
 ;; Moved version to autostart.el.
-;; Last-Updated: 2010-01-04 Mon
+;; Last-Updated: 2010-05-25 Tue
 ;; URL:
 ;; Keywords:
 ;; Compatibility:
@@ -47,9 +47,17 @@
 (eval-when-compile (require 'cl))
 (eval-when-compile (require 'cus-edit))
 (eval-when-compile (require 'dired))
+(eval-when-compile (require 'foldit))
 (eval-when-compile (require 'gimpedit nil t))
 (eval-when-compile (require 'html-site nil t))
-(eval-when-compile (when (fboundp 'nxml-mode) (require 'nxhtml-mode nil t)))
+;; The next test gives the warning: "the function
+;; `nxhtml-validation-header-mode' might not be defined at runtime",
+;; but is necessary for Emacs 22.
+(eval-when-compile
+  (when (or (>= emacs-major-version 23)
+            (fboundp 'nxml-mode))
+    (require 'nxhtml-mode nil t)))
+(declare-function nxhtml-validation-header-mode "nxhtml-mode")
 (eval-when-compile (require 'css-color nil t))
 (eval-when-compile (require 'flymake))
 ;;(eval-when-compile (require 'flymake-php))
@@ -59,6 +67,55 @@
 (eval-when-compile (require 'udev-ecb nil t))
 ;;(eval-when-compile (require 'udev-cedet))
 (eval-when-compile (require 'udev-rinari nil t))
+
+;; Fix-me: The compiler still complains...
+;;(eval-when-compile (require 'nxhtml-mode))
+;;(declare-function gud-find-c-expr "gud.el" nil)
+
+;;(mumamo-find-other-html 'html-mumamo)
+;;(mumamo-find-other-html 'eruby-mumamo)
+;;(mumamo-find-other-html 'nxhtml-mumamo)
+(defun mumamo-find-other-html (multi-mode)
+  "Find html/nxhtml corresponding to MULTI-MODE'.
+"
+  (let ((multi-mode-name (symbol-name multi-mode))
+        (patt (rx (or "-" word-start)
+                  (submatch
+                   (? "nx")
+                   "html")
+                  "-"))
+        new-name
+        )
+    (when (string-match patt multi-mode-name)
+      (let ((len (- (match-end 1) (match-beginning 1))))
+      (setq new-name (replace-regexp-in-string patt (cond ((= 6 len)
+                                                           "html")
+                                                          ((= 4 len)
+                                                           "nxhtml")
+                                                          (t (error "bad match")))
+                                               multi-mode-name
+                                               nil
+                                               nil
+                                               1))
+      (list (intern-soft new-name) (when (= len 4) t))))))
+
+;;;###autoload
+(defun mumamo-switch-to-other-html ()
+  (interactive)
+  (if (not (nxhtml-html-in-buffer))
+      (message "No html mode in buffer.")
+    (let ((other-mode (mumamo-find-other-html (or mumamo-multi-major-mode
+                                                  major-mode))))
+      (if (not other-mode)
+          (if (nxhtml-nxhtml-in-buffer)
+              (message "Can't find corresponding html mode")
+            (message "Can't find corresponding nxhtml mode"))
+        (funcall (nth 0 other-mode))
+        (when (and mumamo-multi-major-mode
+                   (nth 1 other-mode))
+          (when (fboundp 'nxhtml-validation-header-mode)
+            (nxhtml-validation-header-mode 1)))
+        ))))
 
 (defun nxhtml-nxhtml-in-buffer ()
   (or (derived-mode-p 'nxhtml-mode)
@@ -209,7 +266,8 @@
       (save-restriction
         (widen)
         (setq header
-              (if nxhtml-validation-header-mode
+              (if (and (boundp 'nxhtml-validation-header-mode)
+                       nxhtml-validation-header-mode)
                   (let* ((key nxhtml-current-validation-header)
                          (rec (unless (listp key)
                                 (assoc key nxhtml-validation-headers)))
@@ -318,6 +376,9 @@
       (define-key tools-map [nxhtml-viper-tut]
         (list 'menu-item "Viper Try-Out Tutorial"
               'viper-tutorial))
+      (define-key tools-map [nxhtml-important-commands]
+        (list 'menu-item "Important Commands Ref Card"
+              'key-cat-help))
       (define-key tools-map [nxhtml-viper-separator]
         (list 'menu-item "--" nil))
       ;;(define-key tools-map [nxhtml-frame-win-separator] (list 'menu-item "--" nil))
@@ -444,6 +505,10 @@
 
         (define-key mozrepl-map [nxhtml-mozrepl-separator2]
           (list 'menu-item "--" nil))
+        (define-key mozrepl-map [nxhtml-mozrepl-auto-refresh]
+          (list 'menu-item "Refresh Firefox on Edit" 'mozadd-auto-update-mirror-mode
+                :button '(:toggle . (and (boundp 'mozadd-auto-update-mirror-mode)
+                                         mozadd-auto-update-mirror-mode))))
         (define-key mozrepl-map [nxhtml-mozrepl-refresh]
           (list 'menu-item "Refresh Firefox on Save" 'mozadd-refresh-edited-on-save-mode
                 :button '(:toggle . (and (boundp 'mozadd-refresh-edited-on-save-mode)
@@ -522,11 +587,15 @@
         (define-key some-help-map [nxhtml-css-help]
           (list 'menu-item "CSS Help" 'xhtml-help-show-css-ref))
         (define-key some-help-map [nxhtml-tag-help]
-          (list 'menu-item "XHTML Tag Help" 'nxhtml-short-tag-help)))
+          (list 'menu-item "XHTML Tag Help" 'nxhtml-short-tag-help))
+        (define-key some-help-map [some-help-sep]
+          '(menu-item "--"))
+        (define-key some-help-map [nxhtml-search-net]
+          (list 'menu-item "Search Internet" 'search-net-dwim)))
 
       (let ((cssclr-map (make-sparse-keymap)))
         (define-key tools-map [nxhtml-css-color]
-          (list 'menu-item "Color Help" cssclr-map))
+          (list 'menu-item "Color Tools" cssclr-map))
         (define-key cssclr-map [nxhtml-css-color-mode]
           (list 'menu-item "Css Color Mode" 'css-color-mode
 		:enable '(and font-lock-mode
@@ -544,6 +613,12 @@
       (define-key tools-map [nxhtml-help-separator]
         (list 'menu-item "--"))
 
+      (let ((rncdl-map (make-sparse-keymap)))
+        (define-key tools-map [rncdl-map]
+          (list 'menu-item "Download/Update Schema Files" rncdl-map))
+        (define-key rncdl-map [rncdl-html5]
+          (list 'menu-item "(X)HTML5 Schema Files" 'rncdl-update-html5))
+        )
 
       (let ((html-link-map (make-sparse-keymap)))
         (define-key tools-map [nxhtml-link-map]
@@ -696,7 +771,9 @@
                 ;; :enable '(or (derived-mode-p 'nxml-mode) (nxhtml-nxhtml-in-buffer))
                 :visible `(not (derived-mode-p 'dired-mode))
                 :enable ' (or (derived-mode-p 'nxml-mode)
-                                  (nxhtml-nxhtml-in-buffer))
+                                  ;;(nxhtml-nxhtml-in-buffer)
+                                  (nxhtml-html-in-buffer)
+                                  )
                 ))
         (let ((val-map (make-sparse-keymap)))
           (define-key cmpl-map [nxhtml-cmpl-val-map]
@@ -758,6 +835,7 @@
           (define-key val-map [nxhtml-validation-header-mode]
             (list 'menu-item "Use Fictive XHTML Validation Header in Buffer"
                   'nxhtml-validation-header-mode
+                  ;;:visible '(fboundp 'nxhtml-validation-header-mode)
                   :button '(:toggle . (and (boundp 'nxhtml-validation-header-mode)
                                            nxhtml-validation-header-mode))))
           )
@@ -809,6 +887,7 @@
           (define-key style-map [popcmp-popup-completion]
             (list 'menu-item "Popup Style Completion"
                   (lambda () (interactive) (customize-set-variable 'popcmp-completion-style 'popcmp-popup))
+                  :enable 'window-system
                   :button `(:radio . (eq popcmp-completion-style 'popcmp-popup))))
           )
         (define-key cmpl-map [nxhtml-cmpl-separator]
@@ -826,6 +905,12 @@
           (list 'menu-item "Complete tag, attribute etc" 'nxml-complete
                 :enable '(nxhtml-nxml-in-buffer)
                 :visible '(nxhtml-nxml-html-in-buffer)))
+        (define-key cmpl-map [nxhtml-cmpl-toggle-separator]
+          (list 'menu-item "--" nil))
+        (define-key cmpl-map [nxhtml-toggle-nxml]
+          (list 'menu-item "Toggle use of nXml" 'mumamo-switch-to-other-html
+                :enable '(nxhtml-html-in-buffer)
+                :button '(:toggle . (nxhtml-nxhtml-in-buffer))))
         )
 
 
@@ -967,11 +1052,22 @@
 
       (define-key edit-map [nxhtml-folding-sep] (list 'menu-item "--"))
 
-      (define-key edit-map [nxhtml-wrap-to-fill-column-mode]
-        (list 'menu-item "Wrap To Fill Column Mode"
-              'wrap-to-fill-column-mode
-              :button '(:toggle . (and (boundp 'wrap-to-fill-column-mode)
-                                         wrap-to-fill-column-mode))))
+      (let ((wrap-fill-map (make-sparse-keymap)))
+        (define-key edit-map [nxhtml-wrap-fill-map]
+          `(menu-item "Wrap To Fill Column" ,wrap-fill-map))
+        (define-key wrap-fill-map [nxhtml-wrap-fill-0]
+          '(menu-item "Normal Width" wrap-to-fill-normal))
+        (define-key wrap-fill-map [nxhtml-wrap-fill-+]
+          '(menu-item "Wider" wrap-to-fill-wider))
+        (define-key wrap-fill-map [nxhtml-wrap-fill--]
+          '(menu-item "Narrower" wrap-to-fill-narrower))
+        (define-key wrap-fill-map [nxhtml-wrap-fill-div]
+          '(menu-item "--"))
+        (define-key wrap-fill-map [nxhtml-wrap-to-fill-column-mode]
+          '(menu-item "Wrap To Fill Column Mode"
+                      wrap-to-fill-column-mode
+                      :button (:toggle . (and (boundp 'wrap-to-fill-column-mode)
+                                              wrap-to-fill-column-mode)))))
       (define-key edit-map [nxhtml-fill-dwim]
         (list 'menu-item "Fill DWIM" 'fill-dwim))
 
@@ -1171,8 +1267,11 @@
       (define-key chunk-map [nxhtml-customize-mumamo]
         (list 'menu-item "Customize MuMaMo"
               (lambda () (interactive) (customize-group-other-window 'mumamo))))
+      (define-key chunk-map [nxhtml-fit-mumamo]
+        (list 'menu-item "Find a Multi Major Mode"
+              'mumamo-guess-multi-major))
       (define-key chunk-map [nxhtml-list-mumamo]
-        (list 'menu-item "List defined Multi Major Modes"
+        (list 'menu-item "List Defined Multi Major Modes"
               'mumamo-list-defined-multi-major-modes))
       (define-key chunk-map [nxhtml-chunks-separator2]
         (list 'menu-item "--" nil))
@@ -1267,7 +1366,10 @@
   (let ((map (make-sparse-keymap)))
     (define-key map [(control ?c) ?? ?x] 'nxhtml-short-tag-help)
     (define-key map [(control ?c) ?? ?c] 'xhtml-help-show-css-ref)
+    (define-key map [(control ?c) ?? ?n] 'search-net-dwim)
     (define-key map [(control ?c) ?_] 'nxhtml-toggle-visible-warnings)
+    (define-key map [(meta shift ?m)] 'mumamo-mark-chunk)
+    (define-key map [(control ?x) ?n ?m] 'mumamo-narrow-to-chunk-inner)
     (define-key map [menu-bar nxhtml-menu-mode]
       (list 'menu-item "nXhtml" nxhtml-menu-mode-menu-map))
     map))
@@ -1279,55 +1381,8 @@ See `nxhtml-mode' for more information.
 
 This minor mode adds the entry 'nXhtml' to the menu bar.  This
 submenu gives easy access to most of the important features of
-nXhtml.
-
-To see an \(incomplete) overview in html format do
-\\[nxhtml-overview].
-
-* Note: Please observe that when loading nXhtml some file
-  associations are done, see `nxhtml-setup-file-assoc'.
-
-Here are some important features:
-
-- multiple major modes, see `define-mumamo-multi-major-mode'
-- easy uploading and viewing of files, see for example
-  `html-upl-upload-file'
-
-- validation in XHTML part for php etc, see
-  `nxhtml-validation-header-mode' (you probably also want to know
-  about `nxhtml-toggle-visible-warnings' for this!)
-
-- converting of html to xhtml, see `tidy-buffer'
-
-Some smaller, useful, but easy-to-miss features:
-
-* Following links. The href and src attribute names are
-  underlined and a special keymap is bound to
-  them:\\<mlinks-mode-map>
-
-    \\[mlinks-backward-link], \\[mlinks-forward-link] Move
-        between underlined href/src attributes
-
-    \\[mlinks-goto], Mouse-1 Follow link inside Emacs
-        (if possible)
-
-  It is even a little bit quicker when the links are in an active
-  state (marked with the face `isearch'):\\<mlinks-active-hilight-keymap>
-
-    \\[mlinks-backward-link], \\[mlinks-forward-link] Move
-        between underlined href/src attributes
-    \\[mlinks-goto], Mouse-1  Follow link inside Emacs (if possible)
-
-  If the link is not into a file that you can edit (a mailto link
-  for example) you will be prompted for an alternative action.
-
-* Creating links. To make it easier to create links to id/name
-  attribute in different files there are two special
-  functions:\\<nxhtml-mode-map>
-
-    \\[nxhtml-save-link-to-here] copy link to id/name (you must
-        be in the tag to get the link)
-    \\[nxhtml-paste-link-as-a-tag] paste this as an a-tag.
+nXhtml.  \(Some of them are not specific to nXhtml, but nXhtml
+contains enhancement of existing features, like `flyspell-mode'.)
 
 This minor mode also adds some bindings:
 

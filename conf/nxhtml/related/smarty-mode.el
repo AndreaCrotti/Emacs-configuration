@@ -23,7 +23,7 @@
 
 ;; Minor changes by Lennart Borgman
 
-(defconst smarty-version "0.0.5"
+(defconst smarty-version "0.0.5-nXhtml"
   "Smarty Mode version number.")
 
 (defconst smarty-time-stamp "2007-11-01"
@@ -1369,7 +1369,7 @@ but not if inside a comment or quote)."
     map)
   "Keymap for minibuffer used in Smarty Mode.")
 
-(mapcar
+(mapc
  (function
   (lambda (sym)
     (put sym 'delete-selection t)	; for `delete-selection-mode' (Emacs)
@@ -1394,44 +1394,27 @@ Smarty-Mode is a mode allowing easy edit of Smarty templates:
 highlight, templates, navigation into source files...
 
 
-
 Features (new features in bold) :
 
    * Completion
-
    * Customizable
-
    * Highlight
-
    * Menu
-
    * Stuttering
-
    * Templates
         - Built-in Functions
-
         - User Functions
-
         - Variable Modifiers
-
         - Plugin (Functions)
              * BlockRepeatPlugin
-
              * ClipCache
-
              * Smarty Formtool
-
              * Smarty Paginate
-
              * Smarty Validate
-
         - Plugin (Variable Modifiers)
              * AlternativeDateModifierPlugin
-
              * B2Smilies
-
              * BBCodePlugin
-
         - Fonctions Non-Smarty
 
 
@@ -1445,9 +1428,9 @@ This manual describes Smarty Mode version 0.0.5.
 ================
 
 Smarty Mode is a XEmacs major mode that needs the following
-software/packages:
+software/packages (all are included in Emacs 23):
 
-   * XEmacs (http://www.xemacs.org/).
+   * GNU Emacs or XEmacs (http://www.xemacs.org/).
 
    * `font-lock' mode generaly installed with XEmacs.
 
@@ -1926,7 +1909,7 @@ For Smarty functions, see PDF or HTML documentation.
     (princ (documentation 'smarty-mode))
     (with-current-buffer standard-output
       (help-mode))
-    (print-help-return-message)))
+    (help-print-return-message)))
 
 (defun smarty-activate-customizations ()
   "Activate all customizations on local variables."

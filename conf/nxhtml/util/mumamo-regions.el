@@ -49,6 +49,7 @@
 (eval-when-compile (require 'mumamo))
 (eval-when-compile (require 'ourcomments-widgets))
 (require 'ps-print) ;; For ps-print-ensure-fontified
+(declare-function nxhtml-validation-header-mode "../nxhtml/nxhtml-mode")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Internal side functions etc

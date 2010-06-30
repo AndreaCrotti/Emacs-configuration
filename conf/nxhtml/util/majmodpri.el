@@ -61,7 +61,7 @@
 ;;; Code:
 
 (eval-when-compile (require 'mumamo nil t))
-(eval-when-compile (require 'ourcomments-indirect-fun nil t))
+(eval-when-compile (require 'ourcomments-util nil t))
 
 ;;;; Idle sorting
 

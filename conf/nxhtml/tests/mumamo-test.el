@@ -10,9 +10,9 @@
 ;;; Commentary:
 ;;
 ;; This file defines some test for mumamo.el and a the minor mode
-;; `mumamu-test-mode' to bind the test functions to some keys for
+;; `mumamo-test-mode' to bind the test functions to some keys for
 ;; convenient use. This will define F3 to run
-;; `mumamo-test-create-chunk-at' and Shift-F3 to
+;; `mumamo-test-create-chunk-at-point' and Shift-F3 to
 ;; `mumamo-test-create-chunks-at-all-points'.
 ;;
 ;;

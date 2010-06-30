@@ -49,6 +49,8 @@
 
 (eval-when-compile (require 'majmodpri nil t))
 (eval-when-compile (require 'moz nil t))
+(declare-function nxhtml-validation-header-mode "nxhtml-mode")
+(declare-function moz-minor-mode "moz")
 
 ;;; Convenient moving by tags:
 (eval-after-load 'nxml-mode
@@ -109,10 +111,16 @@ order."
   (add-to-list 'auto-mode-alist '("\\.djhtml\\'"   . django-nxhtml-mumamo-mode))
   (add-to-list 'auto-mode-alist '("\\.rhtml\\'"    . eruby-nxhtml-mumamo-mode))
   (add-to-list 'auto-mode-alist '("\\.erb\\'"      . eruby-javascript-mumamo-mode))
+  (add-to-list 'auto-mode-alist '("\\.erb.html\\'" . eruby-html-mumamo-mode))
+  (add-to-list 'auto-mode-alist '("\\.html.erb\\'" . eruby-html-mumamo-mode))
   (add-to-list 'auto-mode-alist '("\\.phps\\'"     . smarty-nxhtml-mumamo-mode))
   (add-to-list 'auto-mode-alist '("\\.epl\\'"      . embperl-nxhtml-mumamo-mode))
-  (add-to-list 'auto-mode-alist '("\\.ghtml\\'"     . genshi-nxhtml-mumamo-mode))
-  (add-to-list 'auto-mode-alist '("\\.mhtml\\'"     . mason-nxhtml-mumamo-mode))
+  (add-to-list 'auto-mode-alist '("\\.ghtml\\'"    . genshi-nxhtml-mumamo-mode))
+  (add-to-list 'auto-mode-alist '("\\.mhtml\\'"    . mason-nxhtml-mumamo-mode))
+  (add-to-list 'auto-mode-alist '("\\.amrita\\'"   . amrita-mumamo-mode))
+  (add-to-list 'auto-mode-alist '("\\.tpl\\'"      . smarty-html-mumamo-mode))
+  (add-to-list 'auto-mode-alist '("\\.lclj\\'"     . latex-clojure-mumamo-mode))
+  (add-to-list 'auto-mode-alist '("\\.mako\\'"     . mako-html-mumamo-mode))
 
   ;; Add html-mumamo style entry if there is an nxhtml-mumamo style entry.
   (save-match-data
