@@ -324,9 +324,21 @@ MINIMAL EMACS CONFIGURATION
     "Visit all the files in the current git project"
     (interactive)
     (dolist
-        (file (split-string (shell-command-to-string "git ls-files")))
+        (file (ls-git-files))
       (message "Opening %s" file)
-      (find-file file)))
+      ;; we have to keep the original position
+      (save-excursion (find-file file))))
+  
+  (defun dired-git-files ()
+    (interactive)
+    (dired (ls-git-files)))
+  
+  (defun ls-git-files ()
+    (if
+        (file-exists-p ".git")
+        (split-string (shell-command-to-string "git ls-files"))
+      (message "not a git repo")
+      nil))
 #+end_src
 
 *** Camelizing
@@ -833,7 +845,7 @@ MINIMAL EMACS CONFIGURATION
   
   (setq yas/root-directory
         (mapcar 'make-path
-                '("yasnippet/" "my-snippets/")))
+                '("my-snippets/" "yasnippet/")))
   
   ;; Maybe needed to set to fixed for some modes
   (setq yas/indent-line 'auto)
@@ -1243,8 +1255,14 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes
-  (add-to-list 'auto-mode-alist '("\\.mak$" . mako-html-mumamo))
-  (add-to-list 'auto-mode-alist '("\\.mako$" . mako-html-mumamo))
+  ;;(add-to-list 'auto-mode-alist '("\\.mak$" . html-mode))
+  ;;(add-to-list 'auto-mode-alist '("\\.mako$" . html-mode))
+  (add-to-list 'auto-mode-alist '("\\.mak$" . mako-html-mumamo-mode))
+  (add-to-list 'auto-mode-alist '("\\.mako$" . mako-html-mumamo-mode))
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+  (setq mumamo-chunk-coloring 2)
 #+end_src
 
 ** Lua
@@ -1460,7 +1478,11 @@ MINIMAL EMACS CONFIGURATION
   (require 'ido)
   (ido-mode t)
   ;; otherwise it will try to connect to old servers all the time
-  (setq ido-enable-tramp-completion nil)
+  (setq ido-enable-tramp-completion t)
+  (setq ido-enable-flex-matching nil)
+  ;; regexp matching also
+  (setq ido-enable-regexp nil)
+  (setq ido-use-url-at-point t)
 #+end_src
 
 *** Use IDO when possible

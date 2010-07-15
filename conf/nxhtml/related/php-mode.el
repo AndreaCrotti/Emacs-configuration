@@ -274,6 +274,10 @@ See `php-beginning-of-defun'."
         (here (point)))
     (goto-char (line-beginning-position))
     (if (or (when (boundp 'mumamo-multi-major-mode) mumamo-multi-major-mode)
+            (let ((stat (syntax-ppss (point))))
+              ;; like parse-partial-sexp, but not 2nd or 6th so
+              ;; testing 8th is ok. Non-nil means in comment or string.
+              (nth 8 stat))
             ;; Fix-me: no idea how to check for mmm or multi-mode
             (save-match-data
               (not (or (re-search-forward html-tag-re (line-end-position) t)

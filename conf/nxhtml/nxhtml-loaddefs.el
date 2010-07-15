@@ -190,7 +190,7 @@ Report a bug in nXhtml.
 
 ;;;### (autoloads (nxhtml-overview nxhtml-menu-mode nxhtml-browse-region
 ;;;;;;  nxhtml-browse-file nxhtml-edit-with-gimp mumamo-switch-to-other-html)
-;;;;;;  "../nxhtml/nxhtml-menu" "nxhtml/nxhtml-menu.el" (19471 58658))
+;;;;;;  "../nxhtml/nxhtml-menu" "nxhtml/nxhtml-menu.el" (19496 28866))
 ;;; Generated autoloads from nxhtml/nxhtml-menu.el
 (web-autoload-require 'nxhtml-menu 'lp '(nxhtml-download-root-url nil) "nxhtml/nxhtml-menu" nxhtml-install-dir 'nxhtml-byte-compile-file)
 
@@ -498,7 +498,7 @@ Show xhtml reference for tag name at or before point.
 
 ;;;### (autoloads (nxhtmlmaint-byte-uncompile-all nxhtmlmaint-byte-recompile
 ;;;;;;  nxhtmlmaint-start-byte-compilation) "../nxhtmlmaint" "nxhtmlmaint.el"
-;;;;;;  (19459 64864))
+;;;;;;  (19494 46624))
 ;;; Generated autoloads from nxhtmlmaint.el
 (web-autoload-require 'nxhtmlmaint 'lp '(nxhtml-download-root-url nil) "nxhtmlmaint" nxhtml-install-dir 'nxhtml-byte-compile-file)
 
@@ -1358,7 +1358,7 @@ See `nxhtmltest-run' for more information about the tests.
 ;;;***
 
 ;;;### (autoloads (nxhtmltest-run nxhtmltest-run-indent) "../tests/nxhtmltest-suites"
-;;;;;;  "tests/nxhtmltest-suites.el" (19442 42088))
+;;;;;;  "tests/nxhtmltest-suites.el" (19499 62132))
 ;;; Generated autoloads from tests/nxhtmltest-suites.el
 (web-autoload-require 'nxhtmltest-suites 'lp '(nxhtml-download-root-url nil) "tests/nxhtmltest-suites" nxhtml-install-dir 'nxhtml-byte-compile-file)
 
@@ -1385,7 +1385,7 @@ fail (they corresponds to known errors in nXhtml/Emacs):
 ;;;### (autoloads (web-vcs-investigate-elisp-file web-vcs-url-copy-file
 ;;;;;;  web-vcs-url-retrieve-synch web-vcs-byte-compile-file web-vcs-message-with-face
 ;;;;;;  web-vcs-get-files-from-root web-vcs-log-edit web-vcs-default-download-directory)
-;;;;;;  "../web-vcs" "web-vcs.el" (19471 58658))
+;;;;;;  "../web-vcs" "web-vcs.el" (19496 666))
 ;;; Generated autoloads from web-vcs.el
 (web-autoload-require 'web-vcs 'lp '(nxhtml-download-root-url nil) "web-vcs" nxhtml-install-dir 'nxhtml-byte-compile-file)
 
@@ -1943,8 +1943,8 @@ For more information about this see `cusnu-export-cust-group'.
 
 ;;;***
 
-;;;### (autoloads (ediff-url) "ediff-url" "util/ediff-url.el" (19451
-;;;;;;  8556))
+;;;### (autoloads (ediff-url) "ediff-url" "util/ediff-url.el" (19496
+;;;;;;  666))
 ;;; Generated autoloads from util/ediff-url.el
 (web-autoload-require 'ediff-url 'lp '(nxhtml-download-root-url nil) "util/ediff-url" nxhtml-install-dir 'nxhtml-byte-compile-file)
 
@@ -2533,7 +2533,7 @@ See `mlinks-mode' for more information on Mlinks mode.
 ;;;;;;  mumamo-list-defined-multi-major-modes mumamo-mark-for-refontification
 ;;;;;;  mumamo-hi-lock-faces mumamo mumamo-add-to-defined-multi-major-modes
 ;;;;;;  define-mumamo-multi-major-mode) "mumamo" "util/mumamo.el"
-;;;;;;  (19459 64864))
+;;;;;;  (19499 62132))
 ;;; Generated autoloads from util/mumamo.el
 (web-autoload-require 'mumamo 'lp '(nxhtml-download-root-url nil) "util/mumamo" nxhtml-install-dir 'nxhtml-byte-compile-file)
 
@@ -2689,7 +2689,7 @@ Return t if VALUE is a multi major mode function.
 ;;;***
 
 ;;;### (autoloads (mumamo-noweb2 mumamo-define-html-file-wide-keys)
-;;;;;;  "mumamo-chunks" "util/mumamo-chunks.el" (19459 64864))
+;;;;;;  "mumamo-chunks" "util/mumamo-chunks.el" (19499 62132))
 ;;; Generated autoloads from util/mumamo-chunks.el
 (web-autoload-require 'mumamo-chunks 'lp '(nxhtml-download-root-url nil) "util/mumamo-chunks" nxhtml-install-dir 'nxhtml-byte-compile-file)
 
@@ -3006,10 +3006,11 @@ Color up digits three by three.
 ;;;;;;  find-emacs-other-file ediff-emacs-other-file ourcomments-insert-date-and-time
 ;;;;;;  describe-timers ourcomments-copy+paste-set-point better-fringes-mode
 ;;;;;;  describe-key-and-map-briefly ourcomments-move-end-of-line
-;;;;;;  ourcomments-move-beginning-of-line ourcomments-mark-whole-buffer-or-field
-;;;;;;  fill-dwim unfill-individual-paragraphs unfill-region unfill-paragraph
-;;;;;;  define-toggle-old define-toggle popup-menu-at-point ourcomments-indirect-fun)
-;;;;;;  "ourcomments-util" "util/ourcomments-util.el" (19473 62556))
+;;;;;;  ourcomments-move-beginning-of-line major-modep major-or-multi-majorp
+;;;;;;  ourcomments-mark-whole-buffer-or-field fill-dwim unfill-individual-paragraphs
+;;;;;;  unfill-region unfill-paragraph define-toggle-old define-toggle
+;;;;;;  popup-menu-at-point ourcomments-indirect-fun) "ourcomments-util"
+;;;;;;  "util/ourcomments-util.el" (19499 27986))
 ;;; Generated autoloads from util/ourcomments-util.el
 (web-autoload-require 'ourcomments-util 'lp '(nxhtml-download-root-url nil) "util/ourcomments-util" nxhtml-install-dir 'nxhtml-byte-compile-file)
 
@@ -3083,6 +3084,16 @@ With prefix ARG fill only current line.
 Mark whole buffer or editable field at point.
 
 \(fn)" t nil)
+
+(nxhtml-autoload 'major-or-multi-majorp `(lp '(nxhtml-download-root-url nil) "util/ourcomments-util" nxhtml-install-dir) "\
+Return t if VALUE is a major or multi major mode function.
+
+\(fn VALUE)" nil nil)
+
+(nxhtml-autoload 'major-modep `(lp '(nxhtml-download-root-url nil) "util/ourcomments-util" nxhtml-install-dir) "\
+Return t if VALUE is a major mode function.
+
+\(fn VALUE)" nil nil)
 
 (nxhtml-autoload 'ourcomments-move-beginning-of-line `(lp '(nxhtml-download-root-url nil) "util/ourcomments-util" nxhtml-install-dir) "\
 Move point to beginning of line or indentation.
@@ -3426,28 +3437,8 @@ Not documented
 
 ;;;***
 
-;;;### (autoloads (major-modep major-or-multi-majorp) "ourcomments-widgets"
-;;;;;;  "util/ourcomments-widgets.el" (19275 63380))
-;;; Generated autoloads from util/ourcomments-widgets.el
-(web-autoload-require 'ourcomments-widgets 'lp '(nxhtml-download-root-url nil) "util/ourcomments-widgets" nxhtml-install-dir 'nxhtml-byte-compile-file)
-
- (nxhtml-autoload 'command "ourcomments-widgets")
-
-(nxhtml-autoload 'major-or-multi-majorp `(lp '(nxhtml-download-root-url nil) "util/ourcomments-widgets" nxhtml-install-dir) "\
-Return t if VALUE is a major or multi major mode function.
-
-\(fn VALUE)" nil nil)
-
-(nxhtml-autoload 'major-modep `(lp '(nxhtml-download-root-url nil) "util/ourcomments-widgets" nxhtml-install-dir) "\
-Return t if VALUE is a major mode function.
-
-\(fn VALUE)" nil nil)
- (nxhtml-autoload 'major-mode-function "ourcomments-widgets")
-
-;;;***
-
 ;;;### (autoloads (pause-start-in-new-emacs pause-mode pause) "pause"
-;;;;;;  "util/pause.el" (19451 8556))
+;;;;;;  "util/pause.el" (19496 666))
 ;;; Generated autoloads from util/pause.el
 (web-autoload-require 'pause 'lp '(nxhtml-download-root-url nil) "util/pause" nxhtml-install-dir 'nxhtml-byte-compile-file)
 
@@ -3530,14 +3521,14 @@ See `pointback-mode' for more information on Pointback mode.
 ;;;***
 
 ;;;### (autoloads (popcmp-completing-read popcmp-completion-style
-;;;;;;  popcmp) "popcmp" "util/popcmp.el" (19365 33760))
+;;;;;;  popcmp) "popcmp" "util/popcmp.el" (19496 28866))
 ;;; Generated autoloads from util/popcmp.el
 (web-autoload-require 'popcmp 'lp '(nxhtml-download-root-url nil) "util/popcmp" nxhtml-install-dir 'nxhtml-byte-compile-file)
 
 
 (let ((loads (get 'popcmp 'custom-loads))) (if (member '"popcmp" loads) nil (put 'popcmp 'custom-loads (cons '"popcmp" loads))))
 
-(defvar popcmp-completion-style (cond (t 'popcmp-popup)) "\
+(defvar popcmp-completion-style (cond ((null window-system) 'emacs-default) (t 'popcmp-popup)) "\
 Completion style.
 The currently available completion styles are:
 
@@ -3782,7 +3773,7 @@ option `scroll-bar-mode'.
 ;;;***
 
 ;;;### (autoloads (tabkey2-emma-without-tabkey2 tabkey2-mode tabkey2)
-;;;;;;  "tabkey2" "util/tabkey2.el" (19476 21424))
+;;;;;;  "tabkey2" "util/tabkey2.el" (19499 6450))
 ;;; Generated autoloads from util/tabkey2.el
 (web-autoload-require 'tabkey2 'lp '(nxhtml-download-root-url nil) "util/tabkey2" nxhtml-install-dir 'nxhtml-byte-compile-file)
 
@@ -4440,19 +4431,19 @@ accept it or skip it.
 ;;;;;;  "related/flymake-helpers.el" "related/flymakemsg.el" "related/php-imenu.el"
 ;;;;;;  "tests/angus77-setup-jde.el" "tests/emacstest-suites.el"
 ;;;;;;  "tests/ert2.el" "tests/hfy-test.el" "tests/inemacs/bug1013.el"
-;;;;;;  "tests/mumamo-test.el" "tests/nxhtmltest-helpers.el" "tests/temp-test.el"
-;;;;;;  "util/appmenu-fold.el" "util/backtr.el" "util/css-simple-completion.el"
-;;;;;;  "util/custsets.el" "util/ecb-batch-compile.el" "util/fupd.el"
-;;;;;;  "util/idn.el" "util/mumamo-trace.el" "util/new-key-seq-widget.el"
-;;;;;;  "util/org-panel.el" "util/rxi.el" "util/tipframe.el" "util/win-alg.el"
-;;;;;;  "web-autoload.el") (19490 6782 656000))
+;;;;;;  "tests/mumamo-test.el" "tests/nxhtmltest-helpers.el" "util/appmenu-fold.el"
+;;;;;;  "util/backtr.el" "util/css-simple-completion.el" "util/custsets.el"
+;;;;;;  "util/ecb-batch-compile.el" "util/fupd.el" "util/idn.el"
+;;;;;;  "util/mumamo-trace.el" "util/new-key-seq-widget.el" "util/org-panel.el"
+;;;;;;  "util/ourcomments-widgets.el" "util/rxi.el" "util/tipframe.el"
+;;;;;;  "util/win-alg.el" "web-autoload.el") (19500 46840 750000))
 
 ;;;***
 
 ;;;### (autoloads (nxhtml-byte-recompile-file nxhtml-byte-compile-file
 ;;;;;;  nxhtml-get-missing-files nxhtml-update-existing-files nxhtml-setup-download-all
 ;;;;;;  nxhtml-setup-auto-download nxhtml-setup-install) "../nxhtml-web-vcs"
-;;;;;;  "nxhtml-web-vcs.el" (19451 8556))
+;;;;;;  "nxhtml-web-vcs.el" (19496 666))
 ;;; Generated autoloads from nxhtml-web-vcs.el
 (web-autoload-require 'nxhtml-web-vcs 'lp '(nxhtml-download-root-url nil) "nxhtml-web-vcs" nxhtml-install-dir 'nxhtml-byte-compile-file)
 

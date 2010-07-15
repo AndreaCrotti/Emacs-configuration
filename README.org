@@ -2,12 +2,14 @@ Emacs configuration
 
 * Features
   - yasnippet
-  - auto completion with auto-complete
+  - auto completion 
   - python-mode
   - haskell-mode
   - org-mode & org-babel
   - elscreen for tabs navigation
-  - flymake
+  - flymake for compilation errors directly in buffers
+  - code folding and navigation via semantic in all languages supported
+  - on MAC showing last combination pressed with growl and some ad hoc functions
 
 * Usage
   To try it out:
@@ -21,6 +23,8 @@ Emacs configuration
   When you want to update the configuration just run a 
   *git pull*
   Unless you changed some code that generates a conflict the merge should be automatic.
+  You can customize some of the variables created in this conf via
+  *M-x customize-group RET miniconf*
   
 ** Your own settings
    If you want to add some personal settings you can

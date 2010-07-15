@@ -299,7 +299,16 @@ This also covers inlined style and javascript."
 ;;;###autoload
 (define-mumamo-multi-major-mode eruby-html-mumamo-mode
   "Turn on multiple major modes for eRuby with main mode `html-mode'.
-This also covers inlined style and javascript."
+This also covers inlined style and javascript.
+
+The eRuby chunks handled are:
+
+       <% Ruby code -- inline with output %>
+       <%= Ruby expression -- replace with result %>
+       <%# comment -- ignored -- useful in testing %>
+
+See URL `https://bugs.launchpad.net/nxhtml/+bug/579581' for
+information about <%% ... %%>, % and %%."
   ("eRuby Html Family" html-mode
    (
     mumamo-chunk-eruby-comment

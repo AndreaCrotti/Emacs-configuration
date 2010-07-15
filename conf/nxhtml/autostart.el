@@ -161,22 +161,27 @@
   ;;         nil)
   ;;   (nxhtml-setup-auto-download nxhtml-install-dir))
 
+  (unless (featurep 'ourcomments-widgets)
+    (nxhtml-autostart-trace "... loading web-autoload")
+    (load (expand-file-name "ourcomments-widgets" util-dir))
+    (nxhtml-autostart-trace "... nXhtml loading %.1f seconds elapsed ..." (- (float-time) nxhtml-load-time-start)))
+
   (unless (featurep 'web-autoload)
     (nxhtml-autostart-trace "... loading web-autoload")
-    (load (expand-file-name "web-autoload" nxhtml-install-dir) (not nxhtml-autoload-web)))
-  (nxhtml-autostart-trace "... nXhtml loading %.1f seconds elapsed ..." (- (float-time) nxhtml-load-time-start))
+    (load (expand-file-name "web-autoload" nxhtml-install-dir) (not nxhtml-autoload-web))
+    (nxhtml-autostart-trace "... nXhtml loading %.1f seconds elapsed ..." (- (float-time) nxhtml-load-time-start)))
 
   (when nxhtml-autoload-web
     (nxhtml-autostart-trace "... advicing require")
-    (ad-activate 'require t))
-  (nxhtml-autostart-trace "... nXhtml loading %.1f seconds elapsed ..." (- (float-time) nxhtml-load-time-start))
+    (ad-activate 'require t)
+    (nxhtml-autostart-trace "... nXhtml loading %.1f seconds elapsed ..." (- (float-time) nxhtml-load-time-start)))
 
   ;; Fix-me: Why must as-external be loaded? Why doesn't it work in batch?
   ;;(unless noninteractive (require 'as-external))
 
   (unless (featurep 'nxhtml-loaddefs)
-    (load (expand-file-name "nxhtml-loaddefs" nxhtml-install-dir) nxhtml-autoload-web))
-  (nxhtml-autostart-trace "... nXhtml loading %.1f seconds elapsed ..." (- (float-time) nxhtml-load-time-start))
+    (load (expand-file-name "nxhtml-loaddefs" nxhtml-install-dir) nxhtml-autoload-web)
+    (nxhtml-autostart-trace "... nXhtml loading %.1f seconds elapsed ..." (- (float-time) nxhtml-load-time-start)))
 
   ;; Turn on `nxhtml-menu-mode' unconditionally
   (nxhtml-autostart-trace "Turn on `nxhtml-menu-mode' unconditionally")

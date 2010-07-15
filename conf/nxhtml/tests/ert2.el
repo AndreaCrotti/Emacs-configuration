@@ -251,6 +251,10 @@ Run the hook `ert-simulate-command-post-hook' at the very end."
     (run-hooks 'ert-simulate-command-post-hook)
     return-value))
 
+(defun ert-simulate-self-insert (char)
+  (let ((last-command-event char))
+    (ert-simulate-command '(self-insert-command 1) t)))
+  
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Misc
