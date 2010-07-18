@@ -1,0 +1,1877 @@
+% Created 2010-07-08 Gio 22:02
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{soul}
+\usepackage{amssymb}
+\usepackage{hyperref}
+
+
+\title{MINIMAL EMACS CONFIGURATION}
+\author{Andrea Crotti}
+\date{08 Luglio 2010}
+
+\begin{document}
+
+\maketitle
+
+\setcounter{tocdepth}{3}
+\tableofcontents
+\vspace*{1cm}
+\section{\textbf{DONE} See if it's possible to have python auto completion without ropemacs}
+\label{sec-1}
+
+  \texttt{CLOSED:} \textit{2010-05-09 Dom 14:24}\newline
+\section{\textbf{DONE} Write a function that setups all the possible paths automatically}
+\label{sec-2}
+
+  \texttt{CLOSED:} \textit{2010-05-04 Mar 11:41}\newline
+\section{\textbf{TODO} Make the table of software versions regenerating every time}
+\label{sec-3}
+\section{\textbf{DONE} See if it's worthy to byte compile everything or not}
+\label{sec-4}
+
+  \texttt{CLOSED:} \textit{2010-05-24 Lun 14:01}\newline
+\begin{itemize}
+\item CLOSING NOTE \textit{2010-05-24 Lun 14:01} \\
+Solved nicely with byte-compile-cache, some cases it could not work
+\end{itemize}
+\section{\textbf{TODO} Write a dependency tree of the various chapters in the configuration}
+\label{sec-5}
+\section{\textbf{TODO} Add options to create encrypted org-files for storing password and more delicate informations}
+\label{sec-6}
+\section{\textbf{TODO} Define \textbf{defcustom} stuff instead of constants for setting up variables}
+\label{sec-7}
+\section{\textbf{TODO} Understand why sometimes auto-complete disables by itself}
+\label{sec-8}
+\section{\textbf{TODO} See how to use variables like \textbf{special-buffer-regexps} to have a better control over the buffer windows}
+\label{sec-9}
+\section{\textbf{TODO} Everything that should be changed by the user must be put in a defcustom}
+\label{sec-10}
+
+  Add also custom keys for all the global-key-set combinations
+\section{Assumptions}
+\label{sec-11}
+
+\begin{itemize}
+\item \$HOME/.emacs.d/scripts is in the \$PATH
+\item flymake is installed (distributed with emacs 23 also)
+\item in general probably working only with emacs 23
+\end{itemize}
+
+  All the other libraries configured here are always included in the standard distribution or in \textbf{conf}.
+\section{Links}
+\label{sec-12}
+
+\begin{itemize}
+\item \href{http://www.gnu.org/software/emacs/tour/}{A guided tour of emacs features}
+\item \href{http://www.delorie.com/gnu/docs/emacs-lisp-intro/emacs-lisp-intro_toc.html}{nice emacs lisp intro}
+\end{itemize}
+\section{Things not working in emacs 22}
+\label{sec-13}
+
+\begin{itemize}
+\item autoload stuff from ORG-clock
+\item remember mode (not present)
+\end{itemize}
+\section{Some documentation}
+\label{sec-14}
+\subsection{How to extend emacs in general}
+\label{sec-14.1}
+
+   \href{http://www.enigmacurry.com/2009/01/14/extending-emacs-with-advice/}{example about advising functions}
+\begin{itemize}
+\item If you can use the mode hooks provided by the author, use them instead.
+\item If there is a bug in the original mode, just fix it in the original code and submit a patch.
+\item If there is a new feature you want, add it to the original mode and submit a patch. Talk to the author, work with him, and it will most likely end up in the next release.
+\item If you are an Emacs developer, working on Emacs itself, or one of the modes shipped with Emacs, never use advice. It's the least maintainable method of extending Emacs with the exception of a pure fork, and since you're working on Emacs itself, it's not a fork.
+\item If your patch is not accepted, or you know that what you want is fringe enough or hackish enough to not warrant submitting a patch, only then should you use advice or fork the project.
+\end{itemize}
+   
+\section{Aliasing and other useful shortcuts}
+\label{sec-15}
+
+\begin{verbatim}
+(defalias 'eb 'eval-buffer)
+(defalias 'er 'eval-region)
+(defalias 'yes-or-no-p 'y-or-n-p)
+(defalias 'rs 'replace-string)
+(defalias 'qs 'query-replace)
+(defalias 'ac 'auto-complete-mode)
+(defalias 'go 'google-search-it)
+(defalias 'gs 'google-search-selection)
+(defalias 'spell 'flyspell-mode)
+(defalias 'spell-prog 'flyspell-prog-mode)
+(defalias 'dml 'delete-matching-lines)
+(defalias 'bb 'bury-buffer)
+(defalias 'elm 'emacs-lisp-mode)
+
+(defalias 'ys 'yas/reload-all)
+(defalias 'yv 'yas/visit-snippet-file)
+
+(defalias 'ascii 'org-export-as-ascii)
+(defalias 'html 'org-export-as-html-and-open)
+(defalias 'pdf 'org-export-as-pdf-and-open)
+(defalias 'box 'comment-box)
+(defalias 'rb 'revert-buffer)
+
+(defalias 'sh 'shell)
+
+(defalias 'ws 'whitespace-mode)
+(defalias 'bu 'browse-url)
+
+(defalias 'mem 'doxymacs-insert-member-comment)
+(defalias 'fun 'doxymacs-insert-function-comment)
+(defalias 'file 'doxymacs-insert-file-comment)
+
+;; Those below are my favourite themes
+(defalias 'black 'color-theme-hober)
+(defalias 'blue 'color-theme-deep-blue)
+(defalias 'grey 'color-theme-black-on-gray)
+(defalias 'blipp 'color-theme-blippblopp)
+(defalias 'high 'color-theme-high-contrast)
+(defalias 'billw 'color-theme-billw)
+(defalias 'coal 'color-theme-charcoal-black)
+
+(defalias 'batt 'display-battery-mode)
+
+(defun get-some-messages ()
+  (interactive)
+  (gnus-summary-rescan-group 1000))
+;; gnus
+(defalias 'gg 'get-some-messages)
+(defalias 'jd 'javadoc-lookup)
+(defalias 'br 'babel-region-default)
+(defalias 'git 'open-git-files)
+
+(defalias 'fold 'senator-fold-tag-toggle)
+\end{verbatim}
+\section{User customization}
+\label{sec-16}
+
+\begin{verbatim}
+(defgroup miniconf nil
+  "miniconf"
+  :group 'miniconf
+  :prefix "mini-")
+\end{verbatim}
+\section{Private settings}
+\label{sec-17}
+\subsection{Private}
+\label{sec-17.1}
+
+   In this file you can store your own personal settings
+
+\begin{verbatim}
+;; not complain if not existing
+(if (file-exists-p "private.el")
+    (load-file "private.el"))
+\end{verbatim}
+\subsection{Custom settings}
+\label{sec-17.2}
+
+\begin{verbatim}
+(defcustom custom-file
+  (concat base "custom.el")
+  "customization file"
+  :type 'string
+  :group 'miniconf)
+\end{verbatim}
+\section{Prerequisites}
+\label{sec-18}
+\subsection{Constants and some global settings}
+\label{sec-18.1}
+
+\begin{verbatim}
+(defcustom default-closing-char ";"
+  "default closing char, change in newline-force-close-alist if needed"
+  :type 'string
+  :group 'miniconf)
+
+;; TODO: use a defcustom instead
+(defcustom newline-force-close-alist
+  '((python-mode . ":")
+    (jython-mode . ":")
+    (prolog-mode . ".")
+    (latex-mode . " \\\\")
+    (org-mode . " \\\\")
+    (tuareg-mode . ";;")
+    (html-mode . " <br>"))
+  "Closing char for different modes"
+  :type 'list
+  :group 'miniconf)
+\end{verbatim}
+\subsection{Some useful functions}
+\label{sec-18.2}
+
+   We suppose that the global variable \textbf{conf} has been already set from the outside.
+\subsubsection{Make path}
+\label{sec-18.2.1}
+
+\begin{verbatim}
+(defun make-path (path)
+  (concat conf path))
+\end{verbatim}
+\subsubsection{Make fortune}
+\label{sec-18.2.2}
+
+    Print below a fortune cookie if the command is present in the system.
+
+\begin{verbatim}
+(defun make-fortune ()
+(interactive)
+(let ((beg (point)))
+  (insert (shell-command-to-string "fortune"))
+  (end-of-paragraph-text)))
+\end{verbatim}
+
+ 
+\subsubsection{Gen path dirs}
+\label{sec-18.2.3}
+
+   All all the directories in the first level of the configuration directory to the load path.
+
+\begin{verbatim}
+;; TODO: make it more general
+(defun gen-path-dirs ()
+  "Add to load path all the subdirectories of first level"
+  (interactive)
+  (message "adding all directories in the first level to the load-path")
+  (dolist (dir (directory-files conf t))
+    (if (and 
+         (file-directory-p dir)
+         (not (file-symlink-p dir)))
+        (add-to-list 'load-path dir))))
+
+(gen-path-dirs)
+\end{verbatim}
+\subsubsection{Google map it}
+\label{sec-18.2.4}
+
+   Search an address in google map
+\begin{verbatim}
+(defun google-map-it (address)
+  "get the map of the given address"
+  (interactive "sSearch for: ")
+  (let
+      ((base "http://maps.google.it/maps?q=%s"))
+    (browse-url (format base (url-hexify-string address)))))
+\end{verbatim}
+\subsubsection{New line}
+\label{sec-18.2.5}
+
+   Those functions are inspired by textmate
+\begin{verbatim}
+;; My own functions
+(defun newline-force()
+  "Goes to newline leaving untouched the rest of the line"
+  (interactive)
+  (end-of-line)
+  (newline-and-indent))
+
+(defun newline-force-close()
+  "Same as newline-force but putting a closing char at end"
+  (interactive)
+  (end-of-line)
+  (let ((closing-way (assoc major-mode newline-force-close-alist))
+        closing-char)
+    ;; Setting the user defined or the constant if not found
+    (if (not closing-way)
+        (progn
+          (message "closing char not defined for this mode, using default")
+          (setq closing-char default-closing-char))
+      (setq closing-char (cdr closing-way)))
+    (when (not (bobp))
+      ;; if we're at beginning of buffer, the backward-char will beep
+      ;; :( This works even in the case of narrowing (e.g. we don't
+      ;; look outside of the narrowed area.
+      ;; FIXME: looking-at not working as expected
+      (when (not (looking-at closing-char))
+        (insert closing-char))
+      (newline-force))))
+\end{verbatim}
+\subsubsection{Error switch}
+\label{sec-18.2.6}
+
+    Useful function to toogle on and off the debug mode
+\begin{verbatim}
+(defun err-switch()
+  "switch on/off error debugging"
+  (interactive)
+  (if debug-on-error
+      (setq debug-on-error nil)
+    (setq debug-on-error t))
+  (message "debug-on-error now %s" debug-on-error))
+\end{verbatim}
+\subsubsection{Swap windows}
+\label{sec-18.2.7}
+
+\begin{verbatim}
+;; someday might want to rotate windows if more than 2 of them
+(defun swap-windows ()
+  "If you have 2 windows, it swaps them." (interactive) (cond ((not (= (count-windows) 2)) (message "You need exactly 2 windows to do this."))
+                                                              (t
+                                                               (let* ((w1 (first (window-list)))
+                                                                      (w2 (second (window-list)))
+                                                                      (b1 (window-buffer w1))
+                                                                      (b2 (window-buffer w2))
+                                                                      (s1 (window-start w1))
+                                                                      (s2 (window-start w2)))
+                                                                 (set-window-buffer w1 b2)
+                                                                 (set-window-buffer w2 b1)
+                                                                 (set-window-start w1 s2)
+                                                                 (set-window-start w2 s1)))))
+\end{verbatim}
+\subsubsection{Rename file and buffer}
+\label{sec-18.2.8}
+\begin{itemize}
+
+\item \textbf{TODO} Add something VCS related for moving away files
+\label{sec-18.2.8.1}%
+\begin{verbatim}
+(defun rename-file-and-buffer (new-name)
+  "Renames both current buffer and file it's visiting to NEW-NAME." (interactive "sNew name: ")
+  (let ((name (buffer-name))
+        (filename (buffer-file-name)))
+    (if (not filename)
+        (message "Buffer '%s' is not visiting a file!" name)
+      (if (get-buffer new-name)
+          (message "A buffer named '%s' already exists!" new-name)
+        (progn   (rename-file name new-name 1)   (rename-buffer new-name)        (set-visited-file-name new-name)        (set-buffer-modified-p nil)))))) ;;
+\end{verbatim}
+
+
+\end{itemize} % ends low level
+\subsubsection{Move buffer file}
+\label{sec-18.2.9}
+
+\begin{verbatim}
+(defun move-buffer-file (dir)
+  "Moves both current buffer and file it's visiting to DIR." (interactive "DNew directory: ")
+  (let* ((name (buffer-name))
+         (filename (buffer-file-name))
+         (dir
+          (if (string-match dir "\\(?:/\\|\\\\)$")
+              (substring dir 0 -1) dir))
+         (newname (concat dir "/" name)))
+
+    (if (not filename)
+        (message "Buffer '%s' is not visiting a file!" name)
+      (progn         (copy-file filename newname 1)  (delete-file filename)  (set-visited-file-name newname)         (set-buffer-modified-p nil)     t))))
+\end{verbatim}
+\subsubsection{Delete current file}
+\label{sec-18.2.10}
+
+\begin{verbatim}
+(defun delete-current-file () 
+  "Delete the file associated with the current buffer." 
+  (interactive) 
+  (let (currentFile) 
+    (setq currentFile (buffer-file-name)) 
+    (when (yes-or-no-p (format "Delete file % s and kill buffer? " currentFile)) 
+      (kill-buffer (current-buffer)) 
+      (delete-file currentFile) 
+      (message "Deleted file: %s " currentFile))))
+\end{verbatim}
+\subsubsection{Open git files}
+\label{sec-18.2.11}
+
+    Run \textbf{git ls-files} and visits all the buffer given from it
+
+\begin{verbatim}
+(defun open-git-files ()
+  "Visit all the files in the current git project"
+  (interactive)
+  (dolist
+      (file (ls-git-files))
+    (message "Opening %s" file)
+    ;; we have to keep the original position
+    (save-excursion (find-file file))))
+
+(defun dired-git-files ()
+  (interactive)
+  (dired (ls-git-files)))
+
+(defun ls-git-files ()
+  (if
+      (file-exists-p ".git")
+      (split-string (shell-command-to-string "git ls-files"))
+    (message "not a git repo")
+    nil))
+\end{verbatim}
+\subsubsection{Camelizing}
+\label{sec-18.2.12}
+
+    (un)Camelizing allows to convert quickly function/variables names from camelized to non camelized mode.
+
+\begin{verbatim}
+(defun mapcar-head (fn-head fn-rest list)
+  "Like MAPCAR, but applies a different function to the first element."
+  (if list
+      (cons (funcall fn-head (car list)) (mapcar fn-rest (cdr list)))))
+
+(defun camelize (s)
+  "Convert under_score string S to CamelCase string."
+  (mapconcat 'identity (mapcar
+                        '(lambda (word) (capitalize (downcase word)))
+                        (split-string s "_")) ""))
+
+(defun camelize-method (s)
+  "Convert under_score string S to camelCase string."
+  (mapconcat 'identity (mapcar-head
+                        '(lambda (word) (downcase word))
+                        '(lambda (word) (capitalize (downcase word)))
+                        (split-string s "_")) ""))
+
+(defun un-camelcase-string (s &optional sep start)
+  "Convert CamelCase string S to lower case with word separator SEP.
+    Default for SEP is a hyphen \"-\".
+    If third argument START is non-nil, convert words after that
+    index in STRING."
+  (let ((case-fold-search nil))
+    (while (string-match "[A-Z]" s (or start 1))
+      (setq s (replace-match (concat (or sep "-") 
+                                     (downcase (match-string 0 s))) 
+                             t nil s)))
+    (downcase s)))
+\end{verbatim}
+
+
+      We also have \href{http://www.eecs.ucf.edu/~leavens/emacs/camelCase/camelCase-mode.html}{camel case mode} which makes moving in camelized words smarter
+\begin{verbatim}
+(autoload 'camelCase-mode "camelCase-mode")
+(defcustom camelCase-modes
+  '(python-mode-hook java-mode-hook c-mode-hook nesc-mode-hook)
+  "Modes where camelizing is allowed"
+  :type 'list
+  :group 'miniconf)
+
+(dolist (hook camelCase-modes)
+  (add-hook hook 'camelCase-mode))
+\end{verbatim}
+\subsubsection{Find project}
+\label{sec-18.2.13}
+
+    This functions are take from textmate.el and are used to check if we're on a project of some kind.
+    Not used at the moment.
+
+\begin{verbatim}
+;; When it's a git project we can use a grep over git ls-files
+;; same thing for mercurial
+;; check also with the Makefiles in general if we can do something like this
+;; In this way is too simplicistic
+
+(defvar *project-roots*
+  '(".git" ".hg" "Rakefile" "Makefile" "README" "build.xml")
+  "The presence of any file/directory in this list indicates a project root.")
+
+(defun root-match(root names)
+  (member (car names) (directory-files root)))
+
+(defun root-matches(root names)
+  (if (root-match root names)
+      (root-match root names)
+    (if (eq (length (cdr names)) 0)
+        'nil
+      (root-matches root (cdr names)))))
+
+;; should return also the type and the certainty level
+(defun find-project-root (&optional root)
+  "Determines the current project root by recursively searching for an indicator."
+  (interactive)
+  (when (null root)
+    (setq root default-directory))
+  (cond
+   ((root-matches root *project-roots*)
+    (expand-file-name root))
+   ((equal (expand-file-name root) "/") nil)
+   (t
+    ;; recursive call
+    (find-project-root (concat (file-name-as-directory root) "..")))))
+
+(find-project-root)
+\end{verbatim}
+\subsubsection{Select current line}
+\label{sec-18.2.14}
+
+\begin{verbatim}
+(defun select-line ()
+  "If the mark is not active, select the current line.
+Otherwise, expand the current region to select the lines the region touches."
+  (interactive)
+  (if mark-active ;; expand the selection to select lines
+      (let ((top (= (point) (region-beginning)))
+            (p1 (region-beginning))
+            (p2 (region-end)))
+        (goto-char p1)
+        (beginning-of-line)
+        (push-mark (point))
+        (goto-char p2)
+        (unless (looking-back "\n")
+          (progn
+            (end-of-line)
+            (if (< (point) (point-max)) (forward-char))))
+        (setq mark-active t
+              transient-mark-mode t)
+        (if top (exchange-point-and-mark)))
+    (progn
+      (beginning-of-line)
+      (push-mark (point))
+      (end-of-line)
+      (if (< (point) (point-max)) (forward-char))
+      (setq mark-active t
+            transient-mark-mode t))))
+\end{verbatim}
+\subsection{Reload this configuration}
+\label{sec-18.3}
+
+\begin{verbatim}
+(defun reload-conf ()
+  (interactive)
+  (org-babel-load-file "miniconf.org"))
+\end{verbatim}
+\section{Operating system detection}
+\label{sec-19}
+
+\begin{verbatim}
+(defconst linux (string-match "linux" system-configuration))
+(defconst mac (string-match "apple" system-configuration))
+(defconst win (string-match "win" system-configuration))
+\end{verbatim}
+\subsection{Mac configuration}
+\label{sec-19.1}
+
+    This will setup the Command key ot be used as meta.
+    I also add the path normally used for macports to the exec-path.
+\begin{verbatim}
+(if mac
+    (progn
+      (add-to-list 'exec-path "/opt/local/bin")
+      (setq ns-alternate-modifier (quote none))
+      (setq ns-command-modifier (quote meta))))
+\end{verbatim}
+\section{Buffer management}
+\label{sec-20}
+
+  See also \href{http://scottfrazersblog.blogspot.com/2010/01/emacs-filtered-buffer-switching.html}{this nice article} for a better filtering of buffers while switching.
+\subsection{TempBuf}
+\label{sec-20.1}
+
+   TempBuf will automatically kill some of the normally useless buffers
+\begin{verbatim}
+(require 'tempbuf)
+
+;; Enabling tempbuf mode for some kind of buffers
+(add-hook 'dired-mode-hook 'turn-on-tempbuf-mode)
+(add-hook 'custom-mode-hook 'turn-on-tempbuf-mode)
+(add-hook 'w3-mode-hook 'turn-on-tempbuf-mode)
+(add-hook 'Man-mode-hook 'turn-on-tempbuf-mode)
+(add-hook 'view-mode-hook 'turn-on-tempbuf-mode)
+\end{verbatim}
+\subsection{Uniquify}
+\label{sec-20.2}
+
+   Uniquify is used to distinguish easily from buffers with the same name.
+\begin{verbatim}
+;; Using uniquify for better handling of buffers with same name
+(require 'uniquify)
+;; Using part of the directory in this case
+(setq uniquify-buffer-name-style 'forward)
+\end{verbatim}
+\subsection{Other nice packages}
+\label{sec-20.3}
+
+\begin{verbatim}
+;; it will remember where were you in the buffer
+(require 'saveplace)
+\end{verbatim}
+\subsection{Minibuffer nice stuff}
+\label{sec-20.4}
+
+\begin{verbatim}
+(setq visible-bell t) ; Turn beep off
+(savehist-mode t) ; save also minibuffer history, very useful
+\end{verbatim}
+\section{Package management}
+\label{sec-21}
+
+  Auto install is a nice way to install packages from emacswiki repository.
+  There are other possible ways to manage the emacs packages.
+\begin{verbatim}
+; Other autoloads
+(autoload 'auto-install-from-emacswiki "auto-install" "auto install from emacswiki" t)
+(setq auto-install-directory (concat conf "auto-install/"))
+\end{verbatim}
+\subsection{Byte compilation}
+\label{sec-21.1}
+
+   Byte compilation can be done automatically by this package that keeps a cache of the compiled packages.
+
+   It's also possible to put some more files in the blacklist.
+
+\begin{verbatim}
+(require 'byte-code-cache)
+;; FIXME: This is still not fixing the recursive stuff
+(add-to-list 'bcc-blacklist "eieio")
+\end{verbatim}
+\section{Visualization}
+\label{sec-22}
+\subsection{Menu and tool-bar disabling}
+\label{sec-22.1}
+
+\begin{verbatim}
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+\end{verbatim}
+\subsection{Elscreen}
+\label{sec-22.2}
+
+\begin{verbatim}
+(require 'alist)
+(setq elscreen-path (concat conf "elscreen/"))
+(add-to-list 'load-path (concat elscreen-path "elscreen"))
+(add-to-list 'load-path (concat elscreen-path "elscreen-server"))
+(add-to-list 'load-path (concat elscreen-path "elscreen-color-theme"))
+(require 'elscreen)
+(require 'elscreen-color-theme)
+(require 'elscreen-server)
+\end{verbatim}
+\subsection{Fullscreen mode}
+\label{sec-22.3}
+
+   \textbf{Doesn't work} yet on OSX 10.6 with emacs 23, works fine with linux and emacs 22 on OSX.
+  
+\begin{verbatim}
+(defun full (&optional f)
+  (interactive)
+  (if
+      ;; more checks on the version and the OS should be necessary here
+      mac
+      (ns-toggle-fullscreen)
+    (set-frame-parameter f 'fullscreen
+                       (if (frame-parameter f 'fullscreen) nil 'fullboth))))
+;; this toogle the fullscreen for every new frame (window) created
+(add-hook 'after-make-frame-functions 'full)
+\end{verbatim}
+\subsection{Winner mode}
+\label{sec-22.4}
+
+   Winner mode remember the window configuration and allows you to go back and forth
+\begin{verbatim}
+;; enabling winner mode for window reconfiguration
+(winner-mode t)
+\end{verbatim}
+\subsection{Color theme setting}
+\label{sec-22.5}
+
+\begin{verbatim}
+(require 'color-theme)
+(eval-after-load "color-theme"
+  '(progn
+     (color-theme-initialize)))
+(coal)
+\end{verbatim}
+\subsection{Fringe and stuff todo}
+\label{sec-22.6}
+
+   Nice but unable to update itself automatically, but only set when the file is visited first time.
+\begin{verbatim}
+(defun annotate-todo ()
+  "put fringe marker on TODO: lines in the curent buffer"
+  (interactive)
+  (save-excursion
+    ;; TODO: add also other regexps like FIXME or others
+    (goto-char (point-min))
+    (while (re-search-forward "TODO:" nil t)
+      (let ((overlay (make-overlay (- (point) 5) (point))))
+        (overlay-put overlay 'before-string (propertize "A"
+                                                        'display '(left-fringe right-triangle)))))))
+
+
+(add-hook 'find-file-hooks 'annotate-todo)
+\end{verbatim}
+
+  
+\subsection{Font settings}
+\label{sec-22.7}
+
+  Defininig some nice fonts and how to switch between theme.
+  \href{http://xahlee.org/emacs/emacs_unicode_fonts.html}{Cycling function definition}
+\begin{verbatim}
+(setq current "monaco-12")
+(setq font-list
+      (list "monaco-12" "inconsolata-14" "courier-13"))
+
+(defun cycle-font ()
+  "Change font in current frame"
+  (interactive)
+
+  (let (fontToUse currentState)
+    ;; states starts from 1.
+    (setq currentState (if (get this-command 'state) (get this-command 'state) 1))
+    (setq fontToUse (nth (1- currentState) font-list))
+
+    (set-frame-parameter nil 'font fontToUse)
+    (message "Current font is: %s" fontToUse)
+    (put this-command 'state (1+ (% currentState (length font-list))))
+    (redraw-frame (selected-frame))))
+\end{verbatim}
+\section{General useful things}
+\label{sec-23}
+\subsection{Searching info}
+\label{sec-23.1}
+
+   Look for in google
+\begin{verbatim}
+(load-library "google_search")
+\end{verbatim}
+\subsection{Kill ring stuff}
+\label{sec-23.2}
+
+   Sometimes the key ring is not easy to manage, we can browse inside it to see what we saved
+\begin{verbatim}
+(require 'browse-kill-ring)
+\end{verbatim}
+\subsection{Translations}
+\label{sec-23.3}
+\subsubsection{Org babel}
+\label{sec-23.3.1}
+
+\begin{verbatim}
+(setq babel-preferred-from-language "German")
+(setq babel-preferred-to-language "English")
+
+(autoload 'babel-region-default "babel" "translating default" t)
+(autoload 'babel-region "babel" "translating a region" t)
+(autoload 'babel "babel" "translating interactively" t)
+(autoload 'babel-buffer "babel" "translate buffer" t)
+\end{verbatim}
+\subsubsection{Spelling functions}
+\label{sec-23.3.2}
+
+\begin{verbatim}
+(setq ispell-dictionary "english")
+
+;; TODO: possible to refactor this code maybe?
+(defun en ()
+  "Check spelling in english"
+   (interactive)
+  (ispell-change-dictionary "english")
+  (flyspell-mode t))
+
+(defun it ()
+  "Check spelling in english"
+  (interactive)
+  (ispell-change-dictionary "italian")
+  (flyspell-mode t))
+
+(defun fr ()
+  "Check spelling in english"
+  (interactive)
+  (ispell-change-dictionary "french")
+  (flyspell-mode t))
+
+(defun de ()
+  "Check spelling in english"
+  (interactive)
+  (ispell-change-dictionary "german")
+  (flyspell-mode t))
+\end{verbatim}
+\section{Org mode}
+\label{sec-24}
+\subsection{Setting up what happens when closing a task}
+\label{sec-24.1}
+
+\begin{verbatim}
+(setq org-log-done 'note)
+\end{verbatim}
+\subsection{General TODO keywords}
+\label{sec-24.2}
+
+\begin{verbatim}
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "FEEDBACK(f)" "VERIFY(v)" "|" "DONE(d)" "DELEGATED(D)")))
+\end{verbatim}
+\subsection{Enforcing TODO dependencies}
+\label{sec-24.3}
+
+\begin{verbatim}
+(setq org-enforce-todo-dependencies t)
+(setq org-enforce-todo-checkbox-dependencies t)
+\end{verbatim}
+
+   
+\subsection{Info configuration}
+\label{sec-24.4}
+
+\begin{verbatim}
+(add-to-list 'Info-default-directory-list "~/.emacs.d/org-mode/doc/")
+\end{verbatim}
+\subsection{Clock configuration}
+\label{sec-24.5}
+
+\begin{verbatim}
+;; Clock configuration
+(setq org-clock-persist t)
+(org-clock-persistence-insinuate)
+\end{verbatim}
+\subsection{Add eventually}
+\label{sec-24.6}
+
+   This hook enables to expand your KB very easily, every time you create a new org-file it will check if it's already in the agenda and asks to add it.
+   Disable this if you don't plan to use org mode and its agenda
+\begin{verbatim}
+(defun org-add-eventually()
+  "Adding a file to org-agenda when saved"
+  (interactive)
+  (if 
+      (and
+       (string= major-mode "org-mode")
+       (not (member (abbreviate-file-name buffer-file-name) org-agenda-files)))
+      (if
+          (yes-or-no-p "add the file to agenda?")
+          (org-agenda-file-to-front))))
+
+(add-hook 'before-save-hook 'org-add-eventually)
+\end{verbatim}
+\subsubsection{Org agenda blacklist list}
+\label{sec-24.6.1}
+
+    Having to say ``n'' every time for a file that we don't want to add to the agenda can be annoying, so every time we say no we call another function.
+
+\begin{verbatim}
+(defun org-agenda-add-to-blacklist ()
+  (setq org-agenda-blacklist
+        (add-to-list 'org-agenda-blacklist (abbreviate-file-name buffer-file-name)))
+  (customize-save-variable org-agenda-blacklist org-agenda-blacklist))
+\end{verbatim}
+\subsection{Remember mode}
+\label{sec-24.7}
+
+   Org mode can be used in conjunction with remember mode to keep track of repetitive things to remember.
+\subsubsection{Setting up}
+\label{sec-24.7.1}
+
+\begin{verbatim}
+(require 'remember)
+(require 'org-remember)
+(org-remember-insinuate)
+\end{verbatim}
+\subsubsection{Define templates}
+\label{sec-24.7.2}
+
+\begin{verbatim}
+(setq org-remember-templates
+      '(
+        ("Note" ?n "* " "~/Documents/pycon/notes.org")))
+        ;; ("Note" ?n "* " "~/org/notes.org")
+        ;; ("Homeworks" ?h "* TODO %^{homework|german|functional|database|scientific|graphics} \n \texttt{DEADLINE:} %^T" "~/org/homeworks.org")\newline
+        ;; ("TOBUY" ?b "* TODO %^{what you want}\n %t" "~/org/tobuy.org")))
+\end{verbatim}
+\subsection{Notes}
+\label{sec-24.8}
+
+\begin{verbatim}
+;; Defining a setup where org-mode takes care of remember notes
+(setq org-directory "~/org/")
+(setq org-default-notes-file (concat org-directory "notes.org"))
+\end{verbatim}
+\subsection{Other org babel modes}
+\label{sec-24.9}
+
+\begin{verbatim}
+(require 'org-babel-dot)       ;; dot
+(require 'org-babel-haskell)   ;; haskell, haskell-mode, inf-haskell
+(require 'org-babel-python)    ;; python, and python-mode
+(require 'org-babel-ditaa)
+;; (require 'org-babel-ruby)      ;; ruby, irb, ruby-mode, and inf-ruby
+(require 'org-babel-sql)       ;; none
+(require 'org-babel-sh)
+\end{verbatim}
+\subsection{Org functionalities in other modes}
+\label{sec-24.10}
+
+\begin{verbatim}
+(setq org-struct-hooks
+      '(message-mode-hook
+        mail-mode-hook))
+
+(dolist (hook org-struct-hooks)
+  (add-hook hook 'turn-on-orgstruct)
+  (add-hook hook 'turn-on-orgtbl))
+\end{verbatim}
+\section{Tags}
+\label{sec-25}
+\subsection{Etags-select}
+\label{sec-25.1}
+
+   This extension to etags helps choosing from equal names of functions.
+\begin{verbatim}
+(require 'etags-select)
+\end{verbatim}
+\subsection{Extending functions}
+\label{sec-25.2}
+
+   This functions help to look for the TAGS file in the filesystem when is not in the same working directory
+\begin{verbatim}
+(defun jds-find-tags-file ()
+  "recursively searches each parent directory for a file named 'TAGS' and returns the
+path to that file or nil if a tags file is not found. Returns nil if the buffer is
+not visiting a file"
+  (progn
+    (defun find-tags-file-r (path)
+      "find the tags file from the parent directories"
+      (let* ((parent (file-name-directory path))
+             (possible-tags-file (concat parent "TAGS")))
+        (cond
+         ((file-exists-p possible-tags-file) (throw 'found-it possible-tags-file))
+         ((string= "/TAGS" possible-tags-file) (error "no tags file found"))
+         (t (find-tags-file-r (directory-file-name parent))))))
+
+    (if (buffer-file-name)
+        (catch 'found-it 
+          (find-tags-file-r (buffer-file-name)))
+      (error "buffer is not visiting a file"))))
+
+(defun jds-set-tags-file-path ()
+  "calls `jds-find-tags-file' to recursively search up the directory tree to find
+a file named 'TAGS'. If found, set 'tags-table-list' with that path as an argument
+otherwise raises an error."
+  (interactive)
+  (setq tags-table-list (list (jds-find-tags-file))))
+
+;; delay search the TAGS file after open the source file
+(add-hook 'emacs-startup-hook 
+          '(lambda () (jds-set-tags-file-path)))
+\end{verbatim}
+\section{\href{http://code.google.com/p/yasnippet/}{Yasnippet}}
+\label{sec-26}
+
+\begin{verbatim}
+(require 'yasnippet)
+
+(setq yas/root-directory
+      (mapcar 'make-path
+              '("yasnippet/" "my-snippets/")))
+
+;; Maybe needed to set to fixed for some modes
+(setq yas/indent-line 'auto)
+
+(yas/initialize)
+
+(setq yas/ignore-filenames-as-triggers nil)
+
+(mapc 'yas/load-directory yas/root-directory)
+
+;; don't make backups in the snippet folder, they mess up yasnippet
+(add-to-list 'backup-directory-alist '("/my-snippets/" . "/tmp/"))
+\end{verbatim}
+\section{Eldoc mode}
+\label{sec-27}
+
+  Show the documentation of some functions directly in the minibuffer.
+\begin{verbatim}
+(require 'eldoc)
+;; Maybe better a direct activation??
+(dolist (hook '(python-mode-hook
+                c-mode-hook
+                ruby-mode-hook
+                lisp-interaction-mode-hook
+                emacs-lisp-mode-hook))
+  (add-hook hook 'turn-on-eldoc-mode))
+\end{verbatim}
+\section{Auto complete}
+\label{sec-28}
+\subsection{Importing all packages}
+\label{sec-28.1}
+
+\begin{verbatim}
+;;; Require
+(require 'auto-complete)
+;; Various configurations
+(require 'auto-complete-config)
+(require 'auto-complete-extension nil t) ;optional
+(require 'auto-complete-yasnippet nil t) ;optional
+(require 'auto-complete-semantic nil t)  ;optional
+\end{verbatim}
+\subsection{Setting up}
+\label{sec-28.2}
+
+\begin{verbatim}
+;; Generic setup.
+(global-auto-complete-mode t)           ;enable global-mode
+
+(setq ac-auto-start 3)                  ;automatically start
+(setq ac-override-local-map nil)        ;don't override local map
+
+(define-key ac-complete-mode-map "\C-n" 'ac-next)
+(define-key ac-complete-mode-map "\C-p" 'ac-previous)
+\end{verbatim}
+\subsection{Setting up generic sources}
+\label{sec-28.3}
+
+\begin{verbatim}
+(setq-default ac-sources
+              (append ac-sources '(ac-source-semantic)))
+\end{verbatim}
+\subsection{Define allowed modes}
+\label{sec-28.4}
+
+\begin{verbatim}
+(setq ac-modes 
+      '(python-mode
+        emacs-lisp-mode
+        c-mode
+        nesc-mode
+        lisp-interaction-mode
+        java-mode
+        org-mode
+        html-mode
+        xml-mode))
+
+(add-to-list 'ac-trigger-commands 'org-self-insert-command) ; if you want enable auto-complete at org-mode, uncomment this line
+\end{verbatim}
+\subsection{Elisp configuration}
+\label{sec-28.5}
+
+\begin{verbatim}
+(dolist (hook (list
+               'emacs-lisp-mode-hook
+               'lisp-interaction-mode
+               ))
+  (add-hook hook '(lambda ()
+                    (add-to-list 'ac-sources 'ac-source-symbols))))
+\end{verbatim}
+\section{Predictive modes}
+\label{sec-29}
+
+\begin{verbatim}
+(autoload 'predictive-mode "predictive" "predictive" t)
+(set-default 'predictive-auto-add-to-dict t)
+(setq predictive-main-dict 'dict-english
+      predictive-auto-learn t
+      predictive-add-to-dict-ask nil
+      predictive-use-auto-learn-cache nil
+      predictive-which-dict t)
+\end{verbatim}
+\section{Cedet}
+\label{sec-30}
+
+  See \href{http://alexott.net/en/writings/emacs-devenv/EmacsCedet.html}{gentle introduction to cedet} for a nicer tutorial
+\subsection{Use cedet and gloabally ede-mode for projects}
+\label{sec-30.1}
+
+\begin{verbatim}
+(require 'cedet)
+;; This is not working with the stupid code cache stuff
+;; (global-ede-mode t)
+(require 'semantic)
+\end{verbatim}
+\subsection{Options for semantic}
+\label{sec-30.2}
+
+\begin{verbatim}
+(semantic-mode t)
+(global-semantic-stickyfunc-mode 1)
+(global-semantic-idle-completions-mode 1)
+(global-semantic-decoration-mode 1)
+(global-semantic-highlight-func-mode 1)
+(global-semantic-idle-summary-mode 1)
+(global-semantic-highlight-edits-mode 1)
+;; enable working on nesc-code, a superset of C, add another language to semantic instead
+(add-to-list 'semantic-new-buffer-setup-functions
+             '(nesc-mode . semantic-default-c-setup))
+\end{verbatim}
+\subsection{Hook for inline documentation setting local keys}
+\label{sec-30.3}
+
+\begin{verbatim}
+(defun my-c-like-cedet-hook ()
+  (local-set-key [(control return)] 'semantic-ia-complete-symbol)
+  (local-set-key "\C-c?" 'semantic-ia-complete-symbol-menu)
+  (local-set-key "\C-c>" 'semantic-complete-analyze-inline)
+  (local-set-key "\C-cj" 'semantic-ia-fast-jump)
+  (local-set-key "\C-cq" 'semantic-ia-show-doc)
+  (local-set-key "\C-cs" 'semantic-ia-show-summary)
+  (local-set-key "\C-cp" 'semantic-analyze-proto-impl-toggle))
+
+(defun my-c-only-cedet-hook ()
+  (local-set-key "." 'semantic-complete-self-insert)
+  (local-set-key ">" 'semantic-complete-self-insert))
+\end{verbatim}
+\subsection{Using semanticdb}
+\label{sec-30.4}
+
+\begin{verbatim}
+(global-semanticdb-minor-mode)
+(semanticdb-enable-gnu-global-databases 'c-mode)
+(semanticdb-enable-gnu-global-databases 'java-mode)
+(semanticdb-enable-gnu-global-databases 'jde-mode)
+(semanticdb-enable-gnu-global-databases 'python-mode)
+\end{verbatim}
+
+   
+\section{Programming}
+\label{sec-31}
+\subsection{Internationalization}
+\label{sec-31.1}
+
+   Editing po files
+\begin{verbatim}
+(autoload 'po-mode "po-mode+"
+  "Major mode for translators to edit PO files" t)
+
+(add-to-list 'auto-mode-alist
+             '("\\.po$" . po-mode))
+
+(add-to-list 'auto-mode-alist
+             '("\\.pot$" . po-mode))
+
+
+;; to automatically find out the coding system
+(modify-coding-system-alist 'file "\\.po\\'\\|\\.po\\."
+                            'po-find-file-coding-system)
+(autoload 'po-find-file-coding-system "po-mode")
+\end{verbatim}
+\subsection{To spell mode}
+\label{sec-31.2}
+
+   Most of the programming languages we can have syntax checking on the comments and strings.
+   Flyspell-prog-mode is just for this
+\begin{verbatim}
+(defcustom to-spell-langs
+  '(emacs-lisp-mode-hook python-mode-hook c-mode-hook nesc-mode-hook java-mode-hook jde-mode-hook haskell-mode-hook)
+  "Set of programming modes for which I want to enable spelling in comments and strings"
+  :type 'list
+  :group 'miniconf)
+;; (setq to-spell-langs
+
+(dolist (lang-hook to-spell-langs)
+  (add-hook  lang-hook 'flyspell-prog-mode))
+\end{verbatim}
+\subsection{Web nice utilities}
+\label{sec-31.3}
+\subsubsection{Gist}
+\label{sec-31.3.1}
+
+    Use simply \textbf{gist-buffer} or \textbf{gist-region} to paste code online.
+\begin{verbatim}
+(require 'gist)
+\end{verbatim}
+
+    
+\subsection{C-mode}
+\label{sec-31.4}
+
+\begin{verbatim}
+(require 'c-eldoc)
+(setq c-default-style
+      '((java-mode . "java")
+       (awk-mode . "awk")
+       (other . "cc-mode")))
+
+;; FIXME: eldoc mode, not working correctly apparently
+;; See http://www.emacswiki.org/emacs/CEldocMode for more info
+(add-hook 'c-mode-hook 'c-turn-on-eldoc-mode)
+;; adding the hook from cedet
+(add-hook 'c-mode-common-hook 'my-c-like-cedet-hook)
+
+(add-hook 'c-mode-hook 'my-c-only-cedet-hook)
+\end{verbatim}
+\subsection{Python}
+\label{sec-31.5}
+\subsubsection{Python mode}
+\label{sec-31.5.1}
+
+  \href{http://hide1713.wordpress.com/2009/01/30/setup-perfect-python-environment-in-emacs/}{Possible configuration for auto completion with ropemacs}
+  Ropmacs though is not up to date and needs and may not work correctly
+
+\begin{verbatim}
+;; TODO: check why is not working with the autoload
+(load-library "python-mode")
+(add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
+(add-to-list 'interpreter-mode-alist '("python" . python-mode))
+(autoload 'doctest-mode "doctest-mode" "doc test python mode" t)
+\end{verbatim}
+\subsection{Haskell mode}
+\label{sec-31.6}
+
+\begin{verbatim}
+(add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
+(autoload 'haskell-mode "haskell-mode" "haskell mode" t)
+(autoload 'turn-on-haskell-doc-mode "haskell-doc" "haskell doc mode" t)
+(autoload 'turn-on-haskell-indent "haskell-indent" "haskell indent facilities" t)
+
+(add-hook 'inf-haskell "inf-haskell" "inf-haskell" t)
+(add-hook 'hs-lint "hs-lint" "haskell checker" t)
+
+;; here some haskell variables
+(setq haskell-doc-show-global-types t)
+(setq haskell-program-name "ghci")
+                                        ; where haskell-hoogle is loaded?
+
+;; enabled to get indentation over if-then-else
+(setq haskell-indent-thenelse 1)
+
+;; If nothing found pass the control
+(add-hook 'haskell-mode-hook
+          '(lambda ()
+             (require 'haskell-doc) ; Is this the only way?
+             (require 'haskell-indent)
+             (turn-on-haskell-doc-mode)
+             (turn-on-haskell-indentation)
+             ;; This would be very nice but it conflicts with yasnippet
+             (define-key haskell-mode-map [tab] 'haskell-indent-cycle)
+             (define-key haskell-mode-map "\C-ch" 'haskell-hoogle)
+             (define-key haskell-mode-map "\C-cl" 'hs-lint)
+             (make-variable-buffer-local 'yas/trigger-key)
+             (setq yas/trigger-key [tab])
+             (define-key yas/keymap [tab] 'yas/next-field)))
+\end{verbatim}
+\subsection{Prolog}
+\label{sec-31.7}
+
+\begin{verbatim}
+(autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
+(autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
+(autoload 'mercury-mode "prolog" "Major mode for editing Mercury programs." t)
+(setq prolog-system 'swi)
+(add-to-list 'auto-mode-alist '("\\.pl$" . prolog-mode))
+\end{verbatim}
+\subsection{Nesc}
+\label{sec-31.8}
+
+\begin{verbatim}
+(autoload 'nesc-mode "nesc" nil t)
+(add-to-list 'auto-mode-alist '("\\.nc$" . nesc-mode))
+\end{verbatim}
+\subsection{Java}
+\label{sec-31.9}
+\subsubsection{Javadoc help}
+\label{sec-31.9.1}
+
+\begin{verbatim}
+(autoload 'javadoc-lookup       "javadoc-help" "Look up Java class in Javadoc."   t)
+(autoload 'javadoc-help         "javadoc-help" "Open up the Javadoc-help menu."   t)
+(autoload 'javadoc-set-predefined-urls  "javadoc-help" "Set pre-defined urls."    t)
+\end{verbatim}
+
+  
+\subsubsection{Jdee settings}
+\label{sec-31.9.2}
+
+\begin{verbatim}
+(add-to-list 'load-path (concat conf "jdee/lisp"))
+
+(autoload 'jde-mode "jde" "jde mode" t)
+
+;; In this way we only load if really necessary
+(add-hook 'jde-mode-hook
+          '(lambda ()
+             (require 'ecb)
+             (setq indent-tabs-mode nil)))
+
+;; (defun turn-on-font-lock-if-enabled ()
+;;   "set up to make jdee shut up")
+
+;; TODO: put some conditional stuff for the different operating systems
+;; make it more general usage
+(setq jde-jdk-registry
+      '(("1.6" . "/System/Library/Frameworks/JavaVM.framework/Versions/1.6/")
+        ("1.5" . "/System/Library/Frameworks/JavaVM.framework/Versions/1.5/")
+        ("1.3.1" . "/System/Library/Frameworks/JavaVM.framework/Versions/1.3.1/")))
+
+(setq jde-jdk '("1.6" . "/System/Library/Frameworks/JavaVM.framework/Versions/1.6/"))
+
+(setq bsh-jar "/opt/local/share/java/bsh.jar")
+\end{verbatim}
+\subsection{Changelog settings and time}
+\label{sec-31.10}
+
+\begin{verbatim}
+;; for changelogs
+(setq add-log-always-start-new-record 1)
+(add-hook 'before-save-hook 'time-stamp)
+(setq time-stamp-format "%02d-%02m-%:y, %02H:%02M")
+\end{verbatim}
+\subsection{Doc}
+\label{sec-31.11}
+\subsubsection{Doxymacs}
+\label{sec-31.11.1}
+
+\begin{verbatim}
+(require 'doxymacs)
+\end{verbatim}
+\subsection{Applescript mode}
+\label{sec-31.12}
+
+\begin{verbatim}
+(add-to-list 'auto-mode-alist
+             '("\\.applescript$" . applescript-mode))
+(autoload 'applescript-mode "applescript-mode" "mode for applescript files" t)
+\end{verbatim}
+
+   
+\subsection{Web programming}
+\label{sec-31.13}
+
+  Enabling nxhtml mode
+\begin{verbatim}
+(load (concat conf "nxhtml/autostart.el"))
+\end{verbatim}
+
+
+\begin{verbatim}
+;;(add-to-list 'auto-mode-alist '("\\.mak$" . html-mode))
+;;(add-to-list 'auto-mode-alist '("\\.mako$" . html-mode))
+(add-to-list 'auto-mode-alist '("\\.mak$" . mako-html-mumamo-mode))
+(add-to-list 'auto-mode-alist '("\\.mako$" . mako-html-mumamo-mode))
+\end{verbatim}
+
+
+\begin{verbatim}
+(setq mumamo-chunk-coloring 2)
+\end{verbatim}
+\subsection{Lua}
+\label{sec-31.14}
+
+\begin{verbatim}
+;; lua mode
+(autoload 'lua-mode "lua-mode" "mode for lua" t)
+\end{verbatim}
+\subsection{Fixme mode}
+\label{sec-31.15}
+
+   This is a mode to highlight stuff, adding some more modes
+\begin{verbatim}
+(require 'fixme-mode)
+;;TODO: make it working everywhere automatically if possible
+(add-to-list 'fixme-modes 'org-mode)
+\end{verbatim}
+\subsection{Yaml}
+\label{sec-31.16}
+
+\begin{verbatim}
+(autoload 'yaml-mode "yaml-mode" "mode for yaml" t)
+(add-to-list 'auto-mode-alist
+             '("\\.yaml$" . yaml-mode))
+\end{verbatim}
+\subsection{Go mode}
+\label{sec-31.17}
+
+\begin{verbatim}
+(autoload 'go-mode "go-mode" "go mode" t)
+(add-to-list 'auto-mode-alist
+             '("\\.go$" . go-mode))
+\end{verbatim}
+\subsection{\href{http://code.djangoproject.com/wiki/Emacs}{Django modes}}
+\label{sec-31.18}
+
+   This mode is derived from html and helps writing django templates
+\begin{verbatim}
+(autoload 'django-html-mode "django-html-mode" "mode for django templates" t)
+(add-to-list 'auto-mode-alist
+             '("views" . django-html-mode))
+\end{verbatim}
+\section{Security}
+\label{sec-32}
+
+\begin{verbatim}
+(require 'epa)
+(epa-file-enable)
+\end{verbatim}
+\section{Latex}
+\label{sec-33}
+\subsection{Configuring Auctex}
+\label{sec-33.1}
+
+   Auctex is much more powerful than the default latex mode, enabling it using pdf as default mode
+\begin{verbatim}
+(add-to-list 'load-path (concat conf "auctex"))
+(autoload 'latex-mode "auctex" "latex mode" t)
+(autoload 'preview-latex "preview-latex" "preview latex in buffer" t)
+
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq LaTeX-command "latex")
+(setq TeX-PDF-mode t)
+(setq TeX-master nil)
+
+;; using flyspell also here
+(add-hook 'latex-mode-hook 'turn-on-flyspell)
+\end{verbatim}
+\subsection{Accessing to latex symbols}
+\label{sec-33.2}
+
+\begin{verbatim}
+(setq latex-symbols-file
+      (expand-file-name "~/howto_guide/languages/latex/symbols-a4.pdf"))
+
+(defvar latex-command-program
+  (cond
+   (mac "open")
+   (linux "evince"))
+  "latex program to execute for viewing pdf")
+
+(defun latex-symbols ()
+  "open the latex symbols file"
+  (interactive)
+  (if (file-exists-p latex-symbols-file)
+      (shell-command (concat latex-command-program " " latex-symbols-file))
+    (message "file not found")))
+\end{verbatim}
+\section{Mail settings}
+\label{sec-34}
+\subsection{General settings for message creation}
+\label{sec-34.1}
+
+
+\begin{verbatim}
+;; setting where the mail is coming from
+(setq mail-setup-with-from t)
+
+;; This is just to enable flyspell in mail-mode
+;; FIXME: check if this dirty hack is still needed
+(defvar message-signature-separator "^-- *$" "\
+    Regexp matching the signature separator.")
+\end{verbatim}
+\subsection{Setting up gmail smtp server}
+\label{sec-34.2}
+
+   Make sure you configure correctly your .authinfo for login and password
+
+\begin{verbatim}
+(setq send-mail-function 'smtpmail-send-it
+      message-send-mail-function 'smtpmail-send-it
+      smtpmail-starttls-credentials
+      '(("smtp.gmail.com" 587 nil nil))
+      smtpmail-auth-credentials
+      (expand-file-name "~/.authinfo")
+      smtpmail-default-smtp-server "smtp.gmail.com"
+      smtpmail-smtp-server "smtp.gmail.com"
+      smtpmail-smtp-service 587
+      ;; This can be commented out for a less verbose output
+      smtpmail-debug-info t)
+
+(require 'smtpmail)
+\end{verbatim}
+\subsection{Setting up completion over the addresses with the Mac address book}
+\label{sec-34.3}
+
+\begin{verbatim}
+(if mac
+    (progn
+      (require 'external-abook)
+       (setq external-abook-command "contacts -lf '%%e\t%%n' %s")
+       ;; TODO: check if it's dynamic enough
+       (eval-after-load "message"
+         '(progn 
+            (add-hook 'mail-mode-hook
+                         '(lambda ()
+                            (define-key message-mode-map "\C-c\t" 'external-abook-try-expand)))))))
+\end{verbatim}
+\subsection{Setting default sending modality}
+\label{sec-34.4}
+
+\begin{verbatim}
+(setq mail-user-agent 'sendmail-user-agent)
+\end{verbatim}
+\section{Gnus settings}
+\label{sec-35}
+\subsection{Server settings}
+\label{sec-35.1}
+
+\begin{verbatim}
+(setq gnus-select-method '(nntp "news.gmane.org"))
+;; Set also comp.* hierarchy
+(setq gnus-secondary-select-methods
+      '(
+        ;; Configuration for http://www.eternal-september.org/
+        (nntp "eternal"
+              (nntp-authinfo-file "~/.authinfo")
+              (nntp-address "news.eternal-september.org")
+              (nntp-port-number 119))))
+\end{verbatim}
+\subsection{Old messages settings}
+\label{sec-35.2}
+
+\begin{verbatim}
+(setq gnus-large-newsgroup 500)
+(setq gnus-fetch-old-headers nil)
+\end{verbatim}
+\subsection{Appearance}
+\label{sec-35.3}
+
+\begin{verbatim}
+;; Changing modeline to include also the date of the message
+(setq gnus-summary-line-format "%U%R%z%I%(%[%4L: %-23,23f%]%) %s--%d\n")
+\end{verbatim}
+\subsection{Avoid the annoying saving of the .news file}
+\label{sec-35.4}
+
+\begin{verbatim}
+(add-hook 'gnus-started-hook
+          (lambda ()
+            (when (buffer-live-p gnus-dribble-buffer)
+              (with-current-buffer gnus-dribble-buffer
+                (setq buffer-save-without-query t)))))
+\end{verbatim}
+\subsection{\textbf{TODO} Setting up some posting styles and other nice settings}
+\label{sec-35.5}
+\section{Revision control systems}
+\label{sec-36}
+\subsection{\href{http://zagadka.vm.bytemark.co.uk/magit/}{Magit}}
+\label{sec-36.1}
+
+   Nice interface for git.
+\begin{verbatim}
+(require 'magit)
+\end{verbatim}
+\subsection{Function to enable revert mode when in a git repository}
+\label{sec-36.2}
+
+   It's nice to enable auto-revert-mode automatically on files which are surely in a git repository.
+   To do this we can simply add a hook to find-file-hook
+\begin{verbatim}
+(defun is-git-file ()
+  "Return nil unless the file is in the git files"
+  (if
+      (member (file-name-nondirectory buffer-file-name)
+              (split-string  (shell-command-to-string "git ls-files")))
+      (auto-revert-mode t)))
+
+(add-hook 'find-file-hook 'is-git-file)
+\end{verbatim}
+\section{General settings}
+\label{sec-37}
+\subsection{Mode for startup}
+\label{sec-37.1}
+
+\begin{verbatim}
+(setq initial-major-mode 'python-mode)
+\end{verbatim}
+\subsection{Showing more things}
+\label{sec-37.2}
+
+\begin{verbatim}
+(display-time-mode 1)
+(transient-mark-mode 1)
+(setq inhibit-startup-message t)
+(setq initial-scratch-message nil)
+
+(show-paren-mode t)
+(column-number-mode t)
+;; always truncate lines (useful for netbook), not working yet in ORG MODE
+(setq truncate-lines nil)
+;; Setting indent-tabs-mode for only spaces
+(setq-default indent-tabs-mode nil)
+\end{verbatim}
+\subsection{IDO mode}
+\label{sec-37.3}
+
+\begin{verbatim}
+(require 'ido)
+(ido-mode t)
+;; otherwise it will try to connect to old servers all the time
+(setq ido-enable-tramp-completion t)
+(setq ido-enable-flex-matching nil)
+;; regexp matching also
+(setq ido-enable-regexp nil)
+(setq ido-use-url-at-point t)
+\end{verbatim}
+\subsubsection{Use IDO when possible}
+\label{sec-37.3.1}
+
+    We can advice the \textbf{completing-read} default function to use IDO when it's possible
+\begin{verbatim}
+(defvar ido-enable-replace-completing-read t
+  "If t, use ido-completing-read instead of completing-read if possible.
+
+    Set it to nil using let in around-advice for functions where the
+    original completing-read is required.  For example, if a function
+    foo absolutely must use the original completing-read, define some
+    advice like this:
+
+    (defadvice foo (around original-completing-read-only activate)
+      (let (ido-enable-replace-completing-read) ad-do-it))")
+
+;; Replace completing-read wherever possible, unless directed otherwise
+(defadvice completing-read
+  (around use-ido-when-possible activate)
+  (if (or (not ido-enable-replace-completing-read) ; Manual override disable ido
+          (boundp 'ido-cur-list)) ; Avoid infinite loop from ido calling this
+      ad-do-it
+    (let ((allcomp (all-completions "" collection predicate)))
+      (if allcomp
+          (setq ad-return-value
+                (ido-completing-read prompt
+                                     allcomp
+                                     nil require-match initial-input hist def))
+        ad-do-it))))
+\end{verbatim}
+\subsection{Windmove}
+\label{sec-37.4}
+
+\begin{verbatim}
+(defcustom windmove-key
+  'shift
+  "key for moving between windows"
+  :type 'symbol
+  :group 'miniconf)
+
+(windmove-default-keybindings windmove-key)
+\end{verbatim}
+\subsection{Workarounds}
+\label{sec-37.5}
+
+   Compiling on emacs 23.2 often gives some strange errors, this is to avoid them
+\begin{verbatim}
+(setq warning-suppress-types nil)
+\end{verbatim}
+\section{Flymake}
+\label{sec-38}
+\subsection{Setting up flymake}
+\label{sec-38.1}
+
+\begin{verbatim}
+(require 'flymake)
+
+(defun activate-flymake ()
+  "Activates flymake when real buffer and you have write access"
+  (if (and
+       (buffer-file-name)
+       (file-writable-p buffer-file-name))
+      (flymake-mode t)))
+\end{verbatim}
+\subsection{Adding errors to modeline}
+\label{sec-38.2}
+
+   With this the error output of othe current line will appear right below in the modeline
+\begin{verbatim}
+(defun my-flymake-show-help ()
+  (when (get-char-property (point) 'flymake-overlay)
+    (let ((help (get-char-property (point) 'help-echo)))
+      (if help (message "%s" help)))))
+
+(add-hook 'post-command-hook 'my-flymake-show-help)
+\end{verbatim}
+\subsection{Flymake for python}
+\label{sec-38.3}
+
+   We check the errors given by 3 different programs:
+\begin{itemize}
+\item epylint (which runs pylint and make it more parsable)
+\item pyflakes
+\item pep8
+\end{itemize}
+
+   The errors or warnings appear right in the source code.
+   
+\begin{verbatim}
+ (defun flymake-python-init () 
+   (let* ((temp-file (flymake-init-create-temp-buffer-copy 
+                      'flymake-create-temp-inplace)) 
+          (local-file (file-relative-name 
+                       temp-file 
+                       (file-name-directory buffer-file-name)))) 
+     (list "pycheckers" (list local-file))))
+
+ (add-to-list 'flymake-allowed-file-name-masks 
+              '("\\.py\\'" flymake-python-init))
+
+ ;; Using function is preferred when quoting functions
+;; (add-hook 'python-mode-hook (function activate-flymake))
+\end{verbatim}
+
+  
+\section{Customizable variables}
+\label{sec-39}
+
+  Still thinking how to manage this for best usage
+\begin{verbatim}
+(defgroup variables nil "private variables")
+(defcustom private "private" "file with private settings"
+:group 'variables)
+\end{verbatim}
+\section{Server stuff}
+\label{sec-40}
+
+  This will start the server for the GUI version of emacs, make sure you set up correctly the emacsclient, for example on the mac
+\begin{verbatim}
+alias emacsclient='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient'
+# and then setup your $EDITOR to emacsclient...
+\end{verbatim}
+
+
+\begin{verbatim}
+(if window-system
+    (progn
+      (require 'server)
+      (server-start)))
+\end{verbatim}
+
+  
+\section{Fun}
+\label{sec-41}
+\subsection{Fortune settings}
+\label{sec-41.1}
+
+\begin{verbatim}
+;; TODO: make it a defcustom also 
+(setq fortune-dir "/opt/local/share/games/fortune/")
+\end{verbatim}
+\subsection{Some mac tricks}
+\label{sec-41.2}
+\subsubsection{Open the terminal}
+\label{sec-41.2.1}
+
+\begin{verbatim}
+(defun mac-open-terminal ()
+  (interactive)
+  (let ((dir ""))
+    (cond
+     ((and (local-variable-p 'dired-directory) dired-directory)
+      (setq dir dired-directory))
+     ((stringp (buffer-file-name))
+      (setq dir (file-name-directory (buffer-file-name))))
+     )
+    (do-applescript
+     (format "
+tell application \"Terminal\"
+  activate
+  try
+    do script with command \"cd %s\"
+  on error
+    beep
+  end try
+end tell" dir))
+    ))
+\end{verbatim}
+\subsubsection{Growl popup}
+\label{sec-41.2.2}
+
+   This function can be pretty nice during presentations, it will popup the last pressed key via growl.
+\begin{verbatim}
+   (defun growl-popup (msg)
+  "Pop up a growl notification with MSG, or display an Emacs message.
+The \"growlnotify\" program is used if `window-system' is non-nil and
+the program is found in `exec-path'; otherwise `message' is used."
+  (interactive)
+  (if (and window-system (executable-find "growlnotify"))
+      (shell-command (concat "growlnotify -a /Applications/Emacs.app/ -m "
+                             (shell-quote-argument msg)))
+    (message msg)))
+
+(defun popup-last ()
+  (interactive)
+  (let
+      ((last-key (key-description (this-command-keys))))
+    ;; check if we don't have a "stupid" sequence
+    (unless
+        (= (length (this-command-keys-vector)) 1)
+        (growl-popup last-key))))
+\end{verbatim}
+
+
+  Now we also create two other functions to enable and disable it
+\begin{verbatim}
+(setq growl-mode nil)
+
+(defun growl ()
+  (interactive)
+  (if (not growl-mode)
+      (progn
+        (message "enabling growl mode notification")
+        (add-hook 'pre-command-hook 'popup-last)
+        (setq growl-mode t))
+    (progn
+      (setq-default pre-command-hook (remq 'popup-last pre-command-hook))
+      (message "disabling growl mode notification")
+      (setq growl-mode nil))))
+\end{verbatim}
+
+      
+\section{Global keys settings}
+\label{sec-42}
+
+\begin{verbatim}
+;; compile facilities
+(global-set-key [f5] 'recompile)
+
+;; newline like textmate
+(global-set-key (kbd "M-RET") 'newline-force)
+(global-set-key [M-S-return] 'newline-force-close)
+
+;; cvs stuff
+(global-set-key "\C-xg" 'magit-status)
+
+;; org keys
+(global-set-key "\C-c\C-l" 'org-annotate-file)
+(global-set-key "\C-cr" 'org-remember)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-c\C-x\C-o" 'org-clock-out)
+(global-set-key "\C-c\C-x\C-i" 'org-clock-in)
+
+;; senator
+(global-set-key "\M-." 'semantic-complete-jump-local)
+(global-set-key "\M-?" 'semantic-ia-fast-jump)
+
+;; overriding defualt not so smart visualization
+(global-set-key "\C-x\C-b" 'ibuffer) ;; manage buffers with ibuffer
+
+;; visualization
+(global-set-key [f11] 'full)
+
+;; splitting windows facilitites
+;; TODO: pass to a sensible splitting instead
+(global-set-key [f2] 'split-window-horizontally)
+(global-set-key [f1] 'delete-window)
+
+(global-set-key (kbd "<C-f9>") 'cycle-font)
+
+;; elscreen nice stuff
+(global-set-key (kbd "M-<left>") 'elscreen-previous)
+(global-set-key (kbd "M-<right>") 'elscreen-next)
+
+;; narrows to the actual function or class analyzed
+;; C-x n w to widen again
+(global-set-key "\C-xnn" 'semantic-narrow-to-tag)
+
+(global-set-key [(meta shift l)] 'select-line)
+
+;; TODO: the senator stuff should be enabled only where senator actually works!!
+(global-set-key [f6] 'senator-fold-tag-toggle)
+
+(global-set-key (kbd "M-n") 'senator-next-tag)
+(global-set-key (kbd "M-p") 'senator-previous-tag)
+\end{verbatim}
+
+  
+\section{External configuration files}
+\label{sec-43}
+
+  Some packages use to store their configuration in external files and not in elisp code.
+  For example:
+\begin{itemize}
+\item gnus:
+
+\begin{itemize}
+\item \~{}/.newsrc
+\item \~{}/.newsrc-dribble (an open buffer saving actual status)
+\item \~{}/News (all the message fetched and so on)
+\end{itemize}
+
+\item javadoc-help
+
+\begin{itemize}
+\item \~{}/.javadoc-help (configuration about the sdks)
+\end{itemize}
+
+\end{itemize}
+      
+
+\end{document}

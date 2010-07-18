@@ -845,7 +845,7 @@ MINIMAL EMACS CONFIGURATION
   
   (setq yas/root-directory
         (mapcar 'make-path
-                '("my-snippets/" "yasnippet/")))
+                '("my-snippets/" "yasnippet-read-only/")))
   
   ;; Maybe needed to set to fixed for some modes
   (setq yas/indent-line 'auto)
