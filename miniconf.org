@@ -845,7 +845,7 @@ MINIMAL EMACS CONFIGURATION
   
   (setq yas/root-directory
         (mapcar 'make-path
-                '("my-snippets/" "yasnippet-read-only/")))
+                '("my-snippets/" "yasnippet/snippets/")))
   
   ;; Maybe needed to set to fixed for some modes
   (setq yas/indent-line 'auto)
@@ -890,11 +890,16 @@ MINIMAL EMACS CONFIGURATION
   ;; Generic setup.
   (global-auto-complete-mode t)           ;enable global-mode
   
-  (setq ac-auto-start 3)                  ;automatically start
+  (setq ac-auto-start 1)                  ;automatically start
   (setq ac-override-local-map nil)        ;don't override local map
   
   (define-key ac-complete-mode-map "\C-n" 'ac-next)
   (define-key ac-complete-mode-map "\C-p" 'ac-previous)
+  
+  ;; making it a bit faster
+  (setq ac-delay 0.05)
+  (setq ac-auto-show-menu 0.4)
+  (setq ac-quick-help-delay 0.5)
 #+end_src
 
 ** Setting up generic sources
