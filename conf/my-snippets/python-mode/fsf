@@ -5,9 +5,9 @@
 #############################################################################
 ##                                                                         ##
 ## Fetched from http://www.secdev.org/python/tunproxy.py                   ##
-## tunproxy.py --- small demo program for tunneling over UDP with tun/tap  ##
+## ${1:filename}.py --- small demo program for tunneling over UDP with tun/tap  ##
 ##                                                                         ##
-## Copyright (C) 2003  Philippe Biondi <phil@secdev.org>                   ##
+## Copyright (C) ${2:date somehow}         Andrea Crotti                   ##
 ##                                                                         ##
 ## This program is free software; you can redistribute it and/or modify it ##
 ## under the terms of the GNU General Public License as published by the   ##

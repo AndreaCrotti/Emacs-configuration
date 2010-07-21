@@ -19,6 +19,8 @@ MINIMAL EMACS CONFIGURATION
 * TODO Everything that should be changed by the user must be put in a defcustom
   Add also custom keys for all the global-key-set combinations
 
+* TODO Build an automatic list of versions
+
 * Assumptions
   - $HOME/.emacs.d/scripts is in the $PATH
   - flymake is installed (distributed with emacs 23 also)
@@ -995,6 +997,62 @@ MINIMAL EMACS CONFIGURATION
   (semanticdb-enable-gnu-global-databases 'python-mode)
 #+end_src
    
+* Erc
+#+begin_src emacs-lisp :tangle yes
+  ;; Load authentication info from an external source.  Put sensitive
+  ;; passwords and the like in here.
+  ;; (load "~/.emacs.d/.erc-auth")
+  
+  ;; This is an example of how to make a new command.  Type "/uptime" to
+  ;; use it.
+  (defun erc-cmd-UPTIME (&rest ignore)
+    "Display the uptime of the system, as well as some load-related
+       stuff, to the current ERC buffer."
+    (let ((uname-output
+           (replace-regexp-in-string
+            ", load average: " "] {Load average} ["
+            ;; Collapse spaces, remove
+            (replace-regexp-in-string
+             " +" " "
+             ;; Remove beginning and trailing whitespace
+             (replace-regexp-in-string
+              "^ +\\|[ \n]+$" ""
+              (shell-command-to-string "uptime"))))))
+      (erc-send-message
+       (concat "{Uptime} [" uname-output "]"))))
+  
+  (setq erc-nick '("andrea.crotti" "bogomips"))
+  (setq erc-nick-uniquifier "xxx")
+  
+  ;; This causes ERC to connect to the Freenode network upon hitting
+  ;; C-c e f.  Replace MYNICK with your IRC nick.
+  ;; (global-set-key "\C-cef" (lambda () (interactive)
+  ;;                            (erc :server "irc.freenode.net" :port "6667"
+  ;;                                 :nick "MYNICK")))
+  
+  ;; This causes ERC to connect to the IRC server on your own machine (if
+  ;; you have one) upon hitting C-c e b.  Replace MYNICK with your IRC
+  ;; nick.  Often, people like to run bitlbee (http://bitlbee.org/) as an
+  ;; AIM/Jabber/MSN to IRC gateway, so that they can use ERC to chat with
+  ;; people on those networks.
+  ;; (global-set-key "\C-ceb" (lambda () (interactive)
+  ;;                            (erc :server "localhost" :port "6667"
+  ;;                                 :nick "MYNICK")))
+  
+  ;; Make C-c RET (or C-c C-RET) send messages instead of RET. This has
+  ;; been commented out to avoid confusing new users.
+  ;; (define-key erc-mode-map (kbd "RET") nil)
+  ;; (define-key erc-mode-map (kbd "C-c RET") 'erc-send-current-line)
+  ;; (define-key erc-mode-map (kbd "C-c C-RET") 'erc-send-current-line)
+  
+       ;;; Options
+  
+  ;; Join the #emacs and #erc channels whenever connecting to Freenode.
+  (setq erc-autojoin-channels-alist '(("freenode.net" "#emacs" "#erc" "#ruby-lang")))
+  
+  ;; Interpret mIRC-style color commands in IRC chats
+  (setq erc-interpret-mirc-color t)
+#+end_src
 
 * Programming
 ** Internationalization
@@ -1241,6 +1299,11 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 ** Doc
+*** Doxygen files
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'auto-mode-alist '("Doxyfile" . conf-unix-mode))
+#+end_src
+
 *** Doxymacs
 #+begin_src emacs-lisp :tangle yes
   (require 'doxymacs)
@@ -1730,6 +1793,7 @@ MINIMAL EMACS CONFIGURATION
   (global-set-key (kbd "M-n") 'senator-next-tag)
   (global-set-key (kbd "M-p") 'senator-previous-tag)
 #+end_src
+
   
 * External configuration files
   Some packages use to store their configuration in external files and not in elisp code.
