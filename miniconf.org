@@ -983,9 +983,9 @@ MINIMAL EMACS CONFIGURATION
     (local-set-key "\C-cs" 'semantic-ia-show-summary)
     (local-set-key "\C-cp" 'semantic-analyze-proto-impl-toggle))
   
-  (defun my-c-only-cedet-hook ()
-    (local-set-key "." 'semantic-complete-self-insert)
-    (local-set-key ">" 'semantic-complete-self-insert))
+  ;; (defun my-c-only-cedet-hook ()
+  ;;   (local-set-key "." 'semantic-complete-self-insert)
+  ;;   (local-set-key ">" 'semantic-complete-self-insert))
 #+end_src
 
 ** Using semanticdb
@@ -1110,7 +1110,7 @@ MINIMAL EMACS CONFIGURATION
   ;; adding the hook from cedet
   (add-hook 'c-mode-common-hook 'my-c-like-cedet-hook)
   
-  (add-hook 'c-mode-hook 'my-c-only-cedet-hook)
+  ;; (add-hook 'c-mode-hook 'my-c-only-cedet-hook)
 #+end_src
 
 ** Python
@@ -1366,6 +1366,23 @@ MINIMAL EMACS CONFIGURATION
   (autoload 'django-html-mode "django-html-mode" "mode for django templates" t)
   (add-to-list 'auto-mode-alist
                '("views" . django-html-mode))
+#+end_src
+
+** Debugging
+*** Setting up GDB to always open right windows
+#+begin_src emacs-lisp :tangle yes
+   (setq gdb-show-main t)
+   (setq gdb-many-windows t)
+
+#+end_src 
+
+*** Some advices for pdb
+#+begin_src emacs-lisp :tangle yes
+  (defadvice pdb (before gud-query-cmdline activate)
+    "Provide a better default command line when called interactively."
+    (interactive
+     (list (gud-query-cmdline 'pdb.py
+                              (file-name-nondirectory buffer-file-name)))))
 #+end_src
 
 * Security
