@@ -45,7 +45,6 @@ MINIMAL EMACS CONFIGURATION
    - If you are an Emacs developer, working on Emacs itself, or one of the modes shipped with Emacs, never use advice. It's the least maintainable method of extending Emacs with the exception of a pure fork, and since you're working on Emacs itself, it's not a fork.
    - If your patch is not accepted, or you know that what you want is fringe enough or hackish enough to not warrant submitting a patch, only then should you use advice or fork the project.
    
-
 * Dependencies                                                     :noexport:
 # insert the dependencies
 #+begin_src dot :file dependecy.pdf :cmdline -Tpdf :exports none :results silent
@@ -335,12 +334,14 @@ MINIMAL EMACS CONFIGURATION
     (interactive)
     (dired (ls-git-files)))
   
+  ;; TODO: take the return code instead
   (defun ls-git-files ()
-    (if
-        (file-exists-p ".git")
-        (split-string (shell-command-to-string "git ls-files"))
-      (message "not a git repo")
-      nil))
+    (let
+        ((result (shell-command-to-string "git ls-files")))
+      (if
+          (string-match "fatal" result)
+          nil
+        (split-string result))))
 #+end_src
 
 *** Camelizing
@@ -740,6 +741,23 @@ MINIMAL EMACS CONFIGURATION
   (add-hook 'before-save-hook 'org-add-eventually)
 #+end_src
 
+*** Filtering variables to avoid always adding
+#+begin_src emacs-lisp :tangle yes
+  (defcustom org-agenda-filter-out
+    '("/Volumes/arch" "ssh:")
+    "regexp that are never added to agenda"
+    :type 'list
+    :group 'miniconf)
+  
+
+  ;; FIXME: still not working correctly
+  (defun org-agenda-is-filtered (file)
+    (dolist ((filt '("/Volumes/arch" "ssh:")))
+      (if (>= (string-match filt file) 0)
+          t)))
+#+end_src
+
+
 *** Org agenda blacklist list
     Having to say "n" every time for a file that we don't want to add to the agenda can be annoying, so every time we say no we call another function.
 
@@ -991,10 +1009,10 @@ MINIMAL EMACS CONFIGURATION
 ** Using semanticdb
 #+begin_src emacs-lisp :tangle yes
   (global-semanticdb-minor-mode)
-  (semanticdb-enable-gnu-global-databases 'c-mode)
-  (semanticdb-enable-gnu-global-databases 'java-mode)
-  (semanticdb-enable-gnu-global-databases 'jde-mode)
-  (semanticdb-enable-gnu-global-databases 'python-mode)
+  ;; (semanticdb-enable-gnu-global-databases 'c-mode)
+  ;; (semanticdb-enable-gnu-global-databases 'java-mode)
+  ;; (semanticdb-enable-gnu-global-databases 'jde-mode)
+  ;; (semanticdb-enable-gnu-global-databases 'python-mode)
 #+end_src
    
 * Erc
@@ -1052,6 +1070,13 @@ MINIMAL EMACS CONFIGURATION
   
   ;; Interpret mIRC-style color commands in IRC chats
   (setq erc-interpret-mirc-color t)
+#+end_src
+
+* Chatting
+** Elim
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'load-path (concat conf "elim/elisp"))
+  (setq elim-directory (concat conf "elim"))
 #+end_src
 
 * Programming
@@ -1371,7 +1396,7 @@ MINIMAL EMACS CONFIGURATION
 ** Debugging
 *** Setting up GDB to always open right windows
 #+begin_src emacs-lisp :tangle yes
-   (setq gdb-show-main t)
+   (setq gdb-show-main nil)
    (setq gdb-many-windows t)
 
 #+end_src 
@@ -1778,7 +1803,7 @@ MINIMAL EMACS CONFIGURATION
   (global-set-key "\C-c\C-x\C-i" 'org-clock-in)
   
   ;; senator
-  (global-set-key "\M-." 'semantic-complete-jump-local)
+  (global-set-key "\M-." 'semantic-complete-jump)
   (global-set-key "\M-?" 'semantic-ia-fast-jump)
   
   ;; overriding defualt not so smart visualization
@@ -1811,7 +1836,6 @@ MINIMAL EMACS CONFIGURATION
   (global-set-key (kbd "M-p") 'senator-previous-tag)
 #+end_src
 
-  
 * External configuration files
   Some packages use to store their configuration in external files and not in elisp code.
   For example:

@@ -166,9 +166,10 @@
    - [[http://livollmers.net/index.php/2008/10/06/back-to-myemacs/][back to my emacs]]
    - [[http://steve-yegge.blogspot.com/2008/01/emergency-elisp.html][emergency lisp]]
    - [[http://deep.syminet.com/emacside.html][emacs cheatsheet]]
-
+     
 * Real programmers
 ** Real programmers
    #+ATTR_LATEX: width=\textwidth
    [[file:images/real_programmers.png]]
 
+   
