@@ -641,7 +641,8 @@ MINIMAL EMACS CONFIGURATION
 ** Searching info
    Look for in google
 #+begin_src emacs-lisp :tangle yes
-   (load-library "google_search")
+  (autoload 'google-search-selection "google_search" "google search" t)
+  (autoload 'google-it "google_search" "google search" t)
 #+end_src
 
 ** Kill ring stuff
