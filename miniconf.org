@@ -750,12 +750,15 @@ MINIMAL EMACS CONFIGURATION
     :type 'list
     :group 'miniconf)
   
-
-  ;; FIXME: still not working correctly
-  (defun org-agenda-is-filtered (file)
-    (dolist ((filt '("/Volumes/arch" "ssh:")))
-      (if (>= (string-match filt file) 0)
-          t)))
+  
+  (defun is-filtered-org ()
+    (-org-agenda-is-filtered org-agenda-filter-out))
+  
+  (defun -org-agenda-is-filtered (filter)
+    (if
+        (string-match (car filter) org-agenda-filter-out)
+        t)
+    (org-agenda-filter-out (cdr filter)))
 #+end_src
 
 
@@ -1342,9 +1345,17 @@ MINIMAL EMACS CONFIGURATION
   (autoload 'applescript-mode "applescript-mode" "mode for applescript files" t)
 #+end_src
    
+** Lisp
+#+begin_src emacs-lisp :tangle yes
+   (setq inferior-lisp-program "sbcl")
+   (require 'slime)
+   (slime-setup)
+#+end_src
+
 ** Web programming
   Enabling nxhtml mode
 #+begin_src emacs-lisp :tangle yes
+  (setq nxhtml-menu-mode nil)
   (load (concat conf "nxhtml/autostart.el"))
 #+end_src
 
@@ -1359,6 +1370,13 @@ MINIMAL EMACS CONFIGURATION
   (setq mumamo-chunk-coloring 2)
 #+end_src
 
+** Ocaml
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'auto-mode-alist '("\\.ml\\w?" . tuareg-mode))
+  (autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
+  (autoload 'camldebug "camldebug" "Run the Caml debugger" t)
+#+end_src
+   
 ** Lua
 #+begin_src emacs-lisp :tangle yes
   ;; lua mode
@@ -1832,6 +1850,8 @@ MINIMAL EMACS CONFIGURATION
   
   ;; TODO: the senator stuff should be enabled only where senator actually works!!
   (global-set-key [f6] 'senator-fold-tag-toggle)
+  
+  (global-set-key [f7] 'dired-git-files)
   
   (global-set-key (kbd "M-n") 'senator-next-tag)
   (global-set-key (kbd "M-p") 'senator-previous-tag)

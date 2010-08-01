@@ -9,7 +9,7 @@
 ;;          2001-2002 Reuben Thomas (>=v1.4)
 ;;          2003      Dave Love <fx@gnu.org>
 ;; Keywords: faces files Haskell
-;; Version: v2.6.2
+;; Version: v2.8.0
 ;; URL: http://www.haskell.org/haskell-mode/
 
 ;; This file is not part of GNU Emacs.
@@ -158,11 +158,18 @@
 ;;; Code:
 
 (eval-when-compile (require 'cl))
+(eval-when-compile
+  ;; Emacs 21 defines `values' as a (run-time) alias for list.
+  ;; Don't maerge this with the pervious clause.
+  (if (string-match "values"
+		    (pp (byte-compile (lambda () (values t)))))
+      (defsubst values (&rest values)
+	values)))
 
 ;; All functions/variables start with `(literate-)haskell-'.
 
 ;; Version of mode.
-(defconst haskell-version "v2.6.2"
+(defconst haskell-version "v2.8.0"
   "`haskell-mode' version number.")
 (defun haskell-version ()
   "Echo the current version of `haskell-mode' in the minibuffer."
@@ -209,7 +216,7 @@
   "*If not nil, the current buffer contains a literate Haskell script.
 Possible values are: `bird' and `tex', for Bird-style and LaTeX-style
 literate scripts respectively.  Set by `haskell-mode' and
-`literate-haskell-mode'.  For an ambiguous literate buffer -- ie. does
+`literate-haskell-mode'.  For an ambiguous literate buffer -- i.e. does
 not contain either \"\\begin{code}\" or \"\\end{code}\" on a line on
 its own, nor does it contain \">\" at the start of a line -- the value
 of `haskell-literate-default' is used.")
@@ -220,6 +227,7 @@ of `haskell-literate-default' is used.")
   "Default value for `haskell-literate'.
 Used if the style of a literate buffer is ambiguous.  This variable should
 be set to the preferred literate style."
+  :group 'haskell
   :type '(choice (const bird) (const tex) (const nil)))
 
 ;; Mode maps.
@@ -232,7 +240,7 @@ be set to the preferred literate style."
     (define-key map [?\C-c ?\C-z] 'switch-to-haskell)
     (define-key map [?\C-c ?\C-l] 'inferior-haskell-load-file)
     ;; I think it makes sense to bind inferior-haskell-load-and-run to C-c
-    ;; C-r, but since it used to be bound to `reload' until june 2007, I'm
+    ;; C-r, but since it used to be bound to `reload' until June 2007, I'm
     ;; going to leave it out for now.
     ;; (define-key map [?\C-c ?\C-r] 'inferior-haskell-load-and-run)
     (define-key map [?\C-c ?\C-b] 'switch-to-haskell)
@@ -244,6 +252,8 @@ be set to the preferred literate style."
     (define-key map (kbd "C-c C-i") 'inferior-haskell-info)
     (define-key map (kbd "C-c M-.") 'inferior-haskell-find-definition)
     (define-key map (kbd "C-c C-d") 'inferior-haskell-find-haddock)
+
+    (define-key map [?\C-c ?\C-v] 'haskell-check)
 
     (define-key map [remap delete-indentation] 'haskell-delete-indentation)
     map)
@@ -261,6 +271,8 @@ be set to the preferred literate style."
     "---"
     ["Start interpreter" switch-to-haskell]
     ["Load file" inferior-haskell-load-file]
+    "---"
+    ["Load tidy core" ghc-core-create-core]
     "---"
     ,(if (default-boundp 'eldoc-documentation-function)
          ["Doc mode" eldoc-mode
@@ -308,7 +320,7 @@ be set to the preferred literate style."
 	   (if (consp k)
 	       (setq i (car k)
 		     lim (cdr k))
-	     (setq i k 
+	     (setq i k
 		   lim k))
 	   (while (<= i lim)
 	     (when (> i 127)
@@ -374,7 +386,7 @@ May return a qualified name."
         (buffer-substring-no-properties start end)))))
 
 (defun haskell-delete-indentation (&optional arg)
-  "Like `delete-indentation' but ignoring Bird-stlye \">\"."
+  "Like `delete-indentation' but ignoring Bird-style \">\"."
   (interactive "*P")
   (let ((fill-prefix (or fill-prefix (if (eq haskell-literate 'bird) ">"))))
     (delete-indentation arg)))
@@ -382,10 +394,19 @@ May return a qualified name."
 ;; Various mode variables.
 
 (defcustom haskell-mode-hook nil
-  "Hook run after entering Haskell mode. Do not select more than one of the three indentation modes."
+  "Hook run after entering Haskell mode.
+Do not select more than one of the three indentation modes."
   :type 'hook
-  :options '(turn-on-haskell-indent turn-on-haskell-indentation turn-on-font-lock turn-on-eldoc-mode
-	     turn-on-simple-indent turn-on-haskell-doc-mode imenu-add-menubar-index))
+  :group 'haskell
+  :options `(turn-on-haskell-indent turn-on-haskell-indentation
+	     turn-on-font-lock
+	     ,(if (boundp 'eldoc-documentation-function)
+		  'turn-on-eldoc-mode
+		'turn-on-haskell-doc-mode) ; Emacs 21
+	     ,@(if (fboundp 'capitalized-words-mode)
+		   '(capitalized-words-mode))
+	     turn-on-simple-indent turn-on-haskell-doc-mode
+	     turn-on-haskell-decl-scan imenu-add-menubar-index))
 
 (defvar eldoc-print-current-symbol-info-function)
 
@@ -428,12 +449,15 @@ Use `haskell-version' to find out what version this is.
 Invokes `haskell-mode-hook'."
   (set (make-local-variable 'paragraph-start) (concat "^$\\|" page-delimiter))
   (set (make-local-variable 'paragraph-separate) paragraph-start)
+  (set (make-local-variable 'fill-paragraph-function) 'haskell-fill-paragraph)
+  ;; (set (make-local-variable 'adaptive-fill-function) 'haskell-adaptive-fill)
+  (set (make-local-variable 'adaptive-fill-mode) nil)
   (set (make-local-variable 'comment-start) "-- ")
   (set (make-local-variable 'comment-padding) 0)
   (set (make-local-variable 'comment-start-skip) "[-{]-[ \t]*")
   (set (make-local-variable 'comment-end) "")
   (set (make-local-variable 'comment-end-skip) "[ \t]*\\(-}\\|\\s>\\)")
-  (set (make-local-variable 'parse-sexp-ignore-comments) t)
+  (set (make-local-variable 'parse-sexp-ignore-comments) nil)
   ;; Set things up for eldoc-mode.
   (set (make-local-variable 'eldoc-documentation-function)
        'haskell-doc-current-info)
@@ -457,6 +481,30 @@ Invokes `haskell-mode-hook'."
   (set (make-local-variable 'tab-width) 8)
   (setq haskell-literate nil))
 
+(defun in-comment () (nth 4 (syntax-ppss)))
+
+(defun haskell-fill-paragraph (justify)
+  (save-excursion
+    ;; We don't want to reflow code.
+    (unless (in-comment)
+      (end-of-line)) ; Try to get inside a comment
+    (if (in-comment) nil t)))
+
+;; (defun haskell-adaptive-fill ()
+;;   ;; We want to use "--  " as the prefix of "-- |", etc.
+;;   (let* ((line-end (save-excursion (end-of-line) (point)))
+;;          (line-start (point)))
+;;     (save-excursion
+;;       (unless (in-comment)
+;;         ;; Try to find the start of a comment. We only fill comments.
+;;         (search-forward-regexp comment-start-skip line-end t))
+;;       (when (in-comment)
+;;         (let ();(prefix-start (point)))
+;;           (skip-syntax-forward "^w")
+;;           (make-string (- (point) line-start) ?\s))))))
+          
+
+
 ;;;###autoload
 (define-derived-mode literate-haskell-mode haskell-mode "LitHaskell"
   "As `haskell-mode' but for literate scripts."
@@ -475,13 +523,16 @@ Invokes `haskell-mode-hook'."
   (set (make-local-variable 'mode-line-process)
        '("/" (:eval (symbol-name haskell-literate)))))
 
-;;;###autoload(add-to-list 'auto-mode-alist '("\\.\\(?:[gh]s\\|hi\\)\\'" . haskell-mode))
-;;;###autoload(add-to-list 'auto-mode-alist '("\\.l[gh]s\\'" . literate-haskell-mode))
+;;;###autoload(add-to-list 'auto-mode-alist        '("\\.\\(?:[gh]s\\|hi\\)\\'" . haskell-mode))
+;;;###autoload(add-to-list 'auto-mode-alist        '("\\.l[gh]s\\'" . literate-haskell-mode))
+;;;###autoload(add-to-list 'interpreter-mode-alist '("runghc" . haskell-mode))
+;;;###autoload(add-to-list 'interpreter-mode-alist '("runhaskell" . haskell-mode))
 
 (defcustom haskell-hoogle-command
   (if (executable-find "hoogle") "hoogle")
   "Name of the command to use to query Hoogle.
 If nil, use the Hoogle web-site."
+  :group 'haskell
   :type '(choice (const :tag "Use Web-site" nil)
                  string))
 
@@ -522,8 +573,51 @@ If nil, use the Hoogle web-site."
 
 ;;;###autoload
 (defalias 'hayoo 'haskell-hayoo)
+
+(defcustom haskell-check-command "hlint"
+  "*Command used to check a Haskell file."
+  :group 'haskell
+  :type '(choice (const "hlint")
+		 (const "ghc -fno-code")
+		 (string :tag "Other command")))
 
+(defvar haskell-saved-check-command nil
+  "Internal use.")
 
+;; Like Python.  Should be abstracted, sigh.
+(defun haskell-check (command)
+  "Check a Haskell file (default current buffer's file).
+Runs COMMAND, a shell command, as if by `compile'.
+See `haskell-check-command' for the default."
+  (interactive
+   (list (read-string "Checker command: "
+		      (or haskell-saved-check-command
+			  (concat haskell-check-command " "
+				  (let ((name (buffer-file-name)))
+				    (if name
+					(file-name-nondirectory name))))))))
+  (setq haskell-saved-check-command command)
+  (require 'compile)
+  (save-some-buffers (not compilation-ask-about-save) nil)
+  (if (fboundp 'compilation-start)
+      (compilation-start command)
+    (compile-internal command "No more errors")))
+
+(autoload 'flymake-init-create-temp-buffer-copy "flymake")
+
+(defun haskell-flymake-init ()
+  "Flymake init function for Haskell.
+To be added to `flymake-init-create-temp-buffer-copy'."
+  (let ((checker-elts (split-string haskell-saved-check-command)))
+    (list (car checker-elts)
+	  (append (cdr checker-elts)
+		  (list (flymake-init-create-temp-buffer-copy
+			 'flymake-create-temp-inplace))))))
+
+(eval-after-load "flymake"
+  '(add-to-list 'flymake-allowed-file-name-masks
+		'("\\.l?hs\\'" haskell-flymake-init)))
+
 ;; Provide ourselves:
 
 (provide 'haskell-mode)

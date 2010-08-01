@@ -128,6 +128,7 @@
 ;;; Code:
 
 (require 'haskell-mode)
+(require 'syntax nil t)			; Emacs 21 add-on
 
 ;;###autoload
 ;; As `cl' defines macros that `imenu' uses, we must require them at
@@ -136,7 +137,27 @@
   (require 'cl)
   (condition-case nil
       (require 'imenu)
-    (error nil)))
+    (error nil))
+  ;; It makes a big difference if we don't copy the syntax table here,
+  ;; as Emacs 21 does, but Emacs 22 doesn't.
+  (unless (eq (syntax-table)
+	      (with-syntax-table (syntax-table) (syntax-table)))
+    (defmacro with-syntax-table (table &rest body)
+      "Evaluate BODY with syntax table of current buffer set to a copy of TABLE.
+The syntax table of the current buffer is saved, BODY is evaluated, and the
+saved table is restored, even in case of an abnormal exit.
+Value is what BODY returns."
+      (let ((old-table (make-symbol "table"))
+	    (old-buffer (make-symbol "buffer")))
+	`(let ((,old-table (syntax-table))
+	       (,old-buffer (current-buffer)))
+	   (unwind-protect
+	       (progn
+		 (set-syntax-table ,table)
+		 ,@body)
+	     (save-current-buffer
+	       (set-buffer ,old-buffer)
+	       (set-syntax-table ,old-table))))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; General declaration scanning functions.
@@ -191,9 +212,9 @@ Point is not changed."
                     "\\(\\'\\)?\\s-*\\(\\s_+\\|`\\(\\sw+\\)`\\)")
                 "\\(\\sw+\\)?\\s-*\\(\\s_+\\|`\\(\\sw+\\)`\\)"))
              (let ((match2 (haskell-ds-match-string 2)))
-               ;; Weed out `::', `=' and `|' from potential infix
+               ;; Weed out `::', `∷',`=' and `|' from potential infix
                ;; symbolic variable.
-               (if (member match2 '("::" "=" "|"))
+               (if (member match2 '("::" "∷" "=" "|"))
                    ;; Variable identifier.
                    (haskell-ds-match-string 1)
                  (if (eq (aref match2 0) ?\`)
@@ -304,7 +325,7 @@ then point does not move if already at the start of a declaration."
           (if (and start (bobp))
               (setq abyss t)
             ;; Otherwise we move to the start of the first declaration
-            ;; on a line preceeding the current one, skipping comments
+            ;; on a line preceding the current one, skipping comments
             (haskell-ds-move-to-start-regexp-skipping-comments -1 start-decl-re))))
       ;; If we are in the abyss, position and return as appropriate.
       (if abyss
@@ -321,7 +342,7 @@ then point does not move if already at the start of a declaration."
             (if direction
                 (haskell-ds-move-to-start-regexp-skipping-comments 1 start-decl-re))
           ;; If there is a variable, find the first
-          ;; succeeding/preceeding declaration that does not type or
+          ;; succeeding/preceding declaration that does not type or
           ;; bind it.  Check for reaching start/end of buffer and
           ;; comments.
           (haskell-ds-move-to-start-regexp-skipping-comments increment start-decl-re)
@@ -362,15 +383,15 @@ then point does not move if already at the start of a declaration."
   (and (boundp 'haskell-literate) (eq haskell-literate 'bird)))
 
 (defun haskell-ds-backward-decl ()
-  "Move point backward to the first character preceding the current
-point that starts a top-level declaration.  A series of declarations
-concerning one variable is treated as one declaration by this
-function.  So, if point is within a top-level declaration then move it
-to the start of that declaration.  If point is already at the start of
-a top-level declaration, then move it to the start of the preceding
-declaration.  Returns point if point is left at the start of a
-declaration, and nil otherwise, ie. because point is at the beginning
-of the buffer and no declaration starts there."
+  "Move backward to the first character that starts a top-level declaration.
+A series of declarations concerning one variable is treated as one
+declaration by this function.  So, if point is within a top-level
+declaration then move it to the start of that declaration.  If point
+is already at the start of a top-level declaration, then move it to
+the start of the preceding declaration.  Returns point if point is
+left at the start of a declaration, and nil otherwise, ie. because
+point is at the beginning of the buffer and no declaration starts
+there."
   (interactive)
   (haskell-ds-move-to-decl nil (haskell-ds-bird-p) nil))
 

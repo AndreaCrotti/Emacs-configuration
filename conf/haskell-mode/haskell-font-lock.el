@@ -230,13 +230,20 @@ Regexp match data 0 points to the chars."
   ;; Return nil because we're not adding any face property.
   nil)
 
+(unless (fboundp 'char-displayable-p)
+  (require 'latin1-disp nil t))
+
 (defun haskell-font-lock-symbols-keywords ()
   (when (fboundp 'compose-region)
     (let ((alist nil))
       (dolist (x haskell-font-lock-symbols-alist)
 	(when (and (if (fboundp 'char-displayable-p)
 		       (char-displayable-p (if (consp (cdr x)) (cadr x) (cdr x)))
-		     t)
+		     (if (fboundp 'latin1-char-displayable-p)
+			 (latin1-char-displayable-p (if (consp (cdr x))
+							(cadr x)
+						      (cdr x)))
+		       t))
 		   (not (assoc (car x) alist)))	;Not yet in alist.
 	  (push x alist)))
       (when alist
@@ -262,21 +269,10 @@ Returns keywords suitable for `font-lock-keywords'."
 
 	 ;; (ASCsymbol "-!#$%&*+./<=>?@\\\\^|~")
          ;; Put the minus first to make it work in ranges.
-         ;; (ISOsymbol "\241-\277\327\367")
-         (ISOlarge  "\300-\326\330-\337")
-         (ISOsmall  "\340-\366\370-\377")
-         (small
-          (if haskell-emacs21-features "[:lower:]" (concat "a-z" ISOsmall)))
-         (large
-          (if haskell-emacs21-features "[:upper:]" (concat "A-Z" ISOlarge)))
-	 (alnum
-	  (if haskell-emacs21-features "[:alnum:]" (concat small large "0-9")))
-         ;; (symbol
-         ;;  (concat ASCsymbol ISOsymbol))
 
          ;; We allow _ as the first char to fit GHC
-         (varid (concat "\\b[" small "_][" alnum "'_]*\\b"))
-         (conid (concat "\\b[" large "][" alnum "'_]*\\b"))
+         (varid "\\b[[:lower:]_][[:alnum:]'_]*\\b")
+         (conid "\\b[[:upper:]][[:alnum:]'_]*\\b")
 	 (modid (concat "\\b" conid "\\(\\." conid "\\)*\\b"))
          (qvarid (concat modid "\\." varid))
          (qconid (concat modid "\\." conid))
@@ -293,7 +289,7 @@ Returns keywords suitable for `font-lock-keywords'."
 	  (concat "\\S_"
 		  ;; (regexp-opt '(".." "::" "=" "\\" "|" "<-" "->"
 		  ;; 		"@" "~" "=>") t)
-		  "\\(->\\|\\.\\.\\|::\\|<-\\|=>\\|[=@\\|~]\\)"
+		  "\\(->\\|\\.\\.\\|::\\|∷\\|<-\\|=>\\|[=@\\|~]\\)"
 		  "\\S_"))
          ;; Reserved identifiers
 	 (reservedid
@@ -322,10 +318,10 @@ Returns keywords suitable for `font-lock-keywords'."
 	 (topdecl-var
 	  (concat line-prefix "\\(" varid "\\)\\s-*\\("
                   ;; A toplevel declaration can be followed by a definition
-                  ;; (=), a type (::), a guard, or a pattern which can
+                  ;; (=), a type (::) or (∷), a guard, or a pattern which can
                   ;; either be a variable, a constructor, a parenthesized
                   ;; thingy, or an integer or a string.
-		  varid "\\|" conid "\\|::\\|=\\||\\|\\s(\\|[0-9\"']\\)"))
+		  varid "\\|" conid "\\|::\\|∷\\|=\\||\\|\\s(\\|[0-9\"']\\)"))
 	 (topdecl-var2
 	  (concat line-prefix "\\(" varid "\\|" conid "\\)\\s-*`\\(" varid "\\)`"))
 	 (topdecl-sym
@@ -452,12 +448,16 @@ that should be commented under LaTeX-style literate scripts."
     ;; The second \ in a gap does not quote the subsequent char.
     ;; It's probably not worth the trouble, tho.
     ;; ("^[ \t]*\\(\\\\\\)" (1 "."))
-    ;; Deal with instances of `--' which don't form a comment.
-    ("\\s_\\{3,\\}" (0 (if (string-match "\\`-*\\'" (match-string 0))
-                           ;; Sequence of hyphens.  Do nothing in
-                           ;; case of things like `{---'.
-			   nil
-			 "_")))))	; other symbol sequence
+    ;; Deal with instances of `--' which don't form a comment
+    ("\\s_\\{3,\\}" (0 (cond ((numberp (nth 4 (syntax-ppss)))
+                              ;; There are no such instances inside nestable comments
+                              nil)
+                             ((string-match "\\`-*\\'" (match-string 0))
+                              ;; Sequence of hyphens.  Do nothing in
+                              ;; case of things like `{---'.
+                              nil)
+                             (t "_"))))	; other symbol sequence
+    ))
 
 (defconst haskell-bird-syntactic-keywords
   (cons '("^[^\n>]"  (0 "<"))
