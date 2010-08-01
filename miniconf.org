@@ -330,9 +330,18 @@ MINIMAL EMACS CONFIGURATION
       ;; we have to keep the original position
       (save-excursion (find-file file))))
   
+  ;; TODO: add support for moving to another dir
   (defun dired-git-files ()
-    (interactive)
-    (dired (ls-git-files)))
+    "Open a dired buffer containing the local git files"
+    (interactive "D")
+    (let ((files (ls-git-files)))
+      (if
+          (or 
+           (< (length files) 50)
+           (yes-or-no-p (format "%d files, are you sure?" (length files))))
+          ;; rename the buffer to something with a sense
+          (dired (ls-git-files)))))
+  
   
   ;; TODO: take the return code instead
   (defun ls-git-files ()
@@ -899,6 +908,8 @@ MINIMAL EMACS CONFIGURATION
 
 * Auto complete
 ** Importing all packages
+# TODO: add the semantic auto-completion to all modes which use it
+   
 #+begin_src emacs-lisp :tangle yes
   ;;; Require
   (require 'auto-complete)
