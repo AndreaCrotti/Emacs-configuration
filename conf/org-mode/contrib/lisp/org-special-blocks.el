@@ -51,7 +51,7 @@ seen.  This is run after a few special cases are taken care of."
   (when (or htmlp latexp)
     (goto-char (point-min))
     (while (re-search-forward "^#\\+\\(begin\\|end\\)_\\(.*\\)$" nil t)
-      (unless (string-match-p org-special-blocks-ignore-regexp (match-string 2))
+      (unless (org-string-match-p org-special-blocks-ignore-regexp (match-string 2))
 	(replace-match
 	 (if (equal (downcase (match-string 1)) "begin")
 	     (concat "ORG-" (match-string 2) "-START")
@@ -64,12 +64,13 @@ seen.  This is run after a few special cases are taken care of."
 (defun org-special-blocks-convert-latex-special-cookies ()
   "Converts the special cookies into LaTeX blocks."
   (goto-char (point-min))
-  (while (re-search-forward "^ORG-\\(.*\\)-\\(START\\|END\\)$" nil t)
+  (while (re-search-forward "^ORG-\\([^ \t\n]*\\)[ \t]*\\(.*\\)-\\(START\\|END\\)$" nil t)
     (replace-match
-     (if (equal (match-string 2) "START")
-	 (concat "\\begin{" (match-string 1) "}")
+     (if (equal (match-string 3) "START")
+	 (concat "\\begin{" (match-string 1) "}" (match-string 2))
        (concat "\\end{" (match-string 1) "}"))
      t t)))
+
 
 (add-hook 'org-export-latex-after-blockquotes-hook
 	  'org-special-blocks-convert-latex-special-cookies)

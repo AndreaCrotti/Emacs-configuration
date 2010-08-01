@@ -4,11 +4,11 @@ MINIMAL EMACS CONFIGURATION
   CLOSED: [2010-05-09 Dom 14:24]
 * DONE Write a function that setups all the possible paths automatically
   CLOSED: [2010-05-04 Mar 11:41]
-* TODO Make the table of software versions regenerating every time
 * DONE See if it's worthy to byte compile everything or not
   CLOSED: [2010-05-24 Lun 14:01]
   - CLOSING NOTE [2010-05-24 Lun 14:01] \\
     Solved nicely with byte-compile-cache, some cases it could not work
+* TODO Make the table of software versions regenerating every time
 * TODO Write a dependency tree of the various chapters in the configuration
 
 * TODO Add options to create encrypted org-files for storing password and more delicate informations
@@ -723,7 +723,7 @@ MINIMAL EMACS CONFIGURATION
    
 ** Info configuration
 #+begin_src emacs-lisp :tangle yes
-  (add-to-list 'Info-default-directory-list "~/.emacs.d/org-mode/doc/")
+  (add-to-list 'Info-default-directory-list (concat conf "org-mode/share/info"))
 #+end_src
 
 ** Clock configuration
@@ -806,17 +806,6 @@ MINIMAL EMACS CONFIGURATION
   ;; Defining a setup where org-mode takes care of remember notes
   (setq org-directory "~/org/")
   (setq org-default-notes-file (concat org-directory "notes.org"))
-#+end_src
-
-** Other org babel modes
-#+begin_src emacs-lisp :tangle yes
-  (require 'org-babel-dot)       ;; dot
-  (require 'org-babel-haskell)   ;; haskell, haskell-mode, inf-haskell
-  (require 'org-babel-python)    ;; python, and python-mode
-  (require 'org-babel-ditaa)
-  ;; (require 'org-babel-ruby)      ;; ruby, irb, ruby-mode, and inf-ruby
-  (require 'org-babel-sql)       ;; none
-  (require 'org-babel-sh)
 #+end_src
 
 ** Org functionalities in other modes
@@ -1367,7 +1356,7 @@ MINIMAL EMACS CONFIGURATION
   Enabling nxhtml mode
 #+begin_src emacs-lisp :tangle yes
   (setq nxhtml-menu-mode nil)
-  (load (concat conf "nxhtml/autostart.el"))
+;;  (load (concat conf "nxhtml/autostart.el"))
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes
@@ -1738,7 +1727,8 @@ MINIMAL EMACS CONFIGURATION
   (if window-system
       (progn
         (require 'server)
-        (server-start)))
+        (unless (server-running-p)
+          (server-start))))
 #+end_src
   
 * Fun

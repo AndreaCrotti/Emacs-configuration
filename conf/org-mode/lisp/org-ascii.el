@@ -1,12 +1,12 @@
 ;;; org-ascii.el --- ASCII export for Org-mode
 
-;; Copyright (C) 2004, 2005, 2006, 2007, 2008, 2009
+;; Copyright (C) 2004, 2005, 2006, 2007, 2008, 2009, 2010
 ;;   Free Software Foundation, Inc.
 
 ;; Author: Carsten Dominik <carsten at orgmode dot org>
 ;; Keywords: outlines, hypermedia, calendar, wp
 ;; Homepage: http://orgmode.org
-;; Version: 6.34trans
+;; Version: 7.01trans
 ;;
 ;; This file is part of GNU Emacs.
 ;;
@@ -26,7 +26,10 @@
 ;;
 ;;; Commentary:
 
+;;; Code:
+
 (require 'org-exp)
+
 (eval-when-compile
   (require 'cl))
 
@@ -65,6 +68,21 @@ for column grouping."
   :group 'org-export-ascii
   :type 'boolean)
 
+(defcustom org-export-ascii-table-widen-columns t
+  "Non-nil means widen narrowed columns for export.
+When nil, narrowed columns will look in ASCII export just like in org-mode,
+i.e. with \"=>\" as ellipsis."
+  :group 'org-export-ascii
+  :type 'boolean)
+
+(defvar org-export-ascii-entities 'ascii
+  "The ascii representation to be used during ascii export.
+Possible values are:
+
+ascii     Only use plain ASCII characters
+latin1    Include Latin-1 character
+utf8      Use all UTF-8 characters")
+
 ;;; Hooks
 
 (defvar org-export-ascii-final-hook nil
@@ -73,6 +91,41 @@ for column grouping."
 ;;; ASCII export
 
 (defvar org-ascii-current-indentation nil) ; For communication
+
+;;;###autoload
+(defun org-export-as-latin1 (&rest args)
+  "Like `org-export-as-ascii', use latin1 encoding for special symbols."
+  (interactive)
+  (org-export-as-encoding 'org-export-as-ascii (interactive-p)
+			  'latin1 args))
+
+;;;###autoload
+(defun org-export-as-latin1-to-buffer (&rest args)
+  "Like `org-export-as-ascii-to-buffer', use latin1 encoding for symbols."
+  (interactive)
+  (org-export-as-encoding 'org-export-as-ascii-to-buffer (interactive-p)
+			  'latin1 args))
+
+;;;###autoload
+(defun org-export-as-utf8 (&rest args)
+  "Like `org-export-as-ascii', use use encoding for special symbols."
+  (interactive)
+  (org-export-as-encoding 'org-export-as-ascii (interactive-p)
+			  'utf8 args))
+
+;;;###autoload
+(defun org-export-as-utf8-to-buffer (&rest args)
+  "Like `org-export-as-ascii-to-buffer', use utf8 encoding for symbols."
+  (interactive)
+  (org-export-as-encoding 'org-export-as-ascii-to-buffer (interactive-p)
+			  'utf8 args))
+
+(defun org-export-as-encoding (command interactivep encoding &rest args)
+  (let ((org-export-ascii-entities encoding))
+    (if interactivep
+	(call-interactively command)
+      (apply command args))))
+
 
 ;;;###autoload
 (defun org-export-as-ascii-to-buffer (arg)
@@ -182,6 +235,11 @@ publishing directory."
 			  (if subtree-p
 			      (org-export-add-subtree-options opt-plist rbeg)
 			    opt-plist)))
+	 ;; The following two are dynamically scoped into other
+	 ;; routines below.
+	 (org-current-export-dir
+	  (or pub-dir (org-export-directory :html opt-plist)))
+	 (org-current-export-file buffer-file-name)
 	 (custom-times org-display-custom-times)
 	 (org-ascii-current-indentation '(0 . 0))
 	 (level 0) line txt
@@ -220,8 +278,10 @@ publishing directory."
 		    (and (not
 			  (plist-get opt-plist :skip-before-1st-heading))
 			 (org-export-grab-title-from-buffer))
-		    (file-name-sans-extension
-		     (file-name-nondirectory bfname))))
+		    (and (buffer-file-name)
+			 (file-name-sans-extension
+			  (file-name-nondirectory bfname)))
+		    "UNTITLED"))
 	 (email (plist-get opt-plist :email))
 	 (language (plist-get opt-plist :language))
 	 (quote-re0 (concat "^[ \t]*" org-quote-string "\\>"))
@@ -288,7 +348,9 @@ publishing directory."
       (if (and (or author email)
 	       org-export-author-info)
 	  (insert(concat (nth 1 lang-words) ": " (or author "")
-			  (if email (concat " <" email ">") "")
+			  (if (and org-export-email-info
+				   email (string-match "\\S-" email))
+			      (concat " <" email ">") "")
 			  "\n")))
 
       (cond
@@ -482,7 +544,17 @@ publishing directory."
       (current-buffer))))
 
 (defun org-export-ascii-preprocess (parameters)
-  "Do extra work for ASCII export"
+  "Do extra work for ASCII export."
+  ;;
+  ;; Realign tables to get rid of narrowing
+  (when org-export-ascii-table-widen-columns
+    (let ((org-table-do-narrow nil))
+      (goto-char (point-min))
+      (org-ascii-replace-entities)
+      (goto-char (point-min))
+      (org-table-map-tables
+       (lambda () (org-if-unprotected (org-table-align)))
+       'quietly)))
   ;; Put quotes around verbatim text
   (goto-char (point-min))
   (while (re-search-forward org-verbatim-re nil t)
@@ -496,7 +568,12 @@ publishing directory."
   (goto-char (point-min))
   (while (re-search-forward  "<<<?\\([^<>]*\\)>>>?\\([ \t]*\\)" nil t)
     (org-if-unprotected-at (match-beginning 1)
-      (replace-match "\\1\\2"))))
+      (replace-match "\\1\\2")))
+  ;; Remove list start counters
+  (goto-char (point-min))
+  (while (re-search-forward  "\\[@start:[0-9]+\\] ?" nil t)
+    (org-if-unprotected
+     (replace-match ""))))
 
 (defun org-html-expand-for-ascii (line)
   "Handle quoted HTML for ASCII export."
@@ -505,6 +582,15 @@ publishing directory."
 	;; We just remove the tags for now.
 	(setq line (replace-match "" nil nil line))))
   line)
+
+(defun org-ascii-replace-entities ()
+  "Replace entities with the ASCII representation."
+  (let (e)
+    (while (re-search-forward "\\\\\\([a-zA-Z]+[0-9]*\\)" nil t)
+      (org-if-unprotected-at (match-beginning 1)
+	(setq e (org-entity-get-representation (match-string 1)
+					       org-export-ascii-entities))
+	(and e (replace-match e t t))))))
 
 (defun org-export-ascii-wrap (line where)
   "Wrap LINE at or before WHERE."

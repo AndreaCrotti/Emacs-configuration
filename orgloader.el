@@ -9,8 +9,5 @@
 (setq org-replace-disputed-keys t)
 
 (require 'org)
-(require 'org-babel)
-(require 'org-babel-tangle)
-(require 'org-babel-init)
 
 (org-babel-load-file (concat base "miniconf.org"))

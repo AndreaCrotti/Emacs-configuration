@@ -1,14 +1,36 @@
-This is TeX, Version 3.141592 (Web2C 7.5.6) (format=tex 2009.9.16)  1 JAN 2010 20:08
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live/MacPorts 2009_3) (format=pdftex 2010.7.8)  1 AUG 2010 17:50
+entering extended mode
+ %&-line parsing enabled.
 **orgcard.tex
 (./orgcard.tex
-\columnsperpage=\count26
-\letterpaper=\count27
+\columnsperpage=\count27
+\letterpaper=\count28
+ (./pdflayout.sty
+(/opt/local/share/texmf-texlive-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2009/04/10 v2.0 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in pdf mode detected.
+))
 \intercolumnskip=\dimen16
 \columna=\box16
 \columnb=\box17
- [3 columns per page]
+
+[3 columns per page]
 \keyindent=\dimen17
 \metaxbox=\box18
 \metaxwidth=\dimen18
- [1] [2] )
-Output written on orgcard.dvi (2 pages, 20472 bytes).
+ [1{/opt/local/var/db/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] )</opt/loc
+al/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></opt/loc
+al/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></opt/loca
+l/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></opt/local/
+share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></opt/local/sh
+are/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></opt/local/shar
+e/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></opt/local/share
+/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></opt/local/share/
+texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></opt/local/share/t
+exmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
+Output written on orgcard.pdf (2 pages, 132076 bytes).
+PDF statistics:
+ 45 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

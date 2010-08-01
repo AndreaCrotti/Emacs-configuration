@@ -88,8 +88,9 @@
 ;;   * properties
 ;;   * drawers
 ;;   * oh my
-;;   * optmization (many plist extracts should be in (let) vars
+;;   * optmization (many plist extracts should be in let vars)
 ;;   * define defcustom spec for the specifier list
+;;   * fonts:  at least monospace is not handled at all here.
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -638,10 +639,14 @@ underlined headlines.  The default is 3."
 	  (or (plist-get export-plist :body-list-checkbox-done-end) ""))
 	 (listcheckhalfend
 	  (or (plist-get export-plist :body-list-checkbox-half-end) ""))
+         (bodynewline-paragraph   (plist-get export-plist :body-newline-paragraph))
 	 (bodytextpre   (plist-get export-plist :body-text-prefix))
 	 (bodytextsuf   (plist-get export-plist :body-text-suffix))
 	 (bodylinewrap  (plist-get export-plist :body-line-wrap))
 	 (bodylineform  (or (plist-get export-plist :body-line-format) "%s"))
+         (blockquotestart (or (plist-get export-plist :blockquote-start) "\n\n\t"))
+         (blockquoteend (or (plist-get export-plist :blockquote-end) "\n\n"))
+         
 
 	 thetoc toctags have-headings first-heading-pos
 	 table-open table-buffer link-buffer link desc desc0 rpl wrap)
@@ -868,7 +873,7 @@ underlined headlines.  The default is 3."
 
        ((string-match "^\\([ \t]*\\)\\(:\\( \\|$\\)\\)" line)
 	;;
-	;; pre-formated text
+	;; pre-formatted text
 	;;
 	(setq line (replace-match "\\1" nil nil line))
 
@@ -876,14 +881,21 @@ underlined headlines.  The default is 3."
 
 	(insert (format bodyfixedform line)))
 
-       ((string-match "^\\([ \t]+\\)\\([-+*][ \t]*\\)" line)
+       ((or (string-match "^\\([ \t]*\\)\\([\-\+][ \t]*\\)" line)
+            ;; if the bullet list item is an asterisk, the leading space is /mandatory/
+            ;; [2010/02/02:rpg]
+            (string-match "^\\([ \t]+\\)\\(\\*[ \t]*\\)" line))
 	;;
 	;; plain list item
 	;;
 	;; TODO: nested lists
 	;;
+        ;; I believe this gets rid of leading whitespace.
 	(setq line (replace-match "" nil nil line))
 
+        ;; won't this insert the suffix /before/ the last line of the list?
+        ;; also isn't it spoofed by bulleted lists that have a line skip between the list items
+        ;; unless 'org-empty-line-terminates-plain-lists' is true?
 	(org-export-generic-check-section "liststart" listprefix listsuffix)
 
 	;; deal with checkboxes
@@ -926,6 +938,15 @@ underlined headlines.  The default is 3."
 	 )
 
 	(insert (format numlistformat line)))
+
+       ((equal line "ORG-BLOCKQUOTE-START")
+        (setq line blockquotestart))
+       ((equal line "ORG-BLOCKQUOTE-END")
+        (setq line blockquoteend))
+       ((string-match "^\\s-*$" line)
+        ;; blank line
+        (if bodynewline-paragraph
+            (insert "\n")))
        (t
 	;;
 	;; body
@@ -1001,6 +1022,7 @@ underlined headlines.  The default is 3."
 	(delete-region beg end)
 	(goto-char beg)))
     (goto-char (point-min))))
+
 
 (defun org-export-generic-format (export-plist prop &optional len n reverse)
   "converts a property specification to a string given types of properties
@@ -1238,5 +1260,6 @@ REVERSE means to reverse the list if the plist match is a list
     vl))
 
 (provide 'org-generic)
+(provide 'org-export-generic)
 
 ;;; org-export-generic.el ends here

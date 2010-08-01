@@ -1,13 +1,13 @@
 ;;; org-bbdb.el --- Support for links to BBDB entries from within Org-mode
 
-;; Copyright (C) 2004, 2005, 2006, 2007, 2008, 2009
+;; Copyright (C) 2004, 2005, 2006, 2007, 2008, 2009, 2010
 ;;   Free Software Foundation, Inc.
 
 ;; Author: Carsten Dominik <carsten at orgmode dot org>,
 ;;         Thomas Baumann <thomas dot baumann at ch dot tum dot de>
 ;; Keywords: outlines, hypermedia, calendar, wp
 ;; Homepage: http://orgmode.org
-;; Version: 6.34trans
+;; Version: 7.01trans
 ;;
 ;; This file is part of GNU Emacs.
 ;;
@@ -207,7 +207,7 @@ date year)."
 (defun org-bbdb-export (path desc format)
   "Create the export version of a BBDB link specified by PATH or DESC.
 If exporting to either HTML or LaTeX FORMAT the link will be
-italicised, in all other cases it is left unchanged."
+italicized, in all other cases it is left unchanged."
   (cond
    ((eq format 'html) (format "<i>%s</i>" (or desc path)))
    ((eq format 'latex) (format "\\textit{%s}" (or desc path)))

@@ -1,12 +1,12 @@
 ;;; org-faces.el --- Face definitions for Org-mode.
 
-;; Copyright (C) 2004, 2005, 2006, 2007, 2008, 2009
+;; Copyright (C) 2004, 2005, 2006, 2007, 2008, 2009, 2010
 ;;   Free Software Foundation, Inc.
 
 ;; Author: Carsten Dominik <carsten at orgmode dot org>
 ;; Keywords: outlines, hypermedia, calendar, wp
 ;; Homepage: http://orgmode.org
-;; Version: 6.34trans
+;; Version: 7.01trans
 ;;
 ;; This file is part of GNU Emacs.
 ;;
@@ -49,7 +49,7 @@
 (defgroup org-faces nil
   "Faces in Org-mode."
   :tag "Org Faces"
-  :group 'org-font-lock)
+  :group 'org-appearance)
 
 (defface org-hide
   '((((background light)) (:foreground "white"))
@@ -338,29 +338,53 @@ This face is only used if `org-fontify-done-headline' is set.  If applies
 to the part of the headline after the DONE keyword."
   :group 'org-faces)
 
+(defcustom org-faces-easy-properties
+  '((todo . :foreground) (tag . :foreground) (priority . :foreground))
+  "The property changes by easy faces.
+This is an alist, the keys show the area of application, the values
+can be `:foreground' or `:background'.  A color string for special
+keywords will then be interpreted as either foreground or background
+color."
+  :group 'org-faces
+  :group 'org-todo
+  :type '(repeat
+	  (cons (choice (const todo) (const tag) (const priority))
+		(choice (const :foreground) (const :background)))))
+
 (defcustom org-todo-keyword-faces nil
   "Faces for specific TODO keywords.
 This is a list of cons cells, with TODO keywords in the car
-and faces in the cdr.  The face can be a symbol, or a property
-list of attributes, like (:foreground \"blue\" :weight bold :underline t)."
+and faces in the cdr.  The face can be a symbol, a color
+as a string (in which case the rest is inherited from the `org-todo' face),
+or a property list of attributes, like
+   (:foreground \"blue\" :weight bold :underline t).
+If it is a color string, the variable `org-faces-easy-properties'
+determines if it is a foreground or a background color."
   :group 'org-faces
   :group 'org-todo
   :type '(repeat
 	  (cons
-	   (string :tag "keyword")
-	   (sexp :tag "face"))))
+	   (string :tag "Keyword")
+	   (choice :tag "Face   "
+	    (string :tag "Color")
+	    (sexp :tag "Face")))))
 
 (defcustom org-priority-faces nil
   "Faces for specific Priorities.
 This is a list of cons cells, with priority character in the car
-and faces in the cdr.  The face can be a symbol, or a property
-list of attributes, like (:foreground \"blue\" :weight bold :underline t)."
+and faces in the cdr.  The face can be a symbol, a color as
+as a string, or a property list of attributes, like
+    (:foreground \"blue\" :weight bold :underline t).
+If it is a color string, the variable `org-faces-easy-properties'
+determines if it is a foreground or a background color."
   :group 'org-faces
   :group 'org-todo
   :type '(repeat
 	  (cons
 	   (character :tag "Priority")
-	   (sexp :tag "face"))))
+	   (choice    :tag "Face    "
+	    (string :tag "Color")
+	    (sexp :tag "Face")))))
 
 (defvar org-tags-special-faces-re nil)
 (defun org-set-tag-faces (var value)
@@ -386,7 +410,8 @@ list of attributes, like (:foreground \"blue\" :weight bold :underline t)."
 (defcustom org-tag-faces nil
   "Faces for specific tags.
 This is a list of cons cells, with tags in the car and faces in the cdr.
-The face can be a symbol, or a property list of attributes,
+The face can be a symbol, a foreground color (in which case the rest is
+inherited from the `org-tag' face) or a property list of attributes,
 like (:foreground \"blue\" :weight bold :underline t).
 If you set this variable through customize, it will immediately be effective
 in new buffers and in modified lines.
@@ -397,8 +422,10 @@ changes."
   :set 'org-set-tag-faces
   :type '(repeat
 	  (cons
-	   (string :tag "Tag")
-	   (sexp :tag "Face"))))
+	   (string :tag "Tag ")
+	   (choice :tag "Face"
+	    (string :tag "Foreground color")
+	    (sexp :tag "Face")))))
 
 (defface org-table ;; originally copied from font-lock-function-name-face
   (org-compatible-face nil
@@ -431,7 +458,7 @@ changes."
        (:foreground "green"))
       (((class color) (min-colors 8) (background dark))
        (:foreground "yellow"))))
-  "Face for fixed-with text like code snippets."
+  "Face for fixed-width text like code snippets."
   :group 'org-faces
   :version "22.1")
 
@@ -440,6 +467,34 @@ changes."
   "Face for meta lines startin with \"#+\"."
   :group 'org-faces
   :version "22.1")
+
+(defface org-document-title
+  '((((class color) (background light)) (:foreground "midnight blue" :weight bold :height 1.44))
+    (((class color) (background dark)) (:foreground "pale turquoise" :weight bold :height 1.44))
+    (t (:weight bold :height 1.44)))
+  "Face for document title, i.e. that which follows the #+TITLE: keyword."
+  :group 'org-faces)
+
+(defface org-document-info
+  '((((class color) (background light)) (:foreground "midnight blue"))
+    (((class color) (background dark)) (:foreground "pale turquoise"))
+    (t nil))
+  "Face for document date, author and email; i.e. that which
+follows a #+DATE:, #+AUTHOR: or #+EMAIL: keyword."
+  :group 'org-faces)
+
+(defface org-document-info-keyword
+  (org-compatible-face 'shadow
+    '((((class color grayscale) (min-colors 88) (background light))
+       (:foreground "grey50"))
+      (((class color grayscale) (min-colors 88) (background dark))
+       (:foreground "grey70"))
+      (((class color) (min-colors 8) (background light))
+       (:foreground "green"))
+      (((class color) (min-colors 8) (background dark))
+       (:foreground "yellow"))))
+  "Face for #+TITLE:, #+AUTHOR:, #+EMAIL: and #+DATE: keywords."
+  :group 'org-faces)
 
 (defface org-block
   (org-compatible-face 'shadow
@@ -473,6 +528,13 @@ changes."
    "Face for #+BEGIN_QUOTE ... #+END_QUOTE blocks.")
 (org-copy-face 'org-block 'org-verse
    "Face for #+BEGIN_VERSE ... #+END_VERSE blocks.")
+
+(defcustom org-fontify-quote-and-verse-blocks nil
+  "Non-nil means, add a special face to #+begin_quote and #+begin_verse block.
+When nil, format these as normal Org.  This is the default, because the
+content of these blocks will still be treated as Org syntax."
+  :group 'org-faces
+  :type 'boolean)
 
 (defface org-clock-overlay ;; copied from secondary-selection
   (org-compatible-face nil
@@ -538,7 +600,7 @@ belong to the weekend."
 (defface org-agenda-dimmed-todo-face
   '((((background light)) (:foreground "grey50"))
     (((background dark)) (:foreground "grey50")))
-  "Face used to dimm blocked tasks in the agenda."
+  "Face used to dim blocked tasks in the agenda."
   :group 'org-faces)
 
 (defface org-scheduled-previously
@@ -641,7 +703,7 @@ If it is less than 8, the level-1 face gets re-used for level N+1 etc."
 
 (org-copy-face 'modeline 'org-mode-line-clock
   "Face used for clock display in mode line.")
-(org-copy-face 'modeline 'org-mode-line-clock-overrun 
+(org-copy-face 'modeline 'org-mode-line-clock-overrun
   "Face used for clock display for overrun tasks in mode line."
   :background "red")
 

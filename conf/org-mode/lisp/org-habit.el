@@ -1,11 +1,11 @@
 ;;; org-habit.el --- The habit tracking code for Org-mode
 
-;; Copyright (C) 2009 Free Software Foundation, Inc.
+;; Copyright (C) 2009, 2010 Free Software Foundation, Inc.
 
 ;; Author: John Wiegley <johnw at gnu dot org>
 ;; Keywords: outlines, hypermedia, calendar, wp
 ;; Homepage: http://orgmode.org
-;; Version: 6.34trans
+;; Version: 7.01trans
 ;;
 ;; This file is part of GNU Emacs.
 ;;
@@ -27,11 +27,13 @@
 
 ;; This file contains the habit tracking code for Org-mode
 
+;;; Code:
+
 (require 'org)
 (require 'org-agenda)
+
 (eval-when-compile
-  (require 'cl)
-  (require 'calendar))
+  (require 'cl))
 
 (defgroup org-habit nil
   "Options concerning habit tracking in Org-mode."
@@ -179,8 +181,10 @@ This list represents a \"habit\" for the rest of this module."
 (defsubst org-habit-deadline (habit)
   (let ((deadline (nth 2 habit)))
     (or deadline
-	(+ (org-habit-scheduled habit)
-	   (1- (org-habit-scheduled-repeat habit))))))
+	(if (nth 3 habit)
+	    (+ (org-habit-scheduled habit)
+	       (1- (org-habit-scheduled-repeat habit)))
+	  (org-habit-scheduled habit)))))
 (defsubst org-habit-deadline-repeat (habit)
   (or (nth 3 habit)
       (org-habit-scheduled-repeat habit)))
@@ -281,9 +285,16 @@ current time."
 		       donep)))
 	     markedp face)
 	(if donep
-	    (progn
+	    (let ((done-time (time-add
+			      starting
+			      (days-to-time
+			       (- start (time-to-days starting))))))
+
 	      (aset graph index ?*)
 	      (setq markedp t)
+	      (put-text-property
+	       index (1+ index) 'help-echo
+	       (format-time-string (org-time-stamp-format) done-time) graph)
 	      (while (and done-dates
 			  (= start (car done-dates)))
 		(setq last-done-date (car done-dates)
@@ -305,7 +316,7 @@ current time."
 (defun org-habit-insert-consistency-graphs (&optional line)
   "Insert consistency graph for any habitual tasks."
   (let ((inhibit-read-only t) l c
-	(buffer-invisibility-spec nil)
+	(buffer-invisibility-spec '(org-link))
 	(moment (time-subtract (current-time)
 			       (list 0 (* 3600 org-extend-today-until) 0))))
     (save-excursion

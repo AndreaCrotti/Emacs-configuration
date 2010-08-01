@@ -1,11 +1,11 @@
 ;;; org-freemind.el --- Export Org files to freemind
 
-;; Copyright (C) 2009 Free Software Foundation, Inc.
+;; Copyright (C) 2009, 2010 Free Software Foundation, Inc.
 
 ;; Author: Lennart Borgman (lennart O borgman A gmail O com)
 ;; Keywords: outlines, hypermedia, calendar, wp
 ;; Homepage: http://orgmode.org
-;; Version: 6.34trans
+;; Version: 7.01trans
 ;;
 ;; This file is part of GNU Emacs.
 ;;
@@ -81,6 +81,7 @@
 
 (require 'xml)
 (require 'org)
+(require 'rx)
 (require 'org-exp)
 (eval-when-compile (require 'cl))
 
@@ -195,7 +196,7 @@ NOT READY YET."
 
 ;;;###autoload
 (defun org-freemind-show (mm-file)
-  "Show file MM-FILE in Freemind."
+  "Show file MM-FILE in FreeMind."
   (interactive
    (list
     (save-match-data
@@ -275,7 +276,7 @@ will also unescape &#nn;."
     ))
 
 (defun org-freemind-convert-links-from-org (org-str)
-  "Convert org links in ORG-STR to freemind links and return the result."
+  "Convert org links in ORG-STR to FreeMind links and return the result."
   (let ((fm-str (replace-regexp-in-string
                  (rx (not (any "[\""))
                      (submatch
@@ -296,7 +297,7 @@ will also unescape &#nn;."
 
 ;;(org-freemind-convert-links-to-org "<a href=\"http://www.somewhere/\">link-text</a>")
 (defun org-freemind-convert-links-to-org (fm-str)
-  "Convert freemind links in FM-STR to org links and return the result."
+  "Convert FreeMind links in FM-STR to org links and return the result."
   (let ((org-str (replace-regexp-in-string
                   (rx "<a"
                       space
@@ -343,10 +344,10 @@ will also unescape &#nn;."
           "</p>\n"))
 
 (defun org-freemind-org-text-to-freemind-subnode/note (node-name start end drawers-regexp)
-  "Convert text part of org node to freemind subnode or note.
-Convert the text part of the org node named NODE-NAME. The text
-is in the current buffer between START and END. Drawers matching
-DRAWERS-REGEXP are converted to freemind notes."
+  "Convert text part of org node to FreeMind subnode or note.
+Convert the text part of the org node named NODE-NAME.  The text
+is in the current buffer between START and END.  Drawers matching
+DRAWERS-REGEXP are converted to FreeMind notes."
   ;; fix-me: doc
   (let ((text (buffer-substring-no-properties start end))
         (node-res "")
@@ -551,7 +552,7 @@ Otherwise give an error say the file exists."
 (defun org-freemind-write-mm-buffer (org-buffer mm-buffer node-at-line)
   (with-current-buffer org-buffer
     (dolist (node-style org-freemind-node-styles)
-      (when (string-match-p (car node-style) buffer-file-name)
+      (when (org-string-match-p (car node-style) buffer-file-name)
         (setq org-freemind-node-style (cadr node-style))))
     ;;(message "org-freemind-node-style =%s" org-freemind-node-style)
     (save-match-data
@@ -561,11 +562,10 @@ Otherwise give an error say the file exists."
              (num-top2-nodes 0)
              num-left-nodes
              (unclosed-nodes 0)
+	     (odd-only org-odd-levels-only)
              (first-time t)
              (current-level 1)
              base-level
-             skipping-odd
-             (skipped-odd 0)
              prev-node-end
              rich-text
              unfinished-tag
@@ -671,21 +671,6 @@ Otherwise give an error say the file exists."
                 (setq next-node-start (match-beginning 0))
                 (setq next-m2 (match-string-no-properties 2))
                 (setq next-level (length next-m1))
-                (when (> next-level current-level)
-                  (if (not (and org-odd-levels-only
-                                (/= (mod current-level 2) 0)
-                                (= next-level (+ 2 current-level))))
-                      (setq skipping-odd nil)
-                    (setq skipping-odd t)
-                    (setq skipped-odd (1+ skipped-odd)))
-                  (unless (or (= next-level (1+ current-level))
-                              skipping-odd)
-                    (if (or org-odd-levels-only
-                            (/= next-level (+ 2 current-level)))
-                        (error "Next level step > +1 for node ending at line %s" (line-number-at-pos))
-                      (error "Next level step = +2 for node ending at line %s, forgot org-odd-levels-only?"
-                             (line-number-at-pos)))
-                    ))
                 (setq next-children-visible
                       (not (eq 'outline
                                (get-char-property (line-end-position) 'invisible))))
@@ -698,11 +683,8 @@ Otherwise give an error say the file exists."
                   (while (>= current-level next-level)
                     (with-current-buffer mm-buffer
                       (insert "</node>\n")
-                      (setq current-level (1- current-level))
-                      (when (< 0 skipped-odd)
-                        (setq skipped-odd (1- skipped-odd))
-                        (setq current-level (1- current-level)))
-                      )))
+                      (setq current-level
+			    (- current-level (if odd-only 2 1))))))
                 (setq this-node-end (1+ next-node-end))
                 (setq this-m2 next-m2)
                 (setq current-level next-level)
@@ -725,7 +707,8 @@ Otherwise give an error say the file exists."
           (with-current-buffer mm-buffer
             (while (> current-level base-level)
               (insert "</node>\n")
-              (setq current-level (1- current-level))
+	      (setq current-level
+		    (- current-level (if odd-only 2 1)))
               ))
           (with-current-buffer mm-buffer
             (insert "</map>")
@@ -742,7 +725,7 @@ Otherwise give an error say the file exists."
     (dolist (style-list org-freemind-node-style)
       (let ((node-regexp (car style-list)))
         (message "node-regexp=%s node-name=%s" node-regexp node-name)
-        (when (string-match-p node-regexp node-name)
+        (when (org-string-match-p node-regexp node-name)
           ;;(setq node-style (org-freemind-do-apply-node-style style-list))
           (setq node-style (cadr style-list))
           (when node-style
@@ -825,13 +808,13 @@ Otherwise give an error say the file exists."
                                      ".mm"))
             (mm-file (read-file-name "Output FreeMind file: " nil nil nil default-mm-file)))
        (list line mm-file))))
-  (when (org-freemind-check-overwrite mm-file (called-interactively-p))
+  (when (org-freemind-check-overwrite mm-file (interactive-p))
     (let ((org-buffer (current-buffer))
           (mm-buffer (find-file-noselect mm-file)))
       (org-freemind-write-mm-buffer org-buffer mm-buffer node-line)
       (with-current-buffer mm-buffer
         (basic-save-buffer)
-        (when (called-interactively-p)
+        (when (interactive-p)
           (switch-to-buffer-other-window mm-buffer)
           (when (y-or-n-p "Show in FreeMind? ")
             (org-freemind-show buffer-file-name)))))))
@@ -849,13 +832,13 @@ Otherwise give an error say the file exists."
                             ".mm"))
           (mm-file (read-file-name "Output FreeMind file: " nil nil nil default-mm-file)))
      (list org-file mm-file)))
-  (when (org-freemind-check-overwrite mm-file (called-interactively-p))
+  (when (org-freemind-check-overwrite mm-file (interactive-p))
     (let ((org-buffer (if org-file (find-file-noselect org-file) (current-buffer)))
           (mm-buffer (find-file-noselect mm-file)))
       (org-freemind-write-mm-buffer org-buffer mm-buffer nil)
       (with-current-buffer mm-buffer
         (basic-save-buffer)
-        (when (called-interactively-p)
+        (when (interactive-p)
           (switch-to-buffer-other-window mm-buffer)
           (when (y-or-n-p "Show in FreeMind? ")
             (org-freemind-show buffer-file-name)))))))
@@ -872,7 +855,7 @@ Otherwise give an error say the file exists."
                             "-sparse.mm"))
           (mm-file (read-file-name "Output FreeMind file: " nil nil nil default-mm-file)))
      (list (current-buffer) mm-file)))
-  (when (org-freemind-check-overwrite mm-file (called-interactively-p))
+  (when (org-freemind-check-overwrite mm-file (interactive-p))
     (let (org-buffer
           (mm-buffer (find-file-noselect mm-file)))
       (save-window-excursion
@@ -881,7 +864,7 @@ Otherwise give an error say the file exists."
       (org-freemind-write-mm-buffer org-buffer mm-buffer nil)
       (with-current-buffer mm-buffer
         (basic-save-buffer)
-        (when (called-interactively-p)
+        (when (interactive-p)
           (switch-to-buffer-other-window mm-buffer)
           (when (y-or-n-p "Show in FreeMind? ")
             (org-freemind-show buffer-file-name)))))))
@@ -1108,7 +1091,7 @@ PATH should be a list of steps, where each step has the form
             (default-org-file (concat (file-name-nondirectory mm-file) ".org"))
             (org-file (read-file-name "Output org-mode file: " nil nil nil default-org-file)))
        (list mm-file org-file))))
-  (when (org-freemind-check-overwrite org-file (called-interactively-p))
+  (when (org-freemind-check-overwrite org-file (interactive-p))
     (let ((mm-buffer (find-file-noselect mm-file))
           (org-buffer (find-file-noselect org-file)))
       (with-current-buffer mm-buffer

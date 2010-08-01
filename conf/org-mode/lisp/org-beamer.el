@@ -1,8 +1,8 @@
 ;;; org-beamer.el --- Beamer-specific LaTeX export for org-mode
 ;;
-;; Copyright (C) 2007, 2008, 2009 Free Software Foundation, Inc.
+;; Copyright (C) 2007, 2008, 2009, 2010 Free Software Foundation, Inc.
 ;;
-;; Version: 6.34trans
+;; Version: 7.01trans
 ;; Author: Carsten Dominik <carsten.dominik AT gmail DOT com>
 ;; Maintainer: Carsten Dominik <carsten.dominik AT gmail DOT com>
 ;; Keywords: org, wp, tex
@@ -27,8 +27,11 @@
 ;; This library implement the special treatment needed by using the
 ;; beamer class during LaTeX export.
 
+;;; Code:
+
 (require 'org)
 (require 'org-exp)
+
 (defvar org-export-latex-header)
 (defvar org-export-latex-options-plist)
 (defvar org-export-opt-plist)
@@ -47,7 +50,7 @@
   "The level that should be interpreted as a frame.
 The levels above this one will be translated into a sectioning structure.
 Setting this to 2 will allow sections, 3 will allow subsections as well.
-You can se this to 4 as well, if you at the same time set
+You can set this to 4 as well, if you at the same time set
 `org-beamer-use-parts' to make the top levels `\part'."
   :group 'org-beamer
   :type '(choice
@@ -64,7 +67,9 @@ And example for this is \"[allowframebreaks]\"."
   "%45ITEM %10BEAMER_env(Env) %10BEAMER_envargs(Env Args) %4BEAMER_col(Col) %8BEAMER_extra(Extra)"
   "Default column view format that should be used to fill the template."
   :group 'org-beamer
-  :type '(string :tag "Beamer column view format"))
+  :type '(choice
+	  (const  :tag "Do not insert Beamer column view format" nil)
+	  (string :tag "Beamer column view format")))
 
 (defcustom org-beamer-themes
   "\\usetheme{default}\\usecolortheme{default}"
@@ -72,7 +77,9 @@ And example for this is \"[allowframebreaks]\"."
 When a beamer template is filled, this will be the default for
 BEAMER_HEADER_EXTRA, which will be inserted just before \\begin{document}."
   :group 'org-beamer
-  :type '(string :tag "Beamer column view format"))
+  :type '(choice
+	  (const  :tag "Do not insert Beamer themes" nil)
+	  (string :tag "Beamer themes")))
 
 (defconst org-beamer-column-widths
   "0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 0.0 :ETC"
@@ -105,7 +112,7 @@ These are just a completion help.")
   "Environments triggered by properties in Beamer export.
 These are the defaults - for user definitions, see
 `org-beamer-environments-extra'.
-\"normal\" is a special fake environment, which emite the heading as
+\"normal\" is a special fake environment, which emit the heading as
 normal text. It is needed when an environment should be surrounded
 by normal text.  Since beamer export converts nodes into environments,
 you need to have a node to end the environment.
@@ -124,8 +131,8 @@ For example
 Each entry has 4 elements:
 
 name    Name of the environment
-key     Selection key for `org-beamer-set-environment-tag'
-open    The opening template for the environment, with the following excapes
+key     Selection key for `org-beamer-select-environment'
+open    The opening template for the environment, with the following escapes
         %a   the action/overlay specification
         %A   the default action/overlay specification
         %o   the options argument of the template
@@ -176,9 +183,13 @@ close   The closing string of the environment."
     (setq org-beamer-columns-open nil)
     (insert "\\end{columns}\n")))
 
-(defun org-beamer-set-environment-tag ()
-  "Set an environment tag, to determine the beamer environment to be used.
-This makes use of the fast tag selection interface."
+(defun org-beamer-select-environment ()
+  "Select the environment to be used by beamer for this entry.
+While this uses (for convenience) a tag selection interface, the result
+of this command will be that the BEAMER_env *property* of the entry is set.
+
+In addition to this, the command will also set a tag as a visual aid, but
+the tag does not have any semantic meaning."
   (interactive)
   (let* ((envs (append org-beamer-environments-extra
 		       org-beamer-environments-default))
@@ -252,7 +263,7 @@ in org-export-latex-classes."
 	  (and frame-level (= level frame-level)))
       ;; A frame
       (org-beamer-get-special props)
-      
+
       (setq in (org-fill-template
 		"\\begin{frame}%a%A%o%T%S%x"
 		(list (cons "a" (or action ""))
@@ -344,15 +355,16 @@ this function dynamically."
 
 (defvar org-beamer-mode-map (make-sparse-keymap)
   "The keymap for `org-beamer-mode'.")
-(define-key org-beamer-mode-map "\C-c\C-b" 'org-beamer-set-environment-tag)
+(define-key org-beamer-mode-map "\C-c\C-b" 'org-beamer-select-environment)
 
 (define-minor-mode org-beamer-mode
   "Special support for editing Org-mode files made to export to beamer."
   nil " Bm" nil)
-(font-lock-add-keywords
- 'org-mode
- '((":\\(B_[a-z]+\\|BMCOL\\):" 1 'org-beamer-tag prepend))
- 'prepent)
+(when (fboundp 'font-lock-add-keywords)
+  (font-lock-add-keywords
+   'org-mode
+   '((":\\(B_[a-z]+\\|BMCOL\\):" 1 'org-beamer-tag prepend))
+   'prepent))
 
 (defun org-beamer-place-default-actions-for-lists ()
   "Find default overlay specifications in items, and move them.
@@ -378,15 +390,16 @@ the value will be inserted right after the documentclass statement."
 	     org-beamer-header-extra)
     (goto-char (point-min))
     (cond
-     ((re-search-forward "^[ \t]*BEAMER-HEADER-EXTRA-HERE[ \t]*$" nil t)
+     ((re-search-forward
+       "^[ \t]*\\[?BEAMER-HEADER-EXTRA\\(-HERE\\)?\\]?[ \t]*$" nil t)
       (replace-match org-beamer-header-extra t t)
       (or (bolp) (insert "\n")))
-     ((re-search-forward "^[ \t]*\\\\documentclass\\>" nil t)
-      (beginning-of-line 2)
+     ((re-search-forward "^[ \t]*\\\\begin{document}" nil t)
+      (beginning-of-line 1)
       (insert org-beamer-header-extra)
       (or (bolp) (insert "\n"))))))
 
-(defcustom org-beamer-fragile-re "^[ \t]*\\\\begin{verbatim}"
+(defcustom org-beamer-fragile-re "^[ \t]*\\\\begin{\\(verbatim\\|lstlisting\\)}"
   "If this regexp matches in a frame, the frame is marked as fragile."
   :group 'org-beamer
   :type 'regexp)
@@ -407,7 +420,7 @@ the value will be inserted right after the documentclass statement."
   (setq org-beamer-export-is-beamer-p nil))
 
 (defun org-beamer-after-initial-vars ()
-  "Find special setings for beamer and store them.
+  "Find special settings for beamer and store them.
 The effect is that these values will be accessible during export."
   ;; First verify that we are exporting using the beamer class
   (setq org-beamer-export-is-beamer-p
@@ -474,7 +487,7 @@ The effect is that these values will be accessible during export."
 
 (defun org-beamer-auto-fragile-frames ()
   "Mark any frames containing verbatim environments as fragile.
-This funcion will run in the final LaTeX document."
+This function will run in the final LaTeX document."
   (when org-beamer-export-is-beamer-p
     (let (opts)
       (goto-char (point-min))
@@ -494,7 +507,21 @@ This funcion will run in the final LaTeX document."
 	      (setq opts (org-split-string opts ","))
 	      (add-to-list 'opts "fragile")
 	      (insert "[" (mapconcat 'identity opts ",") "]"))))))))
-  
+
+(defcustom org-beamer-outline-frame-title "Outline"
+  "Default title of a frame containing an outline."
+  :group 'org-beamer
+  :type '(string :tag "Outline frame title")
+)
+
+(defcustom org-beamer-outline-frame-options nil
+  "Outline frame options appended after \\begin{frame}.
+You might want to put e.g. [allowframebreaks=0.9] here.  Remember to
+include square brackets."
+  :group 'org-beamer
+  :type '(string :tag "Outline frame options")
+)
+
 (defun org-beamer-fix-toc ()
   "Fix the table of contents by removing the vspace line."
   (when org-beamer-export-is-beamer-p
@@ -503,7 +530,10 @@ This funcion will run in the final LaTeX document."
       (when (re-search-forward "\\(\\\\setcounter{tocdepth.*\n\\\\tableofcontents.*\n\\)\\(\\\\vspace\\*.*\\)"
 			       nil t)
 	(replace-match
-	 "\\\\begin{frame}\n\\\\frametitle{Outline}\n\\1\\\\end{frame}"
+	 (concat "\\\\begin{frame}" org-beamer-outline-frame-options
+		 "\n\\\\frametitle{"
+		 org-beamer-outline-frame-title
+		 "}\n\\1\\\\end{frame}")
 	 t nil)))))
 
 (defun org-beamer-property-changed (property value)
@@ -549,7 +579,7 @@ This funcion will run in the final LaTeX document."
 (add-hook 'org-export-preprocess-before-selecting-backend-code-hook
 	  'org-beamer-select-beamer-code)
 
-(defun org-beamer-settings-template (kind)
+(defun org-insert-beamer-options-template (kind)
   "Insert a settings template, to make sure users do this right."
   (interactive (progn
 		 (message "Current [s]ubtree or [g]lobal?")
@@ -565,14 +595,18 @@ This funcion will run in the final LaTeX document."
 	(org-entry-put nil "EXPORT_FILE_NAME" "presentation.pdf")
 	(org-entry-put nil "BEAMER_FRAME_LEVEL" (number-to-string
 						 org-beamer-frame-level))
-	(org-entry-put nil "BEAMER_HEADER_EXTRA" org-beamer-themes)
-	(org-entry-put nil "COLUMNS" org-beamer-column-view-format)
+	(when org-beamer-themes
+	  (org-entry-put nil "BEAMER_HEADER_EXTRA" org-beamer-themes))
+	(when org-beamer-column-view-format
+	  (org-entry-put nil "COLUMNS" org-beamer-column-view-format))
 	(org-entry-put nil "BEAMER_col_ALL" "0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 :ETC"))
     (insert "#+LaTeX_CLASS: beamer\n")
     (insert "#+LaTeX_CLASS_OPTIONS: [presentation]\n")
     (insert (format "#+BEAMER_FRAME_LEVEL: %d\n" org-beamer-frame-level) "\n")
-    (insert "#+BEAMER_HEADER_EXTRA: " org-beamer-themes "\n")
-    (insert "#+COLUMNS: " org-beamer-column-view-format "\n")
+    (when org-beamer-themes
+      (insert "#+BEAMER_HEADER_EXTRA: " org-beamer-themes "\n"))
+    (when org-beamer-column-view-format
+      (insert "#+COLUMNS: " org-beamer-column-view-format "\n"))
     (insert "#+PROPERTY: BEAMER_col_ALL 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 :ETC\n")))
 
 
