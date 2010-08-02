@@ -1,4 +1,4 @@
-EMACS = emacs
+EMACS = Emacs
 
 ELFILES = \
 	haskell-c.el \

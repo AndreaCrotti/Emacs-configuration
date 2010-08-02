@@ -20,6 +20,8 @@ MINIMAL EMACS CONFIGURATION
   Add also custom keys for all the global-key-set combinations
 
 * TODO Build an automatic list of versions
+* TODO Pass all the global keys to minor modes whenever possible
+* TODO Include another more up-to-date semantic version finally
 
 * Assumptions
   - $HOME/.emacs.d/scripts is in the $PATH
@@ -331,7 +333,7 @@ MINIMAL EMACS CONFIGURATION
       (save-excursion (find-file file))))
   
   ;; TODO: add support for moving to another dir
-  (defun dired-git-files ()
+  (defun dired-git-files (directory)
     "Open a dired buffer containing the local git files"
     (interactive "D")
     (let ((files (ls-git-files)))
@@ -346,7 +348,7 @@ MINIMAL EMACS CONFIGURATION
   ;; TODO: take the return code instead
   (defun ls-git-files ()
     (let
-        ((result (shell-command-to-string "git ls-files")))
+        ((result (shell-command-to-string (concat "git ls-files"))))
       (if
           (string-match "fatal" result)
           nil
@@ -590,6 +592,14 @@ MINIMAL EMACS CONFIGURATION
   (add-hook 'after-make-frame-functions 'full)
 #+end_src
 
+** Setup a nice window at boot if possible
+#+begin_src emacs-lisp :tangle yes
+  (setq agenda-window (split-window-vertically -10))
+  ;; now open the right buffer in it
+  ;; set it as a dedicated window
+  ;; set the size fixed
+#+end_src   
+
 ** Winner mode
    Winner mode remember the window configuration and allows you to go back and forth
 #+begin_src emacs-lisp :tangle yes
@@ -723,7 +733,7 @@ MINIMAL EMACS CONFIGURATION
    
 ** Info configuration
 #+begin_src emacs-lisp :tangle yes
-  (add-to-list 'Info-default-directory-list (concat conf "org-mode/share/info"))
+  (add-to-list 'Info-default-directory-list (concat conf "org-mode/share/info/"))
 #+end_src
 
 ** Clock configuration
@@ -1293,7 +1303,7 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
   
 *** Jdee settings
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle yes
   (add-to-list 'load-path (concat conf "jdee/lisp"))
   
   (autoload 'jde-mode "jde" "jde mode" t)
@@ -1356,18 +1366,17 @@ MINIMAL EMACS CONFIGURATION
   Enabling nxhtml mode
 #+begin_src emacs-lisp :tangle yes
   (setq nxhtml-menu-mode nil)
-;;  (load (concat conf "nxhtml/autostart.el"))
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes
-  ;;(add-to-list 'auto-mode-alist '("\\.mak$" . html-mode))
-  ;;(add-to-list 'auto-mode-alist '("\\.mako$" . html-mode))
+  (autoload 'mako-html-mumamo-mode "autostart" "auto starting of nxhtml" t)
+  ;; add other modes whenever needed
   (add-to-list 'auto-mode-alist '("\\.mak$" . mako-html-mumamo-mode))
   (add-to-list 'auto-mode-alist '("\\.mako$" . mako-html-mumamo-mode))
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes
-  (setq mumamo-chunk-coloring 2)
+  (setq mumamo-chunk-coloring 3)
 #+end_src
 
 ** Ocaml
@@ -1802,6 +1811,21 @@ MINIMAL EMACS CONFIGURATION
         (message "disabling growl mode notification")
         (setq growl-mode nil))))
 #+end_src
+
+*** Open port file
+#+begin_src emacs-lisp :tangle yes
+  ;; Using the right mode for portfiles
+  (add-to-list 'auto-mode-alist '("Portfile" . tcl-mode))
+  
+  ;; TODO: ask for password
+  ;; Taken from http://github.com/febeling/emacsd/blob/master/init.el
+  (defun port-open (name)
+    "Open the portfile for named MacPorts port."
+    (interactive "MPort: ")
+    (let ((path (substring (shell-command-to-string (format "port file %s" name)) 0 -1)))
+      (if (file-exists-p path)
+          (find-file-other-window path))))
+#+end_src
       
 * Global keys settings
 #+begin_src emacs-lisp :tangle yes
@@ -1832,9 +1856,13 @@ MINIMAL EMACS CONFIGURATION
   ;; visualization
   (global-set-key [f11] 'full)
   
-  ;; splitting windows facilitites
-  ;; TODO: pass to a sensible splitting instead
-  (global-set-key [f2] 'split-window-horizontally)
+  ;; window management keys
+  (defun sensibly ()
+    "split sensibly the selected window"
+    (interactive)
+    (split-window-sensibly (selected-window)))
+  
+  (global-set-key [f2] 'sensibly)
   (global-set-key [f1] 'delete-window)
   
   (global-set-key (kbd "<C-f9>") 'cycle-font)
@@ -1856,6 +1884,14 @@ MINIMAL EMACS CONFIGURATION
   
   (global-set-key (kbd "M-n") 'senator-next-tag)
   (global-set-key (kbd "M-p") 'senator-previous-tag)
+  
+  ;; from here
+  (global-set-key "\C-x\C-p" 'find-file-at-point)
+  ;; (defadvice find-file-at-point (around goto-line compile activate)
+  ;;   (let ((line (and (looking-at ".*:\\([0-9]+\\)")
+  ;;                    (string-to-number (match-string 1)))))
+  ;;     ad-do-it
+  ;;     (and line (goto-line line))))
 #+end_src
 
 * External configuration files
