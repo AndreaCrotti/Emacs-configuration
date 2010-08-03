@@ -156,8 +156,8 @@ MINIMAL EMACS CONFIGURATION
     '((python-mode . ":")
       (jython-mode . ":")
       (prolog-mode . ".")
-      (latex-mode . " \\\\")
-      (org-mode . " \\\\")
+      (latex-mode . " \\newline")
+      (org-mode . " \\newline")
       (tuareg-mode . ";;")
       (html-mode . " <br>"))
     "Closing char for different modes"
@@ -1027,24 +1027,20 @@ MINIMAL EMACS CONFIGURATION
 
 ** Use cedet and gloabally ede-mode for projects
 #+begin_src emacs-lisp :tangle yes
-  (require 'cedet)
-  ;; This is not working with the stupid code cache stuff
-  ;; (global-ede-mode t)
-  (require 'semantic)
+  (load-file (concat conf "cedet/common/cedet.elc"))
+  (setq semantic-load-turn-everything-on t)
 #+end_src
 
 ** Options for semantic
 #+begin_src emacs-lisp :tangle yes
-  (semantic-mode t)
+  ;; (semantic-mode t)
   (global-semantic-stickyfunc-mode 1)
-  (global-semantic-idle-completions-mode 1)
-  (global-semantic-decoration-mode 1)
+  ;; (global-semantic-decoration-mode 1)
   (global-semantic-highlight-func-mode 1)
-  (global-semantic-idle-summary-mode 1)
   (global-semantic-highlight-edits-mode 1)
   ;; enable working on nesc-code, a superset of C, add another language to semantic instead
-  (add-to-list 'semantic-new-buffer-setup-functions
-               '(nesc-mode . semantic-default-c-setup))
+  ;; (add-to-list 'semantic-new-buffer-setup-functions
+  ;;              '(nesc-mode . semantic-default-c-setup))
 #+end_src
 
 ** Hook for inline documentation setting local keys
@@ -1179,6 +1175,7 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
     
 ** C-mode
+*** Eldoc and style settings
 #+begin_src emacs-lisp :tangle yes
   (require 'c-eldoc)
   (setq c-default-style
@@ -1193,6 +1190,35 @@ MINIMAL EMACS CONFIGURATION
   (add-hook 'c-mode-common-hook 'my-c-like-cedet-hook)
   
   ;; (add-hook 'c-mode-hook 'my-c-only-cedet-hook)
+#+end_src
+
+*** Nice header autoinserting guards
+# TODO: create a list instead where you setup all the properties
+#+begin_src emacs-lisp :tangle yes
+  (defun is-new-c-header (file)
+    "Check if file is an header"
+    (and
+     ;; must be a new header
+     (not (file-exists-p file))
+     (equal "h" (file-name-extension file))))
+  
+  
+  (defun my-h-header ()
+    "try to insert the header smartly"
+    (if
+        (is-new-c-header buffer-file-name)
+        (insert-at-startup "once")))
+  
+  (defun insert-at-startup (snippet)
+    "try to expand a snippet at startup"
+    (if
+        (yes-or-no-p "insert automatic header?")
+        (progn
+          (insert snippet)
+          ;; add checking
+          (yas/expand))))
+    
+  (add-hook 'c-mode-hook 'my-h-header)
 #+end_src
 
 ** Python
@@ -1660,7 +1686,7 @@ MINIMAL EMACS CONFIGURATION
   (ido-mode t)
   ;; otherwise it will try to connect to old servers all the time
   (setq ido-enable-tramp-completion t)
-  (setq ido-enable-flex-matching nil)
+  (setq ido-enable-flex-matching t)
   ;; regexp matching also
   (setq ido-enable-regexp nil)
   (setq ido-use-url-at-point t)
@@ -1798,6 +1824,7 @@ MINIMAL EMACS CONFIGURATION
 
 ** Some mac tricks
 *** Open pdfs with doc-view or Preview
+    [[http://www.emacswiki.org/emacs/UnPdf][see also unpdf]] for a better pdf management (mode instead of a hook)
 #+begin_src emacs-lisp :tangle yes
   (require 'doc-view)
   
