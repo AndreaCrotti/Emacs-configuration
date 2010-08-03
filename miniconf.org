@@ -332,18 +332,19 @@ MINIMAL EMACS CONFIGURATION
       ;; we have to keep the original position
       (save-excursion (find-file file))))
   
-  ;; TODO: add support for moving to another dir
   (defun dired-git-files (directory)
     "Open a dired buffer containing the local git files"
     (interactive "D")
+    (cd directory)
     (let ((files (ls-git-files)))
       (if
           (or 
-           (< (length files) 50)
+           (< (length files) 200)
            (yes-or-no-p (format "%d files, are you sure?" (length files))))
           ;; rename the buffer to something with a sense
-          (dired (ls-git-files)))))
-  
+          (progn
+            (dired (ls-git-files))
+            (rename-buffer (concat "git-" (before-last (split-string directory "/"))))))))
   
   ;; TODO: take the return code instead
   (defun ls-git-files ()
@@ -354,6 +355,16 @@ MINIMAL EMACS CONFIGURATION
           nil
         (split-string result))))
 #+end_src
+
+*** Replace in regexp
+#+begin_src emacs-lisp :tangle yes
+  (defun query-replace-in-git (from to)
+    "query replace regexp on the files given"
+    (interactive "sFrom: \nsTo: ")
+    (dired-git-files (pwd))
+    (dired-mark-files-regexp ".[ch]")
+    (dired-do-query-replace-regexp from to))
+#+end_src    
 
 *** Camelizing
     (un)Camelizing allows to convert quickly function/variables names from camelized to non camelized mode.
@@ -474,7 +485,6 @@ MINIMAL EMACS CONFIGURATION
               transient-mark-mode t))))
 #+end_src
 
-
 ** Reload this configuration
 #+begin_src emacs-lisp :tangle yes
   (defun reload-conf ()
@@ -483,6 +493,7 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 * Operating system detection
+  This has to be done first because we have some conditional code later
 #+begin_src emacs-lisp :tangle yes
 (defconst linux (string-match "linux" system-configuration))
 (defconst mac (string-match "apple" system-configuration))
@@ -503,13 +514,44 @@ MINIMAL EMACS CONFIGURATION
 * Buffer management
   See also [[http://scottfrazersblog.blogspot.com/2010/01/emacs-filtered-buffer-switching.html][this nice article]] for a better filtering of buffers while switching.
 
+** Desktop mode
+#+begin_src emacs-lisp :tangle yes
+  (require 'desktop)
+  
+  (desktop-save-mode 1)
+  
+  (setq history-length 250)
+  (add-to-list 'desktop-globals-to-save 'file-name-history)
+  
+  ;; name and mode of buffers to forget
+  (setq desktop-buffers-not-to-save
+        (concat "\\("
+                "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
+                "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
+                "\\)$"))
+  
+  (add-to-list 'desktop-modes-not-to-save 'dired-mode)
+  (add-to-list 'desktop-modes-not-to-save 'Info-mode)
+  (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
+  (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
+  
+  (desktop-save-mode 1)
+  (add-hook 'auto-save-hook (lambda () (desktop-save-in-desktop-dir)))
+  
+  ;; ;; ask user whether to restore desktop at start-up
+  ;; (add-hook 'after-init-hook
+  ;;           '(lambda ()
+  ;;              (if (saved-session)
+  ;;                  (if (y-or-n-p "Restore desktop? ")
+  ;;                      (session-restore)))))
+#+end_src
+
 ** TempBuf
    TempBuf will automatically kill some of the normally useless buffers
 #+begin_src emacs-lisp :tangle yes
   (require 'tempbuf)
   
   ;; Enabling tempbuf mode for some kind of buffers
-  (add-hook 'dired-mode-hook 'turn-on-tempbuf-mode)
   (add-hook 'custom-mode-hook 'turn-on-tempbuf-mode)
   (add-hook 'w3-mode-hook 'turn-on-tempbuf-mode)
   (add-hook 'Man-mode-hook 'turn-on-tempbuf-mode)
@@ -594,7 +636,7 @@ MINIMAL EMACS CONFIGURATION
 
 ** Setup a nice window at boot if possible
 #+begin_src emacs-lisp :tangle yes
-  (setq agenda-window (split-window-vertically -10))
+  ;; (setq agenda-window (split-window-vertically -10))
   ;; now open the right buffer in it
   ;; set it as a dedicated window
   ;; set the size fixed
@@ -901,6 +943,7 @@ MINIMAL EMACS CONFIGURATION
                   c-mode-hook
                   ruby-mode-hook
                   lisp-interaction-mode-hook
+                  ielm-mode
                   emacs-lisp-mode-hook))
     (add-hook hook 'turn-on-eldoc-mode))
 #+end_src
@@ -1669,6 +1712,18 @@ MINIMAL EMACS CONFIGURATION
   (setq warning-suppress-types nil)
 #+end_src
 
+* Process management
+** Comint
+   Make sure we don't incidentally close a process
+#+begin_src emacs-lisp :tangle yes
+  (defadvice comint-send-eof (around warn-me-please compile activate)
+    "Confirm EOF when called interactively, because accidental EOF sucks."
+    (when (or (not (member this-command '(comint-send-eof
+                                          comint-delchar-or-maybe-eof)))
+              (y-or-n-p "Really exit? "))
+      ad-do-it))
+#+end_src
+
 * Flymake
 ** Setting up flymake
 #+begin_src emacs-lisp :tangle yes
@@ -1717,16 +1772,8 @@ MINIMAL EMACS CONFIGURATION
  ;; (add-hook 'python-mode-hook (function activate-flymake))
 #+end_src
   
-* Customizable variables
-  Still thinking how to manage this for best usage
-#+begin_src emacs-lisp :tangle no
-  (defgroup variables nil "private variables")
-  (defcustom private "private" "file with private settings"
-  :group 'variables)
-#+end_src
-
-* Server stuff
-  This will start the server for the GUI version of emacs, make sure you set up correctly the emacsclient, for example on the mac
+* As as server
+  This will start the server for the GUI version of emacs, make sure you set up correctly the emacsclient, for example on osx. (you might even start it automatically with launchtctl)
 #+begin_src sh
   alias emacsclient='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient'
   # and then setup your $EDITOR to emacsclient...
@@ -1736,8 +1783,10 @@ MINIMAL EMACS CONFIGURATION
   (if window-system
       (progn
         (require 'server)
-        (unless (server-running-p)
-          (server-start))))
+        (if
+            (not (server-running-p))
+            (server-start)
+          (message "server already running, check your emacser"))))
 #+end_src
   
 * Fun
@@ -1748,6 +1797,16 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 ** Some mac tricks
+*** Run applescript commands
+#+begin_src emacs-lisp :tangle yes
+  (defun do-applescript (str)
+    "Synchronously run applescript STR."
+    (with-temp-buffer
+      (insert str)
+      (shell-command-on-region (point-min) (point-max) "osascript" nil t)
+      (buffer-string)))
+#+end_src
+
 *** Open the terminal
 #+begin_src emacs-lisp :tangle yes
   (defun mac-open-terminal ()
