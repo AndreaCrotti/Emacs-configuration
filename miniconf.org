@@ -1797,6 +1797,32 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 ** Some mac tricks
+*** Open pdfs with doc-view or Preview
+#+begin_src emacs-lisp :tangle yes
+  (require 'doc-view)
+  
+  (defun open-pdf-eventually ()
+    "open with doc view when a pdf"
+    (if
+        (string-match "pdf" (file-name-extension buffer-file-name))
+        (if
+            (yes-or-no-p "open with doc-view?")
+            (doc-view t buffer-file-name)
+          ;; open here is only working os osx
+          (shell-command (format "open %s" buffer-file-name)))))
+  
+  (add-hook 'find-file-hook 'open-pdf-eventually)
+#+end_src
+
+*** Use spotlight for locating
+#+begin_src emacs-lisp :tangle yes
+  (defun spotlight ()
+    "locate with spotlight facility"
+    (interactive)
+    (let ((locate-command "mdfind"))
+      (call-interactively 'locate nil)))
+#+end_src
+
 *** Run applescript commands
 #+begin_src emacs-lisp :tangle yes
   (defun do-applescript (str)

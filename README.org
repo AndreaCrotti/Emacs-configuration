@@ -1,4 +1,9 @@
+#+OPTIONS: toc:nil num:nil
 Emacs configuration
+
+*WARNING*:
+At the moment the semantic features used suppose you're using emacs 23.2, which is still quite new.
+As soon as I'm sure it works I will include my own version from cvs instead
 
 * Features
   - yasnippet
