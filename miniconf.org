@@ -1027,7 +1027,7 @@ MINIMAL EMACS CONFIGURATION
 
 ** Use cedet and gloabally ede-mode for projects
 #+begin_src emacs-lisp :tangle yes
-  (load-file (concat conf "cedet/common/cedet.elc"))
+  (load (concat conf "cedet/common/cedet"))
   (setq semantic-load-turn-everything-on t)
 #+end_src
 
