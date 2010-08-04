@@ -341,10 +341,10 @@ MINIMAL EMACS CONFIGURATION
   
   (defun dired-git (directory)
     (interactive "D")
-    (cd directory)
     (dired-git-files directory))
   
   (defun dired-git-files (directory)
+    (cd directory)
     "Open a dired buffer containing the local git files"
     (let ((files (ls-git-files)))
       (if
@@ -530,9 +530,13 @@ MINIMAL EMACS CONFIGURATION
 ** Dired settings
 #+begin_src emacs-lisp :tangle yes
    (setq dired-auto-revert-buffer 1)
-   
-   
-#+end_src   
+#+end_src
+
+*** Using dired-details for smaller windows
+#+begin_src emacs-lisp :tangle yes
+  (require 'dired-details)
+  (dired-details-install)
+#+end_src
 
 ** Desktop mode
 #+begin_src emacs-lisp :tangle yes
@@ -1371,8 +1375,8 @@ MINIMAL EMACS CONFIGURATION
   (autoload 'turn-on-haskell-doc-mode "haskell-doc" "haskell doc mode" t)
   (autoload 'turn-on-haskell-indent "haskell-indent" "haskell indent facilities" t)
   
-  (add-hook 'inf-haskell "inf-haskell" "inf-haskell" t)
-  (add-hook 'hs-lint "hs-lint" "haskell checker" t)
+  (autoload 'inf-haskell "inf-haskell" "inf-haskell" t)
+  (autoload 'hs-lint "hs-lint" "haskell checker" t)
   
   ;; here some haskell variables
   (setq haskell-doc-show-global-types t)
@@ -1387,6 +1391,7 @@ MINIMAL EMACS CONFIGURATION
             '(lambda ()
                (require 'haskell-doc) ; Is this the only way?
                (require 'haskell-indent)
+               (require 'inf-haskell)
                (turn-on-haskell-doc-mode)
                (turn-on-haskell-indentation)
                ;; This would be very nice but it conflicts with yasnippet
