@@ -116,6 +116,7 @@ MINIMAL EMACS CONFIGURATION
   (defalias 'fold 'senator-fold-tag-toggle)
   
   (defalias 'pd 'print-desktop)
+  (defalias 'dcd 'desktop-change-dir)
 #+end_src   
 
 * User customization
@@ -337,10 +338,14 @@ MINIMAL EMACS CONFIGURATION
   (defun before-last (list)
     (nth (- (length list) 2) list))
   
-  (defun dired-git-files (directory)
-    "Open a dired buffer containing the local git files"
+  
+  (defun dired-git (directory)
     (interactive "D")
     (cd directory)
+    (dired-git-files directory))
+  
+  (defun dired-git-files (directory)
+    "Open a dired buffer containing the local git files"
     (let ((files (ls-git-files)))
       (if
           (or 
@@ -349,7 +354,10 @@ MINIMAL EMACS CONFIGURATION
           ;; rename the buffer to something with a sense
           (progn
             (dired (ls-git-files))
-            (rename-buffer (concat "git-" (before-last (split-string directory "/"))))))))
+            (rename-buffer (git-dired-buffer-name directory))))))
+  
+  (defun git-dired-buffer-name (directory)
+    (concat "git-" (before-last (split-string directory "/"))))
   
   ;; TODO: take the return code instead
   (defun ls-git-files ()
@@ -366,7 +374,7 @@ MINIMAL EMACS CONFIGURATION
   (defun query-replace-in-git (from to)
     "query replace regexp on the files given"
     (interactive "sFrom: \nsTo: ")
-    (dired-git-files (pwd))
+    (dired-git (pwd))
     (dired-mark-files-regexp ".[ch]")
     (dired-do-query-replace-regexp from to))
 #+end_src    
@@ -519,6 +527,13 @@ MINIMAL EMACS CONFIGURATION
 * Buffer management
   See also [[http://scottfrazersblog.blogspot.com/2010/01/emacs-filtered-buffer-switching.html][this nice article]] for a better filtering of buffers while switching.
 
+** Dired settings
+#+begin_src emacs-lisp :tangle yes
+   (setq dired-auto-revert-buffer 1)
+   
+   
+#+end_src   
+
 ** Desktop mode
 #+begin_src emacs-lisp :tangle yes
   (require 'desktop)
@@ -541,9 +556,9 @@ MINIMAL EMACS CONFIGURATION
                 "\\)$"))
   
   (defun dired-git-current ()
-    (dired-git-files :directory desktop-dirname))
+    (dired-git-files  desktop-dirname))
   ;; first we have to pass to the right dir
-  (add-hook 'desktop-after-read-hook 'dired-git-gcurrent)
+  (add-hook 'desktop-after-read-hook 'dired-git-current)
   
   (add-to-list 'desktop-modes-not-to-save 'dired-mode)
   (add-to-list 'desktop-modes-not-to-save 'Info-mode)
@@ -2033,7 +2048,7 @@ MINIMAL EMACS CONFIGURATION
   ;; TODO: the senator stuff should be enabled only where senator actually works!!
   (global-set-key [f6] 'senator-fold-tag-toggle)
   
-  (global-set-key [f7] 'dired-git-files)
+  (global-set-key [f7] 'dired-git)
   
   (global-set-key (kbd "M-n") 'senator-next-tag)
   (global-set-key (kbd "M-p") 'senator-previous-tag)
