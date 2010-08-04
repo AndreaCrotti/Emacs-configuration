@@ -1,8 +1,13 @@
 #+OPTIONS: toc:nil num:nil
 Emacs configuration
+*WARNING*:
+Changing code in miniconf.el will have no effect, since at next restart it will be overwritten.
+
+I suggest for customization to use the file custom.el or at worst to clone this project.
 
 * Features
   - yasnippet
+  - desktop mode and nice hooks
   - auto completion
   - python-mode
   - haskell-mode

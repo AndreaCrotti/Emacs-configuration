@@ -114,6 +114,8 @@ MINIMAL EMACS CONFIGURATION
   (defalias 'git 'open-git-files)
   
   (defalias 'fold 'senator-fold-tag-toggle)
+  
+  (defalias 'pd 'print-desktop)
 #+end_src   
 
 * User customization
@@ -524,6 +526,9 @@ MINIMAL EMACS CONFIGURATION
   (desktop-save-mode 1)
   ;; save always
   (setq desktop-save t)
+  (defun print-desktop ()
+    (interactive)
+    (message "current desktop is %s" desktop-dirname))
   
   (setq history-length 250)
   (add-to-list 'desktop-globals-to-save 'file-name-history)
@@ -535,6 +540,11 @@ MINIMAL EMACS CONFIGURATION
                 "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
                 "\\)$"))
   
+  (defun dired-git-current ()
+    (dired-git-files :directory desktop-dirname))
+  ;; first we have to pass to the right dir
+  (add-hook 'desktop-after-read-hook 'dired-git-gcurrent)
+  
   (add-to-list 'desktop-modes-not-to-save 'dired-mode)
   (add-to-list 'desktop-modes-not-to-save 'Info-mode)
   (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
@@ -543,7 +553,7 @@ MINIMAL EMACS CONFIGURATION
   (add-hook 'auto-save-hook (lambda () (desktop-save-in-desktop-dir)))
   
   (setq desktop-clear-preserve-buffers
-        (append '("miniconf.org" "eternal" "\\*group\\*" "\\*ielm\\*") desktop-clear-preserve-buffers))
+        (append '("miniconf.org" "eternal" "\\*shell\\*" "\\*group\\*" "\\*ielm\\*") desktop-clear-preserve-buffers))
 #+end_src
 
 ** TempBuf

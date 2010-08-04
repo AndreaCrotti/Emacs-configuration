@@ -28,15 +28,4 @@
   ;; TODO: add a way to revert the exec path change
   (py-toggle-shells 1))
 
-(setq paster-shell "paster"
-      paster-args '("shell" "ldapper/development.ini"))
-
-(defun run-turbogears ()
-  "Run an interactive turbogears shell"
-  (interactive)
-  (require 'comint)
-  (switch-to-buffer (make-comint "turbogears" "paster" "shell" "ldapper/development.ini"))
-  ;; now maybe pass to the right mode
-)
-
 (provide 'virtual)
