@@ -520,8 +520,10 @@ MINIMAL EMACS CONFIGURATION
 ** Desktop mode
 #+begin_src emacs-lisp :tangle yes
   (require 'desktop)
-  
+   
   (desktop-save-mode 1)
+  ;; save always
+  (setq desktop-save t)
   
   (setq history-length 250)
   (add-to-list 'desktop-globals-to-save 'file-name-history)
@@ -538,15 +540,10 @@ MINIMAL EMACS CONFIGURATION
   (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
   (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
   
-  (desktop-save-mode 1)
   (add-hook 'auto-save-hook (lambda () (desktop-save-in-desktop-dir)))
   
-  ;; ;; ask user whether to restore desktop at start-up
-  ;; (add-hook 'after-init-hook
-  ;;           '(lambda ()
-  ;;              (if (saved-session)
-  ;;                  (if (y-or-n-p "Restore desktop? ")
-  ;;                      (session-restore)))))
+  (setq desktop-clear-preserve-buffers
+        (append '("miniconf.org" "eternal" "\\*group\\*" "\\*ielm\\*") desktop-clear-preserve-buffers))
 #+end_src
 
 ** TempBuf
@@ -1179,6 +1176,12 @@ MINIMAL EMACS CONFIGURATION
     (require 'gist)
 #+end_src
     
+** Ess
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'load-path (concat conf "ess/lisp"))
+  (autoload 'R "ess-site" "loading R env" t)
+#+end_src
+
 ** C-mode
 *** Eldoc and style settings
 #+begin_src emacs-lisp :tangle yes
@@ -1231,12 +1234,29 @@ MINIMAL EMACS CONFIGURATION
   [[http://hide1713.wordpress.com/2009/01/30/setup-perfect-python-environment-in-emacs/][Possible configuration for auto completion with ropemacs]]
   Ropmacs though is not up to date and needs and may not work correctly
 
+**** Paths and extensions
+
 #+begin_src emacs-lisp :tangle yes
   ;; TODO: check why is not working with the autoload
   (load-library "python-mode")
   (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
   (add-to-list 'interpreter-mode-alist '("python" . python-mode))
   (autoload 'doctest-mode "doctest-mode" "doc test python mode" t)
+#+end_src
+
+*** Configuring for virtualenvwrapper
+#+begin_src emacs-lisp :tangle yes
+  ;; FIXME: this command is not there at this moment
+  (defun get-possible-envs ()
+    (split-string (shell-command-to-string "virtualenvwrapper_show_workon_options")))
+  (split-string "env1\nenv2")
+  
+  (defun chenv ()
+    "change virtualenv env"
+    (interactive)
+    (let
+        ((env (completing-read "insert: " (get-possible-envs))))
+      (shell-command (format "workon %s" env))))
 #+end_src
 
 *** Ropemacs configuration from [[http://www.enigmacurry.com/2009/01/21/autocompleteel-python-code-completion-in-emacs/][ryan code]]                           :ARCHIVE:
@@ -1473,6 +1493,12 @@ MINIMAL EMACS CONFIGURATION
   ;;TODO: make it working everywhere automatically if possible
   (add-to-list 'fixme-modes 'org-mode)
 #+end_src 
+** Ruby mode
+*** Jruby and rinari
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'load-path (concat conf "rinari/util"))
+#+end_src
+
 ** Yaml
 #+begin_src emacs-lisp :tangle yes
   (autoload 'yaml-mode "yaml-mode" "mode for yaml" t)
@@ -1843,7 +1869,7 @@ MINIMAL EMACS CONFIGURATION
           ;; open here is only working os osx
           (shell-command (format "open %s" buffer-file-name)))))
   
-  (add-hook 'find-file-hook 'open-pdf-eventually)
+  ;; (add-hook 'find-file-hook 'open-pdf-eventually)
 #+end_src
 
 *** Use spotlight for locating
