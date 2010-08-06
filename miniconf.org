@@ -265,19 +265,23 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   ;; someday might want to rotate windows if more than 2 of them
   (defun swap-windows ()
-    "If you have 2 windows, it swaps them." (interactive) (cond ((not (= (count-windows) 2)) (message "You need exactly 2 windows to do this."))
-                                                                (t
-                                                                 (let* ((w1 (first (window-list)))
-                                                                        (w2 (second (window-list)))
-                                                                        (b1 (window-buffer w1))
-                                                                        (b2 (window-buffer w2))
-                                                                        (s1 (window-start w1))
-                                                                        (s2 (window-start w2)))
-                                                                   (set-window-buffer w1 b2)
-                                                                   (set-window-buffer w2 b1)
-                                                                   (set-window-start w1 s2)
-                                                                   (set-window-start w2 s1)))))
+    "If you have 2 windows, it swaps them."
+    (interactive)
+    (cond 
+     ((not (= (count-windows) 2)) (message "You need exactly 2 windows to do this."))
+     (t
+      (let* ((w1 (first (window-list)))
+             (w2 (second (window-list)))
+             (b1 (window-buffer w1))
+             (b2 (window-buffer w2))
+             (s1 (window-start w1))
+             (s2 (window-start w2)))
+        (set-window-buffer w1 b2)
+        (set-window-buffer w2 b1)
+        (set-window-start w1 s2)
+        (set-window-start w2 s1)))))
 #+end_src
+# TODO: Add something to rotate the windows gracefully
 
 *** Rename file and buffer
 **** TODO Add something VCS related for moving away files
@@ -498,7 +502,19 @@ MINIMAL EMACS CONFIGURATION
               transient-mark-mode t))))
 #+end_src
 
-** Reload this configuration
+*** Select all from an alist
+#+begin_src emacs-lisp :tangle yes
+  (defun all-asscs (asslist query)
+    "returns a list of all corresponding values (like rassoc)"
+    (cond
+     ((null asslist) nil)
+     (t
+      (if (equal (cdr (car asslist)) query)
+          (cons (car (car asslist)) (all-asscs (cdr asslist) query))
+        (all-asscs (cdr asslist) query)))))
+#+end_src
+
+** reload this configuration
 #+begin_src emacs-lisp :tangle yes
   (defun reload-conf ()
     (interactive)
@@ -572,7 +588,8 @@ MINIMAL EMACS CONFIGURATION
   (add-hook 'auto-save-hook (lambda () (desktop-save-in-desktop-dir)))
   
   (setq desktop-clear-preserve-buffers
-        (append '("miniconf.org" "eternal" "\\*shell\\*" "\\*group\\*" "\\*ielm\\*") desktop-clear-preserve-buffers))
+        (append '("org$" "eternal" "\\*shell\\*" "\\*group\\*" "\\*ielm\\*") desktop-clear-preserve-buffers))
+
 #+end_src
 
 ** TempBuf
@@ -608,6 +625,55 @@ MINIMAL EMACS CONFIGURATION
   (savehist-mode t) ; save also minibuffer history, very useful
 #+end_src
 
+** Ibuffer settings
+#+begin_src emacs-lisp :tangle yes
+  (setq ibuffer-saved-filter-groups
+        '(("default"
+           ("Chat" (or
+                    (mode . garak-mode)
+                    (name . "^\\*Garak\\*$")
+                    (mode . rcirc-mode)))
+           ("Organization" (or
+                            (mode . diary-mode)
+                            (mode . org-mode)
+                            (mode . org-agenda-mode)))
+           ("Gnus & News" (or
+                           (mode . message-mode)
+                           (mode . bbdb-mode)
+                           (mode . mail-mode)
+                           (mode . gnus-group-mode)
+                           (mode . gnus-summary-mode)
+                           (mode . gnus-article-mode)
+                           (name . "^\\(\\.bbdb\\|dot-bbdb\\)$")
+                           (name . "^\\.newsrc-dribble$")
+                           (mode . newsticker-mode)))
+           ("Files" (filename . ".*"))
+           ("File Management" (or
+                               (mode . dired-mode)
+                               (mode . shell-mode)))
+           ("Documentation" (or
+                             (mode . Info-mode)
+                             (mode . apropos-mode)
+                             (mode . woman-mode)
+                             (mode . help-mode)
+                             (mode . Man-mode))))))
+#+end_src
+
+** Hide org-mode Files
+#+begin_src emacs-lisp :tangle yes
+  (defun th-hide-org-buffers (arg)
+    "Hide org-mode buffers from completion by prepending a space at the buffer name.
+  When called with prefix arg (`C-u'), then remove this space again."
+    (interactive "P")
+    (dolist (b (buffer-list))
+      (set-buffer b)
+      (when (eq major-mode 'org-mode)
+        (rename-buffer
+         (if arg 
+             (replace-regexp-in-string "^[[:space:]]+" "" (buffer-name))
+           (concat " " (buffer-name)))))))
+#+end_src
+
 * Package management
   Auto install is a nice way to install packages from emacswiki repository.
   There are other possible ways to manage the emacs packages.
@@ -627,6 +693,10 @@ MINIMAL EMACS CONFIGURATION
   ;; FIXME: This is still not fixing the recursive stuff
   (add-to-list 'bcc-blacklist "eieio")
 #+end_src
+
+* Frame management
+  [[http://www.emacswiki.org/emacs/Shrink-Wrapping_Frames][See shrinking frames]] and onetoone to see what it could be done to make emacs more frame-centric.
+  
 
 * Visualization
 ** Menu and tool-bar disabling
@@ -1205,6 +1275,20 @@ MINIMAL EMACS CONFIGURATION
     (require 'gist)
 #+end_src
     
+** Clojure
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
+  (autoload 'clojure-mode "clojure-mode" "clojure mode" t)
+#+end_src
+
+*** Swank configuration for clojure
+    We can keep the common lisp also
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'slime-lisp-implementations '(sbcl ("sbcl")))
+  (autoload 'slime "swank-clojure" "loading the swank-clojure" t)
+#+end_src
+  Use "C-u M-x slime sbcl RET" to start sbcl again
+
 ** Ess
 #+begin_src emacs-lisp :tangle yes
   (add-to-list 'load-path (concat conf "ess/lisp"))
@@ -1751,6 +1835,8 @@ MINIMAL EMACS CONFIGURATION
   ;; regexp matching also
   (setq ido-enable-regexp nil)
   (setq ido-use-url-at-point t)
+  (ido-everywhere t)
+  (add-to-list 'ido-ignore-buffers "\\.org$")
 #+end_src
 
 *** Use IDO when possible

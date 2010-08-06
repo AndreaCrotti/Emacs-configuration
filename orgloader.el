@@ -11,3 +11,7 @@
 (require 'org)
 
 (org-babel-load-file (concat base "miniconf.org"))
+
+;TODO: sldkfjsl
+
+(load-file "custom.el")
