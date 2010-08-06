@@ -1,4 +1,4 @@
-(setq base (file-name-directory (buffer-file-name)))
+(load-file "base.el")
 (setq conf (concat base "conf/"))
 
 (add-to-list 'load-path (concat conf "org-mode/lisp"))
