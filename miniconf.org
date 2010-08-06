@@ -1,5 +1,10 @@
-#+OPTIONS: toc:t
+#+OPTIONS: toc:t LEVEL:4
 MINIMAL EMACS CONFIGURATION
+# FIXME: slime-lisp-implementations
+# FIXME: asking for agenda every time
+# FIXME: remove opening automatically
+# FIXME: remove dired-git as automatical hook
+
 * DONE See if it's possible to have python auto completion without ropemacs
   CLOSED: [2010-05-09 Dom 14:24]
 * DONE Write a function that setups all the possible paths automatically
@@ -66,6 +71,7 @@ MINIMAL EMACS CONFIGURATION
   (defalias 'yes-or-no-p 'y-or-n-p)
   (defalias 'rs 'replace-string)
   (defalias 'qs 'query-replace)
+  (defalias 'qrs 'query-replace-regexp)
   (defalias 'ac 'auto-complete-mode)
   (defalias 'go 'google-search-it)
   (defalias 'gs 'google-search-selection)
@@ -117,6 +123,7 @@ MINIMAL EMACS CONFIGURATION
   
   (defalias 'pd 'print-desktop)
   (defalias 'dcd 'desktop-change-dir)
+  (defalias 'gcb 'git-change-branch)
 #+end_src   
 
 * User customization
@@ -373,6 +380,16 @@ MINIMAL EMACS CONFIGURATION
         (split-string result))))
 #+end_src
 
+*** Change git branch
+#+begin_src emacs-lisp :tangle yes
+  (defun git-change-branch ()
+    "change the actual git branch asking with completion"
+    (interactive)
+    (let
+        ((branch (completing-read "checkout to: " (split-string (shell-command-to-string "git branch")))))
+      (shell-command (concat "git checkout " branch))))
+#+end_src
+
 *** Replace in regexp
 #+begin_src emacs-lisp :tangle yes
   (defun query-replace-in-git (from to)
@@ -381,7 +398,7 @@ MINIMAL EMACS CONFIGURATION
     (dired-git (pwd))
     (dired-mark-files-regexp ".[ch]")
     (dired-do-query-replace-regexp from to))
-#+end_src    
+#+end_src 
 
 *** Camelizing
     (un)Camelizing allows to convert quickly function/variables names from camelized to non camelized mode.
@@ -416,6 +433,28 @@ MINIMAL EMACS CONFIGURATION
                                        (downcase (match-string 0 s))) 
                                t nil s)))
       (downcase s)))
+  
+  (defun manipulate-matched-text (fn)
+    (let (matchedText newText)
+      (setq matchedText
+            (buffer-substring
+             (match-beginning 0) (match-end 0)))
+      (setq newText
+            (apply 'fn match-end))
+      newText))
+  
+  ; FIXME: fix this thing
+  (defun uncamel ()
+    (let (matchedText newText)
+      (setq matchedText
+            (buffer-substring
+             (match-beginning 0) (match-end 0)))
+      (setq newText
+            (un-camelcase-string matchedText "_"))
+      newText))
+  
+    ;; (manipulate-matched-text 'un-camelcase-string))
+    ;; "use this function with query-replace-regexp"
 #+end_src    
 
       We also have [[http://www.eecs.ucf.edu/~leavens/emacs/camelCase/camelCase-mode.html][camel case mode]] which makes moving in camelized words smarter
@@ -697,7 +736,6 @@ MINIMAL EMACS CONFIGURATION
 * Frame management
   [[http://www.emacswiki.org/emacs/Shrink-Wrapping_Frames][See shrinking frames]] and onetoone to see what it could be done to make emacs more frame-centric.
   
-
 * Visualization
 ** Menu and tool-bar disabling
 #+begin_src emacs-lisp :tangle yes
@@ -795,6 +833,8 @@ MINIMAL EMACS CONFIGURATION
       (message "Current font is: %s" fontToUse)
       (put this-command 'state (1+ (% currentState (length font-list))))
       (redraw-frame (selected-frame))))
+  
+  (frame-parameter nil 'font)
 #+end_src
 
 * General useful things
@@ -891,34 +931,40 @@ MINIMAL EMACS CONFIGURATION
   (defun org-add-eventually()
     "Adding a file to org-agenda when saved"
     (interactive)
-    (if 
-        (and
-         (string= major-mode "org-mode")
-         (not (member (abbreviate-file-name buffer-file-name) org-agenda-files)))
-        (if
-            (yes-or-no-p "add the file to agenda?")
-            (org-agenda-file-to-front))))
+    (if
+        (org-agenda-is-filtered-p (buffer-file-name))
+        (message "filtered out in org-agenda-filter-out, change it to include it again")
+      (if 
+           (and
+            (string= major-mode "org-mode")
+            (not (member (abbreviate-file-name buffer-file-name) org-agenda-files)))
+           (if
+               (yes-or-no-p "add the file to agenda?")
+               (org-agenda-file-to-front)))))
   
-  (add-hook 'before-save-hook 'org-add-eventually)
-#+end_src
-
-*** Filtering variables to avoid always adding
-#+begin_src emacs-lisp :tangle yes
+  (defcustom org-agenda-add-eventually-enabled
+    t
+    "add interactively enabled or not"
+    :type 'boolean
+    :group 'miniconf)
+  
+  (if org-agenda-add-eventually-enabled
+      (add-hook 'before-save-hook 'org-add-eventually))
+  
   (defcustom org-agenda-filter-out
     '("/Volumes/arch" "ssh:")
     "regexp that are never added to agenda"
     :type 'list
     :group 'miniconf)
   
+  (defun org-agenda-is-filtered-p (filename)
+    (org-agenda-is-filtered-p-rec filename org-agenda-filter-out))
   
-  (defun is-filtered-org ()
-    (-org-agenda-is-filtered org-agenda-filter-out))
-  
-  (defun -org-agenda-is-filtered (filter)
-    (if
-        (string-match (car filter) org-agenda-filter-out)
-        t)
-    (org-agenda-filter-out (cdr filter)))
+  (defun org-agenda-is-filtered-p-rec (filename list)
+    (cond
+     ((null list) nil)
+     ((string-match (car list) (expand-file-name filename)) t)
+     (t (org-agenda-is-filtered-p-rec filename (cdr list)))))
 #+end_src
 
 
@@ -968,6 +1014,11 @@ MINIMAL EMACS CONFIGURATION
   (dolist (hook org-struct-hooks)
     (add-hook hook 'turn-on-orgstruct)
     (add-hook hook 'turn-on-orgtbl))
+#+end_src
+
+** Setting org-foonote for other things also
+#+begin_src emacs-lisp :tangle yes
+   (setq org-footnote-tag-for-non-org-mode-files "*-*-*-*-*-*-*-*-*-*")
 #+end_src
 
 * Tags
@@ -1618,6 +1669,8 @@ MINIMAL EMACS CONFIGURATION
   (autoload 'yaml-mode "yaml-mode" "mode for yaml" t)
   (add-to-list 'auto-mode-alist
                '("\\.yaml$" . yaml-mode))
+  (add-to-list 'auto-mode-alist
+               '("\\.yml$" . yaml-mode))
 #+end_src
 
 ** Go mode
@@ -1836,7 +1889,7 @@ MINIMAL EMACS CONFIGURATION
   (setq ido-enable-regexp nil)
   (setq ido-use-url-at-point t)
   (ido-everywhere t)
-  (add-to-list 'ido-ignore-buffers "\\.org$")
+  (add-to-list 'ido-ignore-buffers "\.org$")
 #+end_src
 
 *** Use IDO when possible
@@ -2144,6 +2197,7 @@ MINIMAL EMACS CONFIGURATION
   (global-set-key (kbd "M-n") 'senator-next-tag)
   (global-set-key (kbd "M-p") 'senator-previous-tag)
   
+  (global-set-key (kbd "M-z") 'undo)
   ;; from here
   (global-set-key "\C-x\C-p" 'find-file-at-point)
   ;; (defadvice find-file-at-point (around goto-line compile activate)
