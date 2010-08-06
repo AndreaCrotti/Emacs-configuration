@@ -1,4 +1,4 @@
-(load-file "custom.el")
+(setq base (file-name-directory (buffer-file-name)))
 (setq conf (concat base "conf/"))
 
 (add-to-list 'load-path (concat conf "org-mode/lisp"))
@@ -11,7 +11,5 @@
 (require 'org)
 
 (org-babel-load-file (concat base "miniconf.org"))
-
-;TODO: sldkfjsl
 
 (load-file "custom.el")
