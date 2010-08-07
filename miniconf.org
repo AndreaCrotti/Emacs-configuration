@@ -36,7 +36,7 @@ MINIMAL EMACS CONFIGURATION
   - [[http://www.delorie.com/gnu/docs/emacs-lisp-intro/emacs-lisp-intro_toc.html][nice emacs lisp intro]]
 
 * Things not working in emacs 22
-  - autoload stuff from ORG-clock
+  - autoload from ORG-clock
   - remember mode (not present)
 
 * Some documentation
@@ -130,7 +130,12 @@ MINIMAL EMACS CONFIGURATION
     :prefix "mini-")
 #+end_src
 
-* Private settings
+* General settings
+** Provide the library
+#+begin_src emacs-lisp :tangle yes
+  (provide 'miniconf)
+#+end_src
+
 ** Private
    In this file you can store your own personal settings
 
@@ -150,8 +155,7 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (defcustom default-closing-char ";"
     "default closing char, change in newline-force-close-alist if needed"
-    :type 'string
-    :group 'miniconf)
+    :type 'string)
   
   ;; TODO: use a defcustom instead
   (defcustom newline-force-close-alist
@@ -163,8 +167,7 @@ MINIMAL EMACS CONFIGURATION
       (tuareg-mode . ";;")
       (html-mode . " <br>"))
     "Closing char for different modes"
-    :type 'list
-    :group 'miniconf)
+    :type 'list)
 #+end_src
 
 ** Some useful functions
@@ -455,8 +458,7 @@ MINIMAL EMACS CONFIGURATION
   (defcustom camelCase-modes
     '(python-mode-hook java-mode-hook c-mode-hook nesc-mode-hook)
     "Modes where camelizing is allowed"
-    :type 'list
-    :group 'miniconf)
+    :type 'list)
   
   (dolist (hook camelCase-modes)
     (add-hook hook 'camelCase-mode))
@@ -612,9 +614,7 @@ MINIMAL EMACS CONFIGURATION
   (defcustom dired-git-after-desktop
     nil
     "asking to open a dired buffer every time"
-    :type 'boolean
-    :group 'miniconf
-    )
+    :type 'boolean)
   
   ;; first we have to pass to the right dir
   (if dired-git-after-desktop
@@ -791,7 +791,12 @@ MINIMAL EMACS CONFIGURATION
   (eval-after-load "color-theme"
     '(progn
        (color-theme-initialize)))
-  (coal)
+  
+  (defcustom preferred-color-theme-function
+    'coal
+    "preferred color theme"
+    :type 'function
+  )
 #+end_src
 
 ** Fringe and stuff todo
@@ -945,8 +950,7 @@ MINIMAL EMACS CONFIGURATION
   (defcustom org-agenda-add-eventually-enabled
     nil
     "add interactively enabled or not"
-    :type 'boolean
-    :group 'miniconf)
+    :type 'boolean)
   
   (if org-agenda-add-eventually-enabled
       (add-hook 'before-save-hook 'org-add-eventually))
@@ -954,8 +958,7 @@ MINIMAL EMACS CONFIGURATION
   (defcustom org-agenda-filter-out
     '("/Volumes/arch" "ssh:")
     "regexp that are never added to agenda"
-    :type 'list
-    :group 'miniconf)
+    :type 'list)
   
   (defun org-agenda-is-filtered-p (filename)
     (org-agenda-is-filtered-p-rec filename org-agenda-filter-out))
@@ -1311,8 +1314,8 @@ MINIMAL EMACS CONFIGURATION
   (defcustom to-spell-langs
     '(emacs-lisp-mode-hook python-mode-hook c-mode-hook nesc-mode-hook java-mode-hook jde-mode-hook haskell-mode-hook)
     "Set of programming modes for which I want to enable spelling in comments and strings"
-    :type 'list
-    :group 'miniconf)
+    :type 'list)
+    
   ;; (setq to-spell-langs
   
   (dolist (lang-hook to-spell-langs)
@@ -1928,8 +1931,7 @@ MINIMAL EMACS CONFIGURATION
   (defcustom windmove-key
     'shift
     "key for moving between windows"
-    :type 'symbol
-    :group 'miniconf)
+    :type 'symbol)
   
   (windmove-default-keybindings windmove-key)
 #+end_src
