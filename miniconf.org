@@ -142,11 +142,7 @@ MINIMAL EMACS CONFIGURATION
 
 ** Custom settings
 #+begin_src emacs-lisp :tangle yes
-  (defcustom custom-file
-    (concat base "custom.el")
-    "customization file"
-    :type 'string
-    :group 'miniconf)
+  (setq custom-file (concat base "custom.el"))
 #+end_src
 
 * Prerequisites

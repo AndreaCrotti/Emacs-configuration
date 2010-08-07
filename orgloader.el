@@ -11,5 +11,4 @@
 
 (org-babel-load-file (concat base "miniconf.org"))
 
-
-(load-file "custom.el")
+(load-file custom-file)
