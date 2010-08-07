@@ -1,4 +1,3 @@
-(load-file "base.el")
 (setq conf (concat base "conf/"))
 
 (add-to-list 'load-path (concat conf "org-mode/lisp"))
@@ -11,5 +10,6 @@
 (require 'org)
 
 (org-babel-load-file (concat base "miniconf.org"))
+
 
 (load-file "custom.el")

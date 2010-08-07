@@ -1,9 +1,5 @@
 #+OPTIONS: toc:t LEVEL:4
 MINIMAL EMACS CONFIGURATION
-# FIXME: slime-lisp-implementations
-# FIXME: asking for agenda every time
-# FIXME: remove opening automatically
-# FIXME: remove dired-git as automatical hook
 
 * DONE See if it's possible to have python auto completion without ropemacs
   CLOSED: [2010-05-09 Dom 14:24]
@@ -616,8 +612,17 @@ MINIMAL EMACS CONFIGURATION
   
   (defun dired-git-current ()
     (dired-git-files  desktop-dirname))
+  
+  (defcustom dired-git-after-desktop
+    nil
+    "asking to open a dired buffer every time"
+    :type 'boolean
+    :group 'miniconf
+    )
+  
   ;; first we have to pass to the right dir
-  (add-hook 'desktop-after-read-hook 'dired-git-current)
+  (if dired-git-after-desktop
+      (add-hook 'desktop-after-read-hook 'dired-git-current))
   
   (add-to-list 'desktop-modes-not-to-save 'dired-mode)
   (add-to-list 'desktop-modes-not-to-save 'Info-mode)
@@ -628,7 +633,6 @@ MINIMAL EMACS CONFIGURATION
   
   (setq desktop-clear-preserve-buffers
         (append '("org$" "eternal" "\\*shell\\*" "\\*group\\*" "\\*ielm\\*") desktop-clear-preserve-buffers))
-
 #+end_src
 
 ** TempBuf
@@ -943,7 +947,7 @@ MINIMAL EMACS CONFIGURATION
                (org-agenda-file-to-front)))))
   
   (defcustom org-agenda-add-eventually-enabled
-    t
+    nil
     "add interactively enabled or not"
     :type 'boolean
     :group 'miniconf)
@@ -1335,8 +1339,10 @@ MINIMAL EMACS CONFIGURATION
 *** Swank configuration for clojure
     We can keep the common lisp also
 #+begin_src emacs-lisp :tangle yes
-  (add-to-list 'slime-lisp-implementations '(sbcl ("sbcl")))
   (autoload 'slime "swank-clojure" "loading the swank-clojure" t)
+  (add-hook 'slime-mode-hook
+            '(lambda () 
+               (add-to-list 'slime-lisp-implementations '(sbcl ("sbcl")))))
 #+end_src
   Use "C-u M-x slime sbcl RET" to start sbcl again
 
