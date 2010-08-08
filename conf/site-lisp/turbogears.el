@@ -34,6 +34,10 @@
 (defvar turbogears-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map "\C-c\C-c" 'tg-restart-server)
+    ;; other useful keys could be
+    ;; - see the server logs
+    ;; - go to setup.py
+    ;; - update and edit the gettext texts
     map)
   "Keymapping used in turbogears mode")
 
@@ -45,8 +49,8 @@
 (defvar turbogears-mode-hook nil
   "*Hook called by `turbogears-mode' buffers.")
 
-(setq paster-shell "paster"
-      paster-args '("shell" "ldapper/development.ini"))
+; TODO: We need load the environment from the bin/activate file
+; otherwise no way we can use the right paster
 
 (defun run-turbogears ()
   "Run an interactive turbogears shell"

@@ -10,6 +10,7 @@
 
 (require 'python-mode)
 
+; We Should get from the outside the path where we are working
 (defun virtual-set-interpreter ()
   (interactive)
   (let

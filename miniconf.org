@@ -567,6 +567,11 @@ MINIMAL EMACS CONFIGURATION
   (dired-details-install)
 #+end_src
 
+** Using the nicer bookmark+
+#+begin_src emacs-lisp :tangle yes
+   (require 'bookmark+)
+#+end_src
+
 ** Desktop mode
 #+begin_src emacs-lisp :tangle yes
   (require 'desktop)
