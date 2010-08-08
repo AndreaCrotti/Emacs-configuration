@@ -9,57 +9,37 @@ MINIMAL EMACS CONFIGURATION
   CLOSED: [2010-05-24 Lun 14:01]
   - CLOSING NOTE [2010-05-24 Lun 14:01] \\
     Solved nicely with byte-compile-cache, some cases it could not work
+* DONE Include another more up-to-date semantic version finally
+  CLOSED: [2010-08-08 Dom 16:13]
+  - CLOSING NOTE [2010-08-08 Dom 16:13] \\
+    included a version from cvs
 * TODO Make the table of software versions regenerating every time
 * TODO Write a dependency tree of the various chapters in the configuration
-
 * TODO Add options to create encrypted org-files for storing password and more delicate informations
 * TODO Define *defcustom* stuff instead of constants for setting up variables
 * TODO Understand why sometimes auto-complete disables by itself
-
 * TODO See how to use variables like *special-buffer-regexps* to have a better control over the buffer windows
 * TODO Everything that should be changed by the user must be put in a defcustom
   Add also custom keys for all the global-key-set combinations
 
 * TODO Build an automatic list of versions
 * TODO Pass all the global keys to minor modes whenever possible
-* TODO Include another more up-to-date semantic version finally
-
-* Assumptions
-  - $HOME/.emacs.d/scripts is in the $PATH
-  - flymake is installed (distributed with emacs 23 also)
-  - in general probably working only with emacs 23
-
-  All the other libraries configured here are always included in the standard distribution or in *conf*.
 
 * Links
   - [[http://www.gnu.org/software/emacs/tour/][A guided tour of emacs features]]
   - [[http://www.delorie.com/gnu/docs/emacs-lisp-intro/emacs-lisp-intro_toc.html][nice emacs lisp intro]]
 
 * Things not working in emacs 22
-  - autoload from ORG-clock
-  - remember mode (not present)
+  - remember mode (not present) (and consequently org-remmeber)
 
-* Some documentation
-** How to extend emacs in general
-   [[http://www.enigmacurry.com/2009/01/14/extending-emacs-with-advice/][example about advising functions]]
-   - If you can use the mode hooks provided by the author, use them instead.
-   - If there is a bug in the original mode, just fix it in the original code and submit a patch.
-   - If there is a new feature you want, add it to the original mode and submit a patch. Talk to the author, work with him, and it will most likely end up in the next release.
-   - If you are an Emacs developer, working on Emacs itself, or one of the modes shipped with Emacs, never use advice. It's the least maintainable method of extending Emacs with the exception of a pure fork, and since you're working on Emacs itself, it's not a fork.
-   - If your patch is not accepted, or you know that what you want is fringe enough or hackish enough to not warrant submitting a patch, only then should you use advice or fork the project.
-   
-* Dependencies                                                     :noexport:
-# insert the dependencies
-#+begin_src dot :file dependecy.pdf :cmdline -Tpdf :exports none :results silent
-  digraph dep {
-          elib -> jdee;
-          cedet -> jdee;
-          apel -> elscreen;
-  }
-#+end_src
+* How to extend emacs
+  [[http://www.enigmacurry.com/2009/01/14/extending-emacs-with-advice/][example about advising functions]]
+  - If you can use the mode hooks provided by the author, use them instead.
+  - If there is a bug in the original mode, just fix it in the original code and submit a patch.
+  - If there is a new feature you want, add it to the original mode and submit a patch. Talk to the author, work with him, and it will most likely end up in the next release.
+  - If you are an Emacs developer, working on Emacs itself, or one of the modes shipped with Emacs, never use advice. It's the least maintainable method of extending Emacs with the exception of a pure fork, and since you're working on Emacs itself, it's not a fork.
+  - If your patch is not accepted, or you know that what you want is fringe enough or hackish enough to not warrant submitting a patch, only then should you use advice or fork the project.
   
-  [[file:dependecy.pdf]]
-
 * Aliasing and other useful shortcuts
 #+begin_src emacs-lisp :tangle yes
   (defalias 'eb 'eval-buffer)
@@ -122,20 +102,11 @@ MINIMAL EMACS CONFIGURATION
   (defalias 'gcb 'git-change-branch)
 #+end_src   
 
-* User customization
-#+begin_src emacs-lisp :tangle yes
-  (defgroup miniconf nil
-    "miniconf"
-    :group 'miniconf
-    :prefix "mini-")
-#+end_src
-
 * General settings
 ** Provide the library
 #+begin_src emacs-lisp :tangle yes
   (provide 'miniconf)
 #+end_src
-
 ** Private
    In this file you can store your own personal settings
 
@@ -557,14 +528,22 @@ MINIMAL EMACS CONFIGURATION
 * Operating system detection
   This has to be done first because we have some conditional code later
 #+begin_src emacs-lisp :tangle yes
-(defconst linux (string-match "linux" system-configuration))
-(defconst mac (string-match "apple" system-configuration))
-(defconst win (string-match "win" system-configuration))
+  ; TODO: if possible refactor this better
+  (defconst sysop
+    (cond
+     ((string-match "linux" system-configuration) "linux")
+     ((string-match "apple" system-configuration) "mac")
+     ((string-match "win" system-configuration) "win")
+     (t "other")))
+  
+  (defconst linux (string= "linux" sysop))
+  (defconst mac (string= "mac" sysop))
+  (defconst win (string= "win" sysop))
+  (defconst other (string= "other" sysop))
 #+end_src
 
 ** Mac configuration
     This will setup the Command key ot be used as meta.
-    I also add the path normally used for macports to the exec-path.
 #+begin_src emacs-lisp :tangle yes
   (if mac
       (progn
@@ -632,18 +611,6 @@ MINIMAL EMACS CONFIGURATION
         (append '("org$" "eternal" "\\*shell\\*" "\\*group\\*" "\\*ielm\\*") desktop-clear-preserve-buffers))
 #+end_src
 
-** TempBuf
-   TempBuf will automatically kill some of the normally useless buffers
-#+begin_src emacs-lisp :tangle yes
-  (require 'tempbuf)
-  
-  ;; Enabling tempbuf mode for some kind of buffers
-  (add-hook 'custom-mode-hook 'turn-on-tempbuf-mode)
-  (add-hook 'w3-mode-hook 'turn-on-tempbuf-mode)
-  (add-hook 'Man-mode-hook 'turn-on-tempbuf-mode)
-  (add-hook 'view-mode-hook 'turn-on-tempbuf-mode)
-#+end_src
-
 ** Uniquify
    Uniquify is used to distinguish easily from buffers with the same name.
 #+begin_src emacs-lisp :tangle yes
@@ -653,9 +620,9 @@ MINIMAL EMACS CONFIGURATION
   (setq uniquify-buffer-name-style 'forward)
 #+end_src   
 
-** Other nice packages
+** Saveplace
+   Remembers where you were in the buffer
 #+begin_src emacs-lisp :tangle yes
-   ;; it will remember where were you in the buffer
    (require 'saveplace)
 #+end_src   
 
@@ -700,6 +667,7 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 ** Hide org-mode Files
+   Only works with without ido-mode, not really useful at now
 #+begin_src emacs-lisp :tangle yes
   (defun th-hide-org-buffers (arg)
     "Hide org-mode buffers from completion by prepending a space at the buffer name.
@@ -746,28 +714,20 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 ** Fullscreen mode
-   *Doesn't work* yet on OSX 10.6 with emacs 23, works fine with linux and emacs 22 on OSX.
-  
 #+begin_src emacs-lisp :tangle yes
   (defun full (&optional f)
     (interactive)
     (if
-        ;; more checks on the version and the OS should be necessary here
         mac
+        ;; included in emacs 23.2
+        ;; FIXME: the ns version doesn't take the frame option
         (ns-toggle-fullscreen)
       (set-frame-parameter f 'fullscreen
-                         (if (frame-parameter f 'fullscreen) nil 'fullboth))))
+                           (if (frame-parameter f 'fullscreen) nil 'fullboth))))
+  
   ;; this toogle the fullscreen for every new frame (window) created
   (add-hook 'after-make-frame-functions 'full)
 #+end_src
-
-** Setup a nice window at boot if possible
-#+begin_src emacs-lisp :tangle yes
-  ;; (setq agenda-window (split-window-vertically -10))
-  ;; now open the right buffer in it
-  ;; set it as a dedicated window
-  ;; set the size fixed
-#+end_src   
 
 ** Winner mode
    Winner mode remember the window configuration and allows you to go back and forth
@@ -775,6 +735,7 @@ MINIMAL EMACS CONFIGURATION
   ;; enabling winner mode for window reconfiguration
   (winner-mode t)
 #+end_src
+
 ** Color theme setting
 #+begin_src emacs-lisp :tangle yes
   (require 'color-theme)
@@ -800,11 +761,10 @@ MINIMAL EMACS CONFIGURATION
       (goto-char (point-min))
       (while (re-search-forward "TODO:" nil t)
         (let ((overlay (make-overlay (- (point) 5) (point))))
-          (overlay-put overlay 'before-string (propertize "A"
-                                                          'display '(left-fringe right-triangle)))))))
+          (overlay-put overlay 'before-string (propertize "A" 'display '(left-fringe right-triangle)))))))
   
   
-  (add-hook 'find-file-hooks 'annotate-todo)
+  (add-hook 'find-file-hook 'annotate-todo)
 #+end_src
   
 ** Font settings
@@ -862,6 +822,7 @@ MINIMAL EMACS CONFIGURATION
 # TODO: make it easier to manage and to scroll through lists of possibilities
 #+begin_src emacs-lisp :tangle yes
   (setq ispell-dictionary "english")
+  
   
   ;; TODO: possible to refactor this code maybe?
   (defun en ()
@@ -1551,11 +1512,35 @@ MINIMAL EMACS CONFIGURATION
 ** Fixme mode
    This is a mode to highlight stuff, adding some more modes
 #+begin_src emacs-lisp :tangle yes
+  ; TODO: add it globally if possible
   (require 'fixme-mode)
-  ;;TODO: make it working everywhere automatically if possible
+  ; for each of the modes we add it to the hook
   (add-to-list 'fixme-modes 'org-mode)
+  (dolist (hook '(python-mode-hook
+                  c-mode-hook
+                  ruby-mode-hook
+                  lisp-interaction-mode-hook
+                  org-mode-hook
+                  haskell-mode-hook
+                  emacs-lisp-mode-hook))
+    (add-hook hook 'fixme-mode))
 #+end_src 
+
 ** Ruby mode
+*** General settings
+#+begin_src emacs-lisp :tangle yes
+  (autoload 'ruby-mode "ruby-mode" "Major mode for ruby files" t)
+  (add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
+  (add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
+  
+  (add-hook 'ruby-mode-hook
+            '(lambda ()
+               (require 'inf-ruby)
+               (require 'ruby-electric)
+               (require 'rubydb)
+               (load-library "rdoc-mode")))
+#+end_src
+
 *** Jruby and rinari
 #+begin_src emacs-lisp :tangle yes
   (add-to-list 'load-path (concat conf "rinari/util"))
