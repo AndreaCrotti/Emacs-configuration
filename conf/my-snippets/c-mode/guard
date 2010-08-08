@@ -2,8 +2,8 @@
 # name: guard
 # key: guard
 # --
-#ifndef __${1:NAME}_H
-#define __$1_H
+#ifndef ${1:NAME}_H
+#define $1_H
 
 $0
 

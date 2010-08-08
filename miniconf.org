@@ -578,6 +578,7 @@ MINIMAL EMACS CONFIGURATION
 
 ** Dired settings
 #+begin_src emacs-lisp :tangle yes
+   ;; reverting automatically the buffer
    (setq dired-auto-revert-buffer 1)
 #+end_src
 
@@ -720,17 +721,6 @@ MINIMAL EMACS CONFIGURATION
   ; Other autoloads
   (autoload 'auto-install-from-emacswiki "auto-install" "auto install from emacswiki" t)
   (setq auto-install-directory (concat conf "auto-install/"))
-#+end_src
-
-** Byte compilation
-   Byte compilation can be done automatically by this package that keeps a cache of the compiled packages.
-
-   It's also possible to put some more files in the blacklist.
-
-#+begin_src emacs-lisp :tangle no
-  (require 'byte-code-cache)
-  ;; FIXME: This is still not fixing the recursive stuff
-  (add-to-list 'bcc-blacklist "eieio")
 #+end_src
 
 * Frame management
@@ -1355,6 +1345,7 @@ MINIMAL EMACS CONFIGURATION
 *** Eldoc and style settings
 #+begin_src emacs-lisp :tangle yes
   (require 'c-eldoc)
+  ; TODO: maybe we can as well modify it more simply in the default structure
   (setq c-default-style
         '((java-mode . "java")
          (awk-mode . "awk")
@@ -1365,26 +1356,23 @@ MINIMAL EMACS CONFIGURATION
   (add-hook 'c-mode-hook 'c-turn-on-eldoc-mode)
   ;; adding the hook from cedet
   (add-hook 'c-mode-common-hook 'my-c-like-cedet-hook)
-  
-  ;; (add-hook 'c-mode-hook 'my-c-only-cedet-hook)
 #+end_src
 
-*** Nice header autoinserting guards
-# TODO: create a list instead where you setup all the properties
+** Insert headers automatically given the right extension
 #+begin_src emacs-lisp :tangle yes
-  (defun is-new-c-header (file)
-    "Check if file is an header"
-    (and
-     ;; must be a new header
-     (not (file-exists-p file))
-     (equal "h" (file-name-extension file))))
+  (defun is-new-file ()
+   "Check if it's a new file"
+   (not (file-exists-p buffer-file-name)))
   
-  
-  (defun my-h-header ()
+  (defun my-insert-header ()
     "try to insert the header smartly"
-    (if
-        (is-new-c-header buffer-file-name)
-        (insert-at-startup "once")))
+    (when
+        (is-new-file)
+        (let
+            ((snip (assoc (file-name-extension buffer-file-name) my-auto-header-conses)))
+          (if
+              snip
+              (insert-at-startup (cdr snip))))))
   
   (defun insert-at-startup (snippet)
     "try to expand a snippet at startup"
@@ -1395,15 +1383,21 @@ MINIMAL EMACS CONFIGURATION
           ;; add checking
           (yas/expand))))
     
-  (add-hook 'c-mode-hook 'my-h-header)
+  (defcustom my-auto-header-conses
+        '(("py" . "!")
+          ("rb" . "!")
+          ("h"  . "guard"))
+        "snippets to expand per file extension"
+        :type 'list)
+  
+  (add-hook 'find-file-hook 'my-insert-header)
 #+end_src
 
-** Python
-*** Python mode
-  [[http://hide1713.wordpress.com/2009/01/30/setup-perfect-python-environment-in-emacs/][Possible configuration for auto completion with ropemacs]]
-  Ropmacs though is not up to date and needs and may not work correctly
+** Python mode
+ [[http://hide1713.wordpress.com/2009/01/30/setup-perfect-python-environment-in-emacs/][Possible configuration for auto completion with ropemacs]]
+ Ropmacs though is not up to date and needs and may not work correctly
 
-**** Paths and extensions
+*** Paths and extensions
 
 #+begin_src emacs-lisp :tangle yes
   ;; TODO: check why is not working with the autoload
@@ -1411,101 +1405,6 @@ MINIMAL EMACS CONFIGURATION
   (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
   (add-to-list 'interpreter-mode-alist '("python" . python-mode))
   (autoload 'doctest-mode "doctest-mode" "doc test python mode" t)
-#+end_src
-
-*** Configuring for virtualenvwrapper
-#+begin_src emacs-lisp :tangle yes
-  ;; FIXME: this command is not there at this moment
-  (defun get-possible-envs ()
-    (split-string (shell-command-to-string "virtualenvwrapper_show_workon_options")))
-  (split-string "env1\nenv2")
-  
-  (defun chenv ()
-    "change virtualenv env"
-    (interactive)
-    (let
-        ((env (completing-read "insert: " (get-possible-envs))))
-      (shell-command (format "workon %s" env))))
-#+end_src
-
-*** Ropemacs configuration from [[http://www.enigmacurry.com/2009/01/21/autocompleteel-python-code-completion-in-emacs/][ryan code]]                           :ARCHIVE:
-    Would allow for some fancy stuff like autocompletion, better use semantic instead
-#+begin_src emacs-lisp :tangle no
-  ;; Initialize Pymacs                                                                                           
-  (autoload 'pymacs-apply "pymacs")
-  (autoload 'pymacs-call "pymacs")
-  (autoload 'pymacs-eval "pymacs" nil t)
-  (autoload 'pymacs-exec "pymacs" nil t)
-  (autoload 'pymacs-load "pymacs" nil t)
-  ;; Initialize Rope                                                                                             
-  (pymacs-load "ropemacs" "rope-")
-  (setq ropemacs-enable-autoimport t)
-  
-  
-  (defun prefix-list-elements (list prefix)
-    (let (value)
-      (nreverse
-       (dolist (element list value)
-         (setq value (cons (format "%s%s" prefix element) value))))))
-  
-  (defvar ac-source-rope
-    '((candidates
-       . (lambda ()
-           (prefix-list-elements (rope-completions) ac-target))))
-    "Source for Rope")
-  
-  (defun ac-python-find ()
-    "Python `ac-find-function'."
-    (require 'thingatpt)
-    (let ((symbol (car-safe (bounds-of-thing-at-point 'symbol))))
-      (if (null symbol)
-          (if (string= "." (buffer-substring (- (point) 1) (point)))
-              (point)
-            nil)
-        symbol)))
-  
-  (defun ac-python-candidate ()
-    "Python `ac-candidates-function'"
-    (let (candidates)
-      (dolist (source ac-sources)
-        (if (symbolp source)
-            (setq source (symbol-value source)))
-        (let* ((ac-limit (or (cdr-safe (assq 'limit source)) ac-limit))
-               (requires (cdr-safe (assq 'requires source)))
-               cand)
-          (if (or (null requires)
-                  (>= (length ac-target) requires))
-              (setq cand
-                    (delq nil
-                          (mapcar (lambda (candidate)
-                                    (propertize candidate 'source source))
-                                  (funcall (cdr (assq 'candidates source)))))))
-          (if (and (> ac-limit 1)
-                   (> (length cand) ac-limit))
-              (setcdr (nthcdr (1- ac-limit) cand) nil))
-          (setq candidates (append candidates cand))))
-      (delete-dups candidates)))
-  (add-hook 'python-mode-hook
-            (lambda ()
-              (auto-complete-mode 1)
-              (set (make-local-variable 'ac-sources)
-                   (append ac-sources '(ac-source-rope) '(ac-source-yasnippet)))
-              (set (make-local-variable 'ac-find-function) 'ac-python-find)
-              (set (make-local-variable 'ac-candidate-function) 'ac-python-candidate)
-  
-              ;; without those last two lines works better in theory but it's too slow in practice
-              (set (make-local-variable 'ac-auto-start) nil)
-              (define-key py-mode-map "\t" 'python-tab)))
-  
-  (defun python-tab ()
-    (interactive)
-    (if (eql (ac-start) 0)
-        (indent-for-tab-command)))
-  
-  (defadvice ac-start (before advice-turn-on-auto-start activate)
-    (set (make-local-variable 'ac-auto-start) t))
-  (defadvice ac-cleanup (after advice-turn-off-auto-start activate)
-    (set (make-local-variable 'ac-auto-start) nil))
 #+end_src
 
 ** Haskell mode
@@ -1551,7 +1450,7 @@ MINIMAL EMACS CONFIGURATION
   (setq prolog-system 'swi)
   (add-to-list 'auto-mode-alist '("\\.pl$" . prolog-mode))
 #+end_src
-
+  
 ** Nesc
 #+begin_src emacs-lisp :tangle yes
   (autoload 'nesc-mode "nesc" nil t)
@@ -1559,13 +1458,6 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 ** Java
-*** Javadoc help
-#+begin_src emacs-lisp :tangle yes
-  (autoload 'javadoc-lookup       "javadoc-help" "Look up Java class in Javadoc."   t)
-  (autoload 'javadoc-help         "javadoc-help" "Open up the Javadoc-help menu."   t)
-  (autoload 'javadoc-set-predefined-urls  "javadoc-help" "Set pre-defined urls."    t)
-#+end_src
-  
 *** Jdee settings
 #+begin_src emacs-lisp :tangle yes
   (add-to-list 'load-path (concat conf "jdee/lisp"))
