@@ -113,7 +113,7 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   ;; not complain if not existing
   (if (file-exists-p "private.el")
-      (load-file "private.el"))
+      (load-file (concat base "private.el")))
 #+end_src
 
 ** Custom settings
@@ -704,6 +704,7 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
   (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+  (if (and linux window-system) (menu-bar-mode -1))
 #+end_src
 
 ** Elscreen
