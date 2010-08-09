@@ -2,7 +2,6 @@
 MINIMAL EMACS CONFIGURATION
 # FIXME: keys for splitting the screeen
 # FIXME: color for transient-mark-mode
-# FIXME: make the auto completion more reliable
 # FIXME: ignoring the buffers is ok only if we have can then fix it
 # FIXME: also from org mode we should be able to use elscreen correctly
 
@@ -16,17 +15,10 @@ MINIMAL EMACS CONFIGURATION
   CLOSED: [2010-08-08 Dom 16:13]
   - CLOSING NOTE [2010-08-08 Dom 16:13] \\
     included a version from cvs
-* TODO Make the table of software versions regenerating every time
 * TODO Write a dependency tree of the various chapters in the configuration
 * TODO Add options to create encrypted org-files for storing password and more delicate informations
-* TODO Define *defcustom* stuff instead of constants for setting up variables
-* TODO Understand why sometimes auto-complete disables by itself
 * TODO See how to use variables like *special-buffer-regexps* to have a better control over the buffer windows
-* TODO Everything that should be changed by the user must be put in a defcustom
-  Add also custom keys for all the global-key-set combinations
-
 * TODO Build an automatic list of versions
-* TODO Pass all the global keys to minor modes whenever possible
 
 * Links
   - [[http://www.gnu.org/software/emacs/tour/][A guided tour of emacs features]]
