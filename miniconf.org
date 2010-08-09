@@ -1065,7 +1065,7 @@ MINIMAL EMACS CONFIGURATION
                   c-mode-hook
                   ruby-mode-hook
                   lisp-interaction-mode-hook
-                  ielm-mode
+                  ielm-mode-hook
                   emacs-lisp-mode-hook))
     (add-hook hook 'turn-on-eldoc-mode))
 #+end_src
