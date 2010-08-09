@@ -1,8 +1,11 @@
 #+OPTIONS: toc:t LEVEL:4
 MINIMAL EMACS CONFIGURATION
+# FIXME: keys for splitting the screeen
+# FIXME: color for transient-mark-mode
+# FIXME: make the auto completion more reliable
+# FIXME: ignoring the buffers is ok only if we have can then fix it
+# FIXME: also from org mode we should be able to use elscreen correctly
 
-* DONE See if it's possible to have python auto completion without ropemacs
-  CLOSED: [2010-05-09 Dom 14:24]
 * DONE Write a function that setups all the possible paths automatically
   CLOSED: [2010-05-04 Mar 11:41]
 * DONE See if it's worthy to byte compile everything or not
@@ -552,6 +555,15 @@ MINIMAL EMACS CONFIGURATION
         (setq ns-command-modifier (quote meta))))
 #+end_src
 
+* Other useful paths
+#+begin_src emacs-lisp :tangle yes
+  (if mac
+      (let ((ports-lisp "/opt/local/share/emacs/site-lisp/"))
+        (if 
+            (file-exists-p ports-lisp)
+            (add-to-list 'load-path ports-lisp))))
+#+end_src
+
 * Buffer management
   See also [[http://scottfrazersblog.blogspot.com/2010/01/emacs-filtered-buffer-switching.html][this nice article]] for a better filtering of buffers while switching.
 
@@ -1067,58 +1079,52 @@ MINIMAL EMACS CONFIGURATION
   (require 'auto-complete)
   ;; Various configurations
   (require 'auto-complete-config)
-  (require 'auto-complete-extension nil t) ;optional
-  (require 'auto-complete-yasnippet nil t) ;optional
-  (require 'auto-complete-semantic nil t)  ;optional
+  (ac-config-default)
 #+end_src  
 
 ** Setting up
 #+begin_src emacs-lisp :tangle yes
-  ;; Generic setup.
-  (global-auto-complete-mode t)           ;enable global-mode
-  
-  (setq ac-auto-start 1)                  ;automatically start
+  (setq ac-auto-start 2)                  ;automatically start
   (setq ac-override-local-map nil)        ;don't override local map
-  
-  (define-key ac-complete-mode-map "\C-n" 'ac-next)
-  (define-key ac-complete-mode-map "\C-p" 'ac-previous)
+  (setq ac-use-menu-map t)
+  (setq ac-candidate-limit 20)
+  ;; Default settings
+  (define-key ac-menu-map "\C-n" 'ac-next)
+  (define-key ac-menu-map "\C-p" 'ac-previous)  
   
   ;; making it a bit faster
-  (setq ac-delay 0.05)
+  (setq ac-delay 0.1)
   (setq ac-auto-show-menu 0.4)
   (setq ac-quick-help-delay 0.5)
+  ;; using a dictionary (emtpy now)
+  (add-to-list 'ac-dictionary-directories (concat conf "auto-complete/dict"))
 #+end_src
 
 ** Setting up generic sources
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle yes
   (setq-default ac-sources
-                (append ac-sources '(ac-source-semantic)))
+                (append ac-sources '(ac-source-yasnippet)))
 #+end_src 
 
 ** Define allowed modes
 #+begin_src emacs-lisp :tangle yes
-  (setq ac-modes 
-        '(python-mode
-          emacs-lisp-mode
-          c-mode
-          nesc-mode
-          lisp-interaction-mode
-          java-mode
-          org-mode
-          html-mode
-          xml-mode))
+  (dolist
+      (my-ac-mode '(nesc-mode org-mode html-mode xml-mode))
+    (add-to-list 'ac-modes my-ac-mode))
   
-  (add-to-list 'ac-trigger-commands 'org-self-insert-command) ; if you want enable auto-complete at org-mode, uncomment this line
+              
+  ; this is used for trigger ac actions from org-mode also
+  (add-to-list 'ac-trigger-commands 'org-self-insert-command)
 #+end_src
 
 ** Elisp configuration
 #+begin_src emacs-lisp :tangle yes
+;; using a nice function is ac-config
 (dolist (hook (list
-               'emacs-lisp-mode-hook
-               'lisp-interaction-mode
+               'lisp-interaction-mode-hook
+               'ielm-mode-hook
                ))
-  (add-hook hook '(lambda ()
-                    (add-to-list 'ac-sources 'ac-source-symbols))))
+  (add-hook hook 'ac-emacs-lisp-mode-setup))
 #+end_src
 
 * Predictive modes
@@ -1309,6 +1315,14 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 ** C-mode
+*** Using splint
+#+begin_src emacs-lisp :tangle yes
+  ; FIXME: not working as expected yet
+  (defun do-splint ()
+    (interactive)
+    (shell-command (format "splint %s" buffer-file-name)))
+#+end_src
+
 *** Eldoc and style settings
 #+begin_src emacs-lisp :tangle yes
   (require 'c-eldoc)
@@ -1361,9 +1375,6 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 ** Python mode
- [[http://hide1713.wordpress.com/2009/01/30/setup-perfect-python-environment-in-emacs/][Possible configuration for auto completion with ropemacs]]
- Ropmacs though is not up to date and needs and may not work correctly
-
 *** Paths and extensions
 
 #+begin_src emacs-lisp :tangle yes
@@ -1593,6 +1604,12 @@ MINIMAL EMACS CONFIGURATION
                               (file-name-nondirectory buffer-file-name)))))
 #+end_src
 
+* Other modes
+** Ledger, accounting mode
+#+begin_src emacs-lisp :tangle yes
+  (autoload 'ledger-mode "ledger" "ledger mode for accounting" t)
+#+end_src
+
 * Security
 #+begin_src emacs-lisp :tangle yes
   (require 'epa)
@@ -1748,7 +1765,7 @@ MINIMAL EMACS CONFIGURATION
 * General settings
 ** Mode for startup
 #+begin_src emacs-lisp :tangle yes
-  (setq initial-major-mode 'python-mode) 
+  (setq initial-major-mode 'emacs-lisp-mode)
 #+end_src
 
 ** Showing more things
@@ -1778,6 +1795,8 @@ MINIMAL EMACS CONFIGURATION
   (setq ido-use-url-at-point t)
   (ido-everywhere t)
   (add-to-list 'ido-ignore-buffers "\.org$")
+  ; miniconf.org should be always visible
+  (add-to-list 'ido-ignore-buffers "^miniconf")
 #+end_src
 
 *** Use IDO when possible
