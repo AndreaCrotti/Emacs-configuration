@@ -1093,7 +1093,7 @@ MINIMAL EMACS CONFIGURATION
   (define-key ac-menu-map "\C-p" 'ac-previous)  
   
   ;; making it a bit faster
-  (setq ac-delay 0.1)
+  (setq ac-delay 5)
   (setq ac-auto-show-menu 0.4)
   (setq ac-quick-help-delay 0.5)
   ;; using a dictionary (emtpy now)
@@ -1283,6 +1283,9 @@ MINIMAL EMACS CONFIGURATION
   
   (dolist (lang-hook to-spell-langs)
     (add-hook  lang-hook 'flyspell-prog-mode))
+  
+  (require 'auto-complete)
+  (ac-flyspell-workaround)
 #+end_src
 
 ** Web nice utilities
@@ -1799,9 +1802,9 @@ MINIMAL EMACS CONFIGURATION
   (add-to-list 'ido-ignore-buffers "^miniconf")
 #+end_src
 
-*** Use IDO when possible
+*** Use IDO when possible:
     We can advice the *completing-read* default function to use IDO when it's possible
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
   (defvar ido-enable-replace-completing-read t
     "If t, use ido-completing-read instead of completing-read if possible.
       
