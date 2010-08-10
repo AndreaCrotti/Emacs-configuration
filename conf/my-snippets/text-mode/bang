@@ -3,5 +3,4 @@
 # key: !
 # insert a choice if you have more than one possibility
 # --
-#!/usr/bin/env `(yas/choose-value (all-asscs interpreter-mode-alist major-mode))`
-$0
+#!/usr/bin/env `(let ((found (all-asscs interpreter-mode-alist major-mode))) (if found (yas/choose-value found) ""))`$0

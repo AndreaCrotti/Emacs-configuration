@@ -617,7 +617,7 @@ MINIMAL EMACS CONFIGURATION
   (add-hook 'auto-save-hook (lambda () (desktop-save-in-desktop-dir)))
   
   (setq desktop-clear-preserve-buffers
-        (append '("org$" "eternal" "\\*shell\\*" "\\*group\\*" "\\*ielm\\*") desktop-clear-preserve-buffers))
+        (append '("\\.newsrc-dribble" "\\.org$" "eternal" "\\*shell\\*" "\\*group\\*" "\\*ielm\\*") desktop-clear-preserve-buffers))
 #+end_src
 
 ** Uniquify
@@ -877,6 +877,11 @@ MINIMAL EMACS CONFIGURATION
    (setq org-enforce-todo-dependencies t)
    (setq org-enforce-todo-checkbox-dependencies t)
 #+end_src
+
+** Use ido for switching
+   (setq org-completion-use-ido t)
+#+begin_src emacs-lisp :tangle yes
+#+end_src
    
 ** Info configuration
 #+begin_src emacs-lisp :tangle yes
@@ -885,9 +890,9 @@ MINIMAL EMACS CONFIGURATION
 
 ** Clock configuration
 #+begin_src emacs-lisp :tangle yes
-;; Clock configuration
-(setq org-clock-persist t)
-(org-clock-persistence-insinuate)
+  ;; Clock configuration
+  (setq org-clock-persist t)
+  (org-clock-persistence-insinuate)
 #+end_src
 
 ** Add eventually
@@ -1046,6 +1051,12 @@ MINIMAL EMACS CONFIGURATION
   
   ;; don't make backups in the snippet folder, they mess up yasnippet
   (add-to-list 'backup-directory-alist '("/my-snippets/" . "/tmp/"))
+  
+  ;; simple function to create a .yas-parents
+  (defun make-yas-parents-file (path)
+    (interactive "DPath: ")
+    (find-file (concat path ".yas-parents"))
+    (insert "text-mode"))
 #+end_src
 
 * Eldoc mode
@@ -1789,7 +1800,7 @@ MINIMAL EMACS CONFIGURATION
   (setq ido-enable-regexp nil)
   (setq ido-use-url-at-point t)
   (ido-everywhere t)
-  (add-to-list 'ido-ignore-buffers "\.org$")
+  (add-to-list 'ido-ignore-buffers "\\.org\\'")
   ; miniconf.org should be always visible
   (add-to-list 'ido-ignore-buffers "^miniconf")
 #+end_src
