@@ -142,7 +142,7 @@ MINIMAL EMACS CONFIGURATION
 
 *** Make path
 #+begin_src emacs-lisp :tangle yes
-  (defun make-path (path)
+  (defun make-conf-path (path)
     (concat conf path))
 #+end_src
 
@@ -698,7 +698,7 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   ; Other autoloads
   (autoload 'auto-install-from-emacswiki "auto-install" "auto install from emacswiki" t)
-  (setq auto-install-directory (concat conf "auto-install/"))
+  (setq auto-install-directory (make-conf-path "auto-install/"))
 #+end_src
 
 * Frame management
@@ -715,7 +715,7 @@ MINIMAL EMACS CONFIGURATION
 ** Elscreen
 #+begin_src emacs-lisp :tangle yes
   (require 'alist)
-  (setq elscreen-path (concat conf "elscreen/"))
+  (setq elscreen-path (make-conf-path "elscreen/"))
   (add-to-list 'load-path (concat elscreen-path "elscreen"))
   (add-to-list 'load-path (concat elscreen-path "elscreen-server"))
   (add-to-list 'load-path (concat elscreen-path "elscreen-color-theme"))
@@ -886,7 +886,7 @@ MINIMAL EMACS CONFIGURATION
    
 ** Info configuration
 #+begin_src emacs-lisp :tangle yes
-  (add-to-list 'Info-default-directory-list (concat conf "org-mode/share/info/"))
+  (add-to-list 'Info-default-directory-list (make-conf-path "org-mode/share/info/"))
 #+end_src
 
 ** Clock configuration
@@ -1104,7 +1104,7 @@ MINIMAL EMACS CONFIGURATION
   (setq ac-auto-show-menu 0.4)
   (setq ac-quick-help-delay 0.5)
   ;; using a dictionary (emtpy now)
-  (add-to-list 'ac-dictionary-directories (concat conf "auto-complete/dict"))
+  (add-to-list 'ac-dictionary-directories (make-conf-path "auto-complete/dict"))
 #+end_src
 
 ** Setting up generic sources
@@ -1150,7 +1150,7 @@ MINIMAL EMACS CONFIGURATION
 
 ** Use cedet and gloabally ede-mode for projects
 #+begin_src emacs-lisp :tangle yes
-  (load (concat conf "cedet/common/cedet"))
+  (load (make-conf-path "cedet/common/cedet"))
   (setq semantic-load-turn-everything-on t)
 #+end_src
 
@@ -1253,8 +1253,8 @@ MINIMAL EMACS CONFIGURATION
 * Chatting
 ** Elim
 #+begin_src emacs-lisp :tangle yes
-  (add-to-list 'load-path (concat conf "elim/elisp"))
-  (setq elim-directory (concat conf "elim"))
+  (add-to-list 'load-path (make-conf-path "elim/elisp"))
+  (setq elim-directory (make-conf-path "elim"))
 #+end_src
 
 * Programming
@@ -1320,7 +1320,7 @@ MINIMAL EMACS CONFIGURATION
 
 ** Ess
 #+begin_src emacs-lisp :tangle yes
-  (add-to-list 'load-path (concat conf "ess/lisp"))
+  (add-to-list 'load-path (make-conf-path "ess/lisp"))
   (autoload 'R "ess-site" "loading R env" t)
 #+end_src
 
@@ -1448,7 +1448,7 @@ MINIMAL EMACS CONFIGURATION
 ** Java
 *** Jdee settings
 #+begin_src emacs-lisp :tangle yes
-  (add-to-list 'load-path (concat conf "jdee/lisp"))
+  (add-to-list 'load-path (make-conf-path "jdee/lisp"))
   
   (autoload 'jde-mode "jde" "jde mode" t)
   
@@ -1570,7 +1570,7 @@ MINIMAL EMACS CONFIGURATION
 
 *** Jruby and rinari
 #+begin_src emacs-lisp :tangle yes
-  (add-to-list 'load-path (concat conf "rinari/util"))
+  (add-to-list 'load-path (make-conf-path "rinari/util"))
 #+end_src
 
 ** Yaml
@@ -1630,7 +1630,7 @@ MINIMAL EMACS CONFIGURATION
 ** Configuring Auctex
    Auctex is much more powerful than the default latex mode, enabling it using pdf as default mode
 #+begin_src emacs-lisp :tangle yes
-  (add-to-list 'load-path (concat conf "auctex"))
+  (add-to-list 'load-path (make-conf-path "auctex"))
   (autoload 'latex-mode "auctex" "latex mode" t)
   (autoload 'preview-latex "preview-latex" "preview latex in buffer" t)
   
