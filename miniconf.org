@@ -998,6 +998,12 @@ MINIMAL EMACS CONFIGURATION
   (require 'etags-select)
 #+end_src
 
+** Etags table to use also in bigger projects
+#+begin_src emacs-lisp :tangle yes
+   (require 'etags-table)
+   (setq etags-table-search-up-depth 1)
+#+end_src
+
 ** Extending functions
    This functions help to look for the TAGS file in the filesystem when is not in the same working directory
 # FIXME: still not working correctly, more iteration is needed here
@@ -1116,7 +1122,7 @@ MINIMAL EMACS CONFIGURATION
 ** Define allowed modes
 #+begin_src emacs-lisp :tangle yes
   (dolist
-      (my-ac-mode '(nesc-mode org-mode html-mode xml-mode))
+      (my-ac-mode '(nesc-mode org-mode html-mode xml-mode haskell-mode))
     (add-to-list 'ac-modes my-ac-mode))
   
               
@@ -1418,6 +1424,7 @@ MINIMAL EMACS CONFIGURATION
             '(lambda ()
                (require 'haskell-doc) ; Is this the only way?
                (require 'haskell-indent)
+               (require 'haskell-complete)
                (require 'inf-haskell)
                (turn-on-haskell-doc-mode)
                (turn-on-haskell-indentation)
@@ -1427,7 +1434,9 @@ MINIMAL EMACS CONFIGURATION
                (define-key haskell-mode-map "\C-cl" 'hs-lint)
                (make-variable-buffer-local 'yas/trigger-key)
                (setq yas/trigger-key [tab])
-               (define-key yas/keymap [tab] 'yas/next-field)))
+               (define-key yas/keymap [tab] 'yas/next-field)
+               (add-to-list 'ac-sources 'my/ac-source-haskell)
+               ))
 #+end_src
 
 ** Prolog
