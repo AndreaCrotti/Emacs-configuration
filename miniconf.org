@@ -105,7 +105,6 @@ MINIMAL EMACS CONFIGURATION
    - *run code after initialization*
      Use mode hooks, normally simply <mode-name>-hook, and modify them with *add-hook*
 
-
 * Aliasing and other useful shortcuts
 #+begin_src emacs-lisp :tangle yes
   (defalias 'eb 'eval-buffer)
