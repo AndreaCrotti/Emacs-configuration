@@ -24,18 +24,88 @@ MINIMAL EMACS CONFIGURATION
 * Links
   - [[http://www.gnu.org/software/emacs/tour/][A guided tour of emacs features]]
   - [[http://www.delorie.com/gnu/docs/emacs-lisp-intro/emacs-lisp-intro_toc.html][nice emacs lisp intro]]
+  - [[http://www.emacswiki.org/][emacs wiki]]
+  - [[http://github.com/purcell/emacs.d/][purcell configuration]]
+  - [[http://code.google.com/p/yasnippet/][yasnippet template system]]
+    See [[http://yasnippet.googlecode.com/svn/trunk/doc/snippet-development.html#importing-textmate-snippets][snippet developement web page]]
 
+  - [[http://www.emacsblog.org/][emacs blog]]
+  - [[http://orgmode.org/][org mode]]
+  - [[http://www.linuxjournal.com/article/6771][intermediate emacs hacking]]
+  - [[https://github.com/AndreaCrotti/Emacs-conf/tree][my own configuration]]
+  - [[http://www.emacswiki.org/emacs/EmacsScreencasts][emacs screencasts]], also how to create your own screencasts
+  - [[http://emacs-fu.blogspot.com/][emacs fu]], interesting blog about emacs
+  - [[http://geosoft.no/development/emacs.html][emacs tricks and tips]]
+  - [[http://lispservice.posterous.com/][lisp emacs blog]]
+  - [[http://emacs.wordpress.com/][emacs wordpress blog]]
+  - [[http://wttools.sourceforge.net/emacs-stuff/package.html][emacs suggestions (jdee)]]
+  - [[http://mytechrants.wordpress.com/][my tech rants, emacs fan blog]]
+  - [[http://livollmers.net/index.php/2008/10/06/back-to-myemacs/][back to my emacs]]
+  - [[http://steve-yegge.blogspot.com/2008/01/emergency-elisp.html][emergency lisp]]
+  - [[http://deep.syminet.com/emacside.html][emacsside, nice cheatsheet]]
+  - [[http://platypope.org/yada/emacs-demo/][emacs video demo]], with [[http://platypope.org/blog/2006/9/8/i-need-a-cool-european-accent][explanation of the features showed]]
+  - [[http://snarfed.org/space/why_I_dont_run_shells_inside_Emacs][running a shell inside emacs]]
+
+    
 * Things not working in emacs 22
   - remember mode (not present) (and consequently org-remmeber)
 
-* How to extend emacs
-  [[http://www.enigmacurry.com/2009/01/14/extending-emacs-with-advice/][example about advising functions]]
-  - If you can use the mode hooks provided by the author, use them instead.
-  - If there is a bug in the original mode, just fix it in the original code and submit a patch.
-  - If there is a new feature you want, add it to the original mode and submit a patch. Talk to the author, work with him, and it will most likely end up in the next release.
-  - If you are an Emacs developer, working on Emacs itself, or one of the modes shipped with Emacs, never use advice. It's the least maintainable method of extending Emacs with the exception of a pure fork, and since you're working on Emacs itself, it's not a fork.
-  - If your patch is not accepted, or you know that what you want is fringe enough or hackish enough to not warrant submitting a patch, only then should you use advice or fork the project.
-  
+* Sparse documentation 
+** How to extend emacs
+   [[http://www.enigmacurry.com/2009/01/14/extending-emacs-with-advice/][example about advising functions]]
+   - If you can use the mode hooks provided by the author, use them instead.
+   - If there is a bug in the original mode, just fix it in the original code and submit a patch.
+   - If there is a new feature you want, add it to the original mode and submit a patch. Talk to the author, work with him, and it will most likely end up in the next release.
+   - If you are an Emacs developer, working on Emacs itself, or one of the modes shipped with Emacs, never use advice. It's the least maintainable method of extending Emacs with the exception of a pure fork, and since you're working on Emacs itself, it's not a fork.
+   - If your patch is not accepted, or you know that what you want is fringe enough or hackish enough to not warrant submitting a patch, only then should you use advice or fork the project.
+
+** Some very useful commands
+   - *kill-buffer-and-window*
+   - *shell*
+   - *list-load-path-shadows* (find hiding libraries)
+   - *symbol-function* (find where a symbol is defined)
+   - *trace-function* (for debugging and see what really happens), untrace-function to undo
+   - *read-string* (getting a string from the minibuffer, see how prompt strings work)
+   - *completing-read* (creating a nice menu getting the tab-completion in minibuffer)
+   - *string-rectangle* (select a rectangle and replace the inserted text /\C-x r t/)
+   - *split-line* (split a line keeping indentation, bound to /\C-\M-o/)
+   - *c-set-style*, set the indentation style for your code, many preset useful settings
+     Used for java and cc-mode
+   - *thing-at-point*, gets what it can find at local point
+   - *regexp-builder* very nice to create dynamically a regexp
+   - *align* align list of things in a more readable way
+   - *ielm*, nice interactive elisp environment
+   - *semantic-mrub-switch-tags*, allows to jump to last modified positions with semantic
+   - *C-c C-h* (or some other prefix) allows you to see all the commands you can give
+   - *describe-mode* (C-h m) 
+
+** Tips and tricks
+*** Using always spaces instead of tabs
+   There are many opinions about the usage of tabs or spaces in source code.
+   I think the best and easiest approach is to use spaces everywhere, tabbing will still create the right number of spaces.
+
+   Setting up the right /style/ with *c-set-style* we can have the desired behavior.
+   This is the to set:
+#+BEGIN_SRC elisp
+   ;; Setting indent-tabs-mode for only spaces
+   (setq indent-tabs-mode nil)
+#+END_SRC
+   If you want to convert from spaces to tabs or tabs to spaces use *tabify* or *untabify* respectively.
+
+** How to set up your initialization
+   The configuration should be as modular as possible, and should use autoloads when possible.
+   There are different way to set up variables on not loaded libraries:
+   - *simple variables*
+     use simply *setq* and evaluate it on emacs loading
+
+   - *adding default values of an extension*
+     for example /(define-key foo-mode-map ...)/ use *eval-after-load*.
+     This will add default values once the extension is loaded.
+
+   - *run code after initialization*
+     Use mode hooks, normally simply <mode-name>-hook, and modify them with *add-hook*
+
+
 * Aliasing and other useful shortcuts
 #+begin_src emacs-lisp :tangle yes
   (defalias 'eb 'eval-buffer)
