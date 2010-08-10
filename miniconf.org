@@ -4,6 +4,7 @@ MINIMAL EMACS CONFIGURATION
 # FIXME: color for transient-mark-mode
 # FIXME: ignoring the buffers is ok only if we have can then fix it
 # FIXME: also from org mode we should be able to use elscreen correctly
+# FIXME: see if it's possible to solve the click problem in Elscreen
 
 * DONE Write a function that setups all the possible paths automatically
   CLOSED: [2010-05-04 Mar 11:41]
@@ -879,8 +880,8 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 ** Use ido for switching
-   (setq org-completion-use-ido t)
 #+begin_src emacs-lisp :tangle yes
+   (setq org-completion-use-ido t)
 #+end_src
    
 ** Info configuration
@@ -1057,6 +1058,9 @@ MINIMAL EMACS CONFIGURATION
     (interactive "DPath: ")
     (find-file (concat path ".yas-parents"))
     (insert "text-mode"))
+
+  (defun with-comment (str)
+   (format "%s%s%s" comment-start str comment-end))
 #+end_src
 
 * Eldoc mode

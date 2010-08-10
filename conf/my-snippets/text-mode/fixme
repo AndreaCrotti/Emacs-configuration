@@ -2,4 +2,4 @@
 # name: fixme
 # key: fix
 # --
-`comment-start` FIXME: $0`comment-end`
+`(with-comment "FIXME: $0")`
