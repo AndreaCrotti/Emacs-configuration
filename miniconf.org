@@ -176,9 +176,13 @@ MINIMAL EMACS CONFIGURATION
    In this file you can store your own personal settings
 
 #+begin_src emacs-lisp :tangle yes
+  (defcustom private-file
+    (concat base "private.el")
+    "private file configuration")
+  
   ;; not complain if not existing
-  (if (file-exists-p "private.el")
-      (load-file (concat base "private.el")))
+  (if (file-exists-p private-file)
+      (load-file private-file))
 #+end_src
 
 ** Custom settings
@@ -614,6 +618,8 @@ MINIMAL EMACS CONFIGURATION
       (progn
         (add-to-list 'exec-path "/opt/local/bin")
         (setq ns-alternate-modifier (quote none))
+        ;; not open new frames/elscreens from emacsclient
+        (setq ns-pop-up-frames nil)
         (setq ns-command-modifier (quote meta))))
 #+end_src
 
