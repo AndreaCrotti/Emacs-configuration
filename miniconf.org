@@ -1113,7 +1113,7 @@ MINIMAL EMACS CONFIGURATION
   (require 'yasnippet)
   
   (setq yas/root-directory
-        (mapcar 'make-path
+        (mapcar 'make-conf-path
                 '("my-snippets/" "yasnippet/snippets/")))
   
   ;; Maybe needed to set to fixed for some modes

@@ -19,3 +19,33 @@
 [submodule "cedet-haskell"]
 	path = cedet-haskell
 	url = http://github.com/hometown/cedet-haskell.git
+[submodule "auctex"]
+	path = auctex
+	url = git://github.com/kjhealy/auctex.git
+[submodule "magit"]
+	path = magit
+	url = http://github.com/philjackson/magit.git
+[submodule "yaml-mode"]
+	path = yaml-mode
+	url = http://github.com/yoshiki/yaml-mode.git
+[submodule "doxymacs"]
+	path = doxymacs
+	url = git://doxymacs.git.sourceforge.net/gitroot/doxymacs/doxymacs
+[submodule "emacs-jabber"]
+	path = emacs-jabber
+	url = git://emacs-jabber.git.sourceforge.net/gitroot/emacs-jabber/emacs-jabber
+[submodule "elim"]
+	path = elim
+	url = git://git.savannah.nongnu.org/elim.git
+[submodule "gnus"]
+	path = gnus
+	url = http://github.com/emacsmirror/gnus.git
+[submodule "zencoding"]
+	path = zencoding
+	url = http://github.com/chrisdone/zencoding.git
+[submodule "gist.el"]
+	path = gist.el
+	url = git://github.com/defunkt/gist.el.git
+[submodule "c-eldoc"]
+	path = c-eldoc
+	url = http://github.com/nflath/c-eldoc.git
