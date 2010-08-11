@@ -1881,6 +1881,8 @@ MINIMAL EMACS CONFIGURATION
   ;; regexp matching also
   (setq ido-enable-regexp nil)
   (setq ido-use-url-at-point t)
+  (setq ido-create-new-buffer 'always)
+  (setq ido-use-filename-at-point 'guess)
   (ido-everywhere t)
   (add-to-list 'ido-ignore-buffers "\\.org\\'")
   ; miniconf.org should be always visible

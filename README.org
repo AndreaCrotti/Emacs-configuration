@@ -15,22 +15,17 @@ I suggest for customization to use the file custom.el or at worst to clone this 
   - elscreen for tabs navigation
   - flymake for compilation errors directly in buffers
   - code folding and navigation via semantic in all languages supported
-  - on MAC showing last combination pressed with growl and some ad hoc functions
+  - and much much more...
 
 * Usage
   To try it out:
   - git clone git://github.com/AndreaCrotti/Emacs-configuration.git
-  - Create a file "custom.el" in /your/path/Emacs-configuration and write it in it
-    (setq base "~/your/path/Emacs-configuration/")
+  - create an empty "custom.el" where you cloned the repository
   - Create or modify your *.emacs* in your $HOME with the following:
-    + (cd "/your/path")
-    + (load-file "orgloader.el")
+    - (setq base "/your/path")
+    - (load-file (concat base "orgloader.el"))
 
-  When you want to update the configuration just run a 
-  *git pull*
-  Unless you changed some code that generates a conflict the merge should be automatic.
-  You can customize some of the variables created in this conf via
-  *M-x customize-group RET miniconf*
+  To customize I suggest to use M-x customize (will write on your custom file) or write your own setqs in the custom.el file.
   
 ** Your own settings
    If you want to add some personal settings you can
