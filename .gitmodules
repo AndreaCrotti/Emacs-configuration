@@ -67,3 +67,6 @@
 [submodule "org-jekyll"]
 	path = org-jekyll
 	url = git://github.com/juanre/org-jekyll.git
+[submodule "ecb"]
+	path = ecb
+	url = git://github.com/emacsmirror/ecb.git
