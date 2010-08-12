@@ -30,7 +30,7 @@ I suggest for customization to use the file custom.el or at worst to clone this 
 ** Your own settings
    If you want to add some personal settings you can
    - modify directly this file
-   - add them to an external "file.el" (or in "private.el" or in "custom.el")
+   - add them to custom.el
    
    Just keep in mind that if you modify directly the file miniconf.org when you try to pull my last changes there could be some conflicts and you might need to merge them.
 

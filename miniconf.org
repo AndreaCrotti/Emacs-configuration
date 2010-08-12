@@ -172,18 +172,6 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (provide 'miniconf)
 #+end_src
-** Private
-   In this file you can store your own personal settings
-
-#+begin_src emacs-lisp :tangle yes
-  (defcustom private-file
-    (concat base "private.el")
-    "private file configuration")
-  
-  ;; not complain if not existing
-  (if (file-exists-p private-file)
-      (load-file private-file))
-#+end_src
 
 ** Custom settings
 #+begin_src emacs-lisp :tangle yes
