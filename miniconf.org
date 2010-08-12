@@ -1837,12 +1837,11 @@ MINIMAL EMACS CONFIGURATION
                   (setq buffer-save-without-query t)))))
 #+end_src
 
-** TODO Setting up some posting styles and other nice settings
-
 * Revision control systems
 ** [[http://zagadka.vm.bytemark.co.uk/magit/][Magit]]
    Nice interface for git.
 #+begin_src emacs-lisp :tangle yes
+  ; TODO: use autoload instead
   (require 'magit)
 #+end_src
 
@@ -1868,17 +1867,17 @@ MINIMAL EMACS CONFIGURATION
 
 ** Showing more things
 #+begin_src emacs-lisp :tangle yes
-(display-time-mode 1)
-(transient-mark-mode 1)
-(setq inhibit-startup-message t)
-(setq initial-scratch-message nil)
-
-(show-paren-mode t)
-(column-number-mode t)
-;; always truncate lines (useful for netbook), not working yet in ORG MODE
-(setq truncate-lines nil)
-;; Setting indent-tabs-mode for only spaces
-(setq-default indent-tabs-mode nil)
+  (display-time-mode 1)
+  (transient-mark-mode 1)
+  (setq inhibit-startup-message t)
+  (setq initial-scratch-message nil)
+  
+  (show-paren-mode t)
+  (column-number-mode t)
+  ;; always truncate lines (useful for netbook), not working yet in ORG MODE
+  (setq truncate-lines nil)
+  ;; Setting indent-tabs-mode for only spaces
+  (setq-default indent-tabs-mode nil)
 #+end_src
 
 ** IDO mode
