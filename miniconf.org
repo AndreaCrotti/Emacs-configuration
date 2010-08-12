@@ -213,12 +213,6 @@ MINIMAL EMACS CONFIGURATION
 ** Some useful functions
    We suppose that the global variable *conf* has been already set from the outside.
 
-*** Make path
-#+begin_src emacs-lisp :tangle yes
-  (defun make-conf-path (path)
-    (expand-file-name path))
-#+end_src
-
 *** Make fortune
     Print below a fortune cookie if the command is present in the system.
 
@@ -593,7 +587,7 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (defun reload-conf ()
     (interactive)
-    (org-babel-load-file "miniconf.org"))
+    (org-babel-load-file (make-conf-path "miniconf.org")))
 #+end_src
 
 * Operating system detection
