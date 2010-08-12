@@ -91,3 +91,6 @@
 [submodule "apel"]
 	path = apel
 	url = git://github.com/wanderlust/apel.git
+[submodule "semi"]
+	path = semi
+	url = git://github.com/wanderlust/semi.git
