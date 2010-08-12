@@ -70,3 +70,15 @@
 [submodule "ecb"]
 	path = ecb
 	url = git://github.com/emacsmirror/ecb.git
+[submodule "emacs-dbgr"]
+	path = emacs-dbgr
+	url = git://github.com/rocky/emacs-dbgr.git
+[submodule "emacs-test-unit"]
+	path = emacs-test-unit
+	url = http://github.com/rocky/emacs-test-unit.git
+[submodule "emacs-load-relative"]
+	path = emacs-load-relative
+	url = http://github.com/rocky/emacs-load-relative.git
+[submodule "emacs-loc-changes"]
+	path = emacs-loc-changes
+	url = http://github.com/rocky/emacs-loc-changes.git
