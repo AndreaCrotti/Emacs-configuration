@@ -235,17 +235,20 @@ MINIMAL EMACS CONFIGURATION
 
 #+begin_src emacs-lisp :tangle yes
   ;; TODO: make it more general
-  (defun gen-path-dirs ()
+  (defun gen-path-dirs (base-dir)
     "Add to load path all the subdirectories of first level"
     (interactive)
     (message "adding all directories in the first level to the load-path")
-    (dolist (dir (directory-files conf t))
+    (dolist (dir (directory-files base-dir t))
       (if (and 
            (file-directory-p dir)
            (not (file-symlink-p dir)))
           (add-to-list 'load-path dir))))
   
-  (gen-path-dirs)
+  ;TODO: we should also be able to use the variable instead of "conf"
+  ; next step is to remove conf completely
+  (dolist (base-dir '("conf" "."))
+    (gen-path-dirs base-dir))
 #+end_src
 
 *** Google map it
@@ -959,7 +962,7 @@ MINIMAL EMACS CONFIGURATION
    
 ** Info configuration
 #+begin_src emacs-lisp :tangle yes
-  (add-to-list 'Info-default-directory-list (make-conf-path "org-mode/share/info/"))
+  (add-to-list 'Info-default-directory-list "org-mode/share/info/")
 #+end_src
 
 ** Clock configuration
