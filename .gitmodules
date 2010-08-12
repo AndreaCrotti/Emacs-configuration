@@ -82,3 +82,9 @@
 [submodule "emacs-loc-changes"]
 	path = emacs-loc-changes
 	url = http://github.com/rocky/emacs-loc-changes.git
+[submodule "wanderlust"]
+	path = wanderlust
+	url = git://github.com/wanderlust/wanderlust.git
+[submodule "flim"]
+	path = flim
+	url = git://github.com/wanderlust/flim.git
