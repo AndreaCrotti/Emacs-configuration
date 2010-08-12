@@ -24,6 +24,8 @@ I suggest for customization to use the file custom.el or at worst to clone this 
   - Create or modify your *.emacs* in your $HOME with the following:
     - (setq base "/your/path")
     - (load-file (concat base "orgloader.el"))
+  - run in the same directory *git submodule update --init*
+    This could take a long time, but only the first time
 
   To customize I suggest to use M-x customize (will write on your custom file) or write your own setqs in the custom.el file.
   
