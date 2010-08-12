@@ -49,3 +49,21 @@
 [submodule "c-eldoc"]
 	path = c-eldoc
 	url = http://github.com/nflath/c-eldoc.git
+[submodule "textmate.el"]
+	path = textmate.el
+	url = git://github.com/defunkt/textmate.el.git
+[submodule "zen-and-art"]
+	path = zen-and-art
+	url = git://github.com/irfn/zen-and-art.git
+[submodule "jdee"]
+	path = jdee
+	url = git://github.com/emacsmirror/jdee.git
+[submodule "nxml"]
+	path = nxml
+	url = git://github.com/emacsmirror/nxml.git
+[submodule "php-mode"]
+	path = php-mode
+	url = git://github.com/emacsmirror/php-mode.git
+[submodule "org-jekyll"]
+	path = org-jekyll
+	url = git://github.com/juanre/org-jekyll.git

@@ -597,18 +597,16 @@ MINIMAL EMACS CONFIGURATION
 * Operating system detection
   This has to be done first because we have some conditional code later
 #+begin_src emacs-lisp :tangle yes
-  ; TODO: if possible refactor this better
-  (defconst sysop
-    (cond
-     ((string-match "linux" system-configuration) "linux")
-     ((string-match "apple" system-configuration) "mac")
-     ((string-match "win" system-configuration) "win")
-     (t "other")))
+  (defconst linux nil)
+  (defconst mac nil)
+  (defconst win nil)
+  (defconst other nil)
   
-  (defconst linux (string= "linux" sysop))
-  (defconst mac (string= "mac" sysop))
-  (defconst win (string= "win" sysop))
-  (defconst other (string= "other" sysop))
+  (case system-type
+    (gnu/linux (setq linux t))
+    (window-nt (setq mac t))
+    (darwin    (setq win t))
+    (t         (setq other t)))
 #+end_src
 
 ** Mac configuration
