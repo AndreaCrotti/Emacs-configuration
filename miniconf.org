@@ -2015,25 +2015,6 @@ MINIMAL EMACS CONFIGURATION
 (setq fortune-dir "/opt/local/share/games/fortune/")
 #+end_src
 
-** Some mac tricks
-*** Open pdfs with doc-view or Preview
-    [[http://www.emacswiki.org/emacs/UnPdf][see also unpdf]] for a better pdf management (mode instead of a hook)
-#+begin_src emacs-lisp :tangle yes
-  (require 'doc-view)
-  
-  (defun open-pdf-eventually ()
-    "open with doc view when a pdf"
-    (if
-        (string-match "pdf" (file-name-extension buffer-file-name))
-        (if
-            (yes-or-no-p "open with doc-view?")
-            (doc-view t buffer-file-name)
-          ;; open here is only working os osx
-          (shell-command (format "open %s" buffer-file-name)))))
-  
-  ;; (add-hook 'find-file-hook 'open-pdf-eventually)
-#+end_src
-
 *** Use spotlight for locating
 #+begin_src emacs-lisp :tangle yes
   (defun spotlight ()
