@@ -13,5 +13,10 @@
 
 (org-babel-load-file (concat base "miniconf.org"))
 
-(when (file-exists-p custom-file)
-  (load-file custom-file))
+;; If custom file doesn't exist create it
+(if (file-exists-p custom-file)
+    (load-file custom-file)
+  (progn
+    (find-file custom-file)
+    (insert ";; Add here your customizations\n")
+    (write-file custom-file)))
