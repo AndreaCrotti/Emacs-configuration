@@ -33,10 +33,6 @@ I suggest for customization to use the file custom.el or at worst to clone this 
    If you want to add some personal settings you can
    - modify directly this file
    - add them to custom.el
-   
-   Just keep in mind that if you modify directly the file miniconf.org when you try to pull my last changes there could be some conflicts and you might need to merge them.
-
-   Also notice that the file miniconf.el is automatically generated from the org file, any change to it will be discarded next time you load emacs.
 
 * Where you can get emacs 23:
 ** OSX:

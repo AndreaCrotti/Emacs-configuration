@@ -13,4 +13,5 @@
 
 (org-babel-load-file (concat base "miniconf.org"))
 
-(load-file custom-file)
+(when (file-exists-p custom-file)
+  (load-file custom-file))
