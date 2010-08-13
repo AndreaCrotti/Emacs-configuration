@@ -3,8 +3,6 @@ MINIMAL EMACS CONFIGURATION
 # FIXME: keys for splitting the screeen
 # FIXME: color for transient-mark-mode
 # FIXME: ignoring the buffers is ok only if we have can then fix it
-# FIXME: also from org mode we should be able to use elscreen correctly
-# FIXME: see if it's possible to solve the click problem in Elscreen
 
 * DONE Write a function that setups all the possible paths automatically
   CLOSED: [2010-05-04 Mar 11:41]
