@@ -460,7 +460,7 @@ MINIMAL EMACS CONFIGURATION
             (apply 'fn match-end))
       newText))
   
-  ; FIXME: fix this thing
+  ; TODO: use the more general manipulation
   (defun uncamel ()
     (let (matchedText newText)
       (setq matchedText
@@ -472,9 +472,17 @@ MINIMAL EMACS CONFIGURATION
   
     ;; (manipulate-matched-text 'un-camelcase-string))
     ;; "use this function with query-replace-regexp"
-#+end_src    
+#+end_src
 
-      We also have [[http://www.eecs.ucf.edu/~leavens/emacs/camelCase/camelCase-mode.html][camel case mode]] which makes moving in camelized words smarter
+    For example the above functions might be very useful to convert an entire project from camelcase to non camelcase.
+    
+    - Open dired
+    - mark the files you want
+    - "Q" RET [a-z]+?[A-Z] RET \,(uncamel)
+    
+    And the fun begins
+
+    We also have [[http://www.eecs.ucf.edu/~leavens/emacs/camelCase/camelCase-mode.html][camel case mode]] which makes moving in camelized words smarter
 #+begin_src emacs-lisp :tangle yes
   (autoload 'camelCase-mode "camelCase-mode")
   (defcustom camelCase-modes
@@ -935,7 +943,7 @@ MINIMAL EMACS CONFIGURATION
 ** General TODO keywords
 #+begin_src emacs-lisp :tangle yes
   (setq org-todo-keywords
-        '((sequence "TODO(t)" "FEEDBACK(f)" "VERIFY(v)" "|" "DONE(d)" "DELEGATED(D)")))
+        '((sequence "TODO(t)" "FEEDBACK(f)" "VERIFY(v)" "|" "DONE(d)" "DELEGATED(D)" "REJECTED(r)")))
 #+end_src
 
 ** Enforcing TODO dependencies

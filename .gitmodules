@@ -55,9 +55,6 @@
 [submodule "zen-and-art"]
 	path = zen-and-art
 	url = git://github.com/irfn/zen-and-art.git
-[submodule "jdee"]
-	path = jdee
-	url = git://github.com/emacsmirror/jdee.git
 [submodule "nxml"]
 	path = nxml
 	url = git://github.com/emacsmirror/nxml.git
