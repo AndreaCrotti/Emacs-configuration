@@ -1702,6 +1702,12 @@ MINIMAL EMACS CONFIGURATION
   (autoload 'ledger-mode "ledger" "ledger mode for accounting" t)
 #+end_src
 
+** Finding more conf files
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'auto-mode-alist '("conf[ig]" . conf-mode))
+  (add-to-list 'auto-mode-alist '("^\\..+?rc" . conf-mode))
+#+end_src
+
 * Security
 #+begin_src emacs-lisp :tangle yes
   (require 'epa)
