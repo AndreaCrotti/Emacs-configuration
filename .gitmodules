@@ -103,3 +103,6 @@
 [submodule "emacs-tiny-tools"]
 	path = emacs-tiny-tools
 	url = git://git.savannah.nongnu.org/emacs-tiny-tools.git
+[submodule "malabar-mode"]
+	path = malabar-mode
+	url = git://github.com/espenhw/malabar-mode.git

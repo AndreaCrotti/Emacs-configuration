@@ -91,6 +91,12 @@ MINIMAL EMACS CONFIGURATION
 #+END_SRC
    If you want to convert from spaces to tabs or tabs to spaces use *tabify* or *untabify* respectively.
 
+*** Make emacs ignore a key
+    See for example
+#+begin_src emacs-lisp :tangle yes
+  (global-set-key (kbd "<f2>") 'ignore)
+#+end_src
+
 ** How to set up your initialization
    The configuration should be as modular as possible, and should use autoloads when possible.
    There are different way to set up variables on not loaded libraries:
@@ -777,6 +783,11 @@ MINIMAL EMACS CONFIGURATION
 
 * Frame management
   [[http://www.emacswiki.org/emacs/Shrink-Wrapping_Frames][See shrinking frames]] and onetoone to see what it could be done to make emacs more frame-centric.
+
+  Create some extensions to manage frames more easily, with "select-frame", "next-frame" and so on.
+#+begin_src emacs-lisp :tangle yes
+  
+#+end_src
   
 * Visualization
 ** Menu and tool-bar disabling
@@ -1213,6 +1224,13 @@ MINIMAL EMACS CONFIGURATION
                ))
   (add-hook hook 'ac-emacs-lisp-mode-setup))
 #+end_src
+
+** Using eclim
+#+begin_src emacs-lisp :tangle yes
+  (add-hook 'java-mode-hook 
+            '(lambda ()
+               (add-to-list 'ac-sources 'eclim-complete)))
+#+end_src   
 
 * Predictive modes
 #+begin_src emacs-lisp :tangle yes
