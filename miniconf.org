@@ -3,6 +3,7 @@ MINIMAL EMACS CONFIGURATION
 # FIXME: keys for splitting the screeen
 # FIXME: color for transient-mark-mode
 # FIXME: ignoring the buffers is ok only if we have can then fix it
+# FIXME: add some configurations for different usage of emacs
 
 * DONE Write a function that setups all the possible paths automatically
   CLOSED: [2010-05-04 Mar 11:41]
@@ -810,7 +811,7 @@ MINIMAL EMACS CONFIGURATION
                            (if (frame-parameter f 'fullscreen) nil 'fullboth))))
   
   ;; this toogle the fullscreen for every new frame (window) created
-  (add-hook 'after-make-frame-functions 'full)
+  ;; (add-hook 'after-make-frame-functions 'full)
 #+end_src
 
 ** Winner mode
@@ -1292,10 +1293,6 @@ MINIMAL EMACS CONFIGURATION
 
 * Erc
 #+begin_src emacs-lisp :tangle yes
-  ;; Load authentication info from an external source.  Put sensitive
-  ;; passwords and the like in here.
-  ;; (load "~/.emacs.d/.erc-auth")
-  
   ;; This is an example of how to make a new command.  Type "/uptime" to
   ;; use it.
   (defun erc-cmd-UPTIME (&rest ignore)
@@ -1314,37 +1311,25 @@ MINIMAL EMACS CONFIGURATION
       (erc-send-message
        (concat "{Uptime} [" uname-output "]"))))
   
-  (setq erc-nick '("andrea.crotti" "bogomips"))
-  (setq erc-nick-uniquifier "xxx")
+  ; TODO: create a new one if necessary or just
+  ; activate the current one if possible
+  (defun bitlbee ()
+    "connect to bitlbee"
+    (interactive)
+    (select-frame (make-frame))
+    (erc :server "localhost" :port "6667" :nick "andrea"))
   
-  ;; This causes ERC to connect to the Freenode network upon hitting
-  ;; C-c e f.  Replace MYNICK with your IRC nick.
-  ;; (global-set-key "\C-cef" (lambda () (interactive)
-  ;;                            (erc :server "irc.freenode.net" :port "6667"
-  ;;                                 :nick "MYNICK")))
-  
-  ;; This causes ERC to connect to the IRC server on your own machine (if
-  ;; you have one) upon hitting C-c e b.  Replace MYNICK with your IRC
-  ;; nick.  Often, people like to run bitlbee (http://bitlbee.org/) as an
-  ;; AIM/Jabber/MSN to IRC gateway, so that they can use ERC to chat with
-  ;; people on those networks.
-  ;; (global-set-key "\C-ceb" (lambda () (interactive)
-  ;;                            (erc :server "localhost" :port "6667"
-  ;;                                 :nick "MYNICK")))
-  
-  ;; Make C-c RET (or C-c C-RET) send messages instead of RET. This has
-  ;; been commented out to avoid confusing new users.
-  ;; (define-key erc-mode-map (kbd "RET") nil)
-  ;; (define-key erc-mode-map (kbd "C-c RET") 'erc-send-current-line)
-  ;; (define-key erc-mode-map (kbd "C-c C-RET") 'erc-send-current-line)
-  
-       ;;; Options
+  (defun freenode ()
+    "connect to freenode channel"
+    (interactive)
+    (erc :server "irc.freenode.net" :port "6667" :nick "bogomips"))
   
   ;; Join the #emacs and #erc channels whenever connecting to Freenode.
   (setq erc-autojoin-channels-alist '(("freenode.net" "#emacs" "#erc" "#ruby-lang")))
   
   ;; Interpret mIRC-style color commands in IRC chats
   (setq erc-interpret-mirc-color t)
+  (add-hook 'erc-mode-hook 'turn-on-flyspell)
 #+end_src
 
 * Chatting

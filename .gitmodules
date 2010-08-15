@@ -94,3 +94,12 @@
 [submodule "emacs-eclim"]
 	path = emacs-eclim
 	url = git://github.com/senny/emacs-eclim.git
+[submodule "emacs-w3m"]
+	path = emacs-w3m
+	url = git://github.com/sjatkinson/emacs-w3m.git
+[submodule "Mew"]
+	path = Mew
+	url = git://github.com/kazu-yamamoto/Mew.git
+[submodule "emacs-tiny-tools"]
+	path = emacs-tiny-tools
+	url = git://git.savannah.nongnu.org/emacs-tiny-tools.git

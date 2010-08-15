@@ -22,3 +22,9 @@
             (when (buffer-live-p gnus-dribble-buffer)
               (with-current-buffer gnus-dribble-buffer
                 (setq buffer-save-without-query t)))))
+
+(setq erc-nick '("andrea"))
+(setq erc-password "condor")
+(setq erc-nick-uniquifier "xxx")
+(setq erc-server "localhost")
+(setq erc-port 6667)
