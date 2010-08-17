@@ -45,8 +45,6 @@ MINIMAL EMACS CONFIGURATION
   - [[http://platypope.org/yada/emacs-demo/][emacs video demo]], with [[http://platypope.org/blog/2006/9/8/i-need-a-cool-european-accent][explanation of the features showed]]
   - [[http://snarfed.org/space/why_I_dont_run_shells_inside_Emacs][running a shell inside emacs]]
 
-    
-
 * Things not working in emacs 22
   - remember mode (not present) (and consequently org-remmeber)
 
@@ -222,7 +220,6 @@ MINIMAL EMACS CONFIGURATION
    All all the directories in the first level of the configuration directory to the load path.
 
 #+begin_src emacs-lisp :tangle yes
-  ;; TODO: make it more general
   (defun gen-path-dirs (base-dir)
     "Add to load path all the subdirectories of first level"
     (interactive)
@@ -233,9 +230,12 @@ MINIMAL EMACS CONFIGURATION
            (not (file-symlink-p dir)))
           (add-to-list 'load-path dir))))
   
-  ;TODO: we should also be able to use the variable instead of "conf"
   ; next step is to remove conf completely
-  (gen-path-dirs base)
+  (defun reload-dirs ()
+    (interactive)
+    (gen-path-dirs base))
+  
+  (reload-dirs)
 #+end_src
 
 *** Google map it
@@ -605,6 +605,67 @@ MINIMAL EMACS CONFIGURATION
         (message "you can already write on this file"))))
 #+end_src
 
+*** Find-file-root
+#+begin_src emacs-lisp :tangle yes
+  ;; Taken from http://www.emacswiki.org/emacs/TrampMode
+  (defvar find-file-root-prefix (if (featurep 'xemacs) "/[sudo/root@localhost]" "/sudo:root@localhost:" )
+    "*The filename prefix used to open a file with `find-file-root'.")
+  
+  (defvar find-file-root-history nil
+    "History list for files found using `find-file-root'.")
+  
+  (defvar find-file-root-hook nil
+    "Normal hook for functions to run after finding a \"root\" file.")
+  
+  (defun find-file-root ()
+    "*Open a file as the root user.
+     Prepends `find-file-root-prefix' to the selected file name so that it
+     maybe accessed via the corresponding tramp method."
+  
+    (interactive)
+    (require 'tramp)
+    (let* ( ;; We bind the variable `file-name-history' locally so we can
+           ;; use a separate history list for "root" files.
+           (file-name-history find-file-root-history)
+           (name (or buffer-file-name default-directory))
+           (tramp (and (tramp-tramp-file-p name)
+                       (tramp-dissect-file-name name)))
+           path dir file)
+  
+      ;; If called from a "root" file, we need to fix up the path.
+      (when tramp
+        (setq path (tramp-file-name-localname tramp)
+              dir (file-name-directory path)))
+  
+      (when (setq file (read-file-name "Find file (UID = 0): " dir path))
+        (find-file (concat find-file-root-prefix file))
+        ;; If this all succeeded save our new history list.
+        (setq find-file-root-history file-name-history)
+        ;; allow some user customization
+        (run-hooks 'find-file-root-hook))))
+  
+  (global-set-key [(control x) (control r)] 'find-file-root)
+#+end_src
+  
+  Adding also some warning to make sure we don't edit by mistake
+#+begin_src emacs-lisp :tangle yes
+  (defface find-file-root-header-face
+    '((t (:foreground "white" :background "red3")))
+    "*Face use to display header-lines for files opened as root.")
+  
+  (defun find-file-root-header-warning ()
+    "*Display a warning in header line of the current buffer.
+     This function is suitable to add to `find-file-root-hook'."
+    (let* ((warning "WARNING: EDITING FILE AS ROOT!")
+           (space (+ 6 (- (window-width) (length warning))))
+           (bracket (make-string (/ space 2) ?-))
+           (warning (concat bracket warning bracket)))
+      (setq header-line-format
+            (propertize  warning 'face 'find-file-root-header-face))))
+  
+  (add-hook 'find-file-root-hook 'find-file-root-header-warning)
+#+end_src
+
 ** reload this configuration
 #+begin_src emacs-lisp :tangle yes
   (defun reload-conf ()
@@ -967,6 +1028,34 @@ MINIMAL EMACS CONFIGURATION
     (flyspell-mode t))
 #+end_src
 
+
+** Dictionary
+   Using dictionary.el (downloaded from http://me.in-berlin.de/~myrkr/dictionary/download.html)
+
+#+begin_src emacs-lisp :tangle yes
+  ; TODO: add some thing-at-point to guess the current word
+  (defun my-dictionary-search ()
+    "look for a word here"
+    (interactive)
+    (let ((word (current-word))
+          (enable-recursive-minibuffers t)
+          (val))
+      (setq val (read-from-minibuffer
+                 (concat "Word"
+                         (when word
+                           (concat " (" word ")"))
+                         ": ")))
+      (dictionary-new-search
+       (cons (cond
+              ((and (equal val "") word)
+               word)
+              ((> (length val) 0)
+               val)
+              (t
+               (error "No word to lookup")))
+             dictionary-default-dictionary))))
+#+end_src
+
 * Org mode
 ** Setting up what happens when closing a task
 #+begin_src emacs-lisp :tangle yes
@@ -1105,55 +1194,6 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
    (setq org-footnote-tag-for-non-org-mode-files "*-*-*-*-*-*-*-*-*-*")
 #+end_src
-
-* Tags
-** Etags-select
-   This extension to etags helps choosing from equal names of functions.
-#+begin_src emacs-lisp :tangle yes
-  (require 'etags-select)
-#+end_src
-
-** Etags table to use also in bigger projects
-#+begin_src emacs-lisp :tangle yes
-   (require 'etags-table)
-   (setq etags-table-search-up-depth 1)
-#+end_src
-
-** Extending functions
-   This functions help to look for the TAGS file in the filesystem when is not in the same working directory
-# FIXME: still not working correctly, more iteration is needed here
-#+begin_src emacs-lisp :tangle no
-  (defun jds-find-tags-file ()
-    "recursively searches each parent directory for a file named 'TAGS' and returns the
-  path to that file or nil if a tags file is not found. Returns nil if the buffer is
-  not visiting a file"
-    (progn
-      (defun find-tags-file-r (path)
-        "find the tags file from the parent directories"
-        (let* ((parent (file-name-directory path))
-               (possible-tags-file (concat parent "TAGS")))
-          (cond
-           ((file-exists-p possible-tags-file) (throw 'found-it possible-tags-file))
-           ((string= "/TAGS" possible-tags-file) (error "no tags file found"))
-           (t (find-tags-file-r (directory-file-name parent))))))
-  
-      (if (buffer-file-name)
-          (catch 'found-it 
-            (find-tags-file-r (buffer-file-name)))
-        (error "buffer is not visiting a file"))))
-  
-  (defun jds-set-tags-file-path ()
-    "calls `jds-find-tags-file' to recursively search up the directory tree to find
-  a file named 'TAGS'. If found, set 'tags-table-list' with that path as an argument
-  otherwise raises an error."
-    (interactive)
-    (setq tags-table-list (list (jds-find-tags-file))))
-  
-  ;; delay search the TAGS file after open the source file
-  (add-hook 'emacs-startup-hook 
-            '(lambda () (jds-set-tags-file-path)))
-#+end_src
-
 * [[http://code.google.com/p/yasnippet/][Yasnippet]]  
 #+begin_src emacs-lisp :tangle yes
   (require 'yasnippet)
@@ -1183,7 +1223,6 @@ MINIMAL EMACS CONFIGURATION
   (defun with-comment (str)
    (format "%s%s%s" comment-start str comment-end))
 #+end_src
-
 * Eldoc mode
   Show the documentation of some functions directly in the minibuffer.
 #+begin_src emacs-lisp :tangle yes
@@ -1261,7 +1300,6 @@ MINIMAL EMACS CONFIGURATION
             '(lambda ()
                (add-to-list 'ac-sources 'eclim-complete)))
 #+end_src   
-
 * Predictive modes
 #+begin_src emacs-lisp :tangle yes
   (autoload 'predictive-mode "predictive" "predictive" t)
@@ -1272,17 +1310,18 @@ MINIMAL EMACS CONFIGURATION
         predictive-use-auto-learn-cache nil
         predictive-which-dict t)
 #+end_src
+   
+* Programmer tools
+** Cedet
+   See [[http://alexott.net/en/writings/emacs-devenv/EmacsCedet.html][gentle introduction to cedet]] for a nicer tutorial
 
-* Cedet
-  See [[http://alexott.net/en/writings/emacs-devenv/EmacsCedet.html][gentle introduction to cedet]] for a nicer tutorial
-
-** Use cedet and gloabally ede-mode for projects
+*** Use cedet and gloabally ede-mode for projects
 #+begin_src emacs-lisp :tangle yes
   (load (make-conf-path "cedet/common/cedet"))
   (setq semantic-load-turn-everything-on t)
 #+end_src
 
-** Options for semantic
+*** Options for semantic
 #+begin_src emacs-lisp :tangle yes
   (global-semantic-stickyfunc-mode 1)
   ;; (global-semantic-decoration-mode 1)
@@ -1296,7 +1335,7 @@ MINIMAL EMACS CONFIGURATION
   ;;              '(nesc-mode . semantic-default-c-setup))
 #+end_src
 
-** Hook for inline documentation setting local keys
+*** Hook for inline documentation setting local keys
 #+begin_src emacs-lisp :tangle yes
   (defun my-c-like-cedet-hook ()
     (local-set-key [(control return)] 'semantic-ia-complete-symbol)
@@ -1312,7 +1351,7 @@ MINIMAL EMACS CONFIGURATION
   ;;   (local-set-key ">" 'semantic-complete-self-insert))
 #+end_src
 
-** Using semanticdb
+*** Using semanticdb
 #+begin_src emacs-lisp :tangle yes
   (global-semanticdb-minor-mode)
   ;; (semanticdb-enable-gnu-global-databases 'c-mode)
@@ -1320,8 +1359,7 @@ MINIMAL EMACS CONFIGURATION
   ;; (semanticdb-enable-gnu-global-databases 'jde-mode)
   ;; (semanticdb-enable-gnu-global-databases 'python-mode)
 #+end_src
-   
-* Eclim
+** Eclim
   Get the power of eclipse right in emacs via [[http://eclim.org/][eclim]]
 
 #+begin_src emacs-lisp :tangle yes
@@ -1338,47 +1376,52 @@ MINIMAL EMACS CONFIGURATION
                (setq eclim-auto-save t)
                (eclim-mode 1)))
 #+end_src
-
-* Erc
+** Tags
+*** Etags-select
+   This extension to etags helps choosing from equal names of functions.
 #+begin_src emacs-lisp :tangle yes
-  ;; This is an example of how to make a new command.  Type "/uptime" to
-  ;; use it.
-  (defun erc-cmd-UPTIME (&rest ignore)
-    "Display the uptime of the system, as well as some load-related
-       stuff, to the current ERC buffer."
-    (let ((uname-output
-           (replace-regexp-in-string
-            ", load average: " "] {Load average} ["
-            ;; Collapse spaces, remove
-            (replace-regexp-in-string
-             " +" " "
-             ;; Remove beginning and trailing whitespace
-             (replace-regexp-in-string
-              "^ +\\|[ \n]+$" ""
-              (shell-command-to-string "uptime"))))))
-      (erc-send-message
-       (concat "{Uptime} [" uname-output "]"))))
+  (require 'etags-select)
+#+end_src
+
+*** Etags table to use also in bigger projects
+#+begin_src emacs-lisp :tangle yes
+   (require 'etags-table)
+   (setq etags-table-search-up-depth 1)
+#+end_src
+
+*** Extending functions
+   This functions help to look for the TAGS file in the filesystem when is not in the same working directory
+# FIXME: still not working correctly, more iteration is needed here
+#+begin_src emacs-lisp :tangle no
+  (defun jds-find-tags-file ()
+    "recursively searches each parent directory for a file named 'TAGS' and returns the
+  path to that file or nil if a tags file is not found. Returns nil if the buffer is
+  not visiting a file"
+    (progn
+      (defun find-tags-file-r (path)
+        "find the tags file from the parent directories"
+        (let* ((parent (file-name-directory path))
+               (possible-tags-file (concat parent "TAGS")))
+          (cond
+           ((file-exists-p possible-tags-file) (throw 'found-it possible-tags-file))
+           ((string= "/TAGS" possible-tags-file) (error "no tags file found"))
+           (t (find-tags-file-r (directory-file-name parent))))))
   
-  ; TODO: create a new one if necessary or just
-  ; activate the current one if possible
-  (defun bitlbee ()
-    "connect to bitlbee"
+      (if (buffer-file-name)
+          (catch 'found-it 
+            (find-tags-file-r (buffer-file-name)))
+        (error "buffer is not visiting a file"))))
+  
+  (defun jds-set-tags-file-path ()
+    "calls `jds-find-tags-file' to recursively search up the directory tree to find
+  a file named 'TAGS'. If found, set 'tags-table-list' with that path as an argument
+  otherwise raises an error."
     (interactive)
-    (select-frame (make-frame))
-    (erc :server "localhost" :port "6667" :nick "andrea"))
+    (setq tags-table-list (list (jds-find-tags-file))))
   
-  (defun freenode ()
-    "connect to freenode channel"
-    (interactive)
-    (erc :server "irc.freenode.net" :port "6667" :nick "andrea_crotti"))
-  
-  ;; Join the #emacs and #erc channels whenever connecting to Freenode.
-  (setq erc-autojoin-channels-alist
-        '(("freenode.net"
-           "#emacs" "#erc" "#ruby-lang" "#python" "#ledger")))
-  
-  ;; Interpret mIRC-style color commands in IRC chats
-  (setq erc-interpret-mirc-color t)
+  ;; delay search the TAGS file after open the source file
+  (add-hook 'emacs-startup-hook 
+            '(lambda () (jds-set-tags-file-path)))
 #+end_src
 
 * Programming
@@ -1616,7 +1659,8 @@ MINIMAL EMACS CONFIGURATION
 
 *** Doxymacs
 #+begin_src emacs-lisp :tangle yes
-;;  (require 'doxymacs)
+  (add-to-list 'load-path (make-conf-path "doxymacs/lisp"))p
+  (add-hook 'c-mode-hook '(lambda () (require 'doxymacs)))
 #+end_src
 
 ** Applescript mode
@@ -1740,7 +1784,6 @@ MINIMAL EMACS CONFIGURATION
      (list (gud-query-cmdline 'pdb.py
                               (file-name-nondirectory buffer-file-name)))))
 #+end_src
-
 * Other modes
 ** Ledger, accounting mode
 #+begin_src emacs-lisp :tangle yes
@@ -1749,10 +1792,12 @@ MINIMAL EMACS CONFIGURATION
 
 ** Finding more conf files
 #+begin_src emacs-lisp :tangle yes
+  ;FIXME: the [ig] should be all optional
+  
   (add-to-list 'auto-mode-alist '("conf[ig]" . conf-mode))
-  (add-to-list 'auto-mode-alist '("^\\..+?rc" . conf-mode))
+  ;; (add-to-list 'auto-mode-alist '("^\\..+?rc" . conf-mode))
+  (add-to-list 'auto-mode-alist '(".*?rc" . conf-mode))
 #+end_src
-
 * Security
 #+begin_src emacs-lisp :tangle yes
   (require 'epa)
@@ -1795,9 +1840,9 @@ MINIMAL EMACS CONFIGURATION
         (shell-command (concat latex-command-program " " latex-symbols-file))
       (message "file not found")))
 #+end_src
-
-* Mail settings
-** General settings for message creation
+* Communication
+** Mail settings
+*** General settings for message creation
 
 #+begin_src emacs-lisp :tangle yes
   ;; setting where the mail is coming from
@@ -1809,7 +1854,7 @@ MINIMAL EMACS CONFIGURATION
       Regexp matching the signature separator.")
 #+end_src
 
-** Setting up gmail smtp server
+*** Setting up gmail smtp server
    Make sure you configure correctly your .authinfo for login and password
 
 #+begin_src emacs-lisp :tangle yes
@@ -1828,7 +1873,7 @@ MINIMAL EMACS CONFIGURATION
   (require 'smtpmail)
 #+end_src
 
-** Setting up completion over the addresses with the Mac address book
+*** Setting up completion over the addresses with the Mac address book
 #+begin_src emacs-lisp :tangle yes
   (if mac
       (progn
@@ -1842,13 +1887,43 @@ MINIMAL EMACS CONFIGURATION
                               (define-key message-mode-map "\C-c\t" 'external-abook-try-expand)))))))
 #+end_src
 
-** Setting default sending modality
+*** Setting default sending modality
 #+begin_src emacs-lisp :tangle yes
   (setq mail-user-agent 'sendmail-user-agent)
 #+end_src
 
-* Gnus settings
-** Server settings
+*** Using msmtp to change the smtp used
+#+begin_src emacs-lisp :tangle yes
+  (defvar msmtp-executable "/opt/local/bin/msmtp")
+  
+  (defun msmtp-account (&optional def)
+    (let* ((from
+            (save-restriction    
+              (message-narrow-to-headers)
+              (message-fetch-field "From")))
+           (account (if from (catch 'match
+                               (dolist (element msmtp-name-list)
+                                 ;; (message (format "smpt chosen is %s"
+                                 element))
+                      (when (string-match (format ".*%s.*"
+                                                  element) from)
+                        (throw 'match element)))) nil)))
+  (if account account (if def def "default"))))
+  
+  (defun msmtp-change-smtp ()
+    
+    (setq sendmail-program msmtp-executable)
+    (setq message-sendmail-envelope-from 'header)
+    
+    (if (message-mail-p)
+        (setq message-sendmail-extra-arguments (list "-a" (msmtp-account
+                                                           "default")))))
+  
+  (add-hook 'message-send-hook 'msmtp-change-smtp)
+#+end_src
+
+** Gnus settings
+*** Server settings
 #+begin_src emacs-lisp :tangle yes
   (setq gnus-select-method '(nntp "news.gmane.org"))
   ;; Set also comp.* hierarchy
@@ -1872,25 +1947,66 @@ MINIMAL EMACS CONFIGURATION
                '(maildir :path gmail-maildir :subdirs ("cur" "new")))
 #+end_src
 
-** Old messages settings
+*** Old messages settings
 #+begin_src emacs-lisp :tangle yes
   (setq gnus-large-newsgroup 500)
   (setq gnus-fetch-old-headers nil)
 #+end_src
 
-** Appearance
+*** Appearance
 #+begin_src emacs-lisp :tangle yes
   ;; Changing modeline to include also the date of the message
   (setq gnus-summary-line-format "%U%R%z%I%(%[%4L: %-23,23f%]%) %s--%d\n")
 #+end_src
 
-** Avoid the annoying saving of the .news file
+*** Avoid the annoying saving of the .news file
 #+begin_src emacs-lisp :tangle yes
   (add-hook 'gnus-started-hook
             (lambda ()
               (when (buffer-live-p gnus-dribble-buffer)
                 (with-current-buffer gnus-dribble-buffer
                   (setq buffer-save-without-query t)))))
+#+end_src
+** Erc
+#+begin_src emacs-lisp :tangle yes
+  ;; This is an example of how to make a new command.  Type "/uptime" to
+  ;; use it.
+  (defun erc-cmd-UPTIME (&rest ignore)
+    "Display the uptime of the system, as well as some load-related
+       stuff, to the current ERC buffer."
+    (let ((uname-output
+           (replace-regexp-in-string
+            ", load average: " "] {Load average} ["
+            ;; Collapse spaces, remove
+            (replace-regexp-in-string
+             " +" " "
+             ;; Remove beginning and trailing whitespace
+             (replace-regexp-in-string
+              "^ +\\|[ \n]+$" ""
+              (shell-command-to-string "uptime"))))))
+      (erc-send-message
+       (concat "{Uptime} [" uname-output "]"))))
+  
+  ; TODO: create a new one if necessary or just
+  ; activate the current one if possible
+  (defun bitlbee ()
+    "connect to bitlbee"
+    (interactive)
+    (select-frame (make-frame))
+    (erc :server "localhost" :port "6667" :nick "andrea"))
+  
+  (defun freenode ()
+    "connect to freenode channel"
+    (interactive)
+    (erc :server "irc.freenode.net" :port "6667" :nick "andrea_crotti"))
+  
+  ;; Join the #emacs and #erc channels whenever connecting to Freenode.
+  (setq erc-autojoin-channels-alist
+        '(("freenode.net"
+           "#emacs" "#erc" "#ruby-lang" "#python" "#ledger")))
+  
+  ;; Interpret mIRC-style color commands in IRC chats
+  (setq erc-interpret-mirc-color t)
 #+end_src
 
 * Revision control systems
