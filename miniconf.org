@@ -46,6 +46,7 @@ MINIMAL EMACS CONFIGURATION
   - [[http://snarfed.org/space/why_I_dont_run_shells_inside_Emacs][running a shell inside emacs]]
 
     
+
 * Things not working in emacs 22
   - remember mode (not present) (and consequently org-remmeber)
 
@@ -584,6 +585,26 @@ MINIMAL EMACS CONFIGURATION
         (all-asscs (cdr asslist) query)))))
 #+end_src
 
+*** Reopen a file in readwrite mode
+#+begin_src emacs-lisp :tangle yes
+  (defcustom preferred-reopen-rw-mode "sudo"
+    "preferred mode for reopen"
+    :type 'string
+    )
+  
+  (defun rw ()
+    "Reopen the file in rw mode, sui"
+    (interactive)
+    (let
+        ((read-only-old-file (buffer-file-name)))
+      (if (not (file-writable-p read-only-old-file))
+          (when (yes-or-no-p "kill the read only and reopen in rw?")
+            (progn 
+              (kill-buffer)
+              (find-file (concat "/" preferred-reopen-rw-mode "::" read-only-old-file))))
+        (message "you can already write on this file"))))
+#+end_src
+
 ** reload this configuration
 #+begin_src emacs-lisp :tangle yes
   (defun reload-conf ()
@@ -994,21 +1015,30 @@ MINIMAL EMACS CONFIGURATION
       (if 
            (and
             (string= major-mode "org-mode")
+            ; TODO: check this condition
+            (or (org-agenda-filter-remote-files) (file-remote-p buffer-file-name))
+             ;TODO: there should be a function already in org-mode 
             (not (member (abbreviate-file-name buffer-file-name) org-agenda-files)))
            (if
                (yes-or-no-p "add the file to agenda?")
                (org-agenda-file-to-front)))))
+  
   
   (defcustom org-agenda-add-eventually-enabled
     nil
     "add interactively enabled or not"
     :type 'boolean)
   
+  (defcustom org-agenda-filter-remote-files
+    t
+    "filter buffers open with tramp-mode"
+    :type 'boolean)
+  
   (if org-agenda-add-eventually-enabled
       (add-hook 'before-save-hook 'org-add-eventually))
   
   (defcustom org-agenda-filter-out
-    '("/Volumes/arch" "ssh:")
+    '("/Volumes/arch")
     "regexp that are never added to agenda"
     :type 'list)
   
@@ -1340,21 +1370,15 @@ MINIMAL EMACS CONFIGURATION
   (defun freenode ()
     "connect to freenode channel"
     (interactive)
-    (erc :server "irc.freenode.net" :port "6667" :nick "bogomips"))
+    (erc :server "irc.freenode.net" :port "6667" :nick "andrea_crotti"))
   
   ;; Join the #emacs and #erc channels whenever connecting to Freenode.
-  (setq erc-autojoin-channels-alist '(("freenode.net" "#emacs" "#erc" "#ruby-lang")))
+  (setq erc-autojoin-channels-alist
+        '(("freenode.net"
+           "#emacs" "#erc" "#ruby-lang" "#python" "#ledger")))
   
   ;; Interpret mIRC-style color commands in IRC chats
   (setq erc-interpret-mirc-color t)
-  (add-hook 'erc-mode-hook 'turn-on-flyspell)
-#+end_src
-
-* Chatting
-** Elim
-#+begin_src emacs-lisp :tangle yes
-  (add-to-list 'load-path (make-conf-path "elim/elisp"))
-  (setq elim-directory (make-conf-path "elim"))
 #+end_src
 
 * Programming
@@ -1837,6 +1861,17 @@ MINIMAL EMACS CONFIGURATION
                 (nntp-port-number 119))))
 #+end_src
 
+   Configuring maildir testing
+#+begin_src emacs-lisp :tangle yes
+  (setq gmail-maildir "~/mail_clones/andrea_gmail/")
+  
+  (add-to-list 'gnus-secondary-select-methods
+               '(nnmaildir "mymailbox" (directory gmail-maildir)))
+  
+  (add-to-list 'mail-sources
+               '(maildir :path gmail-maildir :subdirs ("cur" "new")))
+#+end_src
+
 ** Old messages settings
 #+begin_src emacs-lisp :tangle yes
   (setq gnus-large-newsgroup 500)
@@ -1917,6 +1952,10 @@ MINIMAL EMACS CONFIGURATION
   (add-to-list 'ido-ignore-buffers "\\.org\\'")
   ; miniconf.org should be always visible
   (add-to-list 'ido-ignore-buffers "^miniconf")
+
+  ;; Using ido-mode hacks for advising more functions
+  (require 'ido-hacks)
+  (ido-hacks-mode t)
 #+end_src
 
 *** Use IDO when possible:
