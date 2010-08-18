@@ -743,7 +743,7 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (require 'desktop)
    
-  (desktop-save-mode 1)
+  (desktop-save -mode 1)
   ;; save always
   (setq desktop-save t)
   (defun print-desktop ()
