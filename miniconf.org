@@ -1028,7 +1028,6 @@ MINIMAL EMACS CONFIGURATION
     (flyspell-mode t))
 #+end_src
 
-
 ** Dictionary
    Using dictionary.el (downloaded from http://me.in-berlin.de/~myrkr/dictionary/download.html)
 
@@ -1792,11 +1791,8 @@ MINIMAL EMACS CONFIGURATION
 
 ** Finding more conf files
 #+begin_src emacs-lisp :tangle yes
-  ;FIXME: the [ig] should be all optional
-  
-  (add-to-list 'auto-mode-alist '("conf[ig]" . conf-mode))
-  ;; (add-to-list 'auto-mode-alist '("^\\..+?rc" . conf-mode))
-  (add-to-list 'auto-mode-alist '(".*?rc" . conf-mode))
+  (add-to-list 'auto-mode-alist '("conf" . conf-mode))
+  (add-to-list 'auto-mode-alist '(".*?rc$" . conf-mode))
 #+end_src
 * Security
 #+begin_src emacs-lisp :tangle yes
