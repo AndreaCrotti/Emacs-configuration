@@ -49,6 +49,20 @@ MINIMAL EMACS CONFIGURATION
   - remember mode (not present) (and consequently org-remmeber)
 
 * Sparse documentation 
+  From newcomment.el:
+** Define a custom variable with a dynamic list
+#+begin_src emacs-lisp :tangle yes
+  (defcustom comment-style 'indent
+    "Style to be used for `comment-region'.
+  See `comment-styles' for a list of available styles."
+    :type (if (boundp 'comment-styles)
+              `(choice ,@(mapcar (lambda (s) `(const ,(car s)))
+                                 comment-styles))
+            'symbol)
+    :version "23.1"
+    :group 'comment)
+#+end_src
+
 ** How to extend emacs
    [[http://www.enigmacurry.com/2009/01/14/extending-emacs-with-advice/][example about advising functions]]
    - If you can use the mode hooks provided by the author, use them instead.
@@ -205,6 +219,16 @@ MINIMAL EMACS CONFIGURATION
 ** Some useful functions
    We suppose that the global variable *conf* has been already set from the outside.
 
+*** Make a script executable
+#+begin_src emacs-lisp :tangle yes
+  ;FIXME: not correct yet
+  (defun px()
+    (interactive)
+    (chmod (buffer-file-name) "777"))
+  
+  (read-file-modes nil (buffer-file-name))
+#+end_src
+    
 *** Make fortune
     Print below a fortune cookie if the command is present in the system.
 
@@ -867,10 +891,6 @@ MINIMAL EMACS CONFIGURATION
   [[http://www.emacswiki.org/emacs/Shrink-Wrapping_Frames][See shrinking frames]] and onetoone to see what it could be done to make emacs more frame-centric.
 
   Create some extensions to manage frames more easily, with "select-frame", "next-frame" and so on.
-#+begin_src emacs-lisp :tangle yes
-  
-#+end_src
-  
 * Visualization
 ** Menu and tool-bar disabling
 #+begin_src emacs-lisp :tangle yes
