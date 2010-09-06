@@ -1791,8 +1791,8 @@ MINIMAL EMACS CONFIGURATION
 
 ** Finding more conf files
 #+begin_src emacs-lisp :tangle yes
-  (add-to-list 'auto-mode-alist '("conf" . conf-mode))
-  (add-to-list 'auto-mode-alist '(".*?rc$" . conf-mode))
+;  (add-to-list 'auto-mode-alist '("conf" . conf-mode))
+;  (add-to-list 'auto-mode-alist '(".*?rc$" . conf-mode))
 #+end_src
 * Security
 #+begin_src emacs-lisp :tangle yes
