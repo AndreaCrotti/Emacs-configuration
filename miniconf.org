@@ -225,8 +225,6 @@ MINIMAL EMACS CONFIGURATION
   (defun px()
     (interactive)
     (chmod (buffer-file-name) "777"))
-  
-  (read-file-modes nil (buffer-file-name))
 #+end_src
     
 *** Make fortune
