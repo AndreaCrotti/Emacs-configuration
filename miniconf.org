@@ -1632,6 +1632,12 @@ MINIMAL EMACS CONFIGURATION
   (add-to-list 'auto-mode-alist '("\\.nc$" . nesc-mode))
 #+end_src
 
+** Ned mode (for omnet++)
+#+begin_src emacs-lisp :tangle yes
+   (autoload 'ned-mode "ned-mode" "Major Mode for editing Ned files" t)
+   (add-to-list 'auto-mode-alist '("\\.ned$" . ned-mode))
+#+end_src   
+
 ** Java
 *** Jdee settings
 #+begin_src emacs-lisp :tangle yes
