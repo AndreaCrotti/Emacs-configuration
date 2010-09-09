@@ -748,6 +748,8 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
    ;; reverting automatically the buffer
    (setq dired-auto-revert-buffer 1)
+   ;; look for filenames if on one already
+   (setq dired-isearch-filenames 'dwim)
 #+end_src
 
 *** Using dired-details for smaller windows
@@ -1012,6 +1014,21 @@ MINIMAL EMACS CONFIGURATION
   (autoload 'babel-region "babel" "translating a region" t)
   (autoload 'babel "babel" "translating interactively" t)
   (autoload 'babel-buffer "babel" "translate buffer" t)
+#+end_src
+
+*** Text translator
+#+begin_src emacs-lisp :tangle yes
+  (setq text-translator-display-popup t)
+  (setq text-translator-default-engine "google.com_deen")
+  
+  (defun text-translator-region-or-thing-at-point (&optional prompt)
+    (interactive)
+    "If mark is active, return the region, otherwise, thing at point."
+    (cond
+     (mark-active
+      (buffer-substring-no-properties (region-beginning) (region-end)))
+     (t
+      (thing-at-point 'symbol ))))
 #+end_src
 
 *** Spelling functions
