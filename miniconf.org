@@ -1895,19 +1895,17 @@ MINIMAL EMACS CONFIGURATION
    Make sure you configure correctly your .authinfo for login and password
 
 #+begin_src emacs-lisp :tangle yes
-  (setq send-mail-function 'smtpmail-send-it
-        message-send-mail-function 'smtpmail-send-it
-        smtpmail-starttls-credentials
-        '(("smtp.gmail.com" 587 nil nil))
-        smtpmail-auth-credentials
-        (expand-file-name "~/.authinfo")
-        smtpmail-default-smtp-server "smtp.gmail.com"
-        smtpmail-smtp-server "smtp.gmail.com"
-        smtpmail-smtp-service 587
-        ;; This can be commented out for a less verbose output
-        smtpmail-debug-info t)
+  (autoload 'smtpmail-send-it "smtpmail")
   
-  (require 'smtpmail)
+  (setq send-mail-function 'smtpmail-send-it)
+  (setq smtp-default-server "smtp.gmail.com")
+  (setq smtp-service 587)
+  (setq smtp-debug-info t)
+  (setq smtpmail-starttls-credentials
+        '(("smtp.gmail.com" 587 nil nil)))
+  (setq smtpmail-auth-credentials
+        (expand-file-name "~/.authinfo"))
+  (setq smtp-server smtp-default-server) 
 #+end_src
 
 *** Setting up completion over the addresses with the Mac address book
@@ -1926,6 +1924,8 @@ MINIMAL EMACS CONFIGURATION
 
 *** Setting default sending modality
 #+begin_src emacs-lisp :tangle yes
+  ;; disable the warning
+  (setq compose-mail-check-user-agent nil)
   (setq mail-user-agent 'sendmail-user-agent)
 #+end_src
 
