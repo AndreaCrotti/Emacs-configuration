@@ -1233,7 +1233,7 @@ MINIMAL EMACS CONFIGURATION
   
   (let ((orig (make-conf-path "yasnippet/snippets/"))
         (submod (expand-file-name "~/Documents/my-snippets")))
-    (setq yas/root-directory (list orig submod))))
+    (setq yas/root-directory (list submod orig)))
     
   ;; Maybe needed to set to fixed for some modes
   (setq yas/indent-line 'auto)
@@ -2106,35 +2106,6 @@ MINIMAL EMACS CONFIGURATION
   ;; Using ido-mode hacks for advising more functions
   (require 'ido-hacks)
   (ido-hacks-mode t)
-#+end_src
-
-*** Use IDO when possible:
-    We can advice the *completing-read* default function to use IDO when it's possible
-#+begin_src emacs-lisp :tangle no
-  (defvar ido-enable-replace-completing-read t
-    "If t, use ido-completing-read instead of completing-read if possible.
-      
-      Set it to nil using let in around-advice for functions where the
-      original completing-read is required.  For example, if a function
-      foo absolutely must use the original completing-read, define some
-      advice like this:
-      
-      (defadvice foo (around original-completing-read-only activate)
-        (let (ido-enable-replace-completing-read) ad-do-it))")
-  
-  ;; Replace completing-read wherever possible, unless directed otherwise
-  (defadvice completing-read
-    (around use-ido-when-possible activate)
-    (if (or (not ido-enable-replace-completing-read) ; Manual override disable ido
-            (boundp 'ido-cur-list)) ; Avoid infinite loop from ido calling this
-        ad-do-it
-      (let ((allcomp (all-completions "" collection predicate)))
-        (if allcomp
-            (setq ad-return-value
-                  (ido-completing-read prompt
-                                       allcomp
-                                       nil require-match initial-input hist def))
-          ad-do-it))))
 #+end_src
 
 ** Windmove
