@@ -747,6 +747,8 @@ MINIMAL EMACS CONFIGURATION
    (setq dired-auto-revert-buffer 1)
    ;; look for filenames if on one already
    (setq dired-isearch-filenames 'dwim)
+   ;; so it doesn't open a thousand buffers every time
+   (put 'dired-find-alternate-file 'disabled nil)
 #+end_src
 
 *** Using dired-details for smaller windows
@@ -761,12 +763,12 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 ** Desktop mode
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
   (require 'desktop)
    
-  (desktop-save-mode 1)
+  (desktop-save-mode -1)
   ;; save always
-  (setq desktop-save t)
+  (setq desktop-save nil)
   (defun print-desktop ()
     (interactive)
     (message "current desktop is %s" desktop-dirname))
