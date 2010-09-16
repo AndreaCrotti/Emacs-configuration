@@ -1547,6 +1547,16 @@ MINIMAL EMACS CONFIGURATION
   (add-hook 'c-mode-common-hook 'my-c-like-cedet-hook)
 #+end_src
 
+** C++
+*** Qt style
+#+begin_src emacs-lisp :tangle yes
+  (c-add-style "qt-gnu" 
+               '("gnu" 
+                 (c-access-key .
+                               "\\<\\(signals\\|public\\|protected\\|private\\|public slots\\|protected slots\\|private slots\\):")
+                 (c-basic-offset . 4)))
+#+end_src
+
 ** Insert headers automatically given the right extension
 #+begin_src emacs-lisp :tangle yes
   (defun is-new-file ()
