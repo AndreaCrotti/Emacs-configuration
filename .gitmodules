@@ -112,3 +112,6 @@
 [submodule "psvn"]
 	path = psvn
 	url = git://github.com/emacsmirror/psvn.git
+[submodule "yasnippet-snippets"]
+	path = yasnippet-snippets
+	url = git://github.com/AndreaCrotti/yasnippet-snippets.git

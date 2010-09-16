@@ -1231,10 +1231,10 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (require 'yasnippet)
   
-  (setq yas/root-directory
-        (mapcar 'make-conf-path
-                '("my-snippets/" "yasnippet/snippets/")))
-  
+  (let ((orig (make-conf-path "yasnippet/snippets/"))
+        (submod (expand-file-name "~/Documents/my-snippets")))
+    (setq yas/root-directory (list orig submod))))
+    
   ;; Maybe needed to set to fixed for some modes
   (setq yas/indent-line 'auto)
   
@@ -1252,7 +1252,7 @@ MINIMAL EMACS CONFIGURATION
     (interactive "DPath: ")
     (find-file (concat path ".yas-parents"))
     (insert "text-mode"))
-
+  
   (defun with-comment (str)
    (format "%s%s%s" comment-start str comment-end))
 #+end_src
