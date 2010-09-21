@@ -115,3 +115,6 @@
 [submodule "yasnippet-snippets"]
 	path = yasnippet-snippets
 	url = git://github.com/AndreaCrotti/yasnippet-snippets.git
+[submodule "paredit"]
+	path = paredit
+	url = git://github.com/emacsmirror/paredit.git

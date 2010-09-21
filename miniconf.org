@@ -294,10 +294,11 @@ MINIMAL EMACS CONFIGURATION
         ;; if we're at beginning of buffer, the backward-char will beep
         ;; :( This works even in the case of narrowing (e.g. we don't
         ;; look outside of the narrowed area.
-        ;; FIXME: looking-at not working as expected
-        (when (not (looking-at closing-char))
-          (insert closing-char))
-        (newline-force))))
+        ;; FIXME: there must be a way to look for only a char!
+        (let ((closing-regexp (concat ".*" closing-char ".*")))
+          (when (not (looking-at closing-regexp))
+            (insert closing-char))
+          (newline-force)))))
 #+end_src
 
 *** Error switch
