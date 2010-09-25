@@ -33,7 +33,7 @@
 ;; If you put your ned-mode.el somewhere emacs doesn't find it, add this
 ;; to your .emacs before the two statements above:
 ;;
-;; (setq load-path (cons "path_to_dirctory" load-path))
+;; (setq load-path (cons "path_to_directory" load-path))
 ;;
 ;;
 
@@ -41,20 +41,21 @@
 
 (require 'derived)
 
-(define-derived-mode ned-mode text-mode "Ned"
+(define-derived-mode ned-mode c-mode "Ned"
   "Major mode for editing OMNeT++ Ned files.
 Special commands:
 \\{ned-mode-map}"
-(make-local-variable 'font-lock-defaults)
-(set (make-local-variable 'comment-start) "//")
-(setq font-lock-defaults '(ned-font-lock-keywords t))
-)
+  (make-local-variable 'font-lock-defaults)
+  (set (make-local-variable 'comment-start) "//")
+  (setq font-lock-defaults '(ned-font-lock-keywords t))
+  (c-set-style "cc-mode")
+  )
 
 (defvar ned-font-lock-keywords
   '(("//.*" . font-lock-comment-face)
     ("\".*\"" . font-lock-string-face)
     ("\\<\\(nocheck\\|if\\)\\>" . font-lock-keyword-face)
-    ("\\<\\(submodules\\|machines\\|display\\|gatesizes\\|gates\\|in\\|out\\|parameters\\|on\\|connections\\)\\>.*:" 1 font-lock-keyword-face)
+    ("\\<\\(submodules\\|types\\|machines\\|display\\|gatesizes\\|gates\\|in\\|out\\|parameters\\|on\\|connections\\)\\>.*:" 1 font-lock-keyword-face)
     ("\\<\\(include\\|channel\\|endchannel\\|delay\\|error\\|datarate\\|simple\\|endsimple\\|module\\|endmodule\\|network\\|endnetwork\\|const\\|numeric\\|string\\|bool\\|char\\|anytype\\|ancestor\\|ref\\)\\>" 1 font-lock-keyword-face)
     ("\\(channel\\|simple\\|module\\|network\\)[ \t]*\\([A-Za-z0-9_-]*\\)" 2 font-lock-function-name-face)
 ;;    ("\\(.*\\)[ \t]*:" 1 font-lock-function-name-face)

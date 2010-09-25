@@ -1310,7 +1310,7 @@ MINIMAL EMACS CONFIGURATION
 ** Define allowed modes
 #+begin_src emacs-lisp :tangle yes
   (dolist
-      (my-ac-mode '(nesc-mode org-mode html-mode xml-mode haskell-mode))
+      (my-ac-mode '(nesc-mode org-mode html-mode xml-mode haskell-mode ned-mode cpp-omnet-mode))
     (add-to-list 'ac-modes my-ac-mode))
   
               
@@ -1682,12 +1682,32 @@ MINIMAL EMACS CONFIGURATION
   (add-to-list 'auto-mode-alist '("\\.nc$" . nesc-mode))
 #+end_src
 
-** Ned mode (for omnet++)
+** Omnet++
+   NED file syntax, derived from C for syntax and indentation
 #+begin_src emacs-lisp :tangle yes
    (autoload 'ned-mode "ned-mode" "Major Mode for editing Ned files" t)
    (add-to-list 'auto-mode-alist '("\\.ned$" . ned-mode))
-#+end_src   
+#+end_src
+   
+   Msg file type
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'auto-mode-alist '("\\.msg$" . c-mode))
+#+end_src
 
+  Try to enable the cpp-omnet-mode automatically when possible
+#+begin_src emacs-lisp :tangle yes
+  ;; Look for the file .ini or the header inclusion
+  (defun is-omnet-cpp-file ()
+    (if
+        (or (file-exists-p "omnetpp.ini")
+            (search-forward "<omnetpp.h>"))
+        (cpp-omnet-mode)))
+  
+  ;FIXME: Not working correctly yet, because it goes in infinite loop
+  ;; (add-hook 'c++-mode-hook 'is-omnet-cpp-file)
+  ;; (add-hook 'find-file-hook 'is-omnet-cpp-file)
+#+end_src
+  
 ** Java
 *** Jdee settings
 #+begin_src emacs-lisp :tangle yes
