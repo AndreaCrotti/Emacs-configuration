@@ -1403,12 +1403,12 @@ MINIMAL EMACS CONFIGURATION
   ;; use it a hook instead with the java mode
   
   ;; TODO: maybe worth using on other modes also
-  (add-hook 'java-mode-hook
-            '(lambda ()
-               (require 'eclim)
+  ;; (add-hook 'java-mode-hook
+  ;;           '(lambda ()
+  ;;              (require 'eclim)
   
-               (setq eclim-auto-save t)
-               (eclim-mode 1)))
+  ;;              (setq eclim-auto-save t)
+  ;;              (eclim-mode 1)))
 #+end_src
 ** Tags
 *** Etags-select
@@ -1456,6 +1456,31 @@ MINIMAL EMACS CONFIGURATION
   ;; delay search the TAGS file after open the source file
   (add-hook 'emacs-startup-hook 
             '(lambda () (jds-set-tags-file-path)))
+#+end_src
+
+*** [[http://zagadka.vm.bytemark.co.uk/magit/][GIT]]
+   Nice interface for git.
+#+begin_src emacs-lisp :tangle yes
+  (autoload 'magit-status "magit" "magit" t)
+#+end_src
+
+**** Function to enable revert mode when in a git repository
+   It's nice to enable auto-revert-mode automatically on files which are surely in a git repository.
+   To do this we can simply add a hook to find-file-hook
+#+begin_src emacs-lisp :tangle yes
+  (defun is-git-file ()
+    "Return nil unless the file is in the git files"
+    (if
+        (member (file-name-nondirectory buffer-file-name)
+                (split-string  (shell-command-to-string "git ls-files")))
+        (auto-revert-mode t)))
+  
+  (add-hook 'find-file-hook 'is-git-file)
+#+end_src
+
+*** SVN
+#+begin_src emacs-lisp :tangle yes
+  (autoload 'svn-status "psvn" "svn status" t)
 #+end_src
 
 * Programming
@@ -2052,28 +2077,6 @@ MINIMAL EMACS CONFIGURATION
   
   ;; Interpret mIRC-style color commands in IRC chats
   (setq erc-interpret-mirc-color t)
-#+end_src
-
-* Revision control systems
-** [[http://zagadka.vm.bytemark.co.uk/magit/][Magit]]
-   Nice interface for git.
-#+begin_src emacs-lisp :tangle yes
-  ; TODO: use autoload instead
-  (require 'magit)
-#+end_src
-
-** Function to enable revert mode when in a git repository
-   It's nice to enable auto-revert-mode automatically on files which are surely in a git repository.
-   To do this we can simply add a hook to find-file-hook
-#+begin_src emacs-lisp :tangle yes
-  (defun is-git-file ()
-    "Return nil unless the file is in the git files"
-    (if
-        (member (file-name-nondirectory buffer-file-name)
-                (split-string  (shell-command-to-string "git ls-files")))
-        (auto-revert-mode t)))
-  
-  (add-hook 'find-file-hook 'is-git-file)
 #+end_src
 
 * General settings
