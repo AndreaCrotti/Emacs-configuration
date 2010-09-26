@@ -39,6 +39,8 @@
 
 ;;; Code:
 
+;TODO: Might need to be upgrade to the new sintax of omnetpp4
+ 
 (require 'derived)
 
 (define-derived-mode ned-mode c-mode "Ned"
@@ -58,7 +60,7 @@ Special commands:
     ("\\<\\(submodules\\|types\\|machines\\|display\\|gatesizes\\|gates\\|in\\|out\\|parameters\\|on\\|connections\\)\\>.*:" 1 font-lock-keyword-face)
     ("\\<\\(include\\|channel\\|endchannel\\|delay\\|error\\|datarate\\|simple\\|endsimple\\|module\\|endmodule\\|network\\|endnetwork\\|const\\|numeric\\|string\\|bool\\|char\\|anytype\\|ancestor\\|ref\\)\\>" 1 font-lock-keyword-face)
     ("\\(channel\\|simple\\|module\\|network\\)[ \t]*\\([A-Za-z0-9_-]*\\)" 2 font-lock-function-name-face)
-;;    ("\\(.*\\)[ \t]*:" 1 font-lock-function-name-face)
+    ;;    ("\\(.*\\)[ \t]*:" 1 font-lock-function-name-face)
     ("[ \t]*\\(for\\).*\\(\\.\\.\\|to\\).*\\(do\\)"
      (1 font-lock-keyword-face)
      (2 font-lock-keyword-face)
