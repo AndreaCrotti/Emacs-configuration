@@ -1696,19 +1696,28 @@ MINIMAL EMACS CONFIGURATION
 
   Try to enable the cpp-omnet-mode automatically when possible
 #+begin_src emacs-lisp :tangle yes
-  ;; Look for the file .ini or the header inclusion
-  (defun is-omnet-cpp-file ()
-    (if
-        (or (file-exists-p "omnetpp.ini")
-            (search-forward "<omnetpp.h>"))
-        (cpp-omnet-mode)))
+  (add-hook 'c++-mode-hook 'is-omnet-cpp-file)
+  ;; this means that the variable is set locally
+  (make-variable-buffer-local 'changing-to-omnet)
   
-  ;FIXME: Not working correctly yet, because it goes in infinite loop
-  ;; (add-hook 'c++-mode-hook 'is-omnet-cpp-file)
-  ;; (add-hook 'find-file-hook 'is-omnet-cpp-file)
+  (defun is-omnet-cpp-file ()
+    (when 
+        (and (or (file-exists-p "omnetpp.ini")
+                 (search-forward "<omnetpp.h>"))
+             (not changing-to-omnet))
+      (setq changing-to-omnet t)
+      (cpp-omnet-mode)
+      (setq changing-to-omnet nil)))
 #+end_src
   
 ** Java
+*** Jdibug
+    We use it without jdee
+
+#+begin_src emacs-lisp :tangle yes
+   (setq jdibug-use-jde-source-paths nil)
+#+end_src
+
 *** Jdee settings
 #+begin_src emacs-lisp :tangle yes
   (add-to-list 'load-path (make-conf-path "jdee/lisp"))
@@ -1829,6 +1838,7 @@ MINIMAL EMACS CONFIGURATION
                (require 'inf-ruby)
                (require 'ruby-electric)
                (require 'rubydb)
+               (inf-ruby-keys)
                (load-library "rdoc-mode")))
 #+end_src
 

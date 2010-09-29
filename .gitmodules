@@ -121,3 +121,6 @@
 [submodule "rinari"]
 	path = rinari
 	url = git://github.com/eschulte/rinari.git
+[submodule "jdibug"]
+	path = jdibug
+	url = http://github.com/emacsmirror/jdibug.git
