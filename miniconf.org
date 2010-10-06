@@ -1115,7 +1115,8 @@ MINIMAL EMACS CONFIGURATION
    
 ** Info configuration
 #+begin_src emacs-lisp :tangle yes
-  (add-to-list 'Info-default-directory-list "org-mode/share/info/")
+  ;FIXME: still doesn't work as desired
+  (add-to-list 'Info-default-directory-list (make-conf-path "org-mode/doc/"))
 #+end_src
 
 ** Clock configuration
@@ -1191,9 +1192,9 @@ MINIMAL EMACS CONFIGURATION
 
 *** Setting up
 #+begin_src emacs-lisp :tangle yes
-(require 'remember)
-(require 'org-remember)
-(org-remember-insinuate)
+  (require 'remember)
+  (require 'org-remember)
+  (org-remember-insinuate)
 #+end_src
 
 *** Define templates
@@ -1609,7 +1610,8 @@ MINIMAL EMACS CONFIGURATION
           (yas/expand))))
     
   (defcustom my-auto-header-conses
-        '(("py" . "!")
+        '(
+        ;;("py" . "!")
           ("rb" . "!")
           ("h"  . "once"))
         "snippets to expand per file extension"
@@ -1902,6 +1904,17 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (require 'epa)
   (epa-file-enable)
+#+end_src
+
+* Fetching documentation
+** RFC
+#+begin_src emacs-lisp :tangle yes
+  (setq rfc-url-save-directory "~/rfc")
+  (setq rfc-index-url "http://www.ietf.org/iesg/1rfc_index.txt")
+  (setq rfc-archive-alist (list (concat rfc-url-save-directory "/rfc.zip")
+                                rfc-url-save-directory
+                                "http://www.ietf.org/rfc/"))
+  (setq rfc-insert-content-url-hook '(rfc-url-save))
 #+end_src
 
 * Latex
@@ -2350,6 +2363,20 @@ MINIMAL EMACS CONFIGURATION
           (find-file-other-window path))))
 #+end_src
       
+* Presentation mode
+  Mode used to enable for presenting emacs power
+#+begin_src emacs-lisp :tangle yes
+  (defun presentation-mode ()
+    "what to enable in a presentation mode"
+    ;TODO: also add a function to cancel all this changes 
+    (interactive)
+    (growl)
+    (color-theme-high-contrast)
+    (global-semantic-decoration-mode -1)
+    (global-semantic-idle-summary-mode -1)
+    (add-hook 'python-mode-hook (function activate-flymake)))
+#+end_src
+
 * Global keys settings
 #+begin_src emacs-lisp :tangle yes
   ;; compile facilities

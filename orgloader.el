@@ -1,4 +1,3 @@
-(setq conf (concat base "conf/"))
 (defun make-conf-path (path)
   (expand-file-name (concat base path)))
 
