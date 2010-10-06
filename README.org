@@ -2,8 +2,10 @@
 Emacs configuration
 *WARNING*:
 Changing code in miniconf.el will have no effect, since at next restart it will be overwritten.
+The configuration is all in the file *miniconf.org*, github understands the format but not completely, so I suggest to read it via emacs.
+Or otherwise I could also create a pdf/html.
 
-I suggest for customization to use the file custom.el or at worst to clone this project.
+I suggest for customization to use the file custom.el.
 
 * Features
   - yasnippet
