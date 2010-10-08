@@ -3,7 +3,7 @@
 ;; Copyright (C) 2002, 2003 Vladimir G. Sekissov
 
 ;; Author: andrea <andrea@mbpro.local>
-;; Created: 2010-08-03 19:13:32+0200
+;; Created: 2010-10-08 23:48:00+0200
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

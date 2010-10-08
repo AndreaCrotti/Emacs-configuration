@@ -626,7 +626,7 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 *** Count words in the buffer
-#+begin_src emacs-lisp :tangle 
+#+begin_src emacs-lisp :tangle yes
   ;FIXME: Not really doing what is expected
   (defun wc-buffer ()
     "Print number of words in Buffer"
@@ -2317,7 +2317,7 @@ MINIMAL EMACS CONFIGURATION
 (setq fortune-dir "/opt/local/share/games/fortune/")
 #+end_src
 
-*** Use spotlight for locating
+** Use spotlight for locating
 #+begin_src emacs-lisp :tangle yes
   (defun spotlight ()
     "locate with spotlight facility"
@@ -2326,7 +2326,7 @@ MINIMAL EMACS CONFIGURATION
       (call-interactively 'locate nil)))
 #+end_src
 
-*** Run applescript commands
+** Run applescript commands
 #+begin_src emacs-lisp :tangle yes
   (defun do-applescript (str)
     "Synchronously run applescript STR."
@@ -2336,7 +2336,7 @@ MINIMAL EMACS CONFIGURATION
       (buffer-string)))
 #+end_src
 
-*** Open the terminal
+** Open the terminal
 #+begin_src emacs-lisp :tangle yes
   (defun mac-open-terminal ()
     (interactive)
@@ -2360,7 +2360,7 @@ MINIMAL EMACS CONFIGURATION
       ))
 #+end_src
 
-*** Growl popup
+** Growl popup
    This function can be pretty nice during presentations, it will popup the last pressed key via growl.
 #+begin_src emacs-lisp :tangle yes
      (defun growl-popup (msg)
@@ -2400,7 +2400,7 @@ MINIMAL EMACS CONFIGURATION
         (setq growl-mode nil))))
 #+end_src
 
-*** Open port file
+** Open port file
 #+begin_src emacs-lisp :tangle yes
   ;; Using the right mode for portfiles
   (add-to-list 'auto-mode-alist '("Portfile" . tcl-mode))

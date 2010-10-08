@@ -3,7 +3,7 @@
 ;; Copyright (C) 2005, 2007, 2008, 2009, 2010 Eric M. Ludlam
 
 ;; Author: andrea <andrea@mbpro.local>
-;; Created: 2010-08-03 19:13:38+0200
+;; Created: 2010-10-08 23:48:03+0200
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

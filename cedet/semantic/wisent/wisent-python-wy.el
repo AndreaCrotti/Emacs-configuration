@@ -3,7 +3,7 @@
 ;; Copyright (C) 2002, 2003, 2004, 2007 Richard Kim
 
 ;; Author: andrea <andrea@mbpro.local>
-;; Created: 2010-08-03 19:13:16+0200
+;; Created: 2010-10-08 23:47:54+0200
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

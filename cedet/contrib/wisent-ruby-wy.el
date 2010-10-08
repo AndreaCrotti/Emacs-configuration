@@ -3,7 +3,7 @@
 ;;; Copyright (C) 2007 Daniel Debertin (debertin@gmail.com)
 
 ;; Author: andrea <andrea@mbpro.local>
-;; Created: 2010-08-03 19:14:01+0200
+;; Created: 2010-10-08 23:48:16+0200
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 
