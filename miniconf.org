@@ -19,6 +19,7 @@ MINIMAL EMACS CONFIGURATION
 * TODO Add options to create encrypted org-files for storing password and more delicate informations
 * TODO See how to use variables like *special-buffer-regexps* to have a better control over the buffer windows
 * TODO Build an automatic list of versions
+* TODO Check out what dictem is from this conf [[file:~/bash_conf/emacs.org][other guy emacs.org]]
 
 * Links
   - [[http://www.gnu.org/software/emacs/tour/][A guided tour of emacs features]]
@@ -182,7 +183,7 @@ MINIMAL EMACS CONFIGURATION
   (defalias 'gcb 'git-change-branch)
 #+end_src   
 
-* General settings
+* Preliminary settings
 ** Provide the library
 #+begin_src emacs-lisp :tangle yes
   (provide 'miniconf)
@@ -193,7 +194,6 @@ MINIMAL EMACS CONFIGURATION
   (setq custom-file (concat base "custom.el"))
 #+end_src
 
-* Prerequisites
 ** Constants and some global settings
 #+begin_src emacs-lisp :tangle yes
   (defcustom default-closing-char ";"
@@ -625,6 +625,15 @@ MINIMAL EMACS CONFIGURATION
         (message "you can already write on this file"))))
 #+end_src
 
+*** Count words in the buffer
+#+begin_src emacs-lisp :tangle 
+  ;FIXME: Not really doing what is expected
+  (defun wc-buffer ()
+    "Print number of words in Buffer"
+    (interactive)
+    (shell-command-on-region (point-min) (point-max) "wc -w"))
+#+end_src
+
 *** Find-file-root
 #+begin_src emacs-lisp :tangle yes
   ;; Taken from http://www.emacswiki.org/emacs/TrampMode
@@ -744,12 +753,28 @@ MINIMAL EMACS CONFIGURATION
 
 ** Dired settings
 #+begin_src emacs-lisp :tangle yes
-   ;; reverting automatically the buffer
-   (setq dired-auto-revert-buffer 1)
-   ;; look for filenames if on one already
-   (setq dired-isearch-filenames 'dwim)
-   ;; so it doesn't open a thousand buffers every time
-   (put 'dired-find-alternate-file 'disabled nil)
+  ;; reverting automatically the buffer
+  (setq dired-auto-revert-buffer 1)
+  ;; look for filenames if on one already
+  (setq dired-isearch-filenames 'dwim)
+  ;; so it doesn't open a thousand buffers every time
+  (put 'dired-find-alternate-file 'disabled nil)
+  
+  (setq file-extensions-separately 
+        '("\\.pdf$" "\\.rar$" "\\.html?$" "\\.mp3$" "\\.mp4$" "\\.flv$"))
+  
+  (setq dired-guess-shell-alist-user ())
+  
+  (if mac
+      (dolist (ext file-extensions-separately)
+        (add-to-list 'dired-guess-shell-alist-user (list ext "open"))))
+  
+  ;TODO: add conditions for other operating systems 
+  
+  (add-hook 'dired-mode-hook
+            (lambda ()
+              ;; define some more useful keys
+              (define-key dired-mode-map "b" 'browse-url-of-dired-file)))
 #+end_src
 
 *** Using dired-details for smaller windows
@@ -830,6 +855,7 @@ MINIMAL EMACS CONFIGURATION
 
 ** Ibuffer settings
 #+begin_src emacs-lisp :tangle yes
+  ;; Set some automatic filters
   (setq ibuffer-saved-filter-groups
         '(("default"
            ("Chat" (or
@@ -860,7 +886,14 @@ MINIMAL EMACS CONFIGURATION
                              (mode . woman-mode)
                              (mode . help-mode)
                              (mode . Man-mode))))))
+  
+  (add-hook 'ibuffer-mode-hook
+            (lambda ()
+              ;; make jumping between filters easier
+              (define-key ibuffer-mode-map "\C-n" 'ibuffer-forward-filter-group)
+              (define-key ibuffer-mode-map "\C-p" 'ibuffer-backward-filter-group)))
 #+end_src
+                             
 
 ** Hide org-mode Files
    Only works with without ido-mode, not really useful at now
@@ -1368,6 +1401,9 @@ MINIMAL EMACS CONFIGURATION
   ;; enable working on nesc-code, a superset of C, add another language to semantic instead
   ;; (add-to-list 'semantic-new-buffer-setup-functions
   ;;              '(nesc-mode . semantic-default-c-setup))
+  ;TODO: Find what's the new way to define this for extra modes
+  ;; (add-to-list 'semantic-new-buffer-setup-functions
+  ;;              '(cpp-omnet-mode . semantic-default-c-setup))
 #+end_src
 
 *** Hook for inline documentation setting local keys
@@ -1459,6 +1495,19 @@ MINIMAL EMACS CONFIGURATION
             '(lambda () (jds-set-tags-file-path)))
 #+end_src
 
+** VC
+#+begin_src emacs-lisp :tangle yes
+  (setq 
+   vc-handled-backends '(Git Hg CVS SVN Bzr)
+   ;; always opening the real file instead!
+   vc-follow-symlinks t)
+#+end_src
+
+*** SVN
+#+begin_src emacs-lisp :tangle yes
+  (autoload 'svn-status "psvn" "svn status" t)
+#+end_src
+
 *** [[http://zagadka.vm.bytemark.co.uk/magit/][GIT]]
    Nice interface for git.
 #+begin_src emacs-lisp :tangle yes
@@ -1477,11 +1526,6 @@ MINIMAL EMACS CONFIGURATION
         (auto-revert-mode t)))
   
   (add-hook 'find-file-hook 'is-git-file)
-#+end_src
-
-*** SVN
-#+begin_src emacs-lisp :tangle yes
-  (autoload 'svn-status "psvn" "svn status" t)
 #+end_src
 
 * Programming
@@ -1699,14 +1743,17 @@ MINIMAL EMACS CONFIGURATION
   Try to enable the cpp-omnet-mode automatically when possible
 #+begin_src emacs-lisp :tangle yes
   (add-hook 'c++-mode-hook 'is-omnet-cpp-file)
+  ;; (remove-hook 'c++-mode-hook 'is-omnet-cpp-file)
   ;; this means that the variable is set locally
   (make-variable-buffer-local 'changing-to-omnet)
   
   (defun is-omnet-cpp-file ()
+    "check if the file is to be considered omnet-mode or not"
     (when 
-        (and (or (file-exists-p "omnetpp.ini")
-                 (search-forward "<omnetpp.h>"))
-             (not changing-to-omnet))
+        (and (or
+              (not changing-to-omnet)
+              (file-exists-p "omnetpp.ini")
+              (search-forward "<omnetpp.h>")))
       (setq changing-to-omnet t)
       (cpp-omnet-mode)
       (setq changing-to-omnet nil)))
@@ -2179,6 +2226,11 @@ MINIMAL EMACS CONFIGURATION
    Compiling on emacs 23.2 often gives some strange errors, this is to avoid them
 #+begin_src emacs-lisp :tangle yes
   (setq warning-suppress-types nil)
+#+end_src
+
+** Calendar setting
+#+begin_src emacs-lisp :tangle yes
+   (setq calendar-date-style 'european)
 #+end_src
 
 * Process management
