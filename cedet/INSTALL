@@ -1,4 +1,4 @@
-CEDET: Collection of Emacs Development Enviromnent Tools
+        cd CEDET: Collection of Emacs Development Enviromnent Tools
 
 CEDET is a top-level project containing several individual package for Emacs,
 includeing:

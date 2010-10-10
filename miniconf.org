@@ -216,6 +216,22 @@ MINIMAL EMACS CONFIGURATION
 ** Some useful functions
    We suppose that the global variable *conf* has been already set from the outside.
 
+*** Enable semantic when possible
+#+begin_src emacs-lisp :tangle yes
+(defun activate-more-semantic-bindings ()
+  "add some other nice bindings to modes supported by semantic"
+  (interactive)
+  (local-set-key (kbd "M-n") 'senator-next-tag)
+  (local-set-key (kbd "M-p") 'senator-previous-tag)
+  ;; TODO: the senator stuff should be enabled only where senator actually works!!
+  (local-set-key [f6] 'senator-fold-tag-toggle)
+  ;; narrows to the actual function or class analyzed
+  ;; C-x n w to widen again
+  (local-set-key "\C-xnn" 'semantic-narrow-to-tag)
+  (local-set-key "\M-." 'semantic-complete-jump)
+  (local-set-key "\M-?" 'semantic-ia-fast-jump))
+#+end_src
+
 *** Make a script executable
 #+begin_src emacs-lisp :tangle yes
   ;FIXME: not correct yet
@@ -1389,6 +1405,13 @@ MINIMAL EMACS CONFIGURATION
   (setq semantic-load-turn-everything-on t)
 #+end_src
 
+*** Activate semantic bindings in some more modes
+#+begin_src emacs-lisp :tangle yes
+(dolist 
+    (hook '(python-mode-hook cc-mode-hook emacs-lisp-mode-hook))
+  (add-hook hook 'activate-more-semantic-bindings))
+#+end_src
+
 *** Options for semantic
 #+begin_src emacs-lisp :tangle yes
   (global-semantic-stickyfunc-mode 1)
@@ -2448,9 +2471,6 @@ MINIMAL EMACS CONFIGURATION
   (global-set-key "\C-c\C-x\C-o" 'org-clock-out)
   (global-set-key "\C-c\C-x\C-i" 'org-clock-in)
   
-  ;; senator
-  (global-set-key "\M-." 'semantic-complete-jump)
-  (global-set-key "\M-?" 'semantic-ia-fast-jump)
   
   ;; overriding defualt not so smart visualization
   (global-set-key "\C-x\C-b" 'ibuffer) ;; manage buffers with ibuffer
@@ -2473,19 +2493,10 @@ MINIMAL EMACS CONFIGURATION
   (global-set-key (kbd "M-<left>") 'elscreen-previous)
   (global-set-key (kbd "M-<right>") 'elscreen-next)
   
-  ;; narrows to the actual function or class analyzed
-  ;; C-x n w to widen again
-  (global-set-key "\C-xnn" 'semantic-narrow-to-tag)
   
   (global-set-key [(meta shift l)] 'select-line)
   
-  ;; TODO: the senator stuff should be enabled only where senator actually works!!
-  (global-set-key [f6] 'senator-fold-tag-toggle)
-  
   (global-set-key [f7] 'dired-git)
-  
-  (global-set-key (kbd "M-n") 'senator-next-tag)
-  (global-set-key (kbd "M-p") 'senator-previous-tag)
   
   (global-set-key (kbd "M-z") 'undo)
   ;; from here
