@@ -1408,7 +1408,7 @@ MINIMAL EMACS CONFIGURATION
 *** Activate semantic bindings in some more modes
 #+begin_src emacs-lisp :tangle yes
 (dolist 
-    (hook '(python-mode-hook cc-mode-hook emacs-lisp-mode-hook))
+    (hook '(python-mode-hook c-mode-hook c++-mode-hook emacs-lisp-mode-hook))
   (add-hook hook 'activate-more-semantic-bindings))
 #+end_src
 
@@ -1448,10 +1448,9 @@ MINIMAL EMACS CONFIGURATION
 *** Using semanticdb
 #+begin_src emacs-lisp :tangle yes
   (global-semanticdb-minor-mode)
-  ;; (semanticdb-enable-gnu-global-databases 'c-mode)
-  ;; (semanticdb-enable-gnu-global-databases 'java-mode)
-  ;; (semanticdb-enable-gnu-global-databases 'jde-mode)
-  ;; (semanticdb-enable-gnu-global-databases 'python-mode)
+  (require 'semanticdb-global)
+  (semanticdb-enable-gnu-global-databases 'cc-mode)
+  (semanticdb-enable-gnu-global-databases 'python-mode)
 #+end_src
 ** Eclim
   Get the power of eclipse right in emacs via [[http://eclim.org/][eclim]]
@@ -1765,7 +1764,7 @@ MINIMAL EMACS CONFIGURATION
 
   Try to enable the cpp-omnet-mode automatically when possible
 #+begin_src emacs-lisp :tangle yes
-  (add-hook 'c++-mode-hook 'is-omnet-cpp-file)
+;;  (add-hook 'c++-mode-hook 'is-omnet-cpp-file)
   ;; (remove-hook 'c++-mode-hook 'is-omnet-cpp-file)
   ;; this means that the variable is set locally
   (make-variable-buffer-local 'changing-to-omnet)
