@@ -108,6 +108,27 @@ MINIMAL EMACS CONFIGURATION
   (global-set-key (kbd "<f2>") 'ignore)
 #+end_src
 
+*** Untabify before writing out a file
+    In this example we use a hook to untabify before it's finally written out
+#+begin_src emacs-lisp :tangle yes
+  (defun java-mode-untabify ()
+    "untabify the whole buffer"
+    (save-excursion
+      (goto-char (point-min))
+      (while (re-search-forward "[ \t]+$" nil t)
+        (delete-region (match-beginning 0) (match-end 0)))
+      (goto-char (point-min))
+      (if (search-forward "\t" nil t)
+          (untabify (1- (point)) (point-max))))
+    nil)
+  
+  ;; example on how to use this function
+  ;; (add-hook 'java-mode-hook 
+  ;;           '(lambda ()
+  ;;              (make-local-variable 'write-contents-hooks)
+  ;;              (add-hook 'write-contents-hooks 'java-mode-untabify)))
+#+end_src
+
 ** How to set up your initialization
    The configuration should be as modular as possible, and should use autoloads when possible.
    There are different way to set up variables on not loaded libraries:
@@ -910,7 +931,6 @@ MINIMAL EMACS CONFIGURATION
               (define-key ibuffer-mode-map "\C-p" 'ibuffer-backward-filter-group)))
 #+end_src
                              
-
 ** Hide org-mode Files
    Only works with without ido-mode, not really useful at now
 #+begin_src emacs-lisp :tangle yes
@@ -1421,12 +1441,6 @@ MINIMAL EMACS CONFIGURATION
   (global-semantic-idle-scheduler-mode 1)
   (global-semantic-idle-summary-mode 1)
   (global-semantic-mru-bookmark-mode 1)
-  ;; enable working on nesc-code, a superset of C, add another language to semantic instead
-  ;; (add-to-list 'semantic-new-buffer-setup-functions
-  ;;              '(nesc-mode . semantic-default-c-setup))
-  ;TODO: Find what's the new way to define this for extra modes
-  ;; (add-to-list 'semantic-new-buffer-setup-functions
-  ;;              '(cpp-omnet-mode . semantic-default-c-setup))
 #+end_src
 
 *** Hook for inline documentation setting local keys
@@ -1438,11 +1452,9 @@ MINIMAL EMACS CONFIGURATION
     (local-set-key "\C-cj" 'semantic-ia-fast-jump)
     (local-set-key "\C-cq" 'semantic-ia-show-doc)
     (local-set-key "\C-cs" 'semantic-ia-show-summary)
-    (local-set-key "\C-cp" 'semantic-analyze-proto-impl-toggle))
-  
-  ;; (defun my-c-only-cedet-hook ()
-  ;;   (local-set-key "." 'semantic-complete-self-insert)
-  ;;   (local-set-key ">" 'semantic-complete-self-insert))
+    (local-set-key "\C-cp" 'semantic-analyze-proto-impl-toggle)
+    (local-set-key "." 'semantic-complete-self-insert)
+    (local-set-key ">" 'semantic-complete-self-insert))
 #+end_src
 
 *** Using semanticdb
