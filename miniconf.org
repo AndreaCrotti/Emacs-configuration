@@ -142,6 +142,8 @@ MINIMAL EMACS CONFIGURATION
    - *run code after initialization*
      Use mode hooks, normally simply <mode-name>-hook, and modify them with *add-hook*
 
+** [[http://steve-yegge.blogspot.com/2006/06/shiny-and-new-emacs-22.html][Very nice explanation about emacs and replacing functions]]
+
 * Aliasing and other useful shortcuts
 #+begin_src emacs-lisp :tangle yes
   (defalias 'eb 'eval-buffer)
@@ -1455,6 +1457,9 @@ MINIMAL EMACS CONFIGURATION
     (local-set-key "\C-cp" 'semantic-analyze-proto-impl-toggle)
     (local-set-key "." 'semantic-complete-self-insert)
     (local-set-key ">" 'semantic-complete-self-insert))
+  
+  (defun my-cpp-cedet-hook ()
+    (local-set-key ":" 'semantic-complete-self-insert))
 #+end_src
 
 *** Using semanticdb
@@ -1492,6 +1497,11 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
    (require 'etags-table)
    (setq etags-table-search-up-depth 1)
+#+end_src
+
+*** Gtags
+#+begin_src elisp :tangle yes
+  (autoload 'gtags-mode "gtags" "gtags mode" t)
 #+end_src
 
 *** Extending functions
@@ -1650,6 +1660,7 @@ MINIMAL EMACS CONFIGURATION
   (add-hook 'c-mode-common-hook 'c-turn-on-eldoc-mode)
   ;; adding the hook from cedet
   (add-hook 'c-mode-common-hook 'my-c-like-cedet-hook)
+  (add-hook 'c++-mode-hook 'my-cpp-cedet-hook)
 #+end_src
 
 ** C++
@@ -2282,14 +2293,18 @@ MINIMAL EMACS CONFIGURATION
 * Flymake
 ** Setting up flymake
 #+begin_src emacs-lisp :tangle yes
-(require 'flymake)
-   
-(defun activate-flymake ()
-  "Activates flymake when real buffer and you have write access"
-  (if (and
-       (buffer-file-name)
-       (file-writable-p buffer-file-name))
-      (flymake-mode t)))
+  (require 'flymake)
+     
+  (defun activate-flymake ()
+    "Activates flymake when real buffer and you have write access"
+    (if (and
+         (buffer-file-name)
+         (file-writable-p buffer-file-name))
+        (progn 
+          (flymake-mode t)
+          ;; this is necessary since there is no flymake-mode-hook...
+          (local-set-key [f3] 'flymake-goto-prev-error)
+          (local-set-key [f4] 'flymake-goto-prev-error))))
 #+end_src
 
 ** Adding errors to modeline
