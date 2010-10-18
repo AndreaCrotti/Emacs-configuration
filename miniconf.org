@@ -1430,7 +1430,7 @@ MINIMAL EMACS CONFIGURATION
 *** Activate semantic bindings in some more modes
 #+begin_src emacs-lisp :tangle yes
 (dolist 
-    (hook '(python-mode-hook c-mode-hook c++-mode-hook emacs-lisp-mode-hook))
+    (hook '(python-mode-hook c-mode-common-hook emacs-lisp-mode-hook))
   (add-hook hook 'activate-more-semantic-bindings))
 #+end_src
 
@@ -1502,6 +1502,38 @@ MINIMAL EMACS CONFIGURATION
 *** Gtags
 #+begin_src elisp :tangle yes
   (autoload 'gtags-mode "gtags" "gtags mode" t)
+#+end_src
+
+  Update or create a new gtag file
+#+begin_src emacs-lisp :tangle yes
+  (defun my-gtags-create-or-update ()
+    "create or update the gnu global tag file"
+    (interactive)
+    (if (not (= 0 (call-process "global" nil nil nil " -p"))) ; tagfile doesn't exist?
+        (when 
+            (yes-or-no-p "do you want to enable gtags?")
+          (let ((olddir default-directory)
+                (topdir (read-directory-name  
+                         "gtags: top of source tree:" default-directory)))
+            (cd topdir)
+            (shell-command "gtags && echo 'created tagfile'")
+            (cd olddir)) ; restore   
+          ;;  tagfile already exists; update it
+          (shell-command "global -u && echo 'updated tagfile'"))))
+#+end_src
+
+  Adding a hook to c-mode-common modes
+#+begin_src emacs-lisp :tangle yes
+  (add-hook 'c-mode-common-hook
+            (lambda ()
+              (require 'gtags)
+              (my-gtags-create-or-update)))
+  
+  ;; same thing for python
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (require 'gtags)
+              (my-gtags-create-or-update)))
 #+end_src
 
 *** Extending functions
