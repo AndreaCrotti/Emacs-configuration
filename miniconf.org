@@ -1734,6 +1734,7 @@ MINIMAL EMACS CONFIGURATION
         '(
         ;;("py" . "!")
           ("rb" . "!")
+          ("svg" . "svg")
           ("h"  . "once"))
         "snippets to expand per file extension"
         :type 'list)
@@ -1815,6 +1816,15 @@ MINIMAL EMACS CONFIGURATION
    Msg file type
 #+begin_src emacs-lisp :tangle yes
   (add-to-list 'auto-mode-alist '("\\.msg$" . c-mode))
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+  (defun is-cpp-header-file ()
+    "enable c++-mode when finding classes"
+    (when (re-search-forward "class ")
+      (c++-mode)))
+  
+  ;;(add-hook 'c-mode-common-hook 'is-cpp-header-file)
 #+end_src
 
   Try to enable the cpp-omnet-mode automatically when possible
@@ -2564,6 +2574,11 @@ MINIMAL EMACS CONFIGURATION
   ;;                    (string-to-number (match-string 1)))))
   ;;     ad-do-it
   ;;     (and line (goto-line line))))
+  
+  ;; make shift-TAB works correctly also on osx
+  (when mac
+    (define-key (keymap-parent local-function-key-map) [S-tab] nil)
+    (global-set-key [S-tab] #'tab-to-tab-stop))
 #+end_src
 
 * External configuration files
