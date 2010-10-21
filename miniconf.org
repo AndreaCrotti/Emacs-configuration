@@ -1523,7 +1523,7 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
   Adding a hook to c-mode-common modes
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
   (add-hook 'c-mode-common-hook
             (lambda ()
               (require 'gtags)
@@ -1819,12 +1819,16 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes
-  (defun is-cpp-header-file ()
-    "enable c++-mode when finding classes"
-    (when (re-search-forward "class ")
-      (c++-mode)))
+  (defun c++-header-file-p ()
+    "Return non-nil, if in a C++ header."
+    (and (string-match "\\.h$"
+                       (or (buffer-file-name)
+                           (buffer-name)))
+         (save-excursion
+           (re-search-forward "\\_<class\\_>" nil t))))
   
-  ;;(add-hook 'c-mode-common-hook 'is-cpp-header-file)
+  (add-to-list 'magic-mode-alist
+               '(c++-header-file-p . c++-mode))
 #+end_src
 
   Try to enable the cpp-omnet-mode automatically when possible
