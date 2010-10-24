@@ -1429,9 +1429,9 @@ MINIMAL EMACS CONFIGURATION
 
 *** Activate semantic bindings in some more modes
 #+begin_src emacs-lisp :tangle yes
-(dolist 
-    (hook '(python-mode-hook c-mode-common-hook emacs-lisp-mode-hook))
-  (add-hook hook 'activate-more-semantic-bindings))
+  (dolist 
+      (hook '(python-mode-hook c-mode-common-hook emacs-lisp-mode-hook makefile-mode-hook))
+    (add-hook hook 'activate-more-semantic-bindings))
 #+end_src
 
 *** Options for semantic
