@@ -124,3 +124,6 @@
 [submodule "jdibug"]
 	path = jdibug
 	url = http://github.com/emacsmirror/jdibug.git
+[submodule "tramp"]
+	path = tramp
+	url = git://github.com/emacsmirror/tramp.git

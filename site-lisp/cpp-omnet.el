@@ -5,10 +5,19 @@
 ;; Author: Andrea Crotti <andrea.crotti.0@gmail.com>
 ;; Keywords: unix
 
-(require 'derived)
+(defvar omnet-modeline-indicator " OMN"
+  "call (omnet-install-mode) again if this is changed")
 
-(define-derived-mode cpp-omnet-mode c++-mode "C++ Omnet mode"
-  "Major mode for editing c++ files used with omnet++"
-  )
+(defvar omnet-mode nil) 
+(make-variable-buffer-local 'omnet-mode)
+(put 'omnet-mode 'permanent-local t)
 
-(provide 'cpp-omnet-mode)
+(defun omnet-mode (&optional arg)
+  "minor mode for working with omnetpp c++ code"
+  (interactive "P")
+  (setq omnet-mode
+	(if (null arg) (not omnet-mode)
+	  (> (prefix-numeric-value arg) 0)))
+  (force-mode-line-update))
+
+(provide 'omnet-mode)

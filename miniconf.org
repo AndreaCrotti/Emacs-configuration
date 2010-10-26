@@ -129,6 +129,15 @@ MINIMAL EMACS CONFIGURATION
   ;;              (add-hook 'write-contents-hooks 'java-mode-untabify)))
 #+end_src
 
+*** Replacement stuff in emacs
+    List of things to substitute with emacs
+
+    | \&                    | the original found text                                           |
+    | \1, \2,               | etc.  the 1st, 2nd, etc. parenthesized subgroup in the found text |
+    | \#                    | the number of replacements done so far                            |
+    | \?                    | a string obtained by prompting the user on each match             |
+    | \,(lisp-expression …) | the result of evaluating an arbitrary function                    |
+
 ** How to set up your initialization
    The configuration should be as modular as possible, and should use autoloads when possible.
    There are different way to set up variables on not loaded libraries:
@@ -143,6 +152,16 @@ MINIMAL EMACS CONFIGURATION
      Use mode hooks, normally simply <mode-name>-hook, and modify them with *add-hook*
 
 ** [[http://steve-yegge.blogspot.com/2006/06/shiny-and-new-emacs-22.html][Very nice explanation about emacs and replacing functions]]
+
+** Org mode
+   - [[http://members.optusnet.com.au/~charles57/GTD/gtd_workflow.html][org mode as a gtd system]]
+     Create some subsections
+     + tasks
+     + calendar
+     + projects
+     + financial (use ledger for that)
+     + borrowed
+     + configuration?
 
 * Aliasing and other useful shortcuts
 #+begin_src emacs-lisp :tangle yes
@@ -1272,7 +1291,8 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (setq org-remember-templates
         '(
-          ("Note" ?n "* " "~/Documents/pycon/notes.org")))
+          ("Todo" ?t "* TODO %^{Brief Description} %^g\n%?\nAdded: %U" 
+           "~/org/gtd.org" "Tasks")))
           ;; ("Note" ?n "* " "~/org/notes.org")
           ;; ("Homeworks" ?h "* TODO %^{homework|german|functional|database|scientific|graphics} \n DEADLINE: %^T" "~/org/homeworks.org")
           ;; ("TOBUY" ?b "* TODO %^{what you want}\n %t" "~/org/tobuy.org")))
@@ -1283,6 +1303,12 @@ MINIMAL EMACS CONFIGURATION
   ;; Defining a setup where org-mode takes care of remember notes
   (setq org-directory "~/org/")
   (setq org-default-notes-file (concat org-directory "notes.org"))
+#+end_src
+
+** Refilling somewhere else
+#+begin_src emacs-lisp :tangle yes
+  '(org-refile-targets (quote (("~/org/gtd.org" :maxlevel . 1) 
+                               ("~/org/someday.org" :level . 2))))
 #+end_src
 
 ** Org functionalities in other modes
@@ -1809,8 +1835,11 @@ MINIMAL EMACS CONFIGURATION
 ** Omnet++
    NED file syntax, derived from C for syntax and indentation
 #+begin_src emacs-lisp :tangle yes
-   (autoload 'ned-mode "ned-mode" "Major Mode for editing Ned files" t)
-   (add-to-list 'auto-mode-alist '("\\.ned$" . ned-mode))
+  (autoload 'ned-mode "ned-mode" "Major Mode for editing Ned files" t)
+  (add-to-list 'auto-mode-alist '("\\.ned$" . ned-mode))
+  
+  ;TODO: enable a finer mechanism to let this work
+  ;read from http://yasnippet.googlecode.com/svn/trunk/doc/snippet-expansion.html#the-condition-system
 #+end_src
    
    Msg file type
@@ -1833,21 +1862,21 @@ MINIMAL EMACS CONFIGURATION
 
   Try to enable the cpp-omnet-mode automatically when possible
 #+begin_src emacs-lisp :tangle yes
-;;  (add-hook 'c++-mode-hook 'is-omnet-cpp-file)
-  ;; (remove-hook 'c++-mode-hook 'is-omnet-cpp-file)
-  ;; this means that the variable is set locally
-  (make-variable-buffer-local 'changing-to-omnet)
-  
-  (defun is-omnet-cpp-file ()
-    "check if the file is to be considered omnet-mode or not"
-    (when 
-        (and (or
-              (not changing-to-omnet)
-              (file-exists-p "omnetpp.ini")
-              (search-forward "<omnetpp.h>")))
-      (setq changing-to-omnet t)
-      (cpp-omnet-mode)
-      (setq changing-to-omnet nil)))
+  ;;  (add-hook 'c++-mode-hook 'is-omnet-cpp-file)
+    ;; (remove-hook 'c++-mode-hook 'is-omnet-cpp-file)
+    ;; this means that the variable is set locally
+    (make-variable-buffer-local 'changing-to-omnet)
+    
+    (defun is-omnet-cpp-file ()
+      "check if the file is to be considered omnet-mode or not"
+      (when 
+          (and (or
+                (not changing-to-omnet)
+                (file-exists-p "omnetpp.ini")
+                (search-forward "<omnetpp.h>")))
+        (setq changing-to-omnet t)
+        (cpp-omnet-mode)
+        (setq changing-to-omnet nil)))
 #+end_src
   
 ** Java
@@ -2279,6 +2308,14 @@ MINIMAL EMACS CONFIGURATION
   (setq truncate-lines nil)
   ;; Setting indent-tabs-mode for only spaces
   (setq-default indent-tabs-mode nil)
+#+end_src
+
+** Tramp
+#+begin_src emacs-lisp :tangle no
+  (add-to-list 'load-path (make-conf-path "tramp/lisp"))
+  (load-file (concat (make-conf-path "tramp/lisp/") "tramp.el"))
+  ;; this variable is needed there for some reasons
+  (setq warning-suppress-types nil)
 #+end_src
 
 ** IDO mode
