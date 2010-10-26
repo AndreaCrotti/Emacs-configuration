@@ -1216,6 +1216,18 @@ MINIMAL EMACS CONFIGURATION
   (org-clock-persistence-insinuate)
 #+end_src
 
+** Check if we are in org-mode
+
+#+begin_src emacs-lisp :tangle yes
+  ;; make it like a macro, takes a body and executes it
+  (defun check-org-mode ()
+    "check if the buffer is in org mode"
+    (if
+        (eq major-mode 'org-mode)
+        t
+      (message "this action is possible only in org mode")))
+#+end_src
+
 ** Add eventually
    This hook enables to expand your KB very easily, every time you create a new org-file it will check if it's already in the agenda and asks to add it.
    Disable this if you don't plan to use org mode and its agenda
@@ -1289,13 +1301,40 @@ MINIMAL EMACS CONFIGURATION
 
 *** Define templates
 #+begin_src emacs-lisp :tangle yes
+  ;TODO:  make those two more interesting
   (setq org-remember-templates
         '(
           ("Todo" ?t "* TODO %^{Brief Description} %^g\n%?\nAdded: %U" 
-           "~/org/gtd.org" "Tasks")))
+           "~/org/gtd.org" "Tasks")
+          ("Receipt"   ?r "** %^{BriefDesc} %U %^g\n%?" "~/org/finances.org")
+          ("Vocab"   ?v "** %^{Word?}\n%?\n"  "~/org/vocab.org")))
           ;; ("Note" ?n "* " "~/org/notes.org")
           ;; ("Homeworks" ?h "* TODO %^{homework|german|functional|database|scientific|graphics} \n DEADLINE: %^T" "~/org/homeworks.org")
           ;; ("TOBUY" ?b "* TODO %^{what you want}\n %t" "~/org/tobuy.org")))
+#+end_src
+
+** Org mode for brainstorming
+#+begin_src emacs-lisp :tangle yes
+  (defcustom org-brainstorm-ideas 10
+    "number of brainstorm ideas")
+  
+  (defun org-brainstorm ()
+    "starts a brainstorming of ideas"
+    (interactive)
+    (save-excursion
+      (dotimes (i org-brainstorm-ideas)
+        (org-meta-return))))
+#+end_src
+
+
+#+begin_src emacs-lisp :tangle yes
+  (setq questions '("Who" "What" "When" "Where" "Why" "How"))
+  
+  (defun prompt-ideas ()
+    (interactive)
+    (dolist (q questions)
+      (org-meta-return)
+      (insert (concat q "?"))))
 #+end_src
 
 ** Notes
