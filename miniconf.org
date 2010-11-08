@@ -1770,6 +1770,12 @@ MINIMAL EMACS CONFIGURATION
                  (c-basic-offset . 4)))
 #+end_src
 
+*** Auto insert implmentation
+#+begin_src emacs-lisp :tangle yes
+  (autoload 'expand-member-functions "member-functions" "Expand C++ member function declarations" t)
+  (add-hook 'c++-mode-hook (lambda () (local-set-key "\C-cm" #'expand-member-functions)))
+#+end_src
+
 ** Insert headers automatically given the right extension
 #+begin_src emacs-lisp :tangle yes
   (defun is-new-file ()
@@ -1800,6 +1806,7 @@ MINIMAL EMACS CONFIGURATION
         ;;("py" . "!")
           ("rb" . "!")
           ("svg" . "svg")
+          ;;("cpp" . "cpp")
           ("h"  . "once"))
         "snippets to expand per file extension"
         :type 'list)
@@ -2257,10 +2264,10 @@ MINIMAL EMACS CONFIGURATION
 
    Configuring maildir testing
 #+begin_src emacs-lisp :tangle yes
-  (setq gmail-maildir "~/mail_clones/andrea_gmail/")
+  ;; (setq gmail-maildir "~/mail_clones/andrea_gmail/")
   
-  (add-to-list 'gnus-secondary-select-methods
-               '(nnmaildir "mymailbox" (directory gmail-maildir)))
+  ;; (add-to-list 'gnus-secondary-select-methods
+  ;;              '(nnmaildir "mymailbox" (directory gmail-maildir)))
   
   (add-to-list 'mail-sources
                '(maildir :path gmail-maildir :subdirs ("cur" "new")))
