@@ -485,12 +485,28 @@ MINIMAL EMACS CONFIGURATION
 
 *** Change git branch
 #+begin_src emacs-lisp :tangle yes
+  (defun git-branches-list ()
+    "list the current branches"
+    (remove "*" (split-string (shell-command-to-string "git branch"))))
+  
   (defun git-change-branch ()
     "change the actual git branch asking with completion"
     (interactive)
     (let
-        ((branch (completing-read "checkout to: " (split-string (shell-command-to-string "git branch")))))
-      (shell-command (concat "git checkout " branch))))
+        ((branches (git-branches-list)))
+      (if
+          (> (length branches) 1)
+          (let 
+              ((branch (completing-read "checkout to: " branches)))
+            (shell-command (concat "git checkout " branch))))
+      (message "no other branches")))
+  
+  (defun git-create-branch ()
+    "creates a new branch"
+    (interactive)
+    (let
+        ((branch-name (read-from-minibuffer "Name: ")))
+      (shell-command (concat "git checkout -b " branch-name))))
 #+end_src
 
 *** Replace in regexp
