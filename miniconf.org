@@ -1744,6 +1744,18 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
   Use "C-u M-x slime sbcl RET" to start sbcl again
 
+** Compilation mode
+   This is very useful to remove the compilation buffer if it's successful
+#+begin_src emacs-lisp :tangle yes
+  (defun kill-compile-buffer-if-successful (buffer string)
+    (if (string-match "finished" string)
+        (run-with-timer 1 nil
+                        'kill-buffer
+                        buffer)))
+  
+  (add-hook 'compilation-finish-functions 'kill-compile-buffer-if-successful)
+#+end_src
+
 ** Ess
 #+begin_src emacs-lisp :tangle yes
   (add-to-list 'load-path (make-conf-path "ess/lisp"))
