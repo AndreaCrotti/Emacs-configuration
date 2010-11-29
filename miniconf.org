@@ -1748,7 +1748,13 @@ MINIMAL EMACS CONFIGURATION
    This is very useful to remove the compilation buffer if it's successful
 #+begin_src emacs-lisp :tangle yes
   (defun kill-compile-buffer-if-successful (buffer string)
-    (if (string-match "finished" string)
+    " kill a compilation buffer if succeeded without warnings "
+    (if (and
+         (string-match "compilation" (buffer-name buffer))
+         (string-match "finished" string)
+         (not 
+          (with-current-buffer buffer
+            (search-forward "warning" nil t))))
         (run-with-timer 1 nil
                         'kill-buffer
                         buffer)))
