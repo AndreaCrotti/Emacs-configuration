@@ -8,7 +8,7 @@
 ;; this variable must be set BEFORE org-mode is loaded or it will have no effect
 (setq org-replace-disputed-keys t)
 
-(require 'org)
+(require 'org-install)
 
 (org-babel-load-file (concat base "miniconf.org"))
 
