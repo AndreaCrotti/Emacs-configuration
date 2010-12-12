@@ -9,6 +9,7 @@
 (setq org-replace-disputed-keys t)
 
 (require 'org-install)
+(require 'org)
 
 (org-babel-load-file (concat base "miniconf.org"))
 
