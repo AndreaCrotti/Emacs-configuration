@@ -1669,6 +1669,9 @@ MINIMAL EMACS CONFIGURATION
    Nice interface for git.
 #+begin_src emacs-lisp :tangle yes
   (autoload 'magit-status "magit" "magit" t)
+  (setq magit-log-edit-confirm-cancellation t)
+  ;; use tty which should be faster, passphrase not allowed here
+  (setq magit-process-connection-type nil)
 #+end_src
 
 **** Function to enable revert mode when in a git repository
