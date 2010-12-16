@@ -29,6 +29,12 @@ I suggest for customization to use the file custom.el.
   - run in the same directory *git submodule update --init*
     This could take a long time, but only the first time
 
+  Some modes imported in this way might need to be compiled first, for example
+  - doxymacs
+  - org-mode
+
+  Most of them can be compiled but it's not necessary, check the instructions in the README/INSTALL files in the appropriate paths
+
   To customize I suggest to use M-x customize (will write on your custom file) or write your own setqs in the custom.el file.
   
 ** Your own settings

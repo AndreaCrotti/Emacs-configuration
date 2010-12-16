@@ -923,7 +923,8 @@ MINIMAL EMACS CONFIGURATION
 
 ** Minibuffer nice stuff
 #+begin_src emacs-lisp :tangle yes
-  (setq visible-bell t) ; Turn beep off
+  (setq visible-bell nil) ; Turn beep off
+  (setq ring-bell-function 'ignore)
   (savehist-mode t) ; save also minibuffer history, very useful
 #+end_src
 
@@ -1672,20 +1673,23 @@ MINIMAL EMACS CONFIGURATION
   (setq magit-log-edit-confirm-cancellation t)
   ;; use tty which should be faster, passphrase not allowed here
   (setq magit-process-connection-type nil)
+  
+  (add-hook 'magit-log-edit-mode-hook 'turn-on-orgtbl)
+  (add-hook 'magit-log-edit-mode-hook 'turn-on-orgstruct)
 #+end_src
 
 **** Function to enable revert mode when in a git repository
    It's nice to enable auto-revert-mode automatically on files which are surely in a git repository.
    To do this we can simply add a hook to find-file-hook
 #+begin_src emacs-lisp :tangle yes
-  (defun is-git-file ()
+  ;TODO: use  (vc-ensure-vc-buffer) to make it more general
+   
+  (defun is-version-control-file ()
     "Return nil unless the file is in the git files"
-    (if
-        (member (file-name-nondirectory buffer-file-name)
-                (split-string  (shell-command-to-string "git ls-files")))
+    (if (vc-working-revision (buffer-file-name))
         (auto-revert-mode t)))
   
-  (add-hook 'find-file-hook 'is-git-file)
+  (add-hook 'find-file-hook 'is-version-control-file)
 #+end_src
 
 * Programming
@@ -1769,6 +1773,12 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (add-to-list 'load-path (make-conf-path "ess/lisp"))
   (autoload 'R "ess-site" "loading R env" t)
+#+end_src
+
+** Elisp
+#+begin_src emacs-lisp :tangle yes
+  (autoload 'paredit-mode "paredit" "paredit mode" t)
+  (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
 #+end_src
 
 ** C-mode
@@ -2014,7 +2024,22 @@ MINIMAL EMACS CONFIGURATION
 *** Doxymacs
 #+begin_src emacs-lisp :tangle yes
   (add-to-list 'load-path (make-conf-path "doxymacs/lisp"))
-  (add-hook 'c-mode-common-hook '(lambda () (require 'doxymacs)))
+  (add-hook 'c-mode-common-hook 
+            '(lambda () 
+               (require 'doxymacs)
+               (doxymacs-mode t)
+               (doxymacs-font-lock)))
+  
+  (defun doxy-path (basepath classname)
+    (concat basepath "doc/html/class_" (un-camelcase-string classname "_") ".html"))
+  
+  (defun jump-to-doxygen-doc (basepath)
+    "jump to the corresponding doxygen page"
+    (interactive "D")
+    (let*
+        ((nondir (file-name-nondirectory (buffer-file-name)))
+         (classname (nth 0 (split-string nondir "\\."))))
+      (browse-url (doxy-path basepath classname))))
 #+end_src
 
 ** Applescript mode
@@ -2376,6 +2401,17 @@ MINIMAL EMACS CONFIGURATION
 ** Mode for startup
 #+begin_src emacs-lisp :tangle yes
   (setq initial-major-mode 'emacs-lisp-mode)
+#+end_src
+
+** Backup mode customization
+#+begin_src emacs-lisp :tangle yes
+  (setq
+   backup-by-copying t      ; don't clobber symlinks
+   backup-directory-alist '(("." . "~/.saves"))    ; don't litter my fs tree
+   delete-old-versions t
+   kept-new-versions 6
+   kept-old-versions 2
+   version-control t)       ; use versioned backups
 #+end_src
 
 ** Showing more things
