@@ -1,7 +1,5 @@
 #+OPTIONS: toc:t LEVEL:4
 MINIMAL EMACS CONFIGURATION
-# FIXME: keys for splitting the screeen
-# FIXME: color for transient-mark-mode
 # FIXME: ignoring the buffers is ok only if we have can then fix it
 # FIXME: add some configurations for different usage of emacs
 
@@ -15,10 +13,9 @@ MINIMAL EMACS CONFIGURATION
   CLOSED: [2010-08-08 Dom 16:13]
   - CLOSING NOTE [2010-08-08 Dom 16:13] \\
     included a version from cvs
-* TODO Write a dependency tree of the various chapters in the configuration
 * TODO Add options to create encrypted org-files for storing password and more delicate informations
 * TODO See how to use variables like *special-buffer-regexps* to have a better control over the buffer windows
-* TODO Build an automatic list of versions
+* TODO Build an automatic list of versions of the packages
 * TODO Check out what dictem is from this conf [[file:~/bash_conf/emacs.org][other guy emacs.org]]
 
 * Links
@@ -1007,7 +1004,7 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 ** Elscreen
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
   (require 'alist)
   (setq elscreen-path (make-conf-path "elscreen/"))
   (add-to-list 'load-path (concat elscreen-path "elscreen"))
@@ -1674,8 +1671,10 @@ MINIMAL EMACS CONFIGURATION
   ;; use tty which should be faster, passphrase not allowed here
   (setq magit-process-connection-type nil)
   
-  (add-hook 'magit-log-edit-mode-hook 'turn-on-orgtbl)
-  (add-hook 'magit-log-edit-mode-hook 'turn-on-orgstruct)
+  ; this hooks make magit going crazy
+  
+  ;(remove-hook 'magit-log-edit-mode-hook 'turn-on-orgtbl)
+  ;(remove-hook 'magit-log-edit-mode-hook 'turn-on-orgstruct)
 #+end_src
 
 **** Function to enable revert mode when in a git repository
