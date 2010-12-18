@@ -805,8 +805,8 @@ MINIMAL EMACS CONFIGURATION
       (progn
         (add-to-list 'exec-path "/opt/local/bin")
         (setq ns-alternate-modifier (quote none))
-        ;; not open new frames/elscreens from emacsclient
-        (setq ns-pop-up-frames nil)
+        ;; open a new frame only unless it's the scratch buffer
+        (setq ns-pop-up-frames 1)
         (setq ns-command-modifier (quote meta))))
 #+end_src
 
@@ -1003,18 +1003,6 @@ MINIMAL EMACS CONFIGURATION
   (if (and linux window-system) (menu-bar-mode -1))
 #+end_src
 
-** Elscreen
-#+begin_src emacs-lisp :tangle no
-  (require 'alist)
-  (setq elscreen-path (make-conf-path "elscreen/"))
-  (add-to-list 'load-path (concat elscreen-path "elscreen"))
-  (add-to-list 'load-path (concat elscreen-path "elscreen-server"))
-  (add-to-list 'load-path (concat elscreen-path "elscreen-color-theme"))
-  (require 'elscreen)
-  (require 'elscreen-color-theme)
-  (require 'elscreen-server)
-#+end_src
-
 ** Fullscreen mode
 #+begin_src emacs-lisp :tangle yes
   (defun full (&optional f)
@@ -1022,13 +1010,12 @@ MINIMAL EMACS CONFIGURATION
     (if
         mac
         ;; included in emacs 23.2
-        ;; FIXME: the ns version doesn't take the frame option
         (ns-toggle-fullscreen)
       (set-frame-parameter f 'fullscreen
                            (if (frame-parameter f 'fullscreen) nil 'fullboth))))
   
   ;; this toogle the fullscreen for every new frame (window) created
-  ;; (add-hook 'after-make-frame-functions 'full)
+   (add-hook 'after-make-frame-functions 'full)
 #+end_src
 
 ** Winner mode
@@ -1670,6 +1657,7 @@ MINIMAL EMACS CONFIGURATION
   (setq magit-log-edit-confirm-cancellation t)
   ;; use tty which should be faster, passphrase not allowed here
   (setq magit-process-connection-type nil)
+  (setq magit-process-popup-time 10)
   
   ; this hooks make magit going crazy
   
@@ -2635,19 +2623,19 @@ MINIMAL EMACS CONFIGURATION
 
   Now we also create two other functions to enable and disable it
 #+begin_src emacs-lisp :tangle yes
-  (setq growl-mode nil)
-  
-  (defun growl ()
-    (interactive)
-    (if (not growl-mode)
+    (setq growl-mode nil)
+    
+    (defun growl ()
+      (interactive)
+      (if (not growl-mode)
+          (progn
+            (message "enabling growl mode notification")
+            (add-hook 'pre-command-hook 'popup-last)
+            (setq growl-mode t))
         (progn
-          (message "enabling growl mode notification")
-          (add-hook 'pre-command-hook 'popup-last)
-          (setq growl-mode t))
-      (progn
-        (setq-default pre-command-hook (remq 'popup-last pre-command-hook))
-        (message "disabling growl mode notification")
-        (setq growl-mode nil))))
+          (setq-default pre-command-hook (remq 'popup-last pre-command-hook))
+          (message "disabling growl mode notification")
+          (setq growl-mode nil))))
 #+end_src
 
 ** Open port file
@@ -2716,9 +2704,8 @@ MINIMAL EMACS CONFIGURATION
   
   (global-set-key (kbd "<C-f9>") 'cycle-font)
   
-  ;; elscreen nice stuff
-  (global-set-key (kbd "M-<left>") 'elscreen-previous)
-  (global-set-key (kbd "M-<right>") 'elscreen-next)
+  (global-set-key (kbd "M-<left>") 'other-frame)
+  (global-set-key (kbd "M-<right>") 'other-frame)
   
   
   (global-set-key [(meta shift l)] 'select-line)
