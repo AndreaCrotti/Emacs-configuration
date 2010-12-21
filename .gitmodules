@@ -37,12 +37,6 @@
 [submodule "elim"]
 	path = elim
 	url = git://git.savannah.nongnu.org/elim.git
-[submodule "gnus"]
-	path = gnus
-	url = http://github.com/emacsmirror/gnus.git
-[submodule "zencoding"]
-	path = zencoding
-	url = http://github.com/chrisdone/zencoding.git
 [submodule "gist.el"]
 	path = gist.el
 	url = git://github.com/defunkt/gist.el.git
@@ -52,9 +46,6 @@
 [submodule "textmate.el"]
 	path = textmate.el
 	url = git://github.com/defunkt/textmate.el.git
-[submodule "zen-and-art"]
-	path = zen-and-art
-	url = git://github.com/irfn/zen-and-art.git
 [submodule "nxml"]
 	path = nxml
 	url = git://github.com/emacsmirror/nxml.git
@@ -79,27 +70,12 @@
 [submodule "emacs-loc-changes"]
 	path = emacs-loc-changes
 	url = http://github.com/rocky/emacs-loc-changes.git
-[submodule "wanderlust"]
-	path = wanderlust
-	url = git://github.com/wanderlust/wanderlust.git
-[submodule "flim"]
-	path = flim
-	url = git://github.com/wanderlust/flim.git
-[submodule "apel"]
-	path = apel
-	url = git://github.com/wanderlust/apel.git
-[submodule "semi"]
-	path = semi
-	url = git://github.com/wanderlust/semi.git
 [submodule "emacs-eclim"]
 	path = emacs-eclim
 	url = git://github.com/senny/emacs-eclim.git
 [submodule "emacs-w3m"]
 	path = emacs-w3m
 	url = git://github.com/sjatkinson/emacs-w3m.git
-[submodule "Mew"]
-	path = Mew
-	url = git://github.com/kazu-yamamoto/Mew.git
 [submodule "emacs-tiny-tools"]
 	path = emacs-tiny-tools
 	url = git://git.savannah.nongnu.org/emacs-tiny-tools.git
@@ -127,3 +103,6 @@
 [submodule "tramp"]
 	path = tramp
 	url = git://github.com/emacsmirror/tramp.git
+[submodule "maxframe.el"]
+	path = maxframe.el
+	url = git://github.com/rmm5t/maxframe.el.git

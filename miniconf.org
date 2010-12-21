@@ -2011,6 +2011,7 @@ MINIMAL EMACS CONFIGURATION
 *** Doxymacs
 #+begin_src emacs-lisp :tangle yes
   (add-to-list 'load-path (make-conf-path "doxymacs/lisp"))
+  ;; supporting doxymacs and doxymacs font locking
   (add-hook 'c-mode-common-hook 
             '(lambda () 
                (require 'doxymacs)
@@ -2018,15 +2019,15 @@ MINIMAL EMACS CONFIGURATION
                (doxymacs-font-lock)))
   
   (defun doxy-path (basepath classname)
+    "convert the class name to the format used by doxygen"
     (concat basepath "doc/html/class_" (un-camelcase-string classname "_") ".html"))
   
   (defun jump-to-doxygen-doc (basepath)
     "jump to the corresponding doxygen page"
     (interactive "D")
-    (let*
-        ((nondir (file-name-nondirectory (buffer-file-name)))
-         (classname (nth 0 (split-string nondir "\\."))))
-      (browse-url (doxy-path basepath classname))))
+    (let
+        ((fname (file-name-sans-extension (file-name-nondirectory (buffer-file-name)))))
+      (browse-url (doxy-path basepath fname))))
 #+end_src
 
 ** Applescript mode
