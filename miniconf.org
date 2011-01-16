@@ -2153,6 +2153,12 @@ MINIMAL EMACS CONFIGURATION
                               (file-name-nondirectory buffer-file-name)))))
 #+end_src
 * Other modes
+** Log4j
+#+begin_src emacs-lisp :tangle yes
+  (autoload 'log4j-mode "log4-mode" t)
+  (add-to-list 'auto-mode-alist '("\\.log$" . log4j-mode))
+#+end_src
+
 ** Ledger, accounting mode
 #+begin_src emacs-lisp :tangle yes
   (autoload 'ledger-mode "ledger" "ledger mode for accounting" t)
@@ -2319,8 +2325,8 @@ MINIMAL EMACS CONFIGURATION
   ;; (add-to-list 'gnus-secondary-select-methods
   ;;              '(nnmaildir "mymailbox" (directory gmail-maildir)))
   
-  (add-to-list 'mail-sources
-               '(maildir :path gmail-maildir :subdirs ("cur" "new")))
+  ;; (add-to-list 'mail-sources
+  ;;              '(maildir :path gmail-maildir :subdirs ("cur" "new")))
 #+end_src
 
 *** Old messages settings
@@ -2602,7 +2608,7 @@ MINIMAL EMACS CONFIGURATION
 ** Growl popup
    This function can be pretty nice during presentations, it will popup the last pressed key via growl.
 #+begin_src emacs-lisp :tangle yes
-     (defun growl-popup (msg)
+  (defun growl-popup (msg)
     "Pop up a growl notification with MSG, or display an Emacs message.
   The \"growlnotify\" program is used if `window-system' is non-nil and
   the program is found in `exec-path'; otherwise `message' is used."
@@ -2624,19 +2630,21 @@ MINIMAL EMACS CONFIGURATION
 
   Now we also create two other functions to enable and disable it
 #+begin_src emacs-lisp :tangle yes
-    (setq growl-mode nil)
-    
-    (defun growl ()
-      (interactive)
-      (if (not growl-mode)
-          (progn
-            (message "enabling growl mode notification")
-            (add-hook 'pre-command-hook 'popup-last)
-            (setq growl-mode t))
+  ;TODO: make it an external package and better a minor-mode, switching would also be much easier
+   
+  (setq growl-mode nil)
+  
+  (defun growl ()
+    (interactive)
+    (if (not growl-mode)
         (progn
-          (setq-default pre-command-hook (remq 'popup-last pre-command-hook))
-          (message "disabling growl mode notification")
-          (setq growl-mode nil))))
+          (message "enabling growl mode notification")
+          (add-hook 'pre-command-hook 'popup-last)
+          (setq growl-mode t))
+      (progn
+        (setq-default pre-command-hook (remq 'popup-last pre-command-hook))
+        (message "disabling growl mode notification")
+        (setq growl-mode nil))))
 #+end_src
 
 ** Open port file
