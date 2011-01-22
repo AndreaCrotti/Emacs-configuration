@@ -106,3 +106,6 @@
 [submodule "maxframe.el"]
 	path = maxframe.el
 	url = git://github.com/rmm5t/maxframe.el.git
+[submodule "ebib"]
+	path = ebib
+	url = git://repo.or.cz/ebib.git

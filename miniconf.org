@@ -1345,6 +1345,30 @@ MINIMAL EMACS CONFIGURATION
   (setq org-default-notes-file (concat org-directory "notes.org"))
 #+end_src
 
+** Org babel
+#+begin_src emacs-lisp :tangle yes
+  ;; TODO: is it possible to use autoload here?
+  (require 'ob-ditaa)
+  (require 'ob-sh)
+  (require 'ob-python)
+  (require 'ob-ruby)
+#+end_src   
+
+** Color code with listings package
+#+begin_src emacs-lisp :tangle yes
+  ;; requite org-latex so that the following variables are defined
+  (require 'org-latex)
+  
+  ;; tell org to use listings
+  (setq org-export-latex-listings t)
+  
+  ;; you must include the listings package
+  (add-to-list 'org-export-latex-packages-alist '("" "listings"))
+  
+  ;; if you want colored source code then you need to include the color package
+  (add-to-list 'org-export-latex-packages-alist '("" "color"))
+#+end_src
+
 ** Refilling somewhere else
 #+begin_src emacs-lisp :tangle yes
   '(org-refile-targets (quote (("~/org/gtd.org" :maxlevel . 1) 
@@ -1650,7 +1674,7 @@ MINIMAL EMACS CONFIGURATION
   (autoload 'svn-status "psvn" "svn status" t)
 #+end_src
 
-*** [[http://zagadka.vm.bytemark.co.uk/magit/][GIT]]
+*** [[http://philjackson.github.com/magit/][GIT]]
    Nice interface for git.
 #+begin_src emacs-lisp :tangle yes
   (autoload 'magit-status "magit" "magit" t)
@@ -2153,6 +2177,13 @@ MINIMAL EMACS CONFIGURATION
                               (file-name-nondirectory buffer-file-name)))))
 #+end_src
 * Other modes
+** [[http://repo.or.cz/w/ebib.git][Ebib, manage a bibtex archive]]
+
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'load-path (make-conf-path "ebib/src"))
+  (autoload 'ebib "ebib" "Ebib, a BibTeX database manager." t)
+#+end_src
+
 ** Log4j
 #+begin_src emacs-lisp :tangle yes
   (autoload 'log4j-mode "log4-mode" t)
