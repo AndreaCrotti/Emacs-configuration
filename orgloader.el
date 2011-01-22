@@ -1,6 +1,9 @@
 (defun make-conf-path (path)
   (expand-file-name (concat base path)))
 
+(add-to-list 'load-path (make-conf-path "tramp/lisp"))
+
+
 (add-to-list 'load-path (make-conf-path "org-mode/lisp"))
 (add-to-list 'load-path (make-conf-path "org-mode/contrib/babel/lisp"))
 (add-to-list 'load-path (make-conf-path "org-mode/contrib/babel/lisp/langs"))
