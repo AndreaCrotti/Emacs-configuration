@@ -16,9 +16,6 @@
 [submodule "swank-clojure"]
 	path = swank-clojure
 	url = git://github.com/jochu/swank-clojure.git
-[submodule "cedet-haskell"]
-	path = cedet-haskell
-	url = http://github.com/hometown/cedet-haskell.git
 [submodule "auctex"]
 	path = auctex
 	url = git://github.com/kjhealy/auctex.git
@@ -73,12 +70,6 @@
 [submodule "emacs-eclim"]
 	path = emacs-eclim
 	url = git://github.com/senny/emacs-eclim.git
-[submodule "emacs-w3m"]
-	path = emacs-w3m
-	url = git://github.com/sjatkinson/emacs-w3m.git
-[submodule "emacs-tiny-tools"]
-	path = emacs-tiny-tools
-	url = git://git.savannah.nongnu.org/emacs-tiny-tools.git
 [submodule "malabar-mode"]
 	path = malabar-mode
 	url = git://github.com/espenhw/malabar-mode.git
