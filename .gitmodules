@@ -94,9 +94,9 @@
 [submodule "magit"]
 	path = magit
 	url = git://github.com/philjackson/magit.git
-[submodule "paredit"]
-	path = paredit
-	url = git://github.com/emacsmirror/paredit.git
 [submodule "yasnippet-mirror"]
 	path = yasnippet-mirror
 	url = git://github.com/AndreaCrotti/yasnippet-mirror.git
+[submodule "paredit"]
+	path = paredit
+	url = git://github.com/emacsmirror/paredit.git
