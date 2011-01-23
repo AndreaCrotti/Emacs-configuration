@@ -2182,6 +2182,7 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (add-to-list 'load-path (make-conf-path "ebib/src"))
   (autoload 'ebib "ebib" "Ebib, a BibTeX database manager." t)
+  (add-to-list 'Info-default-directory-list (make-conf-path "ebib/manual"))
 #+end_src
 
 ** Log4j
@@ -2456,7 +2457,7 @@ MINIMAL EMACS CONFIGURATION
 
 ** Tramp
 #+begin_src emacs-lisp :tangle no
-  (load-file (concat (make-conf-path "tramp/lisp/") "tramp.elc"))
+  (require 'tramp)
   ;; this variable is needed there for some reasons
   (setq warning-suppress-types nil)
 #+end_src

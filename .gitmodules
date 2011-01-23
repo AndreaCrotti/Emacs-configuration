@@ -19,9 +19,6 @@
 [submodule "auctex"]
 	path = auctex
 	url = git://github.com/kjhealy/auctex.git
-[submodule "magit"]
-	path = magit
-	url = http://github.com/philjackson/magit.git
 [submodule "yaml-mode"]
 	path = yaml-mode
 	url = http://github.com/yoshiki/yaml-mode.git
@@ -100,3 +97,6 @@
 [submodule "ebib"]
 	path = ebib
 	url = git://repo.or.cz/ebib.git
+[submodule "magit"]
+	path = magit
+	url = git://github.com/philjackson/magit.git
