@@ -10,9 +10,6 @@
 [submodule "clojure-mode"]
 	path = clojure-mode
 	url = git://github.com/jochu/clojure-mode.git
-[submodule "yasnippet"]
-	path = yasnippet
-	url = http://github.com/crazycode/yasnippet.git
 [submodule "swank-clojure"]
 	path = swank-clojure
 	url = git://github.com/jochu/swank-clojure.git
@@ -100,3 +97,6 @@
 [submodule "paredit"]
 	path = paredit
 	url = git://github.com/emacsmirror/paredit.git
+[submodule "yasnippet-mirror"]
+	path = yasnippet-mirror
+	url = git://github.com/AndreaCrotti/yasnippet-mirror.git
