@@ -1394,7 +1394,7 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (require 'yasnippet)
   
-  (let ((orig (make-conf-path "yasnippet/snippets/"))
+  (let ((orig (make-conf-path "yasnippet-mirror/snippets/"))
         (submod (expand-file-name "~/Documents/my-snippets")))
     (setq yas/root-directory (list submod orig)))
     
