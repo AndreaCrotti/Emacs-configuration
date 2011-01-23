@@ -1395,7 +1395,10 @@ MINIMAL EMACS CONFIGURATION
   (require 'yasnippet)
   
   (let ((orig (make-conf-path "yasnippet-mirror/snippets/"))
-        (submod (expand-file-name "~/Documents/my-snippets")))
+        (submod 
+         (if (boundp snippets-developer) 
+              (expand-file-name "~/Documents/my-snippets")
+           (make-conf-path "yasnippet-snippets"))))
     (setq yas/root-directory (list submod orig)))
     
   ;; Maybe needed to set to fixed for some modes
