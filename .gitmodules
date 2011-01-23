@@ -79,9 +79,6 @@
 [submodule "yasnippet-snippets"]
 	path = yasnippet-snippets
 	url = git://github.com/AndreaCrotti/yasnippet-snippets.git
-[submodule "paredit"]
-	path = paredit
-	url = git://github.com/emacsmirror/paredit.git
 [submodule "rinari"]
 	path = rinari
 	url = git://github.com/eschulte/rinari.git
@@ -100,3 +97,6 @@
 [submodule "magit"]
 	path = magit
 	url = git://github.com/philjackson/magit.git
+[submodule "paredit"]
+	path = paredit
+	url = git://github.com/emacsmirror/paredit.git
