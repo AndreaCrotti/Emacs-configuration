@@ -1791,8 +1791,8 @@ MINIMAL EMACS CONFIGURATION
 
 ** Elisp
 #+begin_src emacs-lisp :tangle yes
-  (autoload 'paredit-mode "paredit" "paredit mode" t)
-  (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
+;;  (autoload 'paredit-mode "paredit" "paredit mode" t)
+;;  (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
 #+end_src
 
 ** C-mode
