@@ -1359,7 +1359,7 @@ MINIMAL EMACS CONFIGURATION
 ** Export to pdf
 #+begin_src emacs-lisp :tangle yes
   ;; TODO: first check if it's installed maybe
-  (setq org-latex-to-pdf-process '("texi2dvi -p -b -c -V %f"))
+  ;;(setq org-latex-to-pdf-process '("texi2dvi -p -b -c -V %f"))
 #+end_src
 
 ** Use ebib for my wonderful references
@@ -2195,7 +2195,6 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 * Other modes
 ** Graphviz-dot-mode
-
 #+begin_src emacs-lisp :tangle yes
   (autoload 'dot-mode "graphiz-dot-mode" "graphviz dot mode" t)
 #+end_src
@@ -2479,7 +2478,7 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 ** Tramp
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle yes
   (require 'tramp)
   ;; this variable is needed there for some reasons
   (setq warning-suppress-types nil)
