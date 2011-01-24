@@ -1188,6 +1188,7 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 ** General TODO keywords
+   Can be customized per buffer
 #+begin_src emacs-lisp :tangle yes
   (setq org-todo-keywords
         '((sequence "TODO(t)" "FEEDBACK(f)" "VERIFY(v)" "|" "DONE(d)" "DELEGATED(D)" "REJECTED(r)")))
@@ -1352,7 +1353,20 @@ MINIMAL EMACS CONFIGURATION
   (require 'ob-sh)
   (require 'ob-python)
   (require 'ob-ruby)
+  (require 'ob-dot)
 #+end_src   
+
+** Export to pdf
+#+begin_src emacs-lisp :tangle yes
+  ;; TODO: first check if it's installed maybe
+  (setq org-latex-to-pdf-process '("texi2dvi -p -b -c -V %f"))
+#+end_src
+
+** Use ebib for my wonderful references
+#+begin_src emacs-lisp :tangle yes
+  ;; TODO: check if this is really useful and how to autocomplete it
+  (org-add-link-type "ebib" 'ebib)
+#+end_src
 
 ** Color code with listings package
 #+begin_src emacs-lisp :tangle yes
@@ -2180,6 +2194,12 @@ MINIMAL EMACS CONFIGURATION
                               (file-name-nondirectory buffer-file-name)))))
 #+end_src
 * Other modes
+** Graphviz-dot-mode
+
+#+begin_src emacs-lisp :tangle yes
+  (autoload 'dot-mode "graphiz-dot-mode" "graphviz dot mode" t)
+#+end_src
+
 ** [[http://repo.or.cz/w/ebib.git][Ebib, manage a bibtex archive]]
 
 #+begin_src emacs-lisp :tangle yes

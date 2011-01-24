@@ -100,3 +100,6 @@
 [submodule "paredit"]
 	path = paredit
 	url = git://github.com/emacsmirror/paredit.git
+[submodule "graphviz-mode-mirror"]
+	path = graphviz-mode-mirror
+	url = git://github.com/AndreaCrotti/graphviz-mode-mirror.git
