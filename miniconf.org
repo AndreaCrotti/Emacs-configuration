@@ -1701,9 +1701,9 @@ MINIMAL EMACS CONFIGURATION
   (setq magit-process-popup-time 10)
   
   ; this hooks make magit going crazy
-  
-  ;(remove-hook 'magit-log-edit-mode-hook 'turn-on-orgtbl)
-  ;(remove-hook 'magit-log-edit-mode-hook 'turn-on-orgstruct)
+  (add-hook 'magit-log-edit-mode-hook 'orgtbl-mode)
+  (add-hook 'magit-log-edit-mode-hook 'orgstruct-mode)
+  (add-hook 'magit-log-edit-mode-hook 'flyspell-mode)
 #+end_src
 
 **** Function to enable revert mode when in a git repository
