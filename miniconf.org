@@ -2490,6 +2490,8 @@ MINIMAL EMACS CONFIGURATION
   (ido-mode t)
   ;; otherwise it will try to connect to old servers all the time
   (setq ido-enable-tramp-completion t)
+  
+  ;TODO: those could be hard to grasp for a beginner, should make it customizable 
   (setq ido-enable-flex-matching t)
   ;; regexp matching also
   (setq ido-enable-regexp nil)
@@ -2497,9 +2499,8 @@ MINIMAL EMACS CONFIGURATION
   (setq ido-create-new-buffer 'always)
   (setq ido-use-filename-at-point 'guess)
   (ido-everywhere t)
-  (add-to-list 'ido-ignore-buffers "\\.org\\'")
-  ; miniconf.org should be always visible
-  (add-to-list 'ido-ignore-buffers "^miniconf")
+  
+  (add-to-list ido-ignore-buffers "\\` ")
   
   ;; Using ido-mode hacks for advising more functions
   (require 'ido-hacks)
