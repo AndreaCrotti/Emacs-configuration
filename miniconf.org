@@ -495,8 +495,8 @@ MINIMAL EMACS CONFIGURATION
           (> (length branches) 1)
           (let 
               ((branch (completing-read "checkout to: " branches)))
-            (shell-command (concat "git checkout " branch))))
-      (message "no other branches")))
+            (shell-command (concat "git checkout " branch)))
+        (message "no other branches, sorry"))))
   
   (defun git-create-branch ()
     "creates a new branch"
