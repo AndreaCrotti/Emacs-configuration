@@ -1373,6 +1373,9 @@ MINIMAL EMACS CONFIGURATION
   ;; requite org-latex so that the following variables are defined
   (require 'org-latex)
   
+  ;; require reftex cite for citations
+  (require 'reftex-cite)
+  
   ;; tell org to use listings
   (setq org-export-latex-listings t)
   
@@ -2500,7 +2503,7 @@ MINIMAL EMACS CONFIGURATION
   (setq ido-use-filename-at-point 'guess)
   (ido-everywhere t)
   
-  (add-to-list ido-ignore-buffers "\\` ")
+;;  (add-to-list ido-ignore-buffers "\\` ")
   
   ;; Using ido-mode hacks for advising more functions
   (require 'ido-hacks)
@@ -2716,6 +2719,20 @@ MINIMAL EMACS CONFIGURATION
           (find-file-other-window path))))
 #+end_src
       
+** Change volume on linux
+#+begin_src emacs-lisp :tangle yes
+  (when linux
+    (progn 
+      (defun volume-down ()
+        (interactive)
+        (shell-command "amixer -c 0 set PCM 3%-"))
+  
+      (defun volume-up ()
+        (interactive)
+        (shell-command "amixer -c 0 set PCM 3%+"))))
+  
+#+end_src
+
 * Presentation mode
   Mode used to enable for presenting emacs power
 #+begin_src emacs-lisp :tangle yes
