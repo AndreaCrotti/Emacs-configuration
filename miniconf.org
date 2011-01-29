@@ -312,6 +312,13 @@ MINIMAL EMACS CONFIGURATION
   (reload-dirs)
 #+end_src
 
+*** Add programming tools to the path
+#+begin_src emacs-lisp :tangle yes
+(let
+    ((tools (concat base "programming-tools")))
+  (setenv "PATH" (concat (getenv "PATH") ":" tools)))
+#+end_src
+
 *** Google map it
    Search an address in google map
 #+begin_src emacs-lisp :tangle yes

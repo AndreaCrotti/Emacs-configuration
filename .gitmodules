@@ -103,3 +103,6 @@
 [submodule "graphviz-mode-mirror"]
 	path = graphviz-mode-mirror
 	url = git://github.com/AndreaCrotti/graphviz-mode-mirror.git
+[submodule "programming-tools"]
+	path = programming-tools
+	url = git://github.com/AndreaCrotti/programming-tools.git
