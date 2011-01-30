@@ -22,21 +22,12 @@
 [submodule "doxymacs"]
 	path = doxymacs
 	url = git://doxymacs.git.sourceforge.net/gitroot/doxymacs/doxymacs
-[submodule "emacs-jabber"]
-	path = emacs-jabber
-	url = git://emacs-jabber.git.sourceforge.net/gitroot/emacs-jabber/emacs-jabber
-[submodule "elim"]
-	path = elim
-	url = git://git.savannah.nongnu.org/elim.git
 [submodule "gist.el"]
 	path = gist.el
 	url = git://github.com/defunkt/gist.el.git
 [submodule "c-eldoc"]
 	path = c-eldoc
 	url = http://github.com/nflath/c-eldoc.git
-[submodule "textmate.el"]
-	path = textmate.el
-	url = git://github.com/defunkt/textmate.el.git
 [submodule "nxml"]
 	path = nxml
 	url = git://github.com/emacsmirror/nxml.git
@@ -49,18 +40,6 @@
 [submodule "ecb"]
 	path = ecb
 	url = git://github.com/emacsmirror/ecb.git
-[submodule "emacs-dbgr"]
-	path = emacs-dbgr
-	url = git://github.com/rocky/emacs-dbgr.git
-[submodule "emacs-test-unit"]
-	path = emacs-test-unit
-	url = http://github.com/rocky/emacs-test-unit.git
-[submodule "emacs-load-relative"]
-	path = emacs-load-relative
-	url = http://github.com/rocky/emacs-load-relative.git
-[submodule "emacs-loc-changes"]
-	path = emacs-loc-changes
-	url = http://github.com/rocky/emacs-loc-changes.git
 [submodule "emacs-eclim"]
 	path = emacs-eclim
 	url = git://github.com/senny/emacs-eclim.git
@@ -85,9 +64,6 @@
 [submodule "tramp"]
 	path = tramp
 	url = git://github.com/emacsmirror/tramp.git
-[submodule "maxframe.el"]
-	path = maxframe.el
-	url = git://github.com/rmm5t/maxframe.el.git
 [submodule "ebib"]
 	path = ebib
 	url = git://repo.or.cz/ebib.git
