@@ -2205,8 +2205,6 @@ MINIMAL EMACS CONFIGURATION
                               (file-name-nondirectory buffer-file-name)))))
 #+end_src
 * Other modes
-<<<<<<< HEAD
-=======
 ** Autotools facilities
 #+begin_src emacs-lisp :tangle yes
   (setq autoconf-macro-syntax-table (make-syntax-table))
@@ -2225,7 +2223,6 @@ MINIMAL EMACS CONFIGURATION
               (local-set-key "\C-j" 'get-autoconf-macro-definition)))
 #+end_src
 
->>>>>>> efbff40fd04124145cf49088028897e47d77b7d8
 ** Session mode
    Use a session mode to automate things
 #+begin_src emacs-lisp :tangle yes
