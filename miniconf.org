@@ -590,6 +590,7 @@ MINIMAL EMACS CONFIGURATION
 
     We also have [[http://www.eecs.ucf.edu/~leavens/emacs/camelCase/camelCase-mode.html][camel case mode]] which makes moving in camelized words smarter
 #+begin_src emacs-lisp :tangle yes
+  ;; TODO: with emacs23 is sufficient to enable subword-mode probably
   (autoload 'camelCase-mode "camelCase-mode")
   (defcustom camelCase-modes
     '(python-mode-hook java-mode-hook c-mode-common-hook nesc-mode-hook)
@@ -2204,6 +2205,12 @@ MINIMAL EMACS CONFIGURATION
                               (file-name-nondirectory buffer-file-name)))))
 #+end_src
 * Other modes
+** Session mode
+   Use a session mode to automate things
+#+begin_src emacs-lisp :tangle yes
+  (require 'session)
+#+end_src   
+
 ** Graphviz-dot-mode
 #+begin_src emacs-lisp :tangle yes
   (autoload 'dot-mode "graphiz-dot-mode" "graphviz dot mode" t)
@@ -2772,6 +2779,9 @@ MINIMAL EMACS CONFIGURATION
   (global-set-key "\C-ca" 'org-agenda)
   (global-set-key "\C-c\C-x\C-o" 'org-clock-out)
   (global-set-key "\C-c\C-x\C-i" 'org-clock-in)
+  
+  ;; session setting, jump to the last changed thing in the buffer
+  (global-set-key "\C-x\C-j" 'session-jump-to-last-change)
   
   
   ;; overriding defualt not so smart visualization
