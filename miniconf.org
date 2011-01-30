@@ -2205,6 +2205,27 @@ MINIMAL EMACS CONFIGURATION
                               (file-name-nondirectory buffer-file-name)))))
 #+end_src
 * Other modes
+<<<<<<< HEAD
+=======
+** Autotools facilities
+#+begin_src emacs-lisp :tangle yes
+  (setq autoconf-macro-syntax-table (make-syntax-table))
+  (modify-syntax-entry ?_ "w" autoconf-macro-syntax-table)
+  
+  (defun get-autoconf-macro-definition ()
+    "jump to the definition of a macro"
+    (interactive)
+    (let
+        ((macro (with-syntax-table autoconf-macro-syntax-table (thing-at-point 'word))))
+      (info "autoconf" (concat "*autconf*<" macro ">"))
+      (Info-index macro)))
+  
+  (add-hook 'autoconf-mode-hook
+            (lambda ()
+              (local-set-key "\C-j" 'get-autoconf-macro-definition)))
+#+end_src
+
+>>>>>>> efbff40fd04124145cf49088028897e47d77b7d8
 ** Session mode
    Use a session mode to automate things
 #+begin_src emacs-lisp :tangle yes
@@ -2782,7 +2803,6 @@ MINIMAL EMACS CONFIGURATION
   
   ;; session setting, jump to the last changed thing in the buffer
   (global-set-key "\C-x\C-j" 'session-jump-to-last-change)
-  
   
   ;; overriding defualt not so smart visualization
   (global-set-key "\C-x\C-b" 'ibuffer) ;; manage buffers with ibuffer
