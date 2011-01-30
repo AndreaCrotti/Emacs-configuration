@@ -82,3 +82,6 @@
 [submodule "programming-tools"]
 	path = programming-tools
 	url = git://github.com/AndreaCrotti/programming-tools.git
+[submodule "emacs-dbgr"]
+	path = emacs-dbgr
+	url = git://github.com/AndreaCrotti/emacs-dbgr.git
