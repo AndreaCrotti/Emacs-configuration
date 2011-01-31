@@ -2215,12 +2215,36 @@ MINIMAL EMACS CONFIGURATION
     (interactive)
     (let
         ((macro (with-syntax-table autoconf-macro-syntax-table (thing-at-point 'word))))
-      (info "autoconf" (concat "*autconf*<" macro ">"))
-      (Info-index macro)))
+      (or
+       (get-autoconf-macro-local macro)
+       (lookup-in-info "autoconf" macro)
+       (lookup-in-info "automake" macro)
+       (google-it macro))))
+  
+  (defun lookup-in-info (section string)
+    "lookup string in the given section"
+    (info section (format "*%s*<%s>" section string))
+    (condition-case nil
+        (Info-index string)
+      (error nil)))
+  
+  (defun get-autoconf-macro-local (macro)
+    "Look for the definition of the macro in aclocal.m4 before"
+    (let
+        ((local-macro-file "aclocal.m4"))
+      (if (file-exists-p local-macro-file)
+          (save-excursion 
+            (find-file local-macro-file)
+            (condition-case nil
+                (search-forward (format "AC_DEFUN([%s])" macro))
+              (error nil))
+            nil))))
   
   (add-hook 'autoconf-mode-hook
             (lambda ()
               (local-set-key "\C-j" 'get-autoconf-macro-definition)))
+  
+  ;; if it's not found try to look for in aclocal.m4 if it exists
 #+end_src
 
 ** Session mode
