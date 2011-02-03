@@ -2207,19 +2207,19 @@ MINIMAL EMACS CONFIGURATION
 * Other modes
 ** Autotools facilities
 #+begin_src emacs-lisp :tangle yes
-  (setq autoconf-macro-syntax-table (make-syntax-table))
-  (modify-syntax-entry ?_ "w" autoconf-macro-syntax-table)
-  
-  (defun get-autoconf-macro-definition ()
+  (defun get-autoconf-macro-definition (&optional macro)
     "jump to the definition of a macro"
     (interactive)
     (let
-        ((macro (with-syntax-table autoconf-macro-syntax-table (thing-at-point 'word))))
-      (or
-       (get-autoconf-macro-local macro)
-       (lookup-in-info "autoconf" macro)
-       (lookup-in-info "automake" macro)
-       (google-it macro))))
+        ((macro (thing-at-point 'symbol)))
+        (or
+         (get-autoconf-macro-local macro)
+         (lookup-in-info "autoconf" macro)
+         (lookup-in-info "automake" macro)
+         (google-it macro))))
+         ;; (progn
+         ;;   (message "definition not found")
+         ;;   (get-autoconf-macro-definition (read-minibuffer "Look for macro:"))))))
   
   (defun lookup-in-info (section string)
     "lookup string in the given section"
@@ -2233,12 +2233,12 @@ MINIMAL EMACS CONFIGURATION
     (let
         ((local-macro-file "aclocal.m4"))
       (if (file-exists-p local-macro-file)
-          (save-excursion 
+          (with-temp-buffer 
             (find-file local-macro-file)
             (condition-case nil
                 (search-forward (format "AC_DEFUN([%s])" macro))
-              (error nil))
-            nil))))
+              (error nil)))
+            nil)))
   
   (add-hook 'autoconf-mode-hook
             (lambda ()
