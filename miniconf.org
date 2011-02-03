@@ -1559,6 +1559,15 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
    
 * Programmer tools
+** Look for a function on google code
+#+begin_src emacs-lisp :tangle yes
+  ;; TODO: add support for different modes
+  (defun look-for-function ()
+    (interactive)
+    (let ((baseurl "http://www.google.com/codesearch?q=%s"))
+      (browse-url (format baseurl (thing-at-point 'symbol) ))))
+#+end_src
+
 ** Cedet
    See [[http://alexott.net/en/writings/emacs-devenv/EmacsCedet.html][gentle introduction to cedet]] for a nicer tutorial
 
