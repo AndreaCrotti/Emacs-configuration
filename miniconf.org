@@ -1016,11 +1016,12 @@ MINIMAL EMACS CONFIGURATION
     (let ((org-agenda-frame
            (make-frame 
             '((name . "org-agenda")
-              (width . 300)
-              (heigth . 20)
-              (minibuffer . nil)))))
+              (width . 200)
+              (heigth . 10)
+              (minibuffer . t)))))
       (with-selected-frame org-agenda-frame
         (set-frame-position org-agenda-frame 0 400)
+        (bury-buffer)
         (org-agenda 0 "t"))))
   
 #+end_src
@@ -1045,7 +1046,7 @@ MINIMAL EMACS CONFIGURATION
                            (if (frame-parameter f 'fullscreen) nil 'fullboth))))
   
   ;; this toogle the fullscreen for every new frame (window) created
-   (add-hook 'after-make-frame-functions 'full)
+  ;; (add-hook 'after-make-frame-functions 'full)
 #+end_src
 
 ** Winner mode
