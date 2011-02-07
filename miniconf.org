@@ -1238,7 +1238,6 @@ MINIMAL EMACS CONFIGURATION
    
 ** Info configuration
 #+begin_src emacs-lisp :tangle yes
-  ;FIXME: still doesn't work as desired
   (add-to-list 'Info-default-directory-list (make-conf-path "org-mode/doc/"))
 #+end_src
 
@@ -1248,9 +1247,8 @@ MINIMAL EMACS CONFIGURATION
   (setq org-clock-persist t)
   (org-clock-persistence-insinuate)
 #+end_src
-
+   
 ** Check if we are in org-mode
-
 #+begin_src emacs-lisp :tangle yes
   ;; make it like a macro, takes a body and executes it
   (defun check-org-mode ()
@@ -1265,6 +1263,7 @@ MINIMAL EMACS CONFIGURATION
    This hook enables to expand your KB very easily, every time you create a new org-file it will check if it's already in the agenda and asks to add it.
    Disable this if you don't plan to use org mode and its agenda
 #+begin_src emacs-lisp :tangle yes
+  ; Not used at the moment
   (defun org-add-eventually()
     "Adding a file to org-agenda when saved"
     (interactive)
@@ -1322,30 +1321,6 @@ MINIMAL EMACS CONFIGURATION
     (customize-save-variable org-agenda-blacklist org-agenda-blacklist))
 #+end_src
 
-** Remember mode
-   Org mode can be used in conjunction with remember mode to keep track of repetitive things to remember.
-
-*** Setting up
-#+begin_src emacs-lisp :tangle yes
-  (require 'remember)
-  (require 'org-remember)
-  (org-remember-insinuate)
-#+end_src
-
-*** Define templates
-#+begin_src emacs-lisp :tangle yes
-  ;TODO:  make those two more interesting
-  (setq org-remember-templates
-        '(
-          ("Todo" ?t "* TODO %^{Brief Description} %^g\n%?\nAdded: %U" 
-           "~/org/gtd.org" "Tasks")
-          ("Receipt"   ?r "** %^{BriefDesc} %U %^g\n%?" "~/org/finances.org")
-          ("Vocab"   ?v "** %^{Word?}\n%?\n"  "~/org/vocab.org")))
-          ;; ("Note" ?n "* " "~/org/notes.org")
-          ;; ("Homeworks" ?h "* TODO %^{homework|german|functional|database|scientific|graphics} \n DEADLINE: %^T" "~/org/homeworks.org")
-          ;; ("TOBUY" ?b "* TODO %^{what you want}\n %t" "~/org/tobuy.org")))
-#+end_src
-
 ** Org mode for brainstorming
 #+begin_src emacs-lisp :tangle yes
   (defcustom org-brainstorm-ideas 10
@@ -1397,24 +1372,6 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   ;; TODO: check if this is really useful and how to autocomplete it
   (org-add-link-type "ebib" 'ebib)
-#+end_src
-
-** Color code with listings package
-#+begin_src emacs-lisp :tangle yes
-  ;; requite org-latex so that the following variables are defined
-  (require 'org-latex)
-  
-  ;; require reftex cite for citations
-  (require 'reftex-cite)
-  
-  ;; tell org to use listings
-  (setq org-export-latex-listings t)
-  
-  ;; you must include the listings package
-  (add-to-list 'org-export-latex-packages-alist '("" "listings"))
-  
-  ;; if you want colored source code then you need to include the color package
-  (add-to-list 'org-export-latex-packages-alist '("" "color"))
 #+end_src
 
 ** Refilling somewhere else
@@ -2329,6 +2286,12 @@ MINIMAL EMACS CONFIGURATION
                                 rfc-url-save-directory
                                 "http://www.ietf.org/rfc/"))
   (setq rfc-insert-content-url-hook '(rfc-url-save))
+  
+  (require 'irfc)
+  (setq irfc-directory "~/rfcs")
+  (add-to-list 'auto-mode-alist
+               '("/rfc[0-9]+\\.txt\\'" . irfc-mode))
+  
 #+end_src
 
 * Latex
@@ -2366,6 +2329,24 @@ MINIMAL EMACS CONFIGURATION
     (if (file-exists-p latex-symbols-file)
         (shell-command (concat latex-command-program " " latex-symbols-file))
       (message "file not found")))
+#+end_src
+
+** Color code with listings package
+#+begin_src emacs-lisp :tangle yes
+  ;; requite org-latex so that the following variables are defined
+  (require 'org-latex)
+  
+  ;; require reftex cite for citations
+  (require 'reftex-cite)
+  
+  ;; tell org to use listings
+  (setq org-export-latex-listings t)
+  
+  ;; you must include the listings package
+  (add-to-list 'org-export-latex-packages-alist '("" "listings"))
+  
+  ;; if you want colored source code then you need to include the color package
+  (add-to-list 'org-export-latex-packages-alist '("" "color"))
 #+end_src
 * Communication
 ** Mail settings
