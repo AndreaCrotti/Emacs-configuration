@@ -830,6 +830,33 @@ MINIMAL EMACS CONFIGURATION
 * Buffer management
   See also [[http://scottfrazersblog.blogspot.com/2010/01/emacs-filtered-buffer-switching.html][this nice article]] for a better filtering of buffers while switching.
 
+** Manage buffer
+#+begin_src emacs-lisp :tangle yes
+  (defun untabify-buffer ()
+    (interactive)
+    (untabify (point-min) (point-max)))
+  
+  (defun indent-buffer ()
+    (interactive)
+    (indent-region (point-min) (point-max)))
+  
+  (defun cleanup-buffer ()
+    "Perform a bunch of operations on the whitespace content of a buffer."
+    (interactive)
+    (indent-buffer)
+    (untabify-buffer)
+    (delete-trailing-whitespace))
+  
+  (defun ditto ()
+    "*Copy contents of previous line, starting at the position above point."
+    (interactive)
+    (let ((last-command nil))
+      (save-excursion
+        (previous-line 1)
+        (copy-region-as-kill (point) (progn (end-of-line) (point))))
+      (yank 1)))
+#+end_src
+
 ** Dired settings
 #+begin_src emacs-lisp :tangle yes
   ;; reverting automatically the buffer
