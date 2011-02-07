@@ -314,9 +314,11 @@ MINIMAL EMACS CONFIGURATION
 
 *** Add programming tools to the path
 #+begin_src emacs-lisp :tangle yes
-(let
-    ((tools (concat base "programming-tools")))
-  (setenv "PATH" (concat (getenv "PATH") ":" tools)))
+  (let
+      ((tools (concat base "programming-tools")))
+    (add-to-list 'exec-path tools)
+    (setenv "PATH" (concat (getenv "PATH") ":" tools)))
+  
 #+end_src
 
 *** Google map it
@@ -1030,6 +1032,27 @@ MINIMAL EMACS CONFIGURATION
   [[http://www.emacswiki.org/emacs/Shrink-Wrapping_Frames][See shrinking frames]] and onetoone to see what it could be done to make emacs more frame-centric.
 
   Create some extensions to manage frames more easily, with "select-frame", "next-frame" and so on.
+
+** Create org agenda buffer
+   It's useful to be able to generate a smaller frame (which stays at the bottom) with the TODO list agenda.
+#+begin_src emacs-lisp :tangle yes
+  ;TODO: make it automatically the right size (check why frame-width does not work)
+  (defun make-org-agenda-buffer ()
+    "Generates a small frame below for showing the agenda"
+    (interactive)
+    (let ((org-agenda-frame
+           (make-frame 
+            '((name . "org-agenda")
+              (width . 200)
+              (heigth . 10)
+              (minibuffer . t)))))
+      (with-selected-frame org-agenda-frame
+        (set-frame-position org-agenda-frame 0 400)
+        (bury-buffer)
+        (org-agenda 0 "t"))))
+  
+#+end_src
+
 * Visualization
 ** Menu and tool-bar disabling
 #+begin_src emacs-lisp :tangle yes
@@ -1050,7 +1073,7 @@ MINIMAL EMACS CONFIGURATION
                            (if (frame-parameter f 'fullscreen) nil 'fullboth))))
   
   ;; this toogle the fullscreen for every new frame (window) created
-   (add-hook 'after-make-frame-functions 'full)
+  ;; (add-hook 'after-make-frame-functions 'full)
 #+end_src
 
 ** Winner mode
@@ -1563,6 +1586,15 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
    
 * Programmer tools
+** Look for a function on google code
+#+begin_src emacs-lisp :tangle yes
+  ;; TODO: add support for different modes
+  (defun look-for-function ()
+    (interactive)
+    (let ((baseurl "http://www.google.com/codesearch?q=%s"))
+      (browse-url (format baseurl (thing-at-point 'symbol) ))))
+#+end_src
+
 ** Cedet
    See [[http://alexott.net/en/writings/emacs-devenv/EmacsCedet.html][gentle introduction to cedet]] for a nicer tutorial
 
@@ -2806,11 +2838,11 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (when linux
     (progn 
-      (defun volume-down ()
+      (defun vol-down ()
         (interactive)
         (shell-command "amixer -c 0 set PCM 3%-"))
   
-      (defun volume-up ()
+      (defun vol-up ()
         (interactive)
         (shell-command "amixer -c 0 set PCM 3%+"))))
   
