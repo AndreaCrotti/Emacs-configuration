@@ -1468,19 +1468,11 @@ MINIMAL EMACS CONFIGURATION
 * [[http://code.google.com/p/yasnippet/][Yasnippet]]  
 #+begin_src emacs-lisp :tangle yes
   (require 'yasnippet)
-  
-  (let ((orig (make-conf-path "yasnippet-mirror/snippets/"))
-        (submod 
-         (if (boundp 'snippets-developer) 
-              (expand-file-name "~/Documents/my-snippets")
-           (make-conf-path "yasnippet-snippets"))))
-    (setq yas/root-directory (list submod orig)))
+  (setq yas/root-directory (make-conf-path "yasnippet-mirror/snippets/"))
     
   ;; Maybe needed to set to fixed for some modes
   (setq yas/indent-line 'auto)
-  
   (yas/initialize)
-  
   (setq yas/ignore-filenames-as-triggers nil)
   
   (mapc 'yas/load-directory yas/root-directory)
@@ -1639,13 +1631,19 @@ MINIMAL EMACS CONFIGURATION
     (local-set-key ":" 'semantic-complete-self-insert))
 #+end_src
 
+*** Activate ede mode globally
+#+begin_src emacs-lisp :tangle yes
+  (global-ede-mode t)
+#+end_src
+    
 *** Using semanticdb
 #+begin_src emacs-lisp :tangle yes
-  (global-semanticdb-minor-mode)
+  (global-semanticdb-minor-mode 1)
   (require 'semanticdb-global)
   (semanticdb-enable-gnu-global-databases 'cc-mode)
   (semanticdb-enable-gnu-global-databases 'python-mode)
 #+end_src
+
 ** Eclim
   Get the power of eclipse right in emacs via [[http://eclim.org/][eclim]]
 
