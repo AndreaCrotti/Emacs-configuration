@@ -40,9 +40,6 @@
 [submodule "ecb"]
 	path = ecb
 	url = git://github.com/emacsmirror/ecb.git
-[submodule "emacs-eclim"]
-	path = emacs-eclim
-	url = git://github.com/senny/emacs-eclim.git
 [submodule "malabar-mode"]
 	path = malabar-mode
 	url = git://github.com/espenhw/malabar-mode.git
