@@ -1425,7 +1425,8 @@ MINIMAL EMACS CONFIGURATION
 * [[http://code.google.com/p/yasnippet/][Yasnippet]]  
 #+begin_src emacs-lisp :tangle yes
   (require 'yasnippet)
-  (setq yas/root-directory (list (make-conf-path "yasnippet-mirror/snippets/")))
+  (setq yas/root-directory 
+        (list (make-conf-path "yasnippet-mirror/snippets/") (make-conf-path "yasnippet-snippets/")))
     
   ;; Maybe needed to set to fixed for some modes
   (setq yas/indent-line 'auto)
@@ -2694,7 +2695,32 @@ MINIMAL EMACS CONFIGURATION
   ;; Using function is preferred when quoting functions
  ;; (add-hook 'python-mode-hook (function activate-flymake))
 #+end_src
+
+** Flymake in Automake projects
+   Add the following to "file.mk" and add "include file.mk" in your *Makefile.am*
+#+begin_src makefile
+  get_cs_flags = $(foreach target,$(subst .,_,$(subst -,_,$($(2)))),$($(target)_$(1)FLAGS))
+  get_cs_all_flags = $(foreach type,$(2),$(call get_cs_flags,$(1),$(type)))
+  get_cs_compile = $(if $(subst C,,$(1)),$($(1)COMPILE),$(COMPILE))
+  get_cs_cmdline = $(call get_cs_compile,$(1)) $(call get_cs_all_flags,$(1),check_PROGRAMS bin_PROGRAMS lib_LTLIBRARIES) -fsyntax-only
   
+  check-syntax:
+          s=$(suffix $(CHK_SOURCES));\
+          if   [ "$$s" = ".c"   ]; then $(call get_cs_cmdline,C)   $(CHK_SOURCES);\
+          elif [ "$$s" = ".cpp" ]; then $(call get_cs_cmdline,CXX) $(CHK_SOURCES);\
+          else exit 1; fi
+  
+  .PHONY: check-syntax
+#+end_src
+
+** Flymake in Make projects
+   Add this to your makefile
+#+begin_src makefile
+.PHONY: check-syntax
+check-syntax:
+	$(CXX) -Wall -Wextra -pedantic -fsyntax-only $(CHK_SOURCES)
+#+end_src
+
 * As as server
   This will start the server for the GUI version of emacs, make sure you set up correctly the emacsclient, for example on osx. (you might even start it automatically with launchtctl)
 #+begin_src sh
