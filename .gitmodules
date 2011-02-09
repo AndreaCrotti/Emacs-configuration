@@ -88,3 +88,6 @@
 [submodule "rebox2"]
 	path = rebox2
 	url = git://github.com/lewang/rebox2.git
+[submodule "ess-mirror"]
+	path = ess-mirror
+	url = git://github.com/AndreaCrotti/ess-mirror.git
