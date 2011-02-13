@@ -1927,6 +1927,36 @@ MINIMAL EMACS CONFIGURATION
   (autoload 'doctest-mode "doctest-mode" "doc test python mode" t)
 #+end_src
 
+*** Enable pymacs and ropemacs
+#+begin_src emacs-lisp :tangle yes
+  ;; Initialize Pymacs                                                                                           
+  (autoload 'pymacs-apply "pymacs")
+  (autoload 'pymacs-call "pymacs")
+  (autoload 'pymacs-eval "pymacs" nil t)
+  (autoload 'pymacs-exec "pymacs" nil t)
+  (autoload 'pymacs-load "pymacs" nil t)
+  ;; Initialize Rope                                                                                             
+  (pymacs-load "ropemacs" "rope-")
+  (setq ropemacs-enable-autoimport t)
+  
+  ;; now add the source rope
+  (add-hook 'python-mode-hook 
+            (lambda ()
+              (set (make-local-variable 'ac-sources)
+                   (append ac-sources '(ac-source-ropemacs) '(ac-source-yasnippet)))
+  ))
+  
+  (defun my-insert-dot-and-complete (arg)
+    (interactive "p")
+    (self-insert-command arg)
+    (ac-complete)
+    )
+  
+  (add-hook 'python-mode-hook
+            (lambda () 
+              (local-set-key "." 'my-insert-dot-and-complete)))
+#+end_src
+
 ** Haskell mode
 #+begin_src emacs-lisp :tangle yes
   (add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
@@ -2885,14 +2915,14 @@ check-syntax:
   ;; cvs stuff
   (global-set-key "\C-xg" 'magit-status)
   
-  ;; org keys
-  (global-set-key "\C-c\C-l" 'org-annotate-file)
-  (global-set-key "\C-cr" 'org-remember)
+  ;; some nice global keys
+  (global-set-key "\C-cr" 'org-capture)
   (global-set-key "\C-ca" 'org-agenda)
   (global-set-key "\C-c\C-x\C-o" 'org-clock-out)
   (global-set-key "\C-c\C-x\C-i" 'org-clock-in)
   
   ;; session setting, jump to the last changed thing in the buffer
+  ;; session.el package has to be loaded
   (global-set-key "\C-x\C-j" 'session-jump-to-last-change)
   
   ;; overriding defualt not so smart visualization
