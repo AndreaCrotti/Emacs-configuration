@@ -91,3 +91,6 @@
 [submodule "Pymacs"]
 	path = Pymacs
 	url = git://github.com/AndreaCrotti/Pymacs.git
+[submodule "cedet-mirror"]
+	path = cedet-mirror
+	url = git://gitorious.org/cedet-mirror/cedet-mirror.git
