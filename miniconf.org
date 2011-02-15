@@ -1,4 +1,5 @@
 #+OPTIONS: toc:t LEVEL:4
+
 MINIMAL EMACS CONFIGURATION
 # FIXME: ignoring the buffers is ok only if we have can then fix it
 # FIXME: add some configurations for different usage of emacs
@@ -1889,15 +1890,19 @@ MINIMAL EMACS CONFIGURATION
     (when
         (is-new-file)
         (let
-            ((snip (assoc (file-name-extension buffer-file-name) my-auto-header-conses)))
+            ((snip (find-matching-snippet (file-name-nondirectory (buffer-file-name)))))
           (if
               snip
               (insert-at-startup (cdr snip))))))
   
+  (defun find-matching-snippet (filename)
+    (assoc-if (lambda (x) (string-match x filename))
+                   my-auto-header-conses))
+  
   (defun insert-at-startup (snippet)
     "try to expand a snippet at startup"
     (if
-        (yes-or-no-p "insert automatic header?")
+        (yes-or-no-p (format "expand snippet %s?" snippet))
         (progn
           (insert snippet)
           ;; add checking
@@ -1905,11 +1910,10 @@ MINIMAL EMACS CONFIGURATION
     
   (defcustom my-auto-header-conses
         '(
-        ;;("py" . "!")
-          ("rb" . "!")
-          ("svg" . "svg")
-          ;;("cpp" . "cpp")
-          ("h"  . "once"))
+          ("setup.py" . "setup")
+          ("sh$" . "!")
+          ("h$"  . "once")
+          ("hpp$" . "once"))
         "snippets to expand per file extension"
         :type 'list)
   
@@ -1929,32 +1933,32 @@ MINIMAL EMACS CONFIGURATION
 
 *** Enable pymacs and ropemacs
 #+begin_src emacs-lisp :tangle yes
-  ;; Initialize Pymacs                                                                                           
-  (autoload 'pymacs-apply "pymacs")
-  (autoload 'pymacs-call "pymacs")
-  (autoload 'pymacs-eval "pymacs" nil t)
-  (autoload 'pymacs-exec "pymacs" nil t)
-  (autoload 'pymacs-load "pymacs" nil t)
-  ;; Initialize Rope                                                                                             
-  (pymacs-load "ropemacs" "rope-")
-  (setq ropemacs-enable-autoimport t)
-  
-  ;; now add the source rope
-  (add-hook 'python-mode-hook 
-            (lambda ()
-              (set (make-local-variable 'ac-sources)
-                   (append ac-sources '(ac-source-ropemacs) '(ac-source-yasnippet)))
-  ))
-  
-  (defun my-insert-dot-and-complete (arg)
-    (interactive "p")
-    (self-insert-command arg)
-    (ac-complete)
-    )
-  
-  (add-hook 'python-mode-hook
-            (lambda () 
-              (local-set-key "." 'my-insert-dot-and-complete)))
+    ;; Initialize Pymacs                                                                                           
+    (autoload 'pymacs-apply "pymacs")
+    (autoload 'pymacs-call "pymacs")
+    (autoload 'pymacs-eval "pymacs" nil t)
+    (autoload 'pymacs-exec "pymacs" nil t)
+    (autoload 'pymacs-load "pymacs" nil t)
+    ;; Initialize Rope                                                                                             
+  ;;  (pymacs-load "ropemacs" "rope-")
+    (setq ropemacs-enable-autoimport t)
+    
+    ;; now add the source rope
+    ;; (add-hook 'python-mode-hook 
+    ;;           (lambda ()
+    ;;             (set (make-local-variable 'ac-sources)
+    ;;                  (append ac-sources '(ac-source-ropemacs))
+    ;; )))
+    
+    ;; (defun my-insert-dot-and-complete (arg)
+    ;;   (interactive "p")
+    ;;   (self-insert-command arg)
+    ;;   (rope-code-assist (py-symbol-near-point))
+    ;;   )
+    
+    ;; (add-hook 'python-mode-hook
+    ;;           (lambda () 
+    ;;             (local-set-key "." 'my-insert-dot-and-complete)))
 #+end_src
 
 ** Haskell mode
@@ -2722,8 +2726,6 @@ MINIMAL EMACS CONFIGURATION
   (add-to-list 'flymake-allowed-file-name-masks 
                '("\\.py\\'" flymake-python-init))
   
-  ;; Using function is preferred when quoting functions
- ;; (add-hook 'python-mode-hook (function activate-flymake))
 #+end_src
 
 ** Flymake in Automake projects
