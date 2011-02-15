@@ -1556,6 +1556,11 @@ MINIMAL EMACS CONFIGURATION
   (setq semantic-load-turn-everything-on t)
 #+end_src
 
+*** Enable CTAGS
+#+begin_src emacs-lisp :tangle yes
+  (semantic-load-enable-all-exuberent-ctags-support)
+#+end_src
+
 *** Activate semantic bindings in some more modes
 #+begin_src emacs-lisp :tangle yes
   (dolist 
@@ -1600,8 +1605,6 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (global-semanticdb-minor-mode 1)
   (require 'semanticdb-global)
-  (semanticdb-enable-gnu-global-databases 'cc-mode)
-  (semanticdb-enable-gnu-global-databases 'python-mode)
 #+end_src
 
 ** Eclim
