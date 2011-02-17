@@ -1427,7 +1427,7 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (require 'yasnippet)
   (setq yas/root-directory 
-        (list (make-conf-path "yasnippet-mirror/snippets/") (make-conf-path "yasnippet-snippets/")))
+        (list(make-conf-path "yasnippet-snippets/")  (make-conf-path "yasnippet-mirror/snippets/")))
     
   ;; Maybe needed to set to fixed for some modes
   (setq yas/indent-line 'auto)

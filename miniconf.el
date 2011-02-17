@@ -1036,6 +1036,8 @@ When called with prefix arg (`C-u'), then remove this space again."
 (load (make-conf-path "cedet-mirror/common/cedet"))
 (setq semantic-load-turn-everything-on t)
 
+(semantic-load-enable-all-exuberent-ctags-support)
+
 (dolist 
     (hook '(python-mode-hook c-mode-common-hook emacs-lisp-mode-hook makefile-mode-hook))
   (add-hook hook 'activate-more-semantic-bindings))
@@ -1066,8 +1068,6 @@ When called with prefix arg (`C-u'), then remove this space again."
 
 (global-semanticdb-minor-mode 1)
 (require 'semanticdb-global)
-(semanticdb-enable-gnu-global-databases 'cc-mode)
-(semanticdb-enable-gnu-global-databases 'python-mode)
 
 (add-to-list 'load-path (make-conf-path "emacs-eclim/"))
 ;; only add the vendor path when you want to use the libraries provided with emacs-eclim
