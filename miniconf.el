@@ -945,7 +945,7 @@ When called with prefix arg (`C-u'), then remove this space again."
 
 (require 'yasnippet)
 (setq yas/root-directory 
-      (list (make-conf-path "yasnippet-mirror/snippets/") (make-conf-path "yasnippet-snippets/")))
+      (list(make-conf-path "yasnippet-snippets/")  (make-conf-path "yasnippet-mirror/snippets/")))
   
 ;; Maybe needed to set to fixed for some modes
 (setq yas/indent-line 'auto)
@@ -968,9 +968,7 @@ When called with prefix arg (`C-u'), then remove this space again."
 
 (require 'eldoc)
 ;; Maybe better a direct activation??
-(dolist (hook '(python-mode-hook
-                c-mode-common-hook
-                ruby-mode-hook
+(dolist (hook '(ruby-mode-hook
                 lisp-interaction-mode-hook
                 ielm-mode-hook
                 emacs-lisp-mode-hook))
@@ -1033,8 +1031,10 @@ When called with prefix arg (`C-u'), then remove this space again."
   (let ((baseurl "http://www.google.com/codesearch?q=%s"))
     (browse-url (format baseurl (thing-at-point 'symbol) ))))
 
-(load (make-conf-path "cedet/common/cedet"))
+(load (make-conf-path "cedet-mirror/common/cedet"))
 (setq semantic-load-turn-everything-on t)
+
+(semantic-load-enable-all-exuberent-ctags-support)
 
 (dolist 
     (hook '(python-mode-hook c-mode-common-hook emacs-lisp-mode-hook makefile-mode-hook))
@@ -1066,8 +1066,6 @@ When called with prefix arg (`C-u'), then remove this space again."
 
 (global-semanticdb-minor-mode 1)
 (require 'semanticdb-global)
-(semanticdb-enable-gnu-global-databases 'cc-mode)
-(semanticdb-enable-gnu-global-databases 'python-mode)
 
 (add-to-list 'load-path (make-conf-path "emacs-eclim/"))
 ;; only add the vendor path when you want to use the libraries provided with emacs-eclim

@@ -97,3 +97,6 @@
 [submodule "distel"]
 	path = distel
 	url = git://github.com/massemanet/distel.git
+[submodule "cedet-mirror"]
+	path = cedet-mirror
+	url = git://gitorious.org/cedet-mirror/cedet-mirror.git

@@ -1427,7 +1427,7 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (require 'yasnippet)
   (setq yas/root-directory 
-        (list (make-conf-path "yasnippet-mirror/snippets/") (make-conf-path "yasnippet-snippets/")))
+        (list(make-conf-path "yasnippet-snippets/")  (make-conf-path "yasnippet-mirror/snippets/")))
     
   ;; Maybe needed to set to fixed for some modes
   (setq yas/indent-line 'auto)
@@ -1454,9 +1454,7 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (require 'eldoc)
   ;; Maybe better a direct activation??
-  (dolist (hook '(python-mode-hook
-                  c-mode-common-hook
-                  ruby-mode-hook
+  (dolist (hook '(ruby-mode-hook
                   lisp-interaction-mode-hook
                   ielm-mode-hook
                   emacs-lisp-mode-hook))
@@ -1552,8 +1550,13 @@ MINIMAL EMACS CONFIGURATION
 
 *** Use cedet and gloabally ede-mode for projects
 #+begin_src emacs-lisp :tangle yes
-  (load (make-conf-path "cedet/common/cedet"))
+  (load (make-conf-path "cedet-mirror/common/cedet"))
   (setq semantic-load-turn-everything-on t)
+#+end_src
+
+*** Enable CTAGS
+#+begin_src emacs-lisp :tangle yes
+  (semantic-load-enable-all-exuberent-ctags-support)
 #+end_src
 
 *** Activate semantic bindings in some more modes
@@ -1600,8 +1603,6 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (global-semanticdb-minor-mode 1)
   (require 'semanticdb-global)
-  (semanticdb-enable-gnu-global-databases 'cc-mode)
-  (semanticdb-enable-gnu-global-databases 'python-mode)
 #+end_src
 
 ** Eclim
