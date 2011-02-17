@@ -945,7 +945,7 @@ When called with prefix arg (`C-u'), then remove this space again."
 
 (require 'yasnippet)
 (setq yas/root-directory 
-      (list (make-conf-path "yasnippet-mirror/snippets/") (make-conf-path "yasnippet-snippets/")))
+      (list(make-conf-path "yasnippet-snippets/")  (make-conf-path "yasnippet-mirror/snippets/")))
   
 ;; Maybe needed to set to fixed for some modes
 (setq yas/indent-line 'auto)
@@ -968,9 +968,7 @@ When called with prefix arg (`C-u'), then remove this space again."
 
 (require 'eldoc)
 ;; Maybe better a direct activation??
-(dolist (hook '(python-mode-hook
-                c-mode-common-hook
-                ruby-mode-hook
+(dolist (hook '(ruby-mode-hook
                 lisp-interaction-mode-hook
                 ielm-mode-hook
                 emacs-lisp-mode-hook))

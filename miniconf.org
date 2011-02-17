@@ -1454,9 +1454,7 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (require 'eldoc)
   ;; Maybe better a direct activation??
-  (dolist (hook '(python-mode-hook
-                  c-mode-common-hook
-                  ruby-mode-hook
+  (dolist (hook '(ruby-mode-hook
                   lisp-interaction-mode-hook
                   ielm-mode-hook
                   emacs-lisp-mode-hook))
