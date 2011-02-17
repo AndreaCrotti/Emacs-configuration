@@ -1263,9 +1263,8 @@ When called with prefix arg (`C-u'), then remove this space again."
   (autoload 'pymacs-eval "pymacs" nil t)
   (autoload 'pymacs-exec "pymacs" nil t)
   (autoload 'pymacs-load "pymacs" nil t)
-
   ;; Initialize Rope                                                                                             
- ;; (pymacs-load "ropemacs" "rope-")
+;;  (pymacs-load "ropemacs" "rope-")
   (setq ropemacs-enable-autoimport t)
   
   ;; now add the source rope
@@ -1795,18 +1794,15 @@ When called with prefix arg (`C-u'), then remove this space again."
 (add-hook 'post-command-hook 'my-flymake-show-help)
 
 (defun flymake-python-init () 
-   (let* ((temp-file (flymake-init-create-temp-buffer-copy 
-                      'flymake-create-temp-inplace)) 
-          (local-file (file-relative-name 
-                       temp-file 
-                       (file-name-directory buffer-file-name)))) 
-     (list "pycheckers" (list local-file))))
- 
- (add-to-list 'flymake-allowed-file-name-masks 
-              '("\\.py\\'" flymake-python-init))
- 
- ;; Using function is preferred when quoting functions
-;; (add-hook 'python-mode-hook (function activate-flymake))
+  (let* ((temp-file (flymake-init-create-temp-buffer-copy 
+                     'flymake-create-temp-inplace)) 
+         (local-file (file-relative-name 
+                      temp-file 
+                      (file-name-directory buffer-file-name)))) 
+    (list "pycheckers" (list local-file))))
+
+(add-to-list 'flymake-allowed-file-name-masks 
+             '("\\.py\\'" flymake-python-init))
 
 (if window-system
     (progn

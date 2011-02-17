@@ -13,6 +13,7 @@
 
 (require 'org-install)
 (require 'org)
+(require 'org-exp)
 
 (org-babel-load-file (concat base "miniconf.org"))
 
