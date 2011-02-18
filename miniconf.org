@@ -1793,6 +1793,8 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
     
 ** Clojure
+   Nice lisp language to work in the java virtual machine without writing java.
+
 #+begin_src emacs-lisp :tangle yes
   (add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
   (autoload 'clojure-mode "clojure-mode" "clojure mode" t)
@@ -1839,31 +1841,6 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 ** C-mode
-*** Using splint
-#+begin_src emacs-lisp :tangle yes
-  ; FIXME: not working as expected yet
-  (defun do-splint ()
-    (interactive)
-    (shell-command (format "splint %s" buffer-file-name)))
-#+end_src
-
-*** Eldoc and style settings
-#+begin_src emacs-lisp :tangle yes
-  (require 'c-eldoc)
-  ; TODO: maybe we can as well modify it more simply in the default structure
-  (setq c-default-style
-        '((java-mode . "java")
-         (awk-mode . "awk")
-         (other . "cc-mode")))
-  
-  ;; FIXME: eldoc mode, not working correctly apparently
-  ;; See http://www.emacswiki.org/emacs/CEldocMode for more info
-  (add-hook 'c-mode-common-hook 'c-turn-on-eldoc-mode)
-  ;; adding the hook from cedet
-  (add-hook 'c-mode-common-hook 'my-c-like-cedet-hook)
-  (add-hook 'c++-mode-hook 'my-cpp-cedet-hook)
-#+end_src
-
 ** C++
 *** Qt style
 #+begin_src emacs-lisp :tangle yes
@@ -1874,7 +1851,7 @@ MINIMAL EMACS CONFIGURATION
                  (c-basic-offset . 4)))
 #+end_src
 
-*** Auto insert implmentation
+*** Auto insert implementation
 #+begin_src emacs-lisp :tangle yes
   (autoload 'expand-member-functions "member-functions" "Expand C++ member function declarations" t)
   (add-hook 'c++-mode-hook (lambda () (local-set-key "\C-cm" #'expand-member-functions)))
@@ -1912,7 +1889,6 @@ MINIMAL EMACS CONFIGURATION
   (defcustom my-auto-header-conses
         '(
           ("setup.py" . "setup")
-          ("sh$" . "!")
           ("h$"  . "once")
           ("hpp$" . "once"))
         "snippets to expand per file extension"
