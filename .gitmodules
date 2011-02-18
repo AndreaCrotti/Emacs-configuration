@@ -100,3 +100,9 @@
 [submodule "cedet-mirror"]
 	path = cedet-mirror
 	url = git://gitorious.org/cedet-mirror/cedet-mirror.git
+[submodule "predictive"]
+	path = predictive
+	url = http://www.dr-qubit.org/git/predictive.git
+[submodule "undo-tree"]
+	path = undo-tree
+	url = http://www.dr-qubit.org/git/undo-tree.git
