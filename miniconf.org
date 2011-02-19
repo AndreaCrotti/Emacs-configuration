@@ -2559,7 +2559,15 @@ MINIMAL EMACS CONFIGURATION
   ;; Join the #emacs and #erc channels whenever connecting to Freenode.
   (setq erc-autojoin-channels-alist
         '(("freenode.net"
-           "#emacs" "#erc" "#ruby-lang" "#python" "#ledger")))
+           "#emacs" "#erc" "#ruby-lang" 
+           "#python" "#git" "#github"
+           "#c" "#c++" "#ffmpeg")))
+  
+  ;; highlight in the modeline only when my nick is cited
+  (setq erc-current-nick-highlight-type 'nick)
+  
+  ;; enable logging (by default logs everything to ~/log
+  (setq erc-log-mode t)
 #+end_src
   
 *** Set some more interesting variables
@@ -2568,7 +2576,7 @@ MINIMAL EMACS CONFIGURATION
   (setq erc-interpret-mirc-color t)
   
   ;; ignore the useless messages
-  (setq erc-hide-list (quote ("join" "part" "quit"))
+  (setq erc-hide-list '("JOIN" "PART" "QUIT"))
 #+end_src
 
 * General settings
