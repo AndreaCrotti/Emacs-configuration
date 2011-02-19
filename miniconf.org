@@ -2519,6 +2519,7 @@ MINIMAL EMACS CONFIGURATION
                   (setq buffer-save-without-query t)))))
 #+end_src
 ** Erc
+*** Accessory functions
 #+begin_src emacs-lisp :tangle yes
   ;; This is an example of how to make a new command.  Type "/uptime" to
   ;; use it.
@@ -2537,7 +2538,10 @@ MINIMAL EMACS CONFIGURATION
               (shell-command-to-string "uptime"))))))
       (erc-send-message
        (concat "{Uptime} [" uname-output "]"))))
-  
+#+end_src
+
+*** Functions to connect to useful servers
+#+begin_src emacs-lisp :tangle yes
   ; TODO: create a new one if necessary or just
   ; activate the current one if possible
   (defun bitlbee ()
@@ -2555,9 +2559,15 @@ MINIMAL EMACS CONFIGURATION
   (setq erc-autojoin-channels-alist
         '(("freenode.net"
            "#emacs" "#erc" "#ruby-lang" "#python" "#ledger")))
+#+end_src
   
+*** Set some more interesting variables
+#+begin_src emacs-lisp :tangle yes
   ;; Interpret mIRC-style color commands in IRC chats
   (setq erc-interpret-mirc-color t)
+  
+  ;; ignore the useless messages
+  (setq erc-hide-list (quote ("join" "part" "quit"))
 #+end_src
 
 * General settings

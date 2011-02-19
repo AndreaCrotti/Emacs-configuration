@@ -1183,25 +1183,6 @@ When called with prefix arg (`C-u'), then remove this space again."
 (autoload 'paredit-mode "paredit" "paredit mode" t)
 (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
 
-; FIXME: not working as expected yet
-(defun do-splint ()
-  (interactive)
-  (shell-command (format "splint %s" buffer-file-name)))
-
-(require 'c-eldoc)
-; TODO: maybe we can as well modify it more simply in the default structure
-(setq c-default-style
-      '((java-mode . "java")
-       (awk-mode . "awk")
-       (other . "cc-mode")))
-
-;; FIXME: eldoc mode, not working correctly apparently
-;; See http://www.emacswiki.org/emacs/CEldocMode for more info
-(add-hook 'c-mode-common-hook 'c-turn-on-eldoc-mode)
-;; adding the hook from cedet
-(add-hook 'c-mode-common-hook 'my-c-like-cedet-hook)
-(add-hook 'c++-mode-hook 'my-cpp-cedet-hook)
-
 (c-add-style "qt-gnu" 
              '("gnu" 
                (c-access-key .
@@ -1241,7 +1222,6 @@ When called with prefix arg (`C-u'), then remove this space again."
 (defcustom my-auto-header-conses
       '(
         ("setup.py" . "setup")
-        ("sh$" . "!")
         ("h$"  . "once")
         ("hpp$" . "once"))
       "snippets to expand per file extension"
