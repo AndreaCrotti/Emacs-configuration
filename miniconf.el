@@ -1034,7 +1034,8 @@ When called with prefix arg (`C-u'), then remove this space again."
 (load (make-conf-path "cedet-mirror/common/cedet"))
 (setq semantic-load-turn-everything-on t)
 
-(semantic-load-enable-all-exuberent-ctags-support)
+;;  (require 'semantic-ectag-lang)
+;;  (semantic-load-enable-all-exuberent-ctags-support)
 
 (dolist 
     (hook '(python-mode-hook c-mode-common-hook emacs-lisp-mode-hook makefile-mode-hook))
@@ -1516,7 +1517,7 @@ When called with prefix arg (`C-u'), then remove this space again."
 (autoload 'ebib "ebib" "Ebib, a BibTeX database manager." t)
 (add-to-list 'Info-default-directory-list (make-conf-path "ebib/manual"))
 
-(autoload 'log4j-mode "log4-mode" t)
+(autoload 'log4j-mode "log4j-mode" t)
 (add-to-list 'auto-mode-alist '("\\.log$" . log4j-mode))
 
 (autoload 'ledger-mode "ledger" "ledger mode for accounting" t)

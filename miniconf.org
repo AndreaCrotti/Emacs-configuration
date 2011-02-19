@@ -1556,7 +1556,8 @@ MINIMAL EMACS CONFIGURATION
 
 *** Enable CTAGS
 #+begin_src emacs-lisp :tangle yes
-  (semantic-load-enable-all-exuberent-ctags-support)
+;;  (require 'semantic-ectag-lang)
+;;  (semantic-load-enable-all-exuberent-ctags-support)
 #+end_src
 
 *** Activate semantic bindings in some more modes
@@ -2300,7 +2301,7 @@ MINIMAL EMACS CONFIGURATION
 
 ** Log4j
 #+begin_src emacs-lisp :tangle yes
-  (autoload 'log4j-mode "log4-mode" t)
+  (autoload 'log4j-mode "log4j-mode" t)
   (add-to-list 'auto-mode-alist '("\\.log$" . log4j-mode))
 #+end_src
 
