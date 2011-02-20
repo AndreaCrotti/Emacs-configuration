@@ -166,9 +166,8 @@ See `comment-styles' for a list of available styles."
   (newline-and-indent))
 
 (defun newline-force-close()
-  "Same as newline-force but putting a closing char at end"
+  "Same as newline-force but putting a closing char at end unless it's already present"
   (interactive)
-  (end-of-line)
   (let ((closing-way (assoc major-mode newline-force-close-alist))
         closing-char)
     ;; Setting the user defined or the constant if not found
@@ -181,11 +180,12 @@ See `comment-styles' for a list of available styles."
       ;; if we're at beginning of buffer, the backward-char will beep
       ;; :( This works even in the case of narrowing (e.g. we don't
       ;; look outside of the narrowed area.
-      ;; FIXME: there must be a way to look for only a char!
-      (let ((closing-regexp (concat ".*" closing-char ".*")))
-        (when (not (looking-at closing-regexp))
-          (insert closing-char))
-        (newline-force)))))
+      (if (not (looking-at (format ".*%s.*" closing-char)))
+          (progn
+            (end-of-line)
+            (insert closing-char))
+        (message "%s already present" closing-char))
+      (newline-force))))
 
 (defun err-switch()
   "switch on/off error debugging"
@@ -1683,10 +1683,21 @@ When called with prefix arg (`C-u'), then remove this space again."
 ;; Join the #emacs and #erc channels whenever connecting to Freenode.
 (setq erc-autojoin-channels-alist
       '(("freenode.net"
-         "#emacs" "#erc" "#ruby-lang" "#python" "#ledger")))
+         "#emacs" "#erc" "#ruby-lang" 
+         "#python" "#git" "#github"
+         "#c" "#c++" "#ffmpeg")))
+
+;; highlight in the modeline only when my nick is cited
+(setq erc-current-nick-highlight-type 'nick)
+
+;; enable logging (by default logs everything to ~/log
+(setq erc-log-mode t)
 
 ;; Interpret mIRC-style color commands in IRC chats
 (setq erc-interpret-mirc-color t)
+
+;; ignore the useless messages
+(setq erc-hide-list '("JOIN" "PART" "QUIT"))
 
 (setq initial-major-mode 'emacs-lisp-mode)
 
