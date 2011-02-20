@@ -258,18 +258,23 @@ MINIMAL EMACS CONFIGURATION
 
 *** Enable semantic when possible
 #+begin_src emacs-lisp :tangle yes
-(defun activate-more-semantic-bindings ()
-  "add some other nice bindings to modes supported by semantic"
-  (interactive)
-  (local-set-key (kbd "M-n") 'senator-next-tag)
-  (local-set-key (kbd "M-p") 'senator-previous-tag)
-  ;; TODO: the senator stuff should be enabled only where senator actually works!!
-  (local-set-key [f6] 'senator-fold-tag-toggle)
-  ;; narrows to the actual function or class analyzed
-  ;; C-x n w to widen again
-  (local-set-key "\C-xnn" 'semantic-narrow-to-tag)
-  (local-set-key "\M-." 'semantic-complete-jump)
-  (local-set-key "\M-?" 'semantic-ia-fast-jump))
+  (defun my-next-tag ()
+    (interactive)
+    (semantic-refresh-tags-safe)
+    (senator-next-tag))
+  
+  (defun activate-more-semantic-bindings ()
+    "add some other nice bindings to modes supported by semantic"
+    (interactive)
+    (local-set-key (kbd "M-n") 'my-next-tag)
+    (local-set-key (kbd "M-p") 'senator-previous-tag)
+    ;; TODO: the senator stuff should be enabled only where senator actually works!!
+    (local-set-key [f6] 'senator-fold-tag-toggle)
+    ;; narrows to the actual function or class analyzed
+    ;; C-x n w to widen again
+    (local-set-key "\C-xnn" 'semantic-narrow-to-tag)
+    (local-set-key "\M-." 'semantic-complete-jump)
+    (local-set-key "\M-?" 'semantic-ia-fast-jump))
 #+end_src
 
 *** Make a script executable

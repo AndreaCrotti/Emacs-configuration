@@ -105,10 +105,15 @@ See `comment-styles' for a list of available styles."
   "Closing char for different modes"
   :type 'list)
 
+(defun my-next-tag ()
+  (interactive)
+  (semantic-refresh-tags-safe)
+  (senator-next-tag))
+
 (defun activate-more-semantic-bindings ()
   "add some other nice bindings to modes supported by semantic"
   (interactive)
-  (local-set-key (kbd "M-n") 'senator-next-tag)
+  (local-set-key (kbd "M-n") 'my-next-tag)
   (local-set-key (kbd "M-p") 'senator-previous-tag)
   ;; TODO: the senator stuff should be enabled only where senator actually works!!
   (local-set-key [f6] 'senator-fold-tag-toggle)
