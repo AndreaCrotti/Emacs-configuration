@@ -1038,9 +1038,8 @@ When called with prefix arg (`C-u'), then remove this space again."
 
 (load (make-conf-path "cedet-mirror/common/cedet"))
 (setq semantic-load-turn-everything-on t)
-
-;;  (require 'semantic-ectag-lang)
-;;  (semantic-load-enable-all-exuberent-ctags-support)
+(global-ede-mode t)
+(setq ede-locate-setup-options '(ede-locate-global ede-locate-locate ede-locate-idutils))
 
 (dolist 
     (hook '(python-mode-hook c-mode-common-hook emacs-lisp-mode-hook makefile-mode-hook))
@@ -1067,8 +1066,6 @@ When called with prefix arg (`C-u'), then remove this space again."
 
 (defun my-cpp-cedet-hook ()
   (local-set-key ":" 'semantic-complete-self-insert))
-
-(global-ede-mode t)
 
 (global-semanticdb-minor-mode 1)
 (require 'semanticdb-global)
@@ -1690,7 +1687,8 @@ When called with prefix arg (`C-u'), then remove this space again."
       '(("freenode.net"
          "#emacs" "#erc" "#ruby-lang" 
          "#python" "#git" "#github"
-         "#c" "#c++" "#ffmpeg")))
+         "#c" "#c++" "#ffmpeg"
+         "#haskell" "#macosx")))
 
 ;; highlight in the modeline only when my nick is cited
 (setq erc-current-nick-highlight-type 'nick)

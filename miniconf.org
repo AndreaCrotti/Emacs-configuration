@@ -1557,12 +1557,8 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (load (make-conf-path "cedet-mirror/common/cedet"))
   (setq semantic-load-turn-everything-on t)
-#+end_src
-
-*** Enable CTAGS
-#+begin_src emacs-lisp :tangle yes
-;;  (require 'semantic-ectag-lang)
-;;  (semantic-load-enable-all-exuberent-ctags-support)
+  (global-ede-mode t)
+  (setq ede-locate-setup-options '(ede-locate-global ede-locate-locate ede-locate-idutils))
 #+end_src
 
 *** Activate semantic bindings in some more modes
@@ -1600,11 +1596,6 @@ MINIMAL EMACS CONFIGURATION
     (local-set-key ":" 'semantic-complete-self-insert))
 #+end_src
 
-*** Activate ede mode globally
-#+begin_src emacs-lisp :tangle yes
-  (global-ede-mode t)
-#+end_src
-    
 *** Using semanticdb
 #+begin_src emacs-lisp :tangle yes
   (global-semanticdb-minor-mode 1)
@@ -2566,7 +2557,8 @@ MINIMAL EMACS CONFIGURATION
         '(("freenode.net"
            "#emacs" "#erc" "#ruby-lang" 
            "#python" "#git" "#github"
-           "#c" "#c++" "#ffmpeg")))
+           "#c" "#c++" "#ffmpeg"
+           "#haskell" "#macosx")))
   
   ;; highlight in the modeline only when my nick is cited
   (setq erc-current-nick-highlight-type 'nick)
