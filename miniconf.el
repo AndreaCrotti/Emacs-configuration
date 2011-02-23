@@ -115,6 +115,7 @@ See `comment-styles' for a list of available styles."
   (interactive)
   (local-set-key (kbd "M-n") 'my-next-tag)
   (local-set-key (kbd "M-p") 'senator-previous-tag)
+  (local-set-key "\C-cq" 'semantic-ia-show-doc)
   ;; TODO: the senator stuff should be enabled only where senator actually works!!
   (local-set-key [f6] 'senator-fold-tag-toggle)
   ;; narrows to the actual function or class analyzed
@@ -1185,6 +1186,9 @@ When called with prefix arg (`C-u'), then remove this space again."
 
 (autoload 'paredit-mode "paredit" "paredit mode" t)
 (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
+
+(setq c-default-style
+      '((java-mode . "java") (awk-mode . "awk") (other . "cc-mode")))
 
 (c-add-style "qt-gnu" 
              '("gnu" 

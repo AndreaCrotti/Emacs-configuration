@@ -268,6 +268,7 @@ MINIMAL EMACS CONFIGURATION
     (interactive)
     (local-set-key (kbd "M-n") 'my-next-tag)
     (local-set-key (kbd "M-p") 'senator-previous-tag)
+    (local-set-key "\C-cq" 'semantic-ia-show-doc)
     ;; TODO: the senator stuff should be enabled only where senator actually works!!
     (local-set-key [f6] 'senator-fold-tag-toggle)
     ;; narrows to the actual function or class analyzed
@@ -1838,6 +1839,12 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 ** C-mode
+   Default setting for c-style
+#+begin_src emacs-lisp :tangle yes
+  (setq c-default-style
+        '((java-mode . "java") (awk-mode . "awk") (other . "cc-mode")))
+#+end_src
+
 ** C++
 *** Qt style
 #+begin_src emacs-lisp :tangle yes
