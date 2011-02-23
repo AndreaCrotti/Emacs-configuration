@@ -1801,6 +1801,9 @@ When called with prefix arg (`C-u'), then remove this space again."
 (add-to-list 'flymake-allowed-file-name-masks 
              '("\\.py\\'" flymake-python-init))
 
+;; (setq flymake-py-script-position (make-conf-path "flymake-python/pyflymake.py"))
+;; (require 'flymake-python)
+
 (if window-system
     (progn
       (require 'server)
