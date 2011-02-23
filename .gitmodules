@@ -106,3 +106,9 @@
 [submodule "undo-tree"]
 	path = undo-tree
 	url = http://www.dr-qubit.org/git/undo-tree.git
+[submodule "flymake-python"]
+	path = flymake-python
+	url = git://github.com/AndreaCrotti/flymake-python.git
+[submodule "org-contacts"]
+	path = org-contacts
+	url = git://git.naquadah.org/org-contacts.git
