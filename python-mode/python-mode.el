@@ -9,7 +9,7 @@
 ;; Created:    Feb 1992
 ;; Keywords:   python languages oop
 
-(defconst py-version "5.2.0"
+(defconst py-version "5.2.0+"
   "`python-mode' version number.")
 
 ;; This file is part of python-mode.el.
@@ -408,14 +408,6 @@ subsequent py-up-exception needs the line number where the region
 started, in order to jump to the correct file line.  This variable is
 set in py-execute-region and used in py-jump-to-exception.")
 
-;; GNU's syntax-ppss-context
-(unless (functionp 'syntax-ppss-context)
- (defsubst syntax-ppss-context (ppss)
-  (cond
-   ((nth 3 ppss) 'string)
-   ((nth 4 ppss) 'comment)
-   (t nil))))
-
 ;; Skip's XE workaround
 (unless (functionp 'string-to-syntax)
     (defun string-to-syntax (s)
@@ -424,6 +416,15 @@ set in py-execute-region and used in py-jump-to-exception.")
        ((equal s "_") '(3))
        (t (error "Unhandled string: %s" s))))
   )
+
+;; GNU's syntax-ppss-context
+(unless (functionp 'syntax-ppss-context)
+ (defsubst syntax-ppss-context (ppss)
+  (cond
+   ((nth 3 ppss) 'string)
+   ((nth 4 ppss) 'comment)
+   (t nil))))
+
 
 ;; 2009-09-10 a.roehler@web.de changed section start
 ;; from python.el, version "22.1"
@@ -588,7 +589,7 @@ support for features needed by `python-mode'.")
                           )
                         "\\|"))
         (kw2 (mapconcat 'identity
-                        '("else:" "except:" "finally:" "try:")
+                        '("else:" "except:" "finally:" "try:" "lambda:")
                         "\\|"))
         (kw3 (mapconcat 'identity
                         ;; Don't include Ellipsis in this list, since it is
@@ -1471,7 +1472,9 @@ It is added to `interpreter-mode-alist' and `py-choose-shell'.
 ;; already added.
 ;;;###autoload
 (let ((modes '(("jython" . jython-mode)
-               ("python" . python-mode))))
+               ("python" . python-mode)
+               ("python3" . python-mode)
+               )))
   (while modes
     (when (not (assoc (car modes) interpreter-mode-alist))
       (push (car modes) interpreter-mode-alist))

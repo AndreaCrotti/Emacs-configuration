@@ -1556,7 +1556,7 @@ MINIMAL EMACS CONFIGURATION
 
 *** Use cedet and gloabally ede-mode for projects
 #+begin_src emacs-lisp :tangle yes
-  (load (make-conf-path "cedet-mirror/common/cedet"))
+  (load (make-conf-path "cedet/common/cedet"))
   (setq semantic-load-turn-everything-on t)
   (global-ede-mode t)
   (setq ede-locate-setup-options '(ede-locate-global ede-locate-locate ede-locate-idutils))

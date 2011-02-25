@@ -1037,7 +1037,7 @@ When called with prefix arg (`C-u'), then remove this space again."
   (let ((baseurl "http://www.google.com/codesearch?q=%s"))
     (browse-url (format baseurl (thing-at-point 'symbol) ))))
 
-(load (make-conf-path "cedet-mirror/common/cedet"))
+(load (make-conf-path "cedet/common/cedet"))
 (setq semantic-load-turn-everything-on t)
 (global-ede-mode t)
 (setq ede-locate-setup-options '(ede-locate-global ede-locate-locate ede-locate-idutils))
