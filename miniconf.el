@@ -1236,8 +1236,7 @@ When called with prefix arg (`C-u'), then remove this space again."
 
 (add-hook 'find-file-hook 'my-insert-header)
 
-;; TODO: check why is not working with the autoload
-(load-library "python-mode")
+(load-library (make-conf-path "python-mode/python-mode"))
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 (add-to-list 'interpreter-mode-alist '("python" . python-mode))
 (autoload 'doctest-mode "doctest-mode" "doc test python mode" t)
@@ -1673,26 +1672,13 @@ When called with prefix arg (`C-u'), then remove this space again."
     (erc-send-message
      (concat "{Uptime} [" uname-output "]"))))
 
-; TODO: create a new one if necessary or just
-; activate the current one if possible
-(defun bitlbee ()
-  "connect to bitlbee"
-  (interactive)
-  (select-frame (make-frame))
-  (erc :server "localhost" :port "6667" :nick "andrea"))
-
-(defun freenode ()
-  "connect to freenode channel"
-  (interactive)
-  (erc :server "irc.freenode.net" :port "6667" :nick "andrea_crotti"))
-
 ;; Join the #emacs and #erc channels whenever connecting to Freenode.
 (setq erc-autojoin-channels-alist
       '(("freenode.net"
          "#emacs" "#erc" "#ruby-lang" 
          "#python" "#git" "#github"
          "#c" "#c++" "#ffmpeg"
-         "#haskell" "#macosx")))
+         "#scipy" "#haskell" "#macosx")))
 
 ;; highlight in the modeline only when my nick is cited
 (setq erc-current-nick-highlight-type 'nick)
