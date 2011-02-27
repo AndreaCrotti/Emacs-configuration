@@ -2579,6 +2579,7 @@ MINIMAL EMACS CONFIGURATION
            "#emacs" "#erc" "#ruby-lang" 
            "#python" "#git" "#github"
            "#c" "#c++" "#ffmpeg"
+           "#org-mode" "#postfix" "#procmail"
            "#scipy" "#haskell" "#macosx")))
   
   ;; highlight in the modeline only when my nick is cited
