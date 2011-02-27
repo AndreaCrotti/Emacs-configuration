@@ -2506,32 +2506,34 @@ MINIMAL EMACS CONFIGURATION
 
 ** Gnus settings
 *** Server settings
+   Configuring maildir testing
 #+begin_src emacs-lisp :tangle yes
-  (setq gnus-select-method '(nntp "news.gmane.org"))
-  ;; Set also comp.* hierarchy
+  (setq
+   gnus-select-method '(nnmaildir "gmail" (directory "~/mail_clones/andrea_gmail"))
+   mail-sources
+   '((maildir :path "~/mail_clones/andrea_misterbox/" :subdirs ("cur" "new"))
+     (maildir :path "~/mail_clones/andrea_gmail/" :subdirs ("cur" "new")))
+   mail-source-delete-incoming t
+   )
+  
+  (setq gnus-message-archive-group "nnmaildir+misterbox:outbox")
+  
+  (setq gnus-select-method )
   (setq gnus-secondary-select-methods
         '(
+          (nntp "news.gmane.org")
           ;; Configuration for http://www.eternal-september.org/
           (nntp "eternal"
                 (nntp-authinfo-file "~/.authinfo")
                 (nntp-address "news.eternal-september.org")
-                (nntp-port-number 119))))
-#+end_src
-
-   Configuring maildir testing
-#+begin_src emacs-lisp :tangle yes
-  ;; (setq gmail-maildir "~/mail_clones/andrea_gmail/")
+                (nntp-port-number 119))
+          (nnmaildir "misterbox" (directory "~/mail_clones/andrea_misterbox/"))))
   
-  ;; (add-to-list 'gnus-secondary-select-methods
-  ;;              '(nnmaildir "mymailbox" (directory gmail-maildir)))
-  
-  ;; (add-to-list 'mail-sources
-  ;;              '(maildir :path gmail-maildir :subdirs ("cur" "new")))
 #+end_src
 
 *** Old messages settings
 #+begin_src emacs-lisp :tangle yes
-  (setq gnus-large-newsgroup 500)
+  (setq gnus-large-newsgroup 2000)
   (setq gnus-fetch-old-headers nil)
 #+end_src
 

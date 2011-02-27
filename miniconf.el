@@ -1190,6 +1190,19 @@ When called with prefix arg (`C-u'), then remove this space again."
 (setq c-default-style
       '((java-mode . "java") (awk-mode . "awk") (other . "cc-mode")))
 
+(autoload 'guess-style-set-variable "guess-style" nil t)
+(autoload 'guess-style-guess-variable "guess-style")
+(autoload 'guess-style-guess-all "guess-style" nil t)
+
+(autoload 'cclookup-lookup "cclookup"
+  "Lookup SEARCH-TERM in the Python HTML indexes." t)
+
+(autoload 'cclookup-update "cclookup" 
+  "Run cclookup-update and create the database at `cclookup-db-file'." t)
+
+(setq cclookup-program (make-conf-path "cclookup/cclookup.py"))
+(setq cclookup-db-file (make-conf-path "cclookup/cclookup.db"))
+
 (c-add-style "qt-gnu" 
              '("gnu" 
                (c-access-key .
@@ -1598,6 +1611,7 @@ When called with prefix arg (`C-u'), then remove this space again."
 
 (autoload 'smtpmail-send-it "smtpmail")
 
+;; send out mails through the gmail server
 (setq send-mail-function 'smtpmail-send-it)
 (setq smtpmail-smtp-server "smtp.gmail.com")
 (setq smtpmail-smtp-service 587)
@@ -1605,7 +1619,7 @@ When called with prefix arg (`C-u'), then remove this space again."
 (setq smtpmail-starttls-credentials
       '(("smtp.gmail.com" 587 nil nil)))
 (setq smtpmail-auth-credentials
-      (expand-file-name "~/.authinfo"))
+      (make-conf-path ".authinfo"))
 
 (if mac
     (progn
@@ -1618,29 +1632,32 @@ When called with prefix arg (`C-u'), then remove this space again."
                          '(lambda ()
                             (define-key message-mode-map "\C-c\t" 'external-abook-try-expand)))))))
 
-;; disable the warning
 (setq compose-mail-check-user-agent nil)
-(setq mail-user-agent 'sendmail-user-agent)
+;; message-mode is a superset of mail-mode and nicer to use
+(setq mail-user-agent 'message-user-agent)
 
-(setq gnus-select-method '(nntp "news.gmane.org"))
-;; Set also comp.* hierarchy
+(setq
+ gnus-select-method '(nnmaildir "gmail" (directory "~/mail_clones/andrea_gmail"))
+ mail-sources
+ '((maildir :path "~/mail_clones/andrea_misterbox/" :subdirs ("cur" "new"))
+   (maildir :path "~/mail_clones/andrea_gmail/" :subdirs ("cur" "new")))
+ mail-source-delete-incoming t
+ )
+
+(setq gnus-message-archive-group "nnmaildir+misterbox:outbox")
+
+(setq gnus-select-method )
 (setq gnus-secondary-select-methods
       '(
+        (nntp "news.gmane.org")
         ;; Configuration for http://www.eternal-september.org/
         (nntp "eternal"
               (nntp-authinfo-file "~/.authinfo")
               (nntp-address "news.eternal-september.org")
-              (nntp-port-number 119))))
+              (nntp-port-number 119))
+        (nnmaildir "misterbox" (directory "~/mail_clones/andrea_misterbox/"))))
 
-;; (setq gmail-maildir "~/mail_clones/andrea_gmail/")
-
-;; (add-to-list 'gnus-secondary-select-methods
-;;              '(nnmaildir "mymailbox" (directory gmail-maildir)))
-
-;; (add-to-list 'mail-sources
-;;              '(maildir :path gmail-maildir :subdirs ("cur" "new")))
-
-(setq gnus-large-newsgroup 500)
+(setq gnus-large-newsgroup 2000)
 (setq gnus-fetch-old-headers nil)
 
 ;; Changing modeline to include also the date of the message
@@ -1676,6 +1693,7 @@ When called with prefix arg (`C-u'), then remove this space again."
          "#emacs" "#erc" "#ruby-lang" 
          "#python" "#git" "#github"
          "#c" "#c++" "#ffmpeg"
+         "#org-mode" "#postfix" "#procmail"
          "#scipy" "#haskell" "#macosx")))
 
 ;; highlight in the modeline only when my nick is cited
