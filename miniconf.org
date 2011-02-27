@@ -1845,7 +1845,26 @@ MINIMAL EMACS CONFIGURATION
         '((java-mode . "java") (awk-mode . "awk") (other . "cc-mode")))
 #+end_src
 
+*** Guess the indentation
+#+begin_src emacs-lisp :tangle yes
+  (autoload 'guess-style-set-variable "guess-style" nil t)
+  (autoload 'guess-style-guess-variable "guess-style")
+  (autoload 'guess-style-guess-all "guess-style" nil t)
+#+end_src
+
 ** C++
+*** CClookup, look for documentation
+#+begin_src emacs-lisp :tangle yes
+  (autoload 'cclookup-lookup "cclookup"
+    "Lookup SEARCH-TERM in the Python HTML indexes." t)
+  
+  (autoload 'cclookup-update "cclookup" 
+    "Run cclookup-update and create the database at `cclookup-db-file'." t)
+  
+  (setq cclookup-program (make-conf-path "cclookup/cclookup.py"))
+  (setq cclookup-db-file (make-conf-path "cclookup/cclookup.db"))
+#+end_src
+
 *** Qt style
 #+begin_src emacs-lisp :tangle yes
   (c-add-style "qt-gnu" 
@@ -1860,7 +1879,6 @@ MINIMAL EMACS CONFIGURATION
   (autoload 'expand-member-functions "member-functions" "Expand C++ member function declarations" t)
   (add-hook 'c++-mode-hook (lambda () (local-set-key "\C-cm" #'expand-member-functions)))
 #+end_src
-
 ** Insert headers automatically given the right extension
 #+begin_src emacs-lisp :tangle yes
   (defun is-new-file ()
@@ -2424,6 +2442,7 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (autoload 'smtpmail-send-it "smtpmail")
   
+  ;; send out mails through the gmail server
   (setq send-mail-function 'smtpmail-send-it)
   (setq smtpmail-smtp-server "smtp.gmail.com")
   (setq smtpmail-smtp-service 587)
@@ -2431,8 +2450,7 @@ MINIMAL EMACS CONFIGURATION
   (setq smtpmail-starttls-credentials
         '(("smtp.gmail.com" 587 nil nil)))
   (setq smtpmail-auth-credentials
-        (expand-file-name "~/.authinfo"))
-  
+        (make-conf-path ".authinfo"))
 #+end_src
 
 *** Setting up completion over the addresses with the Mac address book
@@ -2451,9 +2469,9 @@ MINIMAL EMACS CONFIGURATION
 
 *** Setting default sending modality
 #+begin_src emacs-lisp :tangle yes
-  ;; disable the warning
   (setq compose-mail-check-user-agent nil)
-  (setq mail-user-agent 'sendmail-user-agent)
+  ;; message-mode is a superset of mail-mode and nicer to use
+  (setq mail-user-agent 'message-user-agent)
 #+end_src
 
 *** Using msmtp to change the smtp used

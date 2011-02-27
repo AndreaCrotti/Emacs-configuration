@@ -109,3 +109,9 @@
 [submodule "org-contacts"]
 	path = org-contacts
 	url = git://git.naquadah.org/org-contacts.git
+[submodule "yasnippet-org-mode"]
+	path = yasnippet-org-mode
+	url = git://github.com/eschulte/yasnippet-org-mode.git
+[submodule "cclookup"]
+	path = cclookup
+	url = git://github.com/tsgates/cclookup.git
