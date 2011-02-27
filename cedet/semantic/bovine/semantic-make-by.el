@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2008 Eric M. Ludlam
 
-;; Author: Andrea Crotti <crotti@klenkes>
-;; Created: 2011-02-25 10:31:20+0100
+;; Author: andrea <andrea@ip1-201.halifax.rwth-aachen.de>
+;; Created: 2011-02-26 20:43:42+0100
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

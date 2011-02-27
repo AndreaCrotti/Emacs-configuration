@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2002, 2003, 2004 David Ponce
 
-;; Author: Andrea Crotti <crotti@klenkes>
-;; Created: 2011-02-25 10:30:54+0100
+;; Author: andrea <andrea@ip1-201.halifax.rwth-aachen.de>
+;; Created: 2011-02-26 20:42:55+0100
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

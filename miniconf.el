@@ -1444,7 +1444,6 @@ When called with prefix arg (`C-u'), then remove this space again."
           '(lambda ()
              (require 'inf-ruby)
              (require 'ruby-electric)
-             (require 'rubydb)
              (inf-ruby-keys)
              (load-library "rdoc-mode")))
 
@@ -1597,17 +1596,6 @@ When called with prefix arg (`C-u'), then remove this space again."
 (defvar message-signature-separator "^-- *$" "\
     Regexp matching the signature separator.")
 
-(autoload 'smtpmail-send-it "smtpmail")
-
-(setq send-mail-function 'smtpmail-send-it)
-(setq smtp-default-server "smtp.gmail.com")
-(setq smtp-service 587)
-(setq smtp-debug-info t)
-(setq smtpmail-starttls-credentials
-      '(("smtp.gmail.com" 587 nil nil)))
-(setq smtpmail-auth-credentials
-      (expand-file-name "~/.authinfo"))
-(setq smtp-local-domain "bookmag")
 
 (if mac
     (progn
