@@ -2412,6 +2412,7 @@ MINIMAL EMACS CONFIGURATION
   
   ;; require reftex cite for citations
   (require 'reftex-cite)
+  (setq reftex-default-bibliography '("cit"))
   
   ;; tell org to use listings
   (setq org-export-latex-listings t)
