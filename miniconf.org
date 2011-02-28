@@ -2519,7 +2519,6 @@ MINIMAL EMACS CONFIGURATION
   
   (setq gnus-message-archive-group "nnmaildir+misterbox:outbox")
   
-  (setq gnus-select-method )
   (setq gnus-secondary-select-methods
         '(
           (nntp "news.gmane.org")
