@@ -1591,6 +1591,7 @@ When called with prefix arg (`C-u'), then remove this space again."
 
 ;; require reftex cite for citations
 (require 'reftex-cite)
+(setq reftex-default-bibliography '("cit"))
 
 ;; tell org to use listings
 (setq org-export-latex-listings t)
@@ -1636,17 +1637,22 @@ When called with prefix arg (`C-u'), then remove this space again."
 ;; message-mode is a superset of mail-mode and nicer to use
 (setq mail-user-agent 'message-user-agent)
 
-(setq
- gnus-select-method '(nnmaildir "gmail" (directory "~/mail_clones/andrea_gmail"))
- mail-sources
- '((maildir :path "~/mail_clones/andrea_misterbox/" :subdirs ("cur" "new"))
-   (maildir :path "~/mail_clones/andrea_gmail/" :subdirs ("cur" "new")))
- mail-source-delete-incoming t
- )
+;; (setq
+;;  gnus-select-method '(nnmaildir "gmail" (directory "~/mail_clones/andrea_gmail"))
+;;  mail-sources
+;;  '((maildir :path "~/mail_clones/andrea_misterbox/" :subdirs ("cur" "new"))
+;;    (maildir :path "~/mail_clones/andrea_gmail/" :subdirs ("cur" "new")))
+;;  mail-source-delete-incoming t
+;;  )
 
-(setq gnus-message-archive-group "nnmaildir+misterbox:outbox")
+(setq gnus-select-method
+      '(nnimap "gmail"
+               (nnimap-address "imap.gmail.com")
+               (nnimap-server-port 993)
+               (nnimap-stream ssl)))
 
-(setq gnus-select-method )
+(setq gnus-message-archive-group "nnimap+gmail:Sent")
+
 (setq gnus-secondary-select-methods
       '(
         (nntp "news.gmane.org")
@@ -1655,7 +1661,25 @@ When called with prefix arg (`C-u'), then remove this space again."
               (nntp-authinfo-file "~/.authinfo")
               (nntp-address "news.eternal-september.org")
               (nntp-port-number 119))
-        (nnmaildir "misterbox" (directory "~/mail_clones/andrea_misterbox/"))))
+        ;; (nnmaildir "misterbox" (directory "~/mail_clones/andrea_misterbox/"))
+))
+
+;; (setq nnimap-split-inbox
+;;         '("INBOX" ))
+
+;; (setq nnimap-split-predicate "UNDELETED")
+
+;; (setq nnimap-split-crosspost nil)
+
+;; (setq nnimap-split-rule '(("Example" ("INBOX" nnimap-split-fancy)))
+;;       nnimap-split-fancy 
+;;       '(| (any "auser@example\\.com" "INBOX.mail")
+;;        ("X-Spam-Status" "Yes.*" "INBOX.Spamassassined")
+;;        ("subject" "Backup report" "INBOX.backupreports")
+;;        ("from" "MAILER-DAEMON@example\\.com" 
+;;         "INBOX.example.mailer-daemon")
+;;        (any "myaddr@example.com" "INBOX.mail")
+;;        "INBOX.mail.unsorted"))
 
 (setq gnus-large-newsgroup 2000)
 (setq gnus-fetch-old-headers nil)
