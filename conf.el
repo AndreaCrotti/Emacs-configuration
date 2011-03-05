@@ -1633,7 +1633,7 @@ When called with prefix arg (`C-u'), then remove this space again."
                          '(lambda ()
                             (define-key message-mode-map "\C-c\t" 'external-abook-try-expand)))))))
 
-(setq compose-mail-check-user-agent nil)
+(setq compose-mail-user-agent-warnings nil)
 ;; message-mode is a superset of mail-mode and nicer to use
 (setq mail-user-agent 'message-user-agent)
 
@@ -1648,14 +1648,17 @@ When called with prefix arg (`C-u'), then remove this space again."
 (setq gnus-select-method
       '(nnimap "gmail"
                (nnimap-address "imap.gmail.com")
-               (nnimap-server-port 993)
+;;               (nnimap-server-port 993)
+               (nnimap-authinfo-file "~/Emacs-configuration/.authinfo")
                (nnimap-stream ssl)))
-
 
 (setq gnus-message-archive-group "nnimap+gmail:Sent")
 
 (setq gnus-secondary-select-methods
-      '(
+      '((nnimap "rwth"
+              (nnimap-address "mailbox.rwth-aachen.de")
+              (nnimap-authinfo-file "~/Emacs-configuration/.authinfo")
+              (nnimap-stream ssl))
         (nntp "news.gmane.org")
         ;; Configuration for http://www.eternal-september.org/
         (nntp "eternal"

@@ -2470,7 +2470,7 @@ MINIMAL EMACS CONFIGURATION
 
 *** Setting default sending modality
 #+begin_src emacs-lisp :tangle yes
-  (setq compose-mail-check-user-agent nil)
+  (setq compose-mail-user-agent-warnings nil)
   ;; message-mode is a superset of mail-mode and nicer to use
   (setq mail-user-agent 'message-user-agent)
 #+end_src
@@ -2506,6 +2506,7 @@ MINIMAL EMACS CONFIGURATION
 #+end_src
 
 ** Gnus settings
+
 *** Server settings
    Configuring maildir testing
 #+begin_src emacs-lisp :tangle yes
@@ -2520,14 +2521,17 @@ MINIMAL EMACS CONFIGURATION
   (setq gnus-select-method
         '(nnimap "gmail"
                  (nnimap-address "imap.gmail.com")
-                 (nnimap-server-port 993)
+  ;;               (nnimap-server-port 993)
                  (nnimap-authinfo-file "~/Emacs-configuration/.authinfo")
                  (nnimap-stream ssl)))
   
   (setq gnus-message-archive-group "nnimap+gmail:Sent")
   
   (setq gnus-secondary-select-methods
-        '(
+        '((nnimap "rwth"
+                (nnimap-address "mailbox.rwth-aachen.de")
+                (nnimap-authinfo-file "~/Emacs-configuration/.authinfo")
+                (nnimap-stream ssl))
           (nntp "news.gmane.org")
           ;; Configuration for http://www.eternal-september.org/
           (nntp "eternal"

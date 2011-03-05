@@ -1,6 +1,10 @@
 (defun make-conf-path (path)
   (expand-file-name (concat base path)))
 
+;TODO: try to move it inside miniconf.org instead 
+(add-to-list 'load-path (make-conf-path "gnus/lisp"))
+(require 'gnus-load)
+
 (when (boundp 'use-my-tramp)
     (add-to-list 'load-path (make-conf-path "tramp/lisp")))
 
@@ -15,7 +19,7 @@
 (require 'org)
 (require 'org-exp)
 
-(org-babel-load-file (concat base "miniconf.org"))
+(org-babel-load-file (concat base "conf.org"))
 
 ;; If custom file doesn't exist create it
 (if (file-exists-p custom-file)

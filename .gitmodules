@@ -115,3 +115,6 @@
 [submodule "cclookup"]
 	path = cclookup
 	url = git://github.com/tsgates/cclookup.git
+[submodule "gnus"]
+	path = gnus
+	url = http://git.gnus.org/gnus.git
