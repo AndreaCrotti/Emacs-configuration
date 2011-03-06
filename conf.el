@@ -1629,7 +1629,7 @@ When called with prefix arg (`C-u'), then remove this space again."
        ;; TODO: check if it's dynamic enough
        (eval-after-load "message"
          '(progn 
-            (add-hook 'mail-mode-hook
+            (add-hook 'message-mode-hook
                          '(lambda ()
                             (define-key message-mode-map "\C-c\t" 'external-abook-try-expand)))))))
 
@@ -1680,6 +1680,11 @@ When called with prefix arg (`C-u'), then remove this space again."
 (setq gnus-large-newsgroup 2000)
 (setq gnus-fetch-old-headers nil)
 
+;; close idle connections for 30 minutes
+;FIXME: not working correctly, not found before it's loaded
+;; (gnus-demon-add-rescan)
+;; (gnus-demon-init)
+
 ;; add the topic groups
 (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
 
@@ -1692,6 +1697,21 @@ When called with prefix arg (`C-u'), then remove this space again."
     (if time
         (format-time-string "%b %d  %H:%M" time)
       "")))
+
+(add-hook 'message-send-hook 'ispell-message)
+
+;; make it conditional depending on the language
+
+(add-hook 'gnus-select-group-hook
+          (lambda ()
+            (cond
+             ((string-match
+               "^it\\." (gnus-group-real-name gnus-newsgroup-name))
+              (ispell-change-dictionary "italian"))
+             (t
+              (ispell-change-dictionary "english")))))
+
+(add-hook 'message-setup-hook (lambda () (flyspell-mode t)))
 
 ;; add an additional window buffer with the tree
 (setq gnus-use-trees t

@@ -118,3 +118,6 @@
 [submodule "gnus"]
 	path = gnus
 	url = http://git.gnus.org/gnus.git
+[submodule "google-maps"]
+	path = google-maps
+	url = git://git.naquadah.org/google-maps.git
