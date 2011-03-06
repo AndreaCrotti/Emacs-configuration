@@ -537,7 +537,7 @@ Otherwise, expand the current region to select the lines the region touches."
 
 (defun reload-conf ()
   (interactive)
-  (org-babel-load-file (make-conf-path "miniconf.org")))
+  (org-babel-load-file (make-conf-path "conf.org")))
 
 (defconst sysop 
   (cond ((string-match "linux" system-configuration) "linux")
@@ -1637,14 +1637,6 @@ When called with prefix arg (`C-u'), then remove this space again."
 ;; message-mode is a superset of mail-mode and nicer to use
 (setq mail-user-agent 'message-user-agent)
 
-;; (setq
-;;  gnus-select-method '(nnmaildir "gmail" (directory "~/mail_clones/andrea_gmail"))
-;;  mail-sources
-;;  '((maildir :path "~/mail_clones/andrea_misterbox/" :subdirs ("cur" "new"))
-;;    (maildir :path "~/mail_clones/andrea_gmail/" :subdirs ("cur" "new")))
-;;  mail-source-delete-incoming t
-;;  )
-
 (setq gnus-select-method
       '(nnimap "gmail"
                (nnimap-address "imap.gmail.com")
@@ -1688,8 +1680,50 @@ When called with prefix arg (`C-u'), then remove this space again."
 (setq gnus-large-newsgroup 2000)
 (setq gnus-fetch-old-headers nil)
 
+;; add the topic groups
+(add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
+
+(add-hook 'gnus-select-group-hook 'gnus-group-set-timestamp)
+
+(setq gnus-group-line-format
+      "%M\%S\%p\%P\%5y: %(%-40,40g%) %ud\n")
+(defun gnus-user-format-function-d (headers)
+  (let ((time (gnus-group-timestamp gnus-tmp-group)))
+    (if time
+        (format-time-string "%b %d  %H:%M" time)
+      "")))
+
+;; add an additional window buffer with the tree
+(setq gnus-use-trees t
+      gnus-generate-tree-function 'gnus-generate-horizontal-tree
+      gnus-tree-minimize-window nil)
+(gnus-add-configuration
+ '(article
+   (vertical 1.0
+             (horizontal 0.25
+                         (summary 0.75 point)
+                         (tree 1.0))
+             (article 1.0))))
+
 ;; Changing modeline to include also the date of the message
 (setq gnus-summary-line-format "%U%R%z%I%(%[%4L: %-23,23f%]%) %s--%d\n")
+
+;; enable smileys
+(setq gnus-treat-display-smileys t)
+
+(gnus-add-configuration
+ '(article
+   (horizontal 1.0
+               (vertical 70 (group 1.0))
+               (vertical 1.0
+                         (summary 0.16 point)
+                         (article 1.0)))))
+
+(gnus-add-configuration
+ '(summary
+   (horizontal 1.0
+               (vertical 70 (group 1.0))
+               (vertical 1.0 (summary 1.0 point)))))
 
 (add-hook 'gnus-started-hook
           (lambda ()

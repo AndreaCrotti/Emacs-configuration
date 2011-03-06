@@ -4,6 +4,7 @@
 ;TODO: try to move it inside miniconf.org instead 
 (add-to-list 'load-path (make-conf-path "gnus/lisp"))
 (require 'gnus-load)
+(add-to-list 'Info-default-directory-list (make-conf-path "gnus/texi/"))
 
 (when (boundp 'use-my-tramp)
     (add-to-list 'load-path (make-conf-path "tramp/lisp")))

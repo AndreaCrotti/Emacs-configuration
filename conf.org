@@ -787,7 +787,7 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (defun reload-conf ()
     (interactive)
-    (org-babel-load-file (make-conf-path "miniconf.org")))
+    (org-babel-load-file (make-conf-path "conf.org")))
 #+end_src
 
 * Operating system detection
@@ -2463,7 +2463,7 @@ MINIMAL EMACS CONFIGURATION
          ;; TODO: check if it's dynamic enough
          (eval-after-load "message"
            '(progn 
-              (add-hook 'mail-mode-hook
+              (add-hook 'message-mode-hook
                            '(lambda ()
                               (define-key message-mode-map "\C-c\t" 'external-abook-try-expand)))))))
 #+end_src
@@ -2510,14 +2510,6 @@ MINIMAL EMACS CONFIGURATION
 *** Server settings
    Configuring maildir testing
 #+begin_src emacs-lisp :tangle yes
-  ;; (setq
-  ;;  gnus-select-method '(nnmaildir "gmail" (directory "~/mail_clones/andrea_gmail"))
-  ;;  mail-sources
-  ;;  '((maildir :path "~/mail_clones/andrea_misterbox/" :subdirs ("cur" "new"))
-  ;;    (maildir :path "~/mail_clones/andrea_gmail/" :subdirs ("cur" "new")))
-  ;;  mail-source-delete-incoming t
-  ;;  )
-  
   (setq gnus-select-method
         '(nnimap "gmail"
                  (nnimap-address "imap.gmail.com")
@@ -2574,10 +2566,93 @@ MINIMAL EMACS CONFIGURATION
   (setq gnus-fetch-old-headers nil)
 #+end_src
 
+*** Daemon setting
+#+begin_src emacs-lisp :tangle yes
+  ;; close idle connections for 30 minutes
+  ;FIXME: not working correctly, not found before it's loaded
+  ;; (gnus-demon-add-rescan)
+  ;; (gnus-demon-init)
+#+end_src
+
+*** Group settings
+#+begin_src emacs-lisp :tangle yes
+ ;; add the topic groups
+ (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+  (add-hook 'gnus-select-group-hook 'gnus-group-set-timestamp)
+  
+  (setq gnus-group-line-format
+        "%M\%S\%p\%P\%5y: %(%-40,40g%) %ud\n")
+  (defun gnus-user-format-function-d (headers)
+    (let ((time (gnus-group-timestamp gnus-tmp-group)))
+      (if time
+          (format-time-string "%b %d  %H:%M" time)
+        "")))
+  
+#+end_src
+
+*** Spell checking
+#+begin_src emacs-lisp :tangle yes
+  (add-hook 'message-send-hook 'ispell-message)
+  
+  ;; make it conditional depending on the language
+  
+  (add-hook 'gnus-select-group-hook
+            (lambda ()
+              (cond
+               ((string-match
+                 "^it\\." (gnus-group-real-name gnus-newsgroup-name))
+                (ispell-change-dictionary "italian"))
+               (t
+                (ispell-change-dictionary "english")))))
+  
+  (add-hook 'message-setup-hook (lambda () (flyspell-mode t)))
+  
+#+end_src
+
+*** Summary settings
+#+begin_src emacs-lisp :tangle yes
+  ;; add an additional window buffer with the tree
+  (setq gnus-use-trees t
+        gnus-generate-tree-function 'gnus-generate-horizontal-tree
+        gnus-tree-minimize-window nil)
+  (gnus-add-configuration
+   '(article
+     (vertical 1.0
+               (horizontal 0.25
+                           (summary 0.75 point)
+                           (tree 1.0))
+               (article 1.0))))
+#+end_src
+
 *** Appearance
 #+begin_src emacs-lisp :tangle yes
   ;; Changing modeline to include also the date of the message
   (setq gnus-summary-line-format "%U%R%z%I%(%[%4L: %-23,23f%]%) %s--%d\n")
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+  ;; enable smileys
+  (setq gnus-treat-display-smileys t)
+#+end_src
+
+*** Window configuration
+#+begin_src emacs-lisp :tangle yes
+  (gnus-add-configuration
+   '(article
+     (horizontal 1.0
+                 (vertical 70 (group 1.0))
+                 (vertical 1.0
+                           (summary 0.16 point)
+                           (article 1.0)))))
+  
+  (gnus-add-configuration
+   '(summary
+     (horizontal 1.0
+                 (vertical 70 (group 1.0))
+                 (vertical 1.0 (summary 1.0 point)))))
 #+end_src
 
 *** Avoid the annoying saving of the .news file
