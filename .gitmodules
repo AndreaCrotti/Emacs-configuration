@@ -30,7 +30,7 @@
 	url = http://github.com/nflath/c-eldoc.git
 [submodule "nxml"]
 	path = nxml
-	url = git://github.com/emacsmirror/nxml.git
+        url = git://github.com/emacsmirror/nxml-mode.git
 [submodule "php-mode"]
 	path = php-mode
 	url = git://github.com/emacsmirror/php-mode.git
