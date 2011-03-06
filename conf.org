@@ -2569,8 +2569,8 @@ MINIMAL EMACS CONFIGURATION
 *** Daemon setting
 #+begin_src emacs-lisp :tangle yes
   ;; close idle connections for 30 minutes
-  (gnus-demon-add-handler 'gnus-group-get-new-news 2 t)
-  (gnus-demon-init)
+;  (gnus-demon-add-handler 'gnus-group-get-new-news 2 t)
+;  (gnus-demon-init)
   
 #+end_src
 

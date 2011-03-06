@@ -716,8 +716,8 @@ When called with prefix arg (`C-u'), then remove this space again."
       mac
       ;; included in emacs 23.2
       (ns-toggle-fullscreen)
-    (set-frame-parameter f 'fullscreen
-                         (if (frame-parameter f 'fullscreen) nil 'fullboth))))
+  (set-frame-parameter f 'fullscreen
+                       (if (frame-parameter f 'fullscreen) nil 'fullboth))))
 
 ;; this toogle the fullscreen for every new frame (window) created
 ;; (add-hook 'after-make-frame-functions 'full)
@@ -1681,9 +1681,8 @@ When called with prefix arg (`C-u'), then remove this space again."
 (setq gnus-fetch-old-headers nil)
 
 ;; close idle connections for 30 minutes
-;FIXME: not working correctly, not found before it's loaded
-;; (gnus-demon-add-rescan)
-;; (gnus-demon-init)
+;  (gnus-demon-add-handler 'gnus-group-get-new-news 2 t)
+;  (gnus-demon-init)
 
 ;; add the topic groups
 (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
