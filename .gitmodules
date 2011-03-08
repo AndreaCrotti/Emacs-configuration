@@ -43,9 +43,6 @@
 [submodule "malabar-mode"]
 	path = malabar-mode
 	url = git://github.com/espenhw/malabar-mode.git
-[submodule "BBDB"]
-	path = BBDB
-	url = http://github.com/barak/BBDB.git
 [submodule "psvn"]
 	path = psvn
 	url = git://github.com/emacsmirror/psvn.git

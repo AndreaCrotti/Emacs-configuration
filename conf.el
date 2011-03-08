@@ -1557,6 +1557,7 @@ When called with prefix arg (`C-u'), then remove this space again."
 (add-to-list 'auto-mode-alist
              '("/rfc[0-9]+\\.txt\\'" . irfc-mode))
 
+(add-to-list 'auto-mode-alist '("\\.[tT]e[xX]\\'" . latex-mode))
 (add-to-list 'load-path (make-conf-path "auctex"))
 (autoload 'latex-mode "auctex" "latex mode" t)
 (autoload 'preview-latex "preview-latex" "preview latex in buffer" t)
