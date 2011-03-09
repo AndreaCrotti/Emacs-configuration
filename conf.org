@@ -2693,8 +2693,8 @@ MINIMAL EMACS CONFIGURATION
         ((bufname (get-buffer-create "*GNUS SYNC*"))
          (command 
           (cond
-           ((eq direction 'to-remote) (gnussync-to-remote)
-            (eq direction 'from-remote) (gnussync-from-remote)))))
+           ((eq direction 'to-remote) (gnussync-to-remote))
+           ((eq direction 'from-remote) (gnussync-from-remote)))))
       (when (y-or-n-p (format "running command %s" command))
         (pop-to-buffer bufname)
         (shell-command command bufname))))
@@ -2704,7 +2704,6 @@ MINIMAL EMACS CONFIGURATION
       (lambda ()
         (add-hook 'gnus-before-startup-hook (lambda () (my-gnussync 'from-remote)))
         (add-hook 'gnus-after-exiting-gnus-hook (lambda () (my-gnussync 'to-remote)))))
-  
 #+end_src
 
 ** Erc
