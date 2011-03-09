@@ -1275,11 +1275,6 @@ MINIMAL EMACS CONFIGURATION
    (setq org-enforce-todo-dependencies t)
    (setq org-enforce-todo-checkbox-dependencies t)
 #+end_src
-
-** Use ido for switching
-#+begin_src emacs-lisp :tangle yes
-   (setq org-completion-use-ido t)
-#+end_src
    
 ** Info configuration
 #+begin_src emacs-lisp :tangle yes
@@ -1440,6 +1435,12 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
    (setq org-footnote-tag-for-non-org-mode-files "*-*-*-*-*-*-*-*-*-*")
 #+end_src
+
+** Org contacts
+#+begin_src emacs-lisp :tangle yes
+  (require 'org-contacts)
+#+end_src
+
 * [[http://code.google.com/p/yasnippet/][Yasnippet]]  
 #+begin_src emacs-lisp :tangle yes
   (require 'yasnippet)
@@ -2524,7 +2525,6 @@ MINIMAL EMACS CONFIGURATION
   (setq gnus-select-method
         '(nnimap "gmail"
                  (nnimap-address "imap.gmail.com")
-                 (nnimap-authinfo-file "~/Emacs-configuration/.authinfo")
                  (nnir-search-engine imap)
                  (nnimap-stream ssl)))
   
@@ -2533,18 +2533,14 @@ MINIMAL EMACS CONFIGURATION
   (setq gnus-secondary-select-methods
         '((nnimap "rwth"
                 (nnimap-address "mailbox.rwth-aachen.de")
-                (nnimap-authinfo-file "~/Emacs-configuration/.authinfo")
                 (nnimap-stream ssl))
           (nntp "news.gmane.org")
           ;; Configuration for http://www.eternal-september.org/
           (nntp "eternal"
-                (nntp-authinfo-file "~/.authinfo")
                 (nntp-address "news.eternal-september.org")
                 (nntp-port-number 119))
           ;; (nnmaildir "misterbox" (directory "~/mail_clones/andrea_misterbox/"))
   ))
-  
-  
 #+end_src
 
 *** Example about splitting
@@ -2591,7 +2587,7 @@ MINIMAL EMACS CONFIGURATION
  (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
 #+end_src
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
   (add-hook 'gnus-select-group-hook 'gnus-group-set-timestamp)
   
   (setq gnus-group-line-format "%M\%S\%p\%P\%5y: %(%-40,40g%) %ud\n")
@@ -2684,7 +2680,7 @@ MINIMAL EMACS CONFIGURATION
     (format "%s %s %s %s:" my-gnussync-rsync-binary my-gnussync-rsync-options my-gnussync-files my-gnussync-remote))
   
   (defun gnussync-from-remote ()
-    (format "%s %s %s:'%s' ~/" my-gnussync-rsync-binary my-gnussync-rsync-options my-gnussync-remote my-gnussync-files))
+    (format "%s %s %s:'%s' ~" my-gnussync-rsync-binary my-gnussync-rsync-options my-gnussync-remote my-gnussync-files))
   
   (defun my-gnussync (direction)
     "Synchronize to or from the server"
@@ -2696,7 +2692,7 @@ MINIMAL EMACS CONFIGURATION
            ((eq direction 'to-remote) (gnussync-to-remote))
            ((eq direction 'from-remote) (gnussync-from-remote)))))
       (when (y-or-n-p (format "running command %s" command))
-        (pop-to-buffer bufname)
+        (switch-to-buffer bufname)
         (shell-command command bufname))))
   
   ;; this variable has to be set globally somewhere else
