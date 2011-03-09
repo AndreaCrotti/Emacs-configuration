@@ -264,7 +264,6 @@ See `comment-styles' for a list of available styles."
 (defun before-last (list)
   (nth (- (length list) 2) list))
 
-
 (defun dired-git (directory)
   (interactive "D")
   (dired-git-files directory))
@@ -293,6 +292,15 @@ See `comment-styles' for a list of available styles."
         (string-match "fatal" result)
         nil
       (split-string result))))
+
+(defun git-grep-string (string-to-find)
+  "Look for a string using git-grep"
+  (interactive "sString: ")
+  (let ((grep-result-buffer (get-buffer-create "*git grep result*")))
+    (shell-command (format "git --no-pager grep -nH -e %s" string-to-find) grep-result-buffer)
+    (pop-to-buffer grep-result-buffer)
+    (grep-mode))
+  )
 
 (defun git-branches-list ()
   "list the current branches"
@@ -1641,8 +1649,8 @@ When called with prefix arg (`C-u'), then remove this space again."
 (setq gnus-select-method
       '(nnimap "gmail"
                (nnimap-address "imap.gmail.com")
-;;               (nnimap-server-port 993)
                (nnimap-authinfo-file "~/Emacs-configuration/.authinfo")
+               (nnir-search-engine imap)
                (nnimap-stream ssl)))
 
 (setq gnus-message-archive-group "nnimap+gmail:Sent")
