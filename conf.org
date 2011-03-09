@@ -2594,8 +2594,8 @@ MINIMAL EMACS CONFIGURATION
 #+begin_src emacs-lisp :tangle yes
   (add-hook 'gnus-select-group-hook 'gnus-group-set-timestamp)
   
-  (setq gnus-group-line-format
-        "%M\%S\%p\%P\%5y: %(%-40,40g%) %ud\n")
+  (setq gnus-group-line-format "%M\%S\%p\%P\%5y: %(%-40,40g%) %ud\n")
+  
   (defun gnus-user-format-function-d (headers)
     (let ((time (gnus-group-timestamp gnus-tmp-group)))
       (if time
@@ -2606,21 +2606,17 @@ MINIMAL EMACS CONFIGURATION
 
 *** Spell checking
 #+begin_src emacs-lisp :tangle yes
-  (add-hook 'message-send-hook 'ispell-message)
-  
-  ;; make it conditional depending on the language
-  
   (add-hook 'gnus-select-group-hook
             (lambda ()
               (cond
                ((string-match
                  "^it\\." (gnus-group-real-name gnus-newsgroup-name))
-                (ispell-change-dictionary "italian"))
+                (if (member "italian" (ispell-valid-dictionary-list))
+                    (ispell-change-dictionary "italian")))
                (t
                 (ispell-change-dictionary "english")))))
   
   (add-hook 'message-setup-hook (lambda () (flyspell-mode t)))
-  
 #+end_src
 
 *** Summary settings
