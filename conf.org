@@ -2706,8 +2706,8 @@ MINIMAL EMACS CONFIGURATION
   ;; this variable has to be set globally somewhere else
   (if (boundp 'local-machine-is-gnus-slave)
       (lambda ()
-        (add-hook 'gnus-before-startup-hook (lambda () (my-gnussync-sync 'from-remote)))
-        (add-hook 'gnus-after-exiting-gnus-hook (lambda () (my-gnussync-sync 'to-remote)))))
+        (add-hook 'gnus-before-startup-hook (lambda () (my-gnussync 'from-remote)))
+        (add-hook 'gnus-after-exiting-gnus-hook (lambda () (my-gnussync 'to-remote)))))
   
 #+end_src
 
