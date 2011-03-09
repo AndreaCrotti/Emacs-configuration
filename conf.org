@@ -2664,6 +2664,43 @@ MINIMAL EMACS CONFIGURATION
                 (with-current-buffer gnus-dribble-buffer
                   (setq buffer-save-without-query t)))))
 #+end_src
+
+*** Gnus synchronization
+#+begin_src emacs-lisp :tangle yes
+  (setq my-gnussync-remote "thesis")
+  (setq my-gnussync-rsync-binary "/opt/local/bin/rsync")
+  (setq my-gnussync-rsync-options "-auRvzp --delete")
+  (setq my-gnussync-extra-files nil)
+  
+  (setq my-gnussync-files "~/News ~/Mail .newsrc .newsrc.eld")
+  
+  (defun gnussync-to-remote ()
+    (format "%s %s %s %s:" my-gnussync-rsync-binary my-gnussync-rsync-options my-gnussync-files my-gnussync-remote))
+  
+  (defun gnussync-from-remote ()
+    (format "%s %s %s:'%s' ~/" my-gnussync-rsync-binary my-gnussync-rsync-options my-gnussync-remote my-gnussync-files))
+  
+  (defun my-gnussync (direction)
+    "Synchronize to or from the server"
+    (interactive "Sdirection:")
+    (let 
+        ((bufname (get-buffer-create "*GNUS SYNC*"))
+         (command 
+          (cond
+           ((eq direction 'to-remote) (gnussync-to-remote)
+            (eq direction 'from-remote) (gnussync-from-remote)))))
+      (when (y-or-n-p (format "running command %s" command))
+        (pop-to-buffer bufname)
+        (shell-command command bufname))))
+  
+  ;; this variable has to be set globally somewhere else
+  (if (boundp 'local-machine-is-gnus-slave)
+      (lambda ()
+        (add-hook 'gnus-before-startup-hook (lambda () (my-gnussync-sync 'from-remote)))
+        (add-hook 'gnus-after-exiting-gnus-hook (lambda () (my-gnussync-sync 'to-remote)))))
+  
+#+end_src
+
 ** Erc
 *** Accessory functions
 #+begin_src emacs-lisp :tangle yes
