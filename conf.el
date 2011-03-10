@@ -847,8 +847,6 @@ When called with prefix arg (`C-u'), then remove this space again."
 (setq org-enforce-todo-dependencies t)
 (setq org-enforce-todo-checkbox-dependencies t)
 
-(setq org-completion-use-ido t)
-
 (add-to-list 'Info-default-directory-list (make-conf-path "org-mode/doc/"))
 
 ;; Clock configuration
@@ -956,6 +954,8 @@ When called with prefix arg (`C-u'), then remove this space again."
   (add-hook hook 'turn-on-orgtbl))
 
 (setq org-footnote-tag-for-non-org-mode-files "*-*-*-*-*-*-*-*-*-*")
+
+(require 'org-contacts)
 
 (require 'yasnippet)
 (setq yas/root-directory 
@@ -1649,7 +1649,6 @@ When called with prefix arg (`C-u'), then remove this space again."
 (setq gnus-select-method
       '(nnimap "gmail"
                (nnimap-address "imap.gmail.com")
-               (nnimap-authinfo-file "~/Emacs-configuration/.authinfo")
                (nnir-search-engine imap)
                (nnimap-stream ssl)))
 
@@ -1658,12 +1657,10 @@ When called with prefix arg (`C-u'), then remove this space again."
 (setq gnus-secondary-select-methods
       '((nnimap "rwth"
               (nnimap-address "mailbox.rwth-aachen.de")
-              (nnimap-authinfo-file "~/Emacs-configuration/.authinfo")
               (nnimap-stream ssl))
         (nntp "news.gmane.org")
         ;; Configuration for http://www.eternal-september.org/
         (nntp "eternal"
-              (nntp-authinfo-file "~/.authinfo")
               (nntp-address "news.eternal-september.org")
               (nntp-port-number 119))
         ;; (nnmaildir "misterbox" (directory "~/mail_clones/andrea_misterbox/"))
@@ -1696,26 +1693,13 @@ When called with prefix arg (`C-u'), then remove this space again."
 ;; add the topic groups
 (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
 
-(add-hook 'gnus-select-group-hook 'gnus-group-set-timestamp)
-
-(setq gnus-group-line-format
-      "%M\%S\%p\%P\%5y: %(%-40,40g%) %ud\n")
-(defun gnus-user-format-function-d (headers)
-  (let ((time (gnus-group-timestamp gnus-tmp-group)))
-    (if time
-        (format-time-string "%b %d  %H:%M" time)
-      "")))
-
-(add-hook 'message-send-hook 'ispell-message)
-
-;; make it conditional depending on the language
-
 (add-hook 'gnus-select-group-hook
           (lambda ()
             (cond
              ((string-match
                "^it\\." (gnus-group-real-name gnus-newsgroup-name))
-              (ispell-change-dictionary "italian"))
+              (if (member "italian" (ispell-valid-dictionary-list))
+                  (ispell-change-dictionary "italian")))
              (t
               (ispell-change-dictionary "english")))))
 
@@ -1770,7 +1754,7 @@ When called with prefix arg (`C-u'), then remove this space again."
   (format "%s %s %s %s:" my-gnussync-rsync-binary my-gnussync-rsync-options my-gnussync-files my-gnussync-remote))
 
 (defun gnussync-from-remote ()
-  (format "%s %s %s:'%s' ~/" my-gnussync-rsync-binary my-gnussync-rsync-options my-gnussync-remote my-gnussync-files))
+  (format "%s %s %s:'%s' ~" my-gnussync-rsync-binary my-gnussync-rsync-options my-gnussync-remote my-gnussync-files))
 
 (defun my-gnussync (direction)
   "Synchronize to or from the server"
@@ -1779,17 +1763,17 @@ When called with prefix arg (`C-u'), then remove this space again."
       ((bufname (get-buffer-create "*GNUS SYNC*"))
        (command 
         (cond
-         ((eq direction 'to-remote) (gnussync-to-remote)
-          (eq direction 'from-remote) (gnussync-from-remote)))))
+         ((eq direction 'to-remote) (gnussync-to-remote))
+         ((eq direction 'from-remote) (gnussync-from-remote)))))
+    (cd "~")
     (when (y-or-n-p (format "running command %s" command))
-      (pop-to-buffer bufname)
+      (switch-to-buffer bufname)
       (shell-command command bufname))))
 
 ;; this variable has to be set globally somewhere else
-(if (boundp 'local-machine-is-gnus-slave)
-    (lambda ()
-      (add-hook 'gnus-before-startup-hook (lambda () (my-gnussync 'from-remote)))
-      (add-hook 'gnus-after-exiting-gnus-hook (lambda () (my-gnussync 'to-remote)))))
+(when (boundp 'local-machine-is-gnus-slave)
+  (add-hook 'gnus-before-startup-hook (lambda () (my-gnussync 'from-remote)))
+  (add-hook 'gnus-after-exiting-gnus-hook (lambda () (my-gnussync 'to-remote))))
 
 ;; This is an example of how to make a new command.  Type "/uptime" to
 ;; use it.
