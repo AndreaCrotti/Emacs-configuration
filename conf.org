@@ -2483,36 +2483,6 @@ MINIMAL EMACS CONFIGURATION
   (setq mail-user-agent 'message-user-agent)
 #+end_src
 
-*** Using msmtp to change the smtp used
-#+begin_src emacs-lisp :tangle no
-  (defvar msmtp-executable "/opt/local/bin/msmtp")
-  
-  (defun msmtp-account (&optional def)
-    (let* ((from
-            (save-restriction    
-              (message-narrow-to-headers)
-              (message-fetch-field "From")))
-           (account (if from (catch 'match
-                               (dolist (element msmtp-name-list)
-                                 ;; (message (format "smpt chosen is %s"
-                                 element))
-                      (when (string-match (format ".*%s.*"
-                                                  element) from)
-                        (throw 'match element)))) nil)))
-  (if account account (if def def "default"))))
-  
-  (defun msmtp-change-smtp ()
-    
-    (setq sendmail-program msmtp-executable)
-    (setq message-sendmail-envelope-from 'header)
-    
-    (if (message-mail-p)
-        (setq message-sendmail-extra-arguments (list "-a" (msmtp-account
-                                                           "default")))))
-  
-  (add-hook 'message-send-hook 'msmtp-change-smtp)
-#+end_src
-
 ** Gnus settings
 *** Server settings
    Configuring maildir testing
