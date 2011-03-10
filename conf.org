@@ -2691,15 +2691,16 @@ MINIMAL EMACS CONFIGURATION
           (cond
            ((eq direction 'to-remote) (gnussync-to-remote))
            ((eq direction 'from-remote) (gnussync-from-remote)))))
+      (cd "~")
       (when (y-or-n-p (format "running command %s" command))
         (switch-to-buffer bufname)
         (shell-command command bufname))))
   
   ;; this variable has to be set globally somewhere else
-  (if (boundp 'local-machine-is-gnus-slave)
-      (lambda ()
-        (add-hook 'gnus-before-startup-hook (lambda () (my-gnussync 'from-remote)))
-        (add-hook 'gnus-after-exiting-gnus-hook (lambda () (my-gnussync 'to-remote)))))
+  (when (boundp 'local-machine-is-gnus-slave)
+    (add-hook 'gnus-before-startup-hook (lambda () (my-gnussync 'from-remote)))
+    (add-hook 'gnus-after-exiting-gnus-hook (lambda () (my-gnussync 'to-remote))))
+  
 #+end_src
 
 ** Erc
