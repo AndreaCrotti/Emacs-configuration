@@ -2581,6 +2581,10 @@ MINIMAL EMACS CONFIGURATION
                (article 1.0))))
 #+end_src
 
+#+begin_src emacs-lisp :tangle yes
+  (setq gnus-thread-hide-subtree 'gnus-article-unread-p)
+#+end_src
+
 *** Posting styles
 #+begin_src emacs-lisp :tangle yes
   (setq gnus-posting-styles
