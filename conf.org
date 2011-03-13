@@ -2357,7 +2357,8 @@ MINIMAL EMACS CONFIGURATION
 ;  (add-to-list 'auto-mode-alist '("conf" . conf-mode))
 ;  (add-to-list 'auto-mode-alist '(".*?rc$" . conf-mode))
 #+end_src
-* Security
+* Gpg and keys
+  See on [[http://www.emacswiki.org/emacs/AutoEncryption][autoencryption article]] for more information
 #+begin_src emacs-lisp :tangle yes
   (require 'epa)
   (epa-file-enable)

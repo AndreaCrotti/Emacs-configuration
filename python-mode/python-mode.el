@@ -114,7 +114,7 @@ regardless of where in the line point is when the TAB command is used."
   :type 'string
   :group 'python)
 
-(make-obsolete-variable 'py-jpython-command 'py-jython-command)
+(make-obsolete-variable 'py-jpython-command 'py-jython-command nil)
 (defcustom py-jython-command "jython"
   "*Shell command used to start the Jython interpreter."
   :type 'string
@@ -145,7 +145,7 @@ mode buffer is visited during an Emacs session.  After that, use
   :type '(repeat string)
   :group 'python)
 
-(make-obsolete-variable 'py-jpython-command-args 'py-jython-command-args)
+(make-obsolete-variable 'py-jpython-command-args 'py-jython-command-args nil)
 (defcustom py-jython-command-args '("-i")
   "*List of string arguments to be used when starting a Jython shell."
   :type '(repeat string)
@@ -323,7 +323,7 @@ file heading imports to see if they look Java-like."
   :group 'python
   )
 
-(make-obsolete-variable 'py-jpython-packages 'py-jython-packages)
+(make-obsolete-variable 'py-jpython-packages 'py-jython-packages nil)
 (defcustom py-jython-packages
   '("java" "javax" "org" "com")
   "Imported packages that imply `jython-mode'."
@@ -483,7 +483,7 @@ Used for syntactic keywords.  N is the match number (1, 2 or 3)."
      ;; Otherwise (we're in a non-matching string) the property is
      ;; nil, which is OK.
      )))
-
+(defvar py-mode-syntax-table nil)
 (setq py-mode-syntax-table
       (let ((table (make-syntax-table))
             (tablelookup (if (featurep 'xemacs)
@@ -787,7 +787,7 @@ Currently-active file is at the head of the list.")
 (defvar python-mode-hook nil
   "*Hook called by `python-mode'.")
 
-(make-obsolete-variable 'jpython-mode-hook 'jython-mode-hook)
+(make-obsolete-variable 'jpython-mode-hook 'jython-mode-hook nil)
 (defvar jython-mode-hook nil
   "*Hook called by `jython-mode'. `jython-mode' also calls
 `python-mode-hook'.")
@@ -798,7 +798,7 @@ Currently-active file is at the head of the list.")
 ;; In previous version of python-mode.el, the hook was incorrectly
 ;; called py-mode-hook, and was not defvar'd.  Deprecate its use.
 (and (fboundp 'make-obsolete-variable)
-     (make-obsolete-variable 'py-mode-hook 'python-mode-hook))
+     (make-obsolete-variable 'py-mode-hook 'python-mode-hook nil))
 
 (defvar py-mode-map ()
   "Keymap used in `python-mode' buffers.")
@@ -1329,8 +1329,8 @@ This does the following:
 ;      'cpython ;; don't use to py-default-interpreter, because default
 ;               ;; is only way to choose CPython
       ))
-
 
+(defvar py-which-shell nil)
 ;;;###autoload
 (defun python-mode ()
   "Major mode for editing Python files.
@@ -1451,7 +1451,7 @@ py-beep-if-tab-change\t\tring the bell if `tab-width' is changed"
   (when (null py-which-shell)
     (py-toggle-shells (py-choose-shell))))
 
-(make-obsolete 'jpython-mode 'jython-mode)
+(make-obsolete 'jpython-mode 'jython-mode nil)
 (defun jython-mode ()
   "Major mode for editing Jython/Jython files.
 This is a simple wrapper around `python-mode'.
@@ -3264,8 +3264,8 @@ A `nomenclature' is a fancy way of saying AWordWithMixedCaseNotUnderscores."
       ;; Emacs.
       (compilation-start command)
     ;; XEmacs.
-    (compile-internal command "No more errors")))
-
+    (when (featurep 'xemacs)
+      (compile-internal command "No more errors"))))
 
 
 ;; pydoc commands. The guts of this function is stolen from XEmacs's

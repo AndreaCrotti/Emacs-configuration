@@ -1701,6 +1701,8 @@ When called with prefix arg (`C-u'), then remove this space again."
                          (tree 1.0))
              (article 1.0))))
 
+(setq gnus-thread-hide-subtree 'gnus-article-unread-p)
+
 (setq gnus-posting-styles
       '((".*"
          (name "Andrea Crotti")
