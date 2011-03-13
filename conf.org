@@ -2643,7 +2643,7 @@ MINIMAL EMACS CONFIGURATION
     (format "%s %s %s %s:" my-gnussync-rsync-binary my-gnussync-rsync-options my-gnussync-files my-gnussync-remote))
   
   (defun gnussync-from-remote ()
-    (format "%s %s %s:'%s' ~" my-gnussync-rsync-binary my-gnussync-rsync-options my-gnussync-remote my-gnussync-files))
+    (format "%s %s %s:'%s' ~/" my-gnussync-rsync-binary my-gnussync-rsync-options my-gnussync-remote my-gnussync-files))
   
   (defun my-gnussync (direction)
     "Synchronize to or from the server"

@@ -118,3 +118,6 @@
 [submodule "google-maps"]
 	path = google-maps
 	url = git://git.naquadah.org/google-maps.git
+[submodule "Highlight-Indentation-for-Emacs"]
+	path = Highlight-Indentation-for-Emacs
+	url = git://github.com/antonj/Highlight-Indentation-for-Emacs.git
