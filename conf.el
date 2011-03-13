@@ -1620,27 +1620,11 @@ When called with prefix arg (`C-u'), then remove this space again."
     Regexp matching the signature separator.")
 
 (autoload 'smtpmail-send-it "smtpmail")
-
-;; send out mails through the gmail server
+;; rwth server
 (setq send-mail-function 'smtpmail-send-it)
-(setq smtpmail-smtp-server "smtp.gmail.com")
-(setq smtpmail-smtp-service 587)
+(setq smtpmail-smtp-server "relay-auth.rwth-aachen.de")
+(setq smtpmail-smtp-service 465)
 (setq smtpmail-debug-info t)
-(setq smtpmail-starttls-credentials
-      '(("smtp.gmail.com" 587 nil nil)))
-(setq smtpmail-auth-credentials
-      (make-conf-path ".authinfo"))
-
-(if mac
-    (progn
-      (require 'external-abook)
-       (setq external-abook-command "contacts -lf '%%e\t%%n' %s")
-       ;; TODO: check if it's dynamic enough
-       (eval-after-load "message"
-         '(progn 
-            (add-hook 'message-mode-hook
-                         '(lambda ()
-                            (define-key message-mode-map "\C-c\t" 'external-abook-try-expand)))))))
 
 (setq compose-mail-user-agent-warnings nil)
 ;; message-mode is a superset of mail-mode and nicer to use
@@ -1717,6 +1701,15 @@ When called with prefix arg (`C-u'), then remove this space again."
                          (tree 1.0))
              (article 1.0))))
 
+(setq gnus-posting-styles
+      '((".*"
+         (name "Andrea Crotti")
+         (address "andrea.crotti.0@gmail.com"))
+        (".*rwth.*"
+         (address "andrea.crotti@rwth-aachen.de"))
+        ("emacs"
+         (signature (emacs-version)))))
+
 ;; Changing modeline to include also the date of the message
 (setq gnus-summary-line-format "%U%R%z%I%(%[%4L: %-23,23f%]%) %s--%d\n")
 
@@ -1728,7 +1721,7 @@ When called with prefix arg (`C-u'), then remove this space again."
    (horizontal 1.0
                (vertical 70 (group 1.0))
                (vertical 1.0
-                         (summary 0.16 point)
+                         (summary 0.3 point)
                          (article 1.0)))))
 
 (gnus-add-configuration
