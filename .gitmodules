@@ -115,3 +115,6 @@
 [submodule "google-maps"]
 	path = google-maps
 	url = git://git.naquadah.org/google-maps.git
+[submodule "org-passwords"]
+	path = org-passwords
+	url = git://github.com/AndreaCrotti/org-passwords.git
