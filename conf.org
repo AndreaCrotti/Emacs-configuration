@@ -2701,7 +2701,7 @@ MINIMAL EMACS CONFIGURATION
            "#emacs" "#erc" "#ruby-lang" 
            "#python" "#git" "#github"
            "#c" "#c++" "#ffmpeg"
-           "#org-mode" "#android"
+           "#org-mode" "#android" "#latex"
            "#org-mode" "#postfix" "#procmail"
            "#scipy" "#haskell" "#macosx")))
   
@@ -2710,6 +2710,14 @@ MINIMAL EMACS CONFIGURATION
   
   ;; enable logging (by default logs everything to ~/log
   (setq erc-log-mode t)
+#+end_src
+
+*** Replace text of away/online messages
+#+begin_src emacs-lisp :tangle yes
+  (erc-replace-mode t)
+  (setq erc-replace-alist
+        '(("\\*.*? has changed.*?to \\+v \\(\\w+\\)" . "\\1 is online")
+          ("\\*.*? has changed.*?to \\-v \\(\\w+\\)" . "\\1 is away")))
 #+end_src
   
 *** Set some more interesting variables
