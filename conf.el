@@ -1794,6 +1794,7 @@ When called with prefix arg (`C-u'), then remove this space again."
          "#emacs" "#erc" "#ruby-lang" 
          "#python" "#git" "#github"
          "#c" "#c++" "#ffmpeg"
+         "#org-mode" "#android" "#latex"
          "#org-mode" "#postfix" "#procmail"
          "#scipy" "#haskell" "#macosx")))
 
@@ -1802,6 +1803,11 @@ When called with prefix arg (`C-u'), then remove this space again."
 
 ;; enable logging (by default logs everything to ~/log
 (setq erc-log-mode t)
+
+(erc-replace-mode t)
+(setq erc-replace-alist
+      '(("\\*.*? has changed.*?to \\+v \\(\\w+\\)" . "\\1 is online")
+        ("\\*.*? has changed.*?to \\-v \\(\\w+\\)" . "\\1 is away")))
 
 ;; Interpret mIRC-style color commands in IRC chats
 (setq erc-interpret-mirc-color t)
