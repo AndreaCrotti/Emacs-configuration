@@ -960,6 +960,12 @@ Currently-active file is at the head of the list.")
 
 
 ;; Utilities
+(defmacro py-safe (&rest body)
+  "Safely execute BODY, return nil if an error occurred."
+  `(condition-case nil
+       (progn ,@ body)
+     (error nil)))
+
 (defsubst py-keep-region-active ()
   "Keep the region active in XEmacs."
   ;; Ignore byte-compiler warnings you might see.  Also note that
@@ -1047,7 +1053,7 @@ Optional LIM is ignored."
 This menu will get created automatically if you have the `easymenu'
 package.  Note that the latest X/Emacs releases contain this package.")
 
-(and (ignore-errors (require 'easymenu) t)
+(and (py-safe (require 'easymenu) t)
      (easy-menu-define
       py-menu py-mode-map "Python Mode menu"
       '("Python"
@@ -1395,7 +1401,7 @@ py-beep-if-tab-change\t\tring the bell if `tab-width' is changed"
   (if (boundp 'comment-multi-line)
       (setq comment-multi-line nil))
   ;; Install Imenu if available
-  (when (ignore-errors (require 'imenu))
+  (when (py-safe (require 'imenu))
     (setq imenu-create-index-function #'py-imenu-create-index-function)
     (setq imenu-generic-expression py-imenu-generic-expression)
     (if (fboundp 'imenu-add-to-menubar)
@@ -1431,7 +1437,7 @@ py-beep-if-tab-change\t\tring the bell if `tab-width' is changed"
   (if py-smart-indentation
     (let ((offset py-indent-offset))
       ;; It's okay if this fails to guess a good value
-      (if (and (ignore-errors (py-guess-indent-offset))
+      (if (and (py-safe (py-guess-indent-offset))
                (<= py-indent-offset 8)
                (>= py-indent-offset 2))
           (setq offset py-indent-offset))
@@ -1568,7 +1574,7 @@ This function is appropriate for `comint-output-filter-functions'."
                    py-file-queue)
     (if py-shell-switch-buffers-on-execute
       (pop-to-buffer (current-buffer)))
-    (ignore-errors (delete-file (car py-file-queue)))
+    (py-safe (delete-file (car py-file-queue)))
     (setq py-file-queue (cdr py-file-queue))
     (if py-file-queue
         (let ((pyproc (get-buffer-process (current-buffer))))
@@ -2101,7 +2107,7 @@ subtleties, including the use of the optional ASYNC argument."
                       ((and (consp py-exception-buffer)
                             (string-equal file (car py-exception-buffer)))
                        (cdr py-exception-buffer))
-                      ((ignore-errors (find-file-noselect file)))
+                      ((py-safe (find-file-noselect file)))
                       ;; could not figure out what file the exception
                       ;; is pointing to, so prompt for it
                       (t (find-file (read-file-name "Exception file: "
@@ -3685,28 +3691,22 @@ If nesting level is zero, return nil."
         (py-nesting-level))))
 
 (defun py-goto-beginning-of-tqs (delim)
-  "Go to the beginning of a triple quoted string at point.
-DELIM is the result of \"(nth 3 (parse-partial-sexp...\", i.e. the
-     character that will terminate the string, or `t' if the string
-     is terminated by a generic string delimiter.
-If syntax-table is set correctly, the latter should be the case. "
-  (if (numberp delim)
-      (let ((skip (and delim (make-string 1 delim)))
-            (continue t))
-        (when skip
-          (save-excursion
-            (while continue
-              (ignore-errors (search-backward skip))
-              (setq continue (and (not (bobp))
-                                  (= (char-before) ?\\))))
-            (if (and (= (char-before) delim)
-                     (= (char-before (1- (point))) delim))
-                (setq skip (make-string 3 delim))))
-          ;; we're looking at a triple-quoted string
-          (ignore-errors (search-backward skip))))
-    (when
-        (skip-syntax-backward "^|")
-      (forward-char 1))))
+  "Go to the beginning of the triple quoted string we find ourselves in.
+DELIM is the TQS string delimiter character we're searching backwards
+for."
+  (let ((skip (and delim (make-string 1 delim)))
+        (continue t))
+    (when skip
+      (save-excursion
+        (while continue
+          (py-safe (search-backward skip))
+          (setq continue (and (not (bobp))
+                              (= (char-before) ?\\))))
+        (if (and (= (char-before) delim)
+                 (= (char-before (1- (point))) delim))
+            (setq skip (make-string 3 delim))))
+      ;; we're looking at a triple-quoted string
+      (py-safe (search-backward skip)))))
 
 (defun py-goto-initial-line ()
   "Go to the initial line of a simple or compound statement.
@@ -4005,7 +4005,7 @@ to do so may mean a greater delay in fixing your bug.\n\n")
   "Delete files in `py-file-queue'.
 These are Python temporary files awaiting execution."
   (mapc #'(lambda (filename)
-            (ignore-errors (delete-file filename)))
+            (py-safe (delete-file filename)))
         py-file-queue))
 
 ;; arrange to kill temp files when Emacs exists
