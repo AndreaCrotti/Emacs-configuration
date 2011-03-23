@@ -1622,6 +1622,7 @@ When called with prefix arg (`C-u'), then remove this space again."
 (autoload 'smtpmail-send-it "smtpmail")
 ;; rwth server
 (setq send-mail-function 'smtpmail-send-it)
+(setq message-send-mail-function 'message-send-mail-with-mailclient)
 (setq smtpmail-smtp-server "relay-auth.rwth-aachen.de")
 (setq smtpmail-smtp-service 465)
 (setq smtpmail-debug-info t)
