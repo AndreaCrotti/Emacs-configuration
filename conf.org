@@ -2455,17 +2455,17 @@ MINIMAL EMACS CONFIGURATION
    Make sure you configure correctly your .authinfo for login and password
 
 #+begin_src emacs-lisp :tangle yes
-    (autoload 'smtpmail-send-it "smtpmail")
-    ;; rwth server
-  
-    (if mac
-      (setq message-send-mail-function 'message-send-mail-with-mailclient)
-      (setq send-mail-function 'smtpmail-send-it))
-  
-    (setq smtpmail-smtp-server "relay-auth.rwth-aachen.de")
-    (setq smtpmail-smtp-service 465)
-    (setq smtpmail-debug-info t)
-  
+  (autoload 'smtpmail-send-it "smtpmail")
+  ;; rwth server
+    
+  (if mac
+    (setq message-send-mail-function 'message-send-mail-with-mailclient)
+    (setq send-mail-function 'smtpmail-send-it))
+    
+  (setq smtpmail-smtp-server "relay-auth.rwth-aachen.de")
+  (setq smtpmail-smtp-service 465)
+  (setq smtpmail-debug-info t)
+    
 #+end_src
 
 *** Setting default sending modality
