@@ -2773,6 +2773,8 @@ MINIMAL EMACS CONFIGURATION
   
   ;; ignore the useless messages
   (setq erc-hide-list '("JOIN" "PART" "QUIT"))
+  
+  (autoload 'erc-nicklist "erc-nicklist" "erc nicklist" t)
 #+end_src
 
 * General settings
