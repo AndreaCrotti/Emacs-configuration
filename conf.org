@@ -3080,11 +3080,11 @@ check-syntax:
     (progn 
       (defun vol-down ()
         (interactive)
-        (shell-command "amixer -c 0 set PCM 3%-"))
+        (shell-command "amixer -c 0 set PCM 3%- >/dev/null"))
   
       (defun vol-up ()
         (interactive)
-        (shell-command "amixer -c 0 set PCM 3%+"))))
+        (shell-command "amixer -c 0 set PCM 3%+ >/dev/null"))))
   
 #+end_src
 
@@ -3160,8 +3160,8 @@ check-syntax:
   
   
   (when linux
-    (global-set-key (kbd "<kb-add>") 'vol-up)
-    (global-set-key (kbd "<kb-subtract>") 'vol-down))
+    (global-set-key (kbd "<kp-add>") 'vol-up)
+    (global-set-key (kbd "<kp-subtract>") 'vol-down))
   
 #+end_src
 
