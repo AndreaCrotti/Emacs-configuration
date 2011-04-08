@@ -2831,6 +2831,7 @@ MINIMAL EMACS CONFIGURATION
   (setq ido-create-new-buffer 'always)
   (setq ido-use-filename-at-point 'guess)
   (ido-everywhere t)
+  (setq ido-default-buffer-method 'selected-window)
   
 ;;  (add-to-list ido-ignore-buffers "\\` ")
   
