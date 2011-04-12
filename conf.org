@@ -3,6 +3,7 @@
 MINIMAL EMACS CONFIGURATION
 # FIXME: ignoring the buffers is ok only if we have can then fix it
 # FIXME: add some configurations for different usage of emacs
+Emacs is no more about text editing than astronomy is about telescopes
 
 * DONE Write a function that setups all the possible paths automatically
   CLOSED: [2010-05-04 Mar 11:41]
@@ -14,7 +15,11 @@ MINIMAL EMACS CONFIGURATION
   CLOSED: [2010-08-08 Dom 16:13]
   - CLOSING NOTE [2010-08-08 Dom 16:13] \\
     included a version from cvs
-* TODO Add options to create encrypted org-files for storing password and more delicate informations
+* DONE Add options to create encrypted org-files for storing password and more delicate informations
+  CLOSED: [2011-04-12 Tue 14:03]
+  - CLOSING NOTE [2011-04-12 Tue 14:03] \\
+    using gnupg already to manage it
+
 * TODO See how to use variables like *special-buffer-regexps* to have a better control over the buffer windows
 * TODO Build an automatic list of versions of the packages
 * TODO Check out what dictem is from this conf [[file:~/bash_conf/emacs.org][other guy emacs.org]]
@@ -43,6 +48,7 @@ MINIMAL EMACS CONFIGURATION
   - [[http://deep.syminet.com/emacside.html][emacsside, nice cheatsheet]]
   - [[http://platypope.org/yada/emacs-demo/][emacs video demo]], with [[http://platypope.org/blog/2006/9/8/i-need-a-cool-european-accent][explanation of the features showed]]
   - [[http://snarfed.org/space/why_I_dont_run_shells_inside_Emacs][running a shell inside emacs]]
+  - [[http://stackoverflow.com/questions/649000/why-emacs-vim-textmate-isnt-xcode-good-enough][why isn't xcode good enough (vs vim and emacs)]]
 
 * Sparse documentation 
   From newcomment.el:
@@ -2478,6 +2484,22 @@ MINIMAL EMACS CONFIGURATION
   ;; if you want colored source code then you need to include the color package
   (add-to-list 'org-export-latex-packages-alist '("" "color"))
 #+end_src
+
+** Correlation mode
+#+begin_src emacs-lisp :tangle yes
+  (when linux
+    (setq TeX-view-program-list '(("Evince" "evince --page-index=%(outpage) %o")))
+    (setq TeX-view-program-selection '((output-pdf "Evince"))))
+  
+  (when mac
+    (setq TeX-source-correlate-method 'synctex)
+    (setq LaTeX-command "latex -synctex=1"))
+  
+  (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
+  
+  (setq Tex-source-correlate-start-server t)
+#+end_src
+
 * Communication
 ** Mail settings
 *** General settings for message creation
