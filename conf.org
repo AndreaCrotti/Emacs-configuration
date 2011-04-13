@@ -2437,6 +2437,7 @@ Emacs is no more about text editing than astronomy is about telescopes
   
   ;; using flyspell also here
   (add-hook 'latex-mode-hook 'turn-on-flyspell)
+  (setq reftex-plug-into-AUCTeX t)
 #+end_src
 
 ** Accessing to latex symbols
