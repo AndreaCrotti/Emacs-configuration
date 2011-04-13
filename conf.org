@@ -2380,14 +2380,6 @@ Emacs is no more about text editing than astronomy is about telescopes
   (autoload 'dot-mode "graphiz-dot-mode" "graphviz dot mode" t)
 #+end_src
 
-** [[http://repo.or.cz/w/ebib.git][Ebib, manage a bibtex archive]]
-
-#+begin_src emacs-lisp :tangle yes
-  (add-to-list 'load-path (make-conf-path "ebib/src"))
-  (autoload 'ebib "ebib" "Ebib, a BibTeX database manager." t)
-  (add-to-list 'Info-default-directory-list (make-conf-path "ebib/manual"))
-#+end_src
-
 ** Log4j
 #+begin_src emacs-lisp :tangle yes
   (autoload 'log4j-mode "log4j-mode" t)
@@ -2498,6 +2490,56 @@ Emacs is no more about text editing than astronomy is about telescopes
   (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
   
   (setq Tex-source-correlate-start-server t)
+#+end_src
+
+** Bibtex and open files
+#+begin_src emacs-lisp :tangle yes
+  ;; code found and adapted from http://www.emacswiki.org/emacs/RefTeX
+  ;; Change this to the place where you store all the electronic versions.
+  ;; redefine it to the right thing if necessary
+  (defvar bibtex-papers-directory
+    (expand-file-name  "~/thesis/literature/"))
+  
+  ;; Translates a BibTeX key into the base filename of the corresponding
+  ;; file. Change to suit your conventions.
+  ;; Mine is:
+  ;; - author1-author2-author3.conferenceYYYY for the key
+  ;; - author1-author2-author3_conferenceYYYY.{ps,pdf} for the file
+  (defun bibtex-key->base-filename (key)
+    (concat bibtex-papers-directory
+            (replace-regexp-in-string "\\." "_" key)))
+  
+  ;; Finds the BibTeX key the point is on.
+  ;; You might want to change the regexp if you use other strange characters in the keys.
+  (defun bibtex-key-at-point ()
+    (let ((chars-in-key "A-Z-a-z0-9_:-\\."))
+      (save-excursion
+        (buffer-substring-no-properties
+         (progn (skip-chars-backward chars-in-key) (point))
+         (progn (skip-chars-forward chars-in-key) (point))))))
+  
+  ;; Opens the appropriate viewer on the electronic version of the paper referenced at point.
+  ;; Again, customize to suit your preferences.
+  (defun browse-paper-at-point ()
+    (interactive)
+    (let ((base (bibtex-key->base-filename (bibtex-key-at-point))))
+      (cond
+       ((file-exists-p (concat base ".pdf"))
+        (shell-command (concat "okular " base ".pdf &")))
+       ((file-exists-p (concat base ".ps"))
+        (shell-command (concat "okular " base ".ps &")))
+       (t (message (concat "No electronic version available: " base ".{pdf,ps}"))))))
+  
+  ;; (global-set-key [S-f6] 'browse-paper-at-point)
+  
+#+end_src
+
+** [[http://repo.or.cz/w/ebib.git][Ebib, manage a bibtex archive]]
+
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'load-path (make-conf-path "ebib/src"))
+  (autoload 'ebib "ebib" "Ebib, a BibTeX database manager." t)
+  (add-to-list 'Info-default-directory-list (make-conf-path "ebib/manual"))
 #+end_src
 
 * Communication
@@ -3170,7 +3212,7 @@ check-syntax:
   
   (global-set-key [(meta shift l)] 'select-line)
   
-  (global-set-key [f7] 'dired-git)
+  (global-set-key [f7] 'browse-paper-at-point)
   
   (global-set-key (kbd "M-z") 'undo)
   ;; from here
