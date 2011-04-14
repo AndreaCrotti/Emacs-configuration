@@ -1305,6 +1305,12 @@ Emacs is no more about text editing than astronomy is about telescopes
   
 #+end_src
 
+** Contrib directory
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'load-path (make-conf-path "org-mode/contrib"))
+  (require 'org-contacts)
+#+end_src
+
 ** Setting up what happens when closing a task
 #+begin_src emacs-lisp :tangle yes
 (setq org-log-done 'note)
@@ -1483,10 +1489,6 @@ Emacs is no more about text editing than astronomy is about telescopes
    (setq org-footnote-tag-for-non-org-mode-files "*-*-*-*-*-*-*-*-*-*")
 #+end_src
 
-** Org contacts
-#+begin_src emacs-lisp :tangle yes
-  (require 'org-contacts)
-#+end_src
 
 * [[http://code.google.com/p/yasnippet/][Yasnippet]]  
 #+begin_src emacs-lisp :tangle yes
