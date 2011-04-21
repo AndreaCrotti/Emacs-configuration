@@ -1792,6 +1792,7 @@ Emacs is no more about text editing than astronomy is about telescopes
   (add-hook 'magit-log-edit-mode-hook 'orgtbl-mode)
   (add-hook 'magit-log-edit-mode-hook 'orgstruct-mode)
   (add-hook 'magit-log-edit-mode-hook 'flyspell-mode)
+  (add-hook 'magit-log-edit-mode-hook 'auto-fill-mode)
 #+end_src
 
 **** Function to enable revert mode when in a git repository
