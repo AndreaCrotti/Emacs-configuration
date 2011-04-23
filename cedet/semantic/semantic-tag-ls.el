@@ -68,7 +68,16 @@ have values, they must still match."
 (define-overloadable-function semantic--tag-similar-types-p (tag1 tag2)
   "Compare the types of TAG1 and TAG2.
 This functions can be overriden, for example to compare a fully
-qualified with an unqualified type.")
+qualified with an unqualified type."
+  (cond
+   ((and (null (semantic-tag-type tag1))
+	 (null (semantic-tag-type tag2)))
+    t)
+   ((or (null (semantic-tag-type tag1))
+	(null (semantic-tag-type tag2)))
+    nil)
+   (t
+    (:override))))
 
 (defun semantic--tag-similar-types-p-default (tag1 tag2)
   "Compare the types of TAG1 and TAG2.

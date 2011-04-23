@@ -1489,7 +1489,15 @@ Emacs is no more about text editing than astronomy is about telescopes
    (setq org-footnote-tag-for-non-org-mode-files "*-*-*-*-*-*-*-*-*-*")
 #+end_src
 
-
+* Conkeror support
+#+begin_src emacs-lisp :tangle yes
+  (setq conkeror-file-path "~/scripts/conkeror")
+  
+  (when (file-exists-p conkeror-file-path)
+    (setq browse-url-browser-function 'browse-url-generic
+          browse-url-generic-program conkeror-file-path))
+  
+#+end_src
 * [[http://code.google.com/p/yasnippet/][Yasnippet]]  
 #+begin_src emacs-lisp :tangle yes
   (require 'yasnippet)

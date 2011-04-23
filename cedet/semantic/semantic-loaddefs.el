@@ -2709,7 +2709,7 @@ file prototypes belong in.
 ;;;### (autoloads (semantic-tag-full-name semantic-tag-prototype-p
 ;;;;;;  semantic-tag-static-p semantic-tag-leaf-p semantic-tag-abstract-p
 ;;;;;;  semantic-tag-protected-p semantic-tag-protection semantic-tag-calculate-parent)
-;;;;;;  "semantic-tag-ls" "semantic-tag-ls.el" (19817 22376))
+;;;;;;  "semantic-tag-ls" "semantic-tag-ls.el" (19891 4750))
 ;;; Generated autoloads from semantic-tag-ls.el
 
 (autoload 'semantic-tag-calculate-parent "semantic-tag-ls" "\
@@ -4073,7 +4073,7 @@ Setup buffer for parse.
 ;;;;;;  "wisent/wisent-calc-wy.el" "wisent/wisent-cim-wy.el" "wisent/wisent-expr.el"
 ;;;;;;  "wisent/wisent-grammar-macros.el" "wisent/wisent-java-tags-wy.el"
 ;;;;;;  "wisent/wisent-java-wy.el" "wisent/wisent-java.el" "wisent/wisent-javascript-jv-wy.el"
-;;;;;;  "wisent/wisent-python-wy.el") (19889 24044 1462))
+;;;;;;  "wisent/wisent-python-wy.el") (19891 4821 688049))
 
 ;;;***
 
