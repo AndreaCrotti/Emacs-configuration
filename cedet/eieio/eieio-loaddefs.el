@@ -182,7 +182,7 @@ Argument PPATH is the path to the directory we are going to analyze.
 ;;;### (autoloads nil nil ("eieio-base.el" "eieio-comp.el" "eieio-custom.el"
 ;;;;;;  "eieio-doc.el" "eieio-load.el" "eieio-speedbar.el" "eieio-test-methodinvoke.el"
 ;;;;;;  "eieio-test-mro.el" "eieio-tests.el" "eieio.el" "eieiocomp.el"
-;;;;;;  "psql.el") (19817 22455 31673))
+;;;;;;  "psql.el") (19889 24043 816118))
 
 ;;;***
 

@@ -1307,7 +1307,7 @@ Emacs is no more about text editing than astronomy is about telescopes
 
 ** Contrib directory
 #+begin_src emacs-lisp :tangle yes
-  (add-to-list 'load-path (make-conf-path "org-mode/contrib"))
+  (add-to-list 'load-path (make-conf-path "org-mode/contrib/lisp"))
   (require 'org-contacts)
 #+end_src
 
@@ -1619,7 +1619,7 @@ Emacs is no more about text editing than astronomy is about telescopes
 #+begin_src emacs-lisp :tangle yes
   (load (make-conf-path "cedet/common/cedet"))
   (setq semantic-load-turn-everything-on t)
-  (global-ede-mode t)
+  (global-ede-mode nil)
   (setq ede-locate-setup-options '(ede-locate-global ede-locate-locate ede-locate-idutils))
 #+end_src
 
@@ -1779,7 +1779,7 @@ Emacs is no more about text editing than astronomy is about telescopes
   (autoload 'svn-status "psvn" "svn status" t)
 #+end_src
 
-*** [[http://philjackson.github.com/magit/][GIT]]
+*** [[http://philjackson.github.com/magit/][Magit]]
    Nice interface for git.
 #+begin_src emacs-lisp :tangle yes
   (autoload 'magit-status "magit" "magit" t)
@@ -1788,7 +1788,6 @@ Emacs is no more about text editing than astronomy is about telescopes
   (setq magit-process-connection-type nil)
   (setq magit-process-popup-time 10)
   
-  ; this hooks make magit going crazy
   (add-hook 'magit-log-edit-mode-hook 'orgtbl-mode)
   (add-hook 'magit-log-edit-mode-hook 'orgstruct-mode)
   (add-hook 'magit-log-edit-mode-hook 'flyspell-mode)
@@ -2896,7 +2895,7 @@ Emacs is no more about text editing than astronomy is about telescopes
   ;; otherwise it will try to connect to old servers all the time
   (setq ido-enable-tramp-completion t)
   
-  ;TODO: those could be hard to grasp for a beginner, should make it customizable 
+                                          ;TODO: those could be hard to grasp for a beginner, should make it customizable 
   (setq ido-enable-flex-matching t)
   ;; regexp matching also
   (setq ido-enable-regexp nil)
@@ -2906,11 +2905,12 @@ Emacs is no more about text editing than astronomy is about telescopes
   (ido-everywhere t)
   (setq ido-default-buffer-method 'selected-window)
   
-;;  (add-to-list ido-ignore-buffers "\\` ")
+  ;;  (add-to-list ido-ignore-buffers "\\` ")
   
   ;; Using ido-mode hacks for advising more functions
-  (require 'ido-hacks)
-  (ido-hacks-mode t)
+  ;; (require 'ido-hacks)
+  ;; (ido-hacks-mode t)
+  
 #+end_src
 
 ** Windmove

@@ -58,6 +58,17 @@ Major mode for editing Bovine grammars.
 
 ;;;***
 
+;;;### (autoloads (semantic-clang-activate) "bovine/semantic-clang"
+;;;;;;  "bovine/semantic-clang.el" (19889 24028))
+;;; Generated autoloads from bovine/semantic-clang.el
+
+(autoload 'semantic-clang-activate "bovine/semantic-clang" "\
+Activate clang completions for C/C++.
+
+\(fn)" t nil)
+
+;;;***
+
 ;;;### (autoloads (semantic-bovinate-toplevel semantic-refresh-tags-safe
 ;;;;;;  semantic-fetch-tags semantic-parse-region-default) "semantic"
 ;;;;;;  "semantic.el" (19817 22376))
@@ -340,8 +351,8 @@ list of semantic tokens found.
 
 ;;;### (autoloads (semantic-c-add-preprocessor-symbol semantic-default-c-setup
 ;;;;;;  semantic-c-member-of-autocast semantic-lex-c-preprocessor-symbol-file
-;;;;;;  semantic-lex-c-preprocessor-symbol-map) "semantic-c" "bovine/semantic-c.el"
-;;;;;;  (19817 22376))
+;;;;;;  semantic-lex-c-preprocessor-symbol-map) "bovine/semantic-c"
+;;;;;;  "bovine/semantic-c.el" (19889 24028))
 ;;; Generated autoloads from bovine/semantic-c.el
 
 (defvar semantic-lex-c-preprocessor-symbol-map nil "\
@@ -371,7 +382,7 @@ into a C file, and do this:
 
 The output table will describe the symbols needed.")
 
-(custom-autoload 'semantic-lex-c-preprocessor-symbol-map "semantic-c" nil)
+(custom-autoload 'semantic-lex-c-preprocessor-symbol-map "bovine/semantic-c" nil)
 
 (defvar semantic-lex-c-preprocessor-symbol-file nil "\
 List of C/C++ files that contain preprocessor macros for the C lexer.
@@ -380,7 +391,7 @@ are included in every C/C++ file parsed by semantic.
 You can use this variable instead of `semantic-lex-c-preprocessor-symbol-map'
 to store your global macros in a more natural way.")
 
-(custom-autoload 'semantic-lex-c-preprocessor-symbol-file "semantic-c" nil)
+(custom-autoload 'semantic-lex-c-preprocessor-symbol-file "bovine/semantic-c" nil)
 
 (defvar semantic-c-member-of-autocast 't "\
 Non-nil means classes with a '->' operator will cast to its return type.
@@ -399,14 +410,14 @@ if `semantic-c-member-of-autocast' is non-nil :
 if `semantic-c-member-of-autocast' is nil :
   foo->[here completion will list method of Foo]")
 
-(custom-autoload 'semantic-c-member-of-autocast "semantic-c" t)
+(custom-autoload 'semantic-c-member-of-autocast "bovine/semantic-c" t)
 
-(autoload 'semantic-default-c-setup "semantic-c" "\
+(autoload 'semantic-default-c-setup "bovine/semantic-c" "\
 Set up a buffer for semantic parsing of the C language.
 
 \(fn)" nil nil)
 
-(autoload 'semantic-c-add-preprocessor-symbol "semantic-c" "\
+(autoload 'semantic-c-add-preprocessor-symbol "bovine/semantic-c" "\
 Add a preprocessor symbol SYM with a REPLACEMENT value.
 
 \(fn SYM REPLACEMENT)" t nil)
@@ -2197,7 +2208,7 @@ Setup hook function for Emacs Lisp files and Semantic.
 
 ;;;### (autoloads (semantic-calculate-scope semantic-scope-tag-clone-with-scope
 ;;;;;;  semantic-scope-reset-cache) "semantic-scope" "semantic-scope.el"
-;;;;;;  (19817 22376))
+;;;;;;  (19889 24028))
 ;;; Generated autoloads from semantic-scope.el
 
 (autoload 'semantic-scope-reset-cache "semantic-scope" "\
@@ -2800,7 +2811,7 @@ STREAM-OR-BUFFER with a tag stream value, or nil.
 ;;;***
 
 ;;;### (autoloads (semantic-tag-write-list-slot-value semantic-tag-write-tag-list)
-;;;;;;  "semantic-tag-write" "semantic-tag-write.el" (19817 22376))
+;;;;;;  "semantic-tag-write" "semantic-tag-write.el" (19889 24028))
 ;;; Generated autoloads from semantic-tag-write.el
 
 (autoload 'semantic-tag-write-tag-list "semantic-tag-write" "\
@@ -3211,7 +3222,7 @@ Fetch the full filename that OBJ refers to.
 ;;;;;;  semanticdb-find-adebug-scanned-includes semanticdb-test-current-database-list
 ;;;;;;  semanticdb-find-test-translate-path semanticdb-find-table-for-include
 ;;;;;;  semanticdb-find-translate-path-default semanticdb-find-default-throttle)
-;;;;;;  "semanticdb-find" "semanticdb-find.el" (19817 22376))
+;;;;;;  "semanticdb-find" "semanticdb-find.el" (19889 24028))
 ;;; Generated autoloads from semanticdb-find.el
 
 (defvar semanticdb-find-throttle-custom-list '(repeat (radio (const 'local) (const 'project) (const 'unloaded) (const 'system) (const 'recursive) (const 'omniscience))) "\
@@ -3899,19 +3910,19 @@ Test the wisent calculator.
 ;;;***
 
 ;;;### (autoloads (wisent-byte-compile-grammar wisent-compile-grammar
-;;;;;;  wisent-toggle-verbose-flag) "wisent-comp" "wisent/wisent-comp.el"
-;;;;;;  (19817 22376))
+;;;;;;  wisent-toggle-verbose-flag) "wisent/wisent-comp" "wisent/wisent-comp.el"
+;;;;;;  (19889 24028))
 ;;; Generated autoloads from wisent/wisent-comp.el
 
 (defvar wisent-verbose-flag nil "\
 *Non-nil means to report verbose information on generated parser.")
 
-(autoload 'wisent-toggle-verbose-flag "wisent-comp" "\
+(autoload 'wisent-toggle-verbose-flag "wisent/wisent-comp" "\
 Toggle whether to report verbose information on generated parser.
 
 \(fn)" t nil)
 
-(autoload 'wisent-compile-grammar "wisent-comp" "\
+(autoload 'wisent-compile-grammar "wisent/wisent-comp" "\
 Compile the LALR(1) GRAMMAR.
 
 GRAMMAR is a list (TOKENS ASSOCS . NONTERMS) where:
@@ -3954,14 +3965,12 @@ where:
 
 \(fn GRAMMAR &optional START-LIST)" nil nil)
 
-(autoload 'wisent-byte-compile-grammar "wisent-comp" "\
+(autoload 'wisent-byte-compile-grammar "wisent/wisent-comp" "\
 Byte compile the `wisent-compile-grammar' FORM.
 Automatically called by the Emacs Lisp byte compiler as a
 `byte-compile' handler.
 
 \(fn FORM)" nil nil)
-
-(put 'wisent-compile-grammar 'byte-compile 'wisent-byte-compile-grammar)
 
 ;;;***
 
@@ -4038,11 +4047,11 @@ Setup buffer for parse.
 
 ;;;***
 
-;;;### (autoloads (wisent-python-default-setup) "wisent-python" "wisent/wisent-python.el"
-;;;;;;  (19817 22376))
+;;;### (autoloads (wisent-python-default-setup) "wisent/wisent-python"
+;;;;;;  "wisent/wisent-python.el" (19818 16466))
 ;;; Generated autoloads from wisent/wisent-python.el
 
-(autoload 'wisent-python-default-setup "wisent-python" "\
+(autoload 'wisent-python-default-setup "wisent/wisent-python" "\
 Setup buffer for parse.
 
 \(fn)" nil nil)
@@ -4052,15 +4061,19 @@ Setup buffer for parse.
 ;;;***
 
 ;;;### (autoloads nil nil ("bovine/bovine-grammar-macros.el" "bovine/erlang-edoc.el"
-;;;;;;  "bovine/semantic-erlang.el" "bovine/semantic-java.el" "bovine/semantic-skeleton-by.el"
-;;;;;;  "ctags/semantic-ectag-util.el" "semantic-analyze-fcn.el"
-;;;;;;  "semantic-ast.el" "semantic-example.el" "semantic-fw.el"
-;;;;;;  "semantic-grammar-wy.el" "semantic-inc.el" "semantic-sb.el"
-;;;;;;  "semantic-util.el" "semanticdb-el.el" "semanticdb-java.el"
+;;;;;;  "bovine/semantic-c-by.el" "bovine/semantic-erlang-by.el"
+;;;;;;  "bovine/semantic-erlang.el" "bovine/semantic-f90-by.el" "bovine/semantic-java.el"
+;;;;;;  "bovine/semantic-make-by.el" "bovine/semantic-scm-by.el"
+;;;;;;  "bovine/semantic-skeleton-by.el" "ctags/semantic-ectag-util.el"
+;;;;;;  "semantic-analyze-fcn.el" "semantic-ast.el" "semantic-example.el"
+;;;;;;  "semantic-fw.el" "semantic-grammar-wy.el" "semantic-inc.el"
+;;;;;;  "semantic-sb.el" "semantic-util.el" "semanticdb-el.el" "semanticdb-java.el"
 ;;;;;;  "semanticdb-javascript.el" "semanticdb-mk.el" "semanticdb-skel.el"
-;;;;;;  "semanticdb-system.el" "wisent/semantic-wisent.el" "wisent/wisent-expr.el"
-;;;;;;  "wisent/wisent-grammar-macros.el" "wisent/wisent-java.el")
-;;;;;;  (19817 22455 794620))
+;;;;;;  "semanticdb-system.el" "wisent/semantic-wisent.el" "wisent/wisent-awk-wy.el"
+;;;;;;  "wisent/wisent-calc-wy.el" "wisent/wisent-cim-wy.el" "wisent/wisent-expr.el"
+;;;;;;  "wisent/wisent-grammar-macros.el" "wisent/wisent-java-tags-wy.el"
+;;;;;;  "wisent/wisent-java-wy.el" "wisent/wisent-java.el" "wisent/wisent-javascript-jv-wy.el"
+;;;;;;  "wisent/wisent-python-wy.el") (19889 24044 1462))
 
 ;;;***
 

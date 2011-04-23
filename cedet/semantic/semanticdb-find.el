@@ -165,6 +165,8 @@ the following keys:
   :group 'semanticdb
   :type semanticdb-find-throttle-custom-list)
 
+(make-variable-buffer-local 'semanticdb-find-default-throttle)
+
 (defun semanticdb-find-throttle-active-p (access-type)
   "Non-nil if ACCESS-TYPE is an active throttle type."
   (or (memq access-type semanticdb-find-default-throttle)

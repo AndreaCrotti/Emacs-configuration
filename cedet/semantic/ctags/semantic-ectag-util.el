@@ -141,7 +141,7 @@ The returned buffer will be recycled in future calls to this function."
       (setq str (save-excursion
 		  (set-buffer b)
 		  (goto-char (point-min))
-		  (if (re-search-forward "Exuberant Ctags \\([0-9.]+\\)," nil t)
+		  (if (re-search-forward "Exuberant Ctags \\([0-9.]+\\)\\(~svn[0-9]+\\)?," nil t)
 		      (match-string 1)
 		    nil)
 		  )

@@ -265,9 +265,11 @@ are from nesting data types."
 	    (setq stack (reverse stack))
 	    ;; Add things to STACK until we cease finding tags of class type.
 	    (while (and stack (eq (semantic-tag-class (car stack)) 'type))
-	      ;; Otherwise, just add this to the returnlist.
-	      (setq returnlist (cons (car stack) returnlist))
-	      (setq stack (cdr stack)))
+	      ;; Otherwise, just add this to the returnlist, but make
+	      ;; sure we didn't already have that tag in scopetypes
+             (unless (member (car stack) scopetypes)
+               (setq returnlist (cons (car stack) returnlist)))
+	     (setq stack (cdr stack)))
 
 	    (setq returnlist (nreverse returnlist))
 	    ))

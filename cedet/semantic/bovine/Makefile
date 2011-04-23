@@ -18,7 +18,7 @@ LOADPATH= ../../ede/ ../../common/ ../ ../../eieio/\
 by_SEMANTIC_GRAMMAR_EL=semantic-c-by.el semantic-make-by.el semantic-scm-by.el semantic-erlang-by.el semantic-f90-by.el
 bovinator_LISP=semantic-bovine.el bovine-grammar.el bovine-debug.el bovine-grammar-macros.el
 examples_MISC=semantic-skel.el skeleton.by
-languages_LISP=semantic-c.el semantic-el.el semantic-make.el semantic-scm.el semantic-java.el semantic-erlang.el semantic-gcc.el semantic-f90.el
+languages_LISP=semantic-c.el semantic-el.el semantic-make.el semantic-scm.el semantic-java.el semantic-erlang.el semantic-gcc.el semantic-f90.el semantic-clang.el
 VERSION=2.1beta
 DISTDIR=$(top)semantic-$(VERSION)/bovine
 

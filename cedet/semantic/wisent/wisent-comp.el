@@ -3500,9 +3500,19 @@ Automatically called by the Emacs Lisp byte compiler as a
   ;; automaton internal data structure.  Then, because the internal
   ;; data structure contains an obarray, convert it to a lisp form so
   ;; it can be byte-compiled.
-  (byte-compile-form (wisent-automaton-lisp-form (eval form))))
+  (byte-compile-form
+   ;; FIXME: we macroexpand here since `byte-compile-form' expects
+   ;; macroexpanded code, but that's just a workaround: for lexical-binding
+   ;; the lisp form should have to pass through closure-conversion and
+   ;; `wisent-byte-compile-grammar' is called much too late for that.
+   ;; Why isn't this `wisent-automaton-lisp-form' performed at
+   ;; macroexpansion time?  --Stef
+   (macroexpand-all
+    (wisent-automaton-lisp-form (eval form)))))
 
-;;;###autoload
+;; FIXME: We shouldn't use a `byte-compile' handler.  Maybe using a hash-table
+;; instead of an obarray would work around the problem that obarrays
+;; aren't printable.  Then (put 'wisent-compile-grammar 'side-effect-free t).
 (put 'wisent-compile-grammar 'byte-compile 'wisent-byte-compile-grammar)
 
 (defun wisent-automaton-lisp-form (automaton)

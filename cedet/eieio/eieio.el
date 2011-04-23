@@ -1207,7 +1207,7 @@ IMPL is the symbol holding the method implementation."
   (let ((byte-compile-free-references nil)
 	(byte-compile-warnings nil)
 	)
-    (byte-compile-lambda
+    (byte-compile
      `(lambda (&rest local-args)
 	,doc-string
 	;; This is a cool cheat.  Usually we need to look up in the
@@ -2762,9 +2762,9 @@ this object."
     (princ (make-string (* eieio-print-depth 2) ? ))
     (princ "(")
     (princ (symbol-name (class-constructor (object-class this))))
-    (princ " \"")
-    (princ (object-name-string this))
-    (princ "\"\n")
+    (princ " ")
+    (prin1 (object-name-string this))
+    (princ "\n")
     ;; Loop over all the public slots
     (let ((publa (aref cv class-public-a))
 	  (publd (aref cv class-public-d))
