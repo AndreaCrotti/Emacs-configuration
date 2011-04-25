@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# TODO: make it work on linux and  
 EMACS=$EMACS24
 EMACS_PATH=/Applications/Emacs24.app
 LISP_DIR=$EMACS_PATH/Contents/Resources/site-lisp
