@@ -2826,7 +2826,7 @@ Emacs is no more about text editing than astronomy is about telescopes
         '(("freenode.net"
            "#emacs" "#erc" "#ruby-lang" 
            "#python" "#git" "#github"
-           "#c" "#c++" "#ffmpeg"
+           "#c" "#c++" "#libav-devel"
            "#org-mode" "#android" "#latex"
            "#org-mode" "#postfix" "#procmail"
            "#scipy" "#haskell" "#macosx")))
