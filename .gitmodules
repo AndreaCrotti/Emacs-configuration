@@ -60,7 +60,7 @@
 	url = git://repo.or.cz/ebib.git
 [submodule "magit"]
 	path = magit
-	url = git://github.com/philjackson/magit.git
+	url = git://github.com/magit/magit.git
 [submodule "yasnippet-mirror"]
 	path = yasnippet-mirror
 	url = git://github.com/AndreaCrotti/yasnippet-mirror.git
