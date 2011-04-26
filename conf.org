@@ -2457,6 +2457,8 @@ Emacs is no more about text editing than astronomy is about telescopes
    Enable preview mode:
 #+begin_src emacs-lisp :tangle yes
   (add-to-list 'load-path (make-conf-path "auctex/preview"))
+  ;TODO: only require when auctex is loaded maybe 
+  (require 'preview)
 #+end_src
 
 ** Accessing to latex symbols
