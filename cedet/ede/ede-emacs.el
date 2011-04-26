@@ -94,6 +94,17 @@ emacs_beta_version=\\([0-9]+\\)")
 			  (match-string 2) "."
 			  (match-string 3)))
 	)
+       ((file-exists-p "sxemacs.pc.in")
+	(setq emacs "SXEmacs")
+	(insert-file-contents "sxemacs_version.m4")
+	(goto-char (point-min))
+	(re-search-forward "m4_define(\\[SXEM4CS_MAJOR_VERSION\\], \\[\\([0-9]+\\)\\])
+m4_define(\\[SXEM4CS_MINOR_VERSION\\], \\[\\([0-9]+\\)\\])
+m4_define(\\[SXEM4CS_BETA_VERSION\\], \\[\\([0-9]+\\)\\])")
+	(setq ver (concat (match-string 1) "."
+			  (match-string 2) "."
+			  (match-string 3)))
+	)
        ;; Insert other Emacs here...
 
        ;; Vaguely recent version of GNU Emacs?

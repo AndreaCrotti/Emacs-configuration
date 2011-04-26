@@ -639,7 +639,7 @@ Insert TAG into the current buffer with SRecode.
 
 ;;;### (autoloads nil nil ("srecode-document-vars.el" "srecode-extract.el"
 ;;;;;;  "srecode-load.el" "srecode-template-wy.el" "srecode.el")
-;;;;;;  (19891 4822 13578))
+;;;;;;  (19894 36313 78274))
 
 ;;;***
 

@@ -352,7 +352,7 @@ messages to CHANNEL.
 
 ;;;### (autoloads (inversion-upgrade-package inversion-add-to-load-path
 ;;;;;;  inversion-find-version inversion-require-emacs inversion-require)
-;;;;;;  "inversion" "inversion.el" (19817 22376))
+;;;;;;  "inversion" "inversion.el" (19894 36266))
 ;;; Generated autoloads from inversion.el
 
 (autoload 'inversion-require "inversion" "\
@@ -367,10 +367,10 @@ Optional argument RESERVED is saved for later use.
 \(fn PACKAGE VERSION &optional FILE DIRECTORY &rest RESERVED)" nil nil)
 
 (autoload 'inversion-require-emacs "inversion" "\
-Declare that you need either EMACS-VER, or XEMACS-VER.
+Declare that you need either EMACS-VER, XEMACS-VER or SXEMACE-ver.
 Only checks one based on which kind of Emacs is being run.
 
-\(fn EMACS-VER XEMACS-VER)" nil nil)
+\(fn EMACS-VER XEMACS-VER SXEMACS-VER)" nil nil)
 
 (autoload 'inversion-find-version "inversion" "\
 Search for the version and incompatible version of PACKAGE.
@@ -511,7 +511,7 @@ Only pulses the line if `pulse-command-advice-flag' is non-nil.
 ;;;***
 
 ;;;### (autoloads nil nil ("cedet-load.el" "cedet.el" "ezimage.el"
-;;;;;;  "working.el") (19889 24043 344186))
+;;;;;;  "working.el") (19894 36308 368046))
 
 ;;;***
 
