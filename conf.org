@@ -49,6 +49,7 @@ Emacs is no more about text editing than astronomy is about telescopes
   - [[http://platypope.org/yada/emacs-demo/][emacs video demo]], with [[http://platypope.org/blog/2006/9/8/i-need-a-cool-european-accent][explanation of the features showed]]
   - [[http://snarfed.org/space/why_I_dont_run_shells_inside_Emacs][running a shell inside emacs]]
   - [[http://stackoverflow.com/questions/649000/why-emacs-vim-textmate-isnt-xcode-good-enough][why isn't xcode good enough (vs vim and emacs)]]
+  - [[http://dotfiles.org/.emacs][ultimate dotfiles repository]]
 
 * Sparse documentation 
   From newcomment.el:
@@ -1461,6 +1462,21 @@ Emacs is no more about text editing than astronomy is about telescopes
   ;;(setq org-latex-to-pdf-process '("texi2dvi -p -b -c -V %f"))
 #+end_src
 
+** Conkeror support
+   Add something like this to support capturing from conkeror
+#+begin_src emacs-lisp :tangle yes
+  ;; ;; the 'w' corresponds with the 'w' used before as in:
+  ;;   emacsclient \"org-protocol:/capture:/w/  [...]
+  ;; (setq org-capture-templates
+  ;;   '(
+  ;;      ("w" "" entry ;; 'w' for 'org-protocol'
+  ;;        (file+headline "www.org" "Notes")
+  ;;        "* %^{Title}\n\n  Source: %u, %c\n\n  %i")
+  ;;      ;; other templates
+  ;; ))
+  
+  
+#+end_src
 ** Use ebib for my wonderful references
 #+begin_src emacs-lisp :tangle yes
   ;; TODO: check if this is really useful and how to autocomplete it
@@ -2833,6 +2849,7 @@ Emacs is no more about text editing than astronomy is about telescopes
            "#emacs" "#erc" "#ruby-lang" 
            "#python" "#git" "#github"
            "#c" "#c++" "#libav-devel"
+           "#conkeror"
            "#org-mode" "#android" "#latex"
            "#org-mode" "#postfix" "#procmail"
            "#scipy" "#haskell" "#macosx")))

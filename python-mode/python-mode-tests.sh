@@ -58,6 +58,7 @@ $HOME/$EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featur
 --funcall nested-indents-lp:328775-test \
 --funcall imenu-matches-in-docstring-lp:436285-test \
 --funcall exceptions-not-highlighted-lp:473525-test \
+--funcall UnicodeEncodeError-lp:550661-test \
 --funcall previous-statement-lp:637955-test \
 --funcall inbound-indentation-multiline-assignement-lp:629916-test \
 --funcall indentation-of-continuation-lines-lp:691185-test \
@@ -72,6 +73,8 @@ $HOME/$EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featur
 --funcall multiline-listings-indent-lp:761946-test \
 --funcall new-page-char-causes-loop-lp:762498-test \
 --funcall nested-dicts-indent-lp:763756-test \
+--funcall bad-indent-after-except-lp:771289-test \
+--funcall indent-open-paren-not-last-lp:771291-test \
 \
 --funcall py-beginning-of-block-test \
 --funcall py-end-of-block-test \
