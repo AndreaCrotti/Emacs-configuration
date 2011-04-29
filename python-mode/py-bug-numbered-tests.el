@@ -51,7 +51,7 @@
          'previous-statement-lp:637955-test
          'inbound-indentation-multiline-assignement-lp:629916-test
          'indentation-of-continuation-lines-lp:691185-test
-         'syntaxerror-on-py-execute-region-lp:691542-test
+;;         'syntaxerror-on-py-execute-region-lp:691542-test
          'goto-beginning-of-tqs-lp:735328-test
          'class-treated-as-keyword-lp:709478-test
          'py-decorators-face-lp:744335-test
@@ -63,6 +63,7 @@
          'nested-dicts-indent-lp:763756-test
          'bad-indent-after-except-lp:771289-test
          'indent-open-paren-not-last-lp:771291-test
+         'wrong-indent-after-else-lp:772610-test
          
          )))
 
@@ -177,7 +178,7 @@ If no `load-branch-function' is specified, make sure the appropriate branch is l
                 'python-statement',
                 ])
 "))
-    (py-bug-tests-intern 'mark-block-region-lp:328806 arg teststring)))
+    (py-bug-tests-intern 'mark-block-region-lp:328806-base arg teststring)))
 
 (defun mark-block-region-lp:328806-base ()
   (forward-line -2)
@@ -463,8 +464,7 @@ If no `load-branch-function' is specified, make sure the appropriate branch is l
 (defun previous-statement-lp:637955 ()
   (beginning-of-line)
   (py-previous-statement)
-  (assert (eq 31 (point)) nil "Being stuck inside triple-quoted-string 637955 test. Did not reach beginning of class.")
-  )
+  (assert (eq 31 (point)) nil "previous-statement-lp:637955-test failed."))
 
 (defun nested-indents-lp:328775-test (&optional arg load-branch-function)
   "With ARG greater 1 keep test buffer open. 
@@ -721,19 +721,19 @@ print \"Poet Friedrich Hölderlin\"
         ;;        (default-directory "~/arbeit/emacs/python-modes/components-python-mode/")
         erg kill-buffer-query-functions py-switch-to-python)
     (when (buffer-live-p (get-buffer "*Python*"))
-      (set-buffer "*Python*")
       (when (processp (get-process "Python"))
         (set-process-query-on-exit-flag (get-process "Python") nil)
-        ;;        (process-kill-without-query (get-process "Python"))
-        )
-      ;;      (kill-process "*Python*")
-      (set-buffer-modified-p 'nil)
+        (process-kill-without-query (get-process "Python")))
+      (kill-process "*Python*")
       (kill-buffer "*Python*"))
+    (py-shell)
+;;    (set-buffer-modified-p 'nil)
     (set-buffer oldbuf)
     (forward-line -1)
     (py-execute-region (line-beginning-position) (line-end-position))
-    (switch-to-buffer (current-buffer))
-    (assert (search-forward "Hölderlin") nil "syntaxerror-on-py-execute-region-lp:691542 test failed")))
+    (when (interactive-p) (switch-to-buffer (current-buffer)))
+    (assert (or (search-forward "Hölderlin")
+                (search-backward "Hölderlin")) nil "syntaxerror-on-py-execute-region-lp:691542 test failed")))
 
 (defun backslashed-continuation-line-indent-lp:742993-test (&optional arg load-branch-function)
   "With ARG greater 1 keep test buffer open. 
@@ -967,6 +967,18 @@ If no `load-branch-function' is specified, make sure the appropriate branch is l
 
 (defun indent-open-paren-not-last-lp:771291-base ()
   (assert (eq 20 (py-compute-indentation)) nil "indent-open-paren-not-last-lp:771291 test failed"))
+
+(defun wrong-indent-after-else-lp:772610-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "if True:
+    pass
+else:
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'wrong-indent-after-else-lp:772610-base arg teststring)))
+
+(defun wrong-indent-after-else-lp:772610-base ()
+    (assert (eq 4 (py-compute-indentation)) nil "wrong-indent-after-else-lp:772610 test failed"))
 
 (provide 'py-bug-numbered-tests)
 ;;; py-bug-numbered-tests.el ends here

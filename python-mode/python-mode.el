@@ -2126,7 +2126,6 @@ the new line indented."
       (setq goal (py-compute-indentation))
       (indent-to-column (- goal py-indent-offset)))))
 
-
 (defun py-compute-indentation (&optional orig origline)
   "Compute Python indentation.
  When HONOR-BLOCK-CLOSE-P is non-nil, statements such as `return',
@@ -2178,17 +2177,20 @@ the new line indented."
                ((looking-at py-try-clause-re)
                 (py-beginning-of-try-block)
                 (+ (current-indentation) py-indent-offset))
+               ((and (looking-at py-clause-re) (< (py-count-lines) origline))
+                (+ (current-indentation) py-indent-offset))
                ((looking-at py-clause-re)
                 (py-beginning-of-block)
                 (current-indentation))
                ((looking-at py-return-re) 
-                (save-excursion
-                  (py-beginning-of-def-or-class)
-                  (current-indentation)))
+                (py-beginning-of-def-or-class)
+                (current-indentation))
+               ((and (looking-at py-block-closing-keywords-re) (< (py-count-lines) origline))
+                (py-beginning-of-block)
+                (current-indentation))
                ((looking-at py-block-closing-keywords-re) 
-                (save-excursion
-                  (py-beginning-of-block)
-                  (current-indentation)))
+                (py-beginning-of-block)
+                (+ (current-indentation) py-indent-offset))
                ((not (py-beginning-of-statement-p))
                 (py-beginning-of-statement)
                 (py-compute-indentation orig origline))
@@ -2238,16 +2240,6 @@ Optional ARG indicates a start-position for `parse-partial-sexp'."
   (save-excursion
     (beginning-of-line)
     (eq (char-after (- (point) 2)) ?\\ )))
-
-(defun py-backslashed-continuation-line-p ()
-  (interactive)
-  "Return t if current line is a continuation line."
-  (save-excursion
-    (beginning-of-line)
-    (skip-chars-backward " \t\r\n\f")
-    (let ((erg (eq (char-before (point)) ?\\ )))
-      (when (interactive-p) (message "%s" erg))
-      erg)))
 
 (defun py-in-comment-p ()
   "Return the beginning of current line's comment, if inside. "
