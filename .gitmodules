@@ -64,9 +64,6 @@
 [submodule "yasnippet-mirror"]
 	path = yasnippet-mirror
 	url = git://github.com/AndreaCrotti/yasnippet-mirror.git
-[submodule "paredit"]
-	path = paredit
-	url = git://github.com/emacsmirror/paredit.git
 [submodule "graphviz-mode-mirror"]
 	path = graphviz-mode-mirror
 	url = git://github.com/AndreaCrotti/graphviz-mode-mirror.git
@@ -118,3 +115,6 @@
 [submodule "js2-mode"]
 	path = js2-mode
 	url = git://github.com/mooz/js2-mode.git
+[submodule "paredit"]
+	path = paredit
+	url = git://github.com/emacsmirror/paredit.git
