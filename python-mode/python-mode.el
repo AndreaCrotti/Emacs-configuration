@@ -98,6 +98,8 @@
 (require 'custom)
 (require 'compile)
 (require 'ansi-color)
+(require 'highlight-indentation)
+
 (eval-when-compile (require 'cl))
 
 
@@ -480,16 +482,6 @@ set in py-execute-region and used in py-jump-to-exception.")
         (message "%s" erg))
       erg)))
 
-(defalias 'py-in-list-p 'py-list-beginning-position)
-(defun py-list-beginning-position (&optional start)
-  "Return lists beginning position, nil if not inside.
-Optional ARG indicates a start-position for `parse-partial-sexp'."
-  (interactive)
-  (let* ((ppstart (or start (point-min)))
-         (erg (nth 1 (parse-partial-sexp ppstart (point)))))
-    (when (interactive-p) (message "%s" erg))
-    erg))
-
 ;; 2009-09-10 a.roehler@web.de changed section start
 ;; from python.el, version "22.1"
 
@@ -573,51 +565,6 @@ Used for syntactic keywords.  N is the match number (1, 2 or 3)."
         (modify-syntax-entry ?` "$" table)
         (modify-syntax-entry ?\_ "w" table)
         table))
-
-(defun py-in-comment-p ()
-  "Return the beginning of current line's comment, if inside. "
-  (save-restriction
-    (widen)
-    (let* ((pps (parse-partial-sexp (line-beginning-position) (point)))
-           (erg (when (nth 4 pps) (nth 8 pps))))
-      (unless erg
-        (when (looking-at (concat "^[ \t]*" comment-start-skip))
-          (setq erg (point))))
-      erg)))
-
-(defun py-in-string-p ()
-  "Returns character address of start of comment or string, nil if not inside. "
-  (interactive)
-  (let* ((pps (parse-partial-sexp (point-min) (point)))
-         (erg (when (nth 3 pps) (nth 8 pps))))
-    (save-excursion
-      (unless erg (setq erg
-                        (progn
-                          (when (looking-at "\"\\|'")
-                            (forward-char 1)
-                            (setq pps (parse-partial-sexp (point-min) (point)))
-                            (when (nth 3 pps) (nth 8 pps)))))))
-    (when (interactive-p) (message "%s" erg))
-    erg))
-
-(defsubst py-in-string-or-comment-p ()
-    "Return beginning position if point is in a Python literal (a comment or string)."
-    (nth 8 (parse-partial-sexp (point-min) (point))))
-
-(defun py-in-triplequoted-string-p ()
-  "Returns character address of start tqs-string, nil if not inside. "
-  (interactive)
-  (let* ((pps (parse-partial-sexp (point-min) (point)))
-         (erg (when (and (nth 3 pps) (nth 8 pps))(nth 2 pps))))
-    (save-excursion
-      (unless erg (setq erg
-                        (progn
-                          (when (looking-at "\"\"\"\\|''''")
-                            (goto-char (match-end 0))
-                            (setq pps (parse-partial-sexp (point-min) (point)))
-                            (when (and (nth 3 pps) (nth 8 pps)) (nth 2 pps)))))))
-    (when (interactive-p) (message "%s" erg))
-    erg))
 
 (defconst python-space-backslash-table
   (let ((table (copy-syntax-table py-mode-syntax-table)))
@@ -2215,34 +2162,45 @@ the new line indented."
                        (current-column)))
                ((nth 1 pps)
                 (save-excursion
-                  (py-beginning-of-statement)
-                  (+ (current-column) (* (nth 0 pps) py-indent-offset))))
+                  (goto-char (nth 1 pps))
+                  (if (looking-at "\\s([ \t]*$")
+                      (progn
+                        (back-to-indentation)
+                        (+ (current-column) py-indent-offset))
+                    (+ (current-column) (* (nth 0 pps))))))
                ((py-backslashed-continuation-line-p)
                 (progn (py-beginning-of-statement)
                        (+ (current-indentation) py-continuation-offset)))
-               ((not (py-beginning-of-statement-p))
-                (py-beginning-of-statement)
-                (py-compute-indentation orig origline))
                ((looking-at py-if-clause-re)
                 (py-beginning-of-if-block)
                 (current-indentation))
                ((looking-at py-try-clause-re)
                 (py-beginning-of-try-block)
-                (current-indentation))
+                (+ (current-indentation) py-indent-offset))
+               ((and (looking-at py-clause-re) (< (py-count-lines) origline))
+                (+ (current-indentation) py-indent-offset))
                ((looking-at py-clause-re)
                 (py-beginning-of-block)
                 (current-indentation))
+               ((looking-at py-return-re) 
+                (py-beginning-of-def-or-class)
+                (current-indentation))
+               ((and (looking-at py-block-closing-keywords-re) (< (py-count-lines) origline))
+                (py-beginning-of-block)
+                (current-indentation))
                ((looking-at py-block-closing-keywords-re) 
-                (save-excursion
-                  (py-beginning-of-block)
-                  (current-indentation)))
+                (py-beginning-of-block)
+                (+ (current-indentation) py-indent-offset))
+               ((not (py-beginning-of-statement-p))
+                (py-beginning-of-statement)
+                (py-compute-indentation orig origline))
                ((looking-at py-assignement-re)
                 (current-indentation))
+               ((looking-at py-block-or-clause-re)
+                (+ (current-indentation) py-indent-offset))
                ((and (eq origline (py-count-lines))
                      (setq erg (py-go-to-keyword py-block-or-clause-re -1)))
                 (+ (car erg) py-indent-offset))
-               ((looking-at py-block-or-clause-re)
-                (+ (current-indentation) py-indent-offset))
                ((py-statement-opens-block-p)
                 (+ py-indent-offset (current-indentation)))
                ((bobp)
@@ -2250,6 +2208,158 @@ the new line indented."
                (t (current-indentation))))
         (when (interactive-p) (message "%s" indent))
         indent))))
+
+(defalias 'py-in-list-p 'py-list-beginning-position)
+(defun py-list-beginning-position (&optional start)
+  "Return lists beginning position, nil if not inside.
+Optional ARG indicates a start-position for `parse-partial-sexp'."
+  (interactive)
+  (let* ((ppstart (or start (point-min)))
+         (erg (nth 1 (parse-partial-sexp ppstart (point)))))
+    (when (interactive-p) (message "%s" erg))
+    erg))
+
+(defun py-end-of-list-position (&optional arg)
+  "Return end position, nil if not inside.
+Optional ARG indicates a start-position for `parse-partial-sexp'."
+  (interactive)
+  (let* ((ppstart (or arg (point-min)))
+         (erg (parse-partial-sexp ppstart (point)))
+         (beg (nth 1 erg))
+         end)
+    (when beg
+      (save-excursion
+        (goto-char beg)
+        (forward-list 1)
+        (setq end (point))))
+    (when (interactive-p) (message "%s" end))
+    end))
+
+(defun py-backslash-continuation-preceding-line-p ()
+  "Return t if preceding line ends with backslash that is not in a comment."
+  (save-excursion
+    (beginning-of-line)
+    (eq (char-after (- (point) 2)) ?\\ )))
+
+(defun py-in-comment-p ()
+  "Return the beginning of current line's comment, if inside. "
+  (save-restriction
+    (widen)
+    (let* ((pps (parse-partial-sexp (line-beginning-position) (point)))
+                   (erg (when (nth 4 pps) (nth 8 pps))))
+      (unless erg
+        (when (looking-at (concat "^[ \t]*" comment-start-skip))
+          (setq erg (point))))
+      erg)))
+
+(defun py-in-triplequoted-string-p ()
+  "Returns character address of start tqs-string, nil if not inside. "
+  (interactive)
+  (let* ((pps (parse-partial-sexp (point-min) (point)))
+         (erg (when (and (nth 3 pps) (nth 8 pps))(nth 2 pps))))
+    (save-excursion
+      (unless erg (setq erg
+                        (progn
+                          (when (looking-at "\"\"\"\\|''''")
+                            (goto-char (match-end 0))
+                            (setq pps (parse-partial-sexp (point-min) (point)))
+                            (when (and (nth 3 pps) (nth 8 pps)) (nth 2 pps)))))))
+    (when (interactive-p) (message "%s" erg))
+    erg))
+
+(defun py-in-string-p ()
+  "Returns character address of start of string, nil if not inside. "
+  (interactive)
+  (let* ((pps (parse-partial-sexp (point-min) (point)))
+         (erg (when (nth 3 pps) (nth 8 pps))))
+    (save-excursion
+      (unless erg (setq erg
+                        (progn
+                          (when (looking-at "\"\\|'")
+                            (forward-char 1)
+                            (setq pps (parse-partial-sexp (point-min) (point)))
+                            (when (nth 3 pps) (nth 8 pps)))))))
+    (when (interactive-p) (message "%s" erg))
+    erg))
+
+(defsubst py-in-string-or-comment-p ()
+    "Return beginning position if point is in a Python literal (a comment or string)."
+    (nth 8 (parse-partial-sexp (point-min) (point))))
+
+(defun py-beginning-of-statement-p ()
+  (interactive)
+  "Returns position, if cursor is at the beginning of a statement, nil otherwise. "
+  (let ((orig (point)))
+    (save-excursion
+      (py-end-of-statement)
+      (py-beginning-of-statement)
+      (when (or (eq orig (point))
+;; (and (looking-back "^[ \t]+") (<=  (line-beginning-position) orig)(<= orig (point)))
+)
+        (when (interactive-p)
+          (message "%s" orig))
+        orig))))
+
+(defun py-end-base (regexp orig iact)
+  "Used internal by functions going to the end forms. "
+  (let (erg)
+    (unless (py-statement-opens-block-p regexp)
+      (py-go-to-keyword regexp -1))
+    (when (py-statement-opens-block-p regexp)
+      (setq erg (point))
+      (forward-line 1)
+      (setq erg (py-travel-current-indent (cons (current-indentation) (point))))
+      (if (eq orig (point))
+          (progn
+            (while (not (or
+                         (eobp)
+                         (and (setq erg (re-search-forward regexp nil (quote move) 1))
+                              (not (py-in-string-or-comment-p))
+                              (not (py-in-list-p))))))
+            (unless (eobp)(py-end-base regexp orig iact)))
+        (when (and (< orig (point))(not (eobp)))
+          (setq erg (point))))
+      (when iact (message "%s" erg))
+      erg)))
+
+;; only called when py-use-parse-partial-sexp is nil
+(defun py-adapt-indent-of-multiline-assignments (indent)
+  "Compute indents when inside a multi-line assignment. "
+  (let ((orig (point)))
+    (cond
+     ((looking-at ")")
+      (let ((erg (progn
+                   (ar-beginning-of-parentized-atpt)
+                   (- (current-column) py-indent-in-delimiter))))
+        (setq indent erg)))
+     ((looking-at "]")
+      (let ((erg (progn
+                   (ar-beginning-of-bracketed-atpt)
+                   (- (current-column) py-indent-in-delimiter))))
+        (setq indent erg)))
+     (t
+      (let ((brackets-nesting (in-form-base "\[" "]" nil (point) nil nil t))
+            (parents-nesting (in-form-base "(" ")" nil (point) nil nil t)))
+        (let* ((brackets-beg (when (< 0 brackets-nesting)
+                               (ar-bracketed-beginning-position-atpt)))
+               (parents-beg (when (< 0 parents-nesting)
+                              (ar-parentized-beginning-position-atpt))))
+          (cond ((ignore-errors (< brackets-beg parents-beg))
+                 (goto-char brackets-beg)
+                 (setq indent (- (current-column) py-indent-in-delimiter)))
+                ((ignore-errors (> brackets-beg parents-beg))
+                 (goto-char parents-beg)
+                 (setq indent (- (current-column) py-indent-in-delimiter))
+                 (when brackets-beg
+                   (setq indent (+ py-indent-in-delimiter indent))))
+                (brackets-beg
+                 (goto-char brackets-beg)
+                 (setq indent (- (current-column) py-indent-in-delimiter)))
+                (parents-beg
+                 (goto-char parents-beg)
+                 (setq indent (- (current-column) py-indent-in-delimiter))))))))
+    (goto-char orig)
+    indent))
 
 (defun py-guess-indent-offset (&optional global)
   "Guess a value for, and change, `py-indent-offset'.
@@ -2881,28 +2991,6 @@ Takes a list, INDENT and START position. "
     (when erg (setq erg (cons (current-indentation) erg)))
     erg))
 
-(defun py-end-base (regexp orig iact)
-  "Used internal by functions going to the end forms. "
-  (let (erg)
-    (unless (py-statement-opens-block-p regexp)
-      (py-go-to-keyword regexp -1))
-    (when (py-statement-opens-block-p regexp)
-      (setq erg (point))
-      (forward-line 1)
-      (setq erg (py-travel-current-indent (cons (current-indentation) (point))))
-      (if (eq orig (point))
-          (progn
-            (while (not (or
-                         (eobp)
-                         (and (setq erg (re-search-forward regexp nil (quote move) 1))
-                              (not (py-in-string-or-comment-p))
-                              (not (py-in-list-p))))))
-            (unless (eobp)(py-end-base regexp orig iact)))
-        (when (and (< orig (point))(not (eobp)))
-          (setq erg (point))))
-      (when iact (message "%s" erg))
-      erg)))
-
 ;; ripped from cc-mode
 (defun py-forward-into-nomenclature (&optional arg)
   "Move forward to end of a nomenclature section or word.
@@ -2949,18 +3037,6 @@ will work.
         (setq erg (cons beg end))
         (when (interactive-p) (message "%s" erg))
         erg))))
-
-(defun py-beginning-of-statement-p ()
-  (interactive)
-  "Returns position, if cursor is at the beginning of a statement, nil otherwise. "
-  (let ((orig (point)))
-    (save-excursion
-      (py-end-of-statement)
-      (py-beginning-of-statement)
-      (when (or (eq orig (point)) (and (looking-back "^[ \t]+") (<=  (line-beginning-position) orig)(<= orig (point))))
-        (when (interactive-p)
-          (message "%s" orig))
-        orig))))
 
 (defalias 'py-beginning-of-block-p 'py-statement-opens-block-p)
 (defun py-statement-opens-block-p (&optional regexp)
@@ -3752,18 +3828,6 @@ If nesting level is zero, return nil."
     (if (zerop (car status))
         nil                             ; not in a nest
       (car (cdr status)))))             ; char# of open bracket
-
-(defun py-backslash-continuation-preceding-line-p ()
-  "Return t if preceding line ends with backslash. "
-  (save-excursion
-    (beginning-of-line)
-    (and
-     ;; use a cheap test first to avoid the regexp if possible
-     ;; use 'eq' because char-after may return nil
-     (eq (char-after (- (point) 2)) ?\\ )
-     ;; make sure; since eq test passed, there is a preceding line
-     (forward-line -1)                  ; always true -- side effect
-     (looking-at py-continued-re))))
 
 (defun py-continuation-line-p ()
   "Return t iff current line is a continuation line."

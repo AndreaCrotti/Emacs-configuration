@@ -2601,8 +2601,8 @@ Index
 * preview-copy-region-as-mml:            Keys and lisp.       (line  46)
 * preview-default-document-pt:           The Emacs interface. (line  83)
 * preview-default-option-list:           The Emacs interface. (line  53)
-* preview-default-preamble <1>:          The Emacs interface. (line  54)
-* preview-default-preamble:              Misplaced previews.  (line  59)
+* preview-default-preamble <1>:          Misplaced previews.  (line  59)
+* preview-default-preamble:              The Emacs interface. (line  54)
 * preview-document:                      Keys and lisp.       (line  95)
 * preview-document-pt:                   The Emacs interface. (line  97)
 * preview-document-pt-list:              The Emacs interface. (line  82)
@@ -2615,18 +2615,18 @@ Index
 * preview-fast-dvips-command:            The Emacs interface. (line 124)
 * preview-goto-info-page:                Keys and lisp.       (line 148)
 * preview-gs-image-type-alist:           The preview images.  (line   8)
-* preview-gs-options <1>:                Problems with Ghostscript.
+* preview-gs-options <1>:                The preview images.  (line  54)
+* preview-gs-options:                    Problems with Ghostscript.
                                                               (line  22)
-* preview-gs-options:                    The preview images.  (line  54)
 * preview-icon-specs:                    The Emacs interface. (line 153)
-* preview-image-creators <1>:            Problems with Ghostscript.
+* preview-image-creators <1>:            The preview images.  (line   7)
+* preview-image-creators:                Problems with Ghostscript.
                                                               (line  31)
-* preview-image-creators:                The preview images.  (line   7)
-* preview-image-type <1>:                Basic modes of operation.
-                                                              (line  16)
+* preview-image-type <1>:                The preview images.  (line   6)
 * preview-image-type <2>:                Problems with Ghostscript.
                                                               (line  33)
-* preview-image-type:                    The preview images.  (line   6)
+* preview-image-type:                    Basic modes of operation.
+                                                              (line  16)
 * preview-inner-environments:            The Emacs interface. (line 158)
 * preview-LaTeX-command:                 The Emacs interface. (line  11)
 * preview-LaTeX-command-replacements:    The Emacs interface. (line  25)
@@ -2639,9 +2639,9 @@ Index
 * preview-reference-face:                The Emacs interface. (line  81)
 * preview-region:                        Keys and lisp.       (line  85)
 * preview-report-bug:                    Keys and lisp.       (line 153)
-* preview-required-option-list <1>:      Simple customization.
+* preview-required-option-list <1>:      The Emacs interface. (line  35)
+* preview-required-option-list:          Simple customization.
                                                               (line  63)
-* preview-required-option-list:          The Emacs interface. (line  35)
 * preview-scale-function:                The Emacs interface. (line  80)
 * preview-section:                       Keys and lisp.       (line  80)
 * preview-transparent-border:            Keys and lisp.       (line  56)

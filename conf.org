@@ -49,6 +49,7 @@ Emacs is no more about text editing than astronomy is about telescopes
   - [[http://platypope.org/yada/emacs-demo/][emacs video demo]], with [[http://platypope.org/blog/2006/9/8/i-need-a-cool-european-accent][explanation of the features showed]]
   - [[http://snarfed.org/space/why_I_dont_run_shells_inside_Emacs][running a shell inside emacs]]
   - [[http://stackoverflow.com/questions/649000/why-emacs-vim-textmate-isnt-xcode-good-enough][why isn't xcode good enough (vs vim and emacs)]]
+  - [[http://dotfiles.org/.emacs][ultimate dotfiles repository]]
 
 * Sparse documentation 
   From newcomment.el:
@@ -1461,6 +1462,21 @@ Emacs is no more about text editing than astronomy is about telescopes
   ;;(setq org-latex-to-pdf-process '("texi2dvi -p -b -c -V %f"))
 #+end_src
 
+** Conkeror support
+   Add something like this to support capturing from conkeror
+#+begin_src emacs-lisp :tangle yes
+  ;; ;; the 'w' corresponds with the 'w' used before as in:
+  ;;   emacsclient \"org-protocol:/capture:/w/  [...]
+  ;; (setq org-capture-templates
+  ;;   '(
+  ;;      ("w" "" entry ;; 'w' for 'org-protocol'
+  ;;        (file+headline "www.org" "Notes")
+  ;;        "* %^{Title}\n\n  Source: %u, %c\n\n  %i")
+  ;;      ;; other templates
+  ;; ))
+  
+  
+#+end_src
 ** Use ebib for my wonderful references
 #+begin_src emacs-lisp :tangle yes
   ;; TODO: check if this is really useful and how to autocomplete it
@@ -2437,7 +2453,6 @@ Emacs is no more about text editing than astronomy is about telescopes
   (add-to-list 'auto-mode-alist '("\\.[tT]e[xX]\\'" . latex-mode))
   (add-to-list 'load-path (make-conf-path "auctex"))
   (autoload 'latex-mode "auctex" "latex mode" t)
-  (autoload 'preview-latex "preview-latex" "preview latex in buffer" t)
   
   (setq TeX-auto-save t)
   (setq TeX-parse-self t)
@@ -2455,15 +2470,22 @@ Emacs is no more about text editing than astronomy is about telescopes
   
 #+end_src
 
+   Enable preview mode:
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'load-path (make-conf-path "auctex/preview"))
+  ;TODO: only require when auctex is loaded maybe 
+  (require 'preview)
+#+end_src
+
 ** Accessing to latex symbols
 #+begin_src emacs-lisp :tangle yes
   (setq latex-symbols-file
-        (expand-file-name "~/howto_guide/languages/latex/symbols-a4.pdf"))
+        (expand-file-name "~/symbols-a4.pdf"))
   
   (defvar latex-command-program
     (cond
      (mac "open")
-     (linux "evince"))
+     (linux "okular"))
     "latex program to execute for viewing pdf")
   
   (defun latex-symbols ()
@@ -2826,7 +2848,7 @@ Emacs is no more about text editing than astronomy is about telescopes
         '(("freenode.net"
            "#emacs" "#erc" "#ruby-lang" 
            "#python" "#git" "#github"
-           "#c" "#c++" "#ffmpeg"
+           "#c" "#c++" "#conkeror"
            "#org-mode" "#android" "#latex"
            "#org-mode" "#postfix" "#procmail"
            "#scipy" "#haskell" "#macosx")))

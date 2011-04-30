@@ -3911,7 +3911,7 @@ Test the wisent calculator.
 
 ;;;### (autoloads (wisent-byte-compile-grammar wisent-compile-grammar
 ;;;;;;  wisent-toggle-verbose-flag) "wisent/wisent-comp" "wisent/wisent-comp.el"
-;;;;;;  (19889 24028))
+;;;;;;  (19894 36266))
 ;;; Generated autoloads from wisent/wisent-comp.el
 
 (defvar wisent-verbose-flag nil "\
@@ -4073,7 +4073,7 @@ Setup buffer for parse.
 ;;;;;;  "wisent/wisent-calc-wy.el" "wisent/wisent-cim-wy.el" "wisent/wisent-expr.el"
 ;;;;;;  "wisent/wisent-grammar-macros.el" "wisent/wisent-java-tags-wy.el"
 ;;;;;;  "wisent/wisent-java-wy.el" "wisent/wisent-java.el" "wisent/wisent-javascript-jv-wy.el"
-;;;;;;  "wisent/wisent-python-wy.el") (19891 4821 688049))
+;;;;;;  "wisent/wisent-python-wy.el") (19894 36309 380997))
 
 ;;;***
 

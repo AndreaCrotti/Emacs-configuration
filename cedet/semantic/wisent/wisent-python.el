@@ -48,7 +48,7 @@
 (defcustom semantic-python-mode-backend 'python
   "Select the used python-mode library, for example 'python, 'python-mode")
 
-(require semantic-python-mode-backend nil t)
+;; (require semantic-python-mode-backend nil t)
 
 (require 'semantic-wisent)
 (require 'wisent-python-wy)

@@ -88,6 +88,8 @@
   "Minimum version of GNU Emacs supported by CEDET.")
 (defconst cedet-xemacs-min-version "21.4"
   "Minimum version of XEmacs supported by CEDET.")
+(defconst cedet-sxemacs-min-version "22.1.12"
+  "Minimum version of SXEmacs supported by CEDET.")
 
 (defconst cedet-packages
   `(
@@ -116,7 +118,8 @@
   
   ;; Require specific Emacs versions
   (inversion-require-emacs cedet-emacs-min-version
-			   cedet-xemacs-min-version)
+			   cedet-xemacs-min-version
+			   cedet-sxemacs-min-version)
 
   ;; Go up to the parent "<INSTALL-DIR>/cedet" directory.
   (let ((default-directory (expand-file-name ".."))

@@ -35,13 +35,21 @@ if [ -s "python-components-mode.el" ];
     PYTHONMODE="python-mode.el"
 fi
 
-CCCMDS="~/emacs-23.2.94/lisp/progmodes/cc-cmds.el"
+ERG=$(echo $LOGNAME | sed 's/^s\(.*\)/m/')
+
+if [ $ERG == "m" ]; then 
+    EMACS_VERZEICHNIS="$HOME/emacs-20110426"
+else
+    EMACS_VERZEICHNIS="~/emacs-20110426"
+fi
+
+CCCMDS="${EMACS_VERZEICHNIS}/lisp/progmodes/cc-cmds.el"
 # file holding the tests
 TESTFILE="py-bug-numbered-tests.el"
 TESTFILE2="python-mode-test.el"
-EMACS="/emacs-23.2.94/src/emacs"
+EMACS="${EMACS_VERZEICHNIS}/src/emacs"
 
-$HOME/$EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'python-mode)(unload-feature 'python-mode t))" --eval "(add-to-list 'load-path \"$PDIR/\")" -load "$PDIR/$PYTHONMODE" -load "$PDIR/$TESTFILE" -load "$PDIR/$TESTFILE2" -load $CCCMDS \
+$EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'python-mode)(unload-feature 'python-mode t))" --eval "(add-to-list 'load-path \"$PDIR/\")" -load "$PDIR/$PYTHONMODE" -load "$PDIR/$TESTFILE" -load "$PDIR/$TESTFILE2" -load $CCCMDS \
 --funcall nested-dictionaries-indent-lp:328791-test \
 --funcall triple-quoted-string-dq-lp:302834-test \
 --funcall fore-00007F-breaks-indentation-lp:328788-test \
@@ -58,10 +66,10 @@ $HOME/$EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featur
 --funcall nested-indents-lp:328775-test \
 --funcall imenu-matches-in-docstring-lp:436285-test \
 --funcall exceptions-not-highlighted-lp:473525-test \
+--funcall UnicodeEncodeError-lp:550661-test \
 --funcall previous-statement-lp:637955-test \
 --funcall inbound-indentation-multiline-assignement-lp:629916-test \
 --funcall indentation-of-continuation-lines-lp:691185-test \
---funcall syntaxerror-on-py-execute-region-lp:691542-test \
 --funcall goto-beginning-of-tqs-lp:735328-test \
 --funcall class-treated-as-keyword-lp:709478-test \
 --funcall backslashed-continuation-line-indent-lp:742993-test \
@@ -72,6 +80,9 @@ $HOME/$EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featur
 --funcall multiline-listings-indent-lp:761946-test \
 --funcall new-page-char-causes-loop-lp:762498-test \
 --funcall nested-dicts-indent-lp:763756-test \
+--funcall bad-indent-after-except-lp:771289-test \
+--funcall indent-open-paren-not-last-lp:771291-test \
+--funcall wrong-indent-after-else-lp:772610-test \
 \
 --funcall py-beginning-of-block-test \
 --funcall py-end-of-block-test \
@@ -85,4 +96,5 @@ $HOME/$EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featur
 --funcall py-electric-delete-test
 
 
-
+# test not ready
+# --funcall syntaxerror-on-py-execute-region-lp:691542-test \

@@ -139,8 +139,11 @@ If optional LEFT is non-nil insert spaces on left."
 ;;;; ------------------------
 
 (defconst wisent-BITS-PER-WORD
-  (let ((i 1))
-    (while (not (zerop (lsh 1 i)))
+  (let ((i 1)
+	(do-shift (if (boundp 'most-positive-fixnum)
+		      (lambda (i) (lsh most-positive-fixnum (- i)))
+		    (lambda (i) (lsh 1 i)))))
+    (while (not (zerop (funcall do-shift i)))
       (setq i (1+ i)))
     i))
 
