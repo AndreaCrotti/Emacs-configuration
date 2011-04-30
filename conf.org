@@ -1,9 +1,7 @@
 #+OPTIONS: toc:t LEVEL:4
 
 MINIMAL EMACS CONFIGURATION
-# FIXME: ignoring the buffers is ok only if we have can then fix it
-# FIXME: add some configurations for different usage of emacs
-Emacs is no more about text editing than astronomy is about telescopes
+Emacs is no more about text editing than astronomy is about telescopes.
 
 * DONE Write a function that setups all the possible paths automatically
   CLOSED: [2010-05-04 Mar 11:41]
@@ -3117,8 +3115,8 @@ check-syntax:
     on error
       beep
     end try
-  end tell" dir))
-      ))
+  end tell" dir))))
+  
 #+end_src
 
 ** Growl popup
@@ -3175,7 +3173,8 @@ check-syntax:
     (interactive "MPort: ")
     (let ((path (substring (shell-command-to-string (format "port file %s" name)) 0 -1)))
       (if (file-exists-p path)
-          (find-file-other-window path))))
+          (find-file-root path))))
+  
 #+end_src
       
 ** Change volume on linux
