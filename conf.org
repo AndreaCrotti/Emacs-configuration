@@ -1913,6 +1913,8 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+begin_src emacs-lisp :tangle yes
   (add-to-list 'load-path (make-conf-path "ess-mirror/lisp"))
   (autoload 'R "ess-site" "loading R env" t)
+  (setq ess-directory (expand-file-name "~/"))
+  (setq ess-ask-for-ess-directory nil)
 #+end_src
 
 ** Elisp
@@ -2346,11 +2348,6 @@ Emacs is no more about text editing than astronomy is about telescopes.
                               (file-name-nondirectory buffer-file-name)))))
 #+end_src
 * Other modes
-** R mode and statistical stuff
-#+begin_src emacs-lisp :tangle yes
-  (add-to-list 'load-path (make-conf-path "ess-5.11/lisp"))
-#+end_src
-
 ** Autotools facilities
 #+begin_src emacs-lisp :tangle yes
   (defun get-autoconf-macro-definition (&optional macro)
@@ -2516,8 +2513,8 @@ Emacs is no more about text editing than astronomy is about telescopes.
 ** Correlation mode
 #+begin_src emacs-lisp :tangle yes
   (when linux
-    (setq TeX-view-program-list '(("Evince" "evince --page-index=%(outpage) %o")))
-    (setq TeX-view-program-selection '((output-pdf "Evince"))))
+    (setq TeX-view-program-list '(("Okular" "okular --page %(outpage) %o")))
+    (setq TeX-view-program-selection '((output-pdf "Okular"))))
   
   (when mac
     (setq TeX-source-correlate-method 'synctex)
