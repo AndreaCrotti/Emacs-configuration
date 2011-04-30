@@ -1,5 +1,5 @@
 .bzr
-.elc
+*.elc
 auctex
 custom.el
 conf.el
