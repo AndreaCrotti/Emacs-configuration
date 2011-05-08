@@ -1923,6 +1923,11 @@ Emacs is no more about text editing than astronomy is about telescopes.
  (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
 #+end_src
 
+** Mirah
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'auto-mode-alist '("\\.mirah$" . ruby-mode))
+#+end_src
+
 ** C-mode
    Default setting for c-style
 #+begin_src emacs-lisp :tangle yes

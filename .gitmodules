@@ -112,3 +112,6 @@
 [submodule "org-passwords"]
 	path = org-passwords
 	url = git://github.com/AndreaCrotti/org-passwords.git
+[submodule "cssh"]
+	path = cssh
+	url = git://github.com/dimitri/cssh.git
