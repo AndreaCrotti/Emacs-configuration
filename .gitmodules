@@ -115,3 +115,6 @@
 [submodule "tramp-adb"]
 	path = tramp-adb
 	url = git://github.com/juergenhoetzel/tramp-adb.git
+[submodule "cssh"]
+	path = cssh
+	url = git://github.com/dimitri/cssh.git

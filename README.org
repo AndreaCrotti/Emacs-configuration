@@ -6,6 +6,8 @@ The configuration is all in the file *miniconf.org*, github understands the form
 Or otherwise I could also create a pdf/html.
 
 I suggest for customization to use the file custom.el.
+Cloning the repository only is *not enough*, first the git submodules must fetch and a few packages need to be compiled.
+Unfortunately I don't have an always working script to do that yet.
 
 * Features
   - yasnippet
@@ -14,7 +16,6 @@ I suggest for customization to use the file custom.el.
   - python-mode
   - haskell-mode
   - org-mode & org-babel
-  - elscreen for tabs navigation
   - flymake for compilation errors directly in buffers
   - code folding and navigation via semantic in all languages supported
   - and much much more...
