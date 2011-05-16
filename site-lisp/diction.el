@@ -87,7 +87,6 @@ for diction.  Currently, only rulesets for German (de) and English
 ;; A function which guesses the buffer's language if not specified
 ;; borrowed from Jean-Philippe Theberge <jphil@godzilla.act.oda.fr>
 (defun diction-guess-buffer-language ()
-;  (interactive)
   (block xxx
     (save-excursion 
       (goto-char (point-min))

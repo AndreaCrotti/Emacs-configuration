@@ -115,3 +115,6 @@
 [submodule "cssh"]
 	path = cssh
 	url = git://github.com/dimitri/cssh.git
+[submodule "auto-dictionary-mode"]
+	path = auto-dictionary-mode
+	url = git://github.com/nschum/auto-dictionary-mode.git

@@ -1613,17 +1613,6 @@ Emacs is no more about text editing than astronomy is about telescopes.
             '(lambda ()
                (add-to-list 'ac-sources 'eclim-complete)))
 #+end_src   
-* Predictive modes
-#+begin_src emacs-lisp :tangle yes
-  (autoload 'predictive-mode "predictive" "predictive" t)
-  (set-default 'predictive-auto-add-to-dict t)
-  (setq predictive-main-dict 'dict-english
-        predictive-auto-learn t
-        predictive-add-to-dict-ask nil
-        predictive-use-auto-learn-cache nil
-        predictive-which-dict t)
-#+end_src
-   
 * Programmer tools
 ** Look for a function on google code
 #+begin_src emacs-lisp :tangle yes
@@ -1872,6 +1861,11 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+begin_src emacs-lisp :tangle yes
     (require 'gist)
 #+end_src
+
+*** Lisppast
+#+begin_src emacs-lisp :tangle yes
+ (autoload 'lisppaste "lisppaste" "lisppaste" t)
+#+end_src    
     
 ** Clojure
    Nice lisp language to work in the java virtual machine without writing java.
@@ -2353,6 +2347,13 @@ Emacs is no more about text editing than astronomy is about telescopes.
                               (file-name-nondirectory buffer-file-name)))))
 #+end_src
 * Other modes
+** Writing
+   Synonyms
+#+begin_src emacs-lisp :tangle yes
+  (autoload 'synonyms "synonyms" "thesaurus" t nil)
+  (setq synonyms-file (make-conf-path "misc/mthesaur.txt"))
+#+end_src
+
 ** Autotools facilities
 #+begin_src emacs-lisp :tangle yes
   (defun get-autoconf-macro-definition (&optional macro)
@@ -3230,7 +3231,7 @@ check-syntax:
   (global-set-key "\C-x\C-j" 'session-jump-to-last-change)
   
   ;; overriding defualt not so smart visualization
-  (global-set-key "\C-x\C-b" 'ibuffer) ;; manage buffers with ibuffer
+  (global-set-key "\C-x\C-b" 'ibuffer)
   
   ;; visualization
   (global-set-key [f11] 'full)
@@ -3263,10 +3264,14 @@ check-syntax:
     (define-key (keymap-parent local-function-key-map) [S-tab] nil)
     (global-set-key [S-tab] #'tab-to-tab-stop))
   
+  (defun ac-lock-screen ()
+    (interactive)
+    (shell-command "xlock"))
   
   (when linux
     (global-set-key (kbd "<kp-add>") 'vol-up)
-    (global-set-key (kbd "<kp-subtract>") 'vol-down))
+    (global-set-key (kbd "<kp-subtract>") 'vol-down)
+    (global-set-key [f12] 'ac-lock-screen))
   
 #+end_src
 
