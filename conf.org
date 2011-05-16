@@ -2917,6 +2917,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (require 'tramp)
   ;; this variable is needed there for some reasons
   (setq warning-suppress-types nil)
+  (require 'tramp-adb)
 #+end_src
 
 ** IDO mode
