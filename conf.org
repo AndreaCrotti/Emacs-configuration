@@ -2468,10 +2468,19 @@ Emacs is no more about text editing than astronomy is about telescopes.
   ;; enable auto-fill-mode always
   (add-hook 'LaTeX-mode-hook 'auto-fill-mode)
   
+  (defun ac-reftex-next-label ()
+    (search-forward "label"))
+  
+  (defun ac-reftex-previous-label ()
+    (search-backward "label"))
+  
   ;; set a shortcut to access to labels
   (add-hook 'LaTeX-mode-hook 
             (lambda ()
-              (local-set-key (kbd "M-.") 'reftex-goto-label)))
+              (local-set-key (kbd "M-.") 'reftex-goto-label)
+              (local-set-key (kbd "M-n") 'ac-reftex-next-label)
+              (local-set-key (kbd "M-p") 'ac-reftex-previous-label)))
+  
 #+end_src
 
    Enable preview mode:
