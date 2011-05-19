@@ -2480,7 +2480,6 @@ Emacs is no more about text editing than astronomy is about telescopes.
               (local-set-key (kbd "M-.") 'reftex-goto-label)
               (local-set-key (kbd "M-n") 'ac-reftex-next-label)
               (local-set-key (kbd "M-p") 'ac-reftex-previous-label)))
-  
 #+end_src
 
    Enable preview mode:
@@ -3286,6 +3285,18 @@ check-syntax:
     (global-set-key (kbd "<kp-subtract>") 'vol-down)
     (global-set-key [f12] 'ac-lock-screen))
   
+  (setq ac-issue-regexp "\\(FIXME\\|TODO\\)")
+  
+  (defun ac-next-issue ()
+    (interactive)
+    (re-search-forward ac-issue-regexp))
+  
+  (defun ac-previous-issue ()
+    (interactive)
+    (re-search-backward ac-issue-regexp))
+  
+  (global-set-key (kbd "C-M-n") 'ac-next-issue)
+  (global-set-key (kbd "C-M-p") 'ac-previous-issue)
 #+end_src
 
 * External configuration files
