@@ -279,8 +279,8 @@ Emacs is no more about text editing than astronomy is about telescopes.
     ;; narrows to the actual function or class analyzed
     ;; C-x n w to widen again
     (local-set-key "\C-xnn" 'semantic-narrow-to-tag)
-    (local-set-key "\M-." 'semantic-complete-jump)
-    (local-set-key "\M-?" 'semantic-ia-fast-jump))
+    (local-set-key (kbd "M-.") 'semantic-complete-jump)
+    (local-set-key (kbd "M-?") 'semantic-ia-fast-jump))
 #+end_src
 
 *** Make a script executable
@@ -2468,6 +2468,10 @@ Emacs is no more about text editing than astronomy is about telescopes.
   ;; enable auto-fill-mode always
   (add-hook 'LaTeX-mode-hook 'auto-fill-mode)
   
+  ;; set a shortcut to access to labels
+  (add-hook 'LaTeX-mode-hook 
+            (lambda ()
+              (local-set-key (kbd "M-.") 'reftex-goto-label)))
 #+end_src
 
    Enable preview mode:
