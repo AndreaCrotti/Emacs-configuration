@@ -1206,14 +1206,13 @@ Emacs is no more about text editing than astronomy is about telescopes.
 *** Spelling functions
 # TODO: make it easier to manage and to scroll through lists of possibilities
 #+begin_src emacs-lisp :tangle yes
-  (setq ispell-dictionary "english")
-  
+  (setq ispell-dictionary "american")
   
   ;; TODO: possible to refactor this code maybe?
   (defun en ()
     "Check spelling in english"
      (interactive)
-    (ispell-change-dictionary "english")
+    (ispell-change-dictionary "american")
     (flyspell-mode t))
   
   (defun it ()
