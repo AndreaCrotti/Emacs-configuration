@@ -2469,9 +2469,11 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (add-hook 'LaTeX-mode-hook 'auto-fill-mode)
   
   (defun ac-reftex-next-label ()
+    (interactive)
     (search-forward "label"))
   
   (defun ac-reftex-previous-label ()
+    (interactive)
     (search-backward "label"))
   
   ;; set a shortcut to access to labels
