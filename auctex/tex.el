@@ -61,6 +61,11 @@
 ;; The following variables are likely to need to be changed for your
 ;; site.  You should do this with customize.
 
+(defcustom TeX-remap-compile-command nil
+  "If true the next-error command is remapped"
+  :group 'TeX-misc
+  :type 'boolean)
+
 (defcustom TeX-command "tex"
   "Command to run plain TeX."
   :group 'TeX-command
@@ -4063,15 +4068,16 @@ Brace insertion is only done if point is in a math construct and
     (define-key map "\C-c\C-l" 'TeX-recenter-output-buffer)
     (define-key map "\C-c^" 'TeX-home-buffer)
     (define-key map "\C-c`"    'TeX-next-error)
-    ;; Remap bindings of `next-error'
-    (if (featurep 'xemacs)
-	(substitute-key-definition 'next-error 'TeX-next-error map global-map)
-      (define-key map [remap next-error] 'TeX-next-error))
-    ;; Remap bindings of `previous-error'
-    (if (featurep 'xemacs)
-	(substitute-key-definition 'previous-error 'TeX-previous-error
-				   map global-map)
-      (define-key map [remap previous-error] 'TeX-previous-error))
+    (when TeX-remap-compile-command
+      ;; Remap bindings of `next-error'
+      (if (featurep 'xemacs)
+          (substitute-key-definition 'next-error 'TeX-next-error map global-map)
+        (define-key map [remap next-error] 'TeX-next-error))
+      ;; Remap bindings of `previous-error'
+      (if (featurep 'xemacs)
+          (substitute-key-definition 'previous-error 'TeX-previous-error
+                                     map global-map)
+        (define-key map [remap previous-error] 'TeX-previous-error)))
     ;; From tex-fold.el
     (define-key map "\C-c\C-o\C-f" 'TeX-fold-mode)
 
