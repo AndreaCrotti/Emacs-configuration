@@ -2346,6 +2346,16 @@ Emacs is no more about text editing than astronomy is about telescopes.
                               (file-name-nondirectory buffer-file-name)))))
 #+end_src
 * Other modes
+** PDF and office documents
+#+begin_src emacs-lisp :tangle yes
+  (defun ac-doc-view-if-pdf ()
+    "Open pdf with doc-view"
+    (when (string-match "pdf" (buffer-file-name))
+      (doc-view (buffer-file-name))))
+  
+  (require 'doc-view)
+#+end_src
+
 ** Writing
    Synonyms
 #+begin_src emacs-lisp :tangle yes
@@ -3297,8 +3307,8 @@ check-syntax:
     (interactive)
     (re-search-backward ac-issue-regexp))
   
-  (global-set-key (kbd "C-M-n") 'ac-next-issue)
-  (global-set-key (kbd "C-M-p") 'ac-previous-issue)
+  (global-set-key (kbd "C-M-n") 'fixme-next)
+  (global-set-key (kbd "C-M-p") 'fixme-prev)
 #+end_src
 
 * External configuration files
