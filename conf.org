@@ -3267,13 +3267,7 @@ check-syntax:
   ;; visualization
   (global-set-key [f11] 'full)
   
-  ;; window management keys
-  (defun sensibly ()
-    "split sensibly the selected window"
-    (interactive)
-    (split-window-sensibly (selected-window)))
-  
-  (global-set-key [f2] 'sensibly)
+  (global-set-key [f2] 'split-window-sensibly)
   (global-set-key [f1] 'delete-window)
   
   (global-set-key (kbd "<C-f9>") 'cycle-font)
@@ -3302,18 +3296,9 @@ check-syntax:
     (global-set-key (kbd "<kp-subtract>") 'vol-down)
     (global-set-key [f12] 'ac-lock-screen))
   
-  (setq ac-issue-regexp "\\(FIXME\\|TODO\\)")
-  
-  (defun ac-next-issue ()
-    (interactive)
-    (re-search-forward ac-issue-regexp))
-  
-  (defun ac-previous-issue ()
-    (interactive)
-    (re-search-backward ac-issue-regexp))
-  
   (global-set-key (kbd "C-M-n") 'fixme-next)
   (global-set-key (kbd "C-M-p") 'fixme-prev)
+  
 #+end_src
 
 * External configuration files
