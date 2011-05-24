@@ -2539,6 +2539,13 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (add-to-list 'org-export-latex-packages-alist '("" "color"))
 #+end_src
 
+** Browsing papers
+#+begin_src emacs-lisp :tangle yes
+  (add-hook 'LaTeX-mode-hook 
+            (lambda ()
+              (local-set-key [f7] 'browse-paper-at-point)))
+#+end_src
+
 ** Correlation mode
 #+begin_src emacs-lisp :tangle yes
   (when linux
@@ -3276,8 +3283,6 @@ check-syntax:
   
   
   (global-set-key [(meta shift l)] 'select-line)
-  
-  (global-set-key [f7] 'browse-paper-at-point)
   
   (global-set-key (kbd "M-z") 'undo)
   ;; from here
