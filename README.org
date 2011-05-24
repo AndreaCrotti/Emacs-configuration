@@ -1,13 +1,14 @@
 #+OPTIONS: toc:nil num:nil
 Emacs configuration
 *WARNING*:
-Changing code in miniconf.el will have no effect, since at next restart it will be overwritten.
-The configuration is all in the file *miniconf.org*, github understands the format but not completely, so I suggest to read it via emacs.
-Or otherwise I could also create a pdf/html.
 
-I suggest for customization to use the file custom.el.
-Cloning the repository only is *not enough*, first the git submodules must fetch and a few packages need to be compiled.
-Unfortunately I don't have an always working script to do that yet.
+Changing code in conf.el will have no effect, since at next restart it
+will be overwritten.  The configuration is all in the file *conf.org*,
+github understands the format but not completely, so I suggest to read
+it within emacs.
+
+Cloning the repository only is *not enough*, because some of the
+submodules are required and some need also to be compiled.
 
 * Features
   - yasnippet
@@ -23,26 +24,23 @@ Unfortunately I don't have an always working script to do that yet.
 * Usage
   To try it out:
   - git clone git://github.com/AndreaCrotti/Emacs-configuration.git
+  - git submodule update --init
+    (This could take a long time)
   - create an empty "custom.el" where you cloned the repository
   - Create or modify your *.emacs* in your $HOME with the following:
     - (setq base "/your/path")
     - (load-file (concat base "orgloader.el"))
-  - run in the same directory *git submodule update --init*
-    This could take a long time, but only the first time
 
-  Some modes imported in this way might need to be compiled first, for example
+  Some modes imported in this way might need to be compiled first, for example:
   - doxymacs
   - auctex
   - org-mode
+  - gnus
 
-  Most of them can be compiled but it's not necessary, check the instructions in the README/INSTALL files in the appropriate paths
-
-  To customize I suggest to use M-x customize (will write on your custom file) or write your own setqs in the custom.el file.
-  
-** Your own settings
-   If you want to add some personal settings you can
-   - modify directly this file
-   - add them to custom.el
+  Most of them can be compiled but it's not necessary, check the
+  instructions in the README/INSTALL files in the appropriate paths
+  To customize I suggest to use M-x customize (will write on your
+  custom file) or write your own setqs in the custom.el file.
 
 * Where you can get emacs 23:
 ** OSX:
