@@ -20,7 +20,6 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 * TODO See how to use variables like *special-buffer-regexps* to have a better control over the buffer windows
 * TODO Build an automatic list of versions of the packages
-* TODO Check out what dictem is from this conf [[file:~/bash_conf/emacs.org][other guy emacs.org]]
 
 * Links
   - [[http://www.gnu.org/software/emacs/tour/][A guided tour of emacs features]]
@@ -548,84 +547,6 @@ Emacs is no more about text editing than astronomy is about telescopes.
     (dired-do-query-replace-regexp from to))
 #+end_src 
 
-*** Camelizing
-    (un)Camelizing allows to convert quickly function/variables names from camelized to non camelized mode.
-
-#+begin_src emacs-lisp :tangle yes
-  (defun mapcar-head (fn-head fn-rest list)
-    "Like MAPCAR, but applies a different function to the first element."
-    (if list
-        (cons (funcall fn-head (car list)) (mapcar fn-rest (cdr list)))))
-  
-  (defun camelize (s)
-    "Convert under_score string S to CamelCase string."
-    (mapconcat 'identity (mapcar
-                          '(lambda (word) (capitalize (downcase word)))
-                          (split-string s "_")) ""))
-  
-  (defun camelize-method (s)
-    "Convert under_score string S to camelCase string."
-    (mapconcat 'identity (mapcar-head
-                          '(lambda (word) (downcase word))
-                          '(lambda (word) (capitalize (downcase word)))
-                          (split-string s "_")) ""))
-  
-  (defun un-camelcase-string (s &optional sep start)
-    "Convert CamelCase string S to lower case with word separator SEP.
-      Default for SEP is a hyphen \"-\".
-      If third argument START is non-nil, convert words after that
-      index in STRING."
-    (let ((case-fold-search nil))
-      (while (string-match "[A-Z]" s (or start 1))
-        (setq s (replace-match (concat (or sep "-") 
-                                       (downcase (match-string 0 s))) 
-                               t nil s)))
-      (downcase s)))
-  
-  (defun manipulate-matched-text (fn)
-    (let (matchedText newText)
-      (setq matchedText
-            (buffer-substring
-             (match-beginning 0) (match-end 0)))
-      (setq newText
-            (apply 'fn match-end))
-      newText))
-  
-  ; TODO: use the more general manipulation
-  (defun uncamel ()
-    (let (matchedText newText)
-      (setq matchedText
-            (buffer-substring
-             (match-beginning 0) (match-end 0)))
-      (setq newText
-            (un-camelcase-string matchedText "_"))
-      newText))
-  
-    ;; (manipulate-matched-text 'un-camelcase-string))
-    ;; "use this function with query-replace-regexp"
-#+end_src
-
-    For example the above functions might be very useful to convert an entire project from camelcase to non camelcase.
-    
-    - Open dired
-    - mark the files you want
-    - "Q" RET [a-z]+?[A-Z] RET \,(uncamel)
-    
-    And the fun begins
-
-    We also have [[http://www.eecs.ucf.edu/~leavens/emacs/camelCase/camelCase-mode.html][camel case mode]] which makes moving in camelized words smarter
-#+begin_src emacs-lisp :tangle yes
-  ;; TODO: with emacs23 is sufficient to enable subword-mode probably
-  (autoload 'camelCase-mode "camelCase-mode")
-  (defcustom camelCase-modes
-    '(python-mode-hook java-mode-hook c-mode-common-hook nesc-mode-hook)
-    "Modes where camelizing is allowed"
-    :type 'list)
-  
-  (dolist (hook camelCase-modes)
-    (add-hook hook 'camelCase-mode))
-#+end_src
-
 *** Find project
     This functions are take from textmate.el and are used to check if we're on a project of some kind.
     Not used at the moment.
@@ -804,6 +725,111 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (defun reload-conf ()
     (interactive)
     (org-babel-load-file (make-conf-path "conf.org")))
+#+end_src
+
+* Text manipulation
+** Unfill paragraph
+#+begin_src emacs-lisp :tangle yes
+  ;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph    
+  (defun unfill-paragraph ()
+    "Takes a multi-line paragraph and makes it into a single line of text."
+    (interactive)
+    (let ((fill-column (point-max)))
+      (fill-paragraph nil)))
+  
+  ;; You can convert an entire buffer from paragraphs to lines by
+  ;; recording a macro that calls ‘unfill-paragraph’ and moves past the
+  ;; blank-line to the next unfilled paragraph and then executing that
+  ;; macro on the whole buffer, ‘C-u 0 C-x e’ (see
+  ;; InfiniteArgument). Or, use unfill-region, below.
+  
+  (defun unfill-region ()
+    (interactive)
+    (let ((fill-column (point-max)))
+      (fill-region (region-beginning) (region-end) nil)))
+  
+  ;; Handy key definitions
+  (define-key global-map "\M-Q" 'unfill-paragraph)
+  (define-key global-map "\M-\C-q" 'unfill-region)
+  
+#+end_src
+
+** Camelizing
+    (un)Camelizing allows to convert quickly function/variables names from camelized to non camelized mode.
+
+#+begin_src emacs-lisp :tangle yes
+  (defun mapcar-head (fn-head fn-rest list)
+    "Like MAPCAR, but applies a different function to the first element."
+    (if list
+        (cons (funcall fn-head (car list)) (mapcar fn-rest (cdr list)))))
+  
+  (defun camelize (s)
+    "Convert under_score string S to CamelCase string."
+    (mapconcat 'identity (mapcar
+                          '(lambda (word) (capitalize (downcase word)))
+                          (split-string s "_")) ""))
+  
+  (defun camelize-method (s)
+    "Convert under_score string S to camelCase string."
+    (mapconcat 'identity (mapcar-head
+                          '(lambda (word) (downcase word))
+                          '(lambda (word) (capitalize (downcase word)))
+                          (split-string s "_")) ""))
+  
+  (defun un-camelcase-string (s &optional sep start)
+    "Convert CamelCase string S to lower case with word separator SEP.
+      Default for SEP is a hyphen \"-\".
+      If third argument START is non-nil, convert words after that
+      index in STRING."
+    (let ((case-fold-search nil))
+      (while (string-match "[A-Z]" s (or start 1))
+        (setq s (replace-match (concat (or sep "-") 
+                                       (downcase (match-string 0 s))) 
+                               t nil s)))
+      (downcase s)))
+  
+  (defun manipulate-matched-text (fn)
+    (let (matchedText newText)
+      (setq matchedText
+            (buffer-substring
+             (match-beginning 0) (match-end 0)))
+      (setq newText
+            (apply 'fn match-end))
+      newText))
+  
+  ; TODO: use the more general manipulation
+  (defun uncamel ()
+    (let (matchedText newText)
+      (setq matchedText
+            (buffer-substring
+             (match-beginning 0) (match-end 0)))
+      (setq newText
+            (un-camelcase-string matchedText "_"))
+      newText))
+  
+    ;; (manipulate-matched-text 'un-camelcase-string))
+    ;; "use this function with query-replace-regexp"
+#+end_src
+
+    For example the above functions might be very useful to convert an entire project from camelcase to non camelcase.
+    
+    - Open dired
+    - mark the files you want
+    - "Q" RET [a-z]+?[A-Z] RET \,(uncamel)
+    
+    And the fun begins
+
+    We also have [[http://www.eecs.ucf.edu/~leavens/emacs/camelCase/camelCase-mode.html][camel case mode]] which makes moving in camelized words smarter
+#+begin_src emacs-lisp :tangle yes
+  ;; TODO: with emacs23 is sufficient to enable subword-mode probably
+  (autoload 'camelCase-mode "camelCase-mode")
+  (defcustom camelCase-modes
+    '(python-mode-hook java-mode-hook c-mode-common-hook nesc-mode-hook)
+    "Modes where camelizing is allowed"
+    :type 'list)
+  
+  (dolist (hook camelCase-modes)
+    (add-hook hook 'camelCase-mode))
 #+end_src
 
 * Operating system detection
@@ -2837,6 +2863,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (setq gnus-thread-hide-subtree 'gnus-article-unread-p)
 #+end_src
 
+# TODO: move this to a more private file, and maybe filter it out
 *** Posting styles
 #+begin_src emacs-lisp :tangle yes
   (setq gnus-posting-styles
