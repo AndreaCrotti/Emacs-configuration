@@ -1,6 +1,6 @@
 #+OPTIONS: toc:t LEVEL:4
 
-MINIMAL EMACS CONFIGURATION
+My personal Emacs configuration
 Emacs is no more about text editing than astronomy is about telescopes.
 
 * DONE Write a function that setups all the possible paths automatically
@@ -2486,6 +2486,24 @@ Emacs is no more about text editing than astronomy is about telescopes.
 ;  (add-to-list 'auto-mode-alist '("conf" . conf-mode))
 ;  (add-to-list 'auto-mode-alist '(".*?rc$" . conf-mode))
 #+end_src
+
+** Conf mode
+#+begin_src emacs-lisp :tangle yes
+  (setq ac-conf-section-regexp "\\[.*\\]")
+  
+  (defun ac-next-conf-section ()
+    (interactive)
+    (re-search-forward ac-conf-section-regexp))
+  
+  (defun ac-prev-conf-section ()
+    (interactive)
+    (re-search-backward ac-conf-section-regexp))
+  
+  (add-hook 'conf-unix-mode-hook '(lambda ()
+                                    (local-set-key (kbd "M-n") 'ac-next-conf-section)
+                                    (local-set-key (kbd "M-p") 'ac-prev-conf-section)))
+#+end_src
+
 * Gpg and keys
   See on [[http://www.emacswiki.org/emacs/AutoEncryption][autoencryption article]] for more information
 #+begin_src emacs-lisp :tangle yes
