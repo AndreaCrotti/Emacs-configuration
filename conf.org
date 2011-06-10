@@ -755,7 +755,8 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Camelizing
-    (un)Camelizing allows to convert quickly function/variables names from camelized to non camelized mode.
+    (un)Camelizing allows to convert quickly function/variables names
+    from camelized to non camelized mode.
 
 #+begin_src emacs-lisp :tangle yes
   (defun mapcar-head (fn-head fn-rest list)
@@ -820,6 +821,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
     And the fun begins
 
     We also have [[http://www.eecs.ucf.edu/~leavens/emacs/camelCase/camelCase-mode.html][camel case mode]] which makes moving in camelized words smarter
+
 #+begin_src emacs-lisp :tangle yes
   ;; TODO: with emacs23 is sufficient to enable subword-mode probably
   (autoload 'camelCase-mode "camelCase-mode")
@@ -1287,7 +1289,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
              dictionary-default-dictionary))))
 #+end_src
 
-* Org mode
+* [[http://orgmode.org/][Org mode]]
 ** Exporting org entries to ical
 #+begin_src emacs-lisp :tangle yes
   ;; from http://orgmode.org/worg/org-tutorials/org-google-sync.html#sec-3
@@ -1528,7 +1530,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
    (setq org-footnote-tag-for-non-org-mode-files "*-*-*-*-*-*-*-*-*-*")
 #+end_src
 
-* Conkeror support
+* [[http://conkeror.org/][Conkeror]] support
 #+begin_src emacs-lisp :tangle yes
   (setq conkeror-file-path "~/scripts/conkeror")
   
@@ -1629,7 +1631,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
   
 #+end_src
 
-* Auto complete
+* [[http://cx4a.org/software/auto-complete/][Auto complete]]
 ** Importing all packages
 # TODO: add the semantic auto-completion to all modes which use it
    
@@ -2105,32 +2107,49 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 *** Enable pymacs and ropemacs
 #+begin_src emacs-lisp :tangle yes
-    ;; Initialize Pymacs                                                                                           
-    (autoload 'pymacs-apply "pymacs")
-    (autoload 'pymacs-call "pymacs")
-    (autoload 'pymacs-eval "pymacs" nil t)
-    (autoload 'pymacs-exec "pymacs" nil t)
-    (autoload 'pymacs-load "pymacs" nil t)
-    ;; Initialize Rope                                                                                             
+  ;; Initialize Pymacs                                                                                           
+  (autoload 'pymacs-apply "pymacs")
+  (autoload 'pymacs-call "pymacs")
+  (autoload 'pymacs-eval "pymacs" nil t)
+  (autoload 'pymacs-exec "pymacs" nil t)
+  (autoload 'pymacs-load "pymacs" nil t)
+  ;; Initialize Rope                                                                                             
+  ; Not used now until it we find a way to make it work correctly 
   ;;  (pymacs-load "ropemacs" "rope-")
-    (setq ropemacs-enable-autoimport t)
-    
-    ;; now add the source rope
-    ;; (add-hook 'python-mode-hook 
-    ;;           (lambda ()
-    ;;             (set (make-local-variable 'ac-sources)
-    ;;                  (append ac-sources '(ac-source-ropemacs))
-    ;; )))
-    
-    ;; (defun my-insert-dot-and-complete (arg)
-    ;;   (interactive "p")
-    ;;   (self-insert-command arg)
-    ;;   (rope-code-assist (py-symbol-near-point))
-    ;;   )
-    
-    ;; (add-hook 'python-mode-hook
-    ;;           (lambda () 
-    ;;             (local-set-key "." 'my-insert-dot-and-complete)))
+  (setq ropemacs-enable-autoimport t)
+  
+  ;; now add the source rope
+  ;; (add-hook 'python-mode-hook 
+  ;;           (lambda ()
+  ;;             (set (make-local-variable 'ac-sources)
+  ;;                  (append ac-sources '(ac-source-ropemacs))
+  ;; )))
+  
+  ;; (defun my-insert-dot-and-complete (arg)
+  ;;   (interactive "p")
+  ;;   (self-insert-command arg)
+  ;;   (rope-code-assist (py-symbol-near-point))
+  ;;   )
+  
+  ;; (add-hook 'python-mode-hook
+  ;;           (lambda () 
+  ;;             (local-set-key "." 'my-insert-dot-and-complete)))
+  
+#+end_src
+
+*** Useful functions
+#+begin_src emacs-lisp :tangle yes
+  (defun ac-python-remove-pdb ()
+    "Remove the pdb tracking lines"
+    (interactive)
+    (save-excursion
+      (goto-char (point-min))
+      (delete-matching-lines "import pdb")))
+  
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (local-set-key (kbd "M-D") 'ac-python-remove-pdb)))
+  
 #+end_src
 
 ** Haskell mode
