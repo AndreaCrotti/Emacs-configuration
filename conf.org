@@ -1514,6 +1514,13 @@ Emacs is no more about text editing than astronomy is about telescopes.
                                ("~/org/someday.org" :level . 2))))
 #+end_src
 
+** Agenda configuration
+#+begin_src emacs-lisp :tangle yes
+  ; open in another window and restore the configuration on closing
+  (setq org-agenda-window-setup 'other-window)
+  (setq org-agenda-restore-windows-after-quit t)
+#+end_src
+
 ** Org functionalities in other modes
 #+begin_src emacs-lisp :tangle yes
   (setq org-struct-hooks
