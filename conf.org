@@ -17,9 +17,11 @@ Emacs is no more about text editing than astronomy is about telescopes.
   CLOSED: [2011-04-12 Tue 14:03]
   - CLOSING NOTE [2011-04-12 Tue 14:03] \\
     using gnupg already to manage it
+* REJECTED Build an automatic list of versions of the packages
+  CLOSED: [2011-06-21 Mar 15:21]
+  - CLOSING NOTE [2011-06-21 Mar 15:22]
 
 * TODO See how to use variables like *special-buffer-regexps* to have a better control over the buffer windows
-* TODO Build an automatic list of versions of the packages
 
 * Links
   - [[http://www.gnu.org/software/emacs/tour/][A guided tour of emacs features]]
@@ -225,6 +227,9 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (defalias 'pd 'print-desktop)
   (defalias 'dcd 'desktop-change-dir)
   (defalias 'gcb 'git-change-branch)
+  
+  (defalias 'git-add-file 'ga)  
+  
 #+end_src   
 
 * Preliminary settings
@@ -497,6 +502,12 @@ Emacs is no more about text editing than astronomy is about telescopes.
           (string-match "fatal" result)
           nil
         (split-string result))))
+  
+  (defun git-add-file ()
+    "Add current file to repository"
+    (interactive)
+    (shell-command (format "git add %s" (buffer-file-name))))
+  
 #+end_src
 
 *** Run git grep and see the results
@@ -2168,6 +2179,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
   
   (autoload 'inf-haskell "inf-haskell" "inf-haskell" t)
   (autoload 'hs-lint "hs-lint" "haskell checker" t)
+  (autoload 'run-haskell "inf-haskell" "inferior haskell" t)
   
   ;; here some haskell variables
   (setq haskell-doc-show-global-types t)
@@ -2193,8 +2205,8 @@ Emacs is no more about text editing than astronomy is about telescopes.
                (make-variable-buffer-local 'yas/trigger-key)
                (setq yas/trigger-key [tab])
                (define-key yas/keymap [tab] 'yas/next-field)
-               (add-to-list 'ac-sources 'my/ac-source-haskell)
-               ))
+               (add-to-list 'ac-sources 'my/ac-source-haskell)))
+  
 #+end_src
 
 ** Prolog
@@ -2341,7 +2353,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+begin_src emacs-lisp :tangle yes
    (setq inferior-lisp-program "sbcl")
    (require 'slime)
-   (slime-setup)
+   (slime-setup '(slime-fancy))
 #+end_src
 
 ** Web programming
@@ -2677,12 +2689,15 @@ Emacs is no more about text editing than astronomy is about telescopes.
     (setq TeX-view-program-selection '((output-pdf "Okular"))))
   
   (when mac
+    (setq TeX-view-program-list '(("open" "open %o")))
+    (setq TeX-view-program-selection '((output-pdf "open")))
     (setq TeX-source-correlate-method 'synctex)
     (setq LaTeX-command "latex -synctex=1"))
   
   (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
   
   (setq Tex-source-correlate-start-server t)
+  
 #+end_src
 
 ** Bibtex and open files
