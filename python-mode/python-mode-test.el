@@ -149,7 +149,7 @@
   (py-bug-tests-intern 'py-beginning-of-def-or-class-base arg teststring)))
 
 (defun py-beginning-of-def-or-class-base ()
-  (py-beginning-of-def-or-class t)
+  (py-beginning-of-def-or-class 4)
   (assert (eq (point) 1) nil "py-beginning-of-def-or-class test failed"))
 
 (defun py-end-of-def-or-class-test (&optional arg load-branch-function)
@@ -196,6 +196,26 @@
   (py-electric-delete)
   (assert (looking-at "ict") nil "py-electric-delete test #2 failed")
   )
+
+(defun UnicodeEncodeError-python3 (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python3
+# -\*- coding: utf-8 -\*-\n
+print('\\xA9')"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'UnicodeEncodeError-python3-base arg teststring)))
+
+(defun UnicodeEncodeError-python3-base ()
+    (goto-char 50)
+    (push-mark)
+    (end-of-line)
+    (py-choose-shell)
+    (py-execute-region (line-beginning-position) (point))
+    (when (looking-back comint-prompt-regexp)
+      (goto-char (1- (match-beginning 0))))
+    (sit-for 0.1)
+    (assert (looking-back "©") nil "UnicodeEncodeError-python3 test failed"))
+
 
 
 (provide 'python-mode-test)

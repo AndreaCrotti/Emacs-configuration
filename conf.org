@@ -233,14 +233,11 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src   
 
 * Preliminary settings
-** Provide the library
-#+begin_src emacs-lisp :tangle yes
-  (provide 'miniconf)
-#+end_src
-
 ** Custom settings
 #+begin_src emacs-lisp :tangle yes
+  ; TODO: don't use concat for paths, make everything more reliable
   (setq custom-file (concat base "custom.el"))
+  
 #+end_src
 
 ** Constants and some global settings

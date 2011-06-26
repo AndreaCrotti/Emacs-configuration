@@ -83,6 +83,15 @@ $EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'py
 --funcall bad-indent-after-except-lp:771289-test \
 --funcall indent-open-paren-not-last-lp:771291-test \
 --funcall wrong-indent-after-else-lp:772610-test \
+--funcall except-indents-wrong-lp:784432-test \
+--funcall indent-explicitly-set-in-multiline-tqs-lp:784225-test \
+--funcall unbalanced-parentheses-lp:784645-test \
+--funcall explicitly-indent-in-list-lp:785018-test \
+--funcall explicit-backslashed-continuation-line-indent-lp:785091-test \
+--funcall indentation-error-lp:795773-test \
+--funcall class-highlighted-as-keywords-lp:798287-test \
+--funcall indent-function-arglist-lp:800088-test \
+--funcall python-mode-hangs-lp:801780-test \
 \
 --funcall py-beginning-of-block-test \
 --funcall py-end-of-block-test \
@@ -93,8 +102,11 @@ $EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'py
 --funcall py-beginning-of-def-or-class-test \
 --funcall py-end-of-def-or-class-test \
 --funcall py-electric-backspace-test \
---funcall py-electric-delete-test
-
+--funcall py-electric-delete-test \
+--funcall UnicodeEncodeError-python3
 
 # test not ready
+# passes only when run from edebug
+# assistance appreciated
+
 # --funcall syntaxerror-on-py-execute-region-lp:691542-test \
