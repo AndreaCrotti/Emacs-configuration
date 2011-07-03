@@ -75,6 +75,9 @@
          'indentation-error-lp:795773-test
          'indent-function-arglist-lp:800088-test
          'python-mode-hangs-lp:801780-test
+         'stops-backslashed-line-lp:802504-test
+         'stops-backslashed-line-lp:802504-test2
+         'python-mode-slow-lp:803275-test
 
          )))
 
@@ -235,7 +238,7 @@ If no `load-branch-function' is specified, make sure the appropriate branch is l
 
 (defun py-current-defun-lp:328846-base ()
   (goto-char 331)
-  (assert (string= "OrderedDict1" (py-current-defun)) nil "py-current-defun-lp:328846 test failed"))
+  (assert (string= "f" (py-current-defun)) nil "py-current-defun-lp:328846 test failed"))
 
 (defun cls-pseudo-keyword-lp:328849-test (&optional arg load-branch-function)
   (interactive "p")
@@ -1125,5 +1128,218 @@ def pushrevvalues(self, n, values_w): # n should be len(values_w)
 (defun python-mode-hangs-lp:801780-base ()
     (assert (eq 18 (py-beginning-of-def-or-class)) nil "python-mode-hangs-lp:801780 test failed"))
 
+(defun stops-backslashed-line-lp:802504-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+if bar == 1 or bar == 2 or bar == 3 or bar == 4 or bar == 5 or bar == 6 or bar == 7 \\
+  or bar == 8 or bar == 9 or bar == 10 or bar == 11 or bar == 12 or bar == 13 \\
+  or bar == 14 or bar == 15 or bar == 16 or bar == 17 or bar == 18:
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'stops-backslashed-line-lp:802504-base arg teststring)))
+
+(defun stops-backslashed-line-lp:802504-base ()
+    (goto-char 49)
+    (assert (eq 282 (py-end-of-statement)) nil "stops-backslashed-line-lp:802504 test failed"))
+
+(defun stops-backslashed-line-lp:802504-test2 (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+if x>1 and x<100 and y>1 and y<200:
+  if bar == 1 or bar == 2 or bar == 3 or bar == 4 or bar == 5 or bar == 6 or bar == 7 \\
+  or bar == 8 or bar == 9 or bar == 10 or bar == 11 or bar == 12 or bar == 13 or \\
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'stops-backslashed-line2-lp:802504-base arg teststring)))
+
+(defun stops-backslashed-line2-lp:802504-base ()
+    (assert (eq 87 (py-beginning-of-statement)) nil "stops-backslashed-line-lp:802504 test failed"))
+
+(defun python-mode-slow-lp:803275-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "# commands.py - command processing for mercurial
+#
+# Copyright 2005-2007 Matt Mackall <mpm@selenic.com>
+#
+# This software may be used and distributed according to the terms of the
+# GNU General Public License version 2 or any later version.
+
+from node import hex, bin, nullid, nullrev, short
+from lock import release
+from i18n import _, gettext
+import os, re, difflib, time, tempfile, errno
+import hg, scmutil, util, revlog, extensions, copies, error, bookmarks
+import patch, help, url, encoding, templatekw, discovery
+import archival, changegroup, cmdutil, hbisect
+import sshserver, hgweb, hgweb.server, commandserver
+import merge as mergemod
+import minirst, revset, fileset
+import dagparser, context, simplemerge
+import random, setdiscovery, treediscovery, dagutil
+
+table = {}
+
+command = cmdutil.command(table)
+
+# common command options
+
+globalopts = [
+    ('R', 'repository', '',
+     _('repository root directory or name of overlay bundle file'),
+     _('REPO')),
+    ('', 'cwd', '',
+     _('change working directory'), _('DIR')),
+    ('y', 'noninteractive', None,
+     _('do not prompt, assume \\'yes\\' for any required answers')),
+    ('q', 'quiet', None, _('suppress output')),
+    ('v', 'verbose', None, _('enable additional output')),
+    ('', 'config', [],
+     _('set/override config option (use \\'section.name=value\\')'),
+     _('CONFIG')),
+    ('', 'debug', None, _('enable debugging output')),
+    ('', 'debugger', None, _('start debugger')),
+    ('', 'encoding', encoding.encoding, _('set the charset encoding'),
+     _('ENCODE')),
+    ('', 'encodingmode', encoding.encodingmode,
+     _('set the charset encoding mode'), _('MODE')),
+    ('', 'traceback', None, _('always print a traceback on exception')),
+    ('', 'time', None, _('time how long the command takes')),
+    ('', 'profile', None, _('print command execution profile')),
+    ('', 'version', None, _('output version information and exit')),
+    ('h', 'help', None, _('display help and exit')),
+]
+
+dryrunopts = [('n', 'dry-run', None,
+               _('do not perform actions, just print output'))]
+
+remoteopts = [
+    ('e', 'ssh', '',
+     _('specify ssh command to use'), _('CMD')),
+    ('', 'remotecmd', '',
+     _('specify hg command to run on the remote side'), _('CMD')),
+    ('', 'insecure', None,
+     _('do not verify server certificate (ignoring web.cacerts config)')),
+]
+
+walkopts = [
+    ('I', 'include', [],
+     _('include names matching the given patterns'), _('PATTERN')),
+    ('X', 'exclude', [],
+     _('exclude names matching the given patterns'), _('PATTERN')),
+]
+
+commitopts = [
+    ('m', 'message', '',
+     _('use text as commit message'), _('TEXT')),
+    ('l', 'logfile', '',
+     _('read commit message from file'), _('FILE')),
+]
+
+commitopts2 = [
+    ('d', 'date', '',
+     _('record the specified date as commit date'), _('DATE')),
+    ('u', 'user', '',
+     _('record the specified user as committer'), _('USER')),
+]
+
+templateopts = [
+    ('', 'style', '',
+     _('display using template map file'), _('STYLE')),
+    ('', 'template', '',
+     _('display with template'), _('TEMPLATE')),
+]
+
+logopts = [
+    ('p', 'patch', None, _('show patch')),
+    ('g', 'git', None, _('use git extended diff format')),
+    ('l', 'limit', '',
+     _('limit number of changes displayed'), _('NUM')),
+    ('M', 'no-merges', None, _('do not show merges')),
+    ('', 'stat', None, _('output diffstat-style summary of changes')),
+] + templateopts
+
+diffopts = [
+    ('a', 'text', None, _('treat all files as text')),
+    ('g', 'git', None, _('use git extended diff format')),
+    ('', 'nodates', None, _('omit dates from diff headers'))
+]
+
+diffopts2 = [
+    ('p', 'show-function', None, _('show which function each change is in')),
+    ('', 'reverse', None, _('produce a diff that undoes the changes')),
+    ('w', 'ignore-all-space', None,
+     _('ignore white space when comparing lines')),
+    ('b', 'ignore-space-change', None,
+     _('ignore changes in the amount of white space')),
+    ('B', 'ignore-blank-lines', None,
+     _('ignore changes whose lines are all blank')),
+    ('U', 'unified', '',
+     _('number of lines of context to show'), _('NUM')),
+    ('', 'stat', None, _('output diffstat-style summary of changes')),
+]
+
+similarityopts = [
+    ('s', 'similarity', '',
+     _('guess renamed files by similarity (0<=s<=100)'), _('SIMILARITY'))
+]
+
+subrepoopts = [
+    ('S', 'subrepos', None,
+     _('recurse into subrepositories'))
+]
+
+# Commands start here, listed alphabetically
+
+@command('^add',
+    walkopts + subrepoopts + dryrunopts,
+    _('[OPTION]... [FILE]...'))
+def add(ui, repo, \*pats, \*\*opts):
+    \"\"\"add the specified files on the next commit
+
+    Schedule files to be version controlled and added to the
+    repository.
+
+    The files will be added to the repository at the next commit. To
+    undo an add before that, see :hg:`forget`.
+
+    If no names are given, add all files to the repository.
+
+    .. container:: verbose
+
+       An example showing how new (unknown) files are added
+       automatically by :hg:`add`::
+
+         \$ ls
+         foo.c
+         \$ hg status
+         ? foo.c
+         \$ hg add
+         adding foo.c
+         \$ hg status
+         A foo.c
+
+    Returns 0 if all files are successfully added.
+    \"\"\"
+
+    m = scmutil.match(repo[None], pats, opts)
+    rejected = cmdutil.add(ui, repo, m, opts.get('dry_run'),
+                           opts.get('subrepos'), prefix=\"\")
+    return rejected and 1 or 0
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'python-mode-slow-lp:803275-base arg teststring)))
+
+(defun python-mode-slow-lp:803275-base ()
+    (goto-char (point-min))
+    (assert (eq 5430 (py-end-of-def-or-class)) nil "python-mode-slow-lp:803275 test failed"))
+
 (provide 'py-bug-numbered-tests)
 ;;; py-bug-numbered-tests.el ends here
+
+
+
+

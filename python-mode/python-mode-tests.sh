@@ -92,6 +92,9 @@ $EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'py
 --funcall class-highlighted-as-keywords-lp:798287-test \
 --funcall indent-function-arglist-lp:800088-test \
 --funcall python-mode-hangs-lp:801780-test \
+--funcall stops-backslashed-line-lp:802504-test \
+--funcall stops-backslashed-line-lp:802504-test2 \
+--funcall python-mode-slow-lp:803275-test \
 \
 --funcall py-beginning-of-block-test \
 --funcall py-end-of-block-test \
@@ -103,7 +106,7 @@ $EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'py
 --funcall py-end-of-def-or-class-test \
 --funcall py-electric-backspace-test \
 --funcall py-electric-delete-test \
---funcall UnicodeEncodeError-python3
+--funcall UnicodeEncodeError-python3-test
 
 # test not ready
 # passes only when run from edebug
