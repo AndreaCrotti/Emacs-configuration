@@ -136,7 +136,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
   ;; (add-hook 'java-mode-hook 
   ;;           '(lambda ()
   ;;              (make-local-variable 'write-contents-hooks)
-  ;;              (add-hook 'write-contents-hooks 'java-mode-untabify)))
+  ;;              (add-hook 'write-contents-hooks 'ca-java-mode-untabify)))
 #+end_src
 
 *** Replacement stuff in emacs
@@ -225,18 +225,18 @@ Emacs is no more about text editing than astronomy is about telescopes.
     (interactive)
     (gnus-summary-rescan-group 1000))
   ;; gnus
-  (defalias 'gg 'get-some-messages)
+  (defalias 'gg 'ca-get-some-messages)
   (defalias 'jd 'javadoc-lookup)
   (defalias 'br 'babel-region-default)
-  (defalias 'git 'open-git-files)
+  (defalias 'git 'ca-open-git-files)
   
   (defalias 'fold 'senator-fold-tag-toggle)
   
-  (defalias 'pd 'print-desktop)
+  (defalias 'pd 'ca-print-desktop)
   (defalias 'dcd 'desktop-change-dir)
-  (defalias 'gcb 'git-change-branch)
+  (defalias 'gcb 'ca-git-change-branch)
   
-  (defalias 'git-add-file 'ga)  
+  (defalias 'ca-git-add-file 'ga)  
   
 #+end_src   
 
@@ -251,11 +251,11 @@ Emacs is no more about text editing than astronomy is about telescopes.
 ** Constants and some global settings
 #+begin_src emacs-lisp :tangle yes
   (defcustom default-closing-char ";"
-    "default closing char, change in newline-force-close-alist if needed"
+    "default closing char, change in ca-newline-force-close-alist if needed"
     :type 'string)
   
   ;; TODO: use a defcustom instead
-  (defcustom newline-force-close-alist
+  (defcustom ca-newline-force-close-alist
     '((python-mode . ":")
       (jython-mode . ":")
       (prolog-mode . ".")
@@ -294,7 +294,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (defun ca-next-tag ()
     (interactive)
     (semantic-refresh-tags-safe)
-    (senator-next-tag))
+    (senator-ca-next-tag))
   
   (defun ca-activate-more-semantic-bindings ()
     "add some other nice bindings to modes supported by semantic"
@@ -347,9 +347,9 @@ Emacs is no more about text editing than astronomy is about telescopes.
   ; next step is to remove conf completely
   (defun ca-reload-dirs ()
     (interactive)
-    (gen-path-dirs base))
+    (ca-gen-path-dirs base))
   
-  (reload-dirs)
+  (ca-reload-dirs)
 #+end_src
 
 *** Add programming tools to the path
@@ -383,9 +383,9 @@ Emacs is no more about text editing than astronomy is about telescopes.
     (newline-and-indent))
   
   (defun ca-newline-force-close()
-    "Same as newline-force but putting a closing char at end unless it's already present"
+    "Same as ca-newline-force but putting a closing char at end unless it's already present"
     (interactive)
-    (let ((closing-way (assoc major-mode newline-force-close-alist))
+    (let ((closing-way (assoc major-mode ca-newline-force-close-alist))
           closing-char)
       ;; Setting the user defined or the constant if not found
       (if (not closing-way)
@@ -402,7 +402,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
               (end-of-line)
               (insert closing-char))
           (message "%s already present" closing-char))
-        (newline-force))))
+        (ca-newline-force))))
 #+end_src
 
 *** Error switch
@@ -437,7 +437,6 @@ Emacs is no more about text editing than astronomy is about telescopes.
         (set-window-start w1 s2)
         (set-window-start w2 s1)))))
 #+end_src
-# TODO: Add something to rotate the windows gracefully
 
 *** Rename file and buffer
 **** TODO Add something VCS related for moving away files
@@ -490,7 +489,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
     "Visit all the files in the current git project"
     (interactive)
     (dolist
-        (file (ls-git-files))
+        (file (ca-ls-git-files))
       (message "Opening %s" file)
       ;; we have to keep the original position
       (save-excursion (find-file file))))
@@ -500,20 +499,20 @@ Emacs is no more about text editing than astronomy is about telescopes.
   
   (defun ca-dired-git (directory)
     (interactive "D")
-    (dired-git-files directory))
+    (ca-dired-git-files directory))
   
   (defun ca-dired-git-files (directory)
     (cd directory)
     "Open a dired buffer containing the local git files"
-    (let ((files (ls-git-files)))
+    (let ((files (ca-ls-git-files)))
       (if
           (or 
            (< (length files) 200)
            (yes-or-no-p (format "%d files, are you sure?" (length files))))
           ;; rename the buffer to something with a sense
           (progn
-            (dired (ls-git-files))
-            (rename-buffer (git-dired-buffer-name directory))))))
+            (dired (ca-ls-git-files))
+            (rename-buffer (ca-git-dired-buffer-name directory))))))
   
   (defun ca-git-dired-buffer-name (directory)
     (concat "git-" (before-last (split-string directory "/"))))
@@ -556,7 +555,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
     "change the actual git branch asking with completion"
     (interactive)
     (let
-        ((branches (git-branches-list)))
+        ((branches (ca-git-branches-list)))
       (if
           (> (length branches) 1)
           (let 
@@ -577,7 +576,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (defun ca-query-replace-in-git (from to)
     "query replace regexp on the files given"
     (interactive "sFrom: \nsTo: ")
-    (dired-git (pwd))
+    (ca-dired-git (pwd))
     (dired-mark-files-regexp ".[ch]")
     (dired-do-query-replace-regexp from to))
 #+end_src 
@@ -600,11 +599,11 @@ Emacs is no more about text editing than astronomy is about telescopes.
     (member (car names) (directory-files root)))
   
   (defun ca-root-matches(root names)
-    (if (root-match root names)
-        (root-match root names)
+    (if (ca-root-match root names)
+        (ca-root-match root names)
       (if (eq (length (cdr names)) 0)
           'nil
-        (root-matches root (cdr names)))))
+        (ca-root-matches root (cdr names)))))
   
   ;; should return also the type and the certainty level
   (defun ca-find-project-root (&optional root)
@@ -613,14 +612,14 @@ Emacs is no more about text editing than astronomy is about telescopes.
     (when (null root)
       (setq root default-directory))
     (cond
-     ((root-matches root *project-roots*)
+     ((ca-root-matches root *project-roots*)
       (expand-file-name root))
      ((equal (expand-file-name root) "/") nil)
      (t
       ;; recursive call
       (find-project-root (concat (file-name-as-directory root) "..")))))
   
-  (find-project-root)
+  (ca-find-project-root)
 #+end_src
 
 *** Select current line
@@ -662,7 +661,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
      (t
       (if (equal (cdr (car asslist)) query)
           (cons (car (car asslist)) (all-asscs (cdr asslist) query))
-        (all-asscs (cdr asslist) query)))))
+        (ca-all-asscs (cdr asslist) query)))))
 #+end_src
 
 *** Reopen a file in readwrite mode
@@ -672,7 +671,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
     :type 'string
     )
   
-  (defun ca-rw ()
+  (defun ca-reopen-read-write ()
     "Reopen the file in rw mode, sui"
     (interactive)
     (let
@@ -698,24 +697,24 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+begin_src emacs-lisp :tangle yes
   ;; Taken from http://www.emacswiki.org/emacs/TrampMode
   (defvar find-file-root-prefix (if (featurep 'xemacs) "/[sudo/root@localhost]" "/sudo:root@localhost:" )
-    "*The filename prefix used to open a file with `find-file-root'.")
+    "*The filename prefix used to open a file with `ca-find-file-root'.")
   
-  (defvar find-file-root-history nil
-    "History list for files found using `find-file-root'.")
+  (defvar ca-find-file-root-history nil
+    "History list for files found using `ca-find-file-root'.")
   
-  (defvar find-file-root-hook nil
+  (defvar ca-find-file-root-hook nil
     "Normal hook for functions to run after finding a \"root\" file.")
   
   (defun ca-find-file-root ()
     "*Open a file as the root user.
-     Prepends `find-file-root-prefix' to the selected file name so that it
+     Prepends `ca-find-file-root-prefix' to the selected file name so that it
      maybe accessed via the corresponding tramp method."
   
     (interactive)
     (require 'tramp)
     (let* ( ;; We bind the variable `file-name-history' locally so we can
            ;; use a separate history list for "root" files.
-           (file-name-history find-file-root-history)
+           (file-name-history ca-find-file-root-history)
            (name (or buffer-file-name default-directory))
            (tramp (and (tramp-tramp-file-p name)
                        (tramp-dissect-file-name name)))
@@ -729,30 +728,30 @@ Emacs is no more about text editing than astronomy is about telescopes.
       (when (setq file (read-file-name "Find file (UID = 0): " dir path))
         (find-file (concat find-file-root-prefix file))
         ;; If this all succeeded save our new history list.
-        (setq find-file-root-history file-name-history)
+        (setq ca-find-file-root-history file-name-history)
         ;; allow some user customization
-        (run-hooks 'find-file-root-hook))))
+        (run-hooks 'ca-find-file-root-hook))))
   
-  (global-set-key [(control x) (control r)] 'find-file-root)
+  (global-set-key [(control x) (control r)] 'ca-find-file-root)
 #+end_src
   
   Adding also some warning to make sure we don't edit by mistake
 #+begin_src emacs-lisp :tangle yes
-  (defface find-file-root-header-face
+  (defface ca-find-file-root-header-face
     '((t (:foreground "white" :background "red3")))
     "*Face use to display header-lines for files opened as root.")
   
   (defun ca-find-file-root-header-warning ()
     "*Display a warning in header line of the current buffer.
-     This function is suitable to add to `find-file-root-hook'."
+     This function is suitable to add to `ca-find-file-root-hook'."
     (let* ((warning "WARNING: EDITING FILE AS ROOT!")
            (space (+ 6 (- (window-width) (length warning))))
            (bracket (make-string (/ space 2) ?-))
            (warning (concat bracket warning bracket)))
       (setq header-line-format
-            (propertize  warning 'face 'find-file-root-header-face))))
+            (propertize  warning 'face 'ca-find-file-root-header-face))))
   
-  (add-hook 'find-file-root-hook 'find-file-root-header-warning)
+  (add-hook 'ca-find-file-root-hook 'ca-find-file-root-header-warning)
 #+end_src
 
 ** reload this configuration
@@ -776,7 +775,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
   ;; recording a macro that calls ‘unfill-paragraph’ and moves past the
   ;; blank-line to the next unfilled paragraph and then executing that
   ;; macro on the whole buffer, ‘C-u 0 C-x e’ (see
-  ;; InfiniteArgument). Or, use unfill-region, below.
+  ;; InfiniteArgument). Or, use ca-unfill-region, below.
   
   (defun ca-unfill-region ()
     (interactive)
@@ -784,8 +783,8 @@ Emacs is no more about text editing than astronomy is about telescopes.
       (fill-region (region-beginning) (region-end) nil)))
   
   ;; Handy key definitions
-  (define-key global-map "\M-Q" 'unfill-paragraph)
-  (define-key global-map "\M-\C-q" 'unfill-region)
+  (define-key global-map "\M-Q" 'ca-unfill-paragraph)
+  (define-key global-map "\M-\C-q" 'ca-unfill-region)
   
 #+end_src
 
@@ -908,8 +907,8 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (defun ca-cleanup-buffer ()
     "Perform a bunch of operations on the whitespace content of a buffer."
     (interactive)
-    (indent-buffer)
-    (untabify-buffer)
+    (ca-indent-buffer)
+    (ca-untabify-buffer)
     (delete-trailing-whitespace))
   
   (defun ca-ditto ()
@@ -981,16 +980,16 @@ Emacs is no more about text editing than astronomy is about telescopes.
                 "\\)$"))
   
   (defun ca-dired-git-current ()
-    (dired-git-files  desktop-dirname))
+    (ca-dired-git-files  desktop-dirname))
   
-  (defcustom dired-git-after-desktop
+  (defcustom ca-dired-git-after-desktop
     nil
     "asking to open a dired buffer every time"
     :type 'boolean)
   
   ;; first we have to pass to the right dir
-  (if dired-git-after-desktop
-      (add-hook 'desktop-after-read-hook 'dired-git-current))
+  (if ca-dired-git-after-desktop
+      (add-hook 'desktop-after-read-hook 'ca-dired-git-current))
   
   (add-to-list 'desktop-modes-not-to-save 'dired-mode)
   (add-to-list 'desktop-modes-not-to-save 'Info-mode)
@@ -1131,12 +1130,12 @@ Emacs is no more about text editing than astronomy is about telescopes.
     (if
         mac
         ;; included in emacs 23.2
-        (ns-toggle-fullscreen)
-    (set-frame-parameter f 'fullscreen
-                         (if (frame-parameter f 'fullscreen) nil 'fullboth))))
+        (ns-toggle-ca-fullscreen)
+    (set-frame-parameter f 'ca-fullscreen
+                         (if (frame-parameter f 'ca-fullscreen) nil 'ca-fullboth))))
   
-  ;; this toogle the fullscreen for every new frame (window) created
-  ;; (add-hook 'after-make-frame-functions 'full)
+  ;; this toogle the ca-fullscreen for every new frame (window) created
+  ;; (add-hook 'after-make-frame-functions 'ca-full)
 #+end_src
 
 ** Winner mode
@@ -1174,7 +1173,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
           (overlay-put overlay 'before-string (propertize "A" 'display '(left-fringe right-triangle)))))))
   
   
-  (add-hook 'find-file-hook 'annotate-todo)
+  (add-hook 'find-file-hook 'ca-annotate-todo)
 #+end_src
   
 ** Font settings
@@ -1241,37 +1240,6 @@ Emacs is no more about text editing than astronomy is about telescopes.
       (buffer-substring-no-properties (region-beginning) (region-end)))
      (t
       (thing-at-point 'symbol ))))
-#+end_src
-
-*** Spelling functions
-# TODO: make it easier to manage and to scroll through lists of possibilities
-#+begin_src emacs-lisp :tangle yes
-  (setq ispell-dictionary "american")
-  
-  ;; TODO: possible to refactor this code maybe?
-  (defun ca-en ()
-    "Check spelling in english"
-     (interactive)
-    (ispell-change-dictionary "american")
-    (flyspell-mode t))
-  
-  (defun ca-it ()
-    "Check spelling in english"
-    (interactive)
-    (ispell-change-dictionary "italian")
-    (flyspell-mode t))
-  
-  (defun ca-fr ()
-    "Check spelling in english"
-    (interactive)
-    (ispell-change-dictionary "french")
-    (flyspell-mode t))
-  
-  (defun ca-de ()
-    "Check spelling in english"
-    (interactive)
-    (ispell-change-dictionary "german")
-    (flyspell-mode t))
 #+end_src
 
 ** Dictionary
@@ -1399,7 +1367,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
     "Adding a file to org-agenda when saved"
     (interactive)
     (if
-        (org-agenda-is-filtered-p (buffer-file-name))
+        (ca-org-agenda-is-filtered-p (buffer-file-name))
         (message "filtered out in org-agenda-filter-out, change it to include it again")
       (if 
            (and
@@ -1424,7 +1392,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
     :type 'boolean)
   
   (if org-agenda-add-eventually-enabled
-      (add-hook 'before-save-hook 'org-add-eventually))
+      (add-hook 'before-save-hook 'ca-org-add-eventually))
   
   (defcustom org-agenda-filter-out
     '("/Volumes/arch")
@@ -1432,13 +1400,13 @@ Emacs is no more about text editing than astronomy is about telescopes.
     :type 'list)
   
   (defun ca-org-agenda-is-filtered-p (filename)
-    (org-agenda-is-filtered-p-rec filename org-agenda-filter-out))
+    (ca-org-agenda-is-filtered-p-rec filename org-agenda-filter-out))
   
   (defun ca-org-agenda-is-filtered-p-rec (filename list)
     (cond
      ((null list) nil)
      ((string-match (car list) (expand-file-name filename)) t)
-     (t (org-agenda-is-filtered-p-rec filename (cdr list)))))
+     (t (ca-org-agenda-is-filtered-p-rec filename (cdr list)))))
 #+end_src
 
 
@@ -1454,14 +1422,14 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Org mode for brainstorming
 #+begin_src emacs-lisp :tangle yes
-  (defcustom org-brainstorm-ideas 10
+  (defcustom ca-org-brainstorm-ideas 10
     "number of brainstorm ideas")
   
   (defun ca-org-brainstorm ()
     "starts a brainstorming of ideas"
     (interactive)
     (save-excursion
-      (dotimes (i org-brainstorm-ideas)
+      (dotimes (i ca-org-brainstorm-ideas)
         (org-meta-return))))
 #+end_src
 
@@ -1621,22 +1589,22 @@ Emacs is no more about text editing than astronomy is about telescopes.
                       " ")))
       (message "escreen: active screens: %s" emphased)))
   
-  (global-set-key (kbd "C-\\ l") 'escreen-get-active-screen-numbers-with-emphasis)
+  (global-set-key (kbd "C-\\ l") 'ca-escreen-get-active-screen-numbers-with-emphasis)
   
   (defun ca-escreen-goto-last-screen ()
     (interactive)
-    (escreen-goto-last-screen)
-    (escreen-get-active-screen-numbers-with-emphasis))
+    (ca-escreen-goto-last-screen)
+    (ca-escreen-get-active-screen-numbers-with-emphasis))
   
   (defun ca-escreen-goto-prev-screen (&optional n)
     (interactive "p")
-    (escreen-goto-prev-screen n)
-    (escreen-get-active-screen-numbers-with-emphasis))
+    (ca-escreen-goto-prev-screen n)
+    (ca-escreen-get-active-screen-numbers-with-emphasis))
   
   (defun ca-escreen-goto-next-screen (&optional n)
     (interactive "p")
-    (escreen-goto-next-screen n)
-    (escreen-get-active-screen-numbers-with-emphasis))
+    (ca-escreen-goto-next-screen n)
+    (ca-escreen-get-active-screen-numbers-with-emphasis))
   
   (define-key escreen-map escreen-prefix-char 'ca-escreen-goto-last-screen)
   
@@ -1738,7 +1706,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+begin_src emacs-lisp :tangle yes
   (dolist 
       (hook '(python-mode-hook c-mode-common-hook emacs-lisp-mode-hook makefile-mode-hook))
-    (add-hook hook 'activate-more-semantic-bindings))
+    (add-hook hook 'ca-activate-more-semantic-bindings))
 #+end_src
 
 *** Options for semantic
@@ -1858,11 +1826,11 @@ Emacs is no more about text editing than astronomy is about telescopes.
           (cond
            ((file-exists-p possible-tags-file) (throw 'found-it possible-tags-file))
            ((string= "/TAGS" possible-tags-file) (error "no tags file found"))
-           (t (find-tags-file-r (directory-file-name parent))))))
+           (t (ca-find-tags-file-r (directory-file-name parent))))))
   
       (if (buffer-file-name)
           (catch 'found-it 
-            (find-tags-file-r (buffer-file-name)))
+            (ca-find-tags-file-r (buffer-file-name)))
         (error "buffer is not visiting a file"))))
   
   (defun ca-jds-set-tags-file-path ()
@@ -1870,11 +1838,11 @@ Emacs is no more about text editing than astronomy is about telescopes.
   a file named 'TAGS'. If found, set 'tags-table-list' with that path as an argument
   otherwise raises an error."
     (interactive)
-    (setq tags-table-list (list (jds-find-tags-file))))
+    (setq tags-table-list (list (ca-jds-find-tags-file))))
   
   ;; delay search the TAGS file after open the source file
   (add-hook 'emacs-startup-hook 
-            '(lambda () (jds-set-tags-file-path)))
+            '(lambda () (ca-jds-set-tags-file-path)))
 #+end_src
 
 ** VC
@@ -1916,7 +1884,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
     (if (vc-working-revision (buffer-file-name))
         (auto-revert-mode t)))
   
-  (add-hook 'find-file-hook 'is-version-control-file)
+  (add-hook 'find-file-hook 'ca-is-version-control-file)
 #+end_src
 
 * Programming
@@ -2000,7 +1968,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
                         'kill-buffer
                         buffer)))
   
-  (add-hook 'compilation-finish-functions 'kill-compile-buffer-if-successful)
+  (add-hook 'compilation-finish-functions 'ca-kill-compile-buffer-if-successful)
 #+end_src
 
 ** Ess
@@ -2072,12 +2040,12 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (defun ca-insert-header ()
     "try to insert the header smartly"
     (when
-        (is-new-file)
+        (ca-is-new-file)
         (let
-            ((snip (find-matching-snippet (file-name-nondirectory (buffer-file-name)))))
+            ((snip (ca-find-matching-snippet (file-name-nondirectory (buffer-file-name)))))
           (if
               snip
-              (insert-at-startup (cdr snip))))))
+              (ca-insert-at-startup (cdr snip))))))
   
   (defun ca-find-matching-snippet (filename)
     (assoc-if (lambda (x) (string-match x filename))
@@ -2251,13 +2219,13 @@ Emacs is no more about text editing than astronomy is about telescopes.
            (re-search-forward "\\_<class\\_>" nil t))))
   
   (add-to-list 'magic-mode-alist
-               '(c++-header-file-p . c++-mode))
+               '(ca-cpp-header-file-p . c++-mode))
 #+end_src
 
   Try to enable the cpp-omnet-mode automatically when possible
 #+begin_src emacs-lisp :tangle yes
-  ;;  (add-hook 'c++-mode-hook 'is-omnet-cpp-file)
-    ;; (remove-hook 'c++-mode-hook 'is-omnet-cpp-file)
+  ;;  (add-hook 'c++-mode-hook 'ca-is-omnet-cpp-file)
+    ;; (remove-hook 'c++-mode-hook 'ca-is-omnet-cpp-file)
     ;; this means that the variable is set locally
     (make-variable-buffer-local 'changing-to-omnet)
     
@@ -2341,7 +2309,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
     (interactive "D")
     (let
         ((fname (file-name-sans-extension (file-name-nondirectory (buffer-file-name)))))
-      (browse-url (doxy-path basepath fname))))
+      (browse-url (ca-doxy-path basepath fname))))
 #+end_src
 
 ** Applescript mode
@@ -2667,7 +2635,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
   ;; Again, customize to suit your preferences.
   (defun ca-browse-paper-at-point ()
     (interactive)
-    (let ((base (bibtex-key->base-filename (bibtex-key-at-point))))
+    (let ((base (bibtex-key->base-filename (ca-bibtex-key-at-point))))
       (cond
        ((file-exists-p (concat base ".pdf"))
         (shell-command (concat "okular " base ".pdf &")))
@@ -2675,7 +2643,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
         (shell-command (concat "okular " base ".ps &")))
        (t (message (concat "No electronic version available: " base ".{pdf,ps}"))))))
   
-  ;; (global-set-key [S-f6] 'browse-paper-at-point)
+  ;; (global-set-key [S-f6] 'ca-browse-paper-at-point)
   
 #+end_src
 
@@ -2913,8 +2881,8 @@ Emacs is no more about text editing than astronomy is about telescopes.
         ((bufname (get-buffer-create "*GNUS SYNC*"))
          (command 
           (cond
-           ((eq direction 'to-remote) (gnussync-to-remote))
-           ((eq direction 'from-remote) (gnussync-from-remote)))))
+           ((eq direction 'to-remote) (ca-gnussync-to-remote))
+           ((eq direction 'from-remote) (ca-gnussync-from-remote)))))
       (cd "~")
       (when (y-or-n-p (format "running command %s" command))
         (switch-to-buffer bufname)
@@ -3131,7 +3099,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
       (list "pycheckers" (list local-file))))
   
   (add-to-list 'flymake-allowed-file-name-masks 
-               '("\\.py\\'" flymake-python-init))
+               '("\\.py\\'" ca-flymake-python-init))
   
   ;; (setq flymake-py-script-position (make-conf-path "flymake-python/pyflymake.py"))
   ;; (require 'flymake-python)
@@ -3208,7 +3176,7 @@ check-syntax:
        ((stringp (buffer-file-name))
         (setq dir (file-name-directory (buffer-file-name))))
        )
-      (do-applescript
+      (ca-do-applescript
        (format "
   tell application \"Terminal\"
     activate
@@ -3226,10 +3194,10 @@ check-syntax:
 #+begin_src emacs-lisp :tangle yes
   (defun ca-growl-popup (msg)
     "Pop up a growl notification with MSG, or display an Emacs message.
-  The \"growlnotify\" program is used if `window-system' is non-nil and
+  The \"ca-growlnotify\" program is used if `window-system' is non-nil and
   the program is found in `exec-path'; otherwise `message' is used."
     (interactive)
-    (if (and window-system (executable-find "growlnotify"))
+    (if (and window-system (executable-find "ca-growlnotify"))
         (shell-command (concat "growlnotify -a /Applications/Emacs.app/ -m "
                                (shell-quote-argument msg)))
       (message msg)))
@@ -3241,26 +3209,26 @@ check-syntax:
       ;; check if we don't have a "stupid" sequence
       (unless
           (= (length (this-command-keys-vector)) 1)
-          (growl-popup last-key))))
+          (ca-growl-popup last-key))))
 #+end_src
 
   Now we also create two other functions to enable and disable it
 #+begin_src emacs-lisp :tangle yes
   ;TODO: make it an external package and better a minor-mode, switching would also be much easier
    
-  (setq growl-mode nil)
+  (setq ca-growl-mode nil)
   
   (defun ca-growl ()
     (interactive)
-    (if (not growl-mode)
+    (if (not ca-growl-mode)
         (progn
           (message "enabling growl mode notification")
-          (add-hook 'pre-command-hook 'popup-last)
-          (setq growl-mode t))
+          (add-hook 'pre-command-hook 'ca-popup-last)
+          (setq ca-growl-mode t))
       (progn
-        (setq-default pre-command-hook (remq 'popup-last pre-command-hook))
+        (setq-default pre-command-hook (remq 'ca-popup-last pre-command-hook))
         (message "disabling growl mode notification")
-        (setq growl-mode nil))))
+        (setq ca-growl-mode nil))))
 #+end_src
 
 ** Open port file
@@ -3275,7 +3243,7 @@ check-syntax:
     (interactive "MPort: ")
     (let ((path (substring (shell-command-to-string (format "port file %s" name)) 0 -1)))
       (if (file-exists-p path)
-          (find-file-root path))))
+          (ca-find-file-root path))))
   
 #+end_src
       
@@ -3300,11 +3268,11 @@ check-syntax:
     "what to enable in a presentation mode"
     ;TODO: also add a function to cancel all this changes 
     (interactive)
-    (growl)
+    (ca-growl)
     (color-theme-high-contrast)
     (global-semantic-decoration-mode -1)
     (global-semantic-idle-summary-mode -1)
-    (add-hook 'python-mode-hook (function activate-flymake)))
+    (add-hook 'python-mode-hook (function ca-activate-flymake)))
 #+end_src
 
 * Global keys settings
@@ -3313,8 +3281,8 @@ check-syntax:
   (global-set-key [f5] 'recompile)
   
   ;; newline like textmate
-  (global-set-key (kbd "M-RET") 'newline-force)
-  (global-set-key [M-S-return] 'newline-force-close)
+  (global-set-key (kbd "M-RET") 'ca-newline-force)
+  (global-set-key [M-S-return] 'ca-newline-force-close)
   
   ;; cvs stuff
   (global-set-key "\C-xg" 'magit-status)
@@ -3333,18 +3301,18 @@ check-syntax:
   (global-set-key "\C-x\C-b" 'ibuffer)
   
   ;; visualization
-  (global-set-key [f11] 'full)
+  (global-set-key [f11] 'ca-full)
   
   (global-set-key [f2] 'split-window-horizontally)
   (global-set-key [f1] 'delete-window)
   
-  (global-set-key (kbd "<C-f9>") 'cycle-font)
+  (global-set-key (kbd "<C-f9>") 'ca-cycle-font)
   
   (global-set-key (kbd "M-<left>") 'other-frame)
   (global-set-key (kbd "M-<right>") 'other-frame)
   
   
-  (global-set-key [(meta shift l)] 'select-line)
+  (global-set-key [(meta shift l)] 'ca-select-line)
   
   (global-set-key (kbd "M-z") 'undo)
   ;; from here
@@ -3360,9 +3328,9 @@ check-syntax:
     (shell-command "xlock"))
   
   (when linux
-    (global-set-key (kbd "<kp-add>") 'vol-up)
-    (global-set-key (kbd "<kp-subtract>") 'vol-down)
-    (global-set-key [f12] 'ac-lock-screen))
+    (global-set-key (kbd "<kp-add>") 'ca-vol-up)
+    (global-set-key (kbd "<kp-subtract>") 'ca-vol-down)
+    (global-set-key [f12] 'ac-ca-lock-screen))
   
   (global-set-key (kbd "C-M-n") 'fixme-next)
   (global-set-key (kbd "C-M-p") 'fixme-prev)
@@ -3380,3 +3348,4 @@ check-syntax:
   - javadoc-help
     + ~/.javadoc-help (configuration about the sdks)
       
+
