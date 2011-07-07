@@ -22,6 +22,8 @@ Emacs is no more about text editing than astronomy is about telescopes.
   - CLOSING NOTE [2011-06-21 Mar 15:22]
 
 * TODO See how to use variables like *special-buffer-regexps* to have a better control over the buffer windows
+* TODO use the ERT testing framework to test this function
+* TODO make a script to deploy automatically this configuration everywhere where is possible
 
 * Links
   - [[http://www.gnu.org/software/emacs/tour/][A guided tour of emacs features]]
@@ -136,6 +138,9 @@ Emacs is no more about text editing than astronomy is about telescopes.
 *** Replacement stuff in emacs
     List of things to substitute with emacs
 
+    |-----------------------+-------------------------------------------------------------------|
+    | Key                   | Value contained                                                   |
+    |-----------------------+-------------------------------------------------------------------|
     | \&                    | the original found text                                           |
     | \1, \2,               | etc.  the 1st, 2nd, etc. parenthesized subgroup in the found text |
     | \#                    | the number of replacements done so far                            |
@@ -261,6 +266,17 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Some useful functions
    We suppose that the global variable *conf* has been already set from the outside.
+
+*** Take the matched text and apply the given function
+#+begin_src emacs-lisp :tangle yes
+  ; TODO: maybe better as a macro
+  
+  (defun ca-manipulate-matched-text (fn)
+    "Apply a function on the matched text"
+    (let
+        ((matched-text (buffer-substring (match-beginning 0) (match-end 0))))
+      (funcall fn matched-text)))
+#+end_src
 
 *** Enable semantic when possible
 #+begin_src emacs-lisp :tangle yes
@@ -797,27 +813,9 @@ Emacs is no more about text editing than astronomy is about telescopes.
                                t nil s)))
       (downcase s)))
   
-  (defun manipulate-matched-text (fn)
-    (let (matchedText newText)
-      (setq matchedText
-            (buffer-substring
-             (match-beginning 0) (match-end 0)))
-      (setq newText
-            (apply 'fn match-end))
-      newText))
-  
-  ; TODO: use the more general manipulation
   (defun uncamel ()
-    (let (matchedText newText)
-      (setq matchedText
-            (buffer-substring
-             (match-beginning 0) (match-end 0)))
-      (setq newText
-            (un-camelcase-string matchedText "_"))
-      newText))
+    (ca-manipulate-matched-text 'un-camelcase-string))
   
-    ;; (manipulate-matched-text 'un-camelcase-string))
-    ;; "use this function with query-replace-regexp"
 #+end_src
 
     For example the above functions might be very useful to convert an entire project from camelcase to non camelcase.
@@ -2461,16 +2459,6 @@ Emacs is no more about text editing than astronomy is about telescopes.
                               (file-name-nondirectory buffer-file-name)))))
 #+end_src
 * Other modes
-** PDF and office documents
-#+begin_src emacs-lisp :tangle yes
-  (defun ac-doc-view-if-pdf ()
-    "Open pdf with doc-view"
-    (when (string-match "pdf" (buffer-file-name))
-      (doc-view (buffer-file-name))))
-  
-  (require 'doc-view)
-#+end_src
-
 ** Writing
    Synonyms
 #+begin_src emacs-lisp :tangle yes
