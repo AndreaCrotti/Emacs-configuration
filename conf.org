@@ -1920,7 +1920,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
     (add-hook  lang-hook 'flyspell-prog-mode))
   
   (require 'auto-complete)
-  (ac-flyspell-workaround)
+  (ca-flyspell-workaround)
 #+end_src
 
 ** Web nice utilities
@@ -2136,7 +2136,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
   
   (add-hook 'python-mode-hook
             (lambda ()
-              (local-set-key (kbd "M-D") 'ac-python-remove-pdb)))
+              (local-set-key (kbd "M-D") 'ca-python-remove-pdb)))
   
 #+end_src
 
@@ -2465,19 +2465,19 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Conf mode
 #+begin_src emacs-lisp :tangle yes
-  (setq ac-conf-section-regexp "\\[.*\\]")
+  (setq ca-conf-section-regexp "\\[.*\\]")
   
   (defun ca-next-conf-section ()
     (interactive)
-    (re-search-forward ac-conf-section-regexp))
+    (re-search-forward ca-conf-section-regexp))
   
   (defun ca-prev-conf-section ()
     (interactive)
-    (re-search-backward ac-conf-section-regexp))
+    (re-search-backward ca-conf-section-regexp))
   
   (add-hook 'conf-unix-mode-hook '(lambda ()
-                                    (local-set-key (kbd "M-n") 'ac-next-conf-section)
-                                    (local-set-key (kbd "M-p") 'ac-prev-conf-section)))
+                                    (local-set-key (kbd "M-n") 'ca-next-conf-section)
+                                    (local-set-key (kbd "M-p") 'ca-prev-conf-section)))
 #+end_src
 
 * Gpg and keys
@@ -2526,11 +2526,11 @@ Emacs is no more about text editing than astronomy is about telescopes.
   ;; enable auto-fill-mode always
   (add-hook 'LaTeX-mode-hook 'auto-fill-mode)
   
-  (defun ac-reftex-next-label ()
+  (defun ca-reftex-next-label ()
     (interactive)
     (search-forward "label"))
   
-  (defun ac-reftex-previous-label ()
+  (defun ca-reftex-previous-label ()
     (interactive)
     (search-backward "label"))
   
@@ -2538,8 +2538,8 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (add-hook 'LaTeX-mode-hook 
             (lambda ()
               (local-set-key (kbd "M-.") 'reftex-goto-label)
-              (local-set-key (kbd "M-n") 'ac-reftex-next-label)
-              (local-set-key (kbd "M-p") 'ac-reftex-previous-label)))
+              (local-set-key (kbd "M-n") 'ca-reftex-next-label)
+              (local-set-key (kbd "M-p") 'ca-reftex-previous-label)))
 #+end_src
 
    Enable preview mode:
@@ -3330,7 +3330,7 @@ check-syntax:
   (when linux
     (global-set-key (kbd "<kp-add>") 'ca-vol-up)
     (global-set-key (kbd "<kp-subtract>") 'ca-vol-down)
-    (global-set-key [f12] 'ac-ca-lock-screen))
+    (global-set-key [f12] 'ca-lock-screen))
   
   (global-set-key (kbd "C-M-n") 'fixme-next)
   (global-set-key (kbd "C-M-p") 'fixme-prev)
