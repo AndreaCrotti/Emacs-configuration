@@ -1,7 +1,10 @@
 #+OPTIONS: toc:t LEVEL:4
 
 My personal Emacs configuration
+
+#+begin_quote
 Emacs is no more about text editing than astronomy is about telescopes.
+#+end_quote
 
 * DONE Write a function that setups all the possible paths automatically
   CLOSED: [2010-05-04 Mar 11:41]
@@ -22,8 +25,9 @@ Emacs is no more about text editing than astronomy is about telescopes.
   - CLOSING NOTE [2011-06-21 Mar 15:22]
 
 * TODO See how to use variables like *special-buffer-regexps* to have a better control over the buffer windows
-* TODO use the ERT testing framework to test this function
+* TODO use the ERT testing framework to test my functions
 * TODO make a script to deploy automatically this configuration everywhere where is possible
+* TODO change all the functions definitions adding a personal prefix
 
 * Links
   - [[http://www.gnu.org/software/emacs/tour/][A guided tour of emacs features]]
@@ -161,7 +165,6 @@ Emacs is no more about text editing than astronomy is about telescopes.
      Use mode hooks, normally simply <mode-name>-hook, and modify them with *add-hook*
 
 ** [[http://steve-yegge.blogspot.com/2006/06/shiny-and-new-emacs-22.html][Very nice explanation about emacs and replacing functions]]
-
 ** Org mode
    - [[http://members.optusnet.com.au/~charles57/GTD/gtd_workflow.html][org mode as a gtd system]]
      Create some subsections
@@ -266,6 +269,14 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Some useful functions
    We suppose that the global variable *conf* has been already set from the outside.
+
+*** Mapcar head
+#+begin_src emacs-lisp :tangle yes
+  (defun mapcar-head (fn-head fn-rest list)
+    "Like MAPCAR, but applies a different function to the first element."
+    (if list
+        (cons (funcall fn-head (car list)) (mapcar fn-rest (cdr list)))))
+#+end_src
 
 *** Take the matched text and apply the given function
 #+begin_src emacs-lisp :tangle yes
@@ -783,11 +794,6 @@ Emacs is no more about text editing than astronomy is about telescopes.
     from camelized to non camelized mode.
 
 #+begin_src emacs-lisp :tangle yes
-  (defun mapcar-head (fn-head fn-rest list)
-    "Like MAPCAR, but applies a different function to the first element."
-    (if list
-        (cons (funcall fn-head (car list)) (mapcar fn-rest (cdr list)))))
-  
   (defun camelize (s)
     "Convert under_score string S to CamelCase string."
     (mapconcat 'identity (mapcar
