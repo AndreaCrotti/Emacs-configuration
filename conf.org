@@ -296,7 +296,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (defun ca-next-tag ()
     (interactive)
     (semantic-refresh-tags-safe)
-    (senator-ca-next-tag))
+    (senator-next-tag))
   
   (defun ca-activate-more-semantic-bindings ()
     "add some other nice bindings to modes supported by semantic"
