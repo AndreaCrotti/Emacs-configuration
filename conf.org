@@ -59,7 +59,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 * Sparse documentation 
   From newcomment.el:
 ** Define a custom variable with a dynamic list
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
   (defcustom comment-style 'indent
     "Style to be used for `comment-region'.
   See `comment-styles' for a list of available styles."
@@ -250,8 +250,9 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Constants and some global settings
 #+begin_src emacs-lisp :tangle yes
-  (defcustom default-closing-char ";"
+  (defcustom ca-default-closing-char ";"
     "default closing char, change in ca-newline-force-close-alist if needed"
+    :group 'ca
     :type 'string)
   
   ;; TODO: use a defcustom instead
@@ -265,6 +266,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
       (html-mode . " <br>"))
     "Closing char for different modes"
     :type 'list)
+  
 #+end_src
 
 ** Some useful functions
@@ -391,7 +393,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
       (if (not closing-way)
           (progn
             (message "closing char not defined for this mode, using default")
-            (setq closing-char default-closing-char))
+            (setq closing-char ca-default-closing-char))
         (setq closing-char (cdr closing-way)))
       (when (not (bobp))
         ;; if we're at beginning of buffer, the backward-char will beep
@@ -403,6 +405,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
               (insert closing-char))
           (message "%s already present" closing-char))
         (ca-newline-force))))
+  
 #+end_src
 
 *** Error switch
@@ -666,9 +669,10 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 *** Reopen a file in readwrite mode
 #+begin_src emacs-lisp :tangle yes
-  (defcustom preferred-reopen-rw-mode "sudo"
+  (defcustom ca-preferred-reopen-rw-mode "sudo"
     "preferred mode for reopen"
     :type 'string
+    :group 'ca
     )
   
   (defun ca-reopen-read-write ()
@@ -680,8 +684,9 @@ Emacs is no more about text editing than astronomy is about telescopes.
           (when (yes-or-no-p "kill the read only and reopen in rw?")
             (progn 
               (kill-buffer)
-              (find-file (concat "/" preferred-reopen-rw-mode "::" read-only-old-file))))
+              (find-file (concat "/" ca-preferred-reopen-rw-mode "::" read-only-old-file))))
         (message "you can already write on this file"))))
+  
 #+end_src
 
 *** Count words in the buffer
@@ -836,12 +841,13 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+begin_src emacs-lisp :tangle yes
   ;; TODO: with emacs23 is sufficient to enable subword-mode probably
   (autoload 'camelCase-mode "camelCase-mode")
-  (defcustom camelCase-modes
+  (defcustom ca-camelCase-modes
     '(python-mode-hook java-mode-hook c-mode-common-hook nesc-mode-hook)
     "Modes where camelizing is allowed"
+    :group 'ca
     :type 'list)
   
-  (dolist (hook camelCase-modes)
+  (dolist (hook ca-camelCase-modes)
     (add-hook hook 'camelCase-mode))
 #+end_src
 
@@ -985,6 +991,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (defcustom ca-dired-git-after-desktop
     nil
     "asking to open a dired buffer every time"
+    :group 'ca
     :type 'boolean)
   
   ;; first we have to pass to the right dir
@@ -1151,12 +1158,6 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (eval-after-load "color-theme"
     '(progn
        (color-theme-initialize)))
-  
-  (defcustom preferred-color-theme-function
-    'coal
-    "preferred color theme"
-    :type 'function
-  )
 #+end_src
 
 ** Fringe and stuff todo
@@ -1381,32 +1382,12 @@ Emacs is no more about text editing than astronomy is about telescopes.
                (org-agenda-file-to-front)))))
   
   
-  (defcustom org-agenda-add-eventually-enabled
-    nil
-    "add interactively enabled or not"
-    :type 'boolean)
-  
-  (defcustom org-agenda-filter-remote-files
+  (defcustom ca-org-agenda-filter-remote-files
     t
     "filter buffers open with tramp-mode"
+    :group 'ca
     :type 'boolean)
   
-  (if org-agenda-add-eventually-enabled
-      (add-hook 'before-save-hook 'ca-org-add-eventually))
-  
-  (defcustom org-agenda-filter-out
-    '("/Volumes/arch")
-    "regexp that are never added to agenda"
-    :type 'list)
-  
-  (defun ca-org-agenda-is-filtered-p (filename)
-    (ca-org-agenda-is-filtered-p-rec filename org-agenda-filter-out))
-  
-  (defun ca-org-agenda-is-filtered-p-rec (filename list)
-    (cond
-     ((null list) nil)
-     ((string-match (car list) (expand-file-name filename)) t)
-     (t (ca-org-agenda-is-filtered-p-rec filename (cdr list)))))
 #+end_src
 
 
@@ -1423,7 +1404,8 @@ Emacs is no more about text editing than astronomy is about telescopes.
 ** Org mode for brainstorming
 #+begin_src emacs-lisp :tangle yes
   (defcustom ca-org-brainstorm-ideas 10
-    "number of brainstorm ideas")
+    "number of brainstorm ideas"
+    :group 'ca)
   
   (defun ca-org-brainstorm ()
     "starts a brainstorming of ideas"
@@ -1431,6 +1413,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
     (save-excursion
       (dotimes (i ca-org-brainstorm-ideas)
         (org-meta-return))))
+  
 #+end_src
 
 
@@ -1656,13 +1639,15 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Define allowed modes
 #+begin_src emacs-lisp :tangle yes
+  ;TODO: check the issue with auto completion/yasnippet and org-mode
+  
   (dolist
       (ca-ac-mode '(nesc-mode org-mode html-mode xml-mode haskell-mode ned-mode cpp-omnet-mode))
     (add-to-list 'ac-modes ca-ac-mode))
   
-              
   ; this is used for trigger ac actions from org-mode also
   (add-to-list 'ac-trigger-commands 'org-self-insert-command)
+  
 #+end_src
 
 ** Elisp configuration
@@ -1911,16 +1896,18 @@ Emacs is no more about text editing than astronomy is about telescopes.
    Most of the programming languages we can have syntax checking on the comments and strings.
    Flyspell-prog-mode is just for this
 #+begin_src emacs-lisp :tangle yes
-  (defcustom to-spell-langs
+  (defcustom ca-spell-langs
     '(emacs-lisp-mode-hook python-mode-hook c-mode-common-hook nesc-mode-hook java-mode-hook jde-mode-hook haskell-mode-hook)
     "Set of programming modes for which I want to enable spelling in comments and strings"
+    :group 'ca
     :type 'list)
   
-  (dolist (lang-hook to-spell-langs)
+  (dolist (lang-hook ca-spell-langs)
     (add-hook  lang-hook 'flyspell-prog-mode))
   
   (require 'auto-complete)
   (ac-flyspell-workaround)
+  
 #+end_src
 
 ** Web nice utilities
@@ -2063,9 +2050,11 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (defcustom ca-auto-header-conses
         '(
           ("setup.py" . "setup")
+          ("\.sh$" . "bash")
           ("\.h$"  . "once")
           ("\.hpp$" . "once"))
         "snippets to expand per file extension"
+        :group 'ca
         :type 'list)
   
   (add-hook 'find-file-hook 'ca-insert-header)
@@ -3022,12 +3011,14 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Windmove
 #+begin_src emacs-lisp :tangle yes
-  (defcustom windmove-key
+  (defcustom ca-windmove-key
     'shift
     "key for moving between windows"
+    :group 'ca
     :type 'symbol)
   
-  (windmove-default-keybindings windmove-key)
+  (windmove-default-keybindings ca-windmove-key)
+  
 #+end_src
 
 ** Workarounds
