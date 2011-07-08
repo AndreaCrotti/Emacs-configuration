@@ -1920,7 +1920,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
     (add-hook  lang-hook 'flyspell-prog-mode))
   
   (require 'auto-complete)
-  (ca-flyspell-workaround)
+  (ac-flyspell-workaround)
 #+end_src
 
 ** Web nice utilities
