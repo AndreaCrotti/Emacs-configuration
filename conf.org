@@ -2063,8 +2063,9 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Python mode
 *** Paths and extensions
+    This dirty hack is useful to force the use of python-mode.el
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle yes
   (set-buffer (get-buffer-create "reset_python_test.py"))
   (erase-buffer)
   (when
@@ -2073,6 +2074,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
   
   (fundamental-mode)
   (setq py-python-command-args '("-colors" "Linux"))
+  
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes
@@ -2080,38 +2082,6 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
   (add-to-list 'interpreter-mode-alist '("python" . python-mode))
   (autoload 'doctest-mode "doctest-mode" "doc test python mode" t)
-#+end_src
-
-*** Enable pymacs and ropemacs
-#+begin_src emacs-lisp :tangle yes
-  ;; Initialize Pymacs                                                                                           
-  (autoload 'pymacs-apply "pymacs")
-  (autoload 'pymacs-call "pymacs")
-  (autoload 'pymacs-eval "pymacs" nil t)
-  (autoload 'pymacs-exec "pymacs" nil t)
-  (autoload 'pymacs-load "pymacs" nil t)
-  ;; Initialize Rope                                                                                             
-  ; Not used now until it we find a way to make it work correctly 
-  ;;  (pymacs-load "ropemacs" "rope-")
-  (setq ropemacs-enable-autoimport t)
-  
-  ;; now add the source rope
-  ;; (add-hook 'python-mode-hook 
-  ;;           (lambda ()
-  ;;             (set (make-local-variable 'ac-sources)
-  ;;                  (append ac-sources '(ac-source-ropemacs))
-  ;; )))
-  
-  ;; (defun ca-insert-dot-and-complete (arg)
-  ;;   (interactive "p")
-  ;;   (self-insert-command arg)
-  ;;   (rope-code-assist (py-symbol-near-point))
-  ;;   )
-  
-  ;; (add-hook 'python-mode-hook
-  ;;           (lambda () 
-  ;;             (local-set-key "." 'ca-insert-dot-and-complete)))
-  
 #+end_src
 
 *** Useful functions
