@@ -620,7 +620,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
      ((equal (expand-file-name root) "/") nil)
      (t
       ;; recursive call
-      (find-project-root (concat (file-name-as-directory root) "..")))))
+      (ca-find-project-root (concat (file-name-as-directory root) "..")))))
   
   (ca-find-project-root)
 #+end_src
