@@ -553,8 +553,8 @@ Emacs is no more about text editing than astronomy is about telescopes.
     (let ((grep-result-buffer (get-buffer-create "*git grep result*")))
       (shell-command (format "git --no-pager grep -nH -e %s" string-to-find) grep-result-buffer)
       (pop-to-buffer grep-result-buffer)
-      (grep-mode))
-    )
+      (grep-mode)))
+  
 #+end_src
 
 *** Change git branch
