@@ -7,9 +7,11 @@
 # - Pymacs
 
 TO_COMPILE="tramp doxymacs org-mode gnus Pymacs magit cedet"
+RESULT=.compiled
 
 set -x 
 
+# TODO: make sure everything goes well
 function smart_compile {
     if [ -f configure.ac]
     then 
@@ -22,6 +24,8 @@ function smart_compile {
 }
 
 for submod in $TO_COMPILE
-# is the path changed and automatically fixed or not?
-do (cd $submod && smart_compile)
+do
+    if ! grep $submod $RESULT
+    then (cd $submod && smart_compile && echo $submod >> $RESULT)
+    fi
 done

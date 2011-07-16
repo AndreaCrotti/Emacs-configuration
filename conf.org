@@ -2557,9 +2557,12 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Correlation mode
 #+begin_src emacs-lisp :tangle yes
+  ; FIXME: overwriting too much in this case, some old program-selection
+  ; should be kept as it was
   (when linux
-    (setq TeX-view-program-list '(("Okular" "okular --page %(outpage) %o")))
-    (setq TeX-view-program-selection '((output-pdf "Okular"))))
+    (setq TeX-view-program-list '(("Evince" "evince --page-label=%(outpage) %o")
+                                  ("Okular" "okular --page %(outpage) %o")))
+    (setq TeX-view-program-selection '((output-pdf "Evince"))))
   
   (when mac
     (setq TeX-view-program-list '(("open" "open %o")))
@@ -2895,6 +2898,8 @@ Emacs is no more about text editing than astronomy is about telescopes.
            "#c" "#c++" "#conkeror"
            "#org-mode" "#android" "#latex"
            "#org-mode" "#postfix" "#procmail"
+           "#android-devel" "#libav-devel"
+           "#archlinux"
            "#scipy" "#haskell" "#macosx")))
   
   ;; highlight in the modeline only when my nick is cited
@@ -2902,10 +2907,12 @@ Emacs is no more about text editing than astronomy is about telescopes.
   
   ;; enable logging (by default logs everything to ~/log
   (setq erc-log-mode t)
+  
 #+end_src
 
 *** Replace text of away/online messages
 #+begin_src emacs-lisp :tangle yes
+  ;TODO: add something to remove also the renames
   (erc-replace-mode t)
   (setq erc-replace-alist
         '(("\\*.*? has changed.*?to \\+v \\(\\w+\\)" . "\\1 is online")
