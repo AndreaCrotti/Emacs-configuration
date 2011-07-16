@@ -30,6 +30,8 @@
 ;;
 
 (require 'eieio)
+(require 'button)
+(require 'help-mode)
 
 ;;; Code:
 ;;;###autoload
@@ -85,11 +87,16 @@ Optional HEADERFCN should be called to insert a few bits of info first."
 		     (cedet-called-interactively-p))
 
     (when headerfcn (funcall headerfcn))
-
-    (if (class-option class :abstract)
-	(princ "Abstract "))
-    (princ "Class ")
     (prin1 class)
+    (princ " is a")
+    (if (class-option class :abstract)
+	(princ "n abstract"))
+    (princ " class")
+    ;; Print file location
+    (when (get class 'class-location)
+      (princ " in `")
+      (princ (file-name-nondirectory (get class 'class-location)))
+      (princ "'"))
     (terpri)
     ;; Inheritence tree information
     (let ((pl (class-parents class)))
@@ -252,8 +259,13 @@ Uses `eieio-describe-class' to describe the class being constructed."
   (eieio-describe-class
    fcn (lambda ()
 	 ;; Describe the constructor part.
-	 (princ "Object Constructor Function: ")
 	 (prin1 fcn)
+	 (princ " is an object constructor function")
+	 ;; Print file location
+	 (when (get fcn 'class-location)
+	   (princ " in `")
+	   (princ (file-name-nondirectory (get fcn 'class-location)))
+	   (princ "'"))
 	 (terpri)
 	 (princ "Creates an object of class ")
 	 (prin1 fcn)
@@ -346,10 +358,10 @@ Also extracts information about all methods specific to this generic."
     (princ "Implementations:")
     (terpri)
     (terpri)
-    (let ((i 3)
+    (let ((i 4)
 	  (prefix [ ":STATIC" ":BEFORE" ":PRIMARY" ":AFTER" ] ))
       ;; Loop over fanciful generics
-      (while (< i 6)
+      (while (< i 7)
 	(let ((gm (aref (get generic 'eieio-method-tree) i)))
 	  (when gm
 	    (princ "Generic ")
@@ -361,8 +373,9 @@ Also extracts information about all methods specific to this generic."
 	(setq i (1+ i)))
       (setq i 0)
       ;; Loop over defined class-specific methods
-      (while (< i 3)
-	(let ((gm (reverse (aref (get generic 'eieio-method-tree) i))))
+      (while (< i 4)
+	(let ((gm (reverse (aref (get generic 'eieio-method-tree) i)))
+	      location)
 	  (while gm
 	    (princ "`")
 	    (prin1 (car (car gm)))
@@ -379,6 +392,13 @@ Also extracts information about all methods specific to this generic."
 	    ;; 3 because of cdr
 	    (princ (or (documentation (cdr (car gm)))
 		       "Undocumented"))
+	    ;; Print file location if available
+	    (when (and (setq location (get generic 'method-locations))
+		       (setq location (assoc (caar gm) location)))
+	      (setq location (cadr location))
+	      (princ "\n\nDefined in `")
+	      (princ (file-name-nondirectory location))
+	      (princ "'\n"))
 	    (setq gm (cdr gm))
 	    (terpri)
 	    (terpri)))
@@ -558,6 +578,65 @@ Optional argument HISTORYVAR is the variable to use as history."
 
 ;;; HELP AUGMENTATION
 ;;
+(define-button-type 'eieio-method-def
+  :supertype 'help-xref
+  'help-function (lambda (class method file)
+		   (eieio-help-find-method-definition class method file))
+  'help-echo (purecopy "mouse-2, RET: find method's definition"))
+
+(define-button-type 'eieio-class-def
+  :supertype 'help-xref
+  'help-function (lambda (class file)
+		   (eieio-help-find-class-definition class file))
+  'help-echo (purecopy "mouse-2, RET: find class definition"))
+
+(defun eieio-help-find-method-definition (class method file)
+  (let ((filename (find-library-name file))
+	location buf)
+    (when (null filename)
+      (error "Cannot find library %s" file))
+    (setq buf (find-file-noselect filename))
+    (with-current-buffer buf
+      (goto-char (point-min))
+      (when
+	  (re-search-forward
+	   ;; Regexp for searching methods.
+	   (concat "(defmethod[ \t\r\n]+" method
+		   "\\([ \t\r\n]+:[a-zA-Z]+\\)?"
+		   "[ \t\r\n]+(\\s-*(\\(\\sw\\|\\s_\\)+\\s-+"
+		   class
+		   "\\s-*)")
+	   nil t)
+	(setq location (match-beginning 0))))
+    (if (null location)
+	(message "Unable to find location in file")
+      (pop-to-buffer buf)
+      (goto-char location)
+      (recenter)
+      (beginning-of-line))))
+
+(defun eieio-help-find-class-definition (class file)
+  (let ((filename (find-library-name file))
+	location buf)
+    (when (null filename)
+      (error "Cannot find library %s" file))
+    (setq buf (find-file-noselect filename))
+    (with-current-buffer buf
+      (goto-char (point-min))
+      (when
+	  (re-search-forward
+	   ;; Regexp for searching a class.
+	   (concat "(defclass[ \t\r\n]+" class "[ \t\r\n]+")
+	   nil t)
+	(setq location (match-beginning 0))))
+    (if (null location)
+	(message "Unable to find location in file")
+      (pop-to-buffer buf)
+      (goto-char location)
+      (recenter)
+      (beginning-of-line))))
+
+
 (defun eieio-help-mode-augmentation-maybee (&rest unused)
   "For buffers thrown into help mode, augment for eieio.
 Arguments UNUSED are not used."
@@ -600,6 +679,26 @@ Arguments UNUSED are not used."
 	(goto-char (point-min))
 	(while (re-search-forward "^\\(Private \\)?Slot:" nil t)
 	    (put-text-property (match-beginning 0) (match-end 0) 'face 'bold))
+	(goto-char (point-min))
+	(cond
+	 ((looking-at "\\(.+\\) is a generic function")
+	  (let ((mname (match-string 1))
+		cname)
+	    (while (re-search-forward "^`\\(.+\\)'[^\0]+?Defined in `\\(.+\\)'" nil t)
+	      (setq cname (match-string-no-properties 1))
+	      (help-xref-button 2 'eieio-method-def cname
+				mname
+				(cadr (assoc (intern cname)
+					     (get (intern mname)
+						  'method-locations)))))))
+	 ((looking-at "\\(.+\\) is an object constructor function in `\\(.+\\)'")
+	  (let ((cname (match-string-no-properties 1)))
+	    (help-xref-button 2 'eieio-class-def cname
+			      (get (intern cname) 'class-location))))
+	 ((looking-at "\\(.+\\) is a\\(n abstract\\)? class in `\\(.+\\)'")
+	  (let ((cname (match-string-no-properties 1)))
+	    (help-xref-button 3 'eieio-class-def cname
+			      (get (intern cname) 'class-location)))))
 	))))
 
 ;;; SPEEDBAR SUPPORT

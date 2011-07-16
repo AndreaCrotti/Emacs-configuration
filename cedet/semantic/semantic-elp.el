@@ -239,7 +239,7 @@ You may also need `semantic-elp-include-path-list'.")
     semantic-analyze-scope-nested-tags
     semantic-analyze-scoped-types
     semantic-analyze-scoped-types
-    semantic-analyze-tag-prototype-p
+    semantic-tag-prototype-p
     semantic-analyze-scoped-type-parts
     semantic-calculate-scope
     semantic-ctxt-scoped-types

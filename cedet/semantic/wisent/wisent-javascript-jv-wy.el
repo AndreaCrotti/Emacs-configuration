@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2005 Joakim Verona, Eric Ludlam
 
-;; Author: andrea <andrea@ip1-201.halifax.rwth-aachen.de>
-;; Created: 2011-02-26 20:43:32+0100
+;; Author:  <andrea@lati>
+;; Created: 2011-07-16 17:38:44+0200
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

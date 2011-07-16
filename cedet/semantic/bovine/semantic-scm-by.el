@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2001, 2003, 2009 Eric M. Ludlam
 
-;; Author: andrea <andrea@ip1-201.halifax.rwth-aachen.de>
-;; Created: 2011-02-26 20:43:43+0100
+;; Author:  <andrea@lati>
+;; Created: 2011-07-16 17:38:47+0200
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

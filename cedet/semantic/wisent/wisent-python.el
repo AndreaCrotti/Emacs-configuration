@@ -44,11 +44,9 @@
 
 (require 'rx)
 
-;; try to load python support, failing silently if not found
-(defcustom semantic-python-mode-backend 'python
-  "Select the used python-mode library, for example 'python, 'python-mode")
-
-;; (require semantic-python-mode-backend nil t)
+;; Try to load python support, but fail silently since it is only used
+;; for optional functionality
+(require 'python nil t)
 
 (require 'semantic-wisent)
 (require 'wisent-python-wy)

@@ -105,6 +105,17 @@
     )
   "Table of CEDET packages to install.")
 
+(when (and (featurep 'eieio)
+	   (not (string= eieio-version
+			 (nth 1 (assoc 'eieio cedet-packages)))))
+  (message "Another EIEIO version is already loaded, probably the \
+version which ships with Emacs, and this one is currently incompatible \
+with CEDET-bzr.")
+  (message "You can fix this issue by putting the `load' \
+command at the beginning of your init file.")
+  (error "EIEIO Version %s already loaded; \
+load CEDET at the beginning of your init file to avoid this." eieio-version))
+
 ;; This file must be in "<INSTALL-DIR>/cedet/common"!
 (let ((default-directory
         (file-name-directory

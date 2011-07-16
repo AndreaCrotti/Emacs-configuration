@@ -239,6 +239,7 @@ Argument MAKE-TYPE is the type of make project to create."
   (cit-compile-and-wait)
 
   ;; Use the local libs version also to make sure it works.
+  (pop-to-buffer "main.cpp")
   (let ((mt ede-object))
     (if (string= make-type "Automake")
 	(progn

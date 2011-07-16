@@ -308,7 +308,7 @@ Not all compilers do this."
 
 (defmethod ede-proj-makefile-insert-rules ((this ede-makefile-rule))
   "Insert rules needed for THIS rule object."
-  (if (oref this phony) (insert ".PHONY: (oref this target)\n"))
+  (if (oref this phony) (insert ".PHONY: " (oref this target) "\n"))
   (insert (oref this target) ": " (oref this dependencies) "\n\t"
 	  (mapconcat (lambda (c) c) (oref this rules) "\n\t")
 	  "\n\n"))

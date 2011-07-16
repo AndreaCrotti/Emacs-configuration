@@ -6,7 +6,7 @@
 # - gnus
 # - Pymacs
 
-TO_COMPILE="tramp doxymacs org-mode gnus Pymacs magit cedet"
+TO_COMPILE="tramp doxymacs org-mode gnus Pymacs magit"
 RESULT=.compiled
 
 set -x 

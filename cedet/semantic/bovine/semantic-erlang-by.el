@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2002, 2003 Vladimir G. Sekissov
 
-;; Author: andrea <andrea@ip1-201.halifax.rwth-aachen.de>
-;; Created: 2011-02-26 20:43:46+0100
+;; Author:  <andrea@lati>
+;; Created: 2011-07-16 17:38:48+0200
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 
