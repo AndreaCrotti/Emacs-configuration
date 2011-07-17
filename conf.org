@@ -2322,6 +2322,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+begin_src emacs-lisp :tangle yes
   ;; lua mode
   (autoload 'lua-mode "lua-mode" "mode for lua" t)
+  (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
 #+end_src
 
 ** Fixme mode
