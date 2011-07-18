@@ -70,9 +70,6 @@
 [submodule "ess-mirror"]
 	path = ess-mirror
 	url = git://github.com/AndreaCrotti/ess-mirror.git
-[submodule "Pymacs"]
-	path = Pymacs
-	url = git://github.com/pinard/Pymacs.git
 [submodule "ruby-mode-mirror"]
 	path = ruby-mode-mirror
 	url = git://github.com/AndreaCrotti/ruby-mode-mirror.git

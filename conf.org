@@ -2451,6 +2451,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
                (local-set-key (kbd "M-n") 'ca-next-conf-section)
                (local-set-key (kbd "M-p") 'ca-prev-conf-section)))
   
+  ;TODO: this should be done as soon as possible to make it easy to override
   ;; whenever we are in /etc try to set the conf mode
   (add-to-list 'auto-mode-alist '("/etc" . conf-mode))
 #+end_src
@@ -2481,7 +2482,9 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 * Latex
 ** Configuring Auctex
-   Auctex is much more powerful than the default latex mode, enabling it using pdf as default mode
+   Auctex is much more powerful than the default latex mode, enabling
+   it using pdf as default mode
+
 #+begin_src emacs-lisp :tangle yes
   (add-to-list 'auto-mode-alist '("\\.[tT]e[xX]\\'" . latex-mode))
   (add-to-list 'load-path (make-conf-path "auctex"))
@@ -2522,18 +2525,6 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (add-to-list 'load-path (make-conf-path "auctex/preview"))
   ;TODO: only require when auctex is loaded maybe 
   (require 'preview)
-#+end_src
-
-** Accessing to latex symbols
-#+begin_src emacs-lisp :tangle yes
-  (setq latex-symbols-file
-        (expand-file-name "~/symbols-a4.pdf"))
-  
-  (defvar latex-command-program
-    (cond
-     (mac "open")
-     (linux "okular"))
-    "latex program to execute for viewing pdf")
 #+end_src
 
 ** Color code with listings package
