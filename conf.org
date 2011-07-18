@@ -2434,6 +2434,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Conf mode
 #+begin_src emacs-lisp :tangle yes
+  ;; separator might be different in the different conf mode dialects
   (setq ca-conf-section-regexp "\\[.*\\]")
   
   (defun ca-next-conf-section ()
@@ -2444,9 +2445,14 @@ Emacs is no more about text editing than astronomy is about telescopes.
     (interactive)
     (re-search-backward ca-conf-section-regexp))
   
-  (add-hook 'conf-unix-mode-hook '(lambda ()
-                                    (local-set-key (kbd "M-n") 'ca-next-conf-section)
-                                    (local-set-key (kbd "M-p") 'ca-prev-conf-section)))
+  ;TODO: make this thing more general if possible
+  (add-hook 'conf-unix-mode-hook
+            '(lambda ()
+               (local-set-key (kbd "M-n") 'ca-next-conf-section)
+               (local-set-key (kbd "M-p") 'ca-prev-conf-section)))
+  
+  ;; whenever we are in /etc try to set the conf mode
+  (add-to-list 'auto-mode-alist '("/etc" . conf-mode))
 #+end_src
 
 * Gpg and keys
