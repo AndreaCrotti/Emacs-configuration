@@ -2410,6 +2410,11 @@ Emacs is no more about text editing than astronomy is about telescopes.
                               (file-name-nondirectory buffer-file-name)))))
 #+end_src
 * Other modes
+** Battery mode
+#+begin_src emacs-lisp :tangle yes
+  (setq battery-mode-line-format "[%b%p%%]")
+#+end_src
+
 ** Writing
    Synonyms
 #+begin_src emacs-lisp :tangle yes
