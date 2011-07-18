@@ -5,6 +5,7 @@
 # - org-mode
 # - gnus
 # - Pymacs
+# FIXME: cedet is not compiling at all
 
 TO_COMPILE="tramp doxymacs org-mode gnus Pymacs magit"
 RESULT=.compiled

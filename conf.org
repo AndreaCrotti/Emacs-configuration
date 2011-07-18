@@ -1357,6 +1357,13 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (org-clock-persistence-insinuate)
 #+end_src
    
+** Using IDO
+#+begin_src emacs-lisp :tangle yes
+  (setq org-completion-use-ido t)
+  ; with ido enabled the following is not necessary anymore
+  (setq org-outline-path-complete-in-steps nil)
+#+end_src
+
 ** Check if we are in org-mode
 #+begin_src emacs-lisp :tangle yes
   ;; make it like a macro, takes a body and executes it
