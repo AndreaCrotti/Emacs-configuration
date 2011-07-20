@@ -2638,6 +2638,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 * Communication
+#TODO: make gmail the default relay or use msmtp to change server if possible
 ** Mail settings
 *** General settings for message creation
 
@@ -2657,15 +2658,10 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+begin_src emacs-lisp :tangle yes
   (autoload 'smtpmail-send-it "smtpmail")
   ;; rwth server
-    
-  (if mac
-    (setq message-send-mail-function 'message-send-mail-with-mailclient)
-    (setq send-mail-function 'smtpmail-send-it))
-    
+  
   (setq smtpmail-smtp-server "relay-auth.rwth-aachen.de")
   (setq smtpmail-smtp-service 465)
   (setq smtpmail-debug-info t)
-    
 #+end_src
 
 *** Setting default sending modality
