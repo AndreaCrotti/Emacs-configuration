@@ -2469,6 +2469,12 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (add-to-list 'auto-mode-alist '(".gitmodules" . conf-mode))
 #+end_src
 
+** Eimp mode
+#+begin_src emacs-lisp :tangle yes
+  (autoload 'eimp-mode "eimp" "Emacs Image Manipulation Package." t)
+  (add-hook 'image-mode-hook 'eimp-mode)
+#+end_src
+
 * Gpg and keys
   See on [[http://www.emacswiki.org/emacs/AutoEncryption][autoencryption article]] for more information
 #+begin_src emacs-lisp :tangle yes
