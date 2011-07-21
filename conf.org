@@ -1744,23 +1744,6 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (require 'semanticdb-global)
 #+end_src
 
-** Eclim
-  Get the power of eclipse right in emacs via [[http://eclim.org/][eclim]]
-
-#+begin_src emacs-lisp :tangle yes
-  (add-to-list 'load-path (make-conf-path "emacs-eclim/"))
-  ;; only add the vendor path when you want to use the libraries provided with emacs-eclim
-  (add-to-list 'load-path (make-conf-path "emacs-eclim/vendor"))
-  ;; use it a hook instead with the java mode
-  
-  ;; TODO: maybe worth using on other modes also
-  ;; (add-hook 'java-mode-hook
-  ;;           '(lambda ()
-  ;;              (require 'eclim)
-  
-  ;;              (setq eclim-auto-save t)
-  ;;              (eclim-mode 1)))
-#+end_src
 ** Tags
 *** Etags-select
    This extension to etags helps choosing from equal names of functions.
