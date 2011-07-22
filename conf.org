@@ -2451,7 +2451,8 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Arch linux
 #+begin_src emacs-lisp :tangle yes
-  (add-to-list 'auto-mode-alist '("PKGBUILD" . sh-mode))
+   (add-to-list 'auto-mode-alist '("PKGBUILD" . sh-mode))
+#+end_src
 
 ** Eimp mode
 #+begin_src emacs-lisp :tangle yes
