@@ -2441,16 +2441,18 @@ Emacs is no more about text editing than astronomy is about telescopes.
     (interactive)
     (re-search-backward ca-conf-section-regexp))
   
-  ;TODO: make this thing more general if possible
-  (add-hook 'conf-unix-mode-hook
-            '(lambda ()
-               (local-set-key (kbd "M-n") 'ca-next-conf-section)
-               (local-set-key (kbd "M-p") 'ca-prev-conf-section)))
+  (add-hook 'conf-unix-mode-hook '(lambda ()
+                                    (local-set-key (kbd "M-n") 'ca-next-conf-section)
+                                    (local-set-key (kbd "M-p") 'ca-prev-conf-section)))
   
-  ;TODO: this should be done as soon as possible to make it easy to override
-  ;; whenever we are in /etc try to set the conf mode
-  (add-to-list 'auto-mode-alist '("/etc" . conf-mode))
-  (add-to-list 'auto-mode-alist '(".gitmodules" . conf-mode))
+  (add-to-list 'auto-mode-alist
+               '("\\.pkla\\'" . conf-mode))
+  
+#+end_src
+
+** Arch linux
+#+begin_src emacs-lisp :tangle yes
+   (add-to-list 'auto-mode-alist '("PKGBUILD" . sh-mode))
 #+end_src
 
 ** Eimp mode
