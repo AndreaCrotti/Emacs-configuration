@@ -1706,8 +1706,9 @@ Emacs is no more about text editing than astronomy is about telescopes.
 *** Activate semantic bindings in some more modes
 #+begin_src emacs-lisp :tangle yes
   (dolist 
-      (hook '(python-mode-hook c-mode-common-hook emacs-lisp-mode-hook makefile-mode-hook))
-    (add-hook hook 'ca-activate-more-semantic-bindings))
+      (hook '(python-mode-hook c-mode-common-hook emacs-lisp-mode-hook makefile-mode-hook)))
+  
+  ;;(remove-hook 'python-mode-hook 'wisent-python-default-setup)
 #+end_src
 
 *** Options for semantic
