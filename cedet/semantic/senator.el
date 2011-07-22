@@ -970,49 +970,49 @@ use `imenu--mouse-menu' to handle the popup menu."
         (setq symbol  (buffer-substring-no-properties symstart (point))
               regexp  (regexp-quote symbol)
               complst (senator-find-tag-for-completion regexp)))
-    (if (not complst)
-        (error "No completions available"))
-    ;; We have a completion list, build a menu
-    (let ((index (delq nil
-                       (mapcar #'senator-completion-menu-item
-                               complst)))
-          title item)
-      (cond ;; Here index is a menu structure like:
+    (if (not (car complst))
+        (error "No completions available")
+      ;; We have a completion list, build a menu
+      (let ((index (delq nil
+			 (mapcar #'senator-completion-menu-item
+				 complst)))
+	    title item)
+	(cond ;; Here index is a menu structure like:
 
-       ;; -1- (("menu-item1" . [tag1]) ...)
-       ((vectorp (cdr (car index)))
-        ;; There are more than one item, setup the popup title.
-        (if (cdr index)
-            (setq title (format "%S completion" symbol))
-          ;; Only one item , no need to popup the menu.
-          (setq item (car index))))
+	 ;; -1- (("menu-item1" . [tag1]) ...)
+	 ((vectorp (cdr (car index)))
+	  ;; There are more than one item, setup the popup title.
+	  (if (cdr index)
+	      (setq title (format "%S completion" symbol))
+	    ;; Only one item , no need to popup the menu.
+	    (setq item (car index))))
 
-       ;; -2- (("menu-title1" ("menu-item1" . [tag1]) ...) ...)
-       (t
-        ;; There are sub-menus.
-        (if (cdr index)
-            ;; Several sub-menus, setup the popup title.
-            (setq title (format "%S completion" symbol))
-          ;; Only one sub-menu, convert it to a main menu and add the
-          ;; sub-menu title (filename) to the popup title.
-          (setq title (format "%S completion (%s)"
-                              symbol (car (car index)))
-                index (cdr (car index)))
-          ;; But...
-          (or (cdr index)
-              ;; ... If only one menu item, no need to popup the menu.
-              (setq item (car index))))))
-      (or item
-          ;; `imenu--mouse-menu' automagically splits large menu into
-          ;; several submenus, displays the popup menu, and returns
-          ;; the selected item :-)
-          (setq item (imenu--mouse-menu
-                      index
-                      ;; popup at point
-                      (senator-completion-menu-point-as-event)
-                      title)))
-      (if item
-          (senator-completion-menu-do-complete (cdr item))))))
+	 ;; -2- (("menu-title1" ("menu-item1" . [tag1]) ...) ...)
+	 (t
+	  ;; There are sub-menus.
+	  (if (cdr index)
+	      ;; Several sub-menus, setup the popup title.
+	      (setq title (format "%S completion" symbol))
+	    ;; Only one sub-menu, convert it to a main menu and add the
+	    ;; sub-menu title (filename) to the popup title.
+	    (setq title (format "%S completion (%s)"
+				symbol (car (car index)))
+		  index (cdr (car index)))
+	    ;; But...
+	    (or (cdr index)
+		;; ... If only one menu item, no need to popup the menu.
+		(setq item (car index))))))
+	(or item
+	    ;; `imenu--mouse-menu' automagically splits large menu into
+	    ;; several submenus, displays the popup menu, and returns
+	    ;; the selected item :-)
+	    (setq item (imenu--mouse-menu
+			index
+			;; popup at point
+			(senator-completion-menu-point-as-event)
+			title)))
+	(if item
+	    (senator-completion-menu-do-complete (cdr item)))))))
 
 ;;;;
 ;;;; Search commands

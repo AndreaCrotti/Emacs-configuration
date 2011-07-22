@@ -6,9 +6,7 @@
 (require 'gnus-load)
 (add-to-list 'Info-default-directory-list (make-conf-path "gnus/texi/"))
 
-(when (boundp 'use-my-tramp)
-    (add-to-list 'load-path (make-conf-path "tramp/lisp")))
-
+(add-to-list 'load-path (make-conf-path "tramp/lisp"))
 (add-to-list 'load-path (make-conf-path "org-mode/lisp"))
 (add-to-list 'load-path (make-conf-path "org-mode/contrib/babel/lisp"))
 (add-to-list 'load-path (make-conf-path "org-mode/contrib/babel/lisp/langs"))

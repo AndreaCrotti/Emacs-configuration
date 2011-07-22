@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2010 Free Software Foundation
 
-;; Author: Andrea Crotti <crotti@klenkes>
-;; Created: 2011-02-25 10:31:22+0100
+;; Author:  <andrea@lati>
+;; Created: 2011-07-16 17:38:48+0200
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

@@ -75,15 +75,19 @@ install scripts:
   install GNU Make to use with these Makefiles.  Alternately, 
   see cedet-build.el
 
-3) Install load hooks into your .emacs file.  For more detail on
-   any topic, see the info file common/cedet.info for more details on
-   installaiton.
+3) Install load hooks into your .emacs file.  For newer Emacsen which
+   already ship with CEDET, you should place the `load-file' command
+   near the beginning of your init file, otherwise parts of CEDET like
+   EIEIO might already be loaded. For more detail on any topic, see
+   the info file common/cedet.info for more details on installaiton.
 
 -----------
 ;; Load CEDET.
 ;; See cedet/common/cedet.info for configuration details.
+;; IMPORTANT: For Emacs >= 23.2, you must place this *before* any
+;; CEDET component (including EIEIO) gets activated by another 
+;; package (Gnus, auth-source, ...).
 (load-file "~/cedet-VERSION/common/cedet.el")
-
 
 ;; Enable EDE (Project Management) features
 (global-ede-mode 1)

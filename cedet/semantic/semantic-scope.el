@@ -192,7 +192,7 @@ Use `semantic-ctxt-scoped-types' to find types."
 		       (semanticdb-typecache-find (car sp)))
 		       ;(semantic-analyze-find-tag (car sp) 'type))
 		      ((semantic-tag-p (car sp))
-		       (if (semantic-analyze-tag-prototype-p (car sp))
+		       (if (semantic-tag-prototype-p (car sp))
 			   (semanticdb-typecache-find (semantic-tag-name (car sp)))
 			   ;;(semantic-analyze-find-tag (semantic-tag-name (car sp)) 'type)
 			 (car sp)))

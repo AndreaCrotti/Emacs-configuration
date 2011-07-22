@@ -697,7 +697,10 @@ Return non-nil if the minor mode is enabled.")
 		  (symbol-name mode) "'.")
 	 ,@forms))))
 (put 'define-semantic-idle-service 'lisp-indent-function 1)
-
+(add-hook 'edebug-setup-hook
+          (lambda ()
+	    (def-edebug-spec define-semantic-idle-service
+	      (&define name stringp def-body))))
 
 ;;; SUMMARY MODE
 ;;
@@ -912,7 +915,7 @@ Call `semantic-symref-hits-in-region' to identify local references."
 	   ;; We use pulse, but we don't want the flashy version,
 	   ;; just the stable version.
 	   (pulse-flag nil))
-      (when ctxt
+      (when (and ctxt tag)
 	;; Highlight the original tag?  Protect against problems.
 	(condition-case nil
 	    (semantic-idle-symbol-maybe-highlight target)

@@ -795,6 +795,16 @@ OPTIONS-AND-DOC as the toplevel documentation for this class."
     (put cname 'variable-documentation
 	 (class-option-assoc options :documentation))
 
+    ;; Save the file location where this class is defined.
+    (let ((fname (if load-in-progress
+		     load-file-name
+		   buffer-file-name))
+	  loc)
+      (when fname
+	(when (string-match "\\.elc$" fname)
+	  (setq fname (substring fname 0 (1- (length fname)))))
+	(put cname 'class-location fname)))
+    
     ;; We have a list of custom groups.  Store them into the options.
     (let ((g (class-option-assoc options :custom-groups)))
       (mapc (lambda (cg) (add-to-list 'g cg)) groups)
@@ -1238,7 +1248,9 @@ IMPL is the symbol holding the method implementation."
 		  (eieio-generic-call-methodname ,(list 'quote method))
 		  (eieio-generic-call-arglst local-args)
 		  )
-	      (apply ,(list 'quote impl) local-args)
+	      ,(if (< emacs-major-version 24)
+		  `(apply ,(list 'quote impl) local-args)
+		`(apply #',impl local-args))
 	      ;(,impl local-args)
 	      ))))
      )
@@ -2364,6 +2376,18 @@ CLASS is the class this method is associated with."
     (if (< key method-num-lists)
 	(let ((nsym (intern (symbol-name class) (aref emto key))))
 	  (fset nsym method)))
+    ;; Save the defmethod file location in a symbol property.
+    (let ((fname (if load-in-progress
+		     load-file-name
+		   buffer-file-name))
+	  loc)
+      (when fname
+	(when (string-match "\\.elc$" fname)
+	  (setq fname (substring fname 0 (1- (length fname)))))
+	(setq loc (get method-name 'method-locations))
+	(add-to-list 'loc
+		     (list class fname))
+	(put method-name 'method-locations loc)))
     ;; Now optimize the entire obarray
     (if (< key method-num-lists)
 	(let ((eieiomt-optimizing-obarray (aref emto key)))

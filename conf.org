@@ -445,30 +445,39 @@ Emacs is no more about text editing than astronomy is about telescopes.
 **** TODO Add something VCS related for moving away files
 #+begin_src emacs-lisp :tangle yes
   (defun ca-rename-file-and-buffer (new-name)
-    "Renames both current buffer and file it's visiting to NEW-NAME." (interactive "sNew name: ")
+    "Renames both current buffer and file it's visiting to NEW-NAME."
+    (interactive "sNew name: ")
     (let ((name (buffer-name))
           (filename (buffer-file-name)))
       (if (not filename)
           (message "Buffer '%s' is not visiting a file!" name)
         (if (get-buffer new-name)
             (message "A buffer named '%s' already exists!" new-name)
-          (progn   (rename-file name new-name 1)   (rename-buffer new-name)        (set-visited-file-name new-name)        (set-buffer-modified-p nil)))))) ;;
+          (progn
+            (rename-file name new-name 1)
+            (rename-buffer new-name)
+            (set-visited-file-name new-name)
+            (set-buffer-modified-p nil))))))
 #+end_src
 
 *** Move buffer file
 #+begin_src emacs-lisp :tangle yes
   (defun ca-move-buffer-file (dir)
-    "Moves both current buffer and file it's visiting to DIR." (interactive "DNew directory: ")
+    "Moves both current buffer and file it's visiting to DIR."
+    (interactive "DNew directory: ")
     (let* ((name (buffer-name))
            (filename (buffer-file-name))
            (dir
             (if (string-match dir "\\(?:/\\|\\\\)$")
                 (substring dir 0 -1) dir))
            (newname (concat dir "/" name)))
-  
       (if (not filename)
           (message "Buffer '%s' is not visiting a file!" name)
-        (progn         (copy-file filename newname 1)  (delete-file filename)  (set-visited-file-name newname)         (set-buffer-modified-p nil)     t))))
+        (progn
+          (copy-file filename newname 1)
+          (delete-file filename)
+          (set-visited-file-name newname)
+          (set-buffer-modified-p nil) t))))
 #+end_src
 
 *** Delete current file
@@ -544,8 +553,8 @@ Emacs is no more about text editing than astronomy is about telescopes.
     (let ((grep-result-buffer (get-buffer-create "*git grep result*")))
       (shell-command (format "git --no-pager grep -nH -e %s" string-to-find) grep-result-buffer)
       (pop-to-buffer grep-result-buffer)
-      (grep-mode))
-    )
+      (grep-mode)))
+  
 #+end_src
 
 *** Change git branch
@@ -620,7 +629,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
      ((equal (expand-file-name root) "/") nil)
      (t
       ;; recursive call
-      (find-project-root (concat (file-name-as-directory root) "..")))))
+      (ca-find-project-root (concat (file-name-as-directory root) "..")))))
   
   (ca-find-project-root)
 #+end_src
@@ -1127,7 +1136,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+begin_src emacs-lisp :tangle yes
   (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
   (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-  (if (and linux window-system) (menu-bar-mode -1))
+  (menu-bar-mode -1)
 #+end_src
 
 ** Fullscreen mode
@@ -1348,6 +1357,13 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (org-clock-persistence-insinuate)
 #+end_src
    
+** Using IDO
+#+begin_src emacs-lisp :tangle yes
+  (setq org-completion-use-ido t)
+  ; with ido enabled the following is not necessary anymore
+  (setq org-outline-path-complete-in-steps nil)
+#+end_src
+
 ** Check if we are in org-mode
 #+begin_src emacs-lisp :tangle yes
   ;; make it like a macro, takes a body and executes it
@@ -1548,7 +1564,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 * Escreen
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
   ;; from http://tapoueh.org/articles/news/_Escreen_integration.html
   (load "escreen")
   (escreen-install)
@@ -1728,23 +1744,6 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (require 'semanticdb-global)
 #+end_src
 
-** Eclim
-  Get the power of eclipse right in emacs via [[http://eclim.org/][eclim]]
-
-#+begin_src emacs-lisp :tangle yes
-  (add-to-list 'load-path (make-conf-path "emacs-eclim/"))
-  ;; only add the vendor path when you want to use the libraries provided with emacs-eclim
-  (add-to-list 'load-path (make-conf-path "emacs-eclim/vendor"))
-  ;; use it a hook instead with the java mode
-  
-  ;; TODO: maybe worth using on other modes also
-  ;; (add-hook 'java-mode-hook
-  ;;           '(lambda ()
-  ;;              (require 'eclim)
-  
-  ;;              (setq eclim-auto-save t)
-  ;;              (eclim-mode 1)))
-#+end_src
 ** Tags
 *** Etags-select
    This extension to etags helps choosing from equal names of functions.
@@ -2313,6 +2312,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+begin_src emacs-lisp :tangle yes
   ;; lua mode
   (autoload 'lua-mode "lua-mode" "mode for lua" t)
+  (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
 #+end_src
 
 ** Fixme mode
@@ -2393,6 +2393,11 @@ Emacs is no more about text editing than astronomy is about telescopes.
                               (file-name-nondirectory buffer-file-name)))))
 #+end_src
 * Other modes
+** Battery mode
+#+begin_src emacs-lisp :tangle yes
+  (setq battery-mode-line-format "[%b%p%%]")
+#+end_src
+
 ** Writing
    Synonyms
 #+begin_src emacs-lisp :tangle yes
@@ -2424,6 +2429,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Conf mode
 #+begin_src emacs-lisp :tangle yes
+  ;; separator might be different in the different conf mode dialects
   (setq ca-conf-section-regexp "\\[.*\\]")
   
   (defun ca-next-conf-section ()
@@ -2446,6 +2452,11 @@ Emacs is no more about text editing than astronomy is about telescopes.
 ** Arch linux
 #+begin_src emacs-lisp :tangle yes
   (add-to-list 'auto-mode-alist '("PKGBUILD" . sh-mode))
+
+** Eimp mode
+#+begin_src emacs-lisp :tangle yes
+  (autoload 'eimp-mode "eimp" "Emacs Image Manipulation Package." t)
+  (add-hook 'image-mode-hook 'eimp-mode)
 #+end_src
 
 * Gpg and keys
@@ -2474,7 +2485,9 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 * Latex
 ** Configuring Auctex
-   Auctex is much more powerful than the default latex mode, enabling it using pdf as default mode
+   Auctex is much more powerful than the default latex mode, enabling
+   it using pdf as default mode
+
 #+begin_src emacs-lisp :tangle yes
   (add-to-list 'auto-mode-alist '("\\.[tT]e[xX]\\'" . latex-mode))
   (add-to-list 'load-path (make-conf-path "auctex"))
@@ -2517,18 +2530,6 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (require 'preview)
 #+end_src
 
-** Accessing to latex symbols
-#+begin_src emacs-lisp :tangle yes
-  (setq latex-symbols-file
-        (expand-file-name "~/symbols-a4.pdf"))
-  
-  (defvar latex-command-program
-    (cond
-     (mac "open")
-     (linux "okular"))
-    "latex program to execute for viewing pdf")
-#+end_src
-
 ** Color code with listings package
 #+begin_src emacs-lisp :tangle yes
   ;; requite org-latex so that the following variables are defined
@@ -2557,9 +2558,12 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Correlation mode
 #+begin_src emacs-lisp :tangle yes
+  ; FIXME: overwriting too much in this case, some old program-selection
+  ; should be kept as it was
   (when linux
-    (setq TeX-view-program-list '(("Okular" "okular --page %(outpage) %o")))
-    (setq TeX-view-program-selection '((output-pdf "Okular"))))
+    (setq TeX-view-program-list '(("Evince" "evince --page-label=%(outpage) %o")
+                                  ("Okular" "okular --page %(outpage) %o")))
+    (setq TeX-view-program-selection '((output-pdf "Evince"))))
   
   (when mac
     (setq TeX-view-program-list '(("open" "open %o")))
@@ -2624,6 +2628,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 * Communication
+#TODO: make gmail the default relay or use msmtp to change server if possible
 ** Mail settings
 *** General settings for message creation
 
@@ -2643,15 +2648,10 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+begin_src emacs-lisp :tangle yes
   (autoload 'smtpmail-send-it "smtpmail")
   ;; rwth server
-    
-  (if mac
-    (setq message-send-mail-function 'message-send-mail-with-mailclient)
-    (setq send-mail-function 'smtpmail-send-it))
-    
+  
   (setq smtpmail-smtp-server "relay-auth.rwth-aachen.de")
   (setq smtpmail-smtp-service 465)
   (setq smtpmail-debug-info t)
-    
 #+end_src
 
 *** Setting default sending modality
@@ -2866,23 +2866,23 @@ Emacs is no more about text editing than astronomy is about telescopes.
 ** Erc
 *** Accessory functions
 #+begin_src emacs-lisp :tangle yes
-  ;; This is an example of how to make a new command.  Type "/uptime" to
-  ;; use it.
-  (defun erc-cmd-UPTIME (&rest ignore)
-    "Display the uptime of the system, as well as some load-related
-       stuff, to the current ERC buffer."
-    (let ((uname-output
-           (replace-regexp-in-string
-            ", load average: " "] {Load average} ["
-            ;; Collapse spaces, remove
-            (replace-regexp-in-string
-             " +" " "
-             ;; Remove beginning and trailing whitespace
+    ;; This is an example of how to make a new command.  Type "/uptime" to
+    ;; use it.
+    (defun erc-cmd-UPTIME (&rest ignore)
+      "Display the uptime of the system, as well as some load-related
+         stuff, to the current ERC buffer."
+      (let ((uname-output
              (replace-regexp-in-string
-              "^ +\\|[ \n]+$" ""
-              (shell-command-to-string "uptime"))))))
-      (erc-send-message
-       (concat "{Uptime} [" uname-output "]"))))
+              ", load average: " "] {Load average} ["
+              ;; Collapse spaces, remove
+              (replace-regexp-in-string
+               " +" " "
+               ;; Remove beginning and trailing whitespace
+               (replace-regexp-in-string
+                "^ +\\|[ \n]+$" ""
+                (shell-command-to-string "uptime"))))))
+        (erc-send-message
+         (concat "{Uptime} [" uname-output "]"))))
 #+end_src
 
 *** Functions to connect to useful servers
@@ -2895,6 +2895,8 @@ Emacs is no more about text editing than astronomy is about telescopes.
            "#c" "#c++" "#conkeror"
            "#org-mode" "#android" "#latex"
            "#org-mode" "#postfix" "#procmail"
+           "#android-devel" "#libav-devel"
+           "#archlinux" "#xmonad"
            "#scipy" "#haskell" "#macosx")))
   
   ;; highlight in the modeline only when my nick is cited
@@ -2902,10 +2904,12 @@ Emacs is no more about text editing than astronomy is about telescopes.
   
   ;; enable logging (by default logs everything to ~/log
   (setq erc-log-mode t)
+  
 #+end_src
 
 *** Replace text of away/online messages
 #+begin_src emacs-lisp :tangle yes
+  ;TODO: add something to remove also the renames
   (erc-replace-mode t)
   (setq erc-replace-alist
         '(("\\*.*? has changed.*?to \\+v \\(\\w+\\)" . "\\1 is online")
