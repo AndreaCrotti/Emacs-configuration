@@ -16,10 +16,10 @@ submodules are required and some need also to be compiled.
   - auto completion
   - python-mode
   - haskell-mode
-  - org-mode & org-babel
-  - flymake for compilation errors directly in buffers
+  - org-mode
+  - flymake supporting many programming modes
   - code folding and navigation via semantic in all languages supported
-  - and much much more...
+  And much more...
 
 * Usage
   To try it out:
