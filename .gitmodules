@@ -118,3 +118,6 @@
 [submodule "magit"]
 	path = magit
 	url = git://github.com/AndreaCrotti/magit.git
+[submodule "words-mode"]
+	path = words-mode
+	url = git://github.com/AndreaCrotti/words-mode.git
