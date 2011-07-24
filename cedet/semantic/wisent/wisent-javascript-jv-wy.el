@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2005 Joakim Verona, Eric Ludlam
 
-;; Author:  <andrea@lati>
-;; Created: 2011-07-16 17:38:44+0200
+;; Author:  <andrea@dell>
+;; Created: 2011-07-24 16:27:38+0200
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

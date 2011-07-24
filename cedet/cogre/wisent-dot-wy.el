@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2003, 2004, 2009 Eric M. Ludlam
 
-;; Author:  <andrea@lati>
-;; Created: 2011-07-16 17:38:51+0200
+;; Author:  <andrea@dell>
+;; Created: 2011-07-24 16:27:47+0200
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

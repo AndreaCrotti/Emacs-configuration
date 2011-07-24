@@ -2,8 +2,8 @@
 
 ;;; Copyright (C) 2007 Daniel Debertin (debertin@gmail.com)
 
-;; Author:  <andrea@lati>
-;; Created: 2011-07-16 17:38:56+0200
+;; Author:  <andrea@dell>
+;; Created: 2011-07-24 16:27:51+0200
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 
