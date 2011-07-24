@@ -41,6 +41,19 @@
          'py-electric-backspace-test
          'py-electric-delete-test
          'UnicodeEncodeError-python3-test
+         'dict-error-test
+         'py-expand-abbrev-pst-pdb.set_trace-test
+         'near-bob-beginning-of-statement-test
+         'bob-beginning-of-statement-test
+         'honor-comments-indent-test
+         'assignement-indent-test
+         'if-elif-test
+         'if-elif-bob-test
+         'try-else-clause-test
+         'try-except-test
+         'assignement-after-block-test
+         'py-beginning-of-clause-test
+         'py-end-of-clause-test
 
 )))
 
@@ -108,7 +121,6 @@
     (py-beginning-of-block-or-clause)
     (assert (looking-at "if") nil "py-beginning-of-block-or-clause test failed"))
 
-
 (defun py-end-of-block-or-clause-test (&optional arg load-branch-function)
   (interactive "p")
   (let ((teststring python-mode-teststring))
@@ -140,7 +152,7 @@
 (defun py-end-of-def-base ()
     (py-beginning-of-def)
     (py-end-of-def)
-    (assert (eq (point) 556) nil "py-end-of-def test failed")  
+    (assert (eq (point) 556) nil "py-end-of-def test failed")
     )
 
 (defun py-beginning-of-def-or-class-test (&optional arg load-branch-function)
@@ -181,7 +193,6 @@
   (py-electric-backspace)
   (assert (eq 232 (point)) nil "py-electric-backspace test #4 failed"))
 
-
 (defun py-electric-delete-test (&optional arg load-branch-function)
   (interactive "p")
   (let ((teststring python-mode-teststring))
@@ -218,7 +229,260 @@ print('\\xA9')"))
       (sit-for 0.1))
   (assert (looking-back "©") nil "UnicodeEncodeError-python3 test failed"))
 
+(defun dict-error-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python3
+ # -*- coding: utf-8 -*-
 
+class foo(bar):
+	\"\"\"baz\"\"\"
+       	_some_extensions = {
+
+		'38': 'asd', #  whatever
+		'43': 'ddd',
+		'45': 'ddd',
+	}
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'dict-error-base arg teststring)))
+
+(defun dict-error-base ()
+    (goto-char 78)
+    (assert (eq 167 (py-end-of-statement)) nil "dict-error test failed"))
+
+(defun py-expand-abbrev-pst-pdb.set_trace-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python3
+# -*- coding: utf-8 -*-
+print('\xA9')
+pst
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'py-expand-abbrev-pst-pdb.set_trace-base arg teststring)))
+
+(defun py-expand-abbrev-pst-pdb.set_trace-base ()
+  (forward-char -1)
+  (expand-abbrev)
+  (sit-for 1)
+  ;;  (assert (string= (expand-abbrev) "pst") nil "py-expand-abbrev-pst-pdb.set_trace test failed"))
+  ;; (assert (expand-abbrev) nil "py-expand-abbrev-pst-pdb.set_trace test failed"))
+  (progn (looking-back "pdb.set_trace()")
+      (message "Looking back: %s" (match-string-no-properties 0)))
+  (assert (looking-back "pdb.set_trace()")
+          ;;          (message "%s" (match-string-no-properties 1))
+          nil "py-expand-abbrev-pst-pdb.set_trace test failed"))
+
+(defun near-bob-beginning-of-statement-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+ # -*- coding: utf-8 -*-
+
+print u'\xA9'
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'near-bob-beginning-of-statement-base arg teststring)))
+
+(defun near-bob-beginning-of-statement-base ()
+    (goto-char 50)
+    (assert (eq 0 (py-compute-indentation)) nil "near-bob-beginning-of-statement test failed"))
+
+(defun bob-beginning-of-statement-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "    #Foo.py
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'bob-beginning-of-statement-base arg teststring)))
+
+(defun bob-beginning-of-statement-base ()
+    (py-beginning-of-statement)
+    (assert (eq 1 (point))  "bob-beginning-of-statement test failed"))
+
+(defun honor-comments-indent-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "    #Something.py
+    # The purpose of this program is uncertain.
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'honor-comments-indent-base arg teststring)))
+
+(defun honor-comments-indent-base ()
+    (goto-char 19)
+    (assert (eq 4 (py-compute-indentation)) nil "honor-comments-indent test failed"))
+
+(defun first-line-offset-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "    #Something.py
+    # The purpose of this program is uncertain.
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'first-line-offset-base arg teststring)))
+
+(defun first-line-offset-base ()
+    (goto-char 18)
+    (assert (eq 4 (py-compute-indentation)) nil "first-line-offset test failed"))
+
+(defun assignement-indent-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "def foo():
+sammlung = []
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'assignement-indent-base arg teststring)))
+
+(defun assignement-indent-base ()
+    (goto-char 12)
+    (assert (eq 4 (py-compute-indentation)) nil "assignement-indent test failed"))
+
+(defun if-elif-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "if bar in baz:
+    print \"0, baz\"
+    abc[1] = \"x\"
+
+elif barr in bazz:
+    print \"\"
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'if-elif-base arg teststring)))
+
+(defun if-elif-base ()
+    (goto-char 76)
+    (assert (eq 4 (py-compute-indentation)) nil "if-elif.py test failed"))
+
+(defun if-elif-bob-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "if bar in baz:
+    print \"0, baz\"
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'if-elif-bob-base arg teststring)))
+
+(defun if-elif-bob-base ()
+    (goto-char (point-min))
+    (assert (eq 0 (py-compute-indentation)) nil "if-elif-bob.py test failed"))
+
+(defun try-else-clause-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "
+# an example from http://www.thomas-guettler.de
+# © 2002-2008 Thomas Güttler. Der Text darf nach belieben kopiert und modifiziert werden, solange dieser Hinweis zum Copyright und ein Links zu dem Original unter www.thomas-guettler.de erhalten bleibt. Es wäre nett, wenn Sie mir Verbesserungsvorschläge mitteilen: guettli@thomas-guettler.de
+
+def _commit_on_success(*args, **kw):
+    begin()
+    try:
+        res = func(*args, **kw)
+    except Exception, e:
+        rollback()
+        raise # Re-raise (aufgefangene Exception erneut werfen)
+    else:
+        commit()
+    return res
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'try-else-clause-base arg teststring)))
+
+(defun try-else-clause-base ()
+  (forward-char -1)
+  (assert (eq 4 (py-compute-indentation)) nil "try-else-clause test failed"))
+
+(defun try-except-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "
+# an example from http://www.thomas-guettler.de
+# © 2002-2008 Thomas Güttler. Der Text darf nach belieben kopiert und modifiziert werden, solange dieser Hinweis zum Copyright und ein Links zu dem Original unter www.thomas-guettler.de erhalten bleibt. Es wäre nett, wenn Sie mir Verbesserungsvorschläge mitteilen: guettli@thomas-guettler.de
+
+def _commit_on_success(*args, **kw):
+    begin()
+    try:
+        res = func(*args, **kw)
+    except Exception, e:
+        rollback()
+        raise # Re-raise (aufgefangene Exception erneut werfen)
+    else:
+        commit()
+    return res
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'try-except-base arg teststring)))
+
+(defun try-except-base ()
+  (goto-char 434)
+  (assert (eq 4 (py-compute-indentation)) nil "try-else-clause test failed"))
+
+(defun assignement-after-block-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "
+if x > 0:
+    for i in range(100):
+        print i
+    else:
+    print \"All done\"
+
+a = \"asdf\"
+b = \"asdf\"
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'assignement-after-block-base arg teststring)))
+
+(defun assignement-after-block-base ()
+    (forward-line -1) 
+    (assert (eq 0 (py-compute-indentation)) nil "assignement-after-block test failed"))
+
+(defun py-beginning-of-clause-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "# Examples from http://diveintopython.org/
+
+def main(argv):
+    grammar = \"kant.xml\"
+    try:
+        opts, args = getopt.getopt(argv, \"hg:d\", [\"help\", \"grammar=\"])
+    except getopt.GetoptError:
+        usage()
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt in (\"-h\", \"--help\"):
+            usage()
+            sys.exit()
+        elif opt == '-d':
+            global _debug
+            _debug = 1
+        elif opt in (\"-g\", \"--grammar\"):
+            grammar = arg
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'py-beginning-of-clause-base arg teststring)))
+
+(defun py-beginning-of-clause-base ()
+    (goto-char 295)
+    (assert (eq 267 (py-beginning-of-clause)) "py-beginning-of-clause test failed"))
+
+(defun py-end-of-clause-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "# Examples from http://diveintopython.org/
+
+def main(argv):
+    grammar = \"kant.xml\"
+    try:
+        opts, args = getopt.getopt(argv, \"hg:d\", [\"help\", \"grammar=\"])
+    except getopt.GetoptError:
+        usage()
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt in (\"-h\", \"--help\"):
+            usage()
+            sys.exit()
+        elif opt == '-d':
+            global _debug
+            _debug = 1
+        elif opt in (\"-g\", \"--grammar\"):
+            grammar = arg
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'py-end-of-clause-base arg teststring)))
+
+(defun py-end-of-clause-base ()
+    (goto-char 295)
+    (assert (eq 337 (py-end-of-clause)) "py-end-of-clause test failed"))
 
 (provide 'python-mode-test)
 ;;; python-mode-test.el ends here

@@ -78,6 +78,7 @@
          'stops-backslashed-line-lp:802504-test
          'stops-backslashed-line-lp:802504-test2
          'python-mode-slow-lp:803275-test
+         'py-master-file-not-honored-lp:794850-test
 
          )))
 
@@ -99,10 +100,10 @@
         (funcall testname)
         (message "%s" (concat (replace-regexp-in-string "-base$" "-test" (prin1-to-string testname)) " passed"))
         (unless (< 1 arg)
-;;          (switch-to-buffer (current-buffer))
           (set-buffer-modified-p 'nil)
-          (when (get-process (buffer-name))
-            (kill-process (get-process py-which-bufname)))
+          (cond ((processp (get-process "Python3")) (kill-process "Python3"))
+                ((processp (get-process "Python2")) (kill-process "Python2"))
+                ((processp (get-process "Python")) (kill-process "Python")))
           (kill-buffer (current-buffer))))
     (with-temp-buffer
       (let ((font-lock-verbose nil))
@@ -543,7 +544,8 @@ If no `load-branch-function' is specified, make sure the appropriate branch is l
 
 (defun imenu-newline-arglist-lp:328783-base ()
   (goto-char 60)
-  (assert (eq (py-beginning-of-def-or-class) 1) nil "imenu-newline-arglist-lp:328783 test failed"))
+  (py-beginning-of-def-or-class)
+  (assert (eq (point) 1) nil "imenu-newline-arglist-lp:328783 test failed"))
 
 (defun hungry-delete-backwards-lp:328853-test (&optional arg load-branch-function)
   "With ARG greater 1 keep test buffer open.
@@ -858,8 +860,7 @@ failed: %s' %
 
 (defun indent-after-return-lp:745208 ()
   (goto-char (point-max))
-  (assert (eq 4 (py-compute-indentation)) nil "indent-after-return-lp:745208 test failed")
-  )
+  (assert (eq 8 (py-compute-indentation)) nil "indent-after-return-lp:745208 test failed"))
 
 (defun keep-assignements-column-lp:748198-test (&optional arg load-branch-function)
   "With ARG greater 1 keep test buffer open.
@@ -1336,6 +1337,34 @@ def add(ui, repo, \*pats, \*\*opts):
 (defun python-mode-slow-lp:803275-base ()
     (goto-char (point-min))
     (assert (eq 5430 (py-end-of-def-or-class)) nil "python-mode-slow-lp:803275 test failed"))
+
+(defun py-master-file-not-honored-lp:794850-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+ # -*- coding: utf-8 -*-
+
+# Local Variables:
+# py-master-file: \"/usr/tmp/my-master.py\"
+# End:
+
+print u'\xA9'
+"))
+    (when load-branch-function (funcall load-branch-function))
+    (py-bug-tests-intern 'py-master-file-not-honored-lp:794850-base arg teststring)))
+
+(defun py-master-file-not-honored-lp:794850-base ()
+  (save-excursion 
+    (set-buffer (get-buffer-create "lp:794850-test-master.py"))
+    (erase-buffer)
+    (insert "#! /usr/bin/env python
+ # -*- coding: utf-8 -*-
+
+print \"Hello, I'm your master!\"
+")
+    (write-file "/var/tmp/my-master.py"))
+  (py-execute-buffer))
+
+;;    (assert nil "py-master-file-not-honored-lp:794850 test failed"))
 
 (provide 'py-bug-numbered-tests)
 ;;; py-bug-numbered-tests.el ends here

@@ -1,6 +1,25 @@
 Python Mode News
 ================
 
+New in version 6.0
+--------------------
+
+Finer grained commands, core re-write.
+
+As shown below for the `mark'-command, delete,
+copy, jump to beginning and end of the respective
+programming-expressions:
+
+py-mark-statement
+py-mark-block
+py-mark-block-or-clause
+py-mark-def
+py-mark-def-or-class
+py-mark-class
+py-mark-clause
+
+Also a couple of bugfixes are done.
+
 New in version 5.2.1
 --------------------
 
