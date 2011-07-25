@@ -2066,7 +2066,8 @@ Emacs is no more about text editing than astronomy is about telescopes.
     This dirty hack is useful to force the use of python-mode.el
 
 #+begin_src emacs-lisp :tangle yes
-  (set-buffer (get-buffer-create "reset_python_test.py"))
+  (setq ca-reset-python-test-file "reset_python_test.py")
+  (set-buffer (get-buffer-create ca-reset-python-test-file))
   (erase-buffer)
   (when
       (featurep 'python-mode)
@@ -2074,7 +2075,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
   
   (fundamental-mode)
   (setq py-python-command-args '("-colors" "Linux"))
-  
+  (kill-buffer ca-reset-python-test-file)
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes
