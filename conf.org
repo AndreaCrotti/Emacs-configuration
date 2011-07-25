@@ -2449,6 +2449,8 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (add-to-list 'auto-mode-alist
                '("\\.pkla\\'" . conf-mode))
   
+  (add-to-list 'auto-mode-alist
+               '("shorewall" . conf-space-mode))
 #+end_src
 
 ** Arch linux
@@ -2675,41 +2677,41 @@ Emacs is no more about text editing than astronomy is about telescopes.
                  (nnir-search-engine imap)
                  (nnimap-stream ssl)))
   
+  ;TODO: if it was received on gmail it's not copied twice
   (setq gnus-message-archive-group "nnimap+gmail:Sent")
   
   (setq gnus-secondary-select-methods
-        '((nnimap "rwth"
-                (nnimap-address "mailbox.rwth-aachen.de")
-                (nnimap-stream ssl))
+        '(;; (nnimap "rwth"
+          ;;       (nnimap-address "mailbox.rwth-aachen.de")
+          ;;       (nnimap-stream ssl))
           (nntp "news.gmane.org")
           ;; Configuration for http://www.eternal-september.org/
           (nntp "eternal"
                 (nntp-address "news.eternal-september.org")
-                (nntp-port-number 119))
-  ))
+                (nntp-port-number 119))))
   
 #+end_src
 
 *** Example about splitting
     [[http://efod.se/writings/gnus-and-courier][See article about splitting settings]]
 
-#+begin_src emacs-lisp :tangle yes
-  ;; (setq nnimap-split-inbox
-  ;;         '("INBOX" ))
+#+begin_src emacs-lisp :tangle no
+  (setq nnimap-split-inbox
+          '("INBOX" ))
   
-  ;; (setq nnimap-split-predicate "UNDELETED")
+  (setq nnimap-split-predicate "UNDELETED")
   
-  ;; (setq nnimap-split-crosspost nil)
+  (setq nnimap-split-crosspost nil)
   
-  ;; (setq nnimap-split-rule '(("Example" ("INBOX" nnimap-split-fancy)))
-  ;;       nnimap-split-fancy 
-  ;;       '(| (any "auser@example\\.com" "INBOX.mail")
-  ;;        ("X-Spam-Status" "Yes.*" "INBOX.Spamassassined")
-  ;;        ("subject" "Backup report" "INBOX.backupreports")
-  ;;        ("from" "MAILER-DAEMON@example\\.com" 
-  ;;         "INBOX.example.mailer-daemon")
-  ;;        (any "myaddr@example.com" "INBOX.mail")
-  ;;        "INBOX.mail.unsorted"))
+  (setq nnimap-split-rule '(("Example" ("INBOX" nnimap-split-fancy)))
+        nnimap-split-fancy 
+        '(| (any "auser@example\\.com" "INBOX.mail")
+         ("X-Spam-Status" "Yes.*" "INBOX.Spamassassined")
+         ("subject" "Backup report" "INBOX.backupreports")
+         ("from" "MAILER-DAEMON@example\\.com" 
+          "INBOX.example.mailer-daemon")
+         (any "myaddr@example.com" "INBOX.mail")
+         "INBOX.mail.unsorted"))
              
   
 #+end_src
@@ -2744,7 +2746,6 @@ Emacs is no more about text editing than astronomy is about telescopes.
       (if time
           (format-time-string "%b %d  %H:%M" time)
         "")))
-  
 #+end_src
 
 *** Spell checking
