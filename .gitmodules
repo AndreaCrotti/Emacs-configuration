@@ -121,3 +121,9 @@
 [submodule "words-mode"]
 	path = words-mode
 	url = git://github.com/AndreaCrotti/words-mode.git
+[submodule "udev-mode"]
+	path = udev-mode
+	url = github:AndreaCrotti/udev-mode.git
+[submodule "emms"]
+	path = emms
+	url = git://git.sv.gnu.org/emms.git
