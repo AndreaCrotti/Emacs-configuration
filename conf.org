@@ -2185,20 +2185,20 @@ Emacs is no more about text editing than astronomy is about telescopes.
   Try to enable the cpp-omnet-mode automatically when possible
 #+begin_src emacs-lisp :tangle yes
   ;;  (add-hook 'c++-mode-hook 'ca-is-omnet-cpp-file)
-    ;; (remove-hook 'c++-mode-hook 'ca-is-omnet-cpp-file)
-    ;; this means that the variable is set locally
-    (make-variable-buffer-local 'changing-to-omnet)
-    
-    (defun ca-is-omnet-cpp-file ()
-      "check if the file is to be considered omnet-mode or not"
-      (when 
-          (and (or
-                (not changing-to-omnet)
-                (file-exists-p "omnetpp.ini")
-                (search-forward "<omnetpp.h>")))
-        (setq changing-to-omnet t)
-        (cpp-omnet-mode)
-        (setq changing-to-omnet nil)))
+  ;; (remove-hook 'c++-mode-hook 'ca-is-omnet-cpp-file)
+  ;; this means that the variable is set locally
+  (make-variable-buffer-local 'changing-to-omnet)
+  
+  (defun ca-is-omnet-cpp-file ()
+    "check if the file is to be considered omnet-mode or not"
+    (when 
+        (and (or
+              (not changing-to-omnet)
+              (file-exists-p "omnetpp.ini")
+              (search-forward "<omnetpp.h>")))
+      (setq changing-to-omnet t)
+      (cpp-omnet-mode)
+      (setq changing-to-omnet nil)))
 #+end_src
   
 ** Java
