@@ -1469,17 +1469,9 @@ Emacs is no more about text editing than astronomy is about telescopes.
 ** Conkeror support
    Add something like this to support capturing from conkeror
 #+begin_src emacs-lisp :tangle yes
-  ;; ;; the 'w' corresponds with the 'w' used before as in:
-  ;;   emacsclient \"org-protocol:/capture:/w/  [...]
-  ;; (setq org-capture-templates
-  ;;   '(
-  ;;      ("w" "" entry ;; 'w' for 'org-protocol'
-  ;;        (file+headline "www.org" "Notes")
-  ;;        "* %^{Title}\n\n  Source: %u, %c\n\n  %i")
-  ;;      ;; other templates
-  ;; ))
-  
-  
+  ; set conkeror as the default browser
+  (setq browse-url-browser-function 'browse-url-generic
+        browse-url-generic-program "conkeror")
 #+end_src
 ** Use ebib for my wonderful references
 #+begin_src emacs-lisp :tangle yes
