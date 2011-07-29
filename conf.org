@@ -236,7 +236,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (defalias 'dcd 'desktop-change-dir)
   (defalias 'gcb 'ca-git-change-branch)
   
-  (defalias 'ca-git-add-file 'ga)  
+  (defalias 'ga 'ca-git-add-file)  
   
 #+end_src   
 
@@ -265,6 +265,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
       (tuareg-mode . ";;")
       (html-mode . " <br>"))
     "Closing char for different modes"
+    :group 'ca
     :type 'list)
   
 #+end_src
@@ -863,32 +864,21 @@ Emacs is no more about text editing than astronomy is about telescopes.
 * Operating system detection
   This has to be done first because we have some conditional code later
 #+begin_src emacs-lisp :tangle yes
-  (defconst sysop 
+  (defconst ca-sysop 
     (cond ((string-match "linux" system-configuration) "linux")
           ((string-match "apple" system-configuration) "mac")
           ((string-match "win" system-configuration) "win") (t "other")))
   
-  (defconst linux (string= "linux" sysop))
-  (defconst mac (string= "mac" sysop))
-  (defconst win (string= "win" sysop))
-  (defconst other (string= "other" sysop))
-  
-  ;; ;; (defconst linux nil)
-  ;; ;; (defconst mac nil)
-  ;; ;; (defconst win nil)
-  ;; ;; (defconst other nil)
-  
-  ;; (case system-type
-  ;;   (gnu/linux (setq linux t))
-  ;;   (window-nt (setq mac t))
-  ;;   (darwin    (setq win t))
-  ;;   (t         (setq other t)))
+  (defconst ca-linux (string= "linux" ca-sysop))
+  (defconst ca-mac (string= "mac" ca-sysop))
+  (defconst ca-win (string= "win" ca-sysop))
+  (defconst ca-other (string= "other" ca-sysop))
 #+end_src
 
 ** Mac configuration
     This will setup the Command key ot be used as meta.
 #+begin_src emacs-lisp :tangle yes
-  (if mac
+  (if ca-mac
       (progn
         (add-to-list 'exec-path "/opt/local/bin")
         (setq ns-alternate-modifier (quote none))
@@ -899,7 +889,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 * Other useful paths
 #+begin_src emacs-lisp :tangle yes
-  (if mac
+  (if ca-mac
       (let ((ports-lisp "/opt/local/share/emacs/site-lisp/"))
         (if 
             (file-exists-p ports-lisp)
@@ -926,6 +916,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
     (ca-untabify-buffer)
     (delete-trailing-whitespace))
   
+  ; FIXME: previous-line should be only used as interactive function
   (defun ca-ditto ()
     "*Copy contents of previous line, starting at the position above point."
     (interactive)
@@ -950,7 +941,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
   
   (setq dired-guess-shell-alist-user ())
   
-  (if mac
+  (if ca-mac
       (dolist (ext file-extensions-separately)
         (add-to-list 'dired-guess-shell-alist-user (list ext "open"))))
   
@@ -1144,7 +1135,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (defun ca-full (&optional f)
     (interactive)
     (if
-        mac
+        ca-mac
         ;; included in emacs 23.2
         (ns-toggle-ca-fullscreen)
     (set-frame-parameter f 'ca-fullscreen
@@ -2557,12 +2548,12 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+begin_src emacs-lisp :tangle yes
   ; FIXME: overwriting too much in this case, some old program-selection
   ; should be kept as it was
-  (when linux
+  (when ca-linux
     (setq TeX-view-program-list '(("Evince" "evince --page-label=%(outpage) %o")
                                   ("Okular" "okular --page %(outpage) %o")))
     (setq TeX-view-program-selection '((output-pdf "Evince"))))
   
-  (when mac
+  (when ca-mac
     (setq TeX-view-program-list '(("open" "open %o")))
     (setq TeX-view-program-selection '((output-pdf "open")))
     (setq TeX-source-correlate-method 'synctex)
@@ -3122,8 +3113,8 @@ check-syntax:
 * Fun
 ** Fortune settings
 #+begin_src emacs-lisp :tangle yes
-;; TODO: make it a defcustom also 
-(setq fortune-dir "/opt/local/share/games/fortune/")
+  ;; TODO: make it a defcustom also, or better locate it automatically
+  (setq fortune-dir "/opt/local/share/games/fortune/")
 #+end_src
 
 ** Run applescript commands
@@ -3202,25 +3193,9 @@ check-syntax:
         (setq ca-growl-mode nil))))
 #+end_src
 
-** Open port file
-#+begin_src emacs-lisp :tangle yes
-  ;; Using the right mode for portfiles
-  (add-to-list 'auto-mode-alist '("Portfile" . tcl-mode))
-  
-  ;; TODO: ask for password
-  ;; Taken from http://github.com/febeling/emacsd/blob/master/init.el
-  (defun ca-port-open (name)
-    "Open the portfile for named MacPorts port."
-    (interactive "MPort: ")
-    (let ((path (substring (shell-command-to-string (format "port file %s" name)) 0 -1)))
-      (if (file-exists-p path)
-          (ca-find-file-root path))))
-  
-#+end_src
-      
 ** Change volume on linux
 #+begin_src emacs-lisp :tangle yes
-  (when linux
+  (when ca-linux
     (progn 
       (defun ca-vol-down ()
         (interactive)
@@ -3290,7 +3265,7 @@ check-syntax:
   (global-set-key "\C-x\C-p" 'find-file-at-point)
   
   ;; make shift-TAB works correctly also on osx
-  (when mac
+  (when ca-mac
     (define-key (keymap-parent local-function-key-map) [S-tab] nil)
     (global-set-key [S-tab] #'tab-to-tab-stop))
   
@@ -3298,7 +3273,7 @@ check-syntax:
     (interactive)
     (shell-command "xlock"))
   
-  (when linux
+  (when ca-linux
     (global-set-key (kbd "<kp-add>") 'ca-vol-up)
     (global-set-key (kbd "<kp-subtract>") 'ca-vol-down)
     (global-set-key [f12] 'ca-lock-screen))
