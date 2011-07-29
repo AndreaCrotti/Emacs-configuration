@@ -37,6 +37,7 @@
          'fore-00007F-breaks-indentation-lp:328788-test
          'dq-in-tqs-string-lp:328813-test
          'flexible-indentation-lp:328842-test
+         'py-insert-super-lp:328843-test
          'py-current-defun-lp:328846-test
          'cls-pseudo-keyword-lp:328849-test
          'hungry-delete-backwards-lp:328853-test
@@ -78,7 +79,8 @@
          'stops-backslashed-line-lp:802504-test
          'stops-backslashed-line-lp:802504-test2
          'python-mode-slow-lp:803275-test
-         'py-master-file-not-honored-lp:794850-test
+         'master-file-not-honored-lp:794850-test
+         'font-lock-variable-name-face-lp:798538-test
 
          )))
 
@@ -147,13 +149,13 @@ def main(argv):
     (goto-char (point-min))
     (forward-line 15)
     (py-kill-clause)
-    (assert (< (buffer-size) size) nil "sexp-commands-lp:328778 test failed")
-    (assert (eq (buffer-size) 526) nil "sexp-commands-lp:328778 test failed")
+    (assert (< (buffer-size) size) nil "sexp-commands-lp:328778-test failed")
+    (assert (eq (buffer-size) 526) nil "sexp-commands-lp:328778-test failed")
     (kill-line 1)
     (indent-according-to-mode)
     (forward-line -4)
     (py-kill-block)
-    (assert (eq (buffer-size) 324) nil "sexp-commands-lp:328778 test failed")
+    (assert (eq (buffer-size) 324) nil "sexp-commands-lp:328778-test failed")
     ))
 
 (defun nested-dictionaries-indent-lp:328791-test (&optional arg load-branch-function)
@@ -197,7 +199,7 @@ If no `load-branch-function' is specified, make sure the appropriate branch is l
 (defun mark-block-region-lp:328806-base ()
   (forward-line -2)
   (py-mark-block)
-  (assert (< (region-beginning) (region-end)) nil "mark-block-region-lp:328806 test failed!"))
+  (assert (< (region-beginning) (region-end)) nil "mark-block-region-lp:328806-test failed!"))
 
 (defun flexible-indentation-lp:328842-test (&optional arg load-branch-function)
   "With ARG greater 1 keep test buffer open.
@@ -221,13 +223,13 @@ that, needs, to_be, wrapped)
     (goto-char (point-min))
     (forward-line 2)
     (indent-according-to-mode)
-    (assert (eq 1 (current-indentation)) nil "flexible-indentation-lp:328842 test failed")
+    (assert (eq 1 (current-indentation)) nil "flexible-indentation-lp:328842-test failed")
     (forward-line 3)
     (indent-according-to-mode)
-    (assert (eq 16 (current-indentation)) nil "flexible-indentation-lp:328842 test failed")
+    (assert (eq 16 (current-indentation)) nil "flexible-indentation-lp:328842-test failed")
     (forward-line 3)
     (indent-according-to-mode)
-    (assert (eq 2 (current-indentation)) nil "flexible-indentation-lp:328842 test failed")))
+    (assert (eq 2 (current-indentation)) nil "flexible-indentation-lp:328842-test failed")))
 
 (defun py-current-defun-lp:328846-test (&optional arg load-branch-function)
   "With ARG greater 1 keep test buffer open.
@@ -239,7 +241,7 @@ If no `load-branch-function' is specified, make sure the appropriate branch is l
 
 (defun py-current-defun-lp:328846-base ()
   (goto-char 331)
-  (assert (string= "f" (py-current-defun)) nil "py-current-defun-lp:328846 test failed"))
+  (assert (string= "f" (py-current-defun)) nil "py-current-defun-lp:328846-test failed"))
 
 (defun cls-pseudo-keyword-lp:328849-test (&optional arg load-branch-function)
   (interactive "p")
@@ -257,7 +259,7 @@ If no `load-branch-function' is specified, make sure the appropriate branch is l
     (font-lock-fontify-buffer)
     (goto-char 36)
     (sit-for 0.1)
-    (assert (eq (get-char-property (point) 'face) 'py-pseudo-keyword-face) nil "cls-pseudo-keyword-lp:328849 test failed ")))
+    (assert (eq (get-char-property (point) 'face) 'py-pseudo-keyword-face) nil "cls-pseudo-keyword-lp:328849-test failed ")))
 
 (defun mark-decorators-lp:328851-test (&optional arg load-branch-function)
   "With ARG greater 1 keep test buffer open.
@@ -273,7 +275,7 @@ def baz():
 (defun mark-decorators-lp:328851-base ()
   (goto-char 10)
   (py-mark-def t)
-  (assert (eq 28 (- (region-end)(region-beginning))) nil "mark-decorators-lp:328851 test failed"))
+  (assert (eq 28 (- (region-end)(region-beginning))) nil "mark-decorators-lp:328851-test failed"))
 
 (defun beg-end-of-defun-lp:303622-test (&optional arg load-branch-function)
   "With ARG greater 1 keep test buffer open.
@@ -300,9 +302,9 @@ class f():
   (goto-char (point-min))
   (forward-line 2)
   (end-of-defun)
-  (assert (eq 292 (point)) nil "beg-end-of-defun-lp:303622 test failed!")
+  (assert (eq 292 (point)) nil "beg-end-of-defun-lp:303622-test failed!")
   (beginning-of-defun)
-  (assert (eq 2 (point)) nil "beg-end-of-defun-lp:303622 test failed!"))
+  (assert (eq 2 (point)) nil "beg-end-of-defun-lp:303622-test failed!"))
 
 (defun dq-in-tqs-string-lp:328813-test (&optional arg load-branch-function)
   "With ARG greater 1 keep test buffer open.
@@ -329,7 +331,7 @@ print ''' \"\"\" \"Hi!\" I'm a doc string \"\"\" '''
       (font-lock-fontify-buffer)
       (message "%s" erg)
       (message "%s" (get-char-property (point) 'face))
-      (assert (eq erg (get-char-property (point) 'face)) nil "dq-in-tqs-string-lp:328813 test failed ")
+      (assert (eq erg (get-char-property (point) 'face)) nil "dq-in-tqs-string-lp:328813-test failed ")
       (goto-char 122))))
 
 (defun imenu-matches-in-docstring-lp:436285-test (&optional arg load-branch-function)
@@ -350,7 +352,7 @@ class foo():
 
 (defun imenu-matches-in-docstring-lp:436285-base ()
   (goto-char 40)
-  (assert (eq (py-beginning-of-def-or-class) 2) nil "imenu-matches-in-docstring-lp:436285 test failed"))
+  (assert (eq (py-beginning-of-def-or-class) 2) nil "imenu-matches-in-docstring-lp:436285-test failed"))
 
 (defun fill-paragraph-problems-lp:710373-test (&optional arg load-branch-function)
   "With ARG greater 1 keep test buffer open.
@@ -446,18 +448,18 @@ If no `load-branch-function' is specified, make sure the appropriate branch is l
     (goto-char (point-min))
     (forward-line 1)
     (indent-according-to-mode)
-    (assert (eq 27 (current-indentation)) nil "inbound-indentation-multiline-assignement-lp:629916 test failed")
+    (assert (eq 27 (current-indentation)) nil "inbound-indentation-multiline-assignement-lp:629916-test failed")
     (end-of-line)
     (search-backward "[")
     (newline)
     (indent-according-to-mode)
-    (assert (eq 27 (current-indentation)) nil "inbound-indentation-multiline-assignement-lp:629916 test failed")
+    (assert (eq 27 (current-indentation)) nil "inbound-indentation-multiline-assignement-lp:629916-test failed")
     (forward-line 1)
     (indent-according-to-mode)
-    (assert (eq 28 (current-indentation)) nil "inbound-indentation-multiline-assignement-lp:629916 test failed")
+    (assert (eq 28 (current-indentation)) nil "inbound-indentation-multiline-assignement-lp:629916-test failed")
     (forward-line 1)
     (indent-according-to-mode)
-    (assert (eq 28 (current-indentation)) nil "inbound-indentation-multiline-assignement-lp:629916 test failed")))
+    (assert (eq 28 (current-indentation)) nil "inbound-indentation-multiline-assignement-lp:629916-test failed")))
 
 (defun previous-statement-lp:637955-test (&optional arg load-branch-function)
   "With ARG greater 1 keep test buffer open.
@@ -496,11 +498,11 @@ elif x < 0:
   (let ((font-lock-verbose nil))
     (font-lock-mode 1)
     (font-lock-fontify-buffer)
-    (assert (eq 4 (py-compute-indentation)) nil "nested-indents-lp:328775 test failed!")
+    (assert (eq 4 (py-compute-indentation)) nil "nested-indents-lp:328775-test failed!")
     (goto-char 41)
-    (assert (eq 8 (py-compute-indentation)) nil "nested-indents-lp:328775 test failed!")
+    (assert (eq 8 (py-compute-indentation)) nil "nested-indents-lp:328775-test failed!")
     (forward-line 1)
-    (assert (eq 4 (py-compute-indentation)) nil "nested-indents-lp:328775 test failed!")))
+    (assert (eq 4 (py-compute-indentation)) nil "nested-indents-lp:328775-test failed!")))
 
 (defun bullet-lists-in-comments-lp:328782-test (&optional arg load-branch-function)
   "With ARG greater 1 keep test buffer open.
@@ -545,7 +547,7 @@ If no `load-branch-function' is specified, make sure the appropriate branch is l
 (defun imenu-newline-arglist-lp:328783-base ()
   (goto-char 60)
   (py-beginning-of-def-or-class)
-  (assert (eq (point) 1) nil "imenu-newline-arglist-lp:328783 test failed"))
+  (assert (eq (point) 1) nil "imenu-newline-arglist-lp:328783-test failed"))
 
 (defun hungry-delete-backwards-lp:328853-test (&optional arg load-branch-function)
   "With ARG greater 1 keep test buffer open.
@@ -591,7 +593,7 @@ print u'\\xA9'
   (when (looking-back comint-prompt-regexp)
     (goto-char (1- (match-beginning 0))))
   (sit-for 0.1)
-  (assert (looking-back "©") nil "UnicodeEncodeError-lp:550661 test failed"))
+  (assert (looking-back "©") nil "UnicodeEncodeError-lp:550661-test failed"))
 
 (defun indentation-of-continuation-lines-lp:691185-test (&optional arg load-branch-function)
   "With ARG greater 1 keep test buffer open.
@@ -652,7 +654,7 @@ If no `load-branch-function' is specified, make sure the appropriate branch is l
     (sit-for 0.1)
     (assert (eq (get-char-property (point) 'face) 'font-lock-string-face) nil "class-treated-as-keyword-lp:709478d 1th test failed")
     (goto-char 57)
-    (assert (not (get-char-property (point) 'face)) nil "class-treated-as-keyword-lp:709478-test 2th failed")))
+    (assert (eq (get-char-property (point) 'face) 'font-lock-variable-name-face) nil "class-treated-as-keyword-lp:709478-test 2th failed")))
 
 (defun fore-00007F-breaks-indentation-lp:328788-test (&optional arg load-branch-function)
   "With ARG greater 1 keep test buffer open.
@@ -711,7 +713,7 @@ If no `load-branch-function' is specified, make sure the appropriate branch is l
     (goto-char 39)
     (font-lock-fontify-buffer)
     (sit-for 0.1)
-    (assert (eq (get-char-property (point) 'face) 'py-exception-name-face) nil "exceptions-not-highlighted-lp:473525 test failed")))
+    (assert (eq (get-char-property (point) 'face) 'py-exception-name-face) nil "exceptions-not-highlighted-lp:473525-test failed")))
 
 (defun syntaxerror-on-py-execute-region-lp:691542-test (&optional arg load-branch-function)
   (interactive "p")
@@ -733,7 +735,7 @@ print \"Poet Friedrich Hölderlin\""))
     (when (interactive-p) (switch-to-buffer (current-buffer)))
     (set-buffer (get-buffer (concat "*" py-which-bufname "*")))
     (assert (or (search-forward "Hölderlin" nil t 1)
-                (search-backward "Hölderlin" nil t 1)) nil "syntaxerror-on-py-execute-region-lp:691542 test failed")))
+                (search-backward "Hölderlin" nil t 1)) nil "syntaxerror-on-py-execute-region-lp:691542-test failed")))
 
 (defun backslashed-continuation-line-indent-lp:742993-test (&optional arg load-branch-function)
   "With ARG greater 1 keep test buffer open.
@@ -770,39 +772,39 @@ self.last_xyz_other = None
     (insert (concat "\n# py-continuation-offset: " (number-to-string py-continuation-offset)))
     (forward-line 2)
     (indent-according-to-mode)
-    (assert (eq (current-indentation) py-continuation-offset) nil "backslashed-continuation-line-indent-lp:742993 test failed")
+    (assert (eq (current-indentation) py-continuation-offset) nil "backslashed-continuation-line-indent-lp:742993-test failed")
     (forward-line 1)
     (indent-according-to-mode)
-    (assert (eq (current-indentation) py-continuation-offset) nil "backslashed-continuation-line-indent-lp:742993 test failed")
+    (assert (eq (current-indentation) py-continuation-offset) nil "backslashed-continuation-line-indent-lp:742993-test failed")
     (forward-line 1)
     (indent-according-to-mode)
-    (assert (eq (current-indentation) py-continuation-offset) nil "backslashed-continuation-line-indent-lp:742993 test failed")
+    (assert (eq (current-indentation) py-continuation-offset) nil "backslashed-continuation-line-indent-lp:742993-test failed")
 
     (setq py-continuation-offset 4)
     (forward-line 1)
     (insert (concat "\n# py-continuation-offset: " (number-to-string py-continuation-offset)))
     (forward-line 2)
     (indent-according-to-mode)
-    (assert (eq (current-indentation) py-continuation-offset) nil "backslashed-continuation-line-indent-lp:742993 test failed")
+    (assert (eq (current-indentation) py-continuation-offset) nil "backslashed-continuation-line-indent-lp:742993-test failed")
     (forward-line 1)
     (indent-according-to-mode)
-    (assert (eq (current-indentation) py-continuation-offset) nil "backslashed-continuation-line-indent-lp:742993 test failed")
+    (assert (eq (current-indentation) py-continuation-offset) nil "backslashed-continuation-line-indent-lp:742993-test failed")
     (forward-line 1)
     (indent-according-to-mode)
-    (assert (eq (current-indentation) py-continuation-offset) nil "backslashed-continuation-line-indent-lp:742993 test failed")
+    (assert (eq (current-indentation) py-continuation-offset) nil "backslashed-continuation-line-indent-lp:742993-test failed")
 
     (setq py-continuation-offset 6)
     (forward-line 1)
     (insert (concat "\n# py-continuation-offset: " (number-to-string py-continuation-offset)))
     (forward-line 2)
     (indent-according-to-mode)
-    (assert (eq (current-indentation) py-continuation-offset) nil "backslashed-continuation-line-indent-lp:742993 test failed")
+    (assert (eq (current-indentation) py-continuation-offset) nil "backslashed-continuation-line-indent-lp:742993-test failed")
     (forward-line 1)
     (indent-according-to-mode)
-    (assert (eq (current-indentation) py-continuation-offset) nil "backslashed-continuation-line-indent-lp:742993 test failed")
+    (assert (eq (current-indentation) py-continuation-offset) nil "backslashed-continuation-line-indent-lp:742993-test failed")
     (forward-line 1)
     (indent-according-to-mode)
-    (assert (eq (current-indentation) py-continuation-offset) nil "backslashed-continuation-line-indent-lp:742993 test failed")
+    (assert (eq (current-indentation) py-continuation-offset) nil "backslashed-continuation-line-indent-lp:742993-test failed")
     ))
 
 (defun py-decorators-face-lp:744335-test (&optional arg load-branch-function)
@@ -821,7 +823,7 @@ def baz():
     (goto-char 7)
     (font-lock-fontify-buffer)
     (sit-for 0.1)
-    (assert (eq (get-char-property (point) 'face) 'py-decorators-face) nil "py-decorators-face-lp:744335 test failed")))
+    (assert (eq (get-char-property (point) 'face) 'py-decorators-face) nil "py-decorators-face-lp:744335-test failed")))
 
 (defun indent-after-return-lp:745208-test (&optional arg load-branch-function)
   "With ARG greater 1 keep test buffer open.
@@ -860,7 +862,7 @@ failed: %s' %
 
 (defun indent-after-return-lp:745208 ()
   (goto-char (point-max))
-  (assert (eq 8 (py-compute-indentation)) nil "indent-after-return-lp:745208 test failed"))
+  (assert (eq 8 (py-compute-indentation)) nil "indent-after-return-lp:745208-test failed"))
 
 (defun keep-assignements-column-lp:748198-test (&optional arg load-branch-function)
   "With ARG greater 1 keep test buffer open.
@@ -888,7 +890,7 @@ If no `load-branch-function' is specified, make sure the appropriate branch is l
     (py-bug-tests-intern 'indent-triplequoted-to-itself-lp:752252-base arg teststring)))
 
 (defun indent-triplequoted-to-itself-lp:752252-base ()
-  (assert (eq 4 (py-compute-indentation)) nil "indent-triplequoted-to-itself-lp:752252 test failed"))
+  (assert (eq 4 (py-compute-indentation)) nil "indent-triplequoted-to-itself-lp:752252-test failed"))
 
 (defun multiline-listings-indent-lp:761946-test (&optional arg load-branch-function)
   (interactive "p")
@@ -904,7 +906,7 @@ If no `load-branch-function' is specified, make sure the appropriate branch is l
   (goto-char (point-min))
   (forward-line 3)
   (back-to-indentation)
-  (assert (eq 8 (py-compute-indentation)) nil "multiline-listings-indent-lp:761946 test failed"))
+  (assert (eq 8 (py-compute-indentation)) nil "multiline-listings-indent-lp:761946-test failed"))
 
 (defun new-page-char-causes-loop-lp:762498-test (&optional arg load-branch-function)
   (interactive "p")
@@ -919,7 +921,7 @@ If no `load-branch-function' is specified, make sure the appropriate branch is l
 (defun new-page-char-causes-loop-lp:762498-base ()
   (goto-char (point-min))
   (forward-line 2)
-  (assert (eq 8 (py-compute-indentation)) "new-page-char-causes-loop-lp:762498 test failed"))
+  (assert (eq 8 (py-compute-indentation)) "new-page-char-causes-loop-lp:762498-test failed"))
 
 (defun nested-dicts-indent-lp:763756-test (&optional arg load-branch-function)
   (interactive "p")
@@ -938,11 +940,11 @@ If no `load-branch-function' is specified, make sure the appropriate branch is l
   (let ((py-indent-honors-multiline-listing nil))
     (goto-char (point-min))
     (forward-line 1)
-    (assert (eq 4 (py-compute-indentation)) nil "nested-dicts-indent-lp:763756 test failed")
+    (assert (eq 4 (py-compute-indentation)) nil "nested-dicts-indent-lp:763756-test failed")
     (forward-line 1)
-    (assert (eq 8 (py-compute-indentation)) nil "nested-dicts-indent-lp:763756 test failed")
+    (assert (eq 8 (py-compute-indentation)) nil "nested-dicts-indent-lp:763756-test failed")
     (forward-line 1)
-    (assert (eq 12 (py-compute-indentation)) nil "nested-dicts-indent-lp:763756 test failed")))
+    (assert (eq 12 (py-compute-indentation)) nil "nested-dicts-indent-lp:763756-test failed")))
 
 (defun bad-indent-after-except-lp:771289-test (&optional arg load-branch-function)
   (interactive "p")
@@ -955,7 +957,7 @@ If no `load-branch-function' is specified, make sure the appropriate branch is l
   (py-bug-tests-intern 'bad-indent-after-except-lp:771289-base arg teststring)))
 
 (defun bad-indent-after-except-lp:771289-base ()
-  (assert (eq 8 (py-compute-indentation)) "bad-indent-after-except-lp:771289 test failed"))
+  (assert (eq 8 (py-compute-indentation)) "bad-indent-after-except-lp:771289-test failed"))
 
 (defun indent-open-paren-not-last-lp:771291-test (&optional arg load-branch-function)
   (interactive "p")
@@ -976,7 +978,7 @@ def foo():
     (py-bug-tests-intern 'indent-open-paren-not-last-lp:771291-base arg teststring)))
 
 (defun indent-open-paren-not-last-lp:771291-base ()
-  (assert (eq 20 (py-compute-indentation)) nil "indent-open-paren-not-last-lp:771291 test failed"))
+  (assert (eq 20 (py-compute-indentation)) nil "indent-open-paren-not-last-lp:771291-test failed"))
 
 (defun wrong-indent-after-else-lp:772610-test (&optional arg load-branch-function)
   (interactive "p")
@@ -988,7 +990,7 @@ else:
   (py-bug-tests-intern 'wrong-indent-after-else-lp:772610-base arg teststring)))
 
 (defun wrong-indent-after-else-lp:772610-base ()
-    (assert (eq 4 (py-compute-indentation)) nil "wrong-indent-after-else-lp:772610 test failed"))
+    (assert (eq 4 (py-compute-indentation)) nil "wrong-indent-after-else-lp:772610-test failed"))
 
 (defun except-indents-wrong-lp:784432-test (&optional arg load-branch-function)
   (interactive "p")
@@ -1001,9 +1003,9 @@ except:
 
 (defun except-indents-wrong-lp:784432-base ()
   (goto-char 17)
-  (assert (eq 0 (py-compute-indentation)) nil "except-indents-wrong-lp:784432.txt #1 test failed")
+  (assert (eq 0 (py-compute-indentation)) nil "except-indents-wrong-lp:784432.txt #1-test failed")
   (goto-char 25)
-  (assert (eq 4 (py-compute-indentation)) nil "except-indents-wrong-lp:784432.txt #2 test failed"))
+  (assert (eq 4 (py-compute-indentation)) nil "except-indents-wrong-lp:784432.txt #2-test failed"))
 
 (defun indent-explicitly-set-in-multiline-tqs-lp:784225-test (&optional arg load-branch-function)
   (interactive "p")
@@ -1016,7 +1018,7 @@ except:
   (py-bug-tests-intern 'indent-explicitly-set-in-multiline-tqs-lp:784225-base arg teststring)))
 
 (defun indent-explicitly-set-in-multiline-tqs-lp:784225-base ()
-    (assert (eq 8 (py-compute-indentation)) nil "explicitly-dedented-in-list-lp:784225 test failed"))
+    (assert (eq 8 (py-compute-indentation)) nil "explicitly-dedented-in-list-lp:784225-test failed"))
 
 (defun unbalanced-parentheses-lp:784645-test (&optional arg load-branch-function)
   (interactive "p")
@@ -1030,7 +1032,7 @@ except:
 (defun unbalanced-parentheses-lp:784645-base ()
     (goto-char 27)
     (newline-and-indent)
-    (assert (eq 4 (py-compute-indentation)) nil "unbalanced-parentheses-lp:784645 test failed"))
+    (assert (eq 4 (py-compute-indentation)) nil "unbalanced-parentheses-lp:784645-test failed"))
 
 (defun explicitly-indent-in-list-lp:785018-test (&optional arg load-branch-function)
   (interactive "p")
@@ -1043,7 +1045,7 @@ except:
   (py-bug-tests-intern 'explicitly-indent-in-list-lp:785018-base arg teststring)))
 
 (defun explicitly-indent-in-list-lp:785018-base ()
-    (assert (eq 8 (py-compute-indentation)) nil "explicitly-dedented-in-list-lp:784225 test failed"))
+    (assert (eq 8 (py-compute-indentation)) nil "explicitly-dedented-in-list-lp:784225-test failed"))
 
 (defun explicit-backslashed-continuation-line-indent-lp:785091-test (&optional arg load-branch-function)
   (interactive "p")
@@ -1078,7 +1080,7 @@ list.\"\"\"
 
 (defun indentation-error-lp:795773-base ()
   (goto-char 385)
-  (assert (eq 39 (py-compute-indentation)) nil "indentation-error-lp:795773 test failed"))
+  (assert (eq 39 (py-compute-indentation)) nil "indentation-error-lp:795773-test failed"))
 
 (defun class-highlighted-as-keywords-lp:798287-test (&optional arg load-branch-function)
   (interactive "p")
@@ -1095,7 +1097,7 @@ list.\"\"\"
     (goto-char 7)
     (font-lock-fontify-buffer)
     (sit-for 0.1)
-    (assert (eq (get-char-property (point) 'face) 'py-class-name-face) nil "class-highlighted-as-keywords-lp:798287 test failed")))
+    (assert (eq (get-char-property (point) 'face) 'py-class-name-face) nil "class-highlighted-as-keywords-lp:798287-test failed")))
 
 (defun indent-function-arglist-lp:800088-test (&optional arg load-branch-function)
   (interactive "p")
@@ -1110,7 +1112,7 @@ list.\"\"\"
 (defun indent-function-arglist-lp:800088-base ()
   (goto-char 25)
   (let ((py-indent-offset 4))
-    (assert (eq 8 (py-compute-indentation)) nil "indent-function-arglist-lp:800088 test failed")))
+    (assert (eq 8 (py-compute-indentation)) nil "indent-function-arglist-lp:800088-test failed")))
 
 (defun python-mode-hangs-lp:801780-test (&optional arg load-branch-function)
   (interactive "p")
@@ -1127,7 +1129,7 @@ def pushrevvalues(self, n, values_w): # n should be len(values_w)
   (py-bug-tests-intern 'python-mode-hangs-lp:801780-base arg teststring)))
 
 (defun python-mode-hangs-lp:801780-base ()
-    (assert (eq 18 (py-beginning-of-def-or-class)) nil "python-mode-hangs-lp:801780 test failed"))
+    (assert (eq 18 (py-beginning-of-def-or-class)) nil "python-mode-hangs-lp:801780-test failed"))
 
 (defun stops-backslashed-line-lp:802504-test (&optional arg load-branch-function)
   (interactive "p")
@@ -1143,7 +1145,7 @@ if bar == 1 or bar == 2 or bar == 3 or bar == 4 or bar == 5 or bar == 6 or bar =
 
 (defun stops-backslashed-line-lp:802504-base ()
     (goto-char 49)
-    (assert (eq 282 (py-end-of-statement)) nil "stops-backslashed-line-lp:802504 test failed"))
+    (assert (eq 282 (py-end-of-statement)) nil "stops-backslashed-line-lp:802504-test failed"))
 
 (defun stops-backslashed-line-lp:802504-test2 (&optional arg load-branch-function)
   (interactive "p")
@@ -1158,7 +1160,7 @@ if x>1 and x<100 and y>1 and y<200:
   (py-bug-tests-intern 'stops-backslashed-line2-lp:802504-base arg teststring)))
 
 (defun stops-backslashed-line2-lp:802504-base ()
-    (assert (eq 87 (py-beginning-of-statement)) nil "stops-backslashed-line-lp:802504 test failed"))
+    (assert (eq 87 (py-beginning-of-statement)) nil "stops-backslashed-line-lp:802504-test failed"))
 
 (defun python-mode-slow-lp:803275-test (&optional arg load-branch-function)
   (interactive "p")
@@ -1336,9 +1338,9 @@ def add(ui, repo, \*pats, \*\*opts):
 
 (defun python-mode-slow-lp:803275-base ()
     (goto-char (point-min))
-    (assert (eq 5430 (py-end-of-def-or-class)) nil "python-mode-slow-lp:803275 test failed"))
+    (assert (eq 5430 (py-end-of-def-or-class)) nil "python-mode-slow-lp:803275-test failed"))
 
-(defun py-master-file-not-honored-lp:794850-test (&optional arg load-branch-function)
+(defun master-file-not-honored-lp:794850-test (&optional arg load-branch-function)
   (interactive "p")
   (let ((teststring "#! /usr/bin/env python
  # -*- coding: utf-8 -*-
@@ -1350,9 +1352,9 @@ def add(ui, repo, \*pats, \*\*opts):
 print u'\xA9'
 "))
     (when load-branch-function (funcall load-branch-function))
-    (py-bug-tests-intern 'py-master-file-not-honored-lp:794850-base arg teststring)))
+    (py-bug-tests-intern 'master-file-not-honored-lp:794850-base arg teststring)))
 
-(defun py-master-file-not-honored-lp:794850-base ()
+(defun master-file-not-honored-lp:794850-base ()
   (save-excursion 
     (set-buffer (get-buffer-create "lp:794850-test-master.py"))
     (erase-buffer)
@@ -1364,7 +1366,36 @@ print \"Hello, I'm your master!\"
     (write-file "/var/tmp/my-master.py"))
   (py-execute-buffer))
 
-;;    (assert nil "py-master-file-not-honored-lp:794850 test failed"))
+(defun font-lock-variable-name-face-lp:798538-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "class Foo(object):
+    def summat(cls, x):
+          .....
+    summat = classmethod(summat)
+"))
+    (when load-branch-function (funcall load-branch-function))
+    (py-bug-tests-intern 'font-lock-variable-name-face-lp:798538-base arg teststring)))
+
+(defun font-lock-variable-name-face-lp:798538-base ()
+  (let ((font-lock-verbose nil))
+    (font-lock-mode 1)
+    (font-lock-fontify-buffer)
+    (goto-char 64)
+    (sit-for 0.1)
+    (assert (eq (get-char-property (point) 'face) 'font-lock-variable-name-face) nil "font-lock-variable-name-face-lp:798538-test failed ")))
+
+(defun py-insert-super-lp:328843-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "class hello(object):
+    def world(slef):
+         "))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'py-insert-super-lp:328843-base arg teststring)))
+
+(defun py-insert-super-lp:328843-base ()
+    (py-insert-super)
+    (back-to-indentation) 
+    (assert (looking-at "super().world()") nil "py-insert-super-lp:328843-test failed"))
 
 (provide 'py-bug-numbered-tests)
 ;;; py-bug-numbered-tests.el ends here

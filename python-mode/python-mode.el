@@ -476,6 +476,14 @@ variable section, e.g.:
 
 ;; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ;; NO USER DEFINABLE VARIABLES BEYOND THIS POINT
+(defvar py-expression-skip-regexp "^ .,=:#;\t\r\n\f"
+  "py-expression assumes chars indicated possible composing a py-expression, skipping it. ")
+
+(defvar py-expression-looking-regexp "[^ .,=:#;\t\r\n\f)]"
+  "py-expression assumes chars indicated possible composing a py-expression, when looking-at or -back. ")
+
+(defvar py-not-expression-regexp "[ .,=:#;\t\r\n\f)]"
+  "py-expression assumes chars indicated probably will not compose a py-expression. ")
 
 (defvar py-line-number-offset 0
   "When an exception occurs as a result of py-execute-region, a
@@ -732,6 +740,8 @@ Used for syntactic keywords.  N is the match number (1, 2 or 3)."
      ;; pseudo-keywords
      '("\\<\\(self\\|cls\\|Ellipsis\\|True\\|False\\|None\\)\\>"
        1 py-pseudo-keyword-face)
+     '("^[ \t]*\\(_\\{0,2\\}[a-zA-Z][a-zA-Z_0-9.]+_\\{0,2\\}\\) *\\(+\\|-\\|*\\|**\\|/\\|//\\|&\\|%\\||\\|^\\|>>\\|<<\\)? ?="
+       1 font-lock-variable-name-face)
      ;; XXX, TODO, and FIXME tags
      '("XXX\\|TODO\\|FIXME" 0 py-XXX-tag-face t)
      ;; special marking for string escapes and percent substitutes;
@@ -1018,8 +1028,8 @@ package.  Note that the latest X/Emacs releases contain this package.")
          :filter (lambda (&rest junk)
                    (abbrev-table-menu python-mode-abbrev-table)))
 	"-"
-	["Start interpreter" py-shell
-	 :help "Run `inferior' Python in separate buffer"]
+;; 	["Start interpreter" py-shell
+;; 	 :help "Run `inferior' Python in separate buffer"]
 	["Import/reload file" py-load-file
 	 :help "Load into inferior Python session"]
 	["Eval buffer" py-execute-buffer
@@ -1028,8 +1038,8 @@ package.  Note that the latest X/Emacs releases contain this package.")
 	 :help "Evaluate region en bloc in inferior Python session"]
 	["Eval def/class" py-execute-defun
 	 :help "Evaluate current definition in inferior Python session"]
-	["Switch to interpreter" py-switch-to-python
-	 :help "Switch to inferior Python buffer"]
+	["Switch to interpreter" py-shell
+	 :help "Switch to `inferior' Python in separate buffer"]
 	["Set default process" py-set-proc
 	 :help "Make buffer's inferior process the default"
 	 :active (buffer-live-p py-buffer)]
@@ -1384,7 +1394,7 @@ of the first definition found."
 
 (defun py-imenu-create-index-new (&optional beg end)
   "`imenu-create-index-function' for Python. "
-  (let ((orig (point))
+  (let ((orig (point)) 
         (beg (cond (beg)
                    ((region-active-p)
                     (region-beginning))
@@ -1396,21 +1406,21 @@ of the first definition found."
         (first t)
         inside-class index-alist sublist vars)
     (goto-char beg)
-;;    (while (and (re-search-forward "^[ \t]*\\(?:\\(def\\|class\\)\\)[ \t]+\\(?:\\(_\\{0,2\\}\\sw+\\)\\)" end 'move 1) (not (py-in-string-or-comment-p)))
-    (while (and (re-search-forward "^[ \t]*\\(?:\\(def\\|class\\)\\)[ \t]+\\(?:\\(\\sw+\\)\\)" end 'move 1) (not (py-in-string-or-comment-p)))
+    (while (re-search-forward "^[ \t]*\\(?:\\(def\\|class\\)\\)[ \t]+\\(?:\\(\\sw+\\)\\)" end 'move 1)
+      (unless (py-in-string-or-comment-p)
         (let ((pos (match-beginning 0))
-            (name (match-string-no-properties 2)))
-        (when (string= "class" (match-string-no-properties 1))
-          (setq name (concat "class " name)
-                inside-class t))
-        (cond ((and first inside-class)
-               (push (cons name pos) index-alist)
-               (setq first nil))
-              (inside-class
-               (progn (push (cons (concat " " name) pos) sublist)
-                      (push (cons name sublist) index-alist)))
-              (t (push (cons name pos) index-alist)))))
-;;    (message "Funktionen und Klassen: %s" index-alist)
+              (name (match-string-no-properties 2)))
+          (when (string= "class" (match-string-no-properties 1))
+            (setq name (concat "class " name)
+                  inside-class t))
+          (cond ((and first inside-class)
+                 (push (cons name pos) index-alist)
+                 (setq first nil))
+                (inside-class
+                 (progn (push (cons (concat " " name) pos) sublist)
+                        (push (cons name sublist) index-alist)))
+                (t (push (cons name pos) index-alist))))))
+    ;;    (message "Funktionen und Klassen: %s" index-alist)
     ;; Look for module variables.
     (goto-char (point-min))
     (while (re-search-forward "^\\(?:\\sw+\\)[ \t]*=" end t)
@@ -1422,7 +1432,7 @@ of the first definition found."
       (push (cons "Module variables"
                   (nreverse vars))
             index-alist))
-    (goto-char orig)
+    (goto-char orig) 
     index-alist))
 
 
@@ -1697,6 +1707,24 @@ comment."
             (beginning-of-line)
             (delete-horizontal-space)
             (indent-to (- indent outdent)))))))
+
+(defun py-insert-super ()
+  "Insert a function \"super()\" from current environment.
+As example given in Python v3.1 documentation » The Python Standard Library »
+
+class C(B):
+    def method(self, arg):
+        super().method(arg)    # This does the same thing as:
+                               # super(C, self).method(arg)"
+  (interactive "*")
+  (let* ((orig (point))
+         (name (progn
+                 (py-beginning-of-def-or-class)
+                 (when (looking-at (concat py-def-or-class-re " *\\([^(]+\\) *(\\(?:[^),]*\\),? *\\([^)]*\\))"))
+                   (match-string-no-properties 2))))
+         (args (match-string-no-properties 3)))
+    (goto-char orig)
+    (insert (concat "super()." name "(" args ")"))))
 
 (defun py-execute-file (proc filename &optional cmd)
   "Send to Python interpreter process PROC, in Python version 2.. \"execfile('FILENAME')\".
@@ -2045,6 +2073,24 @@ Per default it's \"(format \"execfile(r'%s') # PYTHON-MODE\\n\" filename)\" for 
     (when (interactive-p) (message "%s" (prin1-to-string cmd)))
     cmd))
 
+(defun py-which-function ()
+  "Return the name of the function or class, if curser is in, return nil otherwise. "
+  (interactive)
+  (save-excursion
+    (save-restriction
+      (widen) 
+      (let ((orig (point)) 
+            (erg (if (and (looking-at (concat py-def-or-class-re " +\\([^(]+\\)(.+")) (not (py-in-string-or-comment-p)))
+                     (match-string-no-properties 2)
+                   (progn
+                     (py-beginning-of-def-or-class)
+                     (when (looking-at (concat py-def-or-class-re " +\\([^(]+\\)(.+"))
+                       (match-string-no-properties 2))))))
+        (if (and erg (< orig (py-end-of-def-or-class)))
+            (when (interactive-p) (message "%s" erg))
+          (setq erg nil)
+          (when (interactive-p) (message "%s" "Not inside a function or class"))
+          erg)))))
 
 ;; Code execution commands
 
@@ -3126,6 +3172,142 @@ Put point inside the parentheses of a multiline import and hit
 (defalias 'py-hungry-delete-forward 'c-hungry-delete-forward)
 (defalias 'py-hungry-delete-backwards 'c-hungry-delete-backwards)
 
+;; Expression
+(defalias 'py-backward-expression 'py-beginning-of-expression)
+(defun py-beginning-of-expression (&optional orig origline done)
+  "Go to the beginning of a python expression.
+Expression here is conceived as the syntactical component of a statement in Python. See http://docs.python.org/reference
+Operators however are left aside resp. limit py-expression designed for edit-purposes. 
+"
+  (interactive)
+  (save-restriction
+    (widen)
+    (unless (bobp)
+      (when (looking-at "[ \t]+\\|$")
+        (skip-chars-backward " \t\r\n\f")
+        (forward-char -1)))
+    (when (looking-at "\\(=\\|:\\|+\\|-\\|*\\|/\\|//\\|&\\|%\\||\\|\^\\|>>\\|<<\\)")
+      (message "%s" (match-string-no-properties 0))
+      (goto-char (1- (match-beginning 0)))
+      (skip-chars-backward " \t\r\n\f")
+      (forward-char -1)) 
+    (let ((orig (or orig (point)))
+          (cui (current-indentation))
+          (origline (or origline (py-count-lines)))
+          (pps (parse-partial-sexp (point-min) (point)))
+          (done done)
+          erg)
+      (setq erg
+            (cond
+             ((empty-line-p)
+              (skip-chars-backward " \t\r\n\f")
+              (forward-char -1)
+              (py-beginning-of-expression orig origline))
+             ;; if in string
+             ((and (nth 3 pps)(nth 8 pps)
+                   (save-excursion
+                     (ignore-errors
+                       (goto-char (nth 2 pps)))))
+              (goto-char (nth 2 pps))
+              (py-beginning-of-expression orig origline))
+             ;; comments left, as strings are done
+             ((nth 8 pps)
+              (goto-char (1- (nth 8 pps)))
+              (py-beginning-of-expression orig origline))
+             ((and (looking-at "[ \t]*#") (looking-back "^[ \t]*")) 
+              (forward-line -1)
+              (unless (bobp)
+                (end-of-line)
+                (py-beginning-of-expression orig origline)))
+             ;; character address of start of innermost containing list; nil if none.
+             ((nth 1 pps)
+              (goto-char (nth 1 pps))
+              (when 
+                  (not (looking-back "[ \t]+"))
+                (skip-chars-backward py-expression-skip-regexp))
+              (py-beginning-of-expression orig origline))
+             ;; inside expression
+             ((and (eq (point) orig) (not (bobp)) (looking-back py-expression-looking-regexp))
+              (skip-chars-backward py-expression-skip-regexp)
+              (py-beginning-of-expression orig origline))
+             ((and (eq (point) orig) (not (bobp))
+                   (looking-at py-expression-looking-regexp))
+              (skip-chars-backward py-expression-looking-regexp)
+              (py-beginning-of-expression orig origline))
+             ((and (not (bobp))
+                   (looking-back py-expression-looking-regexp))
+              (skip-chars-backward py-expression-skip-regexp)
+              (py-beginning-of-expression orig origline))
+             (t (unless (and (looking-at "[ \t]*#") (looking-back "^[ \t]*"))(point)))))
+      (when (interactive-p) (message "%s" erg))
+      erg)))
+
+(defalias 'py-forward-expression 'py-end-of-expression)
+(defun py-end-of-expression (&optional orig origline done)
+  "Go to the end of a python expression.
+
+Expression here is conceived as the syntactical component of a statement in Python. See http://docs.python.org/reference
+
+Operators however are left aside resp. limit py-expression designed for edit-purposes. "
+  (interactive)
+  (save-restriction
+    (widen)
+    (unless (eobp)
+      (let* 
+          ((orig (or orig (point)))
+           (origline (or origline (py-count-lines)))
+           (pps (parse-partial-sexp (point-min) (point)))
+           (done done)
+           erg
+           ;; use by scan-lists
+           parse-sexp-ignore-comments)
+        (cond
+         ((and (empty-line-p)(not done)(not (eobp)))
+          (while
+              (and (empty-line-p)(not done)(not (eobp)))
+            (forward-line 1))
+          (py-end-of-expression orig origline done))
+         ;; inside string
+         ((nth 3 pps)
+          (when (looking-at "\"\"\"\\|'''\\|\"\\|'")
+            (goto-char (match-end 0)))
+          (while (and (re-search-forward "[^\\]\"\"\"\\|[^\\]'''\\|[^\\]\"\\|[^\\]'" nil (quote move) 1)(nth 3 (parse-partial-sexp (point-min) (point)))))
+          (py-end-of-expression orig origline done))
+         ;; in comment
+         ((nth 4 pps)
+          (forward-line 1)
+          (py-end-of-expression orig origline done)) 
+         ((and (looking-at "[ \t]*#")(looking-back "^[ \t]*")(not done))
+          (while (looking-at "[ \t]*#")
+            (forward-line 1)
+            (beginning-of-line))
+          (end-of-line)
+          ;;          (setq done t)
+          (skip-chars-backward " \t\r\n\f")
+          (py-end-of-expression orig origline done))
+         ;; start of innermost containing list; nil if none.
+         ((nth 1 pps)
+          (goto-char (nth 1 pps))
+          (let ((parse-sexp-ignore-comments t))
+            (forward-list)
+            (py-end-of-expression orig origline done)))
+         ((and (not done)(looking-at py-not-expression-regexp)(not (eobp)))
+          (skip-chars-forward py-not-expression-regexp)
+          (py-end-of-expression orig origline done))
+         ((and (not done)(looking-at py-expression-skip-regexp)(not (eobp)))
+          (skip-chars-forward py-not-expression-regexp)
+          (forward-char -1) 
+          (py-end-of-expression orig origline done))
+         ((and (looking-at py-expression-looking-regexp)(not (eobp)))
+          (forward-char 1) 
+          (setq done (< 0 (skip-chars-forward py-expression-skip-regexp)))
+          (when done (forward-char -1)) 
+          (py-end-of-expression orig origline done)))
+        (unless (eq (point) orig)
+          (setq erg (point)))
+        (when (interactive-p) (message "%s" erg))
+        erg))))
+
 ;; Statement
 (defalias 'py-backward-statement 'py-beginning-of-statement)
 (defalias 'py-previous-statement 'py-beginning-of-statement)
@@ -3614,6 +3796,7 @@ For stricter sense specify regexp. "
   (py-statement-opens-base py-def-or-class-re))
 
 ;; Mark forms
+(defalias 'py-expression 'py-mark-expression)
 (defun py-mark-expression ()
   "Mark expression at point.
   Returns beginning and end positions of marked area, a cons. "
@@ -3621,6 +3804,7 @@ For stricter sense specify regexp. "
   (py-mark-base "expression")
   (exchange-point-and-mark))
 
+(defalias 'py-statement 'py-mark-statement)
 (defun py-mark-statement ()
   "Mark statement at point.
   Returns beginning and end positions of marked area, a cons. "
@@ -3628,6 +3812,7 @@ For stricter sense specify regexp. "
   (py-mark-base "statement")
   (exchange-point-and-mark))
 
+(defalias 'py-block 'py-mark-block)
 (defun py-mark-block ()
   "Mark block at point.
   Returns beginning and end positions of marked area, a cons. "
@@ -3635,6 +3820,7 @@ For stricter sense specify regexp. "
   (py-mark-base "block")
   (exchange-point-and-mark))
 
+(defalias 'py-block-or-clause 'py-mark-block-or-clause)
 (defun py-mark-block-or-clause ()
   "Mark block-or-clause at point.
   Returns beginning and end positions of marked area, a cons. "
@@ -3653,6 +3839,7 @@ Returns beginning and end positions of marked area, a cons."
     (py-mark-base "def" py-mark-decorators)
     (exchange-point-and-mark)))
 
+(defalias 'py-def-or-class 'py-mark-def-or-class)
 (defun py-mark-def-or-class (&optional arg)
   "Mark def-or-class at point.
 
@@ -3663,6 +3850,7 @@ Returns beginning and end positions of marked area, a cons."
     (py-mark-base "def-or-class" py-mark-decorators)
     (exchange-point-and-mark)))
 
+(defalias 'py-class 'py-mark-class)
 (defun py-mark-class (&optional arg)
   "Mark class at point.
 
@@ -3674,6 +3862,7 @@ Returns beginning and end positions of marked area, a cons."
     (py-mark-base "class" py-mark-decorators)
     (exchange-point-and-mark)))
 
+(defalias 'py-clause 'py-mark-clause)
 (defun py-mark-clause ()
   "Mark clause at point.
   Returns beginning and end positions of marked area, a cons. "
@@ -4266,6 +4455,18 @@ Used with `eval-after-load'."
 
 
 ;; Helper functions
+(defun py-beginning-of-expression-p ()
+  (interactive)
+  "Returns position, if cursor is at the beginning of a expression, nil otherwise. "
+  (let ((orig (point)))
+    (save-excursion
+      (py-end-of-expression)
+      (py-beginning-of-expression)
+      (when (or (eq orig (point)))
+        (when (interactive-p)
+          (message "%s" orig))
+        orig))))
+
 (defun py-beginning-of-statement-p ()
   (interactive)
   "Returns position, if cursor is at the beginning of a statement, nil otherwise. "

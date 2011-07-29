@@ -54,6 +54,9 @@
          'assignement-after-block-test
          'py-beginning-of-clause-test
          'py-end-of-clause-test
+         'py-beginning-of-expression-test
+         'py-end-of-expression-test
+         'py-expression-index-test
 
 )))
 
@@ -97,7 +100,7 @@
 (defun py-beginning-of-block-base ()
   (goto-char (point-max))
   (py-beginning-of-block)
-  (assert (looking-at "if") nil "py-beginning-of-block test failed"))
+  (assert (looking-at "if") nil "py-beginning-of-block-test failed"))
 
 (defun py-end-of-block-test (&optional arg load-branch-function)
   (interactive "p")
@@ -108,7 +111,7 @@
 (defun py-end-of-block-base ()
   (py-beginning-of-block)
   (py-end-of-block)
-  (assert (eq (point) 556) nil "py-end-of-block test failed"))
+  (assert (eq (point) 556) nil "py-end-of-block-test failed"))
 
 (defun py-beginning-of-block-or-clause-test (&optional arg load-branch-function)
   (interactive "p")
@@ -119,7 +122,7 @@
 (defun py-beginning-of-block-or-clause-base ()
     (goto-char (point-max))
     (py-beginning-of-block-or-clause)
-    (assert (looking-at "if") nil "py-beginning-of-block-or-clause test failed"))
+    (assert (looking-at "if") nil "py-beginning-of-block-or-clause-test failed"))
 
 (defun py-end-of-block-or-clause-test (&optional arg load-branch-function)
   (interactive "p")
@@ -130,7 +133,7 @@
 (defun py-end-of-block-or-clause-base ()
     (py-beginning-of-block-or-clause)
     (py-end-of-block-or-clause)
-    (assert (eq (point) 556) nil "py-end-of-block-or-clause test failed"))
+    (assert (eq (point) 556) nil "py-end-of-block-or-clause-test failed"))
 
 (defun py-beginning-of-def-test (&optional arg load-branch-function)
   (interactive "p")
@@ -140,7 +143,7 @@
 
 (defun py-beginning-of-def-base ()
   (py-beginning-of-def)
-  (assert (eq (point) 238) nil "py-beginning-of-def test failed")
+  (assert (eq (point) 238) nil "py-beginning-of-def-test failed")
     )
 
 (defun py-end-of-def-test (&optional arg load-branch-function)
@@ -152,7 +155,7 @@
 (defun py-end-of-def-base ()
     (py-beginning-of-def)
     (py-end-of-def)
-    (assert (eq (point) 556) nil "py-end-of-def test failed")
+    (assert (eq (point) 556) nil "py-end-of-def-test failed")
     )
 
 (defun py-beginning-of-def-or-class-test (&optional arg load-branch-function)
@@ -163,7 +166,7 @@
 
 (defun py-beginning-of-def-or-class-base ()
   (py-beginning-of-def-or-class 4)
-  (assert (eq (point) 1) nil "py-beginning-of-def-or-class test failed"))
+  (assert (eq (point) 1) nil "py-beginning-of-def-or-class-test failed"))
 
 (defun py-end-of-def-or-class-test (&optional arg load-branch-function)
   (interactive "p")
@@ -174,7 +177,7 @@
 (defun py-end-of-def-or-class-base ()
   (py-beginning-of-def-or-class t)
   (py-end-of-def-or-class t)
-  (assert (eq (point) 556) nil "py-end-of-def-or-class test failed"))
+  (assert (eq (point) 556) nil "py-end-of-def-or-class-test failed"))
 
 (defun py-electric-backspace-test (&optional arg load-branch-function)
   (interactive "p")
@@ -227,7 +230,7 @@ print('\\xA9')"))
       (when (looking-back comint-prompt-regexp)
         (goto-char (1- (match-beginning 0))))
       (sit-for 0.1))
-  (assert (looking-back "©") nil "UnicodeEncodeError-python3 test failed"))
+  (assert (looking-back "©") nil "UnicodeEncodeError-python3-test failed"))
 
 (defun dict-error-test (&optional arg load-branch-function)
   (interactive "p")
@@ -248,7 +251,7 @@ class foo(bar):
 
 (defun dict-error-base ()
     (goto-char 78)
-    (assert (eq 167 (py-end-of-statement)) nil "dict-error test failed"))
+    (assert (eq 167 (py-end-of-statement)) nil "dict-error-test failed"))
 
 (defun py-expand-abbrev-pst-pdb.set_trace-test (&optional arg load-branch-function)
   (interactive "p")
@@ -264,13 +267,13 @@ pst
   (forward-char -1)
   (expand-abbrev)
   (sit-for 1)
-  ;;  (assert (string= (expand-abbrev) "pst") nil "py-expand-abbrev-pst-pdb.set_trace test failed"))
-  ;; (assert (expand-abbrev) nil "py-expand-abbrev-pst-pdb.set_trace test failed"))
+  ;;  (assert (string= (expand-abbrev) "pst") nil "py-expand-abbrev-pst-pdb.set_trace-test failed"))
+  ;; (assert (expand-abbrev) nil "py-expand-abbrev-pst-pdb.set_trace-test failed"))
   (progn (looking-back "pdb.set_trace()")
       (message "Looking back: %s" (match-string-no-properties 0)))
   (assert (looking-back "pdb.set_trace()")
           ;;          (message "%s" (match-string-no-properties 1))
-          nil "py-expand-abbrev-pst-pdb.set_trace test failed"))
+          nil "py-expand-abbrev-pst-pdb.set_trace-test failed"))
 
 (defun near-bob-beginning-of-statement-test (&optional arg load-branch-function)
   (interactive "p")
@@ -284,7 +287,7 @@ print u'\xA9'
 
 (defun near-bob-beginning-of-statement-base ()
     (goto-char 50)
-    (assert (eq 0 (py-compute-indentation)) nil "near-bob-beginning-of-statement test failed"))
+    (assert (eq 0 (py-compute-indentation)) nil "near-bob-beginning-of-statement-test failed"))
 
 (defun bob-beginning-of-statement-test (&optional arg load-branch-function)
   (interactive "p")
@@ -295,7 +298,7 @@ print u'\xA9'
 
 (defun bob-beginning-of-statement-base ()
     (py-beginning-of-statement)
-    (assert (eq 1 (point))  "bob-beginning-of-statement test failed"))
+    (assert (eq 1 (point))  "bob-beginning-of-statement-test failed"))
 
 (defun honor-comments-indent-test (&optional arg load-branch-function)
   (interactive "p")
@@ -307,7 +310,7 @@ print u'\xA9'
 
 (defun honor-comments-indent-base ()
     (goto-char 19)
-    (assert (eq 4 (py-compute-indentation)) nil "honor-comments-indent test failed"))
+    (assert (eq 4 (py-compute-indentation)) nil "honor-comments-indent-test failed"))
 
 (defun first-line-offset-test (&optional arg load-branch-function)
   (interactive "p")
@@ -319,7 +322,7 @@ print u'\xA9'
 
 (defun first-line-offset-base ()
     (goto-char 18)
-    (assert (eq 4 (py-compute-indentation)) nil "first-line-offset test failed"))
+    (assert (eq 4 (py-compute-indentation)) nil "first-line-offset-test failed"))
 
 (defun assignement-indent-test (&optional arg load-branch-function)
   (interactive "p")
@@ -331,7 +334,7 @@ sammlung = []
 
 (defun assignement-indent-base ()
     (goto-char 12)
-    (assert (eq 4 (py-compute-indentation)) nil "assignement-indent test failed"))
+    (assert (eq 4 (py-compute-indentation)) nil "assignement-indent-test failed"))
 
 (defun if-elif-test (&optional arg load-branch-function)
   (interactive "p")
@@ -347,7 +350,7 @@ elif barr in bazz:
 
 (defun if-elif-base ()
     (goto-char 76)
-    (assert (eq 4 (py-compute-indentation)) nil "if-elif.py test failed"))
+    (assert (eq 4 (py-compute-indentation)) nil "if-elif.py-test failed"))
 
 (defun if-elif-bob-test (&optional arg load-branch-function)
   (interactive "p")
@@ -359,7 +362,7 @@ elif barr in bazz:
 
 (defun if-elif-bob-base ()
     (goto-char (point-min))
-    (assert (eq 0 (py-compute-indentation)) nil "if-elif-bob.py test failed"))
+    (assert (eq 0 (py-compute-indentation)) nil "if-elif-bob.py-test failed"))
 
 (defun try-else-clause-test (&optional arg load-branch-function)
   (interactive "p")
@@ -383,7 +386,7 @@ def _commit_on_success(*args, **kw):
 
 (defun try-else-clause-base ()
   (forward-char -1)
-  (assert (eq 4 (py-compute-indentation)) nil "try-else-clause test failed"))
+  (assert (eq 4 (py-compute-indentation)) nil "try-else-clause-test failed"))
 
 (defun try-except-test (&optional arg load-branch-function)
   (interactive "p")
@@ -407,7 +410,7 @@ def _commit_on_success(*args, **kw):
 
 (defun try-except-base ()
   (goto-char 434)
-  (assert (eq 4 (py-compute-indentation)) nil "try-else-clause test failed"))
+  (assert (eq 4 (py-compute-indentation)) nil "try-else-clause-test failed"))
 
 (defun assignement-after-block-test (&optional arg load-branch-function)
   (interactive "p")
@@ -426,7 +429,7 @@ b = \"asdf\"
 
 (defun assignement-after-block-base ()
     (forward-line -1) 
-    (assert (eq 0 (py-compute-indentation)) nil "assignement-after-block test failed"))
+    (assert (eq 0 (py-compute-indentation)) nil "assignement-after-block-test failed"))
 
 (defun py-beginning-of-clause-test (&optional arg load-branch-function)
   (interactive "p")
@@ -454,7 +457,7 @@ def main(argv):
 
 (defun py-beginning-of-clause-base ()
     (goto-char 295)
-    (assert (eq 267 (py-beginning-of-clause)) "py-beginning-of-clause test failed"))
+    (assert (eq 267 (py-beginning-of-clause)) "py-beginning-of-clause-test failed"))
 
 (defun py-end-of-clause-test (&optional arg load-branch-function)
   (interactive "p")
@@ -482,7 +485,57 @@ def main(argv):
 
 (defun py-end-of-clause-base ()
     (goto-char 295)
-    (assert (eq 337 (py-end-of-clause)) "py-end-of-clause test failed"))
+    (assert (eq 337 (py-end-of-clause)) "py-end-of-clause-test failed"))
+
+(defun py-beginning-of-expression-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "# Examples from http://diveintopython.org/
+
+def main(argv):
+    grammar = \"kant.xml\"
+    try:
+        opts, args = getopt.getopt(argv, \"hg:d\", [\"help\", \"grammar=\"])
+    except getopt.GetoptError:
+        usage()
+        sys.exit(2)
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'py-beginning-of-expression-base arg teststring)))
+
+(defun py-beginning-of-expression-base ()
+    (assert (eq 225 (py-beginning-of-expression)) nil "py-beginning-of-expression-test failed"))
+
+(defun py-end-of-expression-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "# Examples from http://diveintopython.org/
+
+def main(argv):
+    grammar = \"kant.xml\"
+    try:
+        opts, args = getopt.getopt(argv, \"hg:d\", [\"help\", \"grammar=\"])
+    except getopt.GetoptError:
+        usage()
+        sys.exit(2)
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'py-end-of-expression-base arg teststring)))
+
+(defun py-end-of-expression-base ()
+  (goto-char 225)
+  (assert (eq 232 (py-end-of-expression)) nil "py-beginning-of-expression-test failed"))
+
+(defun py-expression-index-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+ # -\*- coding: utf-8 -\*-
+b = a[0].split(':')[1]
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'py-expression-index-base arg teststring)))
+
+(defun py-expression-index-base ()
+    (goto-char 58)
+    (assert (eq 71 (py-end-of-expression)) nil "py-expression-index-test failed"))
 
 (provide 'python-mode-test)
 ;;; python-mode-test.el ends here

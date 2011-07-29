@@ -58,6 +58,7 @@ $EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'py
 --funcall cls-pseudo-keyword-lp:328849-test \
 --funcall mark-decorators-lp:328851-test \
 --funcall flexible-indentation-lp:328842-test \
+--funcall py-insert-super-lp:328843-test \
 --funcall hungry-delete-backwards-lp:328853-test \
 --funcall hungry-delete-forward-lp:328853-test \
 --funcall beg-end-of-defun-lp:303622-test \
@@ -94,8 +95,9 @@ $EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'py
 --funcall python-mode-hangs-lp:801780-test \
 --funcall stops-backslashed-line-lp:802504-test \
 --funcall stops-backslashed-line-lp:802504-test2 \
---funcall py-master-file-not-honored-lp:794850-test \
+--funcall master-file-not-honored-lp:794850-test \
 --funcall python-mode-slow-lp:803275-test \
+--funcall font-lock-variable-name-face-lp:798538-test \
 \
 --funcall py-beginning-of-block-test \
 --funcall py-end-of-block-test \
@@ -120,6 +122,9 @@ $EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'py
 --funcall assignement-after-block-test \
 --funcall py-beginning-of-clause-test \
 --funcall py-end-of-clause-test \
+--funcall py-beginning-of-expression-test \
+--funcall py-end-of-expression-test \
+--funcall py-expression-index-test \
 --funcall UnicodeEncodeError-python3-test \
 --funcall py-expand-abbrev-pst-pdb.set_trace-test \
 
