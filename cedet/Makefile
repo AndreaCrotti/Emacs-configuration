@@ -44,7 +44,7 @@ $(CEDET_ELISP_PACKAGES) \
 tests
 
 ## Path to your Emacs
-EMACS?=emacs
+EMACS=emacs
 EMACSFLAGS=-batch --no-site-file
 
 ## Your shell (On Windows/Cygwin I recommend to use bash)

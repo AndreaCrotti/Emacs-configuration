@@ -4062,15 +4062,19 @@ Setup buffer for parse.
 ;;;***
 
 ;;;### (autoloads nil nil ("bovine/bovine-grammar-macros.el" "bovine/erlang-edoc.el"
-;;;;;;  "bovine/semantic-erlang.el" "bovine/semantic-java.el" "bovine/semantic-skeleton-by.el"
-;;;;;;  "ctags/semantic-ectag-util.el" "semantic-analyze-fcn.el"
-;;;;;;  "semantic-ast.el" "semantic-example.el" "semantic-fw.el"
-;;;;;;  "semantic-grammar-wy.el" "semantic-inc.el" "semantic-sb.el"
-;;;;;;  "semantic-util.el" "semanticdb-el.el" "semanticdb-java.el"
+;;;;;;  "bovine/semantic-c-by.el" "bovine/semantic-erlang-by.el"
+;;;;;;  "bovine/semantic-erlang.el" "bovine/semantic-f90-by.el" "bovine/semantic-java.el"
+;;;;;;  "bovine/semantic-make-by.el" "bovine/semantic-scm-by.el"
+;;;;;;  "bovine/semantic-skeleton-by.el" "ctags/semantic-ectag-util.el"
+;;;;;;  "semantic-analyze-fcn.el" "semantic-ast.el" "semantic-example.el"
+;;;;;;  "semantic-fw.el" "semantic-grammar-wy.el" "semantic-inc.el"
+;;;;;;  "semantic-sb.el" "semantic-util.el" "semanticdb-el.el" "semanticdb-java.el"
 ;;;;;;  "semanticdb-javascript.el" "semanticdb-mk.el" "semanticdb-skel.el"
-;;;;;;  "semanticdb-system.el" "wisent/semantic-wisent.el" "wisent/wisent-expr.el"
-;;;;;;  "wisent/wisent-grammar-macros.el" "wisent/wisent-java.el")
-;;;;;;  (20012 11205 296908))
+;;;;;;  "semanticdb-system.el" "wisent/semantic-wisent.el" "wisent/wisent-awk-wy.el"
+;;;;;;  "wisent/wisent-calc-wy.el" "wisent/wisent-cim-wy.el" "wisent/wisent-expr.el"
+;;;;;;  "wisent/wisent-grammar-macros.el" "wisent/wisent-java-tags-wy.el"
+;;;;;;  "wisent/wisent-java-wy.el" "wisent/wisent-java.el" "wisent/wisent-javascript-jv-wy.el"
+;;;;;;  "wisent/wisent-python-wy.el") (20022 39406 440294))
 
 ;;;***
 
