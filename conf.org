@@ -2444,6 +2444,8 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+begin_src emacs-lisp :tangle yes
   (autoload 'eimp-mode "eimp" "Emacs Image Manipulation Package." t)
   (add-hook 'image-mode-hook 'eimp-mode)
+  (setq eimp-enable-undo t)
+  (setq eimp-max-concurrent-processes 4)
 #+end_src
 
 * Gpg and keys
