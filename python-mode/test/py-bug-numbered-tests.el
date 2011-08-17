@@ -17,10 +17,16 @@
 ;;; Code:
 
 (add-to-list 'load-path default-directory)
-(require 'python-mode)
+
 (require 'python-mode-test)
 (defvar bug-numbered-tests nil
   "Tests following reports at https://bugs.launchpad.net/python-mode")
+
+(defun py-run-bug-numbered-tests (&optional arg)
+  "With ARG greater 1 keep test buffers open. "
+  (interactive "p")
+  (dolist (ele bug-numbered-tests)
+    (funcall ele arg)))
 
 (setq bug-numbered-tests
       (if (featurep 'xemacs)
@@ -82,14 +88,15 @@
          'py-variable-name-face-lp:798538-test
          'colon-causes-error-lp:818665-test
          'if-indentation-lp:818720-test
+         'closing-parentesis-indent-lp:821820-test
+         'py-indent-line-lp:822532-test
+         'indent-honor-arglist-whitespaces-lp:822540-test
+         'comments-indent-honor-setting-lp:824427-test
+         'infinite-loop-after-tqs-lp:826044-test
+         'closing-list-lp:826144-test
 
          )))
 
-(defun py-run-bug-numbered-tests (&optional arg)
-  "With ARG greater 1 keep test buffers open. "
-  (interactive "p")
-  (dolist (ele bug-numbered-tests)
-    (funcall ele arg)))
 
 (defun py-bug-tests-intern (testname &optional arg teststring)
   (if arg
@@ -290,22 +297,22 @@ class f():
     \"\"\"
     if a:
         ar_atpt_python_list_roh = ([
-                'python-expression',
-
-    #     def ar_thingatpt_write_lists (&optional datei):
-                'python-partial-expression',
-                'python-statement',
-                ])
+            'python-expression',
+            
+            # def ar_thingatpt_write_lists (&optional datei):
+            'python-partial-expression',
+            'python-statement',
+        ])
 "))
     (py-bug-tests-intern 'beg-end-of-defun-lp:303622 arg teststring)))
 
 (defun beg-end-of-defun-lp:303622 ()
   (goto-char (point-min))
   (forward-line 2)
-  (end-of-defun)
-  (assert (eq 292 (point)) nil "beg-end-of-defun-lp:303622-test failed!")
+  (py-end-of-def-or-class)
+  (assert (eq 287 (point)) nil "beg-end-of-defun-lp:303622-test #1 failed!")
   (beginning-of-defun)
-  (assert (eq 2 (point)) nil "beg-end-of-defun-lp:303622-test failed!"))
+  (assert (eq 2 (point)) nil "beg-end-of-defun-lp:303622-test #2 failed!"))
 
 (defun dq-in-tqs-string-lp:328813-test (&optional arg load-branch-function)
   "With ARG greater 1 keep test buffer open.
@@ -591,6 +598,7 @@ print u'\\xA9'
   (push-mark)
   (end-of-line)
   (py-execute-region (line-beginning-position) (point))
+  (sit-for 0.2) 
   (when (looking-back comint-prompt-regexp)
     (goto-char (1- (match-beginning 0))))
   (sit-for 0.1)
@@ -979,6 +987,7 @@ def foo():
     (py-bug-tests-intern 'indent-open-paren-not-last-lp:771291-base arg teststring)))
 
 (defun indent-open-paren-not-last-lp:771291-base ()
+  (newline-and-indent)
   (assert (eq 20 (py-compute-indentation)) nil "indent-open-paren-not-last-lp:771291-test failed"))
 
 (defun wrong-indent-after-else-lp:772610-test (&optional arg load-branch-function)
@@ -1019,7 +1028,7 @@ except:
   (py-bug-tests-intern 'indent-explicitly-set-in-multiline-tqs-lp:784225-base arg teststring)))
 
 (defun indent-explicitly-set-in-multiline-tqs-lp:784225-base ()
-    (assert (eq 8 (py-compute-indentation)) nil "explicitly-dedented-in-list-lp:784225-test failed"))
+    (assert (eq 8 (py-compute-indentation)) nil "indent-explicitly-set-in-multiline-tqs-lp:784225-test failed"))
 
 (defun unbalanced-parentheses-lp:784645-test (&optional arg load-branch-function)
   (interactive "p")
@@ -1423,9 +1432,124 @@ class X():
     (goto-char 196)
     (assert (eq 12 (py-compute-indentation)) nil "in-indentation-lp:818720-test failed"))
 
+(defun closing-parentesis-indent-lp:821820-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+if foo:
+    bar.append(
+        ht(
+            T.a('Sorted Foo', href='#Blub', ),
+            ' -- foo bar baz--',
+            self.Tasdf( afsd ),
+            self.Tasdf( asdf ),
+        )
+    )
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'closing-parentesis-indent-lp:821820-base arg teststring)))
+
+(defun closing-parentesis-indent-lp:821820-base ()
+  (let ((py-closing-list-dedents-bos t))
+    (forward-line -1) 
+    (assert (eq 4 (py-compute-indentation)) nil "closing-parentesis-indent-lp:821820-test failed")))
+
+(defun py-indent-line-lp:822532-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "
+if x > 0:
+    for i in range(100):
+        print i
+    else:
+    print \"All done\"
+elif x < 0:
+    print \"x is negative\"
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'py-indent-line-lp:822532-base arg teststring)))
+
+(defun py-indent-line-lp:822532-base ()
+    (goto-char 53)
+    (set-buffer-modified-p nil)
+    (py-indent-line)
+    (assert (eq 57 (point)) nil "py-xcindent-line-lp:822532-test #1 failed")
+    (assert (not (buffer-modified-p)) nil "py-indent-line-lp:822532-test #2 failed")
+    )
+
+(defun indent-honor-arglist-whitespaces-lp:822540-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+abc( ghi,
+    jkl
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'indent-honor-arglist-whitespaces-lp:822540-base arg teststring)))
+
+(defun indent-honor-arglist-whitespaces-lp:822540-base ()
+  (forward-line -1) 
+  (assert (eq 5 (py-compute-indentation)) nil "indent-honor-arglist-whitespaces-lp:822540-test failed"))
+
+(defun comments-indent-honor-setting-lp:824427-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -\*- coding: utf-8 -\*-
+
+if __name__ == '__main__':
+    from foo import \*
+    foo([\"baz\"]) # list of foo's development directories
+
+# limitations:
+#
+#   Some comments on limitations:
+# asdf
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'comments-indent-honor-setting-lp:824427-base arg teststring)))
+
+(defun comments-indent-honor-setting-lp:824427-base ()
+    (goto-char 206)
+    (assert (eq 0 (py-compute-indentation)) nil "comments-indent-honor-setting-lp:824427-test failed"))
+
+(defun infinite-loop-after-tqs-lp:826044-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "\"\"\"
+hey
+\"\"\"
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'infinite-loop-after-tqs-lp:826044-base arg teststring)))
+
+(defun infinite-loop-after-tqs-lp:826044-base ()
+    (assert (eq 0 (py-newline-and-indent)) nil "infinite-loop-after-tqs-lp:826044-test failed"))
+
+
+(defun closing-list-lp:826144-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+if foo:
+    bar.append(
+        ht(
+            T.a('Sorted Foo', href='#Blub', ),
+            ' -- foo bar baz--',
+            self.Tasdf( afsd ),
+            self.Tasdf( asdf ),
+            )
+        )
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'closing-list-lp:826144-base arg teststring)))
+
+(defun closing-list-lp:826144-base ()
+  (goto-char 241)
+  (assert (eq 12 (py-compute-indentation)) nil "infinite-loop-after-tqs-lp:826044-test failed")
+  (goto-char 251)
+  (assert (eq 8 (py-compute-indentation)) nil "infinite-loop-after-tqs-lp:826044-test failed")
+)
+
 (provide 'py-bug-numbered-tests)
 ;;; py-bug-numbered-tests.el ends here
-
-
-
-

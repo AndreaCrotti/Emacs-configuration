@@ -42,7 +42,7 @@
          'py-electric-delete-test
          'UnicodeEncodeError-python3-test
          'dict-error-test
-         'py-expand-abbrev-pst-pdb.set_trace-test
+;;         'py-expand-abbrev-pst-pdb.set_trace-test
          'near-bob-beginning-of-statement-test
          'bob-beginning-of-statement-test
          'honor-comments-indent-test
@@ -57,8 +57,15 @@
          'py-beginning-of-expression-test
          'py-end-of-expression-test
          'py-expression-index-test
+         'py-indent-after-assigment-test
+         'leave-dict-test
+         'eofs-attribut-test
          'py-insert-super-python2-test
          'py-insert-super-python3-test
+         'args-list-first-line-indent-test
+         'py-partial-expression-test
+         'py-execute-block-test
+         'multiline-list-indent-test
 
 )))
 
@@ -228,6 +235,8 @@ print('\\xA9')"))
   (end-of-line)
   (py-choose-shell)
   (py-execute-region (line-beginning-position) (point))
+  (goto-char (point-max))
+  (sit-for 0.1)
   (or (looking-at "©")
       (when (looking-back comint-prompt-regexp)
         (goto-char (1- (match-beginning 0))))
@@ -387,7 +396,7 @@ def _commit_on_success(*args, **kw):
   (py-bug-tests-intern 'try-else-clause-base arg teststring)))
 
 (defun try-else-clause-base ()
-  (forward-char -1)
+  (forward-line -3)
   (assert (eq 4 (py-compute-indentation)) nil "try-else-clause-test failed"))
 
 (defun try-except-test (&optional arg load-branch-function)
@@ -505,7 +514,8 @@ def main(argv):
   (py-bug-tests-intern 'py-beginning-of-expression-base arg teststring)))
 
 (defun py-beginning-of-expression-base ()
-    (assert (eq 225 (py-beginning-of-expression)) nil "py-beginning-of-expression-test failed"))
+  (goto-char 227)
+  (assert (eq 221 (py-beginning-of-expression)) nil "py-beginning-of-expression-test failed"))
 
 (defun py-end-of-expression-test (&optional arg load-branch-function)
   (interactive "p")
@@ -584,6 +594,128 @@ class OrderedDict1(dict):
     (py-insert-super)
     (back-to-indentation) 
     (assert (looking-at "super().__init__(d={})") nil "py-insert-super-python3-test failed"))
+
+(defun py-indent-after-assigment-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+#####################################
+def foo( self, bar=False ):  # version 12345
+    title = self.barz.attrs['file'].split('.')[ -1 ]
+    if asdf:
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'indent-after-assigment-base arg teststring)))
+
+(defun indent-after-assigment-base ()
+    (forward-line -1)
+    (py-indent-line)
+    (assert (eq 4 (current-column)) nil "indent-after-assigment-test failed"))
+
+(defun leave-dict-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "
+foo = {
+    b\"yyyyt\": \"bxxk\",
+    \"bxxk\": { \"yyer\": [\"wxrddef\", \"yytem\", \"hym\",],
+              \"wfter\": [], \"xbject\": BxxkTwg, },
+    \"yytem\": { \"yyer\": [], \"wfter\": [\"yytem\"], \"xbject\": ItemTwg, },
+    \"hym\": { \"yyer\": [], \"wfter\": [\"hym\"], \"xbject\": ItemTwg, },
+    \"yyfx\": { \"yyer\": [], \"wfter\": [\"yytem\", \"hym\"], \"xbject\": IfxTwg, },
+    \"wxrddef\": { \"yyer\": [], \"wfter\": [\"yyfx\", \"yytem\", \"hym\"], \"xbject\": WxrddefTwg, },
+}
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'leave-dict-base arg teststring)))
+
+(defun leave-dict-base ()
+    (goto-char (point-min))
+    (py-end-of-statement) 
+    (assert (eq 431 (point)) nil "leave-dict-test failed"))
+
+(defun eofs-attribut-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "def foo( baz ):  # version 
+    return baz.replace(\"\+\",\"§\").replace(\"_\", \" \").replace(\"ﬁ\",\"fr\").replace(
+        \"ﬂ\", \"fg\").replace(\"--\", \"ü\")
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'eofs-attribut-base arg teststring)))
+
+(defun eofs-attribut-base ()
+    (forward-line -2)
+    (assert (eq 143 (py-end-of-statement))  nil "eofs-attribut-test failed"))
+
+(defun args-list-first-line-indent-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+if foo:
+    bar.append(
+        ht(
+            T.a('Sorted Foo', href='#Blub', ),
+            ' -- foo bar baz--',
+            self.Tasdf( afsd ),
+            self.Tasdf( asdf ),
+            )
+    )
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'args-list-first-line-indent-base arg teststring)))
+
+(defun args-list-first-line-indent-base ()
+    (goto-char 72)
+    (assert (eq 4 (py-compute-indentation)) nil "args-list-first-line-indent-test failed"))
+
+(defun py-partial-expression-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+if foo:
+    bar.append(
+        ht(
+            T.a('Sorted Foo', href='#Blub', ),
+            ' -- foo bar baz--',
+            self.Tasdf( afsd ),
+            self.Tasdf( asdf ),
+            )
+        )
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'py-partial-expression-base arg teststring)))
+
+(defun py-partial-expression-base ()
+    (goto-char 99)
+    (assert (eq 99 (py-beginning-of-partial-expression)) nil "py-partial-expression-test #1 failed")
+    (assert (eq 130 (py-end-of-partial-expression)) nil "py-partial-expression-test #2 failed")
+    (goto-char 178)
+    (assert (eq 177 (py-beginning-of-partial-expression)) nil "py-partial-expression-test #3 failed")
+    (assert (eq 181 (py-end-of-partial-expression)) nil "py-partial-expression-test #3 failed")
+)
+
+(defun py-execute-block-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "if True:
+    print \"asdf\""))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'py-execute-block-base arg teststring)))
+
+(defun py-execute-block-base ()
+  (beginning-of-line) 
+  (assert (eq nil (py-execute-block)) nil "py-execute-block-test failed"))
+
+(defun multiline-list-indent-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "print [1, 2,
+    3, 4]"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'multiline-list-indent-base arg teststring)))
+
+(defun multiline-list-indent-base ()
+    (assert (eq 7 (py-compute-indentation)) nil "multiline-list-indent-test failed"))
 
 (provide 'python-mode-test)
 ;;; python-mode-test.el ends here
