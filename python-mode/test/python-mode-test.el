@@ -704,8 +704,10 @@ if foo:
   (py-bug-tests-intern 'py-execute-block-base arg teststring)))
 
 (defun py-execute-block-base ()
-  (beginning-of-line) 
-  (assert (eq nil (py-execute-block)) nil "py-execute-block-test failed"))
+  (beginning-of-line)
+  (let ((py-shell-switch-buffers-on-execute nil)
+        (py-cleanup-temporary nil))
+    (assert (py-execute-block) nil "py-execute-block-test failed")))
 
 (defun multiline-list-indent-test (&optional arg load-branch-function)
   (interactive "p")
@@ -719,3 +721,4 @@ if foo:
 
 (provide 'python-mode-test)
 ;;; python-mode-test.el ends here
+

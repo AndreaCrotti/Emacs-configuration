@@ -2416,6 +2416,20 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (add-to-list 'auto-mode-alist '("\\.log$" . log4j-mode))
 #+end_src
 
+   Open automatically some log files to analyze them
+#+begin_src emacs-lisp :tangle yes
+  ;TODO: add support for smart matching of keywords on the log files also
+  (setq ca-log-files '("boot" "everything" "kernel"))
+  (setq ca-log-basepath "/var/log/")
+  
+  (defun ca-view-log-file ()
+    "View log files"
+    (interactive)
+    (let ((to-read (completing-read "which file?\n" ca-log-files)))
+      (view-file (concat ca-log-basepath to-read))
+      (log4j-mode)))
+#+end_src
+
 ** Ledger, accounting mode
 #+begin_src emacs-lisp :tangle yes
   (autoload 'ledger-mode "ledger" "ledger mode for accounting" t)

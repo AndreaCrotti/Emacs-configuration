@@ -102,9 +102,6 @@
 
 (eval-when-compile (require 'cl))
 
-(add-to-list 'load-path (concat default-directory "test"))
-(add-to-list 'load-path (concat default-directory "completion"))
-
 
 ;; user definable variables
 ;; vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
@@ -120,13 +117,13 @@ regardless of where in the line point is when the TAB command is used."
   :type 'boolean
   :group 'python)
 
-(defcustom py-electric-rhombus-t t
-  "If \"#\" should call `py-electric-rhombus'. Default is `t'. "
+(defcustom py-electric-comment-p t
+  "If \"#\" should call `py-electric-comment'. Default is `t'. "
   :type 'boolean
   :group 'python)
 
-(defcustom py-electric-rhombus-add-space t
-  "If py-electric-rhombus should add a space.  Default is `t'. "
+(defcustom py-electric-comment-add-space-p nil
+  "If py-electric-comment should add a space.  Default is `nil'. "
   :type 'boolean
   :group 'python)
 
@@ -154,19 +151,19 @@ regardless of where in the line point is when the TAB command is used."
   :tag "Jython Command")
 
 (defcustom py-encoding-string " # -*- coding: utf-8 -*-"
-  "Detecting the shell in head of file. "
+  "Default string specifying encoding in the heading of file. "
   :type 'string
-  :group 'convenience)
+  :group 'python)
 
 (defcustom py-shebang-startstring "#! /bin/env"
   "Detecting the shell in head of file. "
   :type 'string
-  :group 'convenience)
+  :group 'python)
 
-(defcustom py-shebang-regexp "#![ \t]?\\([^ \t\n]*/bin/env[ \t]\\)?\\([pj]ython[^ \t\n]*\\)"
+(defcustom py-shebang-regexp "#![ \t]?\\([^ \t\n]*[ \t]\\)?[^ \t\n]*\\([pj]ython[^ \t\n]*\\)"
   "Detecting the shell in head of file. "
   :type 'regexp
-  :group 'convenience)
+  :group 'python)
 
 (defcustom py-default-interpreter "python"
   "*Which Python interpreter is used by default.
@@ -201,7 +198,7 @@ mode buffer is visited during an Emacs session.  After that, use
   :group 'python
   :tag "Jython Command Args")
 
-(defcustom py-cleanup-temporary  t
+(defcustom py-cleanup-temporary  nil
  "If temporary buffers and files used by functions executing region  should be deleted afterwards. "
 
 :type 'boolean
@@ -433,6 +430,12 @@ Default is `t'."
 
 (defcustom py-current-defun-delay  2
  "When called interactively, `py-current-defun' should wait PY-WHICH-FUNC-DELAY seconds at the definition name found, before returning to previous position. "
+
+:type 'number
+:group 'python)
+
+(defcustom py-send-receive-delay  5
+ "Seconds to wait for output, used by `python-send-receive'. "
 
 :type 'number
 :group 'python)
@@ -997,7 +1000,7 @@ package.  Note that the latest X/Emacs releases contain this package.")
   (let ((map (make-sparse-keymap)))
     ;; electric keys
     (define-key map ":" 'py-electric-colon)
-    (define-key map "#" 'py-electric-rhombus)
+    (define-key map "#" 'py-electric-comment)
     ;; indentation level modifiers
     (define-key map "\C-c\C-l"  'py-shift-region-left)
     (define-key map "\C-c\C-r"  'py-shift-region-right)
@@ -1720,8 +1723,8 @@ It is added to `interpreter-mode-alist' and `py-choose-shell'.
                   (backward-to-indentation 1))
                 (not (looking-at py-no-outdent-re))))))
 
-(defun py-electric-rhombus (arg)
-  "Insert a rhombus. If starting a comment, indent accordingly.
+(defun py-electric-comment (arg)
+  "Insert a comment. If starting a comment, indent accordingly.
 If a numeric
 argument ARG is provided, that many colons are inserted
 non-electrically.
@@ -1729,20 +1732,22 @@ With universal-prefix-key C-u a \"#\"
 Electric behavior is inhibited inside a string or
 comment."
   (interactive "*P")
-  (if py-electric-rhombus-t
+  (if py-electric-comment-p
       (if (ignore-errors (eq 4 (car-safe arg)))
           (insert "#")
-        (when (and (eq last-command 'py-electric-rhombus) py-electric-rhombus-add-space (looking-back " "))
+        (when (and (eq last-command 'py-electric-comment) (looking-back " "))
           (forward-char -1))
-        (self-insert-command (prefix-numeric-value arg))
+        (if (interactive-p) (self-insert-command (prefix-numeric-value arg))
+          (insert "#"))
         (let ((orig (copy-marker (point)))
                     (indent (py-compute-indentation)))
           (unless (eq (current-indentation) indent)
                 (goto-char orig)
                   (beginning-of-line)
                   (delete-horizontal-space)
-            (indent-to indent))
-                  (when py-electric-rhombus-add-space
+            (indent-to indent)
+            (goto-char (1+ orig)))
+                  (when py-electric-comment-add-space-p
             (unless (looking-back "[ \t]")
               (insert " "))))
         (setq last-command this-command))
@@ -2586,7 +2591,7 @@ subtleties, including the use of the optional ASYNC argument."
 
 (defun py-execute-block ()
   "Send python-form at point as is to Python interpreter. "
-  (interactive "*")
+  (interactive)
   (save-excursion 
     (let ((beg (prog1
                    (or (py-beginning-of-block-p)
@@ -2597,7 +2602,7 @@ subtleties, including the use of the optional ASYNC argument."
 
 (defun py-execute-block-or-clause ()
   "Send python-form at point as is to Python interpreter. "
-  (interactive "*")
+  (interactive)
   (save-excursion 
     (let ((beg (prog1
                    (or (py-beginning-of-block-or-clause-p)
@@ -2608,7 +2613,7 @@ subtleties, including the use of the optional ASYNC argument."
 
 (defun py-execute-class ()
   "Send python-form at point as is to Python interpreter. "
-  (interactive "*")
+  (interactive)
   (save-excursion 
     (let ((beg (prog1
                    (or (py-beginning-of-class-p)
@@ -2619,7 +2624,7 @@ subtleties, including the use of the optional ASYNC argument."
 
 (defun py-execute-clause ()
   "Send python-form at point as is to Python interpreter. "
-  (interactive "*")
+  (interactive)
   (save-excursion 
     (let ((beg (prog1
                    (or (py-beginning-of-clause-p)
@@ -2630,7 +2635,7 @@ subtleties, including the use of the optional ASYNC argument."
 
 (defun py-execute-def ()
   "Send python-form at point as is to Python interpreter. "
-  (interactive "*")
+  (interactive)
   (save-excursion 
     (let ((beg (prog1
                    (or (py-beginning-of-def-p)
@@ -2641,7 +2646,7 @@ subtleties, including the use of the optional ASYNC argument."
 
 (defun py-execute-def-or-class ()
   "Send python-form at point as is to Python interpreter. "
-  (interactive "*")
+  (interactive)
   (save-excursion 
     (let ((beg (prog1
                    (or (py-beginning-of-def-or-class-p)
@@ -2652,7 +2657,7 @@ subtleties, including the use of the optional ASYNC argument."
 
 (defun py-execute-expression ()
   "Send python-form at point as is to Python interpreter. "
-  (interactive "*")
+  (interactive)
   (save-excursion 
     (let ((beg (prog1
                    (or (py-beginning-of-expression-p)
@@ -2663,7 +2668,7 @@ subtleties, including the use of the optional ASYNC argument."
 
 (defun py-execute-partial-expression ()
   "Send python-form at point as is to Python interpreter. "
-  (interactive "*")
+  (interactive)
   (save-excursion 
     (let ((beg (prog1
                    (or (py-beginning-of-partial-expression-p)
@@ -2674,7 +2679,7 @@ subtleties, including the use of the optional ASYNC argument."
 
 (defun py-execute-statement ()
   "Send python-form at point as is to Python interpreter. "
-  (interactive "*")
+  (interactive)
   (save-excursion 
     (let ((beg (prog1
                    (or (py-beginning-of-statement-p)
@@ -2712,25 +2717,20 @@ Inserts an incentive true form \"if 1:\\n.\" "
 (defun py-cleanup (buf file)
   "Deletes temporary buffer and file if `py-cleanup-temporary' is t. "
   (save-excursion
-    (when py-cleanup-temporary
       (set-buffer buf)
       (set-buffer-modified-p nil)
-      (kill-buffer buf)
-      (delete-file file))))
+    ;;      (kill-buffer buf)
+    (delete-file file)))
 
 (defun py-fix-start (start end)
   "Internal use by py-execute... functions.
 Avoid empty lines at the beginning. "
   (goto-char start)
-  (beginning-of-line)
-  ;; Skip ahead to the first non-blank line
-  (while (and (looking-at "\\s *$")
-              (< (point) end))
-    (forward-line 1))
-  (or (< start end)
-      (error "Region is empty"))
+  (let ((beg (copy-marker start)))
+    (while (empty-line-p)
+      (delete-region (line-beginning-position) (1+ (line-end-position))))
   (setq py-line-number-offset (count-lines 1 start))
-  (point))
+    beg))
 
 
 (defun py-jump-to-exception (file line)
@@ -2897,7 +2897,7 @@ ARG non-nil), ignore dedenting rules for block closing statements
 
 This function is normally bound to `indent-line-function' so
 \\[indent-for-tab-command] will call it."
-  (interactive "P")
+  (interactive "*P")
   (let* ((ci (current-indentation))
          (move-to-indentation-p (<= (current-column) ci))
          (need (py-compute-indentation))
@@ -2930,7 +2930,7 @@ This is just `strives to' because correct indentation can't be computed
 from scratch for Python code.  In general, deletes the whitespace before
 point, inserts a newline, and takes an educated guess as to how you want
 the new line indented."
-  (interactive)
+  (interactive "*")
   (let ((ci (current-indentation)))
     (if (< ci (current-column))         ; if point beyond indentation
         (newline-and-indent)
@@ -4057,8 +4057,8 @@ Returns position reached, if any, nil otherwise.
 
 Referring python program structures see for example:
 http://docs.python.org/reference/compound_stmts.html"
-  (interactive "P\\np")
-  (let* ((regexp (if arg
+  (interactive "P")
+  (let* ((regexp (if (eq 4 (prefix-numeric-value arg)) 
                      py-block-re
                    py-block-or-clause-re))
          (erg (ignore-errors (cdr (py-go-to-keyword regexp -1)))))
@@ -4398,14 +4398,15 @@ Returns beginning and end positions of marked area, a cons."
          (endform (intern-soft (concat "py-end-of-" form)))
          (begcheckform (intern-soft (concat "py-beginning-of-" form "-p")))
          (orig (point))
-         beg end)
+         beg end erg)
     (setq beg (if
                   (setq beg (funcall begcheckform))
                   beg
                 (funcall begform)))
     (when py-mark-decorators
       (save-excursion
-        (setq beg (py-beginning-of-decorator))))
+        (when (setq erg (py-beginning-of-decorator)) 
+        (setq beg erg))))
     (setq end (funcall endform))
       (push-mark beg t t)
     (unless end (when (< beg (point))
@@ -4618,17 +4619,18 @@ Returns beginning and end positions of marked area, a cons."
     (when (featurep 'xemacs)
       (compile-internal command "No more errors"))))
 
-(defun py-find-imports ()
-  (let ((imports ""))
-    (save-excursion
-      (goto-char (point-min))
-      (while (re-search-forward
-              "^import *[A-Za-z_][A-Za-z_0-9].*\\|^from +[A-Za-z_][A-Za-z_0-9]+ +import .*" nil t)
-        (setq imports
-              (concat
-               imports
-               (buffer-substring-no-properties (match-beginning 0) (match-end 0)) "\n"))))
-    imports))
+;; Documentation functions
+;; (defun ar-py-find-imports ()
+;;   (let ((imports ""))
+;;     (save-excursion
+;;       (goto-char (point-min))
+;;       (while (re-search-forward
+;;               "^import *[A-Za-z_][A-Za-z_0-9].*\\|^from +[A-Za-z_][A-Za-z_0-9]+ +import .*" nil t)
+;;         (setq imports
+;;               (concat
+;;                imports
+;;                (buffer-substring-no-properties (match-beginning 0) (match-end 0)) "\n"))))
+;;     imports))
 
 (defalias 'py-help-at-point 'py-describe-symbol)
 (defun py-describe-symbol ()
@@ -4657,12 +4659,6 @@ Returns beginning and end positions of marked area, a cons."
     (when (file-readable-p file)
       (delete-file file))))
 
-;; Documentation functions
-
-;; dump the long form of the mode blurb; does the usual doc escapes,
-;; plus lines of the form ^[vc]:name$ to suck variable & command docs
-;; out of the right places, along with the keys they're on & current
-;; values
 (defun py-dump-help-string (str)
   (with-output-to-temp-buffer "*Help*"
     (let ((locals (buffer-local-variables))
@@ -5000,6 +4996,35 @@ Used with `eval-after-load'."
 	 ("(python-lib)Class-Exception-Object Index" nil "")
 	 ("(python-lib)Function-Method-Variable Index" nil "")
 	 ("(python-lib)Miscellaneous Index" nil ""))))))
+
+(defun py-find-imports ()
+  "Find top-level imports, updating `python-imports'."
+  (interactive)
+  (save-excursion
+      (let (lines)
+	(goto-char (point-min))
+	(while (re-search-forward "^import\\>\\|^from\\>" nil t)
+	  (unless (syntax-ppss-context (syntax-ppss))
+	    (let ((start (line-beginning-position)))
+	      ;; Skip over continued lines.
+	      (while (and (eq ?\\ (char-before (line-end-position)))
+			  (= 0 (forward-line 1)))
+		t)
+	      (push (buffer-substring start (line-beginning-position 2))
+		    lines))))
+	(setq python-imports
+	      (if lines
+		  (apply #'concat
+			 (nreverse lines))
+		"None"))
+	(when lines
+	  (set-text-properties 0 (length python-imports) nil python-imports)
+	  ;; The output ends up in the wrong place if the string we
+	  ;; send contains newlines (from the imports).
+	  (setq python-imports
+		(replace-regexp-in-string "\n" "\\n"
+					  (format "%S" python-imports) t t)))))
+  (when (interactive-p) (message "%s" (car (read-from-string python-imports)))))
 
 
 ;; Helper functions

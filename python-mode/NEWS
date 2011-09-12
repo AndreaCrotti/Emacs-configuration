@@ -4,17 +4,56 @@ Python Mode News
 New in version 6.0.2
 --------------------
 
-- py-electric-rhombus
+- py-electric-comment
 
-  "Insert a rhombus. If starting a comment, indent
+  "Insert a comment. If starting a comment, indent
    accordingly. If a numeric argument ARG is provided,
    that many colons are inserted non-electrically. With
    universal-prefix-key C-u a \"#\" Electric behavior
    is inhibited inside a string or comment."
 
+- New commands `py-partial-expression': 
+
+  "." operators delimit a partial-expression on it's
+  level.
+
+  Given the function below, `py-partial-expression'
+  called at pipe symbol would copy and return:
+
+  def usage():
+      print """Usage: %s
+      ....""" % (
+          os.path.basename(sys.argv[0]))
+  ------------|-------------------------
+  ==> path
+
+          os.path.basename(sys.argv[0]))
+  ------------------|-------------------
+  ==> basename(sys.argv[0]))
+
+          os.path.basename(sys.argv[0]))
+  --------------------------|-----------
+  ==> sys
+
+          os.path.basename(sys.argv[0]))
+  ------------------------------|-------
+  ==> argv[0]
+
+  while `py-expression' would copy and return
+
+  (
+          os.path.basename(sys.argv[0]))
+
+  ;;;;;
+
+  Also for existing commands a shorthand is defined:
+
+  (defalias 'py-statement 'py-copy-statement)
+
+  which will mark, copy and return.
+
 - Commands implementing a behavior which customizing of
- `py-shell-switch-buffers-on-execute' would do (faster than
- customizing for me):
+ `py-shell-switch-buffers-on-execute' would do:
  
   py-execute-buffer-no-switch
   py-execute-buffer-switch
@@ -26,34 +65,34 @@ New in version 6.0.2
 New in version 6.0.1
 --------------------
 
-New commands py-expression:
+- New commands py-expression:
 
-py-copy-expression
-py-mark-expression
-py-beginning-of-expression
-py-end-of-expression
-py-kill-expression
+  py-copy-expression
+  py-mark-expression
+  py-beginning-of-expression
+  py-end-of-expression
+  py-kill-expression
 
-Also several of bugfixes are done.
+  Also several of bugfixes are done.
 
 New in version 6.0
 --------------------
 
-Finer grained commands, core re-write.
+- Finer grained commands, core re-write.
 
-As shown below for the `mark'-command, delete,
-copy, jump to beginning and end of the respective
-programming-expressions:
+  As shown below for the `mark'-command, delete,
+  copy, jump to beginning and end of the respective
+  programming-expressions:
 
-py-mark-statement
-py-mark-block
-py-mark-block-or-clause
-py-mark-def
-py-mark-def-or-class
-py-mark-class
-py-mark-clause
+  py-mark-statement
+  py-mark-block
+  py-mark-block-or-clause
+  py-mark-def
+  py-mark-def-or-class
+  py-mark-class
+  py-mark-clause
 
-Also a couple of bugfixes are done.
+- Also a couple of bugfixes are done.
 
 New in version 5.2.1
 --------------------
