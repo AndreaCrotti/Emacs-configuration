@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2002 David Ponce
 
-;; Author:  <andrea@dell>
-;; Created: 2011-07-24 16:27:23+0200
+;; Author: Ubuntu <ubuntu@ubuntu-VirtualBox>
+;; Created: 2011-09-05 18:57:12+0200
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

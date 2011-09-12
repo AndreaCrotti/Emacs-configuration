@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2005, 2007, 2008, 2009, 2010 Eric M. Ludlam
 
-;; Author:  <andrea@dell>
-;; Created: 2011-07-24 16:27:45+0200
+;; Author: Ubuntu <ubuntu@ubuntu-VirtualBox>
+;; Created: 2011-09-05 18:58:06+0200
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

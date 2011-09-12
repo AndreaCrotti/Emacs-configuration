@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2002, 2003, 2004, 2007 Richard Kim
 
-;; Author:  <andrea@dell>
-;; Created: 2011-07-24 16:27:36+0200
+;; Author: Ubuntu <ubuntu@ubuntu-VirtualBox>
+;; Created: 2011-09-05 18:57:39+0200
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 
