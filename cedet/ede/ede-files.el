@@ -1,6 +1,6 @@
 ;;; ede-files.el --- Associate projects with files and directories.
 
-;; Copyright (C) 2008, 2009, 2010 Eric M. Ludlam
+;; Copyright (C) 2008, 2009, 2010, 2011 Eric M. Ludlam
 
 ;; Author: Eric M. Ludlam <eric@siege-engine.com>
 ;; X-RCS: $Id: ede-files.el,v 1.25 2010-08-15 17:05:50 zappo Exp $
@@ -214,6 +214,17 @@ Does not check subprojects."
 				    :test 'equal)
   "A hash of directory names and associated EDE objects.")
 
+(defun ede-flush-directory-hash ()
+  "Flush the project directory hash.
+Do this only when developing new projects that are incorrectly putting
+'nomatch tokens into the hash."
+  (interactive)
+  (setq ede-project-directory-hash (make-hash-table :test 'equal))
+  ;; Also slush the current project's locator hash.
+  (let ((loc (ede-get-locator-object this)))
+    (ede-locate-flush-hash loc))
+  )
+
 (defun ede-project-directory-remove-hash (dir)
   "Reset the directory hash for DIR.
 Do this whenever a new project is created, as opposed to loaded."
@@ -244,7 +255,7 @@ Do this whenever a new project is created, as opposed to loaded."
   "Return a project description object if DIR has a project.
 Optional argument FORCE means to ignore a hash-hit of 'nomatch.
 This depends on an up to date `ede-project-class-files' variable.
-Any directory that contains the file .ede-ignore will allways
+Any directory that contains the file .ede-ignore will always
 return nil."
   (when (not (file-exists-p (expand-file-name ".ede-ignore" dir)))
     (let* ((dirtest (expand-file-name dir))

@@ -1,6 +1,6 @@
 ;;; ede-system.el --- EDE working with the system (VC, FTP, ETC)
 
-;;;  Copyright (C) 2001, 2002, 2003, 2009  Eric M. Ludlam
+;;;  Copyright (C) 2001, 2002, 2003, 2009, 2011  Eric M. Ludlam
 
 ;; Author: Eric M. Ludlam <zappo@gnu.org>
 ;; Keywords: project, make, vc
@@ -128,10 +128,10 @@ Download tramp, and use /r:machine: for names on remote sites w/out FTP access."
 ;;
 ;; Do a few nice things with Version control systems.
 (defun ede-vc-project-directory ()
-  "Run `vc-directory' on the current project."
+  "Run `vc-dir' on the current project."
   (interactive)
   (let ((top (ede-toplevel-project-or-nil default-directory)))
-    (vc-directory top nil)))
+    (vc-dir top nil)))
 
 (provide 'ede-system)
 

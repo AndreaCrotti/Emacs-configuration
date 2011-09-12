@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2008 Free Software Foundation
 
-;; Author: Ubuntu <ubuntu@ubuntu-VirtualBox>
-;; Created: 2011-09-05 18:58:44+0200
+;; Author:  <andrea@myhost>
+;; Created: 2011-09-12 14:31:53+0100
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

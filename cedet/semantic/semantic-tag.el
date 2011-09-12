@@ -1,6 +1,6 @@
 ;;; semantic-tag.el --- tag creation and access
 
-;;; Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2007, 2008, 2009, 2010 Eric M. Ludlam
+;;; Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2007, 2008, 2009, 2010, 2011 Eric M. Ludlam
 
 ;; X-CVS: $Id: semantic-tag.el,v 1.75 2010-03-15 13:40:55 xscript Exp $
 
@@ -209,16 +209,11 @@ See also the function `semantic-ctxt-current-mode'."
   (or tag (setq tag (semantic-current-tag)))
   (or (semantic--tag-get-property tag :mode)
       (let ((buffer (semantic-tag-buffer tag))
-            (start (semantic-tag-start tag))
-            (end   (semantic-tag-end tag)))
-        (save-excursion
-          (and buffer (set-buffer buffer))
-          ;; Unless point is inside TAG bounds, move it to the
-          ;; beginning of TAG.
-          (or (and (>= (point) start) (< (point) end))
-              (goto-char start))
-          (require 'semantic-ctxt)
-          (semantic-ctxt-current-mode)))))
+            (start (semantic-tag-start tag)))
+        (save-current-buffer
+          (and buffer (buffer-live-p buffer) (set-buffer buffer))
+	  (require 'semantic-ctxt)
+	  (semantic-ctxt-current-mode start)))))
 
 (defsubst semantic--tag-attributes-cdr (tag)
   "Return the cons cell whose car is the ATTRIBUTES part of TAG.
@@ -551,6 +546,51 @@ You can identify a faux tag with `semantic-tag-faux-p'"
 (defsubst semantic-tag-set-name (tag name)
   "Set TAG name to NAME."
   (setcar tag name))
+
+;;; TAG Proxys
+;;
+;; A new kind of tag is a TAG PROXY.  These are tags that have some
+;; minimal number of features set, such as name and class, but have a
+;; marker in them that indicates how to complete them.
+;;
+;; To make the tags easier to view, the proxy is stored as custom
+;; symbol that is not in the global obarray, but has properties set on
+;; it.  This prevents saving of massive amounts of proxy data.
+(defun semantic-create-tag-proxy (function data)
+  "Create a tag proxy symbol.
+FUNCTION will be used to resolve the proxy.  It should take 3
+two arguments, DATA and TAG.  TAG is a proxy tag that needs
+to be resolved, and DATA is the DATA passed into this function.
+DATA is data to help resolve the proxy.  DATA can be an EIEIO object,
+such that FUNCTION is a method.
+FUNCTION should return a list of tags, preferrably one tag."
+  (let ((sym (make-symbol ":tag-proxy")))
+    (put sym 'proxy-function function)
+    (put sym 'proxy-data data)
+    sym))
+
+(defun semantic-tag-set-proxy (tag proxy &optional filename)
+  "Set TAG to be a proxy.  The proxy can be resolved with PROXY.
+This function will also make TAG be a faux tag with
+`semantic-tag-set-faux', and possibly set the tag's
+:filename with FILENAME.
+To create a proxy, see `semantic-create-tag-proxy'."
+  (semantic-tag-set-faux tag)
+  (semantic--tag-put-property tag :proxy proxy)
+  (when filename
+    (semantic--tag-put-property tag :filename filename)))
+
+(defun semantic-tag-resolve-proxy (tag)
+  "Resolve the proxy in TAG.
+The return value is whatever format the proxy was setup as.
+It should be a list of complete tags.
+If TAG has no proxy, then just return tag."
+  (let* ((proxy (semantic--tag-get-property tag :proxy))
+	 (function (get proxy 'proxy-function))
+	 (data (get proxy 'proxy-data)))
+    (if proxy
+	(funcall function data tag)
+      tag)))
 
 ;;; Copying and cloning tags.
 ;;
@@ -1372,10 +1412,11 @@ of parent classes.  The `cdr' of the list is the list of
 interfaces, or abstract classes which are parents of TAG."
   (cons (semantic-tag-get-attribute tag :superclasses)
         (semantic-tag-type-interfaces tag)))
+
 (make-obsolete 'semantic-token-type-parent
 	       "\
 use `semantic-tag-type-superclass' \
-and `semantic-tag-type-interfaces' instead")
+and `semantic-tag-type-interfaces' instead" "Semantic 1.0")
 
 (semantic-alias-obsolete 'semantic-token-type-parent-superclass
                          'semantic-tag-type-superclasses)
@@ -1427,9 +1468,6 @@ and `semantic-tag-type-interfaces' instead")
 
 (semantic-alias-obsolete 'semantic-token-variable-const
                          'semantic-tag-variable-constant-p)
-
-(semantic-alias-obsolete 'semantic-token-variable-optsuffix
-                         'semantic-tag-variable-optsuffix)
 
 (semantic-alias-obsolete 'semantic-token-include-system
                          'semantic-tag-include-system-p)

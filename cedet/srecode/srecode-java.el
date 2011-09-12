@@ -1,6 +1,6 @@
 ;;; srecode-java.el --- Srecode Java support
 
-;; Copyright (C) 2009 Eric M. Ludlam
+;; Copyright (C) 2009, 2011 Eric M. Ludlam
 
 ;; Author: Eric M. Ludlam <eric@siege-engine.com>
 ;; X-RCS: $Id: srecode-java.el,v 1.1 2009-01-06 02:41:09 zappo Exp $
@@ -31,7 +31,7 @@
 Adds the following:
 FILENAME_AS_PACKAGE - file/dir converted into a java package name.
 FILENAME_AS_CLASS - file converted to a Java class name."
-  ;; A symbol representing
+  ;; Symbols needed by empty files.
   (let* ((fsym (file-name-nondirectory (buffer-file-name)))
 	 (fnox (file-name-sans-extension fsym))
 	 (dir (file-name-directory (buffer-file-name)))
@@ -42,12 +42,18 @@ FILENAME_AS_CLASS - file converted to a Java class name."
     (if (string-match "src/" dir)
 	(setq dir (substring dir (match-end 0)))
       (setq dir (file-name-nondirectory (directory-file-name dir))))
+    (setq dir (directory-file-name dir))
     (while (string-match "/" dir)
-      (setq dir (replace-match "_" t t dir)))
-    (srecode-dictionary-set-value dict "FILENAME_AS_PACKAGE"
-				  (concat dir "." fpak))
+      (setq dir (replace-match "." t t dir)))
+    (srecode-dictionary-set-value dict "FILENAME_AS_PACKAGE" dir)
     (srecode-dictionary-set-value dict "FILENAME_AS_CLASS" fnox)
-    ))
+    )
+  ;; Symbols needed for most other files with stuff in them.
+  (let ((pkg (semantic-find-tags-by-class 'package (current-buffer))))
+    (when pkg
+      (srecode-dictionary-set-value dict "CURRENT_PACKAGE" (semantic-tag-name (car pkg)))
+      ))
+  )
 
 (provide 'srecode-java)
 ;;; srecode-java.el ends here

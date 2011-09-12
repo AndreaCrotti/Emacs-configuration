@@ -15,7 +15,7 @@
 @copying
 This manual documents @cedet{}, a collection of other tools.
 
-Copyright @copyright{} 2007, 2008, 2009, 2010 Eric M. Ludlam
+Copyright @copyright{} 2007, 2008, 2009, 2010, 2011 Eric M. Ludlam
 
 @quotation
 Permission is granted to copy, distribute and/or modify this document
@@ -108,13 +108,15 @@ use the mailing list cedet-devel.net via the URL:
 
 @menu
 * Overview::                    
-* Installation/Basic Configuration::                
+* Installation/Basic Configuration::
+* CEDET Context Menu::                
 * JDEE Target::
 * ECB Target::
 * Project Management::
 * Code Completion::
 * Code Generation::     
 * C++ Features::        
+* Android Features::    
 * GNU Global::  
 * ID Utils::    
 * CScope::      
@@ -463,6 +465,30 @@ commentary in cogre/wisent-dot.el
 
 @end enumerate
 
+@node CEDET Context Menu
+@chapter CEDET Context Menu
+
+@cedet{} is a collection of different tools, but it includes a minor mode of
+it's own that enables a context menu.  If you enable CEDET's context
+menu by adding this to your @file{.emacs}:
+
+@example
+(global-cedet-m3-minor-mode 1)
+@end example
+
+Once enabled, you can activate the context menu by right-clicking
+(with @kbd{mouse-3}).  You could bind this menu to a key with a
+command such as this which binds it to @kbd{C-c SPC}:
+
+@example
+(define-key cedet-m3-mode-map "\C-c " 'cedet-m3-menu-kbd)
+@end example
+
+The context menu pulls together helpful context aware suggestions from
+@semantic{}, or templates to insert with @srecode{}.  It also suggests
+compilation steps to take from @ede{}.
+
+
 @node JDEE Target
 @chapter @i{JDEE} Target
 
@@ -496,6 +522,9 @@ or the fancier
 See the
 @inforef{Canned Configuration, Semantic Configuration, semantic}.
 section of the semantic manual for more details about these features.
+
+@@TODO -- Add section on how to configure semanticdb-javap for
+extracting symbols and header info from .jar files for semantic.
 
 @node ECB Target
 @chapter ECB Target
@@ -770,6 +799,133 @@ For more on this option, including include path setting, and providing
 macro to the C pre-processor, see
 @inforef{the ede-cpp-root chapter, ede-cpp-root, ede}.
 
+@node Android Features
+@chapter Android Features
+
+If you are building Android applications using CEDET, there are
+several features that can help with this task.
+
+First, you need to download the android SDK.  You can get that from
+@url{http://developer.android.com/sdk/index.html}.  Make sure all the
+tools the android sdk needs has been installed.
+
+@section Create an Android project
+
+The Android SDK has a command called @code{android} which is used to
+do several things, one of which is to create a template project
+directory hierarcy.  In order for Emacs to detect your SDK and find
+@code{android}, you may need to configure the @cedet{} android support.
+
+@defun cedet-android-sdk-root
+@anchor{cedet-android-sdk-root}
+The root to the android @var{SDK}.
+@end defun
+
+You can then create a project from Emacs:
+
+@defun cedet-android-create-project name package target &optional dir
+@anchor{cedet-android-create-project}
+Create an android project with @var{NAME}.
+Your activity class will be created in the java @var{PACKAGE}.
+You need to specify a @var{TARGET}, which is a number specifying the desired type
+of package you intend to build.
+Create the project in optional @var{DIR}, or in the default directory if not specified.
+@var{NAME} will be used as the name of the project.
+@end defun
+
+It may be better, however, to let EDE do it for you instead by calling
+@code{ede-new}.  For example:
+
+@example
+C-x C-f ~/subdir/newprojectdir RET     ; go to an empty directory
+M-x ede-new RET                        ; Create the project.  Answer
+                                         questions like name, etc.
+@end example
+
+@section EDE Setup
+
+EDE will automatically detect android projects created with the
+AndroidManifest.xml file.  The first time you visit a project, it is
+good to visit AndroidManifest.xml to make sure EDE will detect your
+project.  Sometimes it can fail to detect your project if you visit a
+sub-directory of your project first.
+
+EDE provides the following conveniences for
+android projects:
+
+@table @key
+@item C-c . e
+This will always jump to the AndroidManifest.xml file, which doubles
+as the 
+@item C-c . c
+@itemx C-c . C
+This will compile your project using ant.  To change what type of
+build you do, you will need to change the current configuration.
+@item C-c . D
+Debug your project.  This will also start ddms, the debug proxy for
+your android emulator or device.
+@item C-c . E
+Visit a resource file from a buffer from a Java buffer.  Cursor must be on the code
+representing the resource, such as:
+@example
+R.layout.mylayout
+@end example
+@item c-c . A
+Visit a Java Activity buffer from the XML manifest file.  Cursor must
+be in an activity element for Emacs to figure out which activity to
+visit.
+@item C-c . S
+Visit the strings.xml file from anywhere.
+@item C-c . g
+Rescan the @file{AndroidManifest.xml} file for version, package, etc.
+@end table
+
+There are other items in the menu as well, such as calling layoutopt
+to debug your layout files or starting the ADB shell.
+
+EDE supports different build configurations through the standard EDE
+configuration mode.  In the Project->Project Options menu, select
+``Default Configuration'' and select one of the options.  These
+options map directly to the command line arguments of ant, so if you
+select ``debug'', then the compile command will be: @code{ant debug}.
+
+@table @code
+@item debug
+Builds the project in debug mode.
+@item install
+Builds the project in debug mode, and installs in your emulator or
+device.
+@item release
+Builds the project in release mode.
+@end table
+
+@section ADB Features
+
+CEDET supports several calls to ADB, including the following:
+
+@table @code
+@item cedet-android-adb-devices
+Show the list of devices available.
+@item cedet-android-adb-version-check
+Check that the ADB install is supported by CEDET.
+@item cedet-android-adb-shell
+Create a shell buffer in Emacs which provides a unix-like shell into
+your running Android device or emulator.
+@end table
+
+@section Android Sample Projects
+
+CEDET supports a handy way to find sample programs from the SDK.
+
+@defun cedet-android-visit-sample sample
+@anchor{cedet-android-visit-sample}
+Visit @var{SAMPLE} code in the Android @var{SDK} samples directory.
+@end defun
+
+@section Android support for SRecode
+
+You can create macros for use with android.  Add the :android argument
+to your templates to get some android specific features.  See 
 
 @node GNU Global
 @chapter GNU Global
@@ -947,8 +1103,8 @@ Something like this can work in your @file{.emacs} file.
 
 @section @semantic{} Database
 
-@semantic{} could use CScope as a back end for database searches,
-but this has not been implemented yet.  
+@semantic{} can use CScope as a back end for database searches.
+To enable it, use:
 
 @example
 (semanticdb-enable-cscope-databases)

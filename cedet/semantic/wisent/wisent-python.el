@@ -58,9 +58,18 @@
 (defun semantic-python-get-system-include-path ()
   "Evaluate some Python code that determines the system include
 path."
-  (let ((output (python-send-receive
-		 "import sys; print '_emacs_out ' + '\\0'.join(sys.path)")))
-    (split-string output "[\0\n]" t)))
+  (python-proc)
+  (if python-buffer
+      (with-current-buffer python-buffer
+	(set (make-local-variable 'python-preoutput-result) nil)
+	(python-send-string
+	 "import sys; print '_emacs_out ' + '\\0'.join(sys.path)")
+	(accept-process-output (python-proc) 2)
+	(if python-preoutput-result
+	    (split-string python-preoutput-result "[\0\n]" t)
+	  (message "Timeout while querying Python for system include path.")
+	  nil))
+    (message "Python seems to be unavailable on this system.")))
 
 (defcustom-mode-local-semantic-dependency-system-include-path
   python-mode semantic-python-dependency-system-include-path

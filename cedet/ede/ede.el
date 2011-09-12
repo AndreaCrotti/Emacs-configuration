@@ -1,6 +1,6 @@
 ;;; ede.el --- Emacs Development Environment gloss
 
-;;;  Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2007, 2008, 2009, 2010  Eric M. Ludlam
+;;;  Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2007, 2008, 2009, 2010, 2011  Eric M. Ludlam
 
 ;; Author: Eric M. Ludlam <zappo@gnu.org>
 ;; Keywords: project, make
@@ -203,7 +203,7 @@ Argument LIST-O-O is the list of objects to choose from."
 (defun ede-buffer-belongs-to-project-p ()
   "Return non-nil if this buffer belongs to at least one target."
   (if (or (null ede-object) (consp ede-object)) nil
-    (obj-of-class-p ede-object ede-project)))
+    (obj-of-class-p ede-object-project ede-project)))
 
 (defun ede-menu-obj-of-class-p (class)
   "Return non-nil if some member of `ede-object' is a child of CLASS."
@@ -294,12 +294,50 @@ Argument MENU-DEF is the menu definition to use."
 	    (append
 	     '( [ "Add Target" ede-new-target (ede-current-project) ]
 		[ "Remove Target" ede-delete-target ede-object ]
+		( "Default configuration" :filter ede-configuration-forms-menu )
 		"-")
 	     menu
 	     ))
 	(error (message "Err found: %S" err)
 	       menu)
 	)))))
+
+(defun ede-configuration-forms-menu (menu-def)
+  "Create a submenu for selecting the default configuration for this project.
+The current default is in the current object's CONFIGURATION-DEFAULT slot.
+All possible configurations are in CONFIGURATIONS.
+Argument MENU-DEF specifies the menu being created."
+  (easy-menu-filter-return
+   (easy-menu-create-menu
+    "Configurations"
+    (let* ((obj (ede-current-project))
+	   (conf (oref obj configurations))
+	   (cdef (oref obj configuration-default))
+	   (menu nil))
+      (dolist (C conf)
+	(setq menu (cons (vector C (list 'ede-project-configurations-set C)
+				 :style 'toggle
+				 :selected (string= C cdef))
+			 menu))
+	)
+      (nreverse menu)))))
+
+(defun ede-project-configurations-set (newconfig)
+  "Set the current project's current configuration to NEWCONFIG.
+This function is designed to be used by `ede-configuration-forms-menu'
+but can also be used interactively."
+  (interactive
+   (list (let* ((proj (ede-current-project))
+		(configs (oref proj configurations)))
+	   (completing-read "New configuration: "
+			    configs nil t
+			    (oref proj configuration-default)))))
+  (oset (ede-current-project) configuration-default newconfig)
+  (message "%s will now build in %s mode."
+	   (object-name (ede-current-project))
+	   newconfig)
+  )
+	   
 
 (defun ede-customize-forms-menu (menu-def)
   "Create a menu of the project, and targets that can be customized.
@@ -398,7 +436,10 @@ mode.  nil means to toggle the mode."
 	    (not (or (and (null arg) ede-minor-mode)
 		     (<= (prefix-numeric-value arg) 0))))
       (if (and ede-minor-mode (not ede-constructing))
-	  (ede-initialize-state-current-buffer)
+	  (progn
+	    (ede-initialize-state-current-buffer)
+	    (when (not ede-object-root-project)
+	      (setq ede-minor-mode nil)))
 	;; If we fail to have a project here, turn it back off.
 	(if (not (cedet-called-interactively-p))
 	    (setq ede-minor-mode nil))))))
@@ -433,7 +474,7 @@ ONOFF indicates enabling or disabling the mode."
   (let ((b (buffer-list)))
     (while b
       (when (buffer-file-name (car b))
-	(save-excursion
+	(save-current-buffer
 	  (set-buffer (car b))
 	  ;; Reset all state variables
 	  (setq ede-object nil
@@ -460,12 +501,16 @@ If ARG is negative, disable.  Toggle otherwise."
 	  (add-hook 'semanticdb-project-root-functions 'ede-toplevel-project-or-nil)
 	  (add-hook 'ecb-source-path-functions 'ede-ecb-project-paths)
 	  (add-hook 'find-file-hooks 'ede-turn-on-hook)
-	  (add-hook 'dired-mode-hook 'ede-turn-on-hook))
+	  (add-hook 'dired-mode-hook 'ede-turn-on-hook)
+
+	  (add-hook 'cedet-m3-menu-do-hooks 'ede-m3-ede-items nil))
       (remove-hook 'semanticdb-project-predicate-functions 'ede-directory-project-p)
       (remove-hook 'semanticdb-project-root-functions 'ede-toplevel-project-or-nil)
       (remove-hook 'ecb-source-path-functions 'ede-ecb-project-paths)
       (remove-hook 'find-file-hooks 'ede-turn-on-hook)
-      (remove-hook 'dired-mode-hook 'ede-turn-on-hook))
+      (remove-hook 'dired-mode-hook 'ede-turn-on-hook)
+
+      (remove-hook 'cedet-m3-menu-do-hooks 'ede-m3-ede-items))
     (ede-reset-all-buffers arg)))
 
 (defvar ede-ignored-file-alist
@@ -1180,6 +1225,23 @@ Return the first non-nil value returned by PROC."
 ;;
 ;; These items are needed by ede-cpp-root to add better support for
 ;; configuring items for Semantic.
+
+;; Generic paths
+(defmethod ede-system-include-path ((this ede-project))
+  "Get the system include path used by project THIS."
+  nil)
+  
+(defmethod ede-system-include-path ((this ede-target))
+  "Get the system include path used by project THIS."
+  nil)
+
+(defmethod ede-source-paths ((this ede-project) mode)
+  "Get the base to all source trees in the current projet for MODE.
+For example, <root>/src for sources of c/c++, Java, etc,
+and <root>/doc for doc sources."
+  nil)
+
+;; C/C++
 (defun ede-apply-preprocessor-map ()
   "Apply preprocessor tables onto the current buffer."
   (when (and ede-object (boundp 'semantic-lex-spp-macro-symbol-obarray))
@@ -1195,20 +1257,18 @@ Return the first non-nil value returned by PROC."
 	(message "Choosing preprocessor syms for project %s"
 		 (object-name (car objs)))))))
 
-(defmethod ede-system-include-path ((this ede-project))
-  "Get the system include path used by project THIS."
-  nil)
-  
 (defmethod ede-preprocessor-map ((this ede-project))
   "Get the pre-processor map for project THIS."
   nil)
 
-(defmethod ede-system-include-path ((this ede-target))
-  "Get the system include path used by project THIS."
-  nil)
-  
 (defmethod ede-preprocessor-map ((this ede-target))
   "Get the pre-processor map for project THIS."
+  nil)
+
+;; Java
+(defmethod ede-java-classpath ((this ede-project))
+  "Return the classpath for this project."
+  ;; @TODO - Can JDEE add something here?
   nil)
 
 

@@ -1,6 +1,6 @@
 ;;; semanticdb.el --- Semantic tag database manager
 
-;;; Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 Eric M. Ludlam
+;;; Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011 Eric M. Ludlam
 
 ;; Author: Eric M. Ludlam <zappo@gnu.org>
 ;; Keywords: tags
@@ -76,6 +76,11 @@ same major mode as the current buffer.")
 	 :accessor semanticdb-get-tags
 	 :printer semantic-tag-write-list-slot-value
 	 :documentation "The tags belonging to this table.")
+   (db-refs :initform nil
+	    :documentation
+	    "List of `semanticdb-table' objects refering to this one.
+These aren't saved, but are instead recalculated after load.
+See the file semanticdb-ref.el for how this slot is used.")
    (index :type semanticdb-abstract-search-index
 	  :documentation "The search index.
 Used by semanticdb-find to store additional information about
@@ -144,13 +149,16 @@ them to convert TAG into a more complete form."
   (cons obj tag))
 
 (defmethod object-print ((obj semanticdb-abstract-table) &rest strings)
-  "Pretty printer extension for `semanticdb-table'.
+  "Pretty printer extension for `semanticdb-abstract-table'.
 Adds the number of tags in this file to the object print name."
-  (apply 'call-next-method obj
-	 (cons (format " (%d tags)"
-		       (length (semanticdb-get-tags obj))
-		       )
-	       strings)))
+  (if (or (not strings)
+	  (and (= (length strings) 1) (stringp (car strings))
+	       (string= (car strings) "")))
+      ;; Else, add a tags quantifier.
+      (call-next-method obj (format " (%d tags)" (length (semanticdb-get-tags obj))))
+    ;; Pass through.
+    (apply 'call-next-method obj strings)
+    ))
 
 ;;; Index Cache
 ;;
@@ -197,8 +205,7 @@ If one doesn't exist, create it."
 ;; a semanticdb-table associated with a file.
 ;;
 (defclass semanticdb-search-results-table (semanticdb-abstract-table)
-  (
-   )
+  ()
   "Table used for search results when there is no file or table association.
 Examples include search results from external sources such as from
 Emacs' own symbol table, or from external libraries.")
@@ -221,11 +228,6 @@ it is in Emacs.")
    (dirty :initform nil
 	  :documentation
 	  "Non nil if this table needs to be `Saved'.")
-   (db-refs :initform nil
-	    :documentation
-	    "List of `semanticdb-table' objects refering to this one.
-These aren't saved, but are instead recalculated after load.
-See the file semanticdb-ref.el for how this slot is used.")
    (pointmax :initarg :pointmax
 	     :initform nil
 	     :documentation "Size of buffer when written to disk.
@@ -295,7 +297,8 @@ If OBJ's file is not loaded, read it in first."
   "Pretty printer extension for `semanticdb-table'.
 Adds the number of tags in this file to the object print name."
   (apply 'call-next-method obj
-	 (cons (if (oref obj dirty) ", DIRTY" "") strings)))
+	 (cons (format " (%d tags)" (length (semanticdb-get-tags obj)))
+	       (cons (if (oref obj dirty) ", DIRTY" "") strings))))
 
 ;;; DATABASE BASE CLASS
 ;;
@@ -616,7 +619,7 @@ The file associated with OBJ does not need to be in a buffer."
     )
 
   ;; Update cross references
-  ;; (semanticdb-refresh-references table)
+  (semanticdb-refresh-references table)
   )
 
 (defmethod semanticdb-partial-synchronize ((table semanticdb-abstract-table)
@@ -646,8 +649,8 @@ The file associated with OBJ does not need to be in a buffer."
     )
 
   ;; Update cross references
-  ;;(when (semantic-find-tags-by-class 'include new-tags)
-  ;;  (semanticdb-refresh-references table))
+  (when (semantic-find-tags-by-class 'include new-tags)
+    (semanticdb-refresh-references table))
   )
 
 ;;; SAVE/LOAD

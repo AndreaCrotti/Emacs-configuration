@@ -40,6 +40,9 @@ namespace Name1 {
     {
       int foo = a;
       int bar = b;
+
+      Foo::publishStuff(1,2)
+
     }
     
   } // namespace Name2

@@ -1,6 +1,6 @@
 ;;; ede-linux.el --- Special project for Linux
 
-;; Copyright (C) 2008, 2009, 2010 Eric M. Ludlam
+;; Copyright (C) 2008, 2009, 2010, 2011 Eric M. Ludlam
 
 ;; Author: Eric M. Ludlam <eric@siege-engine.com>
 ;; X-RCS: $Id: ede-linux.el,v 1.7 2010-05-18 00:42:27 zappo Exp $
@@ -95,15 +95,15 @@ Argument DIR is the directory it is created for.
 ROOTPROJ is nil, since there is only one project."
   (or (ede-linux-file-existing dir)
       ;; Doesn't already exist, so lets make one.
-      (ede-linux-project "Linux"
-			 :name "Linux"
-			 :version (ede-linux-version dir)
-			 :directory (file-name-as-directory dir)
-			 :file (expand-file-name "scripts/ver_linux"
-						 dir))
-      (ede-add-project-to-global-list this)
-      )
-  )
+      (let ((proj (ede-linux-project
+		   "Linux"
+		   :name "Linux"
+		   :version (ede-linux-version dir)
+		   :directory (file-name-as-directory dir)
+		   :file (expand-file-name "scripts/ver_linux"
+					   dir))))
+	(ede-add-project-to-global-list proj))
+      ))
 
 ;;;###autoload
 (add-to-list 'ede-project-class-files

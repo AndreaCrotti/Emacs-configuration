@@ -1,6 +1,6 @@
 ;;; semantic-lex.el --- Lexical Analyzer builder
 
-;;; Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Eric M. Ludlam
+;;; Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2011 Eric M. Ludlam
 
 ;; X-CVS: $Id: semantic-lex.el,v 1.57 2010-03-26 22:18:03 xscript Exp $
 
@@ -752,7 +752,7 @@ Return the overlay."
 	    (when token
 	      (setq o (semantic-lex-highlight-token token)))
 	    (semantic-read-event
-	     (format "%S :: SPC - continue" token))
+	     (format "%S :: Depth: %d :: SPC - continue" token semantic-lex-current-depth))
 	    )
 	(when o
 	  (semantic-overlay-delete o))))))
@@ -1259,11 +1259,13 @@ symbols returned in open and close tokens."
 		))
 	      ))
            ((setq match (assoc text ',clist))
-            (setq semantic-lex-current-depth (1- semantic-lex-current-depth))
-	    (semantic-lex-push-token
-	     (semantic-lex-token
-	      (nth 1 match)
-	      (match-beginning 0) (match-end 0)))))))
+	    (if (> semantic-lex-current-depth 0)
+		(progn
+		  (setq semantic-lex-current-depth (1- semantic-lex-current-depth))
+		  (semantic-lex-push-token
+		   (semantic-lex-token
+		    (nth 1 match)
+		    (match-beginning 0) (match-end 0)))))))))
        )))
 
 ;;; Analyzers

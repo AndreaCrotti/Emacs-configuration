@@ -177,6 +177,12 @@
        *NOTE*: You can use Emacs' [[http://www.gnu.org/software/emacs/manual/html_node/emacs/Version-Control.html][Version Control]] package to simplify the task
         with a few simple keystrokes.
 
+       If you're committing patches contributed by other people, you
+       should use their names as authors by using the =--author=
+       switch, for example
+
+       =bzr commit --author "some guy <his@mail.address>" somefile.el=
+
 **** Refreshing your mirror of mainline (updating trunk)
 
      The official mainline will change from time to time, so you should refresh

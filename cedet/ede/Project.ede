@@ -20,7 +20,7 @@
    (ede-proj-target-elisp "ede"
     :name "ede"
     :path ""
-    :source '("ede.el" "ede-auto.el" "ede-base.el" "ede-custom.el" "ede-dired.el" "ede-source.el" "ede-util.el" "ede-system.el" "ede-speedbar.el" "ede-srecode.el" "ede-files.el" "ede-locate.el" "ede-make.el" "ede-shell.el")
+    :source '("ede.el" "ede-auto.el" "ede-base.el" "ede-custom.el" "ede-dired.el" "ede-source.el" "ede-util.el" "ede-system.el" "ede-speedbar.el" "ede-srecode.el" "ede-files.el" "ede-locate.el" "ede-make.el" "ede-shell.el" "ede-android.el" "ede-m3.el")
     :versionsource '("ede.el")
     :compiler 'ede-emacs-preload-compiler
     :aux-packages '("eieio" "speedbar" "cedet-files" "srecode")

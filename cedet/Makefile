@@ -1,6 +1,6 @@
 ## Makefile --- Definition file for building CEDET
 ##
-## Copyright (C) 2005, 2007, 2008, 2009, 2010 by Eric M. Ludlam
+## Copyright (C) 2005, 2007, 2008, 2009, 2010, 2011 by Eric M. Ludlam
 ## Copyright (C) 2003, 2004  by David Ponce
 ##
 ## Author: David Ponce <david@dponce.com>
@@ -44,7 +44,7 @@ $(CEDET_ELISP_PACKAGES) \
 tests
 
 ## Path to your Emacs
-EMACS=emacs
+EMACS?=emacs
 EMACSFLAGS=-batch --no-site-file
 
 ## Your shell (On Windows/Cygwin I recommend to use bash)
@@ -149,6 +149,7 @@ itest:
 	cd tests; ./cit-test.sh Make
 	cd tests; ./cit-test.sh Automake
 	cd tests; ./cit-test.sh GNUStep
+	cd tests; ./cit-test.sh Android
 
 ### Install info files
 ## Thanks Stefano Sabatini for the info install patch.

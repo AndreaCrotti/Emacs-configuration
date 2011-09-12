@@ -1,6 +1,6 @@
 ;;; semantic-load.el --- Autoload definitions for Semantic
 
-;;; Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 Eric M. Ludlam
+;;; Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011 Eric M. Ludlam
 
 ;; Author: Eric M. Ludlam <zappo@gnu.org>
 ;; X-RCS: $Id: semantic-load.el,v 1.72 2010-04-20 00:42:31 zappo Exp $
@@ -130,6 +130,7 @@ such as idle summary mode."
   ;; in so they appear in the menu properly.
   (global-senator-minor-mode 1)
 
+  (semantic-m3-install)
   )
 
 (defun semantic-load-enable-gaudy-code-helpers ()

@@ -23,7 +23,7 @@
    (ede-proj-target-elisp "srecode"
     :name "srecode"
     :path ""
-    :source '("srecode.el" "srecode-mode.el" "srecode-compile.el" "srecode-insert.el" "srecode-template-mode.el" "srecode-semantic.el" "srecode-load.el" "srecode-template.el" "srecode-dictionary.el" "srecode-args.el" "srecode-table.el" "srecode-filters.el" "srecode-find.el" "srecode-ctxt.el" "srecode-getset.el" "srecode-cpp.el" "srecode-expandproto.el" "srecode-el.el" "srecode-srt.el" "srecode-texi.el" "srecode-map.el" "srecode-extract.el" "srecode-java.el" "srecode-fields.el")
+    :source '("srecode.el" "srecode-mode.el" "srecode-compile.el" "srecode-insert.el" "srecode-template-mode.el" "srecode-semantic.el" "srecode-load.el" "srecode-template.el" "srecode-dictionary.el" "srecode-args.el" "srecode-table.el" "srecode-filters.el" "srecode-find.el" "srecode-ctxt.el" "srecode-getset.el" "srecode-cpp.el" "srecode-expandproto.el" "srecode-el.el" "srecode-srt.el" "srecode-texi.el" "srecode-map.el" "srecode-extract.el" "srecode-java.el" "srecode-fields.el" "srecode-android.el" "srecode-m3.el")
     :versionsource '("srecode.el")
     :compiler 'ede-emacs-preload-compiler
     :aux-packages '("semantic" "wisent" "semantic-grammar" "semantic-el" "inversion" "eieio" "speedbar")

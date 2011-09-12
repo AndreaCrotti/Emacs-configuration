@@ -1,6 +1,6 @@
 ;;; semantic-ia-utest.el --- Analyzer unit tests
 
-;; Copyright (C) 2008, 2009, 2010 Eric M. Ludlam
+;; Copyright (C) 2008, 2009, 2010, 2011 Eric M. Ludlam
 
 ;; Author: Eric M. Ludlam <eric@siege-engine.com>
 ;; X-RCS: $Id: semantic-ia-utest.el,v 1.33 2010-08-05 03:03:39 zappo Exp $
@@ -54,6 +54,16 @@
     "tests/testf90.f90"
     )
   "List of files with analyzer completion test points.")
+
+(defvar semantic-ia-utest-file-optional-list
+  '(
+    ;("tests/testsysimport.java" . cedet-java-version-check)
+    )
+  "List of files with analyzer completion test points that are optionally run.
+Each test file has a corresponding check function.  Each check function
+takes an optional argument NOERROR which will be set to t.
+This allows the standard version checking functions in CEDET helpers to
+be used to test if an external tool is available.")
 
 (defvar semantic-ia-utest-error-log-list nil
   "List of errors occuring during a run.")

@@ -1,6 +1,6 @@
 ;;; semanticdb-cscope.el --- Use CSCOPE databases w/ Semantic
 
-;; Copyright (C) 2007, 2008, 2009, 2010 Eric M. Ludlam
+;; Copyright (C) 2007, 2008, 2009, 2010, 2011 Eric M. Ludlam
 
 ;; Author: Eric M. Ludlam <eric@siege-engine.com>
 ;; X-RCS: $Id: semanticdb-cscope.el,v 1.6 2010-07-25 00:05:15 zappo Exp $
@@ -92,6 +92,11 @@ Equivalent modes are specified by the `semantic-equivalent-major-modes'
 local variable."
   ;; @todo - hack alert!
   t)
+
+(defmethod object-print ((obj semanticdb-table-cscope) &rest strings)
+  "Pretty printer extension for `semanticdb-table-cscope'.
+Adds the number of tags in this file to the object print name."
+  (apply 'call-next-method obj (cons " (proxy)" strings)))
 
 ;;; Filename based methods
 ;;

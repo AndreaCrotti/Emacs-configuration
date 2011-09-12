@@ -46,6 +46,7 @@ A bad parse tree is for example:
 * Tag Query::
 * Tag Hooks::
 * Tag Overlay::
+* Incomplete Tags::
 * Misc Tag Functions::
 * Tag Internals::
 @end menu
@@ -234,17 +235,6 @@ are similar w/out checking the sub-list of tags.
 @defun semantic-tag-of-class-p tag class
 @anchor{semantic-tag-of-class-p}
 Return non-@code{nil} if class of @var{tag} is @var{class}.
-@end defun
-
-@defun semantic-tag-faux-p tag
-@anchor{semantic-tag-faux-p}
-Return non-@code{nil} if @var{tag} is a @var{faux} tag.
-@var{faux} tags are created to represent a construct that is
-not known to exist in the code.
-
-Example: When the class browser sees methods to a class, but
-cannot find the class, it will create a faux tag to represent the
-class to store those methods.
 @end defun
 
 @defun semantic-tag-type-compound-p tag
@@ -584,6 +574,84 @@ function @code{semantic-tag-copy}.  Use this hook to remove properties
 from the tag that link it to a buffer, as this tag should no longer
 have direct buffer links.
 @end table
+
+@node Incomplete Tags
+@section Incomplete Tags
+@cindex Incomplete Tags
+
+Complete tags usually come out of a parser, and have all the data that
+represents the code they were derived form.  Other tags are derived
+as part of the structure of database and analyzers, and then stuck
+into other tag lists as part of how @semantic{}'s advanced features
+work.
+
+Incomplete tags are usually marked as being :faux.  You can detect a
+faux tag like this:
+
+@defun semantic-tag-faux-p tag
+@anchor{semantic-tag-faux-p}
+Return non-@code{nil} if @var{tag} is a @var{faux} tag.
+@var{faux} tags are created to represent a construct that is
+not known to exist in the code.
+
+Example: When the class browser sees methods to a class, but
+cannot find the class, it will create a faux tag to represent the
+class to store those methods.
+@end defun
+
+You can force a tag to be fax with this:
+
+@defun semantic-tag-set-faux tag
+@anchor{semantic-tag-set-faux}
+Set @var{TAG} to be a new @var{FAUX} tag.
+@var{FAUX} tags represent constructs not found in the source code.
+You can identify a faux tag with @dfn{semantic-tag-faux-p}
+@end defun
+
+In addition, some tags have a proxy stored on them.  A proxy will
+indiate to a Semantic program that the tag needs to be resolved if any
+details needs to be used.  A special proxy symbol is used to make sure
+that if the proxy tag is ever saved or displayed on screen, vast
+amounds of data associated with the proxy is not displayed.  A common
+case will be that the proxy data is a Semantic database which will be
+used to resolve the proxy.  The print output of a database can be
+huge, so making the proxy unprintable and unsavable is important.
+
+Use a proxy if you are creating custom semantic database back ends
+where large numbers of tags can be derived by some feature, like file
+names, but you do not wish to parse all the files at once to create
+the real tags.  Important features such as the semanticdb typecache
+will be able to resolve your proxies.
+
+@defun semantic-create-tag-proxy function data
+@anchor{semantic-create-tag-proxy}
+Create a tag proxy symbol.
+@var{FUNCTION} will be used to resolve the proxy.  It should take @var{3}
+two arguments, @var{DATA} and @var{TAG}.  @var{TAG} is a proxy tag that needs
+to be resolved, and @var{DATA} is the @var{DATA} passed into this function.
+@var{DATA} is data to help resolve the proxy.  @var{DATA} can be an @var{EIEIO} object,
+such that @var{FUNCTION} is a method.
+@var{FUNCTION} should return a list of tags, preferrably one tag.
+@end defun
+
+
+@defun semantic-tag-set-proxy tag proxy filename
+@anchor{semantic-tag-set-proxy}
+Set @var{TAG} to be a proxy.  The proxy can be resolved with @var{PROXY}.
+This function will also make @var{TAG} be a faux tag with
+@dfn{semantic-tag-set-faux}, and possibly set the tag's
+@code{:filename} with @var{FILENAME}.
+To create a proxy, see @dfn{semantic-create-tag-proxy}.
+@end defun
+
+
+@defun semantic-tag-resolve-proxy tag
+@anchor{semantic-tag-resolve-proxy}
+Resolve the proxy in @var{TAG}.
+The return value is whatever format the proxy was setup as.
+It should be a list of complete tags.
+@end defun
+
 
 @node Misc Tag Functions
 @section Misc Tag Functions

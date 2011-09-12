@@ -14,5 +14,10 @@
     :path ""
     :source '("document-default.srt" "srecode-document-cpp.srt" "srecode-document-java.srt")
     )
+   (ede-proj-target-makefile-miscelaneous "android"
+    :name "android"
+    :path ""
+    :source '("android-java.srt")
+    )
    )
   )

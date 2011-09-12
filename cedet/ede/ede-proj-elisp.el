@@ -1,6 +1,6 @@
 ;;; ede-proj-elisp.el --- EDE Generic Project Emacs Lisp support
 
-;;;  Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2007, 2008, 2009, 2010  Eric M. Ludlam
+;;;  Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2007, 2008, 2009, 2010, 2011  Eric M. Ludlam
 
 ;; Author: Eric M. Ludlam <zappo@gnu.org>
 ;; Keywords: project, make
@@ -260,7 +260,8 @@ is found, such as a `-version' variable, or the standard header."
   "Tweak the configure file (current buffer) to accomodate THIS."
   (call-next-method)
   ;; Ok, now we have to tweak the autoconf provided `elisp-comp' program.
-  (let ((ec (ede-expand-filename this "elisp-comp" 'newfile)))
+  (let ((ec (ede-expand-filename this "elisp-comp" 'newfile))
+	(enable-local-variables nil))
     (if (or (not ec) (not (file-exists-p ec)))
 	(message "No elisp-comp file.  There may be compile errors?  Rerun a second time.")
       (save-excursion
@@ -284,7 +285,7 @@ is found, such as a `-version' variable, or the standard header."
   "Flush the configure file (current buffer) to accomodate THIS."
   ;; Remove crufty old paths from elisp-compile
   (let ((ec (ede-expand-filename this "elisp-comp" 'newfile))
-	)
+	(enable-local-variables nil))
     (if (and ec (file-exists-p ec))
 	(with-current-buffer (find-file-noselect ec t)
 	  (goto-char (point-min))

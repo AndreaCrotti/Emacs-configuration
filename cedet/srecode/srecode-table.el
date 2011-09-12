@@ -1,6 +1,6 @@
 ;;; srecode-table.el --- Tables of Semantic Recoders
 
-;; Copyright (C) 2007, 2008, 2009, 2010 Eric M. Ludlam
+;; Copyright (C) 2007, 2008, 2009, 2010, 2011 Eric M. Ludlam
 
 ;; Author: Eric M. Ludlam <eric@siege-engine.com>
 
@@ -63,6 +63,15 @@ If this is nil, then this template table belongs to a set of generic
 templates that can be used with no additional dictionary values.
 When it is non-nil, it is assumed the template macros need specialized
 Emacs Lisp code to fill in the dictoinary.")
+   (framework :initarg :framework
+	      :type symbol
+	      :documentation
+	      "Tracks the name of the framework these templates belong to.
+If nil, then this template table belongs to any framework, or can be
+considered generic for all files of this language.
+A framework might be a specific library or build environment for which
+special templates are desired.  OpenGL might be a framework that
+exists for multiple languages.")
    (priority :initarg :priority
 	     :type number
 	     :documentation
@@ -228,6 +237,9 @@ Use PREDICATE is the same as for the `sort' function."
   (when (oref tab :application)
     (princ "\nApplication: ")
     (princ (oref tab :application)))
+  (when (oref tab :framework)
+    (princ "\nFramework: ")
+    (princ (oref tab :framework)))
   (when (oref tab :project)
     (princ "\nProject Directory: ")
     (princ (oref tab :project))

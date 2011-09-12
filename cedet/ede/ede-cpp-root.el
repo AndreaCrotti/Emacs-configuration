@@ -1,6 +1,6 @@
 ;;; ede-cpp-root.el --- A simple way to wrap a C++ project with a single root
 
-;; Copyright (C) 2007, 2008, 2009, 2010 Eric M. Ludlam
+;; Copyright (C) 2007, 2008, 2009, 2010, 2011 Eric M. Ludlam
 
 ;; Author: Eric M. Ludlam <eric@siege-engine.com>
 ;; X-RCS: $Id: ede-cpp-root.el,v 1.24 2010-08-19 23:29:09 zappo Exp $
@@ -437,6 +437,7 @@ This knows details about or source tree."
 	    ;; Else, do the usual.
 	    (setq ans (call-next-method)))
 	  )))
+    ;; TODO - does this call-next-method happen twice.  Is that bad??  Why is it here?
     (or ans (call-next-method))))
 
 (defmethod ede-project-root ((this ede-cpp-root-project))
@@ -506,7 +507,7 @@ Also set up the lexical preprocessor map."
     spp))
 
 (defmethod ede-system-include-path ((this ede-cpp-root-target))
-  "Get the system include path used by project THIS."
+  "Get the system include path used by target THIS."
   (ede-system-include-path (ede-target-parent this)))
   
 (defmethod ede-preprocessor-map ((this ede-cpp-root-target))

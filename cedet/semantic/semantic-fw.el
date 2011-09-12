@@ -104,7 +104,6 @@
   (defalias 'semantic-overlay-buffer          'overlay-buffer)
   (defalias 'semantic-overlay-start           'overlay-start)
   (defalias 'semantic-overlay-end             'overlay-end)
-  (defalias 'semantic-overlay-size            'overlay-size)
   (defalias 'semantic-overlay-next-change     'next-overlay-change)
   (defalias 'semantic-overlay-previous-change 'previous-overlay-change)
   (defalias 'semantic-overlay-lists           'overlay-lists)

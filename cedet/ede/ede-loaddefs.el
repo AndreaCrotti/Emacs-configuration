@@ -4,7 +4,7 @@
 
 
 ;;;### (autoloads (autoconf-parameters-for-macro) "autoconf-edit"
-;;;;;;  "autoconf-edit.el" (20068 50765))
+;;;;;;  "autoconf-edit.el" (20078 2242))
 ;;; Generated autoloads from autoconf-edit.el
 
 (autoload 'autoconf-parameters-for-macro "autoconf-edit" "\
@@ -18,7 +18,7 @@ Returns a list of the arguments passed into MACRO as strings.
 ;;;### (autoloads (ede-target-parent ede-parent-project ede-load-project-file
 ;;;;;;  project-make-dist project-compile-target project-compile-project
 ;;;;;;  project-edit-file-target ede-compile-target ede-remove-file
-;;;;;;  global-ede-mode) "ede" "ede.el" (20068 50765))
+;;;;;;  global-ede-mode) "ede" "ede.el" (20078 2242))
 ;;; Generated autoloads from ede.el
 
 (defvar ede-projects nil "\
@@ -88,7 +88,25 @@ could become slow in time.
 
 ;;;***
 
-;;;### (autoloads nil "ede-auto" "ede-auto.el" (20068 50765))
+;;;### (autoloads (ede-android-load) "ede-android" "ede-android.el"
+;;;;;;  (20078 2242))
+;;; Generated autoloads from ede-android.el
+
+(autoload 'ede-android-load "ede-android" "\
+Return an Android Project object if there is a match.
+Return nil if there isn't one.
+Argument DIR is the directory it is created for.
+ROOTPROJ is nil, since there is only one project.
+
+\(fn DIR &optional ROOTPROJ)" nil nil)
+
+(add-to-list 'ede-project-class-files (ede-project-autoload "android" :name "ANDROID ROOT" :file 'ede-android :proj-file "AndroidManifest.xml" :load-type 'ede-android-load :class-sym 'ede-android-project :new-p t) t)
+
+(eieio-defclass-autoload 'ede-android-project '(ede-project eieio-instance-tracker) "ede-android" "Project for Android applications.")
+
+;;;***
+
+;;;### (autoloads nil "ede-auto" "ede-auto.el" (20078 2242))
 ;;; Generated autoloads from ede-auto.el
 
 (eieio-defclass-autoload 'ede-project-autoload 'nil "ede-auto" "Class representing minimal knowledge set to run preliminary EDE functions.\nWhen more advanced functionality is needed from a project type, that projects\ntype is required and the load function used.")
@@ -97,7 +115,7 @@ could become slow in time.
 
 ;;;### (autoloads (ede-adebug-project-root ede-adebug-project-parent
 ;;;;;;  ede-adebug-project ede-documentation-files ede-description
-;;;;;;  ede-name) "ede-base" "ede-base.el" (20068 50765))
+;;;;;;  ede-name) "ede-base" "ede-base.el" (20078 2242))
 ;;; Generated autoloads from ede-base.el
 
 (eieio-defclass-autoload 'ede-target '(eieio-speedbar-directory-button) "ede-base" "A target is a structure that describes a file set that produces something.\nTargets, as with 'Make', is an entity that will manage a file set \nand knows how to compile or otherwise transform those files into some\nother desired outcome.")
@@ -142,7 +160,7 @@ Display the results as a debug list.
 ;;;***
 
 ;;;### (autoloads (ede-cpp-root-load ede-cpp-root-project-root ede-cpp-root-project-file-for-dir)
-;;;;;;  "ede-cpp-root" "ede-cpp-root.el" (20068 50765))
+;;;;;;  "ede-cpp-root" "ede-cpp-root.el" (20078 2242))
 ;;; Generated autoloads from ede-cpp-root.el
 
 (autoload 'ede-cpp-root-project-file-for-dir "ede-cpp-root" "\
@@ -171,7 +189,7 @@ ROOTPROJ is nil, since there is only one project.
 
 ;;;### (autoloads (ede-project-sort-targets ede-customize-target
 ;;;;;;  ede-customize-current-target ede-customize-project) "ede-custom"
-;;;;;;  "ede-custom.el" (20068 50765))
+;;;;;;  "ede-custom.el" (20078 2242))
 ;;; Generated autoloads from ede-custom.el
 
 (autoload 'ede-customize-project "ede-custom" "\
@@ -203,7 +221,7 @@ Create a custom-like buffer for sorting targets of current project.
 ;;;***
 
 ;;;### (autoloads (ede-emacs-load ede-emacs-project-root) "ede-emacs"
-;;;;;;  "ede-emacs.el" (20068 50765))
+;;;;;;  "ede-emacs.el" (20078 2242))
 ;;; Generated autoloads from ede-emacs.el
 
 (autoload 'ede-emacs-project-root "ede-emacs" "\
@@ -225,8 +243,8 @@ ROOTPROJ is nil, since there is only one project.
 
 ;;;***
 
-;;;### (autoloads (ede-find-file) "ede-files" "ede-files.el" (20068
-;;;;;;  50765))
+;;;### (autoloads (ede-find-file) "ede-files" "ede-files.el" (20078
+;;;;;;  2242))
 ;;; Generated autoloads from ede-files.el
 
 (autoload 'ede-find-file "ede-files" "\
@@ -239,7 +257,7 @@ the current EDE project.
 ;;;***
 
 ;;;### (autoloads (ede-enable-generic-projects ede-generic-load)
-;;;;;;  "ede-generic" "ede-generic.el" (20068 50765))
+;;;;;;  "ede-generic" "ede-generic.el" (20078 2242))
 ;;; Generated autoloads from ede-generic.el
 
 (autoload 'ede-generic-load "ede-generic" "\
@@ -258,7 +276,7 @@ Enable generic project loaders.
 ;;;***
 
 ;;;### (autoloads (ede-linux-load ede-linux-project-root) "ede-linux"
-;;;;;;  "ede-linux.el" (20068 50765))
+;;;;;;  "ede-linux.el" (20078 2242))
 ;;; Generated autoloads from ede-linux.el
 
 (autoload 'ede-linux-project-root "ede-linux" "\
@@ -281,7 +299,7 @@ ROOTPROJ is nil, since there is only one project.
 ;;;***
 
 ;;;### (autoloads (ede-enable-locate-on-project) "ede-locate" "ede-locate.el"
-;;;;;;  (20068 50765))
+;;;;;;  (20078 2242))
 ;;; Generated autoloads from ede-locate.el
 
 (autoload 'ede-enable-locate-on-project "ede-locate" "\
@@ -293,8 +311,19 @@ based on `ede-locate-setup-options'.
 
 ;;;***
 
+;;;### (autoloads (ede-m3-ede-items) "ede-m3" "ede-m3.el" (20078
+;;;;;;  2242))
+;;; Generated autoloads from ede-m3.el
+
+(autoload 'ede-m3-ede-items "ede-m3" "\
+Return a list of menu items based on EDE project stats.
+
+\(fn)" nil nil)
+
+;;;***
+
 ;;;### (autoloads (ede-make-check-version) "ede-make" "ede-make.el"
-;;;;;;  (20068 50765))
+;;;;;;  (20078 2242))
 ;;; Generated autoloads from ede-make.el
 
 (autoload 'ede-make-check-version "ede-make" "\
@@ -309,7 +338,7 @@ If NOERROR is nil, then throw an error on failure.  Return t otherwise.
 ;;;***
 
 ;;;### (autoloads (ede-pmake-varname) "ede-pmake" "ede-pmake.el"
-;;;;;;  (20068 50765))
+;;;;;;  (20078 2242))
 ;;; Generated autoloads from ede-pmake.el
 
 (autoload 'ede-pmake-varname "ede-pmake" "\
@@ -320,7 +349,7 @@ Change .  to _ in the variable name.
 
 ;;;***
 
-;;;### (autoloads nil "ede-proj" "ede-proj.el" (20068 50765))
+;;;### (autoloads nil "ede-proj" "ede-proj.el" (20078 2242))
 ;;; Generated autoloads from ede-proj.el
 
 (add-to-list 'auto-mode-alist '("Project\\.ede$" . emacs-lisp-mode))
@@ -328,7 +357,7 @@ Change .  to _ in the variable name.
 ;;;***
 
 ;;;### (autoloads (ede-shell-buffer ede-shell-run-something) "ede-shell"
-;;;;;;  "ede-shell.el" (20068 50765))
+;;;;;;  "ede-shell.el" (20078 2242))
 ;;; Generated autoloads from ede-shell.el
 
 (autoload 'ede-shell-run-something "ede-shell" "\
@@ -345,7 +374,7 @@ Get the buffer for running shell commands for TARGET.
 ;;;***
 
 ;;;### (autoloads (ede-simple-load ede-simple-projectfile-for-dir)
-;;;;;;  "ede-simple" "ede-simple.el" (20068 50765))
+;;;;;;  "ede-simple" "ede-simple.el" (20078 2242))
 ;;; Generated autoloads from ede-simple.el
 
 (autoload 'ede-simple-projectfile-for-dir "ede-simple" "\
@@ -367,7 +396,7 @@ ROOTPROJ is nil, since we will only create a single EDE project here.
 ;;;***
 
 ;;;### (autoloads (ede-srecode-insert ede-srecode-setup) "ede-srecode"
-;;;;;;  "ede-srecode.el" (20068 50765))
+;;;;;;  "ede-srecode.el" (20078 2242))
 ;;; Generated autoloads from ede-srecode.el
 
 (autoload 'ede-srecode-setup "ede-srecode" "\
@@ -386,8 +415,8 @@ Note: Just like `srecode-insert', but templates found in 'ede app.
 
 ;;;***
 
-;;;### (autoloads (ede-update-version) "ede-util" "ede-util.el" (20068
-;;;;;;  50765))
+;;;### (autoloads (ede-update-version) "ede-util" "ede-util.el" (20078
+;;;;;;  2242))
 ;;; Generated autoloads from ede-util.el
 
 (autoload 'ede-update-version "ede-util" "\
@@ -403,8 +432,8 @@ Argument NEWVERSION is the version number to use in the current project.
 ;;;;;;  "ede-proj-elisp.el" "ede-proj-info.el" "ede-proj-maven2.el"
 ;;;;;;  "ede-proj-misc.el" "ede-proj-obj.el" "ede-proj-prog.el" "ede-proj-scheme.el"
 ;;;;;;  "ede-proj-shared.el" "ede-proj-skel.el" "ede-source.el" "ede-speedbar.el"
-;;;;;;  "ede-system.el" "makefile-edit.el" "project-am.el") (20068
-;;;;;;  65449 627522))
+;;;;;;  "ede-system.el" "makefile-edit.el" "project-am.el") (20078
+;;;;;;  2491 219937))
 
 ;;;***
 

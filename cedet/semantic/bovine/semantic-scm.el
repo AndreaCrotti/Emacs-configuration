@@ -1,6 +1,6 @@
 ;;; semantic-scm.el --- Semantic details for Scheme (guile)
 
-;;; Copyright (C) 2001, 2002, 2003, 2004, 2008, 2009 Eric M. Ludlam
+;;; Copyright (C) 2001, 2002, 2003, 2004, 2008, 2009, 2011 Eric M. Ludlam
 
 ;; Author: Eric M. Ludlam <zappo@gnu.org>
 ;; X-RCS: $Id: semantic-scm.el,v 1.17 2009-05-14 01:41:52 zappo Exp $
@@ -40,7 +40,7 @@
 This should probably do some sort of search to see what is
 actually on the local machine.")
 
-(define-mode-local-override semantic-format-tag-prototype scheme-mode (tag)
+(define-mode-local-override semantic-format-tag-prototype scheme-mode (tag &optional parent color)
   "Return a prototype for the Emacs Lisp nonterminal TAG."
   (let* ((tok (semantic-tag-class tag))
 	 (args (semantic-tag-components tag))
@@ -49,7 +49,7 @@ actually on the local machine.")
 	(concat (semantic-tag-name tag) " ("
 		(mapconcat (lambda (a) a) args " ")
 		")")
-      (semantic-format-tag-prototype-default tag))))
+      (semantic-format-tag-prototype-default tag parent color))))
 
 (define-mode-local-override semantic-documentation-for-tag scheme-mode (tag &optional nosnarf)
   "Return the documentation string for TAG.

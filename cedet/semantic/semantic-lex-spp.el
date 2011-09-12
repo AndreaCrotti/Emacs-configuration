@@ -1,6 +1,6 @@
 ;;; semantic-lex-spp.el --- Semantic Lexical Pre-processor
 
-;;; Copyright (C) 2006, 2007, 2008, 2009, 2010 Eric M. Ludlam
+;;; Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011 Eric M. Ludlam
 
 ;; X-CVS: $Id: semantic-lex-spp.el,v 1.53 2010-04-18 20:40:15 zappo Exp $
 
@@ -870,7 +870,14 @@ Parsing starts inside the parens, and ends at the end of TOKEN."
 	(forward-char 1)
 	(setq fresh-toks (semantic-lex-spp-stream-for-macro (1- end)))
 	(dolist (tok fresh-toks)
-	  (when (memq (semantic-lex-token-class tok) '(symbol semantic-list))
+	  ;; march 2011: This is too restrictive!  For example "void"
+	  ;; can't get through.  What elements was I trying to expunge
+	  ;; to put this in here in the first place?  If I comment it
+	  ;; out, does anything new break?
+	  ;(when (memq (semantic-lex-token-class tok) '(symbol semantic-list))
+	  ;; It appears the commas need to be dumped.  perhaps this is better,
+	  ;; but will it cause more problems later?
+	  (unless (eq (semantic-lex-token-class tok) 'punctuation)
 	    (setq toks (cons tok toks))))
 
 	(nreverse toks)))))

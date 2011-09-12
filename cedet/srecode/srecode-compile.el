@@ -204,6 +204,7 @@ Arguments ESCAPE-START and ESCAPE-END are the current escape sequences in use."
 				       (buffer-file-name))))
 	(mode nil)
 	(application nil)
+	(framework nil)
 	(priority nil)
 	(project nil)
 	(vars nil)
@@ -247,6 +248,8 @@ Arguments ESCAPE-START and ESCAPE-END are the current escape sequences in use."
 		     )
 		    ((string= name "application")
 		     (setq application (read firstvalue)))
+		    ((string= name "framework")
+		     (setq framework (read firstvalue)))
 		    ((string= name "priority")
 		     (setq priority (read firstvalue)))
 		    ((string= name "project")
@@ -312,7 +315,7 @@ Arguments ESCAPE-START and ESCAPE-END are the current escape sequences in use."
 	       priority))
 
     ;; Save it up!
-    (srecode-compile-template-table table mode priority application project vars)
+    (srecode-compile-template-table table mode priority application framework project vars)
     )
 )
 
@@ -514,12 +517,13 @@ to the inserter constructor."
       (if (not new) (error "SRECODE: Unknown macro code %S" key))
       new)))
 
-(defun srecode-compile-template-table (templates mode priority application project vars)
+(defun srecode-compile-template-table (templates mode priority application framework project vars)
   "Compile a list of TEMPLATES into an semantic recode table.
 The table being compiled is for MODE, or the string \"default\".
 PRIORITY is a numerical value that indicates this tables location
 in an ordered search.
 APPLICATION is the name of the application these templates belong to.
+FRAMEWORK is the name of the framework these templates belong to.
 PROJECT is a directory name which these templates scope to.
 A list of defined variables VARS provides a variable table."
   (let ((namehash (make-hash-table :test 'equal
@@ -561,6 +565,7 @@ A list of defined variables VARS provides a variable table."
 		   :major-mode mode
 		   :priority priority
 		   :application application
+		   :framework framework
 		   :project project))
 	   (tmpl (oref table templates)))
       ;; Loop over all the templates, and xref.

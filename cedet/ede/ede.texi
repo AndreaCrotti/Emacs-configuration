@@ -17,7 +17,7 @@ END-INFO-DIR-ENTRY
 @sp 10
 @center @titlefont{ede}
 @vskip 0pt plus 1 fill
-Copyright @copyright{} 1998, 1999, 2000, 2001, 2004, 2005, 2008, 2009, 2010 Eric M. Ludlam
+Copyright @copyright{} 1998, 1999, 2000, 2001, 2004, 2005, 2008, 2009, 2010, 2011 Eric M. Ludlam
 @end titlepage
 
 @macro cedet{}
@@ -890,7 +890,7 @@ detection scheme works like this:
 @item Step 2:
 @code{ede-turn-on-hook} turns on @code{ede-minor-mode}
 @item Step 3:
-@code{ede-minor-mode} looks to see if BUFFER is assicated with any
+@code{ede-minor-mode} looks to see if BUFFER is associated with any
 open projects.  If not, it calls @code{ede-load-project-file} to find
 a project associated with the current directory BUFFER is in.
 @item Step 4:

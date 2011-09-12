@@ -30,6 +30,7 @@
 (require 'srecode-map)
 (require 'senator)
 (require 'wisent)
+(eval-when-compile (require 'srecode-m3))
 
 ;;; Code:
 (defcustom global-srecode-minor-mode nil
@@ -171,13 +172,17 @@ minor mode is enabled.
           (not srecode-minor-mode)))
   ;; If we are turning things on, make sure we have templates for
   ;; this mode first.
-  (when srecode-minor-mode
-    (when (not (apply
+  (if srecode-minor-mode
+      (if (not (apply
 		'append
 		(mapcar (lambda (map)
 			  (srecode-map-entries-for-mode map major-mode))
 			(srecode-get-maps))))
-      (setq srecode-minor-mode nil))
+	  (setq srecode-minor-mode nil)
+	;; Else, we have success, do stuff
+	(add-hook 'cedet-m3-menu-do-hooks 'srecode-m3-items nil t)
+	)
+    (remove-hook 'cedet-m3-menu-do-hooks 'srecode-m3-items t)
     )
   ;; Run hooks if we are turning this on.
   (when srecode-minor-mode

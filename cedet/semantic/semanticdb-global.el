@@ -1,6 +1,6 @@
 ;;; semanticdb-global.el --- Semantic database extensions for GLOBAL
 
-;;; Copyright (C) 2002, 2003, 2004, 2005, 2006, 2008, 2009, 2010 Eric M. Ludlam
+;;; Copyright (C) 2002, 2003, 2004, 2005, 2006, 2008, 2009, 2010, 2011 Eric M. Ludlam
 
 ;; Author: Eric M. Ludlam <zappo@gnu.org>
 ;; Keywords: tags
@@ -70,6 +70,8 @@ in a GNU Global supported hierarchy."
 (defclass semanticdb-project-database-global
   ;; @todo - convert to one DB per directory.
   (semanticdb-project-database eieio-instance-tracker)
+
+  ;; @todo - use instance tracker symbol.
   ()
   "Database representing a GNU Global tags file.")
 
@@ -99,6 +101,11 @@ if optional DONT-ERR-IF-NOT-AVAILABLE is non-nil; else throw an error."
   ((major-mode :initform nil)
    )
   "A table for returning search results from GNU Global.")
+
+(defmethod object-print ((obj semanticdb-table-global) &rest strings)
+  "Pretty printer extension for `semanticdb-table-global'.
+Adds the number of tags in this file to the object print name."
+  (apply 'call-next-method obj (cons " (proxy)" strings)))
 
 (defmethod semanticdb-equivalent-mode ((table semanticdb-table-global) &optional buffer)
   "Return t, pretend that this table's mode is equivalent to BUFFER.

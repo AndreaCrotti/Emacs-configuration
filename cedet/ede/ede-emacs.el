@@ -1,6 +1,6 @@
 ;;; ede-emacs.el --- Special project for Emacs
 
-;; Copyright (C) 2008, 2009, 2010 Eric M. Ludlam
+;; Copyright (C) 2008, 2009, 2010, 2011 Eric M. Ludlam
 
 ;; Author: Eric M. Ludlam <eric@siege-engine.com>
 ;; X-RCS: $Id: ede-emacs.el,v 1.12 2010-05-18 00:42:14 zappo Exp $
@@ -126,16 +126,15 @@ Argument DIR is the directory it is created for.
 ROOTPROJ is nil, since there is only one project."
   (or (ede-emacs-file-existing dir)
       ;; Doesn't already exist, so lets make one.
-      (let* ((vertuple (ede-emacs-version dir)))
-	(ede-emacs-project (car vertuple)
-			   :name (car vertuple)
-			   :version (cdr vertuple)
-			   :directory (file-name-as-directory dir)
-			   :file (expand-file-name "src/emacs.c"
-						   dir)))
-      (ede-add-project-to-global-list this)
-      )
-  )
+      (let* ((vertuple (ede-emacs-version dir))
+	     (proj (ede-emacs-project
+		    (car vertuple)
+		    :name (car vertuple)
+		    :version (cdr vertuple)
+		    :directory (file-name-as-directory dir)
+		    :file (expand-file-name "src/emacs.c"
+					    dir))))
+	(ede-add-project-to-global-list proj))))
 
 ;;;###autoload
 (add-to-list 'ede-project-class-files
