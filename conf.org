@@ -245,7 +245,6 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+begin_src emacs-lisp :tangle yes
   ; TODO: don't use concat for paths, make everything more reliable
   (setq custom-file (concat base "custom.el"))
-  
 #+end_src
 
 ** Constants and some global settings
@@ -673,7 +672,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
      ((null asslist) nil)
      (t
       (if (equal (cdr (car asslist)) query)
-          (cons (car (car asslist)) (all-asscs (cdr asslist) query))
+          (cons (car (car asslist)) (ca-all-asscs (cdr asslist) query))
         (ca-all-asscs (cdr asslist) query)))))
 #+end_src
 
