@@ -3307,6 +3307,7 @@ check-syntax:
   (global-set-key (kbd "C-M-n") 'fixme-next)
   (global-set-key (kbd "C-M-p") 'fixme-prev)
   
+  (global-set-key [f6] 'anything)
 #+end_src
 
 * External configuration files
