@@ -2388,6 +2388,20 @@ Emacs is no more about text editing than astronomy is about telescopes.
                               (file-name-nondirectory buffer-file-name)))))
 #+end_src
 * Other modes
+** Anti-word
+#+begin_src emacs-lisp :tangle yes
+  (autoload 'no-word "no-word" "word to txt")
+  (add-to-list 'auto-mode-alist '("\\.doc\\'" . no-word))
+#+end_src
+
+** RST-mode
+#+begin_src emacs-lisp :tangle yes
+  (add-hook 'rst-mode-hook 
+            (lambda ()
+              (local-set-key (kbd "M-n") 'rst-forward-section)
+              (local-set-key (kbd "M-p") 'rst-backward-section)))
+#+end_src
+
 ** Battery mode
 #+begin_src emacs-lisp :tangle yes
   (setq battery-mode-line-format "[%b%p%%]")
