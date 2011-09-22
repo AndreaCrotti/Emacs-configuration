@@ -4,3 +4,4 @@ auctex
 custom.el
 conf.el
 *~
+*defs.el
