@@ -94,9 +94,14 @@
          'py-electric-comment-add-space-lp:828398-test
          'py-electric-comment-add-space-t-lp:828398-test
          'execute-indented-code-lp:828314-test
+         'py-hungry-delete-backwards-needs-cc-lp-850595-test
+         'wrong-guess-for-py-indent-offset-lp-852052-test
+         'indent-match-import-pkg-lp-852500-test
+         'py-shift-line-when-no-region-lp-855565-test
+         'py-shebang-consider-ipython-lp-849293-test
+         'py-shebang-ipython-env-lp-849293-test
 
          )))
-
 
 (defun py-bug-tests-intern (testname &optional arg teststring)
   (if arg
@@ -182,7 +187,7 @@ If no `load-branch-function' is specified, make sure the appropriate branch is l
   (let ((py-indent-honors-multiline-listing t))
     (goto-char (point-min))
     (forward-line 2)
-    (assert (eq 14 (py-compute-indentation)))))
+    (assert (eq 14 (py-compute-indentation)) nil "nested-dictionaries-indent-lp:328791 failed")))
 
 (defun mark-block-region-lp:328806-test (&optional arg load-branch-function)
   "With ARG greater 1 keep test buffer open.
@@ -298,7 +303,7 @@ class f():
     if a:
         ar_atpt_python_list_roh = ([
             'python-expression',
-            
+
             # def ar_thingatpt_write_lists (&optional datei):
             'python-partial-expression',
             'python-statement',
@@ -310,7 +315,7 @@ class f():
   (goto-char (point-min))
   (forward-line 2)
   (py-end-of-def-or-class)
-  (assert (eq 287 (point)) nil "beg-end-of-defun-lp:303622-test #1 failed!")
+  (assert (eq 275 (point)) nil "beg-end-of-defun-lp:303622-test #1 failed!")
   (beginning-of-defun)
   (assert (eq 2 (point)) nil "beg-end-of-defun-lp:303622-test #2 failed!"))
 
@@ -593,16 +598,17 @@ print u'\\xA9'
     (py-bug-tests-intern 'UnicodeEncodeError-lp:550661-base arg teststring)))
 
 (defun UnicodeEncodeError-lp:550661-base ()
-  (python-mode)
-  (goto-char 48)
-  (push-mark)
-  (end-of-line)
-  (py-execute-region (line-beginning-position) (point))
-  (sit-for 0.2) 
-  (when (looking-back comint-prompt-regexp)
-    (goto-char (1- (match-beginning 0))))
-  (sit-for 0.1)
-  (assert (looking-back "©") nil "UnicodeEncodeError-lp:550661-test failed"))
+  (let ((py-shell-switch-buffers-on-execute t))
+    (python-mode)
+    (goto-char 48)
+    (push-mark)
+    (end-of-line)
+    (py-execute-region (line-beginning-position) (point))
+    (sit-for 0.2)
+    (when (looking-back comint-prompt-regexp)
+      (goto-char (1- (match-beginning 0))))
+    (sit-for 0.1)
+    (assert (looking-back "©") nil "UnicodeEncodeError-lp:550661-test failed")))
 
 (defun indentation-of-continuation-lines-lp:691185-test (&optional arg load-branch-function)
   "With ARG greater 1 keep test buffer open.
@@ -1365,7 +1371,7 @@ print u'\xA9'
     (py-bug-tests-intern 'master-file-not-honored-lp:794850-base arg teststring)))
 
 (defun master-file-not-honored-lp:794850-base ()
-  (save-excursion 
+  (save-excursion
     (set-buffer (get-buffer-create "lp:794850-test-master.py"))
     (erase-buffer)
     (insert "#! /usr/bin/env python
@@ -1452,7 +1458,7 @@ if foo:
 
 (defun closing-parentesis-indent-lp:821820-base ()
   (let ((py-closing-list-dedents-bos t))
-    (forward-line -1) 
+    (forward-line -1)
     (assert (eq 4 (py-compute-indentation)) nil "closing-parentesis-indent-lp:821820-test failed")))
 
 (defun py-indent-line-lp:822532-test (&optional arg load-branch-function)
@@ -1489,7 +1495,7 @@ abc( ghi,
   (py-bug-tests-intern 'indent-honor-arglist-whitespaces-lp:822540-base arg teststring)))
 
 (defun indent-honor-arglist-whitespaces-lp:822540-base ()
-  (forward-line -1) 
+  (forward-line -1)
   (assert (eq 5 (py-compute-indentation)) nil "indent-honor-arglist-whitespaces-lp:822540-test failed"))
 
 (defun comments-indent-honor-setting-lp:824427-test (&optional arg load-branch-function)
@@ -1524,7 +1530,6 @@ hey
 
 (defun infinite-loop-after-tqs-lp:826044-base ()
     (assert (eq 0 (py-newline-and-indent)) nil "infinite-loop-after-tqs-lp:826044-test failed"))
-
 
 (defun closing-list-lp:826144-test (&optional arg load-branch-function)
   (interactive "p")
@@ -1583,12 +1588,108 @@ if foo:
 
 (defun execute-indented-code-lp:828314-base ()
   (let ((debug-on-error t))
-    (goto-char 32)
+    (goto-char 28)
     (push-mark)
     (progn
       (py-execute-region (point) (progn (end-of-line)(point)))
       (when (interactive-p) (message "%s" "execute-indented-code-lp:828314-test passed")))))
 
+(defun wrong-indentation-of-function-arguments-lp:840891-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "abdc = foo(a=1,
+           b=2,
+    c=3)
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'wrong-indentation-of-function-arguments-lp:840891-base arg teststring)))
+
+(defun wrong-indentation-of-function-arguments-lp:840891-base ()
+    (goto-char 38)
+    (assert (eq 11 (py-compute-indentation)) nil "wrong-indentation-of-function-arguments-lp:840891-test failed"))
+
+(defun py-shebang-consider-ipython-lp-849293-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/ipython
+# -*- coding: utf-8 -*-
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'py-shebang-consider-ipython-lp-849293-base arg teststring)))
+
+(defun py-shebang-consider-ipython-lp-849293-base ()
+    (assert (string= "ipython" (py-choose-shell-by-shebang)) nil "py-shebang-consider-ipython-lp-849293-test failed"))
+
+(defun py-shebang-ipython-env-lp-849293-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "#! /usr/env ipython
+# -*- coding: utf-8 -*-
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'py-shebang-ipython-env-lp-849293-base arg teststring)))
+
+(defun py-shebang-ipython-env-lp-849293-base ()
+    (assert (string= "ipython" (py-choose-shell-by-shebang)) nil "py-shebang-ipython-env-lp-849293-test failed"))
+
+(defun py-hungry-delete-backwards-needs-cc-lp-850595-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring ""))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'py-hungry-delete-backwards-needs-cc-lp-850595-base arg teststring)))
+
+(defun py-hungry-delete-backwards-needs-cc-lp-850595-base ()
+    (assert (functionp 'c-hungry-delete-backwards) nil "py-hungry-delete-backwards-needs-cc-lp-850595-test failed"))
+
+
+(defun wrong-guess-for-py-indent-offset-lp-852052-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "# The indent offset shouldn't be guessed from backslash
+# continuations. I have
+
+from long.pkg.name import long, list, of, \\
+     class_and_function, and, function, names
+
+# (note there are five spaces before \"class\", to match with the
+# start of the pkg name.)
+
+# Since the indent of backlash-continued lines has no meaning for
+# code, it should not be considered.
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'wrong-guess-for-py-indent-offset-lp-852052-base arg teststring)))
+
+(defun wrong-guess-for-py-indent-offset-lp-852052-base ()
+    (goto-char 126)
+    (assert (eq 4 (py-guess-indent-offset)) nil "wrong-guess-for-py-indent-offset-lp-852052-test failed"))
+
+(defun indent-match-import-pkg-lp-852500-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "from long.pkg.name import long, list, of, \\
+     class_and_function, names
+
+# (note there are five spaces before \"class\", to match with the
+# start of the pkg name.)
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'indent-match-import-pkg-lp-852500-base arg teststring)))
+
+(defun indent-match-import-pkg-lp-852500-base ()
+    (goto-char 45)
+    (assert (eq 5 (py-compute-indentation)) nil "indent-match-import-pkg-lp-852500-test failed"))
+
+
+(defun py-shift-line-when-no-region-lp-855565-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/ipython
+# -*- coding: utf-8 -*-
+
+if foo:
+    print"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'py-shift-line-when-no-region-lp-855565-base arg teststring)))
+
+(defun py-shift-line-when-no-region-lp-855565-base ()
+    (goto-char 58)
+    (assert (eq 8 (py-shift-right)) nil "py-shift-line-when-no-region-lp-855565-test failed"))
+
+
 (provide 'py-bug-numbered-tests)
 ;;; py-bug-numbered-tests.el ends here
-

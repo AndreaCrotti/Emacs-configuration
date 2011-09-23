@@ -52,7 +52,7 @@ TESTFILE="py-bug-numbered-tests.el"
 TESTFILE2="python-mode-test.el"
 EMACS="${EMACS_VERZEICHNIS}/src/emacs"
 
-$EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'python-mode)(unload-feature 'python-mode t))" --eval "(add-to-list 'load-path \"$PDIR/\")" --eval "(add-to-list 'load-path \"$MODEDIR/\")" -load "$PDIR/$PYTHONMODE" -load "$PDIR/$TESTFILE" -load "$PDIR/$TESTFILE2" -load $CCCMDS --eval "(quietly-read-abbrev-file (expand-file-name \"~/.abbrev_defs\"))" \
+$EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'python-mode)(unload-feature 'python-mode t))" --eval "(add-to-list 'load-path \"$PDIR/\")" --eval "(add-to-list 'load-path \"$MODEDIR/\")" --eval "(setq py-install-directory \"../\")" -load "$PDIR/$PYTHONMODE" -load "$PDIR/$TESTFILE" -load "$PDIR/$TESTFILE2" -load $CCCMDS --eval "(quietly-read-abbrev-file (expand-file-name \"~/.abbrev_defs\"))" \
 --funcall nested-dictionaries-indent-lp:328791-test \
 --funcall triple-quoted-string-dq-lp:302834-test \
 --funcall fore-00007F-breaks-indentation-lp:328788-test \
@@ -111,6 +111,13 @@ $EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'py
 --funcall py-electric-comment-add-space-lp:828398-test \
 --funcall py-electric-comment-add-space-t-lp:828398-test \
 --funcall execute-indented-code-lp:828314-test \
+--funcall wrong-indentation-of-function-arguments-lp:840891-test \
+--funcall wrong-guess-for-py-indent-offset-lp-852052-test \
+--funcall indent-match-import-pkg-lp-852500-test \
+--funcall py-hungry-delete-backwards-needs-cc-lp-850595-test \
+--funcall py-shift-line-when-no-region-lp-855565-test \
+--funcall py-shebang-ipython-env-lp-849293-test \
+--funcall py-shebang-consider-ipython-lp-849293-test \
 \
 --funcall multiline-list-indent-test \
 --funcall py-beginning-of-block-test \
@@ -145,6 +152,7 @@ $EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'py
 --funcall args-list-first-line-indent-test \
 --funcall py-partial-expression-test \
 --funcall py-execute-block-test \
+--funcall close-block-test \
 --funcall py-insert-super-python2-test \
 --funcall py-insert-super-python3-test \
 --funcall UnicodeEncodeError-python3-test 
