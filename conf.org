@@ -2390,6 +2390,16 @@ Emacs is no more about text editing than astronomy is about telescopes.
                               (file-name-nondirectory buffer-file-name)))))
 #+end_src
 * Other modes
+** Cmake mode
+#+begin_src emacs-lisp :tangle yes
+  (autoload 'cmake-mode "cmake-mode" "cmake mode" t)
+  
+  (setq auto-mode-alist
+        (append '(("CMakeLists\\.txt\\'" . cmake-mode)
+                  ("\\.cmake\\'" . cmake-mode))
+                auto-mode-alist))
+#+end_src
+
 ** Anything settings
 #+begin_src emacs-lisp :tangle yes
   (autoload 'anything "anything" "Anything framework" t)
@@ -2733,15 +2743,15 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (setq gnus-message-archive-group "nnimap+gmail:Sent")
   
   (setq gnus-secondary-select-methods
-        '(;; (nnimap "rwth"
-          ;;       (nnimap-address "mailbox.rwth-aachen.de")
-          ;;       (nnimap-stream ssl))
+        '(
+          ;; (nnimap "xype internal"
+          ;;         (nnimap-address "localhost")
+          ;;         (nnimap-server-port "1143"))
           (nntp "news.gmane.org")
           ;; Configuration for http://www.eternal-september.org/
           (nntp "eternal"
                 (nntp-address "news.eternal-september.org")
                 (nntp-port-number 119))))
-  
 #+end_src
 
 *** Example about splitting
