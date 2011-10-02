@@ -1254,6 +1254,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
    Using dictionary.el (downloaded from http://me.in-berlin.de/~myrkr/dictionary/download.html)
 
 #+begin_src emacs-lisp :tangle yes
+  (autoload 'dict "dict" "dictionary mode" t)
   ; TODO: add some thing-at-point to guess the current word
   (defun ca-dictionary-search ()
     "look for a word here"
