@@ -2934,23 +2934,23 @@ Emacs is no more about text editing than astronomy is about telescopes.
 ** Erc
 *** Accessory functions
 #+begin_src emacs-lisp :tangle yes
-    ;; This is an example of how to make a new command.  Type "/uptime" to
-    ;; use it.
-    (defun erc-cmd-UPTIME (&rest ignore)
-      "Display the uptime of the system, as well as some load-related
-         stuff, to the current ERC buffer."
-      (let ((uname-output
+  ;; This is an example of how to make a new command.  Type "/uptime" to
+  ;; use it.
+  (defun erc-cmd-UPTIME (&rest ignore)
+    "Display the uptime of the system, as well as some load-related
+       stuff, to the current ERC buffer."
+    (let ((uname-output
+           (replace-regexp-in-string
+            ", load average: " "] {Load average} ["
+            ;; Collapse spaces, remove
+            (replace-regexp-in-string
+             " +" " "
+             ;; Remove beginning and trailing whitespace
              (replace-regexp-in-string
-              ", load average: " "] {Load average} ["
-              ;; Collapse spaces, remove
-              (replace-regexp-in-string
-               " +" " "
-               ;; Remove beginning and trailing whitespace
-               (replace-regexp-in-string
-                "^ +\\|[ \n]+$" ""
-                (shell-command-to-string "uptime"))))))
-        (erc-send-message
-         (concat "{Uptime} [" uname-output "]"))))
+              "^ +\\|[ \n]+$" ""
+              (shell-command-to-string "uptime"))))))
+      (erc-send-message
+       (concat "{Uptime} [" uname-output "]"))))
 #+end_src
 
 *** Functions to connect to useful servers
@@ -2964,7 +2964,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
            "#org-mode" "#android" "#latex"
            "#org-mode" "#postfix" "#procmail"
            "#android-devel" "#libav-devel"
-           "#archlinux" "#xmonad"
+           "#archlinux" "#xmonad" "#buildout"
            "#scipy" "#haskell" "#macosx")))
   
   ;; highlight in the modeline only when my nick is cited
@@ -2972,7 +2972,6 @@ Emacs is no more about text editing than astronomy is about telescopes.
   
   ;; enable logging (by default logs everything to ~/log
   (setq erc-log-mode t)
-  
 #+end_src
 
 *** Replace text of away/online messages
