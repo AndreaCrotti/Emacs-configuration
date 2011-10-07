@@ -124,3 +124,6 @@
 [submodule "emms"]
 	path = emms
 	url = git://git.sv.gnu.org/emms.git
+[submodule "redmine-el"]
+	path = redmine-el
+	url = git://github.com/fukamachi/redmine-el.git
