@@ -2391,6 +2391,14 @@ Emacs is no more about text editing than astronomy is about telescopes.
                               (file-name-nondirectory buffer-file-name)))))
 #+end_src
 * Other modes
+** Erlang mode
+#+begin_src emacs-lisp :tangle yes
+  (autoload 'erlang-mode "erlang" "erlang mode" t)
+    
+  (setq auto-mode-alist
+        (append '(("erl\\'" . erlang-mode)) auto-mode-alist))
+#+end_src
+
 ** Cmake mode
 #+begin_src emacs-lisp :tangle yes
   (autoload 'cmake-mode "cmake-mode" "cmake mode" t)
