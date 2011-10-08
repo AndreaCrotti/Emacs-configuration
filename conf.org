@@ -2959,12 +2959,9 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (setq erc-autojoin-channels-alist
         '(("freenode.net"
            "#emacs" "#erc" "#ruby-lang" 
-           "#python" "#git" "#github"
-           "#c" "#c++" "#conkeror"
-           "#org-mode" "#android" "#latex"
-           "#org-mode" "#postfix" "#procmail"
-           "#android-devel" "#libav-devel"
-           "#archlinux" "#xmonad"
+           "#python" "#git" "#github" "#c" "#c++" "#conkeror"
+           "#android" "#latex" "#org-mode" "#postfix" "#procmail"
+           "#android-devel" "#libav-devel" "#archlinux" "#xmonad" "#ledger"
            "#scipy" "#haskell" "#macosx")))
   
   ;; highlight in the modeline only when my nick is cited
