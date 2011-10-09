@@ -1,6 +1,5 @@
-#!/bin/bash 
+#!/bin/bash
  # --
-
 
 # Author: Andreas Roehler <andreas.roehler@online.de>
 
@@ -16,39 +15,51 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # Commentary:
 
-#  tests Emacs python-mode
-#
-# Code:
+# Check resp. edit the vars pointing to the directories/files
+# holding your python-mode and Emacsen for test
 
-# Edit the vars pointing to the directories/files
-# holding your python-mode for test
+# alternativly select Emacs by giving $EMACS_SOURCE_DIR
+# as shell arg
+# ./syntax-test.sh EMACS_SOURCE_DIR
+# Emacs will be looked up: ${EMACS_SOURCE_DIR}/src/emacs
 
-# assumes python-mode files in current directory
+# assumes test files in current directory
 
-# the path 
+# the path
 PDIR=`pwd`
+
+# write PATH-TO-EMACS source code directory here
+# EMACS_SOURCE_DIR="$HOME/emacs-20110426"
+EMACS_SOURCE_DIR=
 
 # python-mode file to load
 if [ -s "../python-components-mode.el" ];
     then
     PYTHONMODE="../python-components-mode.el"
-elif [ -s "../python-joined-mode.el" ];
-then
-    PYTHONMODE="../python-joined-mode.el"
-else
+    else
     PYTHONMODE="../python-mode.el"
 fi
+
+if [ $1 ]; then
+    EMACS_SOURCE_DIR=$1
+fi
+
+if [ $EMACS_SOURCE_DIR ]; then
+
+EMACS="${EMACS_SOURCE_DIR}/src/emacs"
+
+# else
+# EMACS=emacs
+# when installed Emacs shall be used, CCCMDS must be set
+# CCCMDS="${EMACS_SOURCE_DIR}/lisp/progmodes/cc-cmds.el"
 
 MODEDIR=${PDIR%%/test}
 echo "\$MODEDIR: $MODEDIR"
 
-ERG=$(echo $LOGNAME | sed 's/^s\(.*\)/m/')
-
-if [ $ERG == "m" ]; then 
-    EMACS_VERZEICHNIS="$HOME/emacs-20110426"
-else
-    EMACS_VERZEICHNIS="~/emacs-20110426"
-fi
+CCCMDS="${EMACS_SOURCE_DIR}/lisp/progmodes/cc-cmds.el"
+# file holding the tests
+TESTFILE="py-bug-numbered-tests.el"
+TESTFILE2="python-mode-test.el"
 
 EMACS23="$HOME/emacs-23.3/src/emacs-23.3.1"
 EMACS23python="$HOME/emacs-23.3/lisp/progmodes/python.el"
@@ -90,7 +101,4 @@ else
     echo "\$MODEDIR/python-mode.el: $MODEDIR/python-mode.el"
     $EMACS23 -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'python)(unload-feature 'python t))" -load "$PDIR/$TESTFILE3" --load $MODEDIR/python-mode.el --eval "(sit-for 0.1)" --funcall erste-tqs-syntax-test
 
-
 fi
-
-

@@ -24,8 +24,12 @@
 
 # assumes python-mode files in current directory
 
-# the path 
+# the path
 PDIR=`pwd`
+
+# write PATH-TO-EMACS source code directory here
+# EMACS_SOURCE_DIR="$HOME/emacs-20110426"
+EMACS_SOURCE_DIR=
 
 # python-mode file to load
 if [ -s "../python-components-mode.el" ];
@@ -35,22 +39,36 @@ if [ -s "../python-components-mode.el" ];
     PYTHONMODE="../python-mode.el"
 fi
 
+if [ $1 ]; then
+    EMACS_SOURCE_DIR=$1
+fi
+
+
+if [ $EMACS_SOURCE_DIR ]; then
+
+EMACS="${EMACS_SOURCE_DIR}/src/emacs"
+
+# else
+# EMACS=emacs
+# when installed Emacs shall be used, CCCMDS must be set
+# CCCMDS="${EMACS_SOURCE_DIR}/lisp/progmodes/cc-cmds.el"
+
 MODEDIR=${PDIR%%/test}
 echo "\$MODEDIR: $MODEDIR"
 
-ERG=$(echo $LOGNAME | sed 's/^s\(.*\)/m/')
+# ERG=$(echo $LOGNAME | sed 's/^s\(.*\)/m/')
+# if [ $ERG == "m" ]; then
 
-if [ $ERG == "m" ]; then 
-    EMACS_VERZEICHNIS="$HOME/emacs-20110426"
-else
-    EMACS_VERZEICHNIS="~/emacs-20110426"
-fi
+    # EMACS_SOURCE_DIR="$HOME/emacs-20110426"
+# else
 
-CCCMDS="${EMACS_VERZEICHNIS}/lisp/progmodes/cc-cmds.el"
+    # EMACS_SOURCE_DIR="~/emacs-20110426"
+# fi
+
+CCCMDS="${EMACS_SOURCE_DIR}/lisp/progmodes/cc-cmds.el"
 # file holding the tests
 TESTFILE="py-bug-numbered-tests.el"
 TESTFILE2="python-mode-test.el"
-EMACS="${EMACS_VERZEICHNIS}/src/emacs"
 
 $EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'python-mode)(unload-feature 'python-mode t))" --eval "(add-to-list 'load-path \"$PDIR/\")" --eval "(add-to-list 'load-path \"$MODEDIR/\")" --eval "(setq py-install-directory \"../\")" -load "$PDIR/$PYTHONMODE" -load "$PDIR/$TESTFILE" -load "$PDIR/$TESTFILE2" -load $CCCMDS --eval "(quietly-read-abbrev-file (expand-file-name \"~/.abbrev_defs\"))" \
 --funcall nested-dictionaries-indent-lp:328791-test \
@@ -116,6 +134,10 @@ $EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'py
 --funcall indent-match-import-pkg-lp-852500-test \
 --funcall py-hungry-delete-backwards-needs-cc-lp-850595-test \
 --funcall py-shift-line-when-no-region-lp-855565-test \
+--funcall indentation-of-from-import-continuation-lines-lp-858041-test \
+--funcall indentation-after-one-line-suites-lp:858044-test \
+--funcall py-compute-indentation-wrong-at-eol-lp-858043-test \
+--funcall comment-indentation-level-lp-869854-test \
 --funcall py-shebang-ipython-env-lp-849293-test \
 --funcall py-shebang-consider-ipython-lp-849293-test \
 \
@@ -151,10 +173,28 @@ $EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'py
 --funcall eofs-attribut-test \
 --funcall args-list-first-line-indent-test \
 --funcall py-partial-expression-test \
---funcall py-execute-block-test \
 --funcall close-block-test \
 --funcall py-insert-super-python2-test \
 --funcall py-insert-super-python3-test \
+--funcall py-shift-block-test \
+--funcall nesting-if-test \
+--funcall py-end-of-print-statement-test \
 --funcall UnicodeEncodeError-python3-test 
+# --funcall py-execute-block-test \
 
+else
 
+cat    <<EOF
+usage: ${0##*/} EMACS_SOURCE_DIR
+
+This script tests python-mode with non-installed Emacsen in a Bash.
+
+It assumes being in directory "test" below python-mode.el and relies on source-code directories as delivered by bzr branch.
+
+Edit \$EMACS_SOURCE_DIR to specify an Emacs or put "PATH-TO-EMACS-SOURCES" as shell argument.
+
+To run tests with installed Emacs, load available test-files like "py-bug-numbered-tests.el" and do "M-x py-run-bug-numbered-tests". Alternatively you may edit variables making it point according to you installation.
+
+EOF
+
+fi

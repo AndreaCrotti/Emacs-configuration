@@ -69,6 +69,9 @@
          'py-execute-block-test
          'multiline-list-indent-test
          'close-block-test
+         'py-shift-block-test
+         'nesting-if-test
+         'py-end-of-print-statement-test
 
          )))
 
@@ -760,6 +763,68 @@ if __name__==\"__main__\":
 (defun close-block-base ()
   (goto-char 102)
   (assert (eq 4 (py-close-block)) nil "close-block-test failed"))
+
+(defun py-shift-block-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python2
+# -*- coding: utf-8 -*-
+
+class OrderedDict1(dict):
+    \"\"\"
+    This implementation of a dictionary keeps track of the order
+    in which keys were inserted.
+    \"\"\"
+
+    def __init__(self, d={}):
+        self._keys = d.keys()
+        dict.__init__(self, d)
+         "))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'py-shift-block-base arg teststring)))
+
+(defun py-shift-block-base ()
+  (goto-char 237)
+  (assert (eq 24 (py-shift-block-right)) nil "py-shift-block-test #1 failed")
+  (assert (eq 8 (py-shift-block-left)) nil "py-shift-block-test #1 failed"))
+
+(defun nesting-if-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+if foo:
+    if bar:
+        pass
+    else:
+        pass
+else:
+    pass
+
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'nesting-if-test-base arg teststring)))
+
+(defun nesting-if-test-base ()
+    (goto-char 105)
+    (assert (eq 0 (py-compute-indentation)) nil "nesting-if-test failed"))
+
+(defun py-end-of-print-statement-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+def usage():
+    print \"\"\"Error: %s
+somme errors
+\"\"\" % (
+          os.path.basename(sys.argv[0]))
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'py-end-of-print-statement-base arg teststring)))
+
+(defun py-end-of-print-statement-base ()
+    (goto-char 66)
+    (assert (eq 146 (py-end-of-statement)) nil "py-end-of-print-statement-test failed"))
 
 (provide 'python-mode-test)
 ;;; python-mode-test.el ends here
