@@ -3049,16 +3049,22 @@ jump to the top (outermost) exception in the exception stack."
 ;; Electric deletion
 (defun py-electric-backspace (&optional arg)
   "Delete preceding character or level of indentation.
-With ARG do that ARG times. "
+With ARG do that ARG times.
+
+Returns column reached. "
   (interactive "*p")
-  (let ((arg (or arg 1)))
+  (let ((arg (or arg 1))
+        erg)
     (dotimes (i arg)
       (if (looking-back "^[ \t]+")
           (let* ((remains (% (current-column) py-indent-offset)))
             (if (< 0 remains)
                 (delete-char (- remains))
               (indent-line-to (- (current-indentation) py-indent-offset))))
-        (delete-char (- 1))))))
+        (delete-char (- 1)))))
+  (setq erg (current-column))
+  (when (interactive-p) (message "%s" erg))
+  erg)
 
 (defun py-electric-delete (&optional arg)
   "Delete preceding or following character or levels of whitespace.
@@ -5264,6 +5270,19 @@ Returns indentation if class found, nil otherwise. "
     (if (eobp)
         (setq erg nil)
       (while (and (setq erg (py-down-statement))(or (py-in-string-or-comment-p)(not (looking-at py-class-re))))))
+    (when (interactive-p) (message "%s" erg))
+    erg))
+
+(defun py-down-def-or-class ()
+  "Go to the beginning of next def-or-class below in buffer.
+
+Returns indentation if def-or-class found, nil otherwise. "
+  (interactive)
+  (let* ((orig (point))
+         erg)
+    (if (eobp)
+        (setq erg nil)
+      (while (and (setq erg (py-down-statement))(or (py-in-string-or-comment-p)(not (looking-at py-def-or-class-re))))))
     (when (interactive-p) (message "%s" erg))
     erg))
 ;; Py-down commands end
