@@ -159,9 +159,6 @@
 	      (current-indentation)))
 	0))))
 
-(add-to-list 'auto-mode-alist '("\\.bat\\'" . batch-mode))
-(add-to-list 'auto-mode-alist '("\\.cmd\\'" . batch-mode))
-  
 (provide 'batch-mode)
 
 ;;; batch-mode.el ends here

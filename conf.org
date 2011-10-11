@@ -2412,6 +2412,13 @@ Emacs is no more about text editing than astronomy is about telescopes.
                               (file-name-nondirectory buffer-file-name)))))
 #+end_src
 * Other modes
+** Batch mode
+#+begin_src emacs-lisp :tangle yes
+  (autoload 'batch-mode "batch-mode" t)
+  (add-to-list 'auto-mode-alist '("\\.bat\\'" . batch-mode))
+  (add-to-list 'auto-mode-alist '("\\.cmd\\'" . batch-mode))
+#+end_src
+
 ** Erlang mode
 #+begin_src emacs-lisp :tangle yes
   (autoload 'erlang-mode "erlang" "erlang mode" t)
