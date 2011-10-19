@@ -604,7 +604,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
   ;; In this way is too simplicistic
   
   (defvar *project-roots*
-    '(".git" ".hg" "Rakefile" "Makefile" "README" "build.xml")
+    '(".git" ".hg" "Rakefile" "Makefile" "README" "build.xml" "setup.py")
     "The presence of any file/directory in this list indicates a project root.")
   
   (defun ca-root-match(root names)
