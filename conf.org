@@ -2392,7 +2392,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+begin_src emacs-lisp :tangle yes
   (autoload 'django-html-mode "django-html-mode" "mode for django templates" t)
   (add-to-list 'auto-mode-alist
-               '("views" . django-html-mode))
+               '("views$" . django-html-mode))
 #+end_src
 
 ** Debugging
