@@ -603,9 +603,8 @@ Emacs is no more about text editing than astronomy is about telescopes.
   ;; check also with the Makefiles in general if we can do something like this
   ;; In this way is too simplicistic
   
-  (defvar *project-roots*
-    '(".git" ".hg" "Rakefile" "Makefile" "README" "build.xml")
-    "The presence of any file/directory in this list indicates a project root.")
+  (setq ca-project-roots
+    '(".git" ".hg" "Rakefile" "Makefile" "README" "build.xml" "setup.py"))
   
   (defun ca-root-match(root names)
     (member (car names) (directory-files root)))
@@ -624,14 +623,12 @@ Emacs is no more about text editing than astronomy is about telescopes.
     (when (null root)
       (setq root default-directory))
     (cond
-     ((ca-root-matches root *project-roots*)
+     ((ca-root-matches root ca-project-roots)
       (expand-file-name root))
      ((equal (expand-file-name root) "/") nil)
      (t
       ;; recursive call
       (ca-find-project-root (concat (file-name-as-directory root) "..")))))
-  
-  (ca-find-project-root)
 #+end_src
 
 *** Select current line
@@ -2117,6 +2114,22 @@ Emacs is no more about text editing than astronomy is about telescopes.
   
 #+end_src
 
+*** Run setup.py commands
+#+begin_src emacs-lisp :tangle yes
+  ;TODO: the ca-find-project-root is not python specific
+  (defun ca-python-setup ()
+    (interactive)
+    (let 
+        ((project-root (ca-find-project-root))
+         (command (completing-read "command to launch: "
+                                   '("test" "develop" "bdist_egg")
+                                   nil 'confirm nil "test")))
+      (with-temp-buffer
+        (compilation-mode)
+        (shell-command (format "cd %s && %s setup.py %s" 
+                               project-root py-python-command command)))))
+#+end_src
+
 ** Haskell mode
 #+begin_src emacs-lisp :tangle yes
   (add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
@@ -2392,7 +2405,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+begin_src emacs-lisp :tangle yes
   (autoload 'django-html-mode "django-html-mode" "mode for django templates" t)
   (add-to-list 'auto-mode-alist
-               '("views" . django-html-mode))
+               '("views$" . django-html-mode))
 #+end_src
 
 ** Debugging
