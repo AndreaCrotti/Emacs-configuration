@@ -2516,7 +2516,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Ledger, accounting mode
 #+begin_src emacs-lisp :tangle yes
-  (autoload 'ledger-mode "ledger" "ledger mode for accounting" t)
+;;  (autoload 'ledger-mode "ledger" "ledger mode for accounting" t)
 #+end_src
 
 ** Conf mode
@@ -2541,6 +2541,9 @@ Emacs is no more about text editing than astronomy is about telescopes.
   
   (add-to-list 'auto-mode-alist
                '("shorewall" . conf-space-mode))
+  
+  (add-to-list 'auto-mode-alist
+               '("pylintrc" . conf-unix-mode))
 #+end_src
 
 ** Arch linux
