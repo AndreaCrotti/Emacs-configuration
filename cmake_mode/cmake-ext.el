@@ -9,6 +9,9 @@
 ;; cmake version 2.8.6
 ;; see how to generate for other things as well
 
+;; something like this can be used to retrieve everything at run-time instead
+;; (split-string (shell-command-to-string "cmake --help-command-list"))
+
 (defun cmake-show-help ()
   "Show the variable or function documentation"
   (interactive)

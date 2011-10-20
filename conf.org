@@ -2448,6 +2448,12 @@ Emacs is no more about text editing than astronomy is about telescopes.
         (append '(("CMakeLists\\.txt\\'" . cmake-mode)
                   ("\\.cmake\\'" . cmake-mode))
                 auto-mode-alist))
+  
+  (setq cmake-mode-hook ())
+  (add-to-list 'cmake-mode-hook
+               '(lambda ()
+                  (local-set-key [f9] 'cmake-help-command)))
+  
 #+end_src
 
 ** Anything settings
