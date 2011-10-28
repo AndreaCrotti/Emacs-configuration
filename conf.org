@@ -1669,7 +1669,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
   ;TODO: check the issue with auto completion/yasnippet and org-mode
   
   (dolist
-      (ca-ac-mode '(nesc-mode org-mode html-mode xml-mode haskell-mode ned-mode cpp-omnet-mode))
+      (ca-ac-mode '(nesc-mode cmake-mode org-mode html-mode xml-mode haskell-mode ned-mode cpp-omnet-mode))
     (add-to-list 'ac-modes ca-ac-mode))
   
   ; this is used for trigger ac actions from org-mode also
