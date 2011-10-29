@@ -60,6 +60,14 @@ int tail_fcn(int q);
 
 int __gthrw_foo (int arg1) { }
 
+/* TEST: multiple concatenations */
+
+class mymodule_some_foo_thing_bar;
+
+/* TEST: typedef'ed concatenations */
+
+typedef foo_moose__bar mymoose_type;
+
 /* TEST: macros using macros */
 int foo;
 

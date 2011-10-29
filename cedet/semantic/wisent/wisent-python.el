@@ -46,7 +46,7 @@
 
 ;; Try to load python support, but fail silently since it is only used
 ;; for optional functionality
-;; (require 'python nil t)
+(require 'python nil t)
 
 (require 'semantic-wisent)
 (require 'wisent-python-wy)

@@ -899,8 +899,9 @@ instead."
 		;; Find-file-match allows a tool to make sure the tag is
 		;; 'live', somewhere in a buffer.
 		(cond ((eq find-file-match 'name)
-		       (let ((f (semanticdb-full-filename nametable)))
-			 (semantic--tag-put-property ntag :filename f)))
+		       (or (semantic--tag-get-property ntag :filename)
+			   (let ((f (semanticdb-full-filename nametable)))
+			     (semantic--tag-put-property ntag :filename f))))
 		      ((and find-file-match ntab)
 		       (semanticdb-get-buffer ntab))
 		      )

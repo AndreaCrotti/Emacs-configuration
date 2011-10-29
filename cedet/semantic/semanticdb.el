@@ -1035,4 +1035,5 @@ If file does not have tags available, then load the file, and create them."
 
 (provide 'semanticdb)
 
+(require 'semanticdb-ref)
 ;;; semanticdb.el ends here

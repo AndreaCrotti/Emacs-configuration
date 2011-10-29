@@ -433,6 +433,17 @@ calling this one."
   "Call `find-file-noselect' with various features turned off.
 Use this when referencing a file that will be soon deleted.
 FILE, NOWARN, RAWFILE, and WILDCARDS are passed into `find-file-noselect'"
+  ;; Hack -
+  ;; Check if we are in set-auto-mode, and if so, warn about this.
+  (when (or  (and (featurep 'emacs) (boundp 'keep-mode-if-same))
+	     (and (featurep 'xemacs) (boundp 'just-from-file-name)))
+    (let ((filename (or (and (boundp 'filename) filename)
+			"(unknown)")))
+      (message "WARNING: semantic-find-file-noselect called for \
+%s while in set-auto-mode for %s.  You should call the responsible function \
+into `mode-local-init-hook'." file filename)
+      (sit-for 1)))
+
   (let* ((recentf-exclude '( (lambda (f) t) ))
 	 ;; This is a brave statement.  Don't waste time loading in
 	 ;; lots of modes.  Especially decoration mode can waste a lot

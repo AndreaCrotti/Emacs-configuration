@@ -193,20 +193,24 @@ It should also include other symbols GCC was compiled with.")
       (semantic-add-system-include D 'c-mode))
     (dolist (D (semantic-gcc-get-include-paths "c++"))
       (semantic-add-system-include D 'c++-mode)
-      (let ((cppconfig (concat D "/bits/c++config.h")))
-        ;; Presumably there will be only one of these files in the try-paths list...
-        (when (file-readable-p cppconfig)
+      (let ((cppconfig (list (concat D "/bits/c++config.h") (concat D "/sys/cdefs.h"))))
+	(dolist (cur cppconfig)
+	  ;; Presumably there will be only one of these files in the try-paths list...
+	  (when (file-readable-p cur)
           ;; Add it to the symbol file
           (if (boundp 'semantic-lex-c-preprocessor-symbol-file)
               ;; Add to the core macro header list
-              (add-to-list 'semantic-lex-c-preprocessor-symbol-file cppconfig)
+              (add-to-list 'semantic-lex-c-preprocessor-symbol-file cur)
             ;; Setup the core macro header
-            (setq semantic-lex-c-preprocessor-symbol-file (list cppconfig)))
-          )))
+            (setq semantic-lex-c-preprocessor-symbol-file (list cur)))
+          ))))
     (if (not (boundp 'semantic-lex-c-preprocessor-symbol-map))
         (setq semantic-lex-c-preprocessor-symbol-map nil))
     (dolist (D defines)
       (add-to-list 'semantic-lex-c-preprocessor-symbol-map D))
+    ;; Needed for parsing OS X libc
+    (when (eq system-type 'darwin)
+      (add-to-list 'semantic-lex-c-preprocessor-symbol-map '("__i386__" . "")))
     (when (featurep 'semantic-c)
       (semantic-c-reset-preprocessor-symbol-map))
     nil))

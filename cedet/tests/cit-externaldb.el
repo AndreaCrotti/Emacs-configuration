@@ -106,7 +106,7 @@
 				    semanticdbenablefcn
 				    semanticdbclass
 				    cleanupfiles)
-  "Test GNU Global tooling integration if it is available."
+  "Test external database tooling integration if it is available."
   (let ((bufftokill (find-file (cit-file "Project.ede"))))    
 
     ;; 1) Create
@@ -114,7 +114,7 @@
     ;; database.
     (funcall createfcn default-directory)
     
-    ;; 2) force ede's find file to use gnu global
+    ;; 2) force ede's find file to use external tool
     (require 'ede-locate)
     (let* ((ede-locate-setup-options (list edelocatesym))
 	   (base default-directory)
@@ -141,7 +141,7 @@
     ;; After removing the old locate system, restore the old one.
     (ede-enable-locate-on-project)
 
-    ;; 3) Look up tags with a GNU Global database
+    ;; 3) Look up tags with a external database
     (if semanticdbenablefcn
 	(save-excursion
 	  (let ((killme (find-file (cit-file "src/main.cpp"))))
@@ -159,6 +159,11 @@
 		       symrefsym
 		       (semanticdb-find-result-length res)))
 
+	      (dolist (tag (semanticdb-strip-find-results res 'name))
+		(if (not (semantic--tag-get-property tag :filename))
+		    (error "Tag %s does not point to a specific file."
+			   (semantic-tag-name tag))))
+
 	      (kill-buffer killme))))
       ;; else, message
       (message "Skipping %s database test : Nothing to test." symrefsym))
@@ -171,7 +176,7 @@
     ;; Do the tests again.
     (cit-symref-quick-find-test)
     
-    ;; Delete the GTAGS and other files.
+    ;; Delete the files created by external tool.
     (dolist (F cleanupfiles)
       (when (file-exists-p F)
 	(delete-file F)))

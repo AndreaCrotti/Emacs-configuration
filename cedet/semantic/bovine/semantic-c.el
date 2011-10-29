@@ -107,6 +107,7 @@ NOTE: In process of obsoleting this."
      ("__wur" . "")
      ("__declspec" . ((spp-arg-list ("foo") 1 . 2)))
      ("__attribute__" . ((spp-arg-list ("foo") 1 . 2)))
+     ("__asm" . ((spp-arg-list ("foo") 1 . 2)))
      )
   "List of symbols to include by default.")
 
@@ -118,6 +119,13 @@ part of the preprocessor map.")
 (defun semantic-c-reset-preprocessor-symbol-map ()
   "Reset the C preprocessor symbol map based on all input variables."
   (when (featurep 'semantic-c)
+    (remove-hook 'mode-local-init-hook 'semantic-c-reset-preprocessor-symbol-map)
+    ;; Initialize semantic-lex-spp-macro-symbol-obarray with symbols.
+    (setq-mode-local c-mode
+		     semantic-lex-spp-macro-symbol-obarray
+		     (semantic-lex-make-spp-table
+		      (append semantic-lex-c-preprocessor-symbol-map-builtin
+			      semantic-lex-c-preprocessor-symbol-map)))
     (let ((filemap nil)
 	  )
       (when (and (not semantic-c-in-reset-preprocessor-table)
@@ -140,17 +148,17 @@ part of the preprocessor map.")
 		    (error (message "Error updating tables for %S"
 				    (object-name table)))))
 		(setq filemap (append filemap (oref table lexical-table)))
-		)
-	      ))))
+		;; Update symbol obarray
+		(setq-mode-local c-mode
+				 semantic-lex-spp-macro-symbol-obarray
+				 (semantic-lex-make-spp-table
+				  (append semantic-lex-c-preprocessor-symbol-map-builtin
+					  semantic-lex-c-preprocessor-symbol-map
+					  filemap)))))))))))
 
-      (setq-mode-local c-mode
-		       semantic-lex-spp-macro-symbol-obarray
-		       (semantic-lex-make-spp-table
-			(append semantic-lex-c-preprocessor-symbol-map-builtin
-				semantic-lex-c-preprocessor-symbol-map
-				filemap))
-		       )
-      )))
+;; Make sure the preprocessor symbols are set up when mode-local kicks
+;; in.
+(add-hook 'mode-local-init-hook 'semantic-c-reset-preprocessor-symbol-map)
 
 ;;;###autoload
 (defcustom semantic-lex-c-preprocessor-symbol-map nil
@@ -248,7 +256,13 @@ Return the defined symbol as a special spp lex token."
 	   (raw-stream
 	    (semantic-lex-spp-stream-for-macro (save-excursion
 						 (semantic-c-end-of-macro)
-						 (point))))
+						 ;; HACK - If there's a C comment after
+						 ;; the macro, do not parse it.
+						 (if (looking-back "/\\*.*")
+						     (progn
+						       (goto-char (match-beginning 0))
+						       (1- (point)))
+						   (point)))))
 	   )
 
       ;; Only do argument checking if the paren was immediatly after
@@ -296,9 +310,10 @@ Moves completely over balanced #if blocks."
       (cond
        ((looking-at "^\\s-*#\\s-*if")
 	;; We found a nested if.  Skip it.
-	;; @TODO - can we use the new c-scan-conditionals
-	;; - available in Emacs/CVS as of AUG 2009
-	(c-forward-conditional 1))
+	(if (fboundp 'c-scan-conditionals)
+	    (goto-char (c-scan-conditionals 1))
+	  ;; For older Emacsen, but this will set the mark.
+	  (c-forward-conditional 1)))
        ((looking-at "^\\s-*#\\s-*elif")
 	;; We need to let the preprocessor analyze this one.
 	(beginning-of-line)
@@ -2049,6 +2064,8 @@ actually in their parent which is not accessible.")
 
   (setq semantic-lex-analyzer #'semantic-c-lexer)
   (add-hook 'semantic-lex-reset-hooks 'semantic-lex-spp-reset-hook nil t)
+  (when (eq major-mode 'c++-mode)
+    (add-to-list 'semantic-lex-c-preprocessor-symbol-map '("__cplusplus" . "")))
   )
 
 ;;;###autoload
@@ -2184,8 +2201,6 @@ actually in their parent which is not accessible.")
       )))
 
 (provide 'semantic-c)
-
-(semantic-c-reset-preprocessor-symbol-map)
 
 ;;; semantic-c.el ends here
 

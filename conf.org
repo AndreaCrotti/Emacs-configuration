@@ -1507,6 +1507,8 @@ Emacs is no more about text editing than astronomy is about telescopes.
   ; open in another window and restore the configuration on closing
   (setq org-agenda-window-setup 'other-window)
   (setq org-agenda-restore-windows-after-quit t)
+  ; don't want to see the finished tasks in the agenda
+  (setq org-agenda-skip-scheduled-if-done t)
 #+end_src
 
 ** Org functionalities in other modes

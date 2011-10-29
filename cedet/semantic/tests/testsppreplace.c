@@ -4,7 +4,10 @@
 /* TEST: The EMU keyword doesn't screw up the function defn. */
 #define EMU
 #define EMU2 /*comment*/
-char EMU parse_around_emu EMU2 (EMU)
+#define EMU3 /* multiline
+              * comment
+              */
+char EMU parse_around_emu EMU2 (EMU) EMU3
 {
 }
 
@@ -89,6 +92,17 @@ int tail_fcn tail_fail(q);
 #define __gthrw_(name) __gthrw_ ## name
 
 int __gthrw_(foo) (int arg1) { }
+
+/* TEST: multiple concatenations */
+#define module(a,b) mymodule_##a##_foo_##b##_bar
+
+class module(some,thing);
+
+/* TEST: typedef'ed concatenations */
+#define defMyType(thing) \
+    typedef foo_##thing##__bar my##thing##_type;
+
+defMyType(moose)
 
 /* TEST: macros using macros */
 #define macro_foo foo
