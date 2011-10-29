@@ -1671,7 +1671,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
   ;TODO: check the issue with auto completion/yasnippet and org-mode
   
   (dolist
-      (ca-ac-mode '(nesc-mode org-mode html-mode xml-mode haskell-mode ned-mode cpp-omnet-mode))
+      (ca-ac-mode '(nesc-mode cmake-mode org-mode html-mode xml-mode haskell-mode ned-mode cpp-omnet-mode))
     (add-to-list 'ac-modes ca-ac-mode))
   
   ; this is used for trigger ac actions from org-mode also
@@ -1942,6 +1942,11 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+begin_src emacs-lisp :tangle yes
   (add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
   (autoload 'clojure-mode "clojure-mode" "clojure mode" t)
+  
+  (defun turn-on-paredit ()
+    (paredit-mode t))
+  
+  (add-hook 'clojure-mode-hook 'turn-on-paredit)
 #+end_src
 
 *** Swank configuration for clojure
@@ -1964,6 +1969,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
          (string-match "finished" string)
          (not 
           (with-current-buffer buffer
+            (search-forward "WARNING" nil t)
             (search-forward "warning" nil t))))
         (run-with-timer 1 nil
                         'kill-buffer
