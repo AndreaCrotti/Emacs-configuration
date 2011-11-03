@@ -127,3 +127,6 @@
 [submodule "redmine-el"]
 	path = redmine-el
 	url = git://github.com/fukamachi/redmine-el.git
+[submodule "yasnippet"]
+	path = yasnippet
+	url = git://github.com/capitaomorte/yasnippet.git

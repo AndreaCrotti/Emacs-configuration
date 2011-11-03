@@ -1542,7 +1542,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (setq yas/root-directory 
         (list
          (make-conf-path "yasnippet-snippets/")
-         (make-conf-path "yasnippet-mirror/snippets/")))
+         (make-conf-path "yasnippet/snippets/")))
     
   ;; Maybe needed to set to fixed for some modes
   (setq yas/indent-line 'auto)
@@ -2433,6 +2433,11 @@ Emacs is no more about text editing than astronomy is about telescopes.
                               (file-name-nondirectory buffer-file-name)))))
 #+end_src
 * Other modes
+** Scala mode
+#+begin_src emacs-lisp :tangle yes
+  (require 'scala-mode-auto)
+#+end_src
+
 ** Batch mode
 #+begin_src emacs-lisp :tangle yes
   (autoload 'batch-mode "batch-mode" t)

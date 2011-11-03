@@ -25,7 +25,9 @@
 # assumes python-mode files in current directory
 
 # the path
+# needs being in `test' directory
 PDIR=`pwd`
+
 
 # write PATH-TO-EMACS source code directory here
 # EMACS_SOURCE_DIR="$HOME/emacs-20110426"
@@ -53,9 +55,6 @@ EMACS="${EMACS_SOURCE_DIR}/src/emacs"
 # when installed Emacs shall be used, CCCMDS must be set
 # CCCMDS="${EMACS_SOURCE_DIR}/lisp/progmodes/cc-cmds.el"
 
-MODEDIR=${PDIR%%/test}
-echo "\$MODEDIR: $MODEDIR"
-
 # ERG=$(echo $LOGNAME | sed 's/^s\(.*\)/m/')
 # if [ $ERG == "m" ]; then
 
@@ -65,12 +64,22 @@ echo "\$MODEDIR: $MODEDIR"
     # EMACS_SOURCE_DIR="~/emacs-20110426"
 # fi
 
+HIGHL="highlight-indentation.el"
+CLMACS="${EMACS_SOURCE_DIR}/lisp/emacs-lisp/cl-macs.el"
+BYTECOMP="${EMACS_SOURCE_DIR}/lisp/emacs-lisp/bytecomp.el"
+CUSTOM="${EMACS_SOURCE_DIR}/lisp/custom.el"
+ANSICOLOR="${EMACS_SOURCE_DIR}/lisp/ansi-color.el"
+COMINT="${EMACS_SOURCE_DIR}/lisp/comint.el"
 CCCMDS="${EMACS_SOURCE_DIR}/lisp/progmodes/cc-cmds.el"
+SHELL="${EMACS_SOURCE_DIR}/lisp/shell.el"
+PYMACS="../pymacs/pymacs.el"
 # file holding the tests
 TESTFILE="py-bug-numbered-tests.el"
 TESTFILE2="python-mode-test.el"
 
-$EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'python-mode)(unload-feature 'python-mode t))" --eval "(add-to-list 'load-path \"$PDIR/\")" --eval "(add-to-list 'load-path \"$MODEDIR/\")" --eval "(setq py-install-directory \"../\")" -load "$PDIR/$PYTHONMODE" -load "$PDIR/$TESTFILE" -load "$PDIR/$TESTFILE2" -load $CCCMDS --eval "(quietly-read-abbrev-file (expand-file-name \"~/.abbrev_defs\"))" \
+echo "\$PYMACS: $PYMACS"
+
+$EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'python-mode)(unload-feature 'python-mode t))" --eval "(add-to-list 'load-path \"$PDIR/\")" --eval "(add-to-list 'load-path \"$TESTDIR/\")" --eval "(setq py-install-directory \"..\")" -load "$PYMACS" -load $CCCMDS -load $COMINT -load $SHELL -load $ANSICOLOR -load $CLMACS -load $BYTECOMP -load $CUSTOM -load "../$HIGHL" -load $PYTHONMODE -load "$PDIR/$TESTFILE" -load "$PDIR/$TESTFILE2" --eval "(quietly-read-abbrev-file (expand-file-name \"~/.abbrev_defs\"))" \
 --funcall nested-dictionaries-indent-lp:328791-test \
 --funcall triple-quoted-string-dq-lp:302834-test \
 --funcall fore-00007F-breaks-indentation-lp:328788-test \
@@ -87,7 +96,6 @@ $EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'py
 --funcall nested-indents-lp:328775-test \
 --funcall imenu-matches-in-docstring-lp:436285-test \
 --funcall exceptions-not-highlighted-lp:473525-test \
---funcall UnicodeEncodeError-lp:550661-test \
 --funcall previous-statement-lp:637955-test \
 --funcall inbound-indentation-multiline-assignement-lp:629916-test \
 --funcall indentation-of-continuation-lines-lp:691185-test \
@@ -138,8 +146,12 @@ $EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'py
 --funcall indentation-after-one-line-suites-lp:858044-test \
 --funcall py-compute-indentation-wrong-at-eol-lp-858043-test \
 --funcall comment-indentation-level-lp-869854-test \
---funcall py-shebang-ipython-env-lp-849293-test \
---funcall py-shebang-consider-ipython-lp-849293-test \
+--funcall indentation-wrong-after-multi-line-parameter-list-lp-871698-test \
+--funcall no-indent-after-continue-lp-872676-test \
+--funcall indent-after-inline-comment-lp-873372-test \
+--funcall else-clause-indentation-lp-874470-test \
+--funcall indent-after-multiple-except-statements-lp:883815-test \
+--funcall incorrect-use-of-region-in-py-shift-left-lp:875951-test \
 \
 --funcall multiline-list-indent-test \
 --funcall py-beginning-of-block-test \
@@ -174,13 +186,19 @@ $EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'py
 --funcall args-list-first-line-indent-test \
 --funcall py-partial-expression-test \
 --funcall close-block-test \
---funcall py-insert-super-python2-test \
---funcall py-insert-super-python3-test \
 --funcall py-shift-block-test \
 --funcall nesting-if-test \
 --funcall py-end-of-print-statement-test \
---funcall UnicodeEncodeError-python3-test 
-# --funcall py-execute-block-test \
+--funcall nested-try-test \
+--funcall nested-if-test \
+--funcall nested-try-finally-test \
+--funcall py-shebang-consider-ipython-lp-849293-test \
+--funcall py-insert-super-python2-test \
+--funcall py-insert-super-python3-test \
+--funcall UnicodeEncodeError-python3-test \
+--funcall UnicodeEncodeError-lp:550661-test \
+--funcall py-shebang-ipython-env-lp-849293-test \
+--funcall py-execute-block-test \
 
 else
 
@@ -198,3 +216,4 @@ To run tests with installed Emacs, load available test-files like "py-bug-number
 EOF
 
 fi
+

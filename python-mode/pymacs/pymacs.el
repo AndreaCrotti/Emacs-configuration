@@ -527,15 +527,16 @@ The timer is used only if `post-gc-hook' is not available.")
                  "Pymacs helper probably was interrupted at start")))))
         ;; Check that synchronisation occurred.
         (goto-char (match-end 0))
-        (let ((reply (read (current-buffer))))
-          (if (and (pymacs-proper-list-p reply)
-                   (= (length reply) 2)
-                   (eq (car reply) 'version))
-              (unless (string-equal (cadr reply) "@VERSION@")
-                (pymacs-report-error
-                 "Pymacs Lisp version is @VERSION@, Python is %s"
-                 (cadr reply)))
-            (pymacs-report-error "Pymacs got an invalid initial reply")))))
+        ;; (let ((reply (read (current-buffer))))
+        ;;   (if (and (pymacs-proper-list-p reply)
+        ;;            (= (length reply) 2)
+        ;;            (eq (car reply) 'version))
+        ;;       (unless (string-equal (cadr reply) "@VERSION@")
+        ;;         (pymacs-report-error
+        ;;          "Pymacs Lisp version is @VERSION@, Python is %s"
+        ;;          (cadr reply)))
+        ;;     (pymacs-report-error "Pymacs got an invalid initial reply")))
+))
     (when pymacs-use-hash-tables
       (if pymacs-weak-hash
           ;; A previous Pymacs session occurred in *this* Emacs session.  Some

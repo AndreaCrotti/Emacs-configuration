@@ -28,13 +28,13 @@
 ;; delivers "assert"
 (load "~/emacs-23.3/lisp/emacs-lisp/cl-macs.el")
 
-(setq python-mode-tests
+(setq python-mode-syntax-tests
       (list
        'erste-tqs-syntax-test))
 
-(defun py-run-tests (&optional arg)
+(defun py-run-syntax-tests (&optional arg)
   (interactive "p")
-  (dolist (ele python-mode-tests)
+  (dolist (ele python-mode-syntax-tests)
     (funcall ele arg)))
 
 (defun py-bug-tests-intern (testname &optional arg teststring)
