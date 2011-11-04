@@ -2096,6 +2096,9 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (fundamental-mode)
   (setq py-python-command-args '("-colors" "Linux"))
   (kill-buffer ca-reset-python-test-file)
+  
+  ;;stop pymacs from annoying
+  (setq py-load-python-mode-pymacs-p nil)
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes

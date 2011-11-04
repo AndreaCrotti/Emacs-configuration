@@ -104,6 +104,7 @@
 (when (featurep 'xemacs)
   (require 'highlight-indentation))
 
+(require 'help-fns)
 (eval-when-compile
   (require 'compile)
   (require 'hippie-exp)
@@ -846,8 +847,8 @@ Used for syntactic keywords.  N is the match number (1, 2 or 3)."
      ;; keywords
      (cons (concat "\\<\\(" kw1 "\\)\\>[ \n\t(]") 1)
      ;; builtins when they don't appear as object attributes
-     (list (concat "\\([^. \t]\\|^\\)[ \t]*\\<\\(" kw3 "\\)\\>[ \n\t(]") 2
-           'py-builtins-face)
+     (list (concat "\\([ \t(]\\|^\\)\\<\\(" kw3 "\\)\\>[ \n\t(]") 2
+            'py-builtins-face)
      ;; block introducing keywords with immediately following colons.
      ;; Yes "except" is in both lists.
      (cons (concat "\\<\\(" kw2 "\\)[ \n\t(]") 1)
@@ -2774,8 +2775,8 @@ is inserted at the end.  See also the command `py-clear-queue'."
 
 (defun py-execute-intern (start end &optional regbuf procbuf proc temp file filebuf name)
   (let ((pec (if (string-match "Python3" name)
-         (format "exec(compile(open('%s').read(), '%s', 'exec')) # PYTHON-MODE\n" file file)
-         (format "execfile(r'%s') # PYTHON-MODE\n" file)))
+                 (format "exec(compile(open('%s').read(), '%s', 'exec')) # PYTHON-MODE\n" file file)
+               (format "execfile(r'%s') # PYTHON-MODE\n" file)))
         shell)
     (set-buffer filebuf)
     (erase-buffer)
@@ -2794,10 +2795,10 @@ is inserted at the end.  See also the command `py-clear-queue'."
              (arg (if (string-match name "Python")
                       "-u" "")))
         (start-process name tempbuf shell arg file)
-              (pop-to-buffer tempbuf)
-              (py-postprocess-output-buffer tempbuf)
-              ;; TBD: clean up the temporary file!
-))
+        (pop-to-buffer tempbuf)
+        (py-postprocess-output-buffer tempbuf)
+        ;; TBD: clean up the temporary file!
+        ))
      (proc
       ;; use the existing python shell
       (set-buffer filebuf)
@@ -2808,14 +2809,14 @@ is inserted at the end.  See also the command `py-clear-queue'."
       (if (file-readable-p file)
           (progn
             (py-execute-file proc file pec)
-      (setq py-exception-buffer (cons file (current-buffer)))
-      (if py-shell-switch-buffers-on-execute
-          (progn
-            (pop-to-buffer procbuf)
-            (goto-char (point-max)))
-        (pop-to-buffer regbuf)
-        (message "Output buffer: %s" procbuf))
-      (sit-for 0.1)
+            (setq py-exception-buffer (cons file (current-buffer)))
+            (if py-shell-switch-buffers-on-execute
+                (progn
+                  (pop-to-buffer procbuf)
+                  (goto-char (point-max)))
+              (pop-to-buffer regbuf)
+              (message "Output buffer: %s" procbuf))
+            (sit-for 0.1)
             (delete-file file))
         (message "File not readable: %s" "Do you have write permissions?"))))))
 
@@ -3219,7 +3220,8 @@ subtleties, including the use of the optional ASYNC argument."
             (switch-to-buffer (current-buffer))
             (when (looking-at "[^/\n\r]+")
               (replace-match "#! ")))
-      (insert (concat py-shebang-startstring " " erg "\n")))))
+      (insert (concat py-shebang-startstring " " erg "\n")))
+    (insert (concat "import os; os.chdir(\"" py-execute-directory "\")"))))
 
 (defun py-if-needed-insert-if ()
   "Internal use by py-execute... functions.
@@ -7667,9 +7669,7 @@ in a buffer that doesn't have a local value of `python-buffer'."
 Otherwise inherits from `py-mode-syntax-table'.")
 
 (defvar view-return-to-alist)
-(eval-when-compile (autoload 'help-buffer "help-fns"))
-
-(defvar python-imports)			; forward declaration
+(defvar python-imports)
 
 ;; Fixme: Should this actually be used instead of info-look, i.e. be
 ;; bound to C-h S?  [Probably not, since info-look may work in cases

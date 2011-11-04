@@ -108,6 +108,7 @@
          'py-complete-lp:858621-test
          'incorrect-use-of-region-in-py-shift-left-lp:875951-test
          'indent-after-multiple-except-statements-lp:883815-test
+         'wrongly-highlighted-as-keywords-lp-885144-test
          'py-shebang-consider-ipython-lp-849293-test
          'UnicodeEncodeError-lp:550661-test
          'py-shebang-ipython-env-lp-849293-test
@@ -1962,6 +1963,24 @@ except KeyError:
 (defun indent-after-multiple-except-statements-lp:883815-base ()
     (goto-char 121)
     (assert (eq 4 (py-compute-indentation)) nil "indent-after-multiple-except-statements-lp:883815-test failed"))
+
+(defun wrongly-highlighted-as-keywords-lp-885144-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+date_range = 4
+date_range_max = 3
+latest_sum = 5
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'wrongly-highlighted-as-keywords-lp-885144-base arg teststring)))
+
+(defun wrongly-highlighted-as-keywords-lp-885144-base ()
+  (font-lock-fontify-buffer)
+  (goto-char 55)
+  (assert (eq (get-char-property (point) 'face) 'py-variable-name-face) nil "wrongly-highlighted-as-keywords-lp-885144-test failed"))
+
 
 (provide 'py-bug-numbered-tests)
 ;;; py-bug-numbered-tests.el ends here
