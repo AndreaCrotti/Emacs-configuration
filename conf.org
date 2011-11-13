@@ -2439,6 +2439,8 @@ Emacs is no more about text editing than astronomy is about telescopes.
 ** Scala mode
 #+begin_src emacs-lisp :tangle yes
   (require 'scala-mode-auto)
+  (require 'scala-mode-feature-electric)
+  (scala-electric-mode t)
 #+end_src
 
 ** Batch mode
