@@ -130,3 +130,9 @@
 [submodule "yasnippet"]
 	path = yasnippet
 	url = git://github.com/capitaomorte/yasnippet.git
+[submodule "emacs-eclim"]
+	path = emacs-eclim
+	url = git://github.com/senny/emacs-eclim.git
+[submodule "ensime"]
+	path = ensime
+	url = git://github.com/aemoncannon/ensime.git
