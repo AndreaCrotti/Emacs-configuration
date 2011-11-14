@@ -2441,6 +2441,9 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (require 'scala-mode-auto)
   (require 'scala-mode-feature-electric)
   (scala-electric-mode t)
+  
+  (add-to-list 'load-path
+               (make-conf-path "ensime/src/main/elisp"))
 #+end_src
 
 ** Batch mode
