@@ -2099,6 +2099,12 @@ Emacs is no more about text editing than astronomy is about telescopes.
   
   ;;stop pymacs from annoying
   (setq py-load-python-mode-pymacs-p nil)
+  
+  (add-to-list 'load-path (make-conf-path "python-mode/pymacs"))
+  (require 'pymacs)
+  (setq pymacs-load-path (make-conf-path "ropemacs"))
+  (pymacs-load "ropemacs" "rope-")
+  (setq ropemacs-confirm-saving 'nil)
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes
@@ -2107,7 +2113,6 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (add-to-list 'interpreter-mode-alist '("python" . python-mode))
   (add-to-list 'load-path (make-conf-path "python-mode/test"))
   (autoload 'doctest-mode "doctest-mode" "doc test python mode" t)
-  
 #+end_src
 
 *** Useful functions
