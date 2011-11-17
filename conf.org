@@ -2086,25 +2086,56 @@ Emacs is no more about text editing than astronomy is about telescopes.
     This dirty hack is useful to force the use of python-mode.el
 
 #+begin_src emacs-lisp :tangle yes
-  (setq ca-reset-python-test-file "reset_python_test.py")
-  (set-buffer (get-buffer-create ca-reset-python-test-file))
-  (erase-buffer)
-  (when
-      (featurep 'python-mode)
-    (unload-feature 'python-mode t))
+  ;; (setq ca-reset-python-test-file "reset_python_test.py")
+  ;; (set-buffer (get-buffer-create ca-reset-python-test-file))
+  ;; (erase-buffer)
+  ;; (when
+  ;;     (featurep 'python-mode)
+  ;;   (unload-feature 'python-mode t))
   
-  (fundamental-mode)
-  (setq py-python-command-args '("-colors" "Linux"))
-  (kill-buffer ca-reset-python-test-file)
+  ;; (fundamental-mode)
+  ;; (setq py-python-command-args '("-colors" "Linux"))
+  ;; (kill-buffer ca-reset-python-test-file)
+  
+  (require 'python-mode)
+  (setq py-install-directory
+        (expand-file-name "~/Emacs-configuration/python-mode"))
+  (setq py-load-python-mode-pymacs-p t)
+  (py-load-python-mode-pymacs)
+  (setenv "PYMACS_PYTHON" "python2.7")
+  ;; (pymacs-load "ropemacs" "rope-")
+  
+  ;; minimal version
+  ;; (setq py-install-directory
+  ;;       (expand-file-name "~/Emacs-configuration/python-mode"))
+  
+  ;; (add-to-list 'load-path py-install-directory)
+  ;; (require 'python-mode)
+  ;; (setq py-load-python-mode-pymacs-p t)
+  ;; (py-load-python-mode-pymacs)
+  ;; (pymacs-load "ropemacs" "rope-")
   
   ;;stop pymacs from annoying
-  (setq py-load-python-mode-pymacs-p nil)
+  ;; (setq ca-pymacs-path (expand-file-name "~/Emacs-configuration/python-mode/pymacs"))
+  ;; (add-to-list 'load-path ca-pymacs-path)
+  ;; (setenv "PYMACS_PYTHON" "python2.7")
+  ;; (require 'pymacs)
   
-  (add-to-list 'load-path (make-conf-path "python-mode/pymacs"))
-  (require 'pymacs)
-  (setq pymacs-load-path (make-conf-path "ropemacs"))
-  (pymacs-load "ropemacs" "rope-")
-  (setq ropemacs-confirm-saving 'nil)
+  ;; (pymacs-load "os" "os-")
+  ;; (pymacs-load "ropemacs" "rope-")
+  ;; (setq ropemacs-confirm-saving 'nil)
+  
+  ;; this version actually works with emacs -Q 24 in theory
+  ;; (setq py-load-python-mode-pymacs-p nil)
+  
+  ;; (setq ca-pymacs-path (expand-file-name "~/Emacs-configuration/python-mode/pymacs"))
+  ;; (add-to-list 'load-path ca-pymacs-path)
+  ;; (setenv "PYMACS_PYTHON" "python2.7")
+  ;; (require 'pymacs)
+  
+  ;; (pymacs-load "ropemacs" "rope-")
+  ;; (setq ropemacs-confirm-saving 'nil)
+  
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes
