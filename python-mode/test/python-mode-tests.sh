@@ -123,7 +123,6 @@ $EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'py
 --funcall python-mode-hangs-lp:801780-test \
 --funcall stops-backslashed-line-lp:802504-test \
 --funcall stops-backslashed-line-lp:802504-test2 \
---funcall master-file-not-honored-lp:794850-test \
 --funcall python-mode-slow-lp:803275-test \
 --funcall py-variable-name-face-lp:798538-test \
 --funcall colon-causes-error-lp:818665-test \
@@ -152,7 +151,9 @@ $EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'py
 --funcall else-clause-indentation-lp-874470-test \
 --funcall indent-after-multiple-except-statements-lp:883815-test \
 --funcall wrongly-highlighted-as-keywords-lp-885144-test \
+--funcall glitch-when-indenting-lists-lp-886473-test \
 --funcall incorrect-use-of-region-in-py-shift-left-lp:875951-test \
+--funcall indentation-keyword-lp-885143-test \
 \
 --funcall multiline-list-indent-test \
 --funcall py-beginning-of-block-test \
@@ -200,6 +201,7 @@ $EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'py
 --funcall UnicodeEncodeError-lp:550661-test \
 --funcall py-shebang-ipython-env-lp-849293-test \
 --funcall py-execute-block-test \
+--funcall master-file-not-honored-lp:794850-test \
 
 else
 

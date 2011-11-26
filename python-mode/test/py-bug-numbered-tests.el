@@ -109,6 +109,9 @@
          'incorrect-use-of-region-in-py-shift-left-lp:875951-test
          'indent-after-multiple-except-statements-lp:883815-test
          'wrongly-highlighted-as-keywords-lp-885144-test
+         'glitch-when-indenting-lists-lp-886473-test
+         'indentation-keyword-lp-885143-test
+         'py-shell-complete-lp-328836-test
          'py-shebang-consider-ipython-lp-849293-test
          'UnicodeEncodeError-lp:550661-test
          'py-shebang-ipython-env-lp-849293-test
@@ -553,18 +556,17 @@ If no `load-branch-function' is specified, make sure the appropriate branch is l
   (let ((font-lock-verbose nil))
     (set-buffer (get-buffer-create "bullet-lists-in-comments-lp:328782-test"))
     (erase-buffer)
-    (with-temp-buffer
-      (insert "
+    (insert "
 ## * If the filename is a directory and not a Maildir nor
 ##   an MH Mailbox, it will be processed as a Mailbox --this bug named here: bullet-lists-in-comments-lp:328782.htm--
 ##   directory consisting of just .txt and .lorien files.
 ")
-      (when arg (switch-to-buffer (current-buffer)))
-      (python-mode)
-      (font-lock-mode 1)
-      (font-lock-fontify-buffer)
-      (goto-char 100)
-      (py-fill-paragraph))
+    (when arg (switch-to-buffer (current-buffer)))
+    (python-mode)
+    (font-lock-mode 1)
+    (font-lock-fontify-buffer)
+    (goto-char 100)
+    (py-fill-paragraph)
     (set-buffer "bullet-lists-in-comments-lp:328782-test")
     (unless (< 1 arg)
       (set-buffer-modified-p 'nil)
@@ -1360,14 +1362,14 @@ def add(ui, repo, \*pats, \*\*opts):
 # py-master-file: \"/usr/tmp/my-master.py\"
 # End:
 
-print u'\xA9'
+print \"master-file is executed\"
 "))
     (when load-branch-function (funcall load-branch-function))
     (py-bug-tests-intern 'master-file-not-honored-lp:794850-base arg teststring)))
 
 (defun master-file-not-honored-lp:794850-base ()
   (save-excursion
-    (set-buffer (get-buffer-create "lp:794850-test-master.py"))
+    (set-buffer (get-buffer-create "test-master.py"))
     (erase-buffer)
     (insert "#! /usr/bin/env python
  # -*- coding: utf-8 -*-
@@ -1979,7 +1981,71 @@ latest_sum = 5
 (defun wrongly-highlighted-as-keywords-lp-885144-base ()
   (font-lock-fontify-buffer)
   (goto-char 55)
+  (sit-for 0.1)
   (assert (eq (get-char-property (point) 'face) 'py-variable-name-face) nil "wrongly-highlighted-as-keywords-lp-885144-test failed"))
+
+(defun glitch-when-indenting-lists-lp-886473-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+def foo(bar, baz):
+    pass
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'glitch-when-indenting-lists-lp-886473-base arg teststring)))
+
+(defun glitch-when-indenting-lists-lp-886473-base ()
+    (goto-char 60)
+    (py-newline-and-indent)
+    (assert (eq 69 (point))  nil "glitch-when-indenting-lists-lp-886473-test failed"))
+
+
+(defun keywords-in-identifiers-highlighted-incorrectly-lp:888338-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+def possibly_break():
+    pass
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'keywords-in-identifiers-highlighted-incorrectly-lp:888338-base arg teststring)))
+
+(defun keywords-in-identifiers-highlighted-incorrectly-lp:888338-base ()
+  (font-lock-fontify-buffer)
+  (sit-for 0.1)
+  (goto-char 55)
+  (assert (eq (get-char-property (point) 'face) 'font-lock-function-name-face) nil "keywords-in-identifiers-highlighted-incorrectly-lp:888338-test failed"))
+
+
+(defun indentation-keyword-lp-885143-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+import sys
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'indentation-keyword-lp-885143-base arg teststring)))
+
+(defun indentation-keyword-lp-885143-base ()
+    (goto-char 48)
+    (assert (eq 0 (py-compute-indentation))  nil "indentation-keyword-lp-885143-test failed"))
+
+
+(defun py-shell-complete-lp-328836-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"))
+  (when load-branch-function (funcall load-branch-function))
+  (py-bug-tests-intern 'py-shell-complete-lp-328836-base arg teststring)))
+
+(defun py-shell-complete-lp-328836-base ()
+  (python-dedicated)
+  (goto-char (point-max)) 
+  (insert "pri")
+  (py-shell-complete)
+  (assert (looking-back "print") nil "py-shell-complete-lp-328836-test failed"))
 
 
 (provide 'py-bug-numbered-tests)

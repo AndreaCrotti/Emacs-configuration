@@ -75,6 +75,4 @@
              (display-completion-list completions))
            (message "Making completion list...%s" "done")))))
 
-;; (define-key py-mode-map "\M-\C-i"  'py-complete)
-
 (provide 'pycomplete)

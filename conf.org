@@ -3255,6 +3255,8 @@ Emacs is no more about text editing than astronomy is about telescopes.
   ;; (setq flymake-py-script-position (make-conf-path "flymake-python/pyflymake.py"))
   ;; (require 'flymake-python)
   
+  (add-hook 'python-mode-hook
+            '(lambda () (flymake-mode t)))
 #+end_src
 
 ** Flymake in Automake projects
