@@ -2470,6 +2470,18 @@ Emacs is no more about text editing than astronomy is about telescopes.
                               (file-name-nondirectory buffer-file-name)))))
 #+end_src
 * Other modes
+** Command frequency mode
+   This might be customizable in various different ways
+#+begin_src elisp :tangle yes
+  (require 'command-frequency)
+  (command-frequency-autosave-mode t)
+  (setq command-frequency-autosave-timeout 100)
+  (command-frequency-mode t)
+  
+  ;; also enable all the keys used
+  (open-dribble-file (expand-file-name "~/.emacs.dribble"))
+#+end_src
+
 ** Scala mode
 #+begin_src emacs-lisp :tangle yes
   (require 'scala-mode-auto)
