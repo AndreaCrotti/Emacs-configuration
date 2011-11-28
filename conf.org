@@ -3217,8 +3217,8 @@ Emacs is no more about text editing than astronomy is about telescopes.
         (progn 
           (flymake-mode t)
           ;; this is necessary since there is no flymake-mode-hook...
-          (local-set-key [f3] 'flymake-goto-prev-error)
-          (local-set-key [f4] 'flymake-goto-prev-error))))
+          (local-set-key (kbd "C-c n") 'flymake-goto-prev-error)
+          (local-set-key (kbd "C-c p") 'flymake-goto-prev-error))))
 #+end_src
 
 ** Adding errors to modeline
@@ -3252,11 +3252,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (add-to-list 'flymake-allowed-file-name-masks 
                '("\\.py\\'" ca-flymake-python-init))
   
-  ;; (setq flymake-py-script-position (make-conf-path "flymake-python/pyflymake.py"))
-  ;; (require 'flymake-python)
-  
-  (add-hook 'python-mode-hook
-            '(lambda () (flymake-mode t)))
+  (add-hook 'python-mode-hook 'ca-activate-flymake)
 #+end_src
 
 ** Flymake in Automake projects
