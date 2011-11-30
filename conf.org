@@ -2098,38 +2098,10 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (require 'python-mode)
   (setq py-install-directory
         (expand-file-name "~/Emacs-configuration/python-mode"))
-  (setq py-load-python-mode-pymacs-p t)
-  (py-load-python-mode-pymacs)
-  (setenv "PYMACS_PYTHON" "python2.7")
-  ;; (pymacs-load "ropemacs" "rope-")
 
-  ;; minimal version
-  ;; (setq py-install-directory
-  ;;       (expand-file-name "~/Emacs-configuration/python-mode"))
-
-  ;; (add-to-list 'load-path py-install-directory)
-  ;; (require 'python-mode)
-  ;; (setq py-load-python-mode-pymacs-p t)
+  (setq py-load-python-mode-pymacs-p nil)
   ;; (py-load-python-mode-pymacs)
-  ;; (pymacs-load "ropemacs" "rope-")
-
-  ;;stop pymacs from annoying
-  ;; (setq ca-pymacs-path (expand-file-name "~/Emacs-configuration/python-mode/pymacs"))
-  ;; (add-to-list 'load-path ca-pymacs-path)
   ;; (setenv "PYMACS_PYTHON" "python2.7")
-  ;; (require 'pymacs)
-
-  ;; (pymacs-load "os" "os-")
-  ;; (pymacs-load "ropemacs" "rope-")
-  ;; (setq ropemacs-confirm-saving 'nil)
-
-  ;; this version actually works with emacs -Q 24 in theory
-  ;; (setq py-load-python-mode-pymacs-p nil)
-
-  ;; (setq ca-pymacs-path (expand-file-name "~/Emacs-configuration/python-mode/pymacs"))
-  ;; (add-to-list 'load-path ca-pymacs-path)
-  ;; (setenv "PYMACS_PYTHON" "python2.7")
-  ;; (require 'pymacs)
 
   ;; (pymacs-load "ropemacs" "rope-")
   ;; (setq ropemacs-confirm-saving 'nil)
