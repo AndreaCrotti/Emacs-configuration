@@ -2100,6 +2100,8 @@ Emacs is no more about text editing than astronomy is about telescopes.
         (expand-file-name "~/Emacs-configuration/python-mode"))
 
   (setq py-load-python-mode-pymacs-p nil)
+  (setq py-electric-colon-active t)
+
   ;; (py-load-python-mode-pymacs)
   ;; (setenv "PYMACS_PYTHON" "python2.7")
 
