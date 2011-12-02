@@ -2624,6 +2624,39 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (setq eimp-max-concurrent-processes 4)
 #+end_src
 
+** Autopair mode setting
+#+begin_src emacs-lisp :tangle yes
+  (add-hook 'python-mode-hook
+            #'(lambda ()
+                (setq autopair-handle-action-fns
+                      (list #'autopair-default-handle-action
+                            #'autopair-python-triple-quote-action))))
+
+  (add-hook 'latex-mode-hook
+            #'(lambda ()
+                (set (make-local-variable 'autopair-handle-action-fns)
+                     (list #'autopair-default-handle-action
+                           #'autopair-latex-mode-paired-delimiter-action))))
+
+  (add-hook 'c++-mode-hook
+            #'(lambda ()
+                (push '(?< . ?>)
+                      (getf autopair-extra-pairs :code))))
+
+  (add-hook 'c-mode-common-hook #'(lambda () (autopair-mode)))
+
+  (add-hook 'c++-mode-hook
+            #'(lambda ()
+                (push ?{
+                      (getf autopair-dont-pair :comment))))
+
+  (add-hook 'latex-mode-hook
+            #'(lambda ()
+                (set (make-local-variable 'autopair-handle-action-fns)
+                     (list #'autopair-default-handle-action
+                           #'autopair-latex-mode-paired-delimiter-action))))
+#+end_src
+
 * Gpg and keys
   See on [[http://www.emacswiki.org/emacs/AutoEncryption][autoencryption article]] for more information
 #+begin_src emacs-lisp :tangle yes
