@@ -2626,6 +2626,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Autopair mode setting
 #+begin_src emacs-lisp :tangle yes
+  (autopair-global-mode t)
   (add-hook 'python-mode-hook
             #'(lambda ()
                 (setq autopair-handle-action-fns
