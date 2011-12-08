@@ -2444,6 +2444,18 @@ Emacs is no more about text editing than astronomy is about telescopes.
                               (file-name-nondirectory buffer-file-name)))))
 #+end_src
 * Other modes
+** Enable NSIS mode for installers
+#+begin_src emacs-lisp :tangle yes
+  (autoload 'nsis-mode "nsis-mode" "NSIS mode" t)
+
+  (setq auto-mode-alist (append '(("\\.\\([Nn][Ss][Ii]\\)$" .
+                                   nsis-mode)) auto-mode-alist))
+
+  (setq auto-mode-alist (append '(("\\.\\([Nn][Ss][Hh]\\)$" .
+                                   nsis-mode)) auto-mode-alist))
+
+#+end_src
+
 ** Whitespace cleanup
 #+begin_src emacs-lisp :tangle yes
   (add-hook 'before-save-hook 'whitespace-cleanup)
@@ -2626,6 +2638,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Autopair mode setting
 #+begin_src emacs-lisp :tangle yes
+  (load-library "auto-pair")
   (autopair-global-mode t)
   (add-hook 'python-mode-hook
             #'(lambda ()
