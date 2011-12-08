@@ -136,3 +136,6 @@
 [submodule "ensime"]
 	path = ensime
 	url = git://github.com/aemoncannon/ensime.git
+[submodule "pycoverage.el"]
+	path = pycoverage.el
+	url = git://github.com/mattharrison/pycoverage.el.git
