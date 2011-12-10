@@ -6,6 +6,9 @@ My personal Emacs configuration
 Emacs is no more about text editing than astronomy is about telescopes.
 #+end_quote
 
+* TODO See how to use variables like *special-buffer-regexps* to have a better control over the buffer windows
+* TODO use the ERT testing framework to test my functions
+* TODO [#A] make a script to deploy automatically this configuration everywhere where is possible
 * DONE Write a function that setups all the possible paths automatically
   CLOSED: [2010-05-04 Mar 11:41]
 * DONE See if it's worthy to byte compile everything or not
@@ -24,10 +27,10 @@ Emacs is no more about text editing than astronomy is about telescopes.
   CLOSED: [2011-06-21 Mar 15:21]
   - CLOSING NOTE [2011-06-21 Mar 15:22]
 
-* TODO See how to use variables like *special-buffer-regexps* to have a better control over the buffer windows
-* TODO use the ERT testing framework to test my functions
-* TODO make a script to deploy automatically this configuration everywhere where is possible
-* TODO change all the functions definitions adding a personal prefix
+* DONE change all the functions definitions adding a personal prefix
+  CLOSED: [2011-12-10 Sat 20:03]
+  - CLOSING NOTE [2011-12-10 Sat 20:03] \\
+    all the functions have a ca- prefix now
 
 * Links
   - [[http://www.gnu.org/software/emacs/tour/][A guided tour of emacs features]]
@@ -248,7 +251,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Constants and some global settings
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-customs.el
   (defcustom ca-default-closing-char ";"
     "default closing char, change in ca-newline-force-close-alist if needed"
     :group 'ca
@@ -273,7 +276,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
    We suppose that the global variable *conf* has been already set from the outside.
 
 *** Mapcar head
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   (defun ca-mapcar-head (fn-head fn-rest list)
     "Like MAPCAR, but applies a different function to the first element."
     (if list
@@ -281,7 +284,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Take the matched text and apply the given function
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   ; TODO: maybe better as a macro
 
   (defun ca-manipulate-matched-text (fn)
@@ -292,7 +295,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Enable semantic when possible
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-cedet.el
   (defun ca-next-tag ()
     (interactive)
     (semantic-refresh-tags-safe)
@@ -314,7 +317,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Make a script executable
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   ;FIXME: not correct yet
   (defun ca-px()
     (interactive)
@@ -324,7 +327,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 *** Make fortune
     Print below a fortune cookie if the command is present in the system.
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   (defun ca-make-fortune ()
   (interactive)
   (let ((beg (point)))
@@ -335,7 +338,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 *** Gen path dirs
    All all the directories in the first level of the configuration directory to the load path.
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   (defun ca-gen-path-dirs (base-dir)
     "Add to load path all the subdirectories of first level"
     (interactive)
@@ -350,12 +353,10 @@ Emacs is no more about text editing than astronomy is about telescopes.
   (defun ca-reload-dirs ()
     (interactive)
     (ca-gen-path-dirs base))
-
-  (ca-reload-dirs)
 #+end_src
 
 *** Add programming tools to the path
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-init.el
   (let
       ((tools (concat base "programming-tools")))
     (add-to-list 'exec-path tools)
@@ -365,7 +366,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 *** Google map it
    Search an address in google map
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   (defun ca-google-map-it (address)
     "get the map of the given address"
     (interactive "sSearch for: ")
@@ -376,7 +377,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 *** New line
    Those functions are inspired by textmate
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   ;; My own functions
   (defun ca-newline-force()
     "Goes to newline leaving untouched the rest of the line"
@@ -410,7 +411,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 *** Error switch
     Useful function to toogle on and off the debug mode
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   (defun ca-err-switch()
     "switch on/off error debugging"
     (interactive)
@@ -421,7 +422,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Swap windows
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   ;; someday might want to rotate windows if more than 2 of them
   (defun ca-swap-windows ()
     "If you have 2 windows, it swaps them."
@@ -443,7 +444,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 *** Rename file and buffer
 **** TODO Add something VCS related for moving away files
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   (defun ca-rename-file-and-buffer (new-name)
     "Renames both current buffer and file it's visiting to NEW-NAME."
     (interactive "sNew name: ")
@@ -461,7 +462,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Move buffer file
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   (defun ca-move-buffer-file (dir)
     "Moves both current buffer and file it's visiting to DIR."
     (interactive "DNew directory: ")
@@ -481,7 +482,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Delete current file
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   (defun ca-delete-current-file ()
     "Delete the file associated with the current buffer."
     (interactive)
@@ -496,7 +497,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 *** Open git files
     Run *git ls-files* and visits all the buffer given from it
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   (defun ca-open-git-files ()
     "Visit all the files in the current git project"
     (interactive)
@@ -546,7 +547,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Run git grep and see the results
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   (defun ca-git-grep-string (string-to-find)
     "Look for a string using git-grep"
     (interactive "sString: ")
@@ -558,7 +559,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Change git branch
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   (defun ca-git-branches-list ()
     "list the current branches"
     (remove "*" (split-string (shell-command-to-string "git branch"))))
@@ -584,7 +585,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Replace in regexp
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   (defun ca-query-replace-in-git (from to)
     "query replace regexp on the files given"
     (interactive "sFrom: \nsTo: ")
@@ -597,7 +598,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
     This functions are take from textmate.el and are used to check if we're on a project of some kind.
     Not used at the moment.
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   ;; When it's a git project we can use a grep over git ls-files
   ;; same thing for mercurial
   ;; check also with the Makefiles in general if we can do something like this
@@ -632,7 +633,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Select current line
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   (defun ca-select-line ()
     "If the mark is not active, select the current line.
   Otherwise, expand the current region to select the lines the region touches."
@@ -662,7 +663,8 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Select all from an alist
-#+begin_src emacs-lisp :tangle yes
+    This function is used in yasnippet, so there should be an explicit dependency
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   (defun ca-all-asscs (asslist query)
     "returns a list of all corresponding values (like rassoc)"
     (cond
@@ -674,7 +676,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Reopen a file in readwrite mode
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   (defcustom ca-preferred-reopen-rw-mode "sudo"
     "preferred mode for reopen"
     :type 'string
@@ -696,7 +698,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Count words in the buffer
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   ;FIXME: Not really doing what is expected
   (defun ca-wc-buffer ()
     "Print number of words in Buffer"
@@ -705,7 +707,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Find-file-root
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   ;; Taken from http://www.emacswiki.org/emacs/TrampMode
   (defvar find-file-root-prefix (if (featurep 'xemacs) "/[sudo/root@localhost]" "/sudo:root@localhost:" )
     "*The filename prefix used to open a file with `ca-find-file-root'.")
@@ -747,7 +749,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
   Adding also some warning to make sure we don't edit by mistake
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   (defface ca-find-file-root-header-face
     '((t (:foreground "white" :background "red3")))
     "*Face use to display header-lines for files opened as root.")
@@ -766,7 +768,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** reload this configuration
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   (defun ca-reload-conf ()
     (interactive)
     (org-babel-load-file (make-conf-path "conf.org")))
@@ -774,7 +776,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 * Text manipulation
 ** Unfill paragraph
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   ;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
   (defun ca-unfill-paragraph ()
     "Takes a multi-line paragraph and makes it into a single line of text."
@@ -803,7 +805,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
     (un)Camelizing allows to convert quickly function/variables names
     from camelized to non camelized mode.
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   (defun ca-camelize (s)
     "Convert under_score string S to CamelCase string."
     (mapconcat 'identity (mapcar
@@ -844,7 +846,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
     We also have [[http://www.eecs.ucf.edu/~leavens/emacs/camelCase/camelCase-mode.html][camel case mode]] which makes moving in camelized words smarter
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-prog-mode.el
   ;; TODO: with emacs23 is sufficient to enable subword-mode probably
   (autoload 'camelCase-mode "camelCase-mode")
   (defcustom ca-camelCase-modes
@@ -859,7 +861,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 * Operating system detection
   This has to be done first because we have some conditional code later
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-environment.el
   (defconst ca-sysop
     (cond ((string-match "linux" system-configuration) "linux")
           ((string-match "apple" system-configuration) "mac")
@@ -873,7 +875,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Mac configuration
     This will setup the Command key ot be used as meta.
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-environment.el
   (if ca-mac
       (progn
         (add-to-list 'exec-path "/opt/local/bin")
@@ -884,7 +886,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 * Other useful paths
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-environment.el
   (if ca-mac
       (let ((ports-lisp "/opt/local/share/emacs/site-lisp/"))
         (if

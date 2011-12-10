@@ -139,3 +139,6 @@
 [submodule "pycoverage.el"]
 	path = pycoverage.el
 	url = git://github.com/mattharrison/pycoverage.el.git
+[submodule "evil"]
+	path = evil
+	url = git://gitorious.org/evil/evil.git
