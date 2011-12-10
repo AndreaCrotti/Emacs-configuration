@@ -898,7 +898,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
   See also [[http://scottfrazersblog.blogspot.com/2010/01/emacs-filtered-buffer-switching.html][this nice article]] for a better filtering of buffers while switching.
 
 ** Manage buffer
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/functions.el
   (defun ca-untabify-buffer ()
     (interactive)
     (untabify (point-min) (point-max)))
@@ -926,7 +926,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Dired settings
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-dired.el
   ;; reverting automatically the buffer
   (setq dired-auto-revert-buffer 1)
   ;; look for filenames if on one already
@@ -952,18 +952,18 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Using dired-details for smaller windows
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-dired.el
   (require 'dired-details)
   (dired-details-install)
 #+end_src
 
 ** Using the nicer bookmark+
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-bookmarks.el
    (require 'bookmark+)
 #+end_src
 
 ** Desktop mode
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle modules/ca-desktop.el
   (require 'desktop)
 
   (desktop-save-mode -1)
@@ -1009,7 +1009,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Uniquify
    Uniquify is used to distinguish easily from buffers with the same name.
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-buffers.el
   ;; Using uniquify for better handling of buffers with same name
   (require 'uniquify)
   ;; Using part of the directory in this case
@@ -1018,19 +1018,19 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Saveplace
    Remembers where you were in the buffer
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-misc.el
    (require 'saveplace)
 #+end_src
 
 ** Minibuffer nice stuff
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-misc.el
   (setq visible-bell nil) ; Turn beep off
   (setq ring-bell-function 'ignore)
   (savehist-mode t) ; save also minibuffer history, very useful
 #+end_src
 
 ** Ibuffer settings
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-buffers.el
   ;; Set some automatic filters
   (setq ibuffer-saved-filter-groups
         '(("default"
@@ -1072,7 +1072,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Hide org-mode Files
    Only works with without ido-mode, not really useful at now
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-org.el
   (defun th-hide-org-buffers (arg)
     "Hide org-mode buffers from completion by prepending a space at the buffer name.
   When called with prefix arg (`C-u'), then remove this space again."
@@ -1089,7 +1089,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 * Package management
   Auto install is a nice way to install packages from emacswiki repository.
   There are other possible ways to manage the emacs packages.
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-packages.el
   ; Other autoloads
   (autoload 'auto-install-from-emacswiki "auto-install" "auto install from emacswiki" t)
   (setq auto-install-directory (make-conf-path "auto-install/"))
@@ -1102,7 +1102,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Create org agenda buffer
    It's useful to be able to generate a smaller frame (which stays at the bottom) with the TODO list agenda.
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-frames.el
   ;TODO: make it automatically the right size (check why frame-width does not work)
   (defun ca-make-org-agenda-buffer ()
     "Generates a small frame below for showing the agenda"
@@ -1122,14 +1122,14 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 * Visualization
 ** Menu and tool-bar disabling
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-misc.el
   (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
   (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
   (menu-bar-mode -1)
 #+end_src
 
 ** Fullscreen mode
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-misc.el
   (defun ca-toggle-fullscreen (&optional f)
     (interactive)
     (let ((current-value (frame-parameter nil 'fullscreen)))
@@ -1153,13 +1153,13 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Winner mode
    Winner mode remember the window configuration and allows you to go back and forth
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-misc.el
   ;; enabling winner mode for window reconfiguration
   (winner-mode t)
 #+end_src
 
 ** Color theme setting
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-themes.el
   (require 'color-theme)
   (eval-after-load "color-theme"
     '(progn
@@ -1186,7 +1186,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 ** Font settings
   Defininig some nice fonts and how to switch between theme.
   [[http://xahlee.org/emacs/emacs_unicode_fonts.html][Cycling function definition]]
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-fonts.el
   (setq current "monaco-12")
   (setq font-list
         (list "monaco-12" "inconsolata-14" "courier-13"))
@@ -1211,20 +1211,20 @@ Emacs is no more about text editing than astronomy is about telescopes.
 * General useful things
 ** Searching info
    Look for in google
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-misc.el
   (autoload 'google-search-selection "google_search" "google search" t)
   (autoload 'google-it "google_search" "google search" t)
 #+end_src
 
 ** Kill ring stuff
    Sometimes the key ring is not easy to manage, we can browse inside it to see what we saved
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-misc.el
    (require 'browse-kill-ring)
 #+end_src
 
 ** Translations
 *** Org babel
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-misc.el
   (setq babel-preferred-from-language "German")
   (setq babel-preferred-to-language "English")
 
@@ -1235,7 +1235,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Text translator
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-misc.el
   (setq text-translator-display-popup t)
   (setq text-translator-default-engine "google.com_deen")
 
@@ -1252,7 +1252,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 ** Dictionary
    Using dictionary.el (downloaded from http://me.in-berlin.de/~myrkr/dictionary/download.html)
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-misc.el
   (autoload 'dict "dict" "dictionary mode" t)
   ; TODO: add some thing-at-point to guess the current word
   (defun ca-dictionary-search ()
@@ -1279,7 +1279,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 * [[http://orgmode.org/][Org mode]]
 ** Exporting org entries to ical
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-org.el
   ;; from http://orgmode.org/worg/org-tutorials/org-google-sync.html#sec-3
   ;;; define categories that should be excluded
   (setq org-export-exclude-category (list "google" "private"))
@@ -1320,7 +1320,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Contrib directory
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-org.el
   (add-to-list 'load-path (make-conf-path "org-mode/contrib/lisp"))
   (require 'org-contacts)
 
@@ -1347,44 +1347,44 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Setting up what happens when closing a task
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-org.el
 (setq org-log-done 'note)
 #+end_src
 
 ** General TODO keywords
    Can be customized per buffer
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-org.el
   (setq org-todo-keywords
         '((sequence "TODO(t)" "FEEDBACK(f)" "VERIFY(v)" "|" "DONE(d)" "DELEGATED(D)" "REJECTED(r)")))
 #+end_src
 
 ** Enforcing TODO dependencies
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-org.el
    (setq org-enforce-todo-dependencies t)
    (setq org-enforce-todo-checkbox-dependencies t)
 #+end_src
 
 ** Info configuration
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-org.el
   (add-to-list 'Info-default-directory-list (make-conf-path "org-mode/doc/"))
 #+end_src
 
 ** Clock configuration
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-org.el
   ;; Clock configuration
   (setq org-clock-persist t)
   (org-clock-persistence-insinuate)
 #+end_src
 
 ** Using IDO
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-org.el
   (setq org-completion-use-ido t)
   ; with ido enabled the following is not necessary anymore
   (setq org-outline-path-complete-in-steps nil)
 #+end_src
 
 ** Check if we are in org-mode
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-org.el
   ;; make it like a macro, takes a body and executes it
   (defun ca-check-org-mode ()
     "check if the buffer is in org mode"
@@ -1397,7 +1397,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 ** Add eventually
    This hook enables to expand your KB very easily, every time you create a new org-file it will check if it's already in the agenda and asks to add it.
    Disable this if you don't plan to use org mode and its agenda
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-org.el
   ; Not used at the moment
   (defun ca-org-add-eventually()
     "Adding a file to org-agenda when saved"
@@ -1437,7 +1437,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Org mode for brainstorming
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-org.el
   (defcustom ca-org-brainstorm-ideas 10
     "number of brainstorm ideas"
     :group 'ca)
@@ -1452,7 +1452,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-org.el
   (setq questions '("Who" "What" "When" "Where" "Why" "How"))
 
   (defun ca-prompt-ideas ()
@@ -1463,14 +1463,14 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Notes
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-org.el
   ;; Defining a setup where org-mode takes care of remember notes
   (setq org-directory "~/org/")
   (setq org-default-notes-file (concat org-directory "notes.org"))
 #+end_src
 
 ** Org babel
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-org.el
   ;; TODO: is it possible to use autoload here?
   (require 'ob-ditaa)
   (require 'ob-sh)
@@ -1480,32 +1480,32 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Export to pdf
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-org.el
   ;; TODO: first check if it's installed maybe
   ;;(setq org-latex-to-pdf-process '("texi2dvi -p -b -c -V %f"))
 #+end_src
 
 ** Conkeror support
    Add something like this to support capturing from conkeror
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-org.el
   ; set conkeror as the default browser
   (setq browse-url-browser-function 'browse-url-generic
         browse-url-generic-program "conkeror")
 #+end_src
 ** Use ebib for my wonderful references
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-org.el
   ;; TODO: check if this is really useful and how to autocomplete it
   (org-add-link-type "ebib" 'ebib)
 #+end_src
 
 ** Refilling somewhere else
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-org.el
   '(org-refile-targets (quote (("~/org/gtd.org" :maxlevel . 1)
                                ("~/org/someday.org" :level . 2))))
 #+end_src
 
 ** Agenda configuration
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-org.el
   ; open in another window and restore the configuration on closing
   (setq org-agenda-window-setup 'other-window)
   (setq org-agenda-restore-windows-after-quit t)
@@ -1514,7 +1514,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Org functionalities in other modes
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-org.el
   (setq org-struct-hooks
         '(message-mode-hook
           mail-mode-hook))
@@ -1525,7 +1525,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Setting org-foonote for other things also
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-org.el
    (setq org-footnote-tag-for-non-org-mode-files "*-*-*-*-*-*-*-*-*-*")
 #+end_src
 
