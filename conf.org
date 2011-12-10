@@ -123,7 +123,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 *** Untabify before writing out a file
     In this example we use a hook to untabify before it's finally written out
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-buffers.el
   (defun ca-java-mode-untabify ()
     "untabify the whole buffer"
     (save-excursion
@@ -1939,7 +1939,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 ** Clojure
    Nice lisp language to work in the java virtual machine without writing java.
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-clojure.el
   (add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
   (autoload 'clojure-mode "clojure-mode" "clojure mode" t)
 
@@ -1951,7 +1951,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 *** Swank configuration for clojure
     We can keep the common lisp also
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-clojure.el
   (autoload 'slime "swank-clojure" "loading the swank-clojure" t)
   (add-hook 'slime-mode-hook
             '(lambda ()
@@ -1961,7 +1961,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Compilation mode
    This is very useful to remove the compilation buffer if it's successful
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-prog-mode.el
   (defun ca-kill-compile-buffer-if-successful (buffer string)
     " kill a compilation buffer if succeeded without warnings "
     (if (and
@@ -1979,7 +1979,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Ess
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (add-to-list 'load-path (make-conf-path "ess-mirror/lisp"))
   (autoload 'R "ess-site" "loading R env" t)
   (setq ess-directory (expand-file-name "~/"))
@@ -1987,25 +1987,25 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Elisp
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
  (autoload 'paredit-mode "paredit" "paredit mode" t)
  (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
 #+end_src
 
 ** Mirah
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (add-to-list 'auto-mode-alist '("\\.mirah$" . ruby-mode))
 #+end_src
 
 ** C-mode
    Default setting for c-style
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-c.el
   (setq c-default-style
         '((java-mode . "java") (awk-mode . "awk") (other . "cc-mode")))
 #+end_src
 
 *** Guess the indentation
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-c.el
   (autoload 'guess-style-set-variable "guess-style" nil t)
   (autoload 'guess-style-guess-variable "guess-style")
   (autoload 'guess-style-guess-all "guess-style" nil t)
@@ -2013,7 +2013,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** C++
 *** CClookup, look for documentation
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-c.el
   (autoload 'cclookup-lookup "cclookup"
     "Lookup SEARCH-TERM in the Python HTML indexes." t)
 
@@ -2025,7 +2025,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Qt style
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-c.el
   (c-add-style "qt-gnu"
                '("gnu"
                  (c-access-key .
@@ -2034,12 +2034,12 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Auto insert implementation
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-c.el
   (autoload 'expand-member-functions "member-functions" "Expand C++ member function declarations" t)
   (add-hook 'c++-mode-hook (lambda () (local-set-key "\C-cm" #'expand-member-functions)))
 #+end_src
 ** Insert headers automatically given the right extension
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-c.el
   (defun ca-is-new-file ()
    "Check if it's a new file"
    (not (file-exists-p buffer-file-name)))
@@ -2085,7 +2085,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 *** Paths and extensions
     This dirty hack is useful to force the use of python-mode.el
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-python.el
   ;; (setq ca-reset-python-test-file "reset_python_test.py")
   ;; (set-buffer (get-buffer-create ca-reset-python-test-file))
   ;; (erase-buffer)
@@ -2112,7 +2112,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 #+end_src
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-python.el
   (load-library (make-conf-path "python-mode/python-mode"))
   (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
   (add-to-list 'interpreter-mode-alist '("python" . python-mode))
@@ -2121,7 +2121,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Useful functions
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-python.el
   (defun ca-python-remove-pdb ()
     "Remove the pdb tracking lines"
     (interactive)
@@ -2136,7 +2136,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Run setup.py commands
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-python.el
   ;TODO: the ca-find-project-root is not python specific
   (defun ca-python-setup ()
     (interactive)
@@ -2152,7 +2152,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Haskell mode
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
   (autoload 'haskell-mode "haskell-mode" "haskell mode" t)
   (autoload 'turn-on-haskell-doc-mode "haskell-doc" "haskell doc mode" t)
@@ -2191,7 +2191,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Prolog
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
   (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
   (autoload 'mercury-mode "prolog" "Major mode for editing Mercury programs." t)
@@ -2200,14 +2200,14 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Nesc
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (autoload 'nesc-mode "nesc" nil t)
   (add-to-list 'auto-mode-alist '("\\.nc$" . nesc-mode))
 #+end_src
 
 ** Omnet++
    NED file syntax, derived from C for syntax and indentation
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (autoload 'ned-mode "ned-mode" "Major Mode for editing Ned files" t)
   (add-to-list 'auto-mode-alist '("\\.ned$" . ned-mode))
 
@@ -2216,11 +2216,11 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
    Msg file type
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (add-to-list 'auto-mode-alist '("\\.msg$" . c-mode))
 #+end_src
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-c.el
   (defun ca-cpp-header-file-p ()
     "Return non-nil, if in a C++ header."
     (and (string-match "\\.h$"
@@ -2234,7 +2234,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
   Try to enable the cpp-omnet-mode automatically when possible
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-c.el
   ;;  (add-hook 'c++-mode-hook 'ca-is-omnet-cpp-file)
   ;; (remove-hook 'c++-mode-hook 'ca-is-omnet-cpp-file)
   ;; this means that the variable is set locally
@@ -2256,12 +2256,12 @@ Emacs is no more about text editing than astronomy is about telescopes.
 *** Jdibug
     We use it without jdee
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-java.el
    (setq jdibug-use-jde-source-paths nil)
 #+end_src
 
 *** Jdee settings
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-java.el
   (add-to-list 'load-path (make-conf-path "jdee/lisp"))
 
   (autoload 'jde-mode "jde" "jde mode" t)
@@ -2288,7 +2288,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Changelog settings and time
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-prog-mode.el
   ;; for changelogs
   (setq add-log-always-start-new-record 1)
   (add-hook 'before-save-hook 'time-stamp)
@@ -2297,12 +2297,12 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Doc
 *** Doxygen files
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-prog-mode.el
   (add-to-list 'auto-mode-alist '("Doxyfile" . conf-unix-mode))
 #+end_src
 
 *** Doxymacs
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-prog-mode.el
   (add-to-list 'load-path (make-conf-path "doxymacs/lisp"))
   ;; supporting doxymacs and doxymacs font locking
   (add-hook 'c-mode-common-hook
@@ -2324,14 +2324,14 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Applescript mode
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (add-to-list 'auto-mode-alist
                '("\\.applescript$" . applescript-mode))
   (autoload 'applescript-mode "applescript-mode" "mode for applescript files" t)
 #+end_src
 
 ** Lisp
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
    (setq inferior-lisp-program "sbcl")
    (require 'slime)
    (slime-setup '(slime-fancy))
@@ -2339,30 +2339,30 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Web programming
   Enabling nxhtml mode
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (setq nxhtml-menu-mode nil)
 #+end_src
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (autoload 'mako-html-mumamo-mode "autostart" "auto starting of nxhtml" t)
   ;; add other modes whenever needed
   (add-to-list 'auto-mode-alist '("\\.mak$" . mako-html-mumamo-mode))
   (add-to-list 'auto-mode-alist '("\\.mako$" . mako-html-mumamo-mode))
 #+end_src
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (setq mumamo-chunk-coloring 3)
 #+end_src
 
 ** Ocaml
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (add-to-list 'auto-mode-alist '("\\.ml\\w?" . tuareg-mode))
   (autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
   (autoload 'camldebug "camldebug" "Run the Caml debugger" t)
 #+end_src
 
 ** Lua
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   ;; lua mode
   (autoload 'lua-mode "lua-mode" "mode for lua" t)
   (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
@@ -2370,7 +2370,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Fixme mode
    This is a mode to highlight stuff, adding some more modes
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-prog-mode.el
   ; TODO: add it globally if possible
   (require 'fixme-mode)
   ; for each of the modes we add it to the hook
@@ -2387,7 +2387,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Ruby mode
 *** General settings
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-ruby.el
   (autoload 'ruby-mode "ruby-mode" "Major mode for ruby files" t)
   (add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
   (add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
@@ -2401,12 +2401,12 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Jruby and rinari
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-ruby.el
   (add-to-list 'load-path (make-conf-path "rinari/util"))
 #+end_src
 
 ** Yaml
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (autoload 'yaml-mode "yaml-mode" "mode for yaml" t)
   (add-to-list 'auto-mode-alist
                '("\\.yaml$" . yaml-mode))
@@ -2415,7 +2415,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Go mode
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (autoload 'go-mode "go-mode" "go mode" t)
   (add-to-list 'auto-mode-alist
                '("\\.go$" . go-mode))
@@ -2423,7 +2423,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** [[http://code.djangoproject.com/wiki/Emacs][Django modes]]
    This mode is derived from html and helps writing django templates
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (autoload 'django-html-mode "django-html-mode" "mode for django templates" t)
   (add-to-list 'auto-mode-alist
                '("views$" . django-html-mode))
@@ -2431,14 +2431,14 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Debugging
 *** Setting up GDB to always open right windows
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
    (setq gdb-show-main nil)
    (setq gdb-many-windows t)
 
 #+end_src
 
 *** Some advices for pdb
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (defadvice pdb (before gud-query-cmdline activate)
     "Provide a better default command line when called interactively."
     (interactive
@@ -2447,7 +2447,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 * Other modes
 ** Enable NSIS mode for installers
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (autoload 'nsis-mode "nsis-mode" "NSIS mode" t)
 
   (setq auto-mode-alist (append '(("\\.\\([Nn][Ss][Ii]\\)$" .
@@ -2459,13 +2459,13 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Whitespace cleanup
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (add-hook 'before-save-hook 'whitespace-cleanup)
 #+end_src
 
 ** Command frequency mode
    This might be customizable in various different ways
-#+begin_src elisp :tangle yes
+#+begin_src elisp :tangle modules/ca-other-modes.el
   (require 'command-frequency)
   (command-frequency-autosave-mode t)
   (setq command-frequency-autosave-timeout 100)
@@ -2476,7 +2476,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Scala mode
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (require 'scala-mode-auto)
   (require 'scala-mode-feature-electric)
   (scala-electric-mode t)
@@ -2486,14 +2486,14 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Batch mode
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (autoload 'batch-mode "batch-mode" t)
   (add-to-list 'auto-mode-alist '("\\.bat\\'" . batch-mode))
   (add-to-list 'auto-mode-alist '("\\.cmd\\'" . batch-mode))
 #+end_src
 
 ** Erlang mode
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (autoload 'erlang-mode "erlang" "erlang mode" t)
 
   (setq auto-mode-alist
@@ -2501,7 +2501,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Cmake mode
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (autoload 'cmake-mode "cmake-mode" "cmake mode" t)
 
   (setq auto-mode-alist
@@ -2517,18 +2517,18 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Anything settings
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (autoload 'anything "anything" "Anything framework" t)
 #+end_src
 
 ** Anti-word
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (autoload 'no-word "no-word" "word to txt")
   (add-to-list 'auto-mode-alist '("\\.doc\\'" . no-word))
 #+end_src
 
 ** RST-mode
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (add-hook 'rst-mode-hook
             (lambda ()
               ;; set the face attributes
@@ -2551,36 +2551,36 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Battery mode
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (setq battery-mode-line-format "[%b%p%%]")
 #+end_src
 
 ** Writing
    Synonyms
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (autoload 'synonyms "synonyms" "thesaurus" t nil)
   (setq synonyms-file (make-conf-path "misc/mthesaur.txt"))
 #+end_src
 
 ** Session mode
    Use a session mode to automate things
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (require 'session)
 #+end_src
 
 ** Graphviz-dot-mode
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (autoload 'dot-mode "graphiz-dot-mode" "graphviz dot mode" t)
 #+end_src
 
 ** Log4j
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (autoload 'log4j-mode "log4j-mode" t)
   (add-to-list 'auto-mode-alist '("\\.log$" . log4j-mode))
 #+end_src
 
    Open automatically some log files to analyze them
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   ;TODO: add support for smart matching of keywords on the log files also
   (setq ca-log-files '("boot" "everything" "kernel"))
   (setq ca-log-basepath "/var/log/")
@@ -2594,12 +2594,12 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Ledger, accounting mode
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
 ;;  (autoload 'ledger-mode "ledger" "ledger mode for accounting" t)
 #+end_src
 
 ** Conf mode
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   ;; separator might be different in the different conf mode dialects
   (setq ca-conf-section-regexp "\\[.*\\]")
 
@@ -2626,12 +2626,12 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Arch linux
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
    (add-to-list 'auto-mode-alist '("PKGBUILD" . sh-mode))
 #+end_src
 
 ** Eimp mode
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (autoload 'eimp-mode "eimp" "Emacs Image Manipulation Package." t)
   (add-hook 'image-mode-hook 'eimp-mode)
   (setq eimp-enable-undo t)
@@ -2639,7 +2639,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Autopair mode setting
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-other-modes.el
   (load-library "auto-pair")
   (autopair-global-mode t)
   (add-hook 'python-mode-hook
@@ -2675,14 +2675,14 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 * Gpg and keys
   See on [[http://www.emacswiki.org/emacs/AutoEncryption][autoencryption article]] for more information
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle ca-init.el
   (require 'epa)
   (epa-file-enable)
 #+end_src
 
 * Fetching documentation
 ** RFC
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle ca-init.el
   (setq rfc-url-save-directory "~/rfc")
   (setq rfc-index-url "http://www.ietf.org/iesg/1rfc_index.txt")
   (setq rfc-archive-alist (list (concat rfc-url-save-directory "/rfc.zip")
@@ -2702,7 +2702,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
    Auctex is much more powerful than the default latex mode, enabling
    it using pdf as default mode
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-latex.el
   (add-to-list 'auto-mode-alist '("\\.[tT]e[xX]\\'" . latex-mode))
   (add-to-list 'load-path (make-conf-path "auctex"))
   (autoload 'latex-mode "auctex" "latex mode" t)
@@ -2738,14 +2738,14 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
    Enable preview mode:
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-latex.el
   (add-to-list 'load-path (make-conf-path "auctex/preview"))
   ;TODO: only require when auctex is loaded maybe
   (require 'preview)
 #+end_src
 
 ** Color code with listings package
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-latex.el
   ;; requite org-latex so that the following variables are defined
   (require 'org-latex)
 
@@ -2764,14 +2764,14 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Browsing papers
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-latex.el
   (add-hook 'LaTeX-mode-hook
             (lambda ()
               (local-set-key [f7] 'browse-paper-at-point)))
 #+end_src
 
 ** Correlation mode
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-latex.el
   ; FIXME: overwriting too much in this case, some old program-selection
   ; should be kept as it was
   (when ca-linux
@@ -2792,7 +2792,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Bibtex and open files
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-latex.el
   ;; code found and adapted from http://www.emacswiki.org/emacs/RefTeX
   ;; Change this to the place where you store all the electronic versions.
   ;; redefine it to the right thing if necessary
@@ -2835,7 +2835,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** [[http://repo.or.cz/w/ebib.git][Ebib, manage a bibtex archive]]
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-latex.el
   (add-to-list 'load-path (make-conf-path "ebib/src"))
   (autoload 'ebib "ebib" "Ebib, a BibTeX database manager." t)
   (add-to-list 'Info-default-directory-list (make-conf-path "ebib/manual"))
@@ -2846,7 +2846,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 ** Mail settings
 *** General settings for message creation
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-network.el
   ;; setting where the mail is coming from
   (setq mail-setup-with-from t)
 
@@ -2859,7 +2859,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 *** Setting up gmail smtp server
    Make sure you configure correctly your .authinfo for login and password
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-network.el
   ;TODO: send mails with MSMTP or configure gmail smartly
   (autoload 'smtpmail-send-it "smtpmail")
   ;; rwth server
@@ -2877,7 +2877,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Setting default sending modality
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-network.el
   (setq compose-mail-user-agent-warnings nil)
   ;; message-mode is a superset of mail-mode and nicer to use
   (setq mail-user-agent 'message-user-agent)
@@ -2886,7 +2886,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 ** Gnus settings
 *** Server settings
    Configuring maildir testing
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-network.el
   (setq gnus-select-method
         '(nnimap "gmail"
                  (nnimap-address "imap.gmail.com")
@@ -2933,13 +2933,13 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Old messages settings
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-network.el
   (setq gnus-large-newsgroup 2000)
   (setq gnus-fetch-old-headers nil)
 #+end_src
 
 *** Daemon setting
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-network.el
   ;; close idle connections for 30 minutes
 ;  (gnus-demon-add-handler 'gnus-group-get-new-news 2 t)
 ;  (gnus-demon-init)
@@ -2947,7 +2947,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Group settings
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-network.el
  ;; add the topic groups
  (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
 #+end_src
@@ -2965,7 +2965,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Spell checking
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-network.el
   (add-hook 'gnus-select-group-hook
             (lambda ()
               (cond
@@ -2980,7 +2980,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Summary settings
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-network.el
   ;; add an additional window buffer with the tree
   (setq gnus-use-trees t
         gnus-generate-tree-function 'gnus-generate-horizontal-tree
@@ -2994,13 +2994,13 @@ Emacs is no more about text editing than astronomy is about telescopes.
                (article 1.0))))
 #+end_src
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-network.el
   (setq gnus-thread-hide-subtree 'gnus-article-unread-p)
 #+end_src
 
 # TODO: move this to a more private file, and maybe filter it out
 *** Posting styles
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-network.el
   (setq gnus-posting-styles
         '((".*"
            (name "Andrea Crotti")
@@ -3012,18 +3012,18 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Appearance
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-network.el
   ;; Changing modeline to include also the date of the message
   (setq gnus-summary-line-format "%U%R%z%I%(%[%4L: %-23,23f%]%) %s--%d\n")
 #+end_src
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-network.el
   ;; enable smileys
   (setq gnus-treat-display-smileys t)
 #+end_src
 
 *** Window configuration
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-network.el
   (gnus-add-configuration
    '(article
      (horizontal 1.0
@@ -3040,7 +3040,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Avoid the annoying saving of the .news file
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-network.el
   (add-hook 'gnus-started-hook
             (lambda ()
               (when (buffer-live-p gnus-dribble-buffer)
@@ -3049,7 +3049,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Gnus synchronization
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-network.el
   (setq ca-gnussync-remote "thesis")
   (setq ca-gnussync-rsync-binary "/opt/local/bin/rsync")
   (setq ca-gnussync-rsync-options "-auRvzp --delete")
@@ -3086,7 +3086,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Erc
 *** Accessory functions
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-network.el
   ;; This is an example of how to make a new command.  Type "/uptime" to
   ;; use it.
   (defun erc-cmd-UPTIME (&rest ignore)
@@ -3107,7 +3107,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Functions to connect to useful servers
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-network.el
   ;; Join the #emacs and #erc channels whenever connecting to Freenode.
   (setq erc-autojoin-channels-alist
         '(("freenode.net"
@@ -3125,7 +3125,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Replace text of away/online messages
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-network.el
   ;TODO: add something to remove also the renames
   (erc-replace-mode t)
   (setq erc-replace-alist
@@ -3134,7 +3134,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Set some more interesting variables
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-network.el
   ;; Interpret mIRC-style color commands in IRC chats
   (setq erc-interpret-mirc-color t)
 
@@ -3146,12 +3146,12 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 * General settings
 ** Mode for startup
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-init.el
   (setq initial-major-mode 'emacs-lisp-mode)
 #+end_src
 
 ** Backup mode customization
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-init.el
   (setq
    backup-by-copying t      ; don't clobber symlinks
    backup-directory-alist '(("." . "~/.saves"))    ; don't litter my fs tree
@@ -3162,7 +3162,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Showing more things
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-init.el
   (display-time-mode 1)
   (transient-mark-mode 1)
   (setq inhibit-startup-message t)
@@ -3177,7 +3177,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Tramp
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-init.el
   (require 'tramp)
   ;; this variable is needed there for some reasons
   (setq warning-suppress-types nil)
@@ -3185,7 +3185,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** IDO mode
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-init.el
   (require 'ido)
   (ido-mode t)
   ;; otherwise it will try to connect to old servers all the time
@@ -3210,7 +3210,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Windmove
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-init.el
   (defcustom ca-windmove-key
     'shift
     "key for moving between windows"
@@ -3223,19 +3223,19 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Workarounds
    Compiling on emacs 23.2 often gives some strange errors, this is to avoid them
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-init.el
   (setq warning-suppress-types nil)
 #+end_src
 
 ** Calendar setting
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-init.el
    (setq calendar-date-style 'european)
 #+end_src
 
 * Process management
 ** Comint
    Make sure we don't incidentally close a process
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-misc.el
   (defadvice comint-send-eof (around warn-me-please compile activate)
     "Confirm EOF when called interactively, because accidental EOF sucks."
     (when (or (not (member this-command '(comint-send-eof
@@ -3246,7 +3246,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 * Flymake
 ** Setting up flymake
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-flymake.el
   (require 'flymake)
 
   (defun ca-activate-flymake ()
@@ -3263,7 +3263,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Adding errors to modeline
    With this the error output of othe current line will appear right below in the modeline
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-flymake.el
 (defun ca-flymake-show-help ()
   (when (get-char-property (point) 'flymake-overlay)
     (let ((help (get-char-property (point) 'help-echo)))
@@ -3280,7 +3280,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
    The errors or warnings appear right in the source code.
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-flymake.el
   (defun ca-flymake-python-init ()
     (let* ((temp-file (flymake-init-create-temp-buffer-copy
                        'flymake-create-temp-inplace))
@@ -3327,7 +3327,7 @@ check-syntax:
   # and then setup your $EDITOR to emacsclient...
 #+end_src
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-misc.el
   (if window-system
       (progn
         (require 'server)
@@ -3339,13 +3339,13 @@ check-syntax:
 
 * Fun
 ** Fortune settings
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-misc.el
   ;; TODO: make it a defcustom also, or better locate it automatically
   (setq fortune-dir "/opt/local/share/games/fortune/")
 #+end_src
 
 ** Run applescript commands
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-misc.el
   (defun ca-do-applescript (str)
     "Synchronously run applescript STR."
     (with-temp-buffer
@@ -3355,7 +3355,7 @@ check-syntax:
 #+end_src
 
 ** Open the terminal
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-misc.el
   (defun ca-mac-open-terminal ()
     (interactive)
     (let ((dir ""))
@@ -3380,7 +3380,7 @@ check-syntax:
 
 ** Growl popup
    This function can be pretty nice during presentations, it will popup the last pressed key via growl.
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-misc.el
   (defun ca-growl-popup (msg)
     "Pop up a growl notification with MSG, or display an Emacs message.
   The \"ca-growlnotify\" program is used if `window-system' is non-nil and
@@ -3402,7 +3402,7 @@ check-syntax:
 #+end_src
 
   Now we also create two other functions to enable and disable it
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-misc.el
   ;TODO: make it an external package and better a minor-mode, switching would also be much easier
 
   (setq ca-growl-mode nil)
@@ -3421,7 +3421,7 @@ check-syntax:
 #+end_src
 
 ** Change volume on linux
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-misc.el
   (when ca-linux
     (progn
       (defun ca-vol-down ()
@@ -3436,7 +3436,7 @@ check-syntax:
 
 * Presentation mode
   Mode used to enable for presenting emacs power
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-misc.el
   (defun ca-presentation-mode ()
     "what to enable in a presentation mode"
     ;TODO: also add a function to cancel all this changes
@@ -3449,7 +3449,7 @@ check-syntax:
 #+end_src
 
 * Global keys settings
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-init.el
   ;; compile facilities
   (global-set-key [f5] 'recompile)
 
