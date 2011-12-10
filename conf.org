@@ -1530,7 +1530,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 * [[http://conkeror.org/][Conkeror]] support
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-misc.el
   (setq conkeror-file-path "~/scripts/conkeror")
 
   (when (file-exists-p conkeror-file-path)
@@ -1539,7 +1539,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 #+end_src
 * [[http://code.google.com/p/yasnippet/][Yasnippet]]
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/yas.el
   (require 'yasnippet)
   (setq yas/root-directory
         (list (make-conf-path "yasnippet-snippets/")))
@@ -1566,7 +1566,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 * Eldoc mode
   Show the documentation of some functions directly in the minibuffer.
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-prog-mode.el
   (require 'eldoc)
   ;; Maybe better a direct activation??
   (dolist (hook '(ruby-mode-hook
@@ -1634,7 +1634,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 ** Importing all packages
 # TODO: add the semantic auto-completion to all modes which use it
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-auto-complete.el
   ;;; Require
   (require 'auto-complete)
   ;; Various configurations
@@ -1643,7 +1643,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Setting up
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-auto-complete.el
   (setq ac-auto-start 2)                  ;automatically start
   (setq ac-override-local-map nil)        ;don't override local map
   (setq ac-use-menu-map t)
@@ -1661,13 +1661,13 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Setting up generic sources
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-auto-complete.el
   (setq-default ac-sources
                 (append ac-sources '(ac-source-yasnippet)))
 #+end_src
 
 ** Define allowed modes
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-auto-complete.el
   ;TODO: check the issue with auto completion/yasnippet and org-mode
 
   (dolist
@@ -1680,7 +1680,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Elisp configuration
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-auto-complete.el
 ;; using a nice function is ac-config
 (dolist (hook (list
                'lisp-interaction-mode-hook
@@ -1690,14 +1690,14 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** Using eclim
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-auto-complete.el
   (add-hook 'java-mode-hook
             '(lambda ()
                (add-to-list 'ac-sources 'eclim-complete)))
 #+end_src
 * Programmer tools
 ** Look for a function on google code
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   ;; TODO: add support for different modes
   (defun ca-look-for-function ()
     (interactive)
@@ -1709,7 +1709,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
    See [[http://alexott.net/en/writings/emacs-devenv/EmacsCedet.html][gentle introduction to cedet]] for a nicer tutorial
 
 *** Use cedet and gloabally ede-mode for projects
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-cedet.el
   (load (make-conf-path "cedet/common/cedet"))
   (setq semantic-load-turn-everything-on t)
   (global-ede-mode nil)
@@ -1717,14 +1717,14 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Activate semantic bindings in some more modes
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-cedet.el
   (dolist
       (hook '(python-mode-hook c-mode-common-hook emacs-lisp-mode-hook makefile-mode-hook))
     (add-hook hook 'ca-activate-more-semantic-bindings))
 #+end_src
 
 *** Options for semantic
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-cedet.el
   (global-semantic-stickyfunc-mode 1)
   ;; (global-semantic-decoration-mode 1)
   (global-semantic-highlight-func-mode 1)
@@ -1735,7 +1735,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Hook for inline documentation setting local keys
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-cedet.el
   (defun ca-c-like-cedet-hook ()
     (local-set-key [(control return)] 'semantic-ia-complete-symbol)
     (local-set-key "\C-c?" 'semantic-ia-complete-symbol-menu)
@@ -1752,7 +1752,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** Using semanticdb
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-cedet.el
   (global-semanticdb-minor-mode 1)
   (require 'semanticdb-global)
 #+end_src
@@ -1760,23 +1760,23 @@ Emacs is no more about text editing than astronomy is about telescopes.
 ** Tags
 *** Etags-select
    This extension to etags helps choosing from equal names of functions.
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-prog-mode.el
   (require 'etags-select)
 #+end_src
 
 *** Etags table to use also in bigger projects
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-prog-mode.el
    (require 'etags-table)
    (setq etags-table-search-up-depth 1)
 #+end_src
 
 *** Gtags
-#+begin_src elisp :tangle yes
+#+begin_src elisp :tangle modules/ca-prog-mode.el
   (autoload 'gtags-mode "gtags" "gtags mode" t)
 #+end_src
 
   Update or create a new gtag file
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-prog-mode.el
   (defun ca-gtags-create-or-update ()
     "create or update the gnu global tag file"
     (interactive)
@@ -1843,7 +1843,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 ** VC
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-vc.el
   (setq
    vc-handled-backends '(Git Hg CVS SVN Bzr)
    ;; always opening the real file instead!
@@ -1851,13 +1851,13 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 *** SVN
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-vc.el
   (autoload 'svn-status "psvn" "svn status" t)
 #+end_src
 
 *** [[http://philjackson.github.com/magit/][Magit]]
    Nice interface for git.
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-vc.el
   ;TODO: make sure that magit-svn is loaded whenever we are working with a git-svn repo
 
   (autoload 'magit-status "magit" "magit" t)
@@ -1875,7 +1875,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 **** Function to enable revert mode when in a git repository
    It's nice to enable auto-revert-mode automatically on files which are surely in a git repository.
    To do this we can simply add a hook to find-file-hook
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-vc.el
   ;TODO: use  (vc-ensure-vc-buffer) to make it more general
 
   (defun ca-is-version-control-file ()
@@ -1889,7 +1889,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 * Programming
 ** Internationalization
    Editing po files
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-prog-mode.el
   (autoload 'po-mode "po-mode+"
     "Major mode for translators to edit PO files" t)
 
@@ -1909,7 +1909,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 ** To spell mode
    Most of the programming languages we can have syntax checking on the comments and strings.
    Flyspell-prog-mode is just for this
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-prog-mode.el
   (defcustom ca-spell-langs
     '(emacs-lisp-mode-hook python-mode-hook c-mode-common-hook nesc-mode-hook java-mode-hook jde-mode-hook haskell-mode-hook)
     "Set of programming modes for which I want to enable spelling in comments and strings"
@@ -1927,12 +1927,12 @@ Emacs is no more about text editing than astronomy is about telescopes.
 ** Web nice utilities
 *** Gist
     Use simply *gist-buffer* or *gist-region* to paste code online.
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-prog-mode.el
     (require 'gist)
 #+end_src
 
 *** Lisppast
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-prog-mode.el
  (autoload 'lisppaste "lisppaste" "lisppaste" t)
 #+end_src
 
