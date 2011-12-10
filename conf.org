@@ -898,7 +898,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
   See also [[http://scottfrazersblog.blogspot.com/2010/01/emacs-filtered-buffer-switching.html][this nice article]] for a better filtering of buffers while switching.
 
 ** Manage buffer
-#+begin_src emacs-lisp :tangle modules/functions.el
+#+begin_src emacs-lisp :tangle modules/ca-functions.el
   (defun ca-untabify-buffer ()
     (interactive)
     (untabify (point-min) (point-max)))
@@ -1539,7 +1539,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 #+end_src
 * [[http://code.google.com/p/yasnippet/][Yasnippet]]
-#+begin_src emacs-lisp :tangle modules/yas.el
+#+begin_src emacs-lisp :tangle modules/ca-yas.el
   (require 'yasnippet)
   (setq yas/root-directory
         (list (make-conf-path "yasnippet-snippets/")))
