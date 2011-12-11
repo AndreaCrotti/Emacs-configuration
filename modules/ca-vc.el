@@ -1,3 +1,4 @@
+;TODO: add support for more extensions, and add automatically magit-svn if possible
 
 (setq
  vc-handled-backends '(Git Hg CVS SVN Bzr)
@@ -9,6 +10,12 @@
 ;TODO: make sure that magit-svn is loaded whenever we are working with a git-svn repo
 
 (autoload 'magit-status "magit" "magit" t)
+
+;TODO: check if this is actually really working
+(eval-after-load 'magit
+  '(lambda ()
+    (require 'magit-svn)))
+
 (setq magit-log-edit-confirm-cancellation t)
 ;; use tty which should be faster, passphrase not allowed here
 (setq magit-process-connection-type nil)
