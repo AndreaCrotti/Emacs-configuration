@@ -46,7 +46,7 @@
 
 ;; Try to load python support, but fail silently since it is only used
 ;; for optional functionality
-(require 'python nil t)
+;; (require 'python nil t)
 
 (require 'semantic-wisent)
 (require 'wisent-python-wy)
@@ -61,14 +61,14 @@ path."
   (python-proc)
   (if python-buffer
       (with-current-buffer python-buffer
-	(set (make-local-variable 'python-preoutput-result) nil)
-	(python-send-string
-	 "import sys; print '_emacs_out ' + '\\0'.join(sys.path)")
-	(accept-process-output (python-proc) 2)
-	(if python-preoutput-result
-	    (split-string python-preoutput-result "[\0\n]" t)
-	  (message "Timeout while querying Python for system include path.")
-	  nil))
+        (set (make-local-variable 'python-preoutput-result) nil)
+        (python-send-string
+         "import sys; print '_emacs_out ' + '\\0'.join(sys.path)")
+        (accept-process-output (python-proc) 2)
+        (if python-preoutput-result
+            (split-string python-preoutput-result "[\0\n]" t)
+          (message "Timeout while querying Python for system include path.")
+          nil))
     (message "Python seems to be unavailable on this system.")))
 
 (defcustom-mode-local-semantic-dependency-system-include-path
@@ -317,9 +317,9 @@ static methods."
   ;; + at least one argument
   ;; + first argument is self
   (when (and (> (length (semantic-tag-function-arguments tag)) 0)
-	     (string= (semantic-tag-name
-		       (first (semantic-tag-function-arguments tag)))
-		      "self"))
+             (string= (semantic-tag-name
+                       (first (semantic-tag-function-arguments tag)))
+                      "self"))
     (semantic-tag-put-attribute tag :parent "dummy"))
 
   ;; Identify constructors, special and private functions
@@ -338,14 +338,14 @@ static methods."
   ;; If there is a staticmethod decorator, add a static typemodifier
   ;; for the function.
   (when (semantic-find-tags-by-name
-	 "staticmethod"
-	 (semantic-tag-get-attribute tag :decorators))
+         "staticmethod"
+         (semantic-tag-get-attribute tag :decorators))
     (semantic-tag-put-attribute
      tag :typemodifiers
      (cons "static"
-	   (semantic-tag-get-attribute tag :typemodifiers))))
+           (semantic-tag-get-attribute tag :typemodifiers))))
 
-  ;; TODO 
+  ;; TODO
   ;; + check for decorators classmethod
   ;; + check for operators
   tag)
@@ -369,23 +369,23 @@ attribute."
   ;; parameter, find assignments to instance variables and add
   ;; corresponding variable tags to the list of members.
   (dolist (member (remove-if-not
-		   #'semantic-tag-function-constructor-p
-		   (semantic-tag-type-members tag)))
+                   #'semantic-tag-function-constructor-p
+                   (semantic-tag-type-members tag)))
     (let ((self (semantic-tag-name
-		 (car (semantic-tag-function-arguments member)))))
+                 (car (semantic-tag-function-arguments member)))))
       (dolist (statement (remove-if-not
-			  (lambda (s)
-			    (semantic-python-instance-variable-p s self))
-			  (semantic-tag-get-attribute member :suite)))
-	(let ((variable (semantic-tag-clone
-			 statement
-			 (substring (semantic-tag-name statement) 5)))
-	      (members  (semantic-tag-get-attribute tag :members)))
+                          (lambda (s)
+                            (semantic-python-instance-variable-p s self))
+                          (semantic-tag-get-attribute member :suite)))
+        (let ((variable (semantic-tag-clone
+                         statement
+                         (substring (semantic-tag-name statement) 5)))
+              (members  (semantic-tag-get-attribute tag :members)))
 
-	  (when (semantic-python-private-p variable)
-	    (semantic-tag-put-attribute variable :protection "private"))
+          (when (semantic-python-private-p variable)
+            (semantic-tag-put-attribute variable :protection "private"))
 
-	  (setcdr (last members) (list variable))))))
+          (setcdr (last members) (list variable))))))
 
   ;; TODO remove the :suite attribute
   tag)
@@ -444,13 +444,13 @@ To be implemented for Python!  For now just return nil."
 
    ;; I need a python guru to update this list:
    semantic-symbol->name-assoc-list-for-type-parts '((variable . "Variables")
-						     (function . "Methods"))
+                                                     (function . "Methods"))
    semantic-symbol->name-assoc-list '((type . "Classes")
-				      (variable . "Variables")
-				      (function . "Functions")
-				      (include  . "Imports")
-				      (package  . "Package")
-				      (code . "Code")))
+                                      (variable . "Variables")
+                                      (function . "Functions")
+                                      (include  . "Imports")
+                                      (package  . "Package")
+                                      (code . "Code")))
    )
 
 ;;;###autoload
@@ -485,10 +485,10 @@ SELF or the instance name \"self\" if SELF is nil."
   (when (semantic-tag-of-class-p tag 'variable)
     (let ((name (semantic-tag-name tag)))
       (when (string-match
-	     (rx-to-string
-	      `(seq string-start ,(or self "self") "."))
-	     name)
-	(not (string-match "\\." (substring name 5)))))))
+             (rx-to-string
+              `(seq string-start ,(or self "self") "."))
+             name)
+        (not (string-match "\\." (substring name 5)))))))
 
 (defun semantic-python-docstring-p (tag)
   "Return non-nil, when TAG is a Python documentation string."
@@ -496,11 +496,11 @@ SELF or the instance name \"self\" if SELF is nil."
   ;; member is of class 'code and its name looks like a documentation
   ;; string.
   (let ((class (semantic-tag-class tag))
-	(name  (semantic-tag-name  tag)))
+        (name  (semantic-tag-name  tag)))
     (and (eq class 'code)
-	 (string-match
-	  (rx (seq string-start "\"\"\"" (0+ anything) "\"\"\"" string-end))
-	  name))))
+         (string-match
+          (rx (seq string-start "\"\"\"" (0+ anything) "\"\"\"" string-end))
+          name))))
 
 (defun semantic-python-extract-docstring (tag)
   "Return the Python documentation string contained in TAG."

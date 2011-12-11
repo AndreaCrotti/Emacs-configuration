@@ -61,5 +61,10 @@
 
 (add-hook 'find-file-hook 'ca-insert-header)
 
+;; an interesting possibility to explore is to compile a bundle for
+;; each mode, and compile it on demand??
+;; (yas/compile-bundle "yasnippet.el"
+;;                     "mysnippets.el"
+;;                     "../yasnippet-snippets")
 
 (provide 'ca-yas)
