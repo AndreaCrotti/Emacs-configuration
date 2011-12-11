@@ -28,8 +28,8 @@ submodules are required and some need also to be compiled.
     (This could take a long time)
   - create an empty "custom.el" where you cloned the repository
   - Create or modify your *.emacs* in your $HOME with the following:
-    - (setq base "/your/path")
-    - (load-file (concat base "orgloader.el"))
+    + (setq base "~/Emacs-configuration/")
+    + (load (concat base "ca-init.el"))
 
   Some modes imported in this way might need to be compiled first, for example:
   - doxymacs
