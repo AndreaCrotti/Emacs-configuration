@@ -107,8 +107,11 @@
 ;; now try to load everything in modules?
 (add-to-list 'load-path (make-conf-path "modules"))
 
-(provide 'ca-init)
+(require 'ca-themes)
 (require 'ca-functions)
 (require 'ca-yas)
 ;; is the order important anyhow?
 (require 'ca-python)
+(require 'ca-auto-complete)
+
+(provide 'ca-init)

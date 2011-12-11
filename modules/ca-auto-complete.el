@@ -1,4 +1,3 @@
-
 ;;; Require
 (require 'auto-complete)
 ;; Various configurations

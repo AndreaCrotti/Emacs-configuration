@@ -1,3 +1,5 @@
+(require 'ca-environment)
+
 ;; compile facilities
 (global-set-key [f5] 'recompile)
 

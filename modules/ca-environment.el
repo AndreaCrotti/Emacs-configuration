@@ -1,4 +1,3 @@
-
 (defconst ca-sysop
   (cond ((string-match "linux" system-configuration) "linux")
         ((string-match "apple" system-configuration) "mac")

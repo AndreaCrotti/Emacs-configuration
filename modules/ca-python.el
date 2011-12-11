@@ -1,12 +1,20 @@
-;; this is because it can be loaded from two different places
-;; load-library loads the elc if available
+(require 'ca-environment)
+
+(defcustom ca-python-enable-rope t
+     "True if rope is enabled"
+     :type 'boolean)
+
+(if ca-linux
+    ;; TODO: should also check if it's actually in the path and check
+    ;; that he automatic settings are also working
+    (setq py-shell-name "python2"))
 
 (setq py-install-directory
       (make-conf-path "python-mode"))
 
 (setq py-electric-colon-active t)
 
-(load-library (concat py-install-directory "python-mode"))
+(load-library (concat py-install-directory "/python-mode"))
 
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 (add-to-list 'interpreter-mode-alist '("python" . python-mode))
@@ -36,6 +44,28 @@
       (compilation-mode)
       (shell-command (format "cd %s && %s setup.py %s"
                              project-root py-python-command command)))))
+
+(defvar ac-source-rope
+  '((candidates
+     . (lambda ()
+         (prefix-list-elements (rope-completions) ac-target))))
+  "Source for Rope")
+
+(defun ca-python-auto-complete ()
+  (eval-after-load 'ca-python-auto-complete
+    (add-hook 'python-mode-hook
+              '(lambda ()
+                 (add-to-list 'ac-sources ac-source-rope)))))
+
+(if ca-python-enable-rope
+    (progn
+      ;; pymacs section
+      (add-to-list 'load-path (concat py-install-directory "/pymacs"))
+      (setenv "PYMACS_PYTHON" "python2.7")
+      (require 'pymacs)
+      (pymacs-load "ropemacs" "rope-")
+      (ca-python-auto-complete)
+))
 
 (provide 'ca-python)
 
