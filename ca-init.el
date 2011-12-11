@@ -111,6 +111,8 @@
 ;; now try to load everything in modules?
 (add-to-list 'load-path (make-conf-path "modules"))
 
+; second argument as 0 to compile if they don't exist
+(byte-recompile-directory (make-conf-path "modules") 0)
 (require 'ca-themes)
 (require 'ca-cedet)
 (require 'ca-functions)
@@ -125,6 +127,5 @@
 
 ;; some other things which might be optional
 ;; create a dictionary structure where
-
 
 (provide 'ca-init)
