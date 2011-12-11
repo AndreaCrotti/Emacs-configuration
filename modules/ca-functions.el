@@ -23,20 +23,6 @@
   (insert (shell-command-to-string "fortune"))
   (end-of-paragraph-text)))
 
-(defun ca-gen-path-dirs (base-dir)
-  "Add to load path all the subdirectories of first level"
-  (interactive)
-  (message "adding all directories in the first level to the load-path")
-  (dolist (dir (directory-files base-dir t))
-    (if (and
-         (file-directory-p dir)
-         (not (file-symlink-p dir)))
-        (add-to-list 'load-path dir))))
-
-; next step is to remove conf completely
-(defun ca-reload-dirs ()
-  (interactive)
-  (ca-gen-path-dirs base))
 
 (defun ca-google-map-it (address)
   "get the map of the given address"

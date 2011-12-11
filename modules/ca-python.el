@@ -1,29 +1,13 @@
+;; this is because it can be loaded from two different places
+;; load-library loads the elc if available
 
-;; (setq ca-reset-python-test-file "reset_python_test.py")
-;; (set-buffer (get-buffer-create ca-reset-python-test-file))
-;; (erase-buffer)
-;; (when
-;;     (featurep 'python-mode)
-;;   (unload-feature 'python-mode t))
-
-;; (fundamental-mode)
-;; (setq py-python-command-args '("-colors" "Linux"))
-;; (kill-buffer ca-reset-python-test-file)
-
-(require 'python-mode)
 (setq py-install-directory
-      (expand-file-name "~/Emacs-configuration/python-mode"))
+      (make-conf-path "python-mode"))
 
-(setq py-load-python-mode-pymacs-p nil)
 (setq py-electric-colon-active t)
 
-;; (py-load-python-mode-pymacs)
-;; (setenv "PYMACS_PYTHON" "python2.7")
+(load-library (concat py-install-directory "python-mode"))
 
-;; (pymacs-load "ropemacs" "rope-")
-;; (setq ropemacs-confirm-saving 'nil)
-
-(load-library (make-conf-path "python-mode/python-mode"))
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 (add-to-list 'interpreter-mode-alist '("python" . python-mode))
 (add-to-list 'load-path (make-conf-path "python-mode/test"))
@@ -40,7 +24,7 @@
           (lambda ()
             (local-set-key (kbd "M-D") 'ca-python-remove-pdb)))
 
-;TODO: the ca-find-project-root is not python specific
+;FIXME: not really working yet, and try to make it more generic
 (defun ca-python-setup ()
   (interactive)
   (let
@@ -54,3 +38,14 @@
                              project-root py-python-command command)))))
 
 (provide 'ca-python)
+
+;; these lines where just to make semantic happy
+;; (setq ca-reset-python-test-file "reset_python_test.py")
+;; (set-buffer (get-buffer-create ca-reset-python-test-file))
+;; (erase-buffer)
+;; (when
+;;     (featurep 'python-mode)
+;;   (unload-feature 'python-mode t))
+
+;; (fundamental-mode)
+;; (kill-buffer ca-reset-python-test-file)

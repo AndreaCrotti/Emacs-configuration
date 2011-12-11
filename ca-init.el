@@ -1,6 +1,23 @@
 (defun make-conf-path (path)
   (expand-file-name (concat base path)))
 
+(defun ca-gen-path-dirs (base-dir)
+  "Add to load path all the subdirectories of first level"
+  (interactive)
+  (message "adding all directories in the first level to the load-path")
+  (dolist (dir (directory-files base-dir t))
+    (if (and
+         (file-directory-p dir)
+         (not (file-symlink-p dir)))
+        (add-to-list 'load-path dir))))
+
+; next step is to remove conf completely
+(defun ca-reload-dirs ()
+  (interactive)
+  (ca-gen-path-dirs base))
+
+(ca-gen-path-dirs base)
+
 ;TODO: try to move it inside miniconf.org instead
 (add-to-list 'load-path (make-conf-path "gnus/lisp"))
 (require 'gnus-load)
@@ -91,3 +108,7 @@
 (add-to-list 'load-path (make-conf-path "modules"))
 
 (provide 'ca-init)
+(require 'ca-functions)
+(require 'ca-yas)
+;; is the order important anyhow?
+(require 'ca-python)
