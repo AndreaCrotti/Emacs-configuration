@@ -11,6 +11,10 @@
          (not (file-symlink-p dir)))
         (add-to-list 'load-path dir))))
 
+;XXX: this has to be done as soon as possible or the default cedet will be loaded!!
+(when (not (boundp 'cedet-version))
+  (load (make-conf-path "cedet/common/cedet.el")))
+
 ; next step is to remove conf completely
 (defun ca-reload-dirs ()
   (interactive)
@@ -108,6 +112,7 @@
 (add-to-list 'load-path (make-conf-path "modules"))
 
 (require 'ca-themes)
+(require 'ca-cedet)
 (require 'ca-functions)
 (require 'ca-yas)
 ;; is the order important anyhow?

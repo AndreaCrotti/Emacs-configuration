@@ -360,8 +360,9 @@ Otherwise, expand the current region to select the lines the region touches."
 (add-hook 'ca-find-file-root-hook 'ca-find-file-root-header-warning)
 
 (defun ca-reload-conf ()
+  "Reload the current configuration"
   (interactive)
-  (org-babel-load-file (make-conf-path "conf.org")))
+  (require 'ca-init))
 
 ;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
 (defun ca-unfill-paragraph ()

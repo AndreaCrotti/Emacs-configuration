@@ -1,12 +1,15 @@
 (require 'ca-environment)
 
 (defcustom ca-python-enable-rope t
-     "True if rope is enabled"
-     :type 'boolean)
+  "True if rope is enabled"
+  :type 'boolean)
 
+;FIXME: not used at the moment
 (defcustom ca-python-enable-cedet t
   "True if we should use cedet also for python"
-  :type boolean)
+  :type 'boolean)
+
+; use eval-after-load to set the right keys for python with cedet
 
 (if ca-linux
     ;; TODO: should also check if it's actually in the path and check
@@ -73,14 +76,3 @@
     ))
 
 (provide 'ca-python)
-
-;; these lines where just to make semantic happy
-;; (setq ca-reset-python-test-file "reset_python_test.py")
-;; (set-buffer (get-buffer-create ca-reset-python-test-file))
-;; (erase-buffer)
-;; (when
-;;     (featurep 'python-mode)
-;;   (unload-feature 'python-mode t))
-
-;; (fundamental-mode)
-;; (kill-buffer ca-reset-python-test-file)

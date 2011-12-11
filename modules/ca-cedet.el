@@ -22,7 +22,7 @@
 
 ;; this makes it able to load more than once
 (when (not (boundp 'cedet-version))
-  (load-library (make-conf-path "cedet/common/cedet")))
+  (load (make-conf-path "cedet/common/cedet.el")))
 
 (setq semantic-load-turn-everything-on t)
 (global-ede-mode nil)
