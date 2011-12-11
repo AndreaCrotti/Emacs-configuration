@@ -123,4 +123,8 @@
 (require 'ca-keys)
 (require 'ca-aliases)
 
+;; some other things which might be optional
+;; create a dictionary structure where
+
+
 (provide 'ca-init)

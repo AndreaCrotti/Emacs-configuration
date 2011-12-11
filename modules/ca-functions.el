@@ -1,4 +1,7 @@
+(defun ca-byte-compile-configuration ()
+  ())
 
+;TODO: this is an utility function which might be in a library
 (defun ca-mapcar-head (fn-head fn-rest list)
   "Like MAPCAR, but applies a different function to the first element."
   (if list

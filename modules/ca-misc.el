@@ -150,8 +150,8 @@ the program is found in `exec-path'; otherwise `message' is used."
         (= (length (this-command-keys-vector)) 1)
         (ca-growl-popup last-key))))
 
-;TODO: make it an external package and better a minor-mode, switching would also be much easier
 
+;TODO: this is not really working, fix it and make it only available on osx
 (setq ca-growl-mode nil)
 
 (defun ca-growl ()
@@ -165,16 +165,6 @@ the program is found in `exec-path'; otherwise `message' is used."
       (setq-default pre-command-hook (remq 'ca-popup-last pre-command-hook))
       (message "disabling growl mode notification")
       (setq ca-growl-mode nil))))
-
-(when ca-linux
-  (progn
-    (defun ca-vol-down ()
-      (interactive)
-      (shell-command "amixer -c 0 set PCM 3%- >/dev/null"))
-
-    (defun ca-vol-up ()
-      (interactive)
-      (shell-command "amixer -c 0 set PCM 3%+ >/dev/null"))))
 
 (defun ca-presentation-mode ()
   "what to enable in a presentation mode"
