@@ -20,6 +20,7 @@
   (interactive)
   (ca-gen-path-dirs base))
 
+;; all the subdirectories are added to the path, including modules
 (ca-gen-path-dirs base)
 
 ;TODO: try to move it inside miniconf.org instead
@@ -107,9 +108,6 @@
 (setq irfc-directory "~/rfcs")
 (add-to-list 'auto-mode-alist
              '("/rfc[0-9]+\\.txt\\'" . irfc-mode))
-
-;; now try to load everything in modules?
-(add-to-list 'load-path (make-conf-path "modules"))
 
 ; second argument as 0 to compile if they don't exist
 (byte-recompile-directory (make-conf-path "modules") 0)

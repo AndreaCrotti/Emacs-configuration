@@ -1,8 +1,10 @@
-
+;FIXME: by default the more stupid default version is loaded, find out
+;how to load the new one
 (add-to-list 'auto-mode-alist '("\\.[tT]e[xX]\\'" . latex-mode))
 (add-to-list 'load-path (make-conf-path "auctex"))
 (autoload 'latex-mode "auctex" "latex mode" t)
 
+; these variables are only defined in auctex
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 (setq LaTeX-command "latex")

@@ -18,38 +18,6 @@ When called with prefix arg (`C-u'), then remove this space again."
            (replace-regexp-in-string "^[[:space:]]+" "" (buffer-name))
          (concat " " (buffer-name)))))))
 
-;; from http://orgmode.org/worg/org-tutorials/org-google-sync.html#sec-3
-;;; define categories that should be excluded
-(setq org-export-exclude-category (list "google" "private"))
-
-;;; define filter. The filter is called on each entry in the agenda.
-;;; It defines a regexp to search for two timestamps, gets the start
-;;; and end point of the entry and does a regexp search. It also
-;;; checks if the category of the entry is in an exclude list and
-;;; returns either t or nil to skip or include the entry.
-
-(defun ca-org-mycal-export-limit ()
-  "Limit the export to items that have a date, time and a range. Also exclude certain categories."
-  (setq org-tst-regexp "<\\([0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\} ... [0-9]\\{2\\}:[0-9]\\{2\\}[^\r\n>]*?\
-\)>")
-
-  (setq org-tstr-regexp (concat org-tst-regexp "--?-?" org-tst-regexp))
-  (save-excursion
-                                        ; get categories
-    (setq mycategory (org-get-category))
-                                        ; get start and end of tree
-    (org-back-to-heading t)
-    (setq mystart    (point))
-    (org-end-of-subtree)
-    (setq myend      (point))
-    (goto-char mystart)
-                                        ; search for timerange
-    (setq myresult (re-search-forward org-tstr-regexp myend t))
-                                        ; search for categories to exclude
-    (setq mycatp (member mycategory org-export-exclude-category))
-                                        ; return t if ok, nil when not ok
-    (if (and myresult (not mycatp)) t nil)))
-
 ;;; activate filter and call export function
 (defun ca-org-mycal-export ()
   (let ((org-icalendar-verify-function 'org-mycal-export-limit))
@@ -96,33 +64,6 @@ When called with prefix arg (`C-u'), then remove this space again."
 (setq org-completion-use-ido t)
 ; with ido enabled the following is not necessary anymore
 (setq org-outline-path-complete-in-steps nil)
-
-;; make it like a macro, takes a body and executes it
-(defun ca-check-org-mode ()
-  "check if the buffer is in org mode"
-  (if
-      (eq major-mode 'org-mode)
-      t
-    (message "this action is possible only in org mode")))
-
-; Not used at the moment
-(defun ca-org-add-eventually()
-  "Adding a file to org-agenda when saved"
-  (interactive)
-  (if
-      (ca-org-agenda-is-filtered-p (buffer-file-name))
-      (message "filtered out in org-agenda-filter-out, change it to include it again")
-    (if
-         (and
-          (string= major-mode "org-mode")
-          ; TODO: check this condition
-          (or (org-agenda-filter-remote-files) (file-remote-p buffer-file-name))
-           ;TODO: there should be a function already in org-mode
-          (not (member (abbreviate-file-name buffer-file-name) org-agenda-files)))
-         (if
-             (yes-or-no-p "add the file to agenda?")
-             (org-agenda-file-to-front)))))
-
 
 ;; Defining a setup where org-mode takes care of remember notes
 (setq org-directory "~/org/")
