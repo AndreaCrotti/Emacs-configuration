@@ -1,5 +1,10 @@
 (require 'ca-environment)
 
+(setq py-install-directory
+      (make-conf-path "python-mode"))
+
+(load-library (concat py-install-directory "/python-mode"))
+
 (defcustom ca-python-enable-rope t
   "True if rope is enabled"
   :type 'boolean)
@@ -16,12 +21,8 @@
     ;; that he automatic settings are also working
     (setq py-shell-name "python2"))
 
-(setq py-install-directory
-      (make-conf-path "python-mode"))
 
 (setq py-electric-colon-active t)
-
-(load-library (concat py-install-directory "/python-mode"))
 
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 (add-to-list 'interpreter-mode-alist '("python" . python-mode))
