@@ -1,3 +1,5 @@
+(setq ca-cedet-modes
+      '(python-mode-hook c-mode-common-hook emacs-lisp-mode-hook makefile-mode-hook))
 
 (defun ca-next-tag ()
   (interactive)
@@ -18,13 +20,16 @@
   (local-set-key (kbd "M-.") 'semantic-complete-jump)
   (local-set-key (kbd "M-?") 'semantic-ia-fast-jump))
 
-(load (make-conf-path "cedet/common/cedet"))
+;; this makes it able to load more than once
+(when (not (boundp 'cedet-version))
+  (load-library (make-conf-path "cedet/common/cedet")))
+
 (setq semantic-load-turn-everything-on t)
 (global-ede-mode nil)
 (setq ede-locate-setup-options '(ede-locate-global ede-locate-locate ede-locate-idutils))
 
 (dolist
-    (hook '(python-mode-hook c-mode-common-hook emacs-lisp-mode-hook makefile-mode-hook))
+    (hook ca-cedet-modes)
   (add-hook hook 'ca-activate-more-semantic-bindings))
 
 (global-semantic-stickyfunc-mode 1)

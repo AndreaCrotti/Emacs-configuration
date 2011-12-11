@@ -1,3 +1,4 @@
+(require 'org)
 (setq org-replace-disputed-keys t)
 
 (defun th-hide-org-buffers (arg)

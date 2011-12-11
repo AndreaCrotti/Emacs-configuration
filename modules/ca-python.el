@@ -4,6 +4,10 @@
      "True if rope is enabled"
      :type 'boolean)
 
+(defcustom ca-python-enable-cedet t
+  "True if we should use cedet also for python"
+  :type boolean)
+
 (if ca-linux
     ;; TODO: should also check if it's actually in the path and check
     ;; that he automatic settings are also working
@@ -45,6 +49,7 @@
       (shell-command (format "cd %s && %s setup.py %s"
                              project-root py-python-command command)))))
 
+; taken from http://www.enigmacurry.com/2009/01/21/autocompleteel-python-code-completion-in-emacs/, see https://github.com/EnigmaCurry/emacs/blob/master/ryan-python.el for an updated version
 (defvar ac-source-rope
   '((candidates
      . (lambda ()
@@ -57,15 +62,15 @@
               '(lambda ()
                  (add-to-list 'ac-sources ac-source-rope)))))
 
-(if ca-python-enable-rope
-    (progn
-      ;; pymacs section
-      (add-to-list 'load-path (concat py-install-directory "/pymacs"))
-      (setenv "PYMACS_PYTHON" "python2.7")
-      (require 'pymacs)
-      (pymacs-load "ropemacs" "rope-")
-      (ca-python-auto-complete)
-))
+(when ca-python-enable-rope
+  (progn
+    ;; pymacs section
+    (add-to-list 'load-path (concat py-install-directory "/pymacs"))
+    (setenv "PYMACS_PYTHON" "python2.7")
+    (require 'pymacs)
+    (pymacs-load "ropemacs" "rope-")
+    ;; (ca-python-auto-complete)
+    ))
 
 (provide 'ca-python)
 

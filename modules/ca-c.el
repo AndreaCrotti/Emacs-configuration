@@ -24,44 +24,6 @@
 (autoload 'expand-member-functions "member-functions" "Expand C++ member function declarations" t)
 (add-hook 'c++-mode-hook (lambda () (local-set-key "\C-cm" #'expand-member-functions)))
 
-(defun ca-is-new-file ()
- "Check if it's a new file"
- (not (file-exists-p buffer-file-name)))
-
-(defun ca-insert-header ()
-  "try to insert the header smartly"
-  (when
-      (ca-is-new-file)
-      (let
-          ((snip (ca-find-matching-snippet (file-name-nondirectory (buffer-file-name)))))
-        (if
-            snip
-            (ca-insert-at-startup (cdr snip))))))
-
-(defun ca-find-matching-snippet (filename)
-  (assoc-if (lambda (x) (string-match x filename))
-                 ca-auto-header-conses))
-
-(defun ca-insert-at-startup (snippet)
-  "try to expand a snippet at startup"
-  (if
-      (yes-or-no-p (format "expand snippet %s?" snippet))
-      (progn
-        (insert snippet)
-        ;; add checking
-        (yas/expand))))
-
-(defcustom ca-auto-header-conses
-      '(
-        ("setup.py" . "setup")
-        ("\.sh$" . "bash")
-        ("\.h$"  . "once")
-        ("\.hpp$" . "once"))
-      "snippets to expand per file extension"
-      :group 'ca
-      :type 'list)
-
-(add-hook 'find-file-hook 'ca-insert-header)
 
 (defun ca-cpp-header-file-p ()
   "Return non-nil, if in a C++ header."
