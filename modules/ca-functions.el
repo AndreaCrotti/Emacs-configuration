@@ -457,3 +457,5 @@ Otherwise, expand the current region to select the lines the region touches."
   (interactive)
   (let ((baseurl "http://www.google.com/codesearch?q=%s"))
     (browse-url (format baseurl (thing-at-point 'symbol) ))))
+
+(provide 'ca-functions)

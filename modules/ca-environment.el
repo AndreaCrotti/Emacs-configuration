@@ -22,3 +22,5 @@
       (if
           (file-exists-p ports-lisp)
           (add-to-list 'load-path ports-lisp))))
+
+(provide 'ca-environment)

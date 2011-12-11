@@ -195,3 +195,5 @@
 (setq erc-hide-list '("JOIN" "PART" "QUIT"))
 
 (autoload 'erc-nicklist "erc-nicklist" "erc nicklist" t)
+
+(provide 'ca-network)

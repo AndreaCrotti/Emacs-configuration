@@ -185,3 +185,5 @@ the program is found in `exec-path'; otherwise `message' is used."
   (global-semantic-decoration-mode -1)
   (global-semantic-idle-summary-mode -1)
   (add-hook 'python-mode-hook (function ca-activate-flymake)))
+
+(provide 'ca-misc)

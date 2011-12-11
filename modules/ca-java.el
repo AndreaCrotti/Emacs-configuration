@@ -24,3 +24,5 @@
 (setq jde-jdk '("1.6" . "/System/Library/Frameworks/JavaVM.framework/Versions/1.6/"))
 
 (setq bsh-jar "/opt/local/share/java/bsh.jar")
+
+(provide 'ca-java)

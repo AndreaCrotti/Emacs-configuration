@@ -13,3 +13,5 @@
       (set-frame-position org-agenda-frame 0 400)
       (bury-buffer)
       (org-agenda 0 "t"))))
+
+(provide 'ca-frames)

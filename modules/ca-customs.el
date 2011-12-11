@@ -16,3 +16,5 @@
   "Closing char for different modes"
   :group 'ca
   :type 'list)
+
+(provide 'ca-customs)

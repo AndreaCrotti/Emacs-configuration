@@ -58,3 +58,5 @@
             ;; make jumping between filters easier
             (define-key ibuffer-mode-map "\C-n" 'ibuffer-forward-filter-group)
             (define-key ibuffer-mode-map "\C-p" 'ibuffer-backward-filter-group)))
+
+(provide 'ca-buffers)

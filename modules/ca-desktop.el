@@ -40,3 +40,5 @@
 
 (setq desktop-clear-preserve-buffers
       (append '("\\.newsrc-dribble" "\\.org$" "eternal" "\\*shell\\*" "\\*group\\*" "\\*ielm\\*") desktop-clear-preserve-buffers))
+
+(provide 'ca-desktop)

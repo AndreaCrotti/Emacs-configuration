@@ -42,3 +42,5 @@
 (add-hook 'java-mode-hook
           '(lambda ()
              (add-to-list 'ac-sources 'eclim-complete)))
+
+(provide 'ca-auto-complete)

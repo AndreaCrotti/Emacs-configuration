@@ -89,3 +89,5 @@
     (setq changing-to-omnet t)
     (cpp-omnet-mode)
     (setq changing-to-omnet nil)))
+
+(provide 'ca-c)

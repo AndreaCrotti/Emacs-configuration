@@ -18,3 +18,5 @@
     (redraw-frame (selected-frame))))
 
 (frame-parameter nil 'font)
+
+(provide 'ca-fonts)

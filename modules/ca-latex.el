@@ -114,3 +114,5 @@
 (add-to-list 'load-path (make-conf-path "ebib/src"))
 (autoload 'ebib "ebib" "Ebib, a BibTeX database manager." t)
 (add-to-list 'Info-default-directory-list (make-conf-path "ebib/manual"))
+
+(provide 'ca-latex)

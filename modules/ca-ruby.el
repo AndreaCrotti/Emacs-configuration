@@ -11,3 +11,5 @@
              (load-library "rdoc-mode")))
 
 (add-to-list 'load-path (make-conf-path "rinari/util"))
+
+(provide 'ca-ruby)

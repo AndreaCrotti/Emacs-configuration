@@ -1,3 +1,4 @@
+(setq org-replace-disputed-keys t)
 
 (defun th-hide-org-buffers (arg)
   "Hide org-mode buffers from completion by prepending a space at the buffer name.
@@ -181,3 +182,5 @@ When called with prefix arg (`C-u'), then remove this space again."
   (add-hook hook 'turn-on-orgtbl))
 
 (setq org-footnote-tag-for-non-org-mode-files "*-*-*-*-*-*-*-*-*-*")
+
+(provide 'ca-org)

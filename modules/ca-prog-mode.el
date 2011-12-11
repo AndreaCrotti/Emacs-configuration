@@ -124,3 +124,5 @@
   (add-hook hook 'fixme-mode))
 
 (autoload 'gtags-mode "gtags" "gtags mode" t)
+
+(provide 'ca-prog-mode)

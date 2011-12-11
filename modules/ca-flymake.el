@@ -31,3 +31,5 @@
              '("\\.py\\'" ca-flymake-python-init))
 
 (add-hook 'python-mode-hook 'ca-activate-flymake)
+
+(provide 'ca-flymake)

@@ -11,3 +11,5 @@
 (add-hook 'slime-mode-hook
           '(lambda ()
              (add-to-list 'slime-lisp-implementations '(sbcl ("sbcl")))))
+
+(provide 'ca-clojure)

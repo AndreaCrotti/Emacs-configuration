@@ -52,3 +52,5 @@
       (compilation-mode)
       (shell-command (format "cd %s && %s setup.py %s"
                              project-root py-python-command command)))))
+
+(provide 'ca-python)

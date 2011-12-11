@@ -265,3 +265,5 @@
 
 ;; also enable all the keys used
 (open-dribble-file (expand-file-name "~/.emacs.dribble"))
+
+(provide 'ca-other-modes)

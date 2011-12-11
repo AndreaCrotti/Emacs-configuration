@@ -27,3 +27,5 @@
       (auto-revert-mode t)))
 
 (add-hook 'find-file-hook 'ca-is-version-control-file)
+
+(provide 'ca-vc)
