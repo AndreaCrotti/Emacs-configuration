@@ -1,3 +1,4 @@
+;TODO: order by key type
 (require 'ca-environment)
 
 ;; compile facilities
@@ -10,6 +11,7 @@
 ;; cvs stuff
 (global-set-key "\C-xg" 'magit-status)
 
+;TODO: move to org-mode settings instead
 ;; some nice global keys
 (global-set-key "\C-cr" 'org-capture)
 (global-set-key "\C-ca" 'org-agenda)
@@ -26,6 +28,7 @@
 ;; visualization
 (global-set-key [f11] 'ca-full)
 
+;FIXME: these two are not so useful
 (global-set-key [f2] 'split-window-horizontally)
 (global-set-key [f1] 'delete-window)
 
@@ -46,16 +49,9 @@
   (define-key (keymap-parent local-function-key-map) [S-tab] nil)
   (global-set-key [S-tab] #'tab-to-tab-stop))
 
-(defun ca-lock-screen ()
-  (interactive)
-  (shell-command "xlock"))
-
-(when ca-linux
-  (global-set-key (kbd "<kp-add>") 'ca-vol-up)
-  (global-set-key (kbd "<kp-subtract>") 'ca-vol-down)
-  (global-set-key [f12] 'ca-lock-screen))
-
 (global-set-key (kbd "C-M-n") 'fixme-next)
 (global-set-key (kbd "C-M-p") 'fixme-prev)
 
 (global-set-key [f6] 'anything)
+
+(provide 'ca-keys)

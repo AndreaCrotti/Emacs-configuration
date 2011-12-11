@@ -1,7 +1,12 @@
-(require 'org)
+(add-to-list 'load-path (make-conf-path "org-mode/lisp"))
+(add-to-list 'load-path (make-conf-path "org-mode/contrib/babel/lisp"))
+(add-to-list 'load-path (make-conf-path "org-mode/contrib/babel/lisp/langs"))
+
+(autoload 'org-mode (make-conf-path "org-mode/lisp/org") "from git org mode" t)
+
 (setq org-replace-disputed-keys t)
 
-(defun th-hide-org-buffers (arg)
+(defun ca-hide-org-buffers (arg)
   "Hide org-mode buffers from completion by prepending a space at the buffer name.
 When called with prefix arg (`C-u'), then remove this space again."
   (interactive "P")
@@ -119,41 +124,22 @@ When called with prefix arg (`C-u'), then remove this space again."
              (org-agenda-file-to-front)))))
 
 
-(defcustom ca-org-agenda-filter-remote-files
-  t
-  "filter buffers open with tramp-mode"
-  :group 'ca
-  :type 'boolean)
-
-(defcustom ca-org-brainstorm-ideas 10
-  "number of brainstorm ideas"
-  :group 'ca)
-
-(defun ca-org-brainstorm ()
-  "starts a brainstorming of ideas"
-  (interactive)
-  (save-excursion
-    (dotimes (i ca-org-brainstorm-ideas)
-      (org-meta-return))))
-
-(setq questions '("Who" "What" "When" "Where" "Why" "How"))
-
-(defun ca-prompt-ideas ()
-  (interactive)
-  (dolist (q questions)
-    (org-meta-return)
-    (insert (concat q "?"))))
-
 ;; Defining a setup where org-mode takes care of remember notes
 (setq org-directory "~/org/")
 (setq org-default-notes-file (concat org-directory "notes.org"))
 
 ;; TODO: is it possible to use autoload here?
-(require 'ob-ditaa)
-(require 'ob-sh)
-(require 'ob-python)
-(require 'ob-ruby)
-(require 'ob-dot)
+;; (require 'ob-ditaa)
+;; (require 'ob-sh)
+;; (require 'ob-python)
+;; (require 'ob-ruby)
+;; (require 'ob-dot)
+
+(autoload 'ob-ditaa "ob-ditaa" "ob-ditaa" t)
+(autoload 'ob-sh "ob-sh" "ob-sh" t)
+(autoload 'ob-python "ob-python" "ob-python" t)
+(autoload 'ob-ruby "ob-ruby" "ob-ruby" t)
+(autoload 'ob-dot "ob-dot" "ob-dot" t)
 
 ;; TODO: first check if it's installed maybe
 ;;(setq org-latex-to-pdf-process '("texi2dvi -p -b -c -V %f"))

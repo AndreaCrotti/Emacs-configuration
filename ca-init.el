@@ -118,5 +118,9 @@
 ;; is the order important anyhow?
 (require 'ca-python)
 (require 'ca-auto-complete)
+(require 'ca-org)
+;; these things change the global state
+(require 'ca-keys)
+(require 'ca-aliases)
 
 (provide 'ca-init)
