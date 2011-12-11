@@ -1,4 +1,3 @@
-
 (setq jdibug-use-jde-source-paths nil)
 
 (add-to-list 'load-path (make-conf-path "jdee/lisp"))

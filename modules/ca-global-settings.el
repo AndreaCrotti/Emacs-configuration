@@ -1,2 +1,0 @@
-
-(provide 'ca-global-settings)

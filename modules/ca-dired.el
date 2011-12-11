@@ -1,3 +1,4 @@
+(require 'ca-environment)
 
 ;; reverting automatically the buffer
 (setq dired-auto-revert-buffer 1)

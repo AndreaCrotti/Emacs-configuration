@@ -1,4 +1,3 @@
-
 (setq current "monaco-12")
 (setq font-list
       (list "monaco-12" "inconsolata-14" "courier-13"))

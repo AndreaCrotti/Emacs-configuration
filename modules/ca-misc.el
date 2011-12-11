@@ -1,3 +1,4 @@
+(require 'ca-environment)
 
 (require 'saveplace)
 
@@ -104,24 +105,25 @@
 ;; TODO: make it a defcustom also, or better locate it automatically
 (setq fortune-dir "/opt/local/share/games/fortune/")
 
-(defun ca-do-applescript (str)
-  "Synchronously run applescript STR."
-  (with-temp-buffer
-    (insert str)
-    (shell-command-on-region (point-min) (point-max) "osascript" nil t)
-    (buffer-string)))
+(when ca-mac
+  (defun ca-do-applescript (str)
+    "Synchronously run applescript STR."
+    (with-temp-buffer
+      (insert str)
+      (shell-command-on-region (point-min) (point-max) "osascript" nil t)
+      (buffer-string)))
 
-(defun ca-mac-open-terminal ()
-  (interactive)
-  (let ((dir ""))
-    (cond
-     ((and (local-variable-p 'dired-directory) dired-directory)
-      (setq dir dired-directory))
-     ((stringp (buffer-file-name))
-      (setq dir (file-name-directory (buffer-file-name))))
-     )
-    (ca-do-applescript
-     (format "
+  (defun ca-mac-open-terminal ()
+    (interactive)
+    (let ((dir ""))
+      (cond
+       ((and (local-variable-p 'dired-directory) dired-directory)
+        (setq dir dired-directory))
+       ((stringp (buffer-file-name))
+        (setq dir (file-name-directory (buffer-file-name))))
+       )
+      (ca-do-applescript
+       (format "
 tell application \"Terminal\"
   activate
   try
@@ -131,24 +133,24 @@ tell application \"Terminal\"
   end try
 end tell" dir))))
 
-(defun ca-growl-popup (msg)
-  "Pop up a growl notification with MSG, or display an Emacs message.
+  (defun ca-growl-popup (msg)
+    "Pop up a growl notification with MSG, or display an Emacs message.
 The \"ca-growlnotify\" program is used if `window-system' is non-nil and
 the program is found in `exec-path'; otherwise `message' is used."
-  (interactive)
-  (if (and window-system (executable-find "ca-growlnotify"))
-      (shell-command (concat "growlnotify -a /Applications/Emacs.app/ -m "
-                             (shell-quote-argument msg)))
-    (message msg)))
+    (interactive)
+    (if (and window-system (executable-find "ca-growlnotify"))
+        (shell-command (concat "growlnotify -a /Applications/Emacs.app/ -m "
+                               (shell-quote-argument msg)))
+      (message msg)))
 
-(defun ca-popup-last ()
-  (interactive)
-  (let
-      ((last-key (key-description (this-command-keys))))
-    ;; check if we don't have a "stupid" sequence
-    (unless
-        (= (length (this-command-keys-vector)) 1)
-        (ca-growl-popup last-key))))
+  (defun ca-popup-last ()
+    (interactive)
+    (let
+        ((last-key (key-description (this-command-keys))))
+      ;; check if we don't have a "stupid" sequence
+      (unless
+          (= (length (this-command-keys-vector)) 1)
+        (ca-growl-popup last-key)))))
 
 
 ;TODO: this is not really working, fix it and make it only available on osx
@@ -166,6 +168,7 @@ the program is found in `exec-path'; otherwise `message' is used."
       (message "disabling growl mode notification")
       (setq ca-growl-mode nil))))
 
+;TODO: this is only for mac anyway
 (defun ca-presentation-mode ()
   "what to enable in a presentation mode"
   ;TODO: also add a function to cancel all this changes

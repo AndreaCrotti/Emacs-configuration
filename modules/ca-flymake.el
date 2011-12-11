@@ -1,4 +1,3 @@
-
 (require 'flymake)
 
 (defun ca-activate-flymake ()
