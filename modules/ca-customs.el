@@ -4,7 +4,6 @@
   :group 'ca
   :type 'string)
 
-;; TODO: use a defcustom instead
 (defcustom ca-newline-force-close-alist
   '((python-mode . ":")
     (jython-mode . ":")

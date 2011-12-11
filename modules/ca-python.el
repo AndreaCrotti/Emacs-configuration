@@ -7,12 +7,14 @@
 
 (defcustom ca-python-enable-rope t
   "True if rope is enabled"
-  :type 'boolean)
+  :type 'boolean
+  :group 'ca)
 
 ;FIXME: not used at the moment
 (defcustom ca-python-enable-cedet t
   "True if we should use cedet also for python"
-  :type 'boolean)
+  :type 'boolean
+  :group 'ca)
 
 ; use eval-after-load to set the right keys for python with cedet
 
