@@ -98,6 +98,7 @@
 (require 'ca-packages)
 (require 'ca-buffers)
 (require 'ca-flymake)
+(require 'ca-customs)
 
 (setq ca-custom-file (make-conf-path "custom.el"))
 (when (file-exists-p ca-custom-file)

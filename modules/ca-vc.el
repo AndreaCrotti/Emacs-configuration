@@ -13,8 +13,7 @@
 
 ;TODO: check if this is actually really working
 (eval-after-load 'magit
-  '(lambda ()
-    (require 'magit-svn)))
+  (require 'magit-svn))
 
 (defun ca-detect-git-svn ()
   "Detects if the project is actually git-svn or not"
@@ -25,8 +24,7 @@
     ;; (catch)
     (condition-case err
         (re-search-forward "svn-remote")
-      (search-failed
-       -1))))
+      (search-failed -1))))
 
 (setq magit-log-edit-confirm-cancellation t)
 ;; use tty which should be faster, passphrase not allowed here

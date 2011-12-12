@@ -1,3 +1,4 @@
+;FIXME: move this somewhere else
 
 (defcustom ca-default-closing-char ";"
   "default closing char, change in ca-newline-force-close-alist if needed"

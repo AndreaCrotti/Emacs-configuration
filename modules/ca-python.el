@@ -74,7 +74,11 @@
     (require 'pymacs)
     (pymacs-load "ropemacs" "rope-")
     (add-hook 'python-mode-hook
-              (lambda () (local-set-key [f7] 'rope-find-file)))
+              (lambda ()
+                ;FIXME: not taken in the right consideration?
+                (local-set-key (kbd "M-/") 'dabbrev-expand)
+                (local-set-key [f7] 'rope-find-file)))
+
     (setq ropemacs-enable-autoimport t)
     ;; (ca-python-auto-complete)
     ))
