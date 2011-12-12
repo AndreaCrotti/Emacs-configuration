@@ -114,7 +114,7 @@
 (require 'ca-themes)
 (require 'ca-cedet)
 (require 'ca-functions)
-;;(require 'ca-yas) ;; takes more than 2 seconds to load due to the huge list of files
+(require 'ca-yas) ;; takes more than 2 seconds to load due to the huge list of files
 ;; see if it's possible to postpone loading the snippets
 ;; is the order important anyhow?
 
@@ -127,5 +127,10 @@
 
 ;; some other things which might be optional
 ;; create a dictionary structure where
+(require 'ca-dired)
+(require 'ca-misc)
+(require 'ca-other-modes)
+(require 'ca-prog-mode)
+(require 'ca-vc)
 
 (provide 'ca-init)
