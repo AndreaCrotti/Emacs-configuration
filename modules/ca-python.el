@@ -51,7 +51,7 @@
     (with-temp-buffer
       (compilation-mode)
       (shell-command (format "cd %s && %s setup.py %s"
-                             project-root py-python-command command)))))
+                             project-root py-shell-name command)))))
 
 ; taken from http://www.enigmacurry.com/2009/01/21/autocompleteel-python-code-completion-in-emacs/, see https://github.com/EnigmaCurry/emacs/blob/master/ryan-python.el for an updated version
 (defvar ac-source-rope
@@ -75,6 +75,7 @@
     (pymacs-load "ropemacs" "rope-")
     (add-hook 'python-mode-hook
               (lambda () (local-set-key [f7] 'rope-find-file)))
+    (setq ropemacs-enable-autoimport t)
     ;; (ca-python-auto-complete)
     ))
 

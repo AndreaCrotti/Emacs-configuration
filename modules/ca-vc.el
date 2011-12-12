@@ -16,6 +16,18 @@
   '(lambda ()
     (require 'magit-svn)))
 
+(defun ca-detect-git-svn ()
+  "Detects if the project is actually git-svn or not"
+  (interactive)
+  (with-temp-buffer
+    (insert-file-contents ".git/config")
+    (goto-line 0)
+    ;; (catch)
+    (condition-case err
+        (re-search-forward "svn-remote")
+      (search-failed
+       -1))))
+
 (setq magit-log-edit-confirm-cancellation t)
 ;; use tty which should be faster, passphrase not allowed here
 (setq magit-process-connection-type nil)
