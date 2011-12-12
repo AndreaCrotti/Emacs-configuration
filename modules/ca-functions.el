@@ -1,5 +1,23 @@
-(defun ca-byte-compile-configuration ()
-  ())
+(defun ca-gen-path-dirs (base-dir)
+  "Add to load path all the subdirectories of first level"
+  (interactive)
+  (message "adding all directories in the first level to the load-path")
+  (dolist (dir (directory-files base-dir t))
+    (if (and
+         (file-directory-p dir)
+         (not (file-symlink-p dir)))
+        (add-to-list 'load-path dir))))
+
+; next step is to remove conf completely
+(defun ca-reload-dirs ()
+  "Add all the first-level directories to the path"
+  (interactive)
+  (ca-gen-path-dirs base))
+
+(defun ca-reload-conf ()
+  "Reload the current configuration"
+  (interactive)
+  (require 'ca-init))
 
 ;TODO: this is an utility function which might be in a library
 (defun ca-mapcar-head (fn-head fn-rest list)
@@ -361,11 +379,6 @@ Otherwise, expand the current region to select the lines the region touches."
           (propertize  warning 'face 'ca-find-file-root-header-face))))
 
 (add-hook 'ca-find-file-root-hook 'ca-find-file-root-header-warning)
-
-(defun ca-reload-conf ()
-  "Reload the current configuration"
-  (interactive)
-  (require 'ca-init))
 
 ;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
 (defun ca-unfill-paragraph ()

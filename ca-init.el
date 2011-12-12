@@ -1,24 +1,16 @@
 (defun make-conf-path (path)
+  "Shortcut to create the path of the configuration"
   (expand-file-name (concat base path)))
 
-(defun ca-gen-path-dirs (base-dir)
-  "Add to load path all the subdirectories of first level"
-  (interactive)
-  (message "adding all directories in the first level to the load-path")
-  (dolist (dir (directory-files base-dir t))
-    (if (and
-         (file-directory-p dir)
-         (not (file-symlink-p dir)))
-        (add-to-list 'load-path dir))))
+(add-to-list 'load-path (make-conf-path "modules"))
+; second argument as 0 to compile if they don't exist
+(byte-recompile-directory (make-conf-path "modules") 0)
 
+(require 'ca-functions)
+;TODO: move the functions to the functions file, and require it before everything else
 ;XXX: this has to be done as soon as possible or the default cedet will be loaded!!
 (when (not (boundp 'cedet-version))
   (load (make-conf-path "cedet/common/cedet.el")))
-
-; next step is to remove conf completely
-(defun ca-reload-dirs ()
-  (interactive)
-  (ca-gen-path-dirs base))
 
 ;; all the subdirectories are added to the path, including modules
 (ca-gen-path-dirs base)
@@ -61,38 +53,27 @@
 
 (require 'ido)
 (ido-mode t)
-;; otherwise it will try to connect to old servers all the time
-(setq ido-enable-tramp-completion t)
 
-                                        ;TODO: those could be hard to grasp for a beginner, should make it customizable
 (setq
+ ido-enable-tramp-completion t
  ido-enable-flex-matching t
  ido-enable-regexp nil
  ido-use-url-at-point t
  ido-create-new-buffer 'always
  ido-default-buffer-method 'selected-window
+ ido-everywhere t
  ido-use-filename-at-point 'guess)
 
-(ido-everywhere t)
-
-(defcustom ca-windmove-key
-  'shift
-  "key for moving between windows"
-  :group 'ca
-  :type 'symbol)
-
-(windmove-default-keybindings ca-windmove-key)
+;; make it possible to disable it
+(windmove-default-keybindings 'shift)
 
 (setq calendar-date-style 'european)
 
 (require 'epa)
 (epa-file-enable)
 
-; second argument as 0 to compile if they don't exist
-(byte-recompile-directory (make-conf-path "modules") 0)
 (require 'ca-themes)
 (require 'ca-cedet)
-(require 'ca-functions)
 (require 'ca-yas) ;; takes more than 2 seconds to load due to the huge list of files
 ;; see if it's possible to postpone loading the snippets
 ;; is the order important anyhow?
