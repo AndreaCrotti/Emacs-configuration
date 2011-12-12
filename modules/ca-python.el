@@ -1,7 +1,8 @@
 (require 'ca-environment)
 
-(setq py-install-directory
-      (make-conf-path "python-mode"))
+(setq
+ py-install-directory (make-conf-path "python-mode")
+ py-electric-colon-active t)
 
 (load-library (concat py-install-directory "/python-mode"))
 
@@ -22,9 +23,6 @@
     ;; TODO: should also check if it's actually in the path and check
     ;; that he automatic settings are also working
     (setq py-shell-name "python2"))
-
-
-(setq py-electric-colon-active t)
 
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 (add-to-list 'interpreter-mode-alist '("python" . python-mode))
@@ -75,6 +73,8 @@
     (setenv "PYMACS_PYTHON" "python2.7")
     (require 'pymacs)
     (pymacs-load "ropemacs" "rope-")
+    (add-hook 'python-mode-hook
+              (lambda () (local-set-key [f7] 'rope-find-file)))
     ;; (ca-python-auto-complete)
     ))
 
