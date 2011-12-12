@@ -96,6 +96,7 @@
 (require 'ca-vc)
 (require 'ca-bookmarks)
 (require 'ca-packages)
+(require 'ca-buffers)
 
 (setq ca-custom-file (make-conf-path "custom.el"))
 (when (file-exists-p ca-custom-file)

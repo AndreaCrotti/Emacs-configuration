@@ -1,21 +1,4 @@
 
-(defun ca-java-mode-untabify ()
-  "untabify the whole buffer"
-  (save-excursion
-    (goto-char (point-min))
-    (while (re-search-forward "[ \t]+$" nil t)
-      (delete-region (match-beginning 0) (match-end 0)))
-    (goto-char (point-min))
-    (if (search-forward "\t" nil t)
-        (untabify (1- (point)) (point-max))))
-  nil)
-
-;; example on how to use this function
-;; (add-hook 'java-mode-hook
-;;           '(lambda ()
-;;              (make-local-variable 'write-contents-hooks)
-;;              (add-hook 'write-contents-hooks 'ca-java-mode-untabify)))
-
 ;; Using uniquify for better handling of buffers with same name
 (require 'uniquify)
 ;; Using part of the directory in this case
