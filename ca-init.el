@@ -58,7 +58,6 @@
 (setq-default indent-tabs-mode nil)
 
 (require 'tramp)
-;; (require 'tramp-adb)
 
 (require 'ido)
 (ido-mode t)
@@ -66,20 +65,15 @@
 (setq ido-enable-tramp-completion t)
 
                                         ;TODO: those could be hard to grasp for a beginner, should make it customizable
-(setq ido-enable-flex-matching t)
-;; regexp matching also
-(setq ido-enable-regexp nil)
-(setq ido-use-url-at-point t)
-(setq ido-create-new-buffer 'always)
-(setq ido-use-filename-at-point 'guess)
+(setq
+ ido-enable-flex-matching t
+ ido-enable-regexp nil
+ ido-use-url-at-point t
+ ido-create-new-buffer 'always
+ ido-default-buffer-method 'selected-window
+ ido-use-filename-at-point 'guess)
+
 (ido-everywhere t)
-(setq ido-default-buffer-method 'selected-window)
-
-;;  (add-to-list ido-ignore-buffers "\\` ")
-
-;; Using ido-mode hacks for advising more functions
-;; (require 'ido-hacks)
-;; (ido-hacks-mode t)
 
 (defcustom ca-windmove-key
   'shift
@@ -89,25 +83,10 @@
 
 (windmove-default-keybindings ca-windmove-key)
 
-(setq warning-suppress-types nil)
-
 (setq calendar-date-style 'european)
-
 
 (require 'epa)
 (epa-file-enable)
-
-(setq rfc-url-save-directory "~/rfc")
-(setq rfc-index-url "http://www.ietf.org/iesg/1rfc_index.txt")
-(setq rfc-archive-alist (list (concat rfc-url-save-directory "/rfc.zip")
-                              rfc-url-save-directory
-                              "http://www.ietf.org/rfc/"))
-(setq rfc-insert-content-url-hook '(rfc-url-save))
-
-(require 'irfc)
-(setq irfc-directory "~/rfcs")
-(add-to-list 'auto-mode-alist
-             '("/rfc[0-9]+\\.txt\\'" . irfc-mode))
 
 ; second argument as 0 to compile if they don't exist
 (byte-recompile-directory (make-conf-path "modules") 0)

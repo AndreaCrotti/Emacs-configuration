@@ -196,4 +196,17 @@
 
 (autoload 'erc-nicklist "erc-nicklist" "erc nicklist" t)
 
+(setq rfc-url-save-directory "~/rfc")
+(setq rfc-index-url "http://www.ietf.org/iesg/1rfc_index.txt")
+(setq rfc-archive-alist (list (concat rfc-url-save-directory "/rfc.zip")
+                              rfc-url-save-directory
+                              "http://www.ietf.org/rfc/"))
+(setq rfc-insert-content-url-hook '(rfc-url-save))
+
+(require 'irfc)
+(setq irfc-directory "~/rfcs")
+(add-to-list 'auto-mode-alist
+             '("/rfc[0-9]+\\.txt\\'" . irfc-mode))
+
+
 (provide 'ca-network)
