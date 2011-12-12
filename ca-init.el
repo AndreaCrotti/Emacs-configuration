@@ -4,9 +4,9 @@
 
 (add-to-list 'load-path (make-conf-path "modules"))
 ; second argument as 0 to compile if they don't exist
+(require 'ca-functions)
 (ca-recompile-modules-directory)
 
-(require 'ca-functions)
 ;TODO: move the functions to the functions file, and require it before everything else
 ;XXX: this has to be done as soon as possible or the default cedet will be loaded!!
 (when (not (boundp 'cedet-version))
