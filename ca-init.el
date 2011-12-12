@@ -18,6 +18,7 @@
 ;TODO: try to move it inside miniconf.org instead
 (add-to-list 'load-path (make-conf-path "gnus/lisp"))
 (require 'gnus-load)
+
 (add-to-list 'Info-default-directory-list (make-conf-path "gnus/texi/"))
 
 (add-to-list 'load-path (make-conf-path "tramp/lisp"))
@@ -26,8 +27,6 @@
     ((tools (concat base "programming-tools")))
   (add-to-list 'exec-path tools)
   (setenv "PATH" (concat (getenv "PATH") ":" tools)))
-
-(setq initial-major-mode 'emacs-lisp-mode)
 
 (setq
  backup-by-copying t      ; don't clobber symlinks
@@ -41,6 +40,7 @@
 (transient-mark-mode 1)
 
 (setq
+ initial-major-mode 'emacs-lisp-mode
  inhibit-startup-message t
  initial-scratch-message nil)
 
