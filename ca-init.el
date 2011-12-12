@@ -4,7 +4,7 @@
 
 (add-to-list 'load-path (make-conf-path "modules"))
 ; second argument as 0 to compile if they don't exist
-(byte-recompile-directory (make-conf-path "modules") 0)
+(ca-recompile-modules-directory)
 
 (require 'ca-functions)
 ;TODO: move the functions to the functions file, and require it before everything else

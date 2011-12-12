@@ -1,5 +1,10 @@
 (require 'calendar)
 
+(defun ca-recompile-modules-directory ()
+  "Simple wrapper to recompile the modules directory"
+  (interactive)
+  (byte-recompile-directory (make-conf-path "modules") 0))
+
 (defun ca-gen-path-dirs (base-dir)
   "Add to load path all the subdirectories of first level"
   (interactive)
