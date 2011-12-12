@@ -5,11 +5,12 @@
 (autoload 'latex-mode "auctex" "latex mode" t)
 
 ; these variables are only defined in auctex
-(setq TeX-auto-save t)
-(setq TeX-parse-self t)
-(setq LaTeX-command "latex")
-(setq TeX-PDF-mode t)
-(setq TeX-master nil)
+(setq
+ TeX-auto-save t
+ TeX-parse-self t
+ LaTeX-command "latex"
+ TeX-PDF-mode t
+ TeX-master nil)
 
 ;; using flyspell also here
 (add-hook 'LaTeX-mode-hook 'turn-on-flyspell)
