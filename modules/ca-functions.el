@@ -1,3 +1,5 @@
+(require 'calendar)
+
 (defun ca-gen-path-dirs (base-dir)
   "Add to load path all the subdirectories of first level"
   (interactive)
@@ -7,6 +9,20 @@
          (file-directory-p dir)
          (not (file-symlink-p dir)))
         (add-to-list 'load-path dir))))
+
+(defun ca-insdate-insert-any-date (date)
+  "Insert DATE using the current locale."
+  (interactive (list (calendar-read-date)))
+  (insert (calendar-date-string date)))
+
+(defun ca-insdate-insert-date-from (&optional days)
+  "Insert date that is DAYS from current."
+  (interactive "p*")
+  (insert
+   (calendar-date-string
+    (calendar-gregorian-from-absolute
+     (+ (calendar-absolute-from-gregorian (calendar-current-date))
+        days)))))
 
 ; next step is to remove conf completely
 (defun ca-reload-dirs ()
@@ -443,6 +459,7 @@ Otherwise, expand the current region to select the lines the region touches."
   (interactive)
   (ca-indent-buffer)
   (ca-untabify-buffer)
+  ;TODO: use whitespace cleanup instead?
   (delete-trailing-whitespace))
 
 ; FIXME: previous-line should be only used as interactive function

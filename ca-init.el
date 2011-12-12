@@ -39,8 +39,10 @@
 
 (display-time-mode 1)
 (transient-mark-mode 1)
-(setq inhibit-startup-message t)
-(setq initial-scratch-message nil)
+
+(setq
+ inhibit-startup-message t
+ initial-scratch-message nil)
 
 (show-paren-mode t)
 (column-number-mode t)
@@ -93,6 +95,7 @@
 (require 'ca-prog-mode)
 (require 'ca-vc)
 (require 'ca-bookmarks)
+(require 'ca-packages)
 
 (setq ca-custom-file (make-conf-path "custom.el"))
 (when (file-exists-p ca-custom-file)
