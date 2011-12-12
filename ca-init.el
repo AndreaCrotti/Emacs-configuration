@@ -132,5 +132,10 @@
 (require 'ca-other-modes)
 (require 'ca-prog-mode)
 (require 'ca-vc)
+(require 'ca-bookmarks)
+
+(setq ca-custom-file (make-conf-path "custom.el"))
+(when (file-exists-p ca-custom-file)
+  (load-file ca-custom-file))
 
 (provide 'ca-init)
