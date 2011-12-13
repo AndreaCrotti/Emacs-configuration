@@ -7,8 +7,11 @@
 
 (autoload 'svn-status "psvn" "svn status" t)
 
-(require 'magit)
-(require 'magit-svn)
+(autoload 'magit "magit")
+(autoload 'magit-staus "magit")
+
+(eval-after-load 'magit-svn
+  '(require 'magit-svn))
 
 (defun ca-detect-git-svn ()
   "Detects if the project is actually git-svn or not"
