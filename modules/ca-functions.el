@@ -1,5 +1,44 @@
-(defun ca-byte-compile-configuration ()
-  ())
+(require 'calendar)
+
+(defun ca-recompile-modules-directory ()
+  "Simple wrapper to recompile the modules directory"
+  (interactive)
+  (byte-recompile-directory (make-conf-path "modules") 0))
+
+(defun ca-gen-path-dirs (base-dir)
+  "Add to load path all the subdirectories of first level"
+  (interactive)
+  (message "adding all directories in the first level to the load-path")
+  (dolist (dir (directory-files base-dir t))
+    (if (and
+         (file-directory-p dir)
+         (not (file-symlink-p dir)))
+        (add-to-list 'load-path dir))))
+
+(defun ca-insdate-insert-any-date (date)
+  "Insert DATE using the current locale."
+  (interactive (list (calendar-read-date)))
+  (insert (calendar-date-string date)))
+
+(defun ca-insdate-insert-date-from (&optional days)
+  "Insert date that is DAYS from current."
+  (interactive "p*")
+  (insert
+   (calendar-date-string
+    (calendar-gregorian-from-absolute
+     (+ (calendar-absolute-from-gregorian (calendar-current-date))
+        days)))))
+
+; next step is to remove conf completely
+(defun ca-reload-dirs ()
+  "Add all the first-level directories to the path"
+  (interactive)
+  (ca-gen-path-dirs base))
+
+(defun ca-reload-conf ()
+  "Reload the current configuration"
+  (interactive)
+  (require 'ca-init))
 
 ;TODO: this is an utility function which might be in a library
 (defun ca-mapcar-head (fn-head fn-rest list)
@@ -362,11 +401,6 @@ Otherwise, expand the current region to select the lines the region touches."
 
 (add-hook 'ca-find-file-root-hook 'ca-find-file-root-header-warning)
 
-(defun ca-reload-conf ()
-  "Reload the current configuration"
-  (interactive)
-  (require 'ca-init))
-
 ;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
 (defun ca-unfill-paragraph ()
   "Takes a multi-line paragraph and makes it into a single line of text."
@@ -430,6 +464,7 @@ Otherwise, expand the current region to select the lines the region touches."
   (interactive)
   (ca-indent-buffer)
   (ca-untabify-buffer)
+  ;TODO: use whitespace cleanup instead?
   (delete-trailing-whitespace))
 
 ; FIXME: previous-line should be only used as interactive function

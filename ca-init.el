@@ -1,24 +1,16 @@
 (defun make-conf-path (path)
+  "Shortcut to create the path of the configuration"
   (expand-file-name (concat base path)))
 
-(defun ca-gen-path-dirs (base-dir)
-  "Add to load path all the subdirectories of first level"
-  (interactive)
-  (message "adding all directories in the first level to the load-path")
-  (dolist (dir (directory-files base-dir t))
-    (if (and
-         (file-directory-p dir)
-         (not (file-symlink-p dir)))
-        (add-to-list 'load-path dir))))
+(add-to-list 'load-path (make-conf-path "modules"))
+; second argument as 0 to compile if they don't exist
+(require 'ca-functions)
+(ca-recompile-modules-directory)
 
+;TODO: move the functions to the functions file, and require it before everything else
 ;XXX: this has to be done as soon as possible or the default cedet will be loaded!!
 (when (not (boundp 'cedet-version))
   (load (make-conf-path "cedet/common/cedet.el")))
-
-; next step is to remove conf completely
-(defun ca-reload-dirs ()
-  (interactive)
-  (ca-gen-path-dirs base))
 
 ;; all the subdirectories are added to the path, including modules
 (ca-gen-path-dirs base)
@@ -26,6 +18,7 @@
 ;TODO: try to move it inside miniconf.org instead
 (add-to-list 'load-path (make-conf-path "gnus/lisp"))
 (require 'gnus-load)
+
 (add-to-list 'Info-default-directory-list (make-conf-path "gnus/texi/"))
 
 (add-to-list 'load-path (make-conf-path "tramp/lisp"))
@@ -34,8 +27,6 @@
     ((tools (concat base "programming-tools")))
   (add-to-list 'exec-path tools)
   (setenv "PATH" (concat (getenv "PATH") ":" tools)))
-
-(setq initial-major-mode 'emacs-lisp-mode)
 
 (setq
  backup-by-copying t      ; don't clobber symlinks
@@ -47,8 +38,11 @@
 
 (display-time-mode 1)
 (transient-mark-mode 1)
-(setq inhibit-startup-message t)
-(setq initial-scratch-message nil)
+
+(setq
+ initial-major-mode 'emacs-lisp-mode
+ inhibit-startup-message t
+ initial-scratch-message nil)
 
 (show-paren-mode t)
 (column-number-mode t)
@@ -58,63 +52,31 @@
 (setq-default indent-tabs-mode nil)
 
 (require 'tramp)
-;; (require 'tramp-adb)
 
 (require 'ido)
 (ido-mode t)
-;; otherwise it will try to connect to old servers all the time
-(setq ido-enable-tramp-completion t)
 
-                                        ;TODO: those could be hard to grasp for a beginner, should make it customizable
-(setq ido-enable-flex-matching t)
-;; regexp matching also
-(setq ido-enable-regexp nil)
-(setq ido-use-url-at-point t)
-(setq ido-create-new-buffer 'always)
-(setq ido-use-filename-at-point 'guess)
-(ido-everywhere t)
-(setq ido-default-buffer-method 'selected-window)
+(setq
+ ido-enable-tramp-completion t
+ ido-enable-flex-matching t
+ ido-enable-regexp nil
+ ido-use-url-at-point t
+ ido-create-new-buffer 'always
+ ido-default-buffer-method 'selected-window
+ ido-everywhere t
+ ido-use-filename-at-point 'guess)
 
-;;  (add-to-list ido-ignore-buffers "\\` ")
-
-;; Using ido-mode hacks for advising more functions
-;; (require 'ido-hacks)
-;; (ido-hacks-mode t)
-
-(defcustom ca-windmove-key
-  'shift
-  "key for moving between windows"
-  :group 'ca
-  :type 'symbol)
-
-(windmove-default-keybindings ca-windmove-key)
-
-(setq warning-suppress-types nil)
+;; make it possible to disable it
+(windmove-default-keybindings 'shift)
 
 (setq calendar-date-style 'european)
-
 
 (require 'epa)
 (epa-file-enable)
 
-(setq rfc-url-save-directory "~/rfc")
-(setq rfc-index-url "http://www.ietf.org/iesg/1rfc_index.txt")
-(setq rfc-archive-alist (list (concat rfc-url-save-directory "/rfc.zip")
-                              rfc-url-save-directory
-                              "http://www.ietf.org/rfc/"))
-(setq rfc-insert-content-url-hook '(rfc-url-save))
-
-(require 'irfc)
-(setq irfc-directory "~/rfcs")
-(add-to-list 'auto-mode-alist
-             '("/rfc[0-9]+\\.txt\\'" . irfc-mode))
-
-; second argument as 0 to compile if they don't exist
-(byte-recompile-directory (make-conf-path "modules") 0)
 (require 'ca-themes)
 (require 'ca-cedet)
-(require 'ca-functions)
-;;(require 'ca-yas) ;; takes more than 2 seconds to load due to the huge list of files
+(require 'ca-yas) ;; takes more than 2 seconds to load due to the huge list of files
 ;; see if it's possible to postpone loading the snippets
 ;; is the order important anyhow?
 
@@ -127,5 +89,17 @@
 
 ;; some other things which might be optional
 ;; create a dictionary structure where
+(require 'ca-dired)
+(require 'ca-misc)
+(require 'ca-other-modes)
+(require 'ca-prog-mode)
+(require 'ca-vc)
+(require 'ca-bookmarks)
+(require 'ca-packages)
+(require 'ca-buffers)
+
+(setq ca-custom-file (make-conf-path "custom.el"))
+(when (file-exists-p ca-custom-file)
+  (load-file ca-custom-file))
 
 (provide 'ca-init)

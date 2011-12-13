@@ -37,7 +37,7 @@
 
 (add-to-list 'load-path (make-conf-path "auctex/preview"))
 ;TODO: only require when auctex is loaded maybe
-(require 'preview)
+;; (require 'preview)
 
 ;; requite org-latex so that the following variables are defined
 (require 'org-latex)

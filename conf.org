@@ -62,7 +62,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 * Sparse documentation
   From newcomment.el:
 ** Define a custom variable with a dynamic list
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle modules/ca-unused.el
   (defcustom comment-style 'indent
     "Style to be used for `comment-region'.
   See `comment-styles' for a list of available styles."
@@ -179,7 +179,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
      + configuration?
 
 * Aliasing and other useful shortcuts
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle modules/ca-aliases.el
   (defalias 'eb 'eval-buffer)
   (defalias 'er 'eval-region)
   (defalias 'yes-or-no-p 'y-or-n-p)
@@ -245,7 +245,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 * Preliminary settings
 ** Custom settings
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle ca-init.el
   ; TODO: don't use concat for paths, make everything more reliable
   (setq custom-file (concat base "custom.el"))
 #+end_src
@@ -1168,7 +1168,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 
 ** Fringe and stuff todo
    Nice but unable to update itself automatically, but only set when the file is visited first time.
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle modules/ca-unused.el
   (defun ca-annotate-todo ()
     "put fringe marker on TODO: lines in the curent buffer"
     (interactive)
@@ -1429,7 +1429,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 *** Org agenda blacklist list
     Having to say "n" every time for a file that we don't want to add to the agenda can be annoying, so every time we say no we call another function.
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle modules/ca-unused.el
   (defun ca-org-agenda-add-to-blacklist ()
     (setq org-agenda-blacklist
           (add-to-list 'org-agenda-blacklist (abbreviate-file-name buffer-file-name)))
@@ -1577,7 +1577,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
 * Escreen
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle modules/ca-unused.el
   ;; from http://tapoueh.org/articles/news/_Escreen_integration.html
   (load "escreen")
   (escreen-install)
@@ -1794,7 +1794,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 #+end_src
 
   Adding a hook to c-mode-common modes
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle modules/ca-unused.el
   (add-hook 'c-mode-common-hook
             (lambda ()
               (require 'gtags)
@@ -1810,7 +1810,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 *** Extending functions
    This functions help to look for the TAGS file in the filesystem when is not in the same working directory
 # FIXME: still not working correctly, more iteration is needed here
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle modules/ca-unused.el
   (defun ca-jds-find-tags-file ()
     "recursively searches each parent directory for a file named 'TAGS' and returns the
   path to that file or nil if a tags file is not found. Returns nil if the buffer is
@@ -2911,7 +2911,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
 *** Example about splitting
     [[http://efod.se/writings/gnus-and-courier][See article about splitting settings]]
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle modules/ca-unused.el
   (setq nnimap-split-inbox
           '("INBOX" ))
 
@@ -2952,7 +2952,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
  (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
 #+end_src
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle modules/ca-unused.el
   (add-hook 'gnus-select-group-hook 'gnus-group-set-timestamp)
 
   (setq gnus-group-line-format "%M\%S\%p\%P\%5y: %(%-40,40g%) %ud\n")
