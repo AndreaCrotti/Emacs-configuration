@@ -104,4 +104,7 @@
 (when (file-exists-p ca-custom-file)
   (load-file ca-custom-file))
 
+(def ca-social-mode ()
+     (require 'ca-social))
+
 (provide 'ca-init)

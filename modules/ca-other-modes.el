@@ -247,16 +247,6 @@
 
 (add-hook 'c-mode-common-hook #'(lambda () (autopair-mode)))
 
-(add-hook 'c++-mode-hook
-          #'(lambda ()
-              (push ?{
-                    (getf autopair-dont-pair :comment))))
-
-(add-hook 'latex-mode-hook
-          #'(lambda ()
-              (set (make-local-variable 'autopair-handle-action-fns)
-                   (list #'autopair-default-handle-action
-                         #'autopair-latex-mode-paired-delimiter-action))))
 
 (require 'command-frequency)
 (command-frequency-autosave-mode t)
