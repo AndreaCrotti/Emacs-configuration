@@ -7,13 +7,8 @@
 
 (autoload 'svn-status "psvn" "svn status" t)
 
-;TODO: make sure that magit-svn is loaded whenever we are working with a git-svn repo
-
-(autoload 'magit-status "magit" "magit" t)
-
-;TODO: check if this is actually really working
-(eval-after-load 'magit
-  (require 'magit-svn))
+(require 'magit)
+(require 'magit-svn)
 
 (defun ca-detect-git-svn ()
   "Detects if the project is actually git-svn or not"

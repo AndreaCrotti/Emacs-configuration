@@ -3,9 +3,11 @@ Emacs configuration
 *WARNING*:
 
 Changing code in conf.el will have no effect, since at next restart it
-will be overwritten.  The configuration is all in the file *conf.org*,
-github understands the format but not completely, so I suggest to read
-it within emacs.
+will be overwritten.  The configuration loader is in ca-init.el, and
+all the submodules are in the modules directly.
+
+Previously everything was in *conf.org*, an org-mode file contanining
+all the code. The file is still there but it's now unused.
 
 Cloning the repository only is *not enough*, because some of the
 submodules are required and some need also to be compiled.

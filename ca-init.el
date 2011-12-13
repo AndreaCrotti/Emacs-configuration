@@ -5,9 +5,7 @@
 (add-to-list 'load-path (make-conf-path "modules"))
 ; second argument as 0 to compile if they don't exist
 (require 'ca-functions)
-(ca-recompile-modules-directory)
 
-;TODO: move the functions to the functions file, and require it before everything else
 ;XXX: this has to be done as soon as possible or the default cedet will be loaded!!
 (when (not (boundp 'cedet-version))
   (load (make-conf-path "cedet/common/cedet.el")))
@@ -104,7 +102,7 @@
 (when (file-exists-p ca-custom-file)
   (load-file ca-custom-file))
 
-(def ca-social-mode ()
-     (require 'ca-social))
+(defun ca-social-mode ()
+  (require 'ca-social))
 
 (provide 'ca-init)
