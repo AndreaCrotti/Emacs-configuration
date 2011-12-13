@@ -8,7 +8,7 @@
 (autoload 'svn-status "psvn" "svn status" t)
 
 (autoload 'magit "magit")
-(autoload 'magit-staus "magit")
+(autoload 'magit-status "magit")
 
 (eval-after-load 'magit-svn
   '(require 'magit-svn))
