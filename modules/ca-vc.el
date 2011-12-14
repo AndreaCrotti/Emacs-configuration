@@ -10,7 +10,7 @@
 (autoload 'magit "magit")
 (autoload 'magit-status "magit")
 
-(eval-after-load 'magit-svn
+(eval-after-load 'magit
   '(require 'magit-svn))
 
 (defun ca-detect-git-svn ()
