@@ -537,6 +537,15 @@ See original source: http://pymacs.progiciels-bpi.ca"
 :group 'python
 )
 
+(defcustom py-start-run-py-shell  t
+ "If `python-mode' should start a python-shell, `py-shell'. Default is `t'.
+
+A running python-shell presently is needed by complete-functions. "
+
+:type 'boolean
+:group 'python
+)
+
 ;; user definable variables
 ;; vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 (defcustom py-close-provides-newline t
@@ -595,6 +604,7 @@ Default is nil. "
   "Function used for completion in buffers. "
   :type '(choice (const :tag "py-completion-at-point" py-completion-at-point)
 		 (const :tag "Pymacs based py-complete" py-complete)
+                 (const :tag "py-shell-complete" py-shell-complete)
                  (const :tag "IPython's ipython-complete" ipython-complete))
   :group 'python)
 
@@ -684,6 +694,7 @@ so if you want to defeat the automagic configuration, you must also
 set `py-smart-indentation' to nil in your `python-mode-hook'."
   :type 'boolean
   :group 'python)
+(make-variable-buffer-local 'py-smart-indentation)
 
 (defcustom py-align-multiline-strings-p t
   "*Flag describing how multi-line triple quoted strings are aligned.
@@ -1394,7 +1405,7 @@ When indent is set back manually, this is honoured in following lines. "
           (newline)
           (setq erg (indent-to-column (py-compute-indentation))))
       (beginning-of-line)
-      (insert-char ?\n 1)
+      (newline) 
       (setq erg (move-to-column (py-compute-indentation))))
     (when (and (looking-at "[ \t]+")
                (nth 1 (if (featurep 'xemacs)
@@ -1418,7 +1429,7 @@ Returns column. "
     (when (interactive-p) (message "%s" erg))
     erg))
 
-(defun py-guess-indent-offset (&optional global)
+(defun py-guess-indent-offset (&optional global orig)
   "Guess a value for, and change, `py-indent-offset'.
 
 By default, make a buffer-local copy of `py-indent-offset' with the
@@ -1428,37 +1439,42 @@ With optional argument GLOBAL change the global value of `py-indent-offset'. "
   (save-excursion
     (save-restriction
       (widen)
-      (let* ((lastindent (if
+      (when orig (goto-char orig))
+      (when (< (current-column) (current-indentation))
+        (back-to-indentation))
+      (let ((lastindent (if
                              (py-beginning-of-statement-p)
                              (current-indentation)
                            (progn
                              (py-beginning-of-statement)
-                             (current-indentation))))
-             (firstindent (progn (py-beginning-of-block)
+                            (current-indentation)))))
+        (if (eq 0 lastindent)
+            (setq py-indent-offset (default-value 'py-indent-offset))
+          (let* ((firstindent (progn
+                            (while (and (<= lastindent (current-indentation))
+                                            (not (bobp)) 
+                                        (py-beginning-of-statement)))
                                  (current-indentation)))
              (guessed (- lastindent firstindent)))
-        (if (py-guessed-sanity-check)
-            (setq py-indent-offset guessed)
+            (unless (py-guessed-sanity-check guessed)
           ;; no indent between statements at point
           (setq firstindent (progn
-                              (py-beginning-of-def-or-class)
+                                  (py-beginning-of-block)
                               (current-indentation)))
-          (setq guessed (- lastindent firstindent))
-          (when (py-guessed-sanity-check)
-            (setq py-indent-offset guessed)))
-        (when (and (py-guessed-sanity-check) (/= guessed (default-value 'py-indent-offset)))
+              (setq guessed (- lastindent firstindent)))
+            (if (py-guessed-sanity-check guessed)
+                (progn
           (funcall (if global 'kill-local-variable 'make-local-variable)
                    'py-indent-offset)
-          (setq py-indent-offset guessed)
-          (unless (= tab-width py-indent-offset)
-            (setq indent-tabs-mode nil)))
+              (setq py-indent-offset guessed))
+              (setq py-indent-offset (default-value 'py-indent-offset))))))))
         (when (interactive-p)
           (message "%s value of py-indent-offset:  %d"
                    (if global "Global" "Local")
                    py-indent-offset))
-        py-indent-offset))))
+  py-indent-offset)
 
-(defun py-guessed-sanity-check ()
+(defun py-guessed-sanity-check (guessed)
   (and (>= guessed 2)(<= guessed 8)(eq 0 (% guessed 2))))
 
 (defun py-comment-indent-function ()
@@ -1906,6 +1922,14 @@ initial line; and comment lines beginning in column 1 are ignored."
   (interactive)
   (save-excursion
     (let ((erg (py-end-of-class)))
+      (when (interactive-p) (message "%s" erg))
+      erg)))
+
+(defun py-end-of-def-or-class-position ()
+  "Returns end of def resp. class position, non-greedy. "
+  (interactive)
+  (save-excursion
+    (let ((erg (py-end-of-def-or-class)))
       (when (interactive-p) (message "%s" erg))
       erg)))
 
@@ -2410,7 +2434,7 @@ When HONOR-BLOCK-CLOSE-P is non-nil, statements such as `return',
                      (eq origline (py-count-lines)))
                 (current-indentation))
                ((and (bobp)(py-statement-opens-block-p))
-                (+ py-indent-offset (current-indentation)))
+                (+ (if py-smart-indentation (py-guess-indent-offset nil orig) py-indent-offset) (current-indentation)))
                ((and (bobp)(not (py-statement-opens-block-p)))
                 (current-indentation))
                ;; (py-in-triplequoted-string-p)
@@ -2455,7 +2479,8 @@ When HONOR-BLOCK-CLOSE-P is non-nil, statements such as `return',
                 (setq line t)
                 (py-compute-indentation orig origline closing line inside repeat))
                ;; lists
-               ((and (nth 1 pps) inside (not line))
+               ((nth 1 pps)
+                (cond ((and inside (not line))
                 (when (and (eq (point) orig) (looking-at "[ \t]*\\()\\)[ \t]*$"))
                   (setq closing (match-beginning 0)))
                 (save-excursion
@@ -2487,17 +2512,17 @@ When HONOR-BLOCK-CLOSE-P is non-nil, statements such as `return',
                    (t (back-to-indentation)
                       (py-beginning-of-statement)
                       (py-compute-indentation orig origline closing line inside repeat)))))
-               ((and (nth 1 pps) (not inside) line)
+                      ((and (not inside) line)
                 (py-beginning-of-statement)
                 (py-compute-indentation orig origline closing line inside repeat))
-               ((and (nth 1 pps) (not inside))
+                      ((not inside)
                 (progn (goto-char (+ py-lhs-inbound-indent (nth 1 pps)))
                        (when (looking-at "[ \t]+")
                          (goto-char (match-end 0)))
                        (current-column)))
-               ((nth 1 pps)
+                      (t
                 (goto-char (nth 1 pps))
-                (py-compute-indentation orig origline closing line inside repeat))
+                       (py-compute-indentation orig origline closing line inside repeat))))
                ((py-preceding-line-backslashed-p)
                 (progn
                   (py-beginning-of-statement)
@@ -2516,7 +2541,7 @@ When HONOR-BLOCK-CLOSE-P is non-nil, statements such as `return',
                   (current-indentation)))
                ((and (looking-at py-block-closing-keywords-re)(eq (py-count-lines) origline))
                 (py-beginning-of-block-or-clause)
-                (+ (current-indentation) py-indent-offset))
+                (+  (if py-smart-indentation (py-guess-indent-offset nil orig) py-indent-offset)(current-indentation)))
                ((looking-at py-block-closing-keywords-re)
                 (py-beginning-of-block-or-clause nil (current-indentation))
                 (current-indentation))
@@ -2532,13 +2557,11 @@ When HONOR-BLOCK-CLOSE-P is non-nil, statements such as `return',
                        (car (py-clause-lookup-keyword py-else-re -1 (current-indentation))))
                       ((looking-at py-elif-re)
                        (car (py-clause-lookup-keyword py-elif-re -1)))))
-               ((and (looking-at py-block-re)(eq origline (py-count-lines)))
-                (py-line-backward-maybe)
-                (py-compute-indentation orig origline closing line inside repeat))
                ((looking-at py-block-or-clause-re)
-                (if (< (py-count-lines) origline)
-                    (+ (current-indentation) py-indent-offset)
-                  (py-compute-indentation orig origline closing line inside t)))
+                (cond ((eq origline (py-count-lines))
+                       (py-line-backward-maybe)
+                       (py-compute-indentation orig origline closing line inside t))
+                      (t (+ (if py-smart-indentation (py-guess-indent-offset nil orig) py-indent-offset)(current-indentation)))))
                ((looking-at py-block-closing-keywords-re)
                 (py-beginning-of-block)
                 (current-indentation))
@@ -2561,7 +2584,7 @@ When HONOR-BLOCK-CLOSE-P is non-nil, statements such as `return',
                     (py-compute-indentation orig origline closing line inside repeat))))
                ((py-statement-opens-block-p)
                 (if (< (py-count-lines) origline)
-                    (+ py-indent-offset (current-indentation))
+                    (+ (if py-smart-indentation (py-guess-indent-offset nil orig) py-indent-offset) (current-indentation))
                   (py-compute-indentation orig origline closing line inside t)))
                ((and (< (py-count-lines) origline)(looking-at py-assignment-re))
                 (current-indentation))
@@ -2571,7 +2594,7 @@ When HONOR-BLOCK-CLOSE-P is non-nil, statements such as `return',
                ((and (eq origline (py-count-lines))
                      (save-excursion (and (setq erg (py-go-to-keyword py-block-or-clause-re -1))
                                           (ignore-errors (< orig (py-end-of-block-or-clause))))))
-                (+ (car erg) py-indent-offset))
+                (+ (car erg) (if py-smart-indentation (py-guess-indent-offset nil orig) py-indent-offset)))
                ((and (eq origline (py-count-lines))
                      (py-beginning-of-statement-p))
                 (py-beginning-of-statement)
@@ -3023,27 +3046,12 @@ See http://debbugs.gnu.org/cgi/bugreport.cgi?bug=7115"
           (when (interactive-p) (message "%s" "Not inside a function or class"))
           erg)))))
 
-(defun py-symbol-near-point ()
-  "Return the first textual item to the nearest point."
-  ;; alg stolen from etag.el
-  (save-excursion
-    (with-syntax-table py-dotted-expression-syntax-table
-      (if (or (bobp) (not (memq (char-syntax (char-before)) '(?w ?_))))
-          (while (not (looking-at "\\sw\\|\\s_\\|\\'"))
-            (forward-char 1)))
-      (while (looking-at "\\sw\\|\\s_")
-        (forward-char 1))
-      (if (re-search-backward "\\sw\\|\\s_" nil t)
-          (progn (forward-char 1)
-                 (buffer-substring (point)
-                                   (progn (forward-sexp -1)
-                                          (while (looking-at "\\s'")
-                                            (forward-char 1))
-                                          (point))))
-        nil))))
-
 (defconst py-help-address "python-mode@python.org"
-  "Address accepting submission of bug reports.")
+  "List dealing with usage and developing python-mode.
+
+Also accepts submission of bug reports, whilst a ticket at
+http://launchpad.net/python-mode
+is preferable for that. ")
 
 ;;; python-components-move.el
 
@@ -3640,7 +3648,8 @@ http://docs.python.org/reference/compound_stmts.html
               (forward-line 1))
             (py-end-of-statement orig origline done))
            ;; inside string
-           ((and (nth 3 pps)(nth 8 pps)(nth 2 pps))
+           ((nth 8 pps)
+            (cond ((and (nth 3 pps)(nth 2 pps))
             (goto-char (nth 2 pps))
             (when (looking-at "\"\"\"\\|'''")
               (goto-char (match-end 0))
@@ -3651,7 +3660,7 @@ http://docs.python.org/reference/compound_stmts.html
             (setq erg (point))
             (py-end-of-statement orig origline done))
            ;; in comment
-           ((and (nth 8 pps)(nth 4 pps))
+                  ((nth 4 pps)
             (if (eobp)
                 nil
               (forward-line 1)
@@ -3660,7 +3669,7 @@ http://docs.python.org/reference/compound_stmts.html
               (setq erg (point))
               (setq done t)
               (py-end-of-statement orig origline done)))
-           ((nth 8 pps)
+                  (t
             (goto-char (nth 8 pps))
             (when (looking-at "\"\"\"\\|'''\\|\"\\|'")
               (goto-char (match-end 0)))
@@ -3669,7 +3678,7 @@ http://docs.python.org/reference/compound_stmts.html
                              (if (featurep 'xemacs)
                                  (parse-partial-sexp (point-min) (point))
                                (syntax-ppss)))(setq done t)))
-            (py-end-of-statement orig origline done))
+                   (py-end-of-statement orig origline done))))
            ((nth 3 pps)
             (when (looking-at "\"\"\"\\|'''\\|\"\\|'")
               (goto-char (match-end 0)))
@@ -3684,7 +3693,7 @@ http://docs.python.org/reference/compound_stmts.html
            ;;  (forward-line 1)
            ;;
            ;;  (py-end-of-statement orig origline done))
-           ((and (looking-at "[ \t]*#")(looking-back "^[ \t]*")(not done))
+           ((and (looking-at "[ \t]*#")(looking-back "^[ \t]*"))
             (while (and (looking-at "[ \t]*#") (forward-line 1)(not (eobp))
                         (beginning-of-line))
               (setq done t))
@@ -3710,7 +3719,8 @@ http://docs.python.org/reference/compound_stmts.html
                     (setq done t)
                     (py-end-of-statement orig origline done))
                 (goto-char orig))))
-           ((and (eq (point) orig)(not (looking-at "[ \t]*$")))
+           ((eq (point) orig)
+            (cond ((not (looking-at "[ \t]*$"))
             (end-of-line)
             (py-beginning-of-comment)
             (skip-chars-backward " \t")
@@ -3718,18 +3728,17 @@ http://docs.python.org/reference/compound_stmts.html
                 (py-end-of-statement orig origline t)
               (py-forward-line)
               (py-end-of-statement orig origline done)))
-           ((and (eq orig (point))(looking-at "[ \t]*$")(not (eobp)))
+                  ((and (looking-at "[ \t]*$")(not (eobp)))
             (py-forward-line)
-            (end-of-line)
-            (skip-chars-backward " \t\r\n\f" (line-beginning-position))
             (setq done t)
             (py-end-of-statement orig origline done))
-           ((and (eq orig (point))(not (eobp)))
+                  ((not (eobp))
             (py-forward-line)
-            (py-end-of-statement orig origline done))
+                   (py-end-of-statement orig origline done))))
            ((and (bolp) (not (empty-line-p)))
             (end-of-line)
             (skip-chars-backward " \t\r\n\f" (line-beginning-position))
+            (py-beginning-of-comment) 
             (setq done t)
             (py-end-of-statement orig origline done))
            ((looking-at "\\.\\([A-Za-z_][A-Za-z_0-9]*\\)")
@@ -4113,7 +4122,7 @@ Travels right-margin comments. "
     (py-beginning-of-comment)
     (skip-chars-backward " \t")))
 
-(defun py-beginning-of-comment (&optional count)
+(defun py-beginning-of-comment ()
   "Go to the beginning of current line's comment, if any. "
   (interactive)
   (save-restriction
@@ -7146,32 +7155,41 @@ of the first definition found."
 
 (defun py-imenu-create-index-new (&optional beg end)
   "`imenu-create-index-function' for Python. "
+  (set (make-local-variable 'imenu-max-items) 40)
   (let ((orig (point))
         (beg (cond (beg)
-                   ((region-active-p)
-                    (region-beginning))
                    (t (point-min))))
         (end (cond (end)
-                   ((region-active-p)
-                    (region-end))
                    (t (point-max))))
         (first t)
-        inside-class index-alist sublist vars)
+        (imenu-max-items 100)
+        index-alist vars thisend)
     (goto-char beg)
-    (while (re-search-forward "^[ \t]*\\(?:\\(def\\|class\\)\\)[ \t]+\\(?:\\(\\sw+\\)\\)" end 'move 1)
-      (unless (py-in-string-or-comment-p)
+    (while (and (re-search-forward "^[ \t]*\\(?:\\(def\\|class\\)\\)[ \t]+\\(?:\\(\\sw+\\)\\)" end 'move 1)(not (py-in-string-or-comment-p)))
         (let ((pos (match-beginning 0))
-              (name (match-string-no-properties 2)))
+            (name (match-string-no-properties 2))
+            (thisend (save-match-data (py-end-of-def-or-class-position)))
+            sublist inside-class first classname)
           (when (string= "class" (match-string-no-properties 1))
             (setq name (concat "class " name)
-                  inside-class t))
+                inside-class t
+                first t
+                classname name
+                ))
           (cond ((and first inside-class)
                  (push (cons name pos) index-alist)
                  (setq first nil))
                 (inside-class
-                 (progn (push (cons (concat " " name) pos) sublist)
-                        (push (cons name sublist) index-alist)))
-                (t (push (cons name pos) index-alist))))))
+               (progn (push (cons (concat " " name) pos) sublist)))
+              (t (push (cons name pos) index-alist)))
+        ;; now inside class only
+        (while (and (re-search-forward "^[ \t]*\\(?:\\(def\\|class\\)\\)[ \t]+\\(?:\\(\\sw+\\)\\)" thisend 'move 1)(not (py-in-string-or-comment-p))(not (string= "class" (match-string-no-properties 1))))
+          (let ((pos (match-beginning 0))
+                (name (match-string-no-properties 2)))
+            (push (cons (concat " " name) pos) sublist)))
+        (push (cons classname sublist) index-alist)
+        (when (string= "class" (match-string-no-properties 1))
+          (goto-char (match-beginning 0)))))
     ;;    (message "Funktionen und Klassen: %s" index-alist)
     ;; Look for module variables.
     (goto-char (point-min))
@@ -7209,16 +7227,13 @@ Uses `python-imports' to load modules against which to complete."
        #'string<))))
 
 (defun py-completion-at-point ()
-  (let ((end (point))
-	(start (save-excursion
-		 (and (re-search-backward
-		       (rx (or buffer-start (regexp "[^[:alnum:]._]"))
-			   (group (1+ (regexp "[[:alnum:]._]"))) point)
-		       nil t)
-		      (match-beginning 1)))))
-    (when start
-      (list start end
-            (completion-table-dynamic 'python-symbol-completions)))))
+  (interactive "*")
+  (let* ((start (when (skip-chars-backward "[[:alnum:]_]")(point)))
+         (end (progn (skip-chars-forward "[[:alnum:]_]")(point)))
+         (completion (when start
+                       (python-symbol-completions (buffer-substring-no-properties start end)))))
+    (when completion (delete-region start end)
+          (insert (car completion)))))
 
 (defvar py-mode-output-map nil
   "Keymap used in *Python Output* buffers.")
@@ -7471,27 +7486,31 @@ py-beep-if-tab-change\t\tring the bell if `tab-width' is changed"
                   (skip-chars-backward " \t\n"))
                 nil))
   ;; Now do the automagical guessing
-  (if py-smart-indentation
-      (let ((offset py-indent-offset))
-        ;; Nil if this fails to guess a good value
-        (if (and (ignore-errors (py-guess-indent-offset))
-                 (<= py-indent-offset 8)
-                 (>= py-indent-offset 2))
-            (setq offset py-indent-offset))
-        (setq py-indent-offset offset)
-        ;; Only turn indent-tabs-mode off if tab-width !=
-        ;; py-indent-offset.  Never turn it on, because the user must
-        ;; have explicitly turned it off.
-        (if (/= tab-width py-indent-offset)
-            (setq indent-tabs-mode nil))))
+  (when py-smart-indentation
+    (if (bobp)
+        (save-excursion
+          (save-restriction
+            (widen)
+            ;; (switch-to-buffer (current-buffer))
+            (while (and (not (eobp))
+                        (or
+                         (let ((erg (syntax-ppss)))
+                           (or (nth 1 erg) (nth 8 erg)))
+                         (eq 0 (current-indentation))))
+              (forward-line 1))
+            (back-to-indentation)
+            (py-guess-indent-offset)))
+      (py-guess-indent-offset)))
+  (when (/= tab-width py-indent-offset)
+    (setq indent-tabs-mode nil))
   ;; Set the default shell if not already set
   (when (null py-shell-name)
     (py-toggle-shells (py-choose-shell)))
   ;; (py-set-load-path)
-  ;; (when py-load-pymacs-p (py-load-pymacs)
-  ;; (find-file (concat py-install-directory "/completion/pycomplete.el"))
-  ;; (eval-buffer)
-  ;; (kill-buffer "pycomplete.el"))
+  (when py-load-pymacs-p (py-load-pymacs)
+        (find-file (concat py-install-directory "/completion/pycomplete.el"))
+        (eval-buffer)
+        (kill-buffer "pycomplete.el"))
   (add-hook 'python-mode-hook 'py-beg-of-defun-function)
   (add-hook 'python-mode-hook 'py-end-of-defun-function)
   (when py-hide-show-minor-mode-p
@@ -7520,6 +7539,15 @@ py-beep-if-tab-change\t\tring the bell if `tab-width' is changed"
    (if python-mode-hook
        'python-mode-hook
      'py-mode-hook))
+  (when py-start-run-py-shell
+    ;; py-shell may split window, provide restore
+    (window-configuration-to-register 213465879)
+    (unless (get-process (py-process-name))
+      (let ((oldbuf  (current-buffer)))
+        (save-excursion 
+        (py-shell)
+          (set-buffer oldbuf))))
+    (jump-to-register 213465879))
   (when (interactive-p) (message "python-mode loaded from: %s" "python-mode.el")))
 
 (defadvice pdb (before gud-query-cmdline activate)
@@ -8676,7 +8704,9 @@ and resending the lines later. The lines are stored in reverse order")
 (defun py-shell-execute-string-now (string)
   "Send to Python interpreter process PROC \"exec STRING in {}\".
 and return collected output"
-  (let* ((proc (get-process py-which-bufname))
+  (let* ((proc
+          ;; (get-process py-which-bufname)
+          (get-process (py-process-name)))
 	 (cmd (format "exec '''%s''' in {}"
 		      (mapconcat 'identity (split-string string "\n") "\\n")))
 	(procbuf (process-buffer proc))
