@@ -96,13 +96,20 @@
 (require 'ca-packages)
 (require 'ca-buffers)
 (require 'ca-flymake)
+;TODO: this doesn't contain any real knowledge, refactor it out
 (require 'ca-customs)
+(require 'ca-network)
 
-(setq ca-custom-file (make-conf-path "custom.el"))
-(when (file-exists-p ca-custom-file)
-  (load-file ca-custom-file))
+;; what if this is set differently?
+(setq custom-file (make-conf-path "custom.el"))
+(when (file-exists-p custom-file)
+  (message "loading custom file")
+  (load-file custom-file))
 
 (defun ca-social-mode ()
+  ;; this will set some additional setting that should make it differ
+  ;; from the normal mode
+  ;; for example I might not need to load all the programming stuff
   (require 'ca-social))
 
 (provide 'ca-init)
