@@ -383,8 +383,6 @@ Otherwise, expand the current region to select the lines the region touches."
       ;; allow some user customization
       (run-hooks 'ca-find-file-root-hook))))
 
-(global-set-key [(control x) (control r)] 'ca-find-file-root)
-
 (defface ca-find-file-root-header-face
   '((t (:foreground "white" :background "red3")))
   "*Face use to display header-lines for files opened as root.")
