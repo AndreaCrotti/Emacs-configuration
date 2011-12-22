@@ -43,4 +43,14 @@
 
 (add-hook 'find-file-hook 'ca-is-version-control-file)
 
+(defun ca-provide-vc-backend ()
+  (interactive)
+  (when (ca-is-version-control-file)
+    (cond
+     ((vc-working-revision (buffer-file-name) 'git) 'magit-status)
+     ((vc-working-revision (buffer-file-name) 'hg) 'hg-status)
+     ((vc-working-revision (buffer-file-name) 'svn) 'svn-status)
+     ((t 'vc-dir)))))
+;; in case none of them is defined give
+
 (provide 'ca-vc)
