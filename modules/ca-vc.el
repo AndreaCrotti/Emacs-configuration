@@ -43,14 +43,23 @@
 
 (add-hook 'find-file-hook 'ca-is-version-control-file)
 
+(defcustom ca-backend-assoc
+  '(('Git . 'magit-status)
+    ('Hg . 'hg-status)
+    ('Svn . 'svn-status)
+    )
+  "Mapping between backend and function"
+  :type 'list)
+
 (defun ca-provide-vc-backend ()
+  "Return the right status function to call"
   (interactive)
   (when (ca-is-version-control-file)
-    (cond
-     ((vc-working-revision (buffer-file-name) 'git) 'magit-status)
-     ((vc-working-revision (buffer-file-name) 'hg) 'hg-status)
-     ((vc-working-revision (buffer-file-name) 'svn) 'svn-status)
-     ((t 'vc-dir)))))
-;; in case none of them is defined give
+    (let*
+        ((backend (vc-backend (buffer-file-name)))
+         (found (assoc backend ca-backend-assoc)))
+      (if found
+          (cdr found)
+        'vc-dir))))
 
 (provide 'ca-vc)
