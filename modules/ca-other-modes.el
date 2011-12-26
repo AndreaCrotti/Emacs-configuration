@@ -1,3 +1,8 @@
+(require 'ca-customs)
+
+;TODO: is this the same as just passing in the variable?
+(when ca-show-battery
+  (display-battery-mode t))
 
 (add-to-list 'load-path (make-conf-path "ess-mirror/lisp"))
 (autoload 'R "ess-site" "loading R env" t)
@@ -8,41 +13,6 @@
 (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
 
 (add-to-list 'auto-mode-alist '("\\.mirah$" . ruby-mode))
-
-(add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
-(autoload 'haskell-mode "haskell-mode" "haskell mode" t)
-(autoload 'turn-on-haskell-doc-mode "haskell-doc" "haskell doc mode" t)
-(autoload 'turn-on-haskell-indent "haskell-indent" "haskell indent facilities" t)
-
-(autoload 'inf-haskell "inf-haskell" "inf-haskell" t)
-(autoload 'hs-lint "hs-lint" "haskell checker" t)
-(autoload 'run-haskell "inf-haskell" "inferior haskell" t)
-
-;; here some haskell variables
-(setq haskell-doc-show-global-types t)
-(setq haskell-program-name "ghci")
-                                        ; where haskell-hoogle is loaded?
-
-;; enabled to get indentation over if-then-else
-(setq haskell-indent-thenelse 1)
-
-;; If nothing found pass the control
-(add-hook 'haskell-mode-hook
-          '(lambda ()
-             (require 'haskell-doc) ; Is this the only way?
-             (require 'haskell-indent)
-             (require 'haskell-complete)
-             (require 'inf-haskell)
-             (turn-on-haskell-doc-mode)
-             (turn-on-haskell-indentation)
-             ;; This would be very nice but it conflicts with yasnippet
-             (define-key haskell-mode-map [tab] 'haskell-indent-cycle)
-             (define-key haskell-mode-map "\C-ch" 'haskell-hoogle)
-             (define-key haskell-mode-map "\C-cl" 'hs-lint)
-             (make-variable-buffer-local 'yas/trigger-key)
-             (setq yas/trigger-key [tab])
-             (define-key yas/keymap [tab] 'yas/next-field)
-             (add-to-list 'ac-sources 'my/ac-source-haskell)))
 
 (autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
 (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
@@ -118,13 +88,6 @@
                                  nsis-mode)) auto-mode-alist))
 
 (add-hook 'before-save-hook 'whitespace-cleanup)
-
-(require 'scala-mode-auto)
-(require 'scala-mode-feature-electric)
-(scala-electric-mode t)
-
-(add-to-list 'load-path
-             (make-conf-path "ensime/src/main/elisp"))
 
 (autoload 'batch-mode "batch-mode" t)
 (add-to-list 'auto-mode-alist '("\\.bat\\'" . batch-mode))

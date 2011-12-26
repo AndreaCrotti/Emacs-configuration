@@ -17,4 +17,10 @@
   :group 'ca
   :type 'list)
 
+(defcustom ca-show-battery
+  t
+  "show the battery level"
+  :group 'ca
+  :type 'boolean)
+
 (provide 'ca-customs)
