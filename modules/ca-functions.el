@@ -1,4 +1,5 @@
 (require 'calendar)
+(require 'ca-customs)
 
 (defun ca-recompile-modules-directory ()
   "Simple wrapper to recompile the modules directory"
@@ -321,12 +322,6 @@ Otherwise, expand the current region to select the lines the region touches."
     (if (equal (cdr (car asslist)) query)
         (cons (car (car asslist)) (ca-all-asscs (cdr asslist) query))
       (ca-all-asscs (cdr asslist) query)))))
-
-(defcustom ca-preferred-reopen-rw-mode "sudo"
-  "preferred mode for reopen"
-  :type 'string
-  :group 'ca
-  )
 
 (defun ca-reopen-read-write ()
   "Reopen the file in rw mode, sui"

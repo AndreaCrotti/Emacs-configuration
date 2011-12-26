@@ -1,4 +1,6 @@
+(require 'ca-customs)
 (require 'yasnippet)
+
 (setq yas/root-directory
       (list (make-conf-path "yasnippet-snippets/")))
 
@@ -48,16 +50,6 @@
         (insert snippet)
         ;; add checking
         (yas/expand))))
-
-(defcustom ca-auto-header-conses
-      '(
-        ("setup.py" . "setup")
-        ("\.sh$" . "bash")
-        ("\.h$"  . "once")
-        ("\.hpp$" . "once"))
-      "snippets to expand per file extension"
-      :group 'ca
-      :type 'list)
 
 (add-hook 'find-file-hook 'ca-insert-header)
 

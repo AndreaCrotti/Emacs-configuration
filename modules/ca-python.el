@@ -1,3 +1,4 @@
+(require 'ca-customs)
 (require 'ca-environment)
 
 (setq
@@ -5,17 +6,6 @@
  py-electric-colon-active t)
 
 (load-library (concat py-install-directory "/python-mode"))
-
-(defcustom ca-python-enable-rope t
-  "True if rope is enabled"
-  :type 'boolean
-  :group 'ca)
-
-;FIXME: not used at the moment
-(defcustom ca-python-enable-cedet t
-  "True if we should use cedet also for python"
-  :type 'boolean
-  :group 'ca)
 
 ; use eval-after-load to set the right keys for python with cedet
 

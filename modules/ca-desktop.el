@@ -1,4 +1,5 @@
 (require 'desktop)
+(require 'ca-customs)
 
 (desktop-save-mode -1)
 ;; save always
@@ -19,12 +20,6 @@
 
 (defun ca-dired-git-current ()
   (ca-dired-git-files  desktop-dirname))
-
-(defcustom ca-dired-git-after-desktop
-  nil
-  "asking to open a dired buffer every time"
-  :group 'ca
-  :type 'boolean)
 
 ;; first we have to pass to the right dir
 (if ca-dired-git-after-desktop

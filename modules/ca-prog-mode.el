@@ -1,10 +1,5 @@
 ;; TODO: with emacs23 is sufficient to enable subword-mode probably
 (autoload 'camelCase-mode "camelCase-mode")
-(defcustom ca-camelCase-modes
-  '(python-mode-hook java-mode-hook c-mode-common-hook nesc-mode-hook)
-  "Modes where camelizing is allowed"
-  :group 'ca
-  :type 'list)
 
 (dolist (hook ca-camelCase-modes)
   (add-hook hook 'camelCase-mode))
@@ -52,11 +47,6 @@
                             'po-find-file-coding-system)
 (autoload 'po-find-file-coding-system "po-mode")
 
-(defcustom ca-spell-langs
-  '(emacs-lisp-mode-hook python-mode-hook c-mode-common-hook nesc-mode-hook java-mode-hook jde-mode-hook haskell-mode-hook)
-  "Set of programming modes for which I want to enable spelling in comments and strings"
-  :group 'ca
-  :type 'list)
 
 (dolist (lang-hook ca-spell-langs)
   (add-hook  lang-hook 'flyspell-prog-mode))

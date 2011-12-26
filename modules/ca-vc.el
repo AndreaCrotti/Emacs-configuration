@@ -1,3 +1,4 @@
+(require 'ca-customs)
 ;TODO: add support for more extensions, and add automatically magit-svn if possible
 
 (setq
@@ -44,13 +45,6 @@
       (auto-revert-mode t)))
 
 (add-hook 'find-file-hook 'ca-is-version-control-file)
-
-(defcustom ca-backend-assoc
-  '(('Git . 'magit-status)
-    ('Hg . 'hg-status)
-    ('Svn . 'svn-status))
-  "Mapping between backend and function"
-  :type 'list)
 
 (defun ca-provide-vc-backend ()
   "Return the right status function to call"
