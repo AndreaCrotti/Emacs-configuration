@@ -42,14 +42,8 @@
 
 (defalias 'batt 'display-battery-mode)
 
-(defun ca-get-some-messages ()
-  (interactive)
-  (gnus-summary-rescan-group 1000))
-;; gnus
-(defalias 'gg 'ca-get-some-messages)
 (defalias 'jd 'javadoc-lookup)
 (defalias 'br 'babel-region-default)
-(defalias 'git 'ca-open-git-files)
 
 (defalias 'fold 'senator-fold-tag-toggle)
 
@@ -57,7 +51,8 @@
 (defalias 'dcd 'desktop-change-dir)
 (defalias 'gcb 'ca-git-change-branch)
 
-(defalias 'ga 'ca-git-add-file)
 (defalias 'loc 'locate)
+(defalias 'ga 'ca-git-add-file)
+(defalias 'go 'ca-open-git-files)
 
 (provide 'ca-aliases)
