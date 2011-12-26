@@ -90,6 +90,7 @@
 (require 'ca-dired)
 (require 'ca-misc)
 (require 'ca-other-modes)
+(require 'ca-rst)
 (require 'ca-prog-mode)
 (require 'ca-vc)
 (require 'ca-bookmarks)
