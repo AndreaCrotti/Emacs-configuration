@@ -256,4 +256,8 @@
 ;; also enable all the keys used
 (open-dribble-file (expand-file-name "~/.emacs.dribble"))
 
+; set conkeror as the default browser
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "conkeror")
+
 (provide 'ca-other-modes)

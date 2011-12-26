@@ -1,29 +1,13 @@
 (add-to-list 'load-path (make-conf-path "org-mode/lisp"))
 (add-to-list 'load-path (make-conf-path "org-mode/contrib/babel/lisp"))
 (add-to-list 'load-path (make-conf-path "org-mode/contrib/babel/lisp/langs"))
+(add-to-list 'load-path (make-conf-path "org-mode/contrib/lisp"))
 
 (autoload 'org-mode (make-conf-path "org-mode/lisp/org") "from git org mode" t)
 
 (setq org-replace-disputed-keys t)
 
-(defun ca-hide-org-buffers (arg)
-  "Hide org-mode buffers from completion by prepending a space at the buffer name.
-When called with prefix arg (`C-u'), then remove this space again."
-  (interactive "P")
-  (dolist (b (buffer-list))
-    (set-buffer b)
-    (when (eq major-mode 'org-mode)
-      (rename-buffer
-       (if arg
-           (replace-regexp-in-string "^[[:space:]]+" "" (buffer-name))
-         (concat " " (buffer-name)))))))
-
-;;; activate filter and call export function
-(defun ca-org-mycal-export ()
-  (let ((org-icalendar-verify-function 'org-mycal-export-limit))
-    (org-export-icalendar-combine-agenda-files)))
-
-(add-to-list 'load-path (make-conf-path "org-mode/contrib/lisp"))
+;; org contact settings
 (require 'org-contacts)
 
 (setq org-capture-mail-only-template
@@ -70,30 +54,17 @@ When called with prefix arg (`C-u'), then remove this space again."
 (setq org-default-notes-file (concat org-directory "notes.org"))
 
 ;; TODO: is it possible to use autoload here?
-;; (require 'ob-ditaa)
-;; (require 'ob-sh)
-;; (require 'ob-python)
-;; (require 'ob-ruby)
-;; (require 'ob-dot)
-
-(autoload 'ob-ditaa "ob-ditaa" "ob-ditaa" t)
-(autoload 'ob-sh "ob-sh" "ob-sh" t)
-(autoload 'ob-python "ob-python" "ob-python" t)
-(autoload 'ob-ruby "ob-ruby" "ob-ruby" t)
-(autoload 'ob-dot "ob-dot" "ob-dot" t)
+(require 'ob-ditaa)
+(require 'ob-sh)
+(require 'ob-python)
+(require 'ob-ruby)
+(require 'ob-dot)
 
 ;; TODO: first check if it's installed maybe
-;;(setq org-latex-to-pdf-process '("texi2dvi -p -b -c -V %f"))
-
-; set conkeror as the default browser
-(setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "conkeror")
+;; (setq org-latex-to-pdf-process '("texi2dvi -p -b -c -V %f"))
 
 ;; TODO: check if this is really useful and how to autocomplete it
 (org-add-link-type "ebib" 'ebib)
-
-'(org-refile-targets (quote (("~/org/gtd.org" :maxlevel . 1)
-                             ("~/org/someday.org" :level . 2))))
 
 ; open in another window and restore the configuration on closing
 (setq org-agenda-window-setup 'other-window)
@@ -105,10 +76,9 @@ When called with prefix arg (`C-u'), then remove this space again."
       '(message-mode-hook
         mail-mode-hook))
 
+;TODO: move to some other settings
 (dolist (hook org-struct-hooks)
   (add-hook hook 'turn-on-orgstruct)
   (add-hook hook 'turn-on-orgtbl))
-
-(setq org-footnote-tag-for-non-org-mode-files "*-*-*-*-*-*-*-*-*-*")
 
 (provide 'ca-org)

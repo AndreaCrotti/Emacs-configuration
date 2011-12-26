@@ -7,11 +7,13 @@
 
 (autoload 'svn-status "psvn" "svn status" t)
 
-(autoload 'magit "magit")
-(autoload 'magit-status "magit")
+(autoload 'magit "magit" "magit" t)
+(autoload 'magit-status "magit" "magit-status" t)
 
 (eval-after-load 'magit
   '(require 'magit-svn))
+
+(autoload 'hg-status "mercurial" "mercurial" t)
 
 (defun ca-detect-git-svn ()
   "Detects if the project is actually git-svn or not"
@@ -46,8 +48,7 @@
 (defcustom ca-backend-assoc
   '(('Git . 'magit-status)
     ('Hg . 'hg-status)
-    ('Svn . 'svn-status)
-    )
+    ('Svn . 'svn-status))
   "Mapping between backend and function"
   :type 'list)
 
