@@ -5,14 +5,14 @@
       (list (make-conf-path "yasnippet-snippets/")))
 
 ;; Maybe needed to set to fixed for some modes
-(setq yas/indent-line 'auto)
+(setq
+ yas/indent-line 'auto
+ yas/ignore-filenames-as-triggers nil)
+
 (yas/initialize)
-(setq yas/ignore-filenames-as-triggers nil)
 
+(message "loading all the snippets")
 (mapc 'yas/load-directory yas/root-directory)
-
-;; don't make backups in the snippet folder, they mess up yasnippet
-(add-to-list 'backup-directory-alist '("/my-snippets/" . "/tmp/"))
 
 ;; simple function to create a .yas-parents
 (defun ca-make-yas-parents-file (path)
@@ -52,11 +52,5 @@
         (yas/expand))))
 
 (add-hook 'find-file-hook 'ca-insert-header)
-
-;; an interesting possibility to explore is to compile a bundle for
-;; each mode, and compile it on demand??
-;; (yas/compile-bundle "yasnippet.el"
-;;                     "mysnippets.el"
-;;                     "../yasnippet-snippets")
 
 (provide 'ca-yas)
