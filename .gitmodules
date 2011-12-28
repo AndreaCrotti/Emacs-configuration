@@ -142,3 +142,6 @@
 [submodule "evil"]
 	path = evil
 	url = git://gitorious.org/evil/evil.git
+[submodule "monky"]
+	path = monky
+	url = git://github.com/ananthakumaran/monky.git

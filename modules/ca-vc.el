@@ -2,7 +2,7 @@
 ;TODO: add support for more extensions, and add automatically magit-svn if possible
 
 (setq
- vc-handled-backends '(Git Hg CVS SVN Bzr)
+ vc-handled-backends '(Git Hg CVS SVN Bzr SCCS RCS Mtn Arch)
  ;; always opening the real file instead!
  vc-follow-symlinks t)
 
@@ -14,7 +14,7 @@
 (eval-after-load 'magit
   '(require 'magit-svn))
 
-(autoload 'hg-status "mercurial" "mercurial" t)
+(autoload 'conky-status "conky" "conky" t)
 
 (defun ca-detect-git-svn ()
   "Detects if the project is actually git-svn or not"
@@ -32,10 +32,12 @@
 (setq magit-process-connection-type nil)
 (setq magit-process-popup-time 10)
 
-(add-hook 'magit-log-edit-mode-hook 'orgtbl-mode)
-(add-hook 'magit-log-edit-mode-hook 'orgstruct-mode)
-(add-hook 'magit-log-edit-mode-hook 'flyspell-mode)
-(add-hook 'magit-log-edit-mode-hook 'auto-fill-mode)
+(add-hook 'magit-log-edit-mode-hook
+          '(lambda ()
+            (orgtbl-mode t)
+            (orgstruct-mode t)
+            (flyspell-mode t)
+            (auto-fill-mode t)))
 
 ;TODO: use  (vc-ensure-vc-buffer) to make it more general
 
