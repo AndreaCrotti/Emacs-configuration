@@ -27,17 +27,21 @@
         (re-search-forward "svn-remote")
       (search-failed -1))))
 
-(setq magit-log-edit-confirm-cancellation t)
-;; use tty which should be faster, passphrase not allowed here
-(setq magit-process-connection-type nil)
-(setq magit-process-popup-time 10)
+;; magit settings
+(setq
+ magit-log-edit-confirm-cancellation t
+ magit-process-connection-type nil
+ magit-process-popup-time 10)
 
-(add-hook 'magit-log-edit-mode-hook
-          '(lambda ()
-            (orgtbl-mode t)
-            (orgstruct-mode t)
-            (flyspell-mode t)
-            (auto-fill-mode t)))
+(defun ca-log-edit-modes ()
+  "Activate modes for various log-edits"
+  (orgtbl-mode t)
+  (orgstruct-mode t)
+  (flyspell-mode t)
+  (auto-fill-mode t))
+
+(add-hook 'magit-log-edit-mode-hook 'ca-log-edit-modes)
+(add-hook 'monky-log-edit-mode-hook 'ca-log-edit-modes)
 
 ;TODO: use  (vc-ensure-vc-buffer) to make it more general
 
