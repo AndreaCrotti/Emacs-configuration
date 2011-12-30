@@ -38,8 +38,9 @@
 (setq org-todo-keywords
       '((sequence "TODO(t)" "FEEDBACK(f)" "VERIFY(v)" "|" "DONE(d)" "DELEGATED(D)" "REJECTED(r)")))
 
-(setq org-enforce-todo-dependencies t)
-(setq org-enforce-todo-checkbox-dependencies t)
+(setq
+ org-enforce-todo-dependencies t
+ org-enforce-todo-checkbox-dependencies t)
 
 (add-to-list 'Info-default-directory-list (make-conf-path "org-mode/doc/"))
 
@@ -52,8 +53,9 @@
  org-outline-path-complete-in-steps nil)
 
 ;; Defining a setup where org-mode takes care of remember notes
-(setq org-directory "~/org/")
-(setq org-default-notes-file (concat org-directory "notes.org"))
+(setq
+ org-directory "~/org/"
+ org-default-notes-file (concat org-directory "notes.org"))
 
 ;; TODO: is it possible to use autoload here?
 (require 'ob-ditaa)
@@ -68,11 +70,12 @@
 ;; TODO: check if this is really useful and how to autocomplete it
 (org-add-link-type "ebib" 'ebib)
 
+(setq
 ; open in another window and restore the configuration on closing
-(setq org-agenda-window-setup 'other-window)
-(setq org-agenda-restore-windows-after-quit t)
-; don't want to see the finished tasks in the agenda
-(setq org-agenda-skip-scheduled-if-done t)
+ org-agenda-window-setup 'other-window
+ org-agenda-restore-windows-after-quit t
+ ; don't show if done in agenda
+ org-agenda-skip-scheduled-if-done t)
 
 (setq org-struct-hooks
       '(message-mode-hook
