@@ -1,147 +1,144 @@
 [submodule "auto-complete"]
-	path = auto-complete
-	url = http://cx4a.org/repo/auto-complete.git
+        path = auto-complete
+        url = http://cx4a.org/repo/auto-complete.git
 [submodule "org-mode"]
-	path = org-mode
-	url = git://repo.or.cz/org-mode.git
+        path = org-mode
+        url = git://repo.or.cz/org-mode.git
 [submodule "slime"]
-	path = slime
-	url = http://github.com/nablaone/slime.git
+        path = slime
+        url = http://github.com/nablaone/slime.git
 [submodule "clojure-mode"]
-	path = clojure-mode
-	url = git://github.com/jochu/clojure-mode.git
+        path = clojure-mode
+        url = git://github.com/jochu/clojure-mode.git
 [submodule "swank-clojure"]
-	path = swank-clojure
+        path = swank-clojure
         url = git://github.com/technomancy/swank-clojure.git
 [submodule "yaml-mode"]
-	path = yaml-mode
-	url = http://github.com/yoshiki/yaml-mode.git
+        path = yaml-mode
+        url = http://github.com/yoshiki/yaml-mode.git
 [submodule "doxymacs"]
-	path = doxymacs
-	url = git://doxymacs.git.sourceforge.net/gitroot/doxymacs/doxymacs
+        path = doxymacs
+        url = git://doxymacs.git.sourceforge.net/gitroot/doxymacs/doxymacs
 [submodule "gist.el"]
-	path = gist.el
-	url = git://github.com/defunkt/gist.el.git
+        path = gist.el
+        url = git://github.com/defunkt/gist.el.git
 [submodule "c-eldoc"]
-	path = c-eldoc
-	url = http://github.com/nflath/c-eldoc.git
+        path = c-eldoc
+        url = http://github.com/nflath/c-eldoc.git
 [submodule "php-mode"]
-	path = php-mode
-	url = git://github.com/emacsmirror/php-mode.git
+        path = php-mode
+        url = git://github.com/emacsmirror/php-mode.git
 [submodule "org-jekyll"]
-	path = org-jekyll
-	url = git://github.com/juanre/org-jekyll.git
+        path = org-jekyll
+        url = git://github.com/juanre/org-jekyll.git
 [submodule "malabar-mode"]
-	path = malabar-mode
-	url = git://github.com/espenhw/malabar-mode.git
+        path = malabar-mode
+        url = git://github.com/espenhw/malabar-mode.git
 [submodule "psvn"]
-	path = psvn
-	url = git://github.com/emacsmirror/psvn.git
+        path = psvn
+        url = git://github.com/emacsmirror/psvn.git
 [submodule "yasnippet-snippets"]
-	path = yasnippet-snippets
-	url = git://github.com/AndreaCrotti/yasnippet-snippets.git
+        path = yasnippet-snippets
+        url = git://github.com/AndreaCrotti/yasnippet-snippets.git
 [submodule "rinari"]
-	path = rinari
-	url = git://github.com/eschulte/rinari.git
+        path = rinari
+        url = git://github.com/eschulte/rinari.git
 [submodule "jdibug"]
-	path = jdibug
-	url = http://github.com/emacsmirror/jdibug.git
+        path = jdibug
+        url = http://github.com/emacsmirror/jdibug.git
 [submodule "tramp"]
-	path = tramp
-	url = git://github.com/emacsmirror/tramp.git
+        path = tramp
+        url = git://github.com/emacsmirror/tramp.git
 [submodule "ebib"]
-	path = ebib
-	url = git://repo.or.cz/ebib.git
+        path = ebib
+        url = git://repo.or.cz/ebib.git
 [submodule "yasnippet-mirror"]
-	path = yasnippet-mirror
-	url = git://github.com/AndreaCrotti/yasnippet-mirror.git
+        path = yasnippet-mirror
+        url = git://github.com/AndreaCrotti/yasnippet-mirror.git
 [submodule "graphviz-mode-mirror"]
-	path = graphviz-mode-mirror
-	url = git://github.com/AndreaCrotti/graphviz-mode-mirror.git
+        path = graphviz-mode-mirror
+        url = git://github.com/AndreaCrotti/graphviz-mode-mirror.git
 [submodule "programming-tools"]
-	path = programming-tools
-	url = git://github.com/AndreaCrotti/programming-tools.git
+        path = programming-tools
+        url = git://github.com/AndreaCrotti/programming-tools.git
 [submodule "emacs-dbgr"]
-	path = emacs-dbgr
-	url = git://github.com/AndreaCrotti/emacs-dbgr.git
+        path = emacs-dbgr
+        url = git://github.com/AndreaCrotti/emacs-dbgr.git
 [submodule "rebox2"]
-	path = rebox2
-	url = git://github.com/lewang/rebox2.git
+        path = rebox2
+        url = git://github.com/lewang/rebox2.git
 [submodule "ess-mirror"]
-	path = ess-mirror
-	url = git://github.com/AndreaCrotti/ess-mirror.git
+        path = ess-mirror
+        url = git://github.com/AndreaCrotti/ess-mirror.git
 [submodule "ruby-mode-mirror"]
-	path = ruby-mode-mirror
-	url = git://github.com/AndreaCrotti/ruby-mode-mirror.git
+        path = ruby-mode-mirror
+        url = git://github.com/AndreaCrotti/ruby-mode-mirror.git
 [submodule "distel"]
-	path = distel
-	url = git://github.com/massemanet/distel.git
+        path = distel
+        url = git://github.com/massemanet/distel.git
 [submodule "undo-tree"]
-	path = undo-tree
-	url = http://www.dr-qubit.org/git/undo-tree.git
+        path = undo-tree
+        url = http://www.dr-qubit.org/git/undo-tree.git
 [submodule "flymake-python"]
-	path = flymake-python
-	url = git://github.com/AndreaCrotti/flymake-python.git
-[submodule "yasnippet-org-mode"]
-	path = yasnippet-org-mode
-	url = git://github.com/eschulte/yasnippet-org-mode.git
+        path = flymake-python
+        url = git://github.com/AndreaCrotti/flymake-python.git
 [submodule "cclookup"]
-	path = cclookup
-	url = git://github.com/tsgates/cclookup.git
+        path = cclookup
+        url = git://github.com/tsgates/cclookup.git
 [submodule "gnus"]
-	path = gnus
-	url = http://git.gnus.org/gnus.git
+        path = gnus
+        url = http://git.gnus.org/gnus.git
 [submodule "google-maps"]
-	path = google-maps
-	url = git://git.naquadah.org/google-maps.git
+        path = google-maps
+        url = git://git.naquadah.org/google-maps.git
 [submodule "jshint-mode"]
-	path = jshint-mode
-	url = git://github.com/daleharvey/jshint-mode.git
+        path = jshint-mode
+        url = git://github.com/daleharvey/jshint-mode.git
 [submodule "js2-mode"]
-	path = js2-mode
-	url = git://github.com/mooz/js2-mode.git
+        path = js2-mode
+        url = git://github.com/mooz/js2-mode.git
 [submodule "paredit"]
-	path = paredit
-	url = git://github.com/emacsmirror/paredit.git
+        path = paredit
+        url = git://github.com/emacsmirror/paredit.git
 [submodule "org-passwords"]
-	path = org-passwords
-	url = git://github.com/AndreaCrotti/org-passwords.git
+        path = org-passwords
+        url = git://github.com/AndreaCrotti/org-passwords.git
 [submodule "tramp-adb"]
-	path = tramp-adb
-	url = git://github.com/juergenhoetzel/tramp-adb.git
+        path = tramp-adb
+        url = git://github.com/juergenhoetzel/tramp-adb.git
 [submodule "cssh"]
-	path = cssh
-	url = git://github.com/dimitri/cssh.git
+        path = cssh
+        url = git://github.com/dimitri/cssh.git
 [submodule "auto-dictionary-mode"]
-	path = auto-dictionary-mode
-	url = git://github.com/nschum/auto-dictionary-mode.git
+        path = auto-dictionary-mode
+        url = git://github.com/nschum/auto-dictionary-mode.git
 [submodule "magit"]
-	path = magit
-	url = git://github.com/AndreaCrotti/magit.git
+        path = magit
+        url = git://github.com/AndreaCrotti/magit.git
 [submodule "words-mode"]
-	path = words-mode
-	url = git://github.com/AndreaCrotti/words-mode.git
+        path = words-mode
+        url = git://github.com/AndreaCrotti/words-mode.git
 [submodule "emms"]
-	path = emms
-	url = git://git.sv.gnu.org/emms.git
+        path = emms
+        url = git://git.sv.gnu.org/emms.git
 [submodule "redmine-el"]
-	path = redmine-el
-	url = git://github.com/fukamachi/redmine-el.git
+        path = redmine-el
+        url = git://github.com/fukamachi/redmine-el.git
 [submodule "yasnippet"]
-	path = yasnippet
-	url = git://github.com/capitaomorte/yasnippet.git
+        path = yasnippet
+        url = git://github.com/capitaomorte/yasnippet.git
 [submodule "emacs-eclim"]
-	path = emacs-eclim
-	url = git://github.com/senny/emacs-eclim.git
+        path = emacs-eclim
+        url = git://github.com/senny/emacs-eclim.git
 [submodule "ensime"]
-	path = ensime
-	url = git://github.com/aemoncannon/ensime.git
+        path = ensime
+        url = git://github.com/aemoncannon/ensime.git
 [submodule "pycoverage.el"]
-	path = pycoverage.el
-	url = git://github.com/mattharrison/pycoverage.el.git
+        path = pycoverage.el
+        url = git://github.com/mattharrison/pycoverage.el.git
 [submodule "evil"]
-	path = evil
-	url = git://gitorious.org/evil/evil.git
+        path = evil
+        url = git://gitorious.org/evil/evil.git
 [submodule "monky"]
-	path = monky
-	url = git://github.com/ananthakumaran/monky.git
+        path = monky
+        url = git://github.com/ananthakumaran/monky.git

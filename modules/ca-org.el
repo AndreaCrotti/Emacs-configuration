@@ -48,8 +48,6 @@
 (org-clock-persistence-insinuate)
 
 (setq org-completion-use-ido t)
-; with ido enabled the following is not necessary anymore
-(setq org-outline-path-complete-in-steps nil)
 
 ;; Defining a setup where org-mode takes care of remember notes
 (setq org-directory "~/org/")
