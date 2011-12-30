@@ -1,6 +1,23 @@
 (require 'calendar)
 (require 'ca-customs)
 
+(defun ca-toggle-fullscreen (&optional f)
+  (interactive)
+  (let ((current-value (frame-parameter nil 'fullscreen)))
+    (set-frame-parameter nil 'fullscreen
+                         (if (equal 'fullboth current-value)
+                             (if (boundp 'old-fullscreen) old-fullscreen nil)
+                           (progn (setq old-fullscreen current-value)
+                                  'fullboth)))))
+
+(defun ca-full (&optional f)
+  (interactive)
+  (if
+      ca-mac
+      ;; included in emacs 23.2
+      (ns-toggle-ca-fullscreen)
+    (ca-toggle-fullscreen)))
+
 (defun ca-recompile-modules-directory ()
   "Simple wrapper to recompile the modules directory"
   (interactive)
