@@ -1,4 +1,4 @@
-
+;; see also  http://www.emacswiki.org/emacs/Shrink-Wrapping_Frames
 ;TODO: make it automatically the right size (check why frame-width does not work)
 (defun ca-make-org-agenda-buffer ()
   "Generates a small frame below for showing the agenda"

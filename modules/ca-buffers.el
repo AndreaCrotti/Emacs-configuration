@@ -1,4 +1,5 @@
-
+;; see also for more info
+;; http://scottfrazersblog.blogspot.com/2010/01/emacs-filtered-buffer-switching.html
 ;; Using uniquify for better handling of buffers with same name
 (require 'uniquify)
 ;; Using part of the directory in this case
