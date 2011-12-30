@@ -5,7 +5,9 @@
 
 (autoload 'org-mode (make-conf-path "org-mode/lisp/org") "from git org mode" t)
 
-(setq org-replace-disputed-keys t)
+(setq
+ org-replace-disputed-keys t
+ org-goto-interface 'outline-path-completion)
 
 ;; org contact settings
 (require 'org-contacts)
