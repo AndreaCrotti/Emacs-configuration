@@ -279,6 +279,7 @@ the program is found in `exec-path'; otherwise `message' is used."
   (interactive "D")
   (ca-dired-git-files directory))
 
+;TODO: extend or use magit functionalities for this
 (defun ca-dired-git-files (directory)
   (cd directory)
   "Open a dired buffer containing the local git files"
