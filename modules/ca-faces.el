@@ -18,10 +18,14 @@
             (local-set-key (kbd "M-n") 'rst-forward-section)
             (local-set-key (kbd "M-p") 'rst-backward-section)))
 
-(set-face-attribute 'diff-changed nil
-                    :background "dark red")
+(add-hook 'diff
+          (lambda ()
+            (set-face-attribute 'diff-changed nil
+                                :background "dark red")))
 
-(set-face-attribute 'magit-item-highlight nil
-                    :weight 'bold :height 1.2)
+(add-hook 'magit-mode-hook
+          (lambda ()
+            (set-face-attribute 'magit-item-highlight nil
+                                :weight 'bold :height 1.2)))
 
 (provide 'ca-faces)
