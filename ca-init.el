@@ -90,7 +90,6 @@
 (require 'ca-dired)
 (require 'ca-misc)
 (require 'ca-other-modes)
-(require 'ca-rst)
 (require 'ca-prog-mode)
 (require 'ca-vc)
 (require 'ca-bookmarks)
@@ -100,6 +99,7 @@
 ;TODO: this doesn't contain any real knowledge, refactor it out
 (require 'ca-customs)
 (require 'ca-network)
+(require 'ca-faces)
 
 ;; what if this is set differently?
 (setq custom-file (make-conf-path "custom.el"))

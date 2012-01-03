@@ -298,6 +298,7 @@ the program is found in `exec-path'; otherwise `message' is used."
 
 ;; TODO: take the return code instead
 (defun ca-ls-git-files ()
+  "List the files in the git repository"
   (let
       ((result (shell-command-to-string (concat "git ls-files"))))
     (if
