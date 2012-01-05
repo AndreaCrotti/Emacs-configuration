@@ -22,7 +22,7 @@
 ;;
 ;;     (require 'dot-mode)
 ;;     (add-hook 'find-file-hooks 'dot-mode-on)
-;; 
+;;
 ;; You may still want to use the global-set-key above.. especially if you
 ;; use the *scratch* buffer.
 ;;
@@ -86,7 +86,7 @@
 ;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ;;; GNU General Public License for more details.
 
-;;; A copy of the GNU General Public License can be obtained from 
+;;; A copy of the GNU General Public License can be obtained from
 ;;; the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA
 ;;; 02139, USA.
 
@@ -159,19 +159,19 @@
 ;;; an error during execution of the stored macro.
 ;;;
 ;;; 1.8
-;;; Second attempt to capture what the user is doing with 
+;;; Second attempt to capture what the user is doing with
 ;;; execute-extended-command (M-x).  The previous version didn't work
 ;;; in XEmacs.  This version works in both XEmacs and GNUEmacs.
 ;;;
 ;;; 1.9
-;;; Third attempt to capture what the user is doing with 
+;;; Third attempt to capture what the user is doing with
 ;;; execute-extended-command (M-x).  Wow was I making things hard.
 ;;; It's cost me a lot of version numbers in a short amount of time,
 ;;; so we won't discuss my previous attempts. *grin*  My second attempt
 ;;; worked just fine, but it was more complicated and maybe not as
 ;;; portable to older version of X/GNU Emacs.
 ;;; Other things:
-;;;   - Yet another restructuring of the code.  By doing so, 
+;;;   - Yet another restructuring of the code.  By doing so,
 ;;;     quoted-insert (C-q) is properly stored by dot-mode.
 ;;;     (quoted-insert has been broken since ver 1.6)
 ;;;   - Deleted an extraneous state and the "extended-state" added
@@ -199,7 +199,7 @@
   "Whether dot mode is on or not")
 (make-variable-buffer-local 'dot-mode)
 
-(defvar dot-mode-map 
+(defvar dot-mode-map
   (let ((map (make-sparse-keymap)))
     (if (fboundp 'read-kbd-macro)
         (progn
@@ -252,6 +252,11 @@
 (defvar dot-mode-minibuffer-input nil
   "Global buffer to capture minibuffer input")
 
+(defcustom dot-mode-hook nil
+  "Hook when entering dot-mode"
+  :group 'dot-mode
+  :type 'hook)
+
 ;; The below statements are another possible definition of dot-mode-command-keys
 ;; that I *think* will work.  It hasn't been well tested so I'm leaving it
 ;; out for now.  This was written at the same time I found this-command-keys-vector.
@@ -266,7 +271,7 @@
 ;;         (this-single-command-keys)
 ;;       (vconcat (char-to-string meta-prefix-char) (number-to-string current-prefix-arg) (this-single-command-keys)))))
 
-(cond 
+(cond
  ((fboundp 'this-command-keys-vector)
   (fset 'dot-mode-command-keys (symbol-function 'this-command-keys-vector)))
  (t
@@ -335,10 +340,10 @@ or even saved for later use with name-last-kbd-macro"
 
 (defun dot-mode-minibuffer-exit ()
   "Catch minibuffer exit"
-  ;; Just store it as a string buffer... 
+  ;; Just store it as a string buffer...
   ;;     On X Emacs, we'll call character-to-event later
   ;;     On GNU Emacs, vconcat will handle strings
-  (setq dot-mode-minibuffer-input 
+  (setq dot-mode-minibuffer-input
         (concat dot-mode-minibuffer-input (buffer-string) "\r"))
 
   ;; I'd really like to check this-command to see if it's exit-minibuffer
@@ -402,9 +407,9 @@ or even saved for later use with name-last-kbd-macro"
                (if (not (null dot-mode-minibuffer-input))
                    (progn
                      (if (fboundp 'character-to-event) ;; we're on X-Emacs
-                         (setq dot-mode-minibuffer-input 
+                         (setq dot-mode-minibuffer-input
                                (mapcar 'character-to-event dot-mode-minibuffer-input)))
-                     (setq dot-mode-cmd-keys (vconcat dot-mode-cmd-keys 
+                     (setq dot-mode-cmd-keys (vconcat dot-mode-cmd-keys
                                                       dot-mode-minibuffer-input))
                    )
                )
@@ -429,7 +434,7 @@ or even saved for later use with name-last-kbd-macro"
   ;; The only time this will ever do any good is if you did a
   ;; quit out of the minibuffer.  In that case, the hook will
   ;; still be there.  It won't really hurt anything, it will just
-  ;; continue to record everything you do in the minibuffer 
+  ;; continue to record everything you do in the minibuffer
   ;; regardless of whether or not it is an execute-extended-command.
   ;; And the dot-mode-minibuffer-input buffer could get quite large.
   (remove-hook 'minibuffer-exit-hook 'dot-mode-minibuffer-exit)
@@ -499,6 +504,8 @@ Dot mode mimics the `.' function in vi, repeating sequences of
 commands and/or typing delimited by motion events.  Use `C-.' rather
 than just `.'."
   (interactive "P")
+  ; make sure the hook is called
+  (run-hooks 'dot-mode-hook)
   (setq dot-mode
         (if (null arg)
             (not dot-mode)

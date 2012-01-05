@@ -123,6 +123,9 @@
 (require 'session)
 
 (autoload 'dot-mode "graphiz-dot-mode" "graphviz dot mode" t)
+;TODO: dot-mode-hook is defined but not called yet
+(add-hook 'dot-mode-hook
+          #'(lambda () (setq autopair-dont-activate t)))
 
 (autoload 'log4j-mode "log4j-mode" t)
 (add-to-list 'auto-mode-alist '("\\.log$" . log4j-mode))
