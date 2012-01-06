@@ -34,7 +34,7 @@
   :type 'boolean)
 
 (defcustom ca-spell-langs
-  '(emacs-lisp-mode-hook python-mode-hook c-mode-common-hook nesc-mode-hook java-mode-hook jde-mode-hook haskell-mode-hook rst-mode)
+  '(emacs-lisp-mode-hook python-mode-hook c-mode-common-hook nesc-mode-hook java-mode-hook jde-mode-hook haskell-mode-hook)
   "Set of programming modes for which I want to enable spelling in comments and strings"
   :group 'ca
   :type 'list)

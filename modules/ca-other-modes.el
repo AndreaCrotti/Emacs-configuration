@@ -208,4 +208,6 @@
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "conkeror")
 
+(add-hook 'rst-mode-hook 'flyspell-mode)
+
 (provide 'ca-other-modes)
