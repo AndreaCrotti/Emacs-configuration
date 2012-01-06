@@ -1,3 +1,4 @@
+(require 'ca-customs)
 ;; TODO: with emacs23 is sufficient to enable subword-mode probably
 (autoload 'camelCase-mode "camelCase-mode")
 
