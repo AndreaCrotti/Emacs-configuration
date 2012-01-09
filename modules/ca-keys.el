@@ -11,17 +11,20 @@
 ;; visualization
 (global-set-key [f11] 'ca-full)
 
-;; newline like textmate
+;; textmate-like bindings
 (global-set-key (kbd "M-RET") 'ca-newline-force)
 (global-set-key [M-S-return] 'ca-newline-force-close)
+(global-set-key [(meta shift l)] 'ca-select-line)
+;; move between frames
 (global-set-key (kbd "M-<left>") 'other-frame)
 (global-set-key (kbd "M-<right>") 'other-frame)
-(global-set-key [(meta shift l)] 'ca-select-line)
 (global-set-key (kbd "M-z") 'undo)
 
-;; cvs stuff
+;; magit
+;TODO: make it more general for all the possible vcs
 (global-set-key "\C-xg" 'magit-status)
 
+;; org settings
 (global-set-key "\C-cr" 'org-capture)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-c\C-x\C-o" 'org-clock-out)
@@ -42,6 +45,5 @@
 
 (global-set-key (kbd "C-M-n") 'fixme-next)
 (global-set-key (kbd "C-M-p") 'fixme-prev)
-
 
 (provide 'ca-keys)
