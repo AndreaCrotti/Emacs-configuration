@@ -39,8 +39,9 @@
         (ca-insert-at-startup (cdr snip))))))
 
 (defun ca-find-matching-snippet (filename)
-  (assoc-if (lambda (x) (string-match x filename))
-                 ca-auto-header-conses))
+  (assoc-if
+   (lambda (x) (string-match x filename))
+   ca-auto-header-conses))
 
 (defun ca-insert-at-startup (snippet)
   "try to expand a snippet at startup"
