@@ -99,6 +99,7 @@
 (require 'ca-customs)
 (require 'ca-network)
 (require 'ca-faces)
+(require 'ca-haskell)
 
 ;TODO: switch to the use of profiles with different OS detection instead
 (when ca-linux
