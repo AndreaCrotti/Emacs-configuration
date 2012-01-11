@@ -8,10 +8,6 @@
 ;; Set some automatic filters
 (setq ibuffer-saved-filter-groups
       '(("default"
-         ("Chat" (or
-                  (mode . garak-mode)
-                  (name . "^\\*Garak\\*$")
-                  (mode . rcirc-mode)))
          ("Organization" (or
                           (mode . diary-mode)
                           (mode . org-mode)

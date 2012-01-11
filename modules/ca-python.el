@@ -56,7 +56,7 @@
               '(lambda ()
                  (add-to-list 'ac-sources ac-source-rope)))))
 
-(when ca-python-enable-rope
+(when (and ca-linux ca-python-enable-rope)
   (progn
     ;; pymacs section
     (add-to-list 'load-path (concat py-install-directory "/pymacs"))

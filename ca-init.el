@@ -95,11 +95,14 @@
 (require 'ca-bookmarks)
 (require 'ca-packages)
 (require 'ca-buffers)
-(require 'ca-flymake)
 ;TODO: this doesn't contain any real knowledge, refactor it out
 (require 'ca-customs)
 (require 'ca-network)
 (require 'ca-faces)
+
+;TODO: switch to the use of profiles with different OS detection instead
+(when ca-linux
+  (require 'ca-flymake))
 
 ;; what if this is set differently?
 (setq custom-file (make-conf-path "custom.el"))
