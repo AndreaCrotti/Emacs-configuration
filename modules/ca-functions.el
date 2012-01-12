@@ -6,6 +6,22 @@
 ;FIXME: this is not really working, fix it and make it only available on osx
 (setq ca-growl-mode nil)
 
+;; from TH on emacs mailing, list
+;FIXME: check why is not working and the variable names
+(defun ca-find-file-sudo (file)
+  "Opens FILE with root privileges."
+  (interactive "F")
+  (set-buffer (find-file (concat "/sudo::" file))))
+
+(defadvice find-file (around ca-find-file activate)
+  "Open FILENAME using tramp's sudo method if it's read-only."
+  (if (and (not (file-writable-p (ad-get-argument 0)))
+           (not (file-remote-p (ad-get-argument 0)))
+           (y-or-n-p
+            (concat "File " (ad-get-argument 0) " is read-only.  Open it as root? ")))
+      (ca-find-file-sudo (ad-get-argument 0))
+    ad-do-it))
+
 (defun ca-growl ()
   (interactive)
   (if (not ca-growl-mode)
@@ -23,11 +39,9 @@
   "what to enable in a presentation mode"
   ;TODO: also add a function to cancel all this changes
   (interactive)
-  (ca-growl)
   (color-theme-high-contrast)
   (global-semantic-decoration-mode -1)
-  (global-semantic-idle-summary-mode -1)
-  (add-hook 'python-mode-hook (function ca-activate-flymake)))
+  (global-semantic-idle-summary-mode -1))
 
 (when ca-mac
   (defun ca-do-applescript (str)
