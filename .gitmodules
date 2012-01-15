@@ -142,3 +142,6 @@
 [submodule "monky"]
         path = monky
         url = git://github.com/ananthakumaran/monky.git
+[submodule "coffee-mode"]
+	path = coffee-mode
+	url = git://github.com/defunkt/coffee-mode.git

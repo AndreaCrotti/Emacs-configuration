@@ -13,14 +13,14 @@
   (interactive "F")
   (set-buffer (find-file (concat "/sudo::" file))))
 
-(defadvice find-file (around ca-find-file activate)
-  "Open FILENAME using tramp's sudo method if it's read-only."
-  (if (and (not (file-writable-p (ad-get-argument 0)))
-           (not (file-remote-p (ad-get-argument 0)))
-           (y-or-n-p
-            (concat "File " (ad-get-argument 0) " is read-only.  Open it as root? ")))
-      (ca-find-file-sudo (ad-get-argument 0))
-    ad-do-it))
+;; (defadvice find-file (around ca-find-file activate)
+;;   "Open FILENAME using tramp's sudo method if it's read-only."
+;;   (if (and (not (file-writable-p (ad-get-argument 0)))
+;;            (not (file-remote-p (ad-get-argument 0)))
+;;            (y-or-n-p
+;;             (concat "File " (ad-get-argument 0) " is read-only.  Open it as root? ")))
+;;       (ca-find-file-sudo (ad-get-argument 0))
+;;     ad-do-it))
 
 (defun ca-growl ()
   (interactive)
