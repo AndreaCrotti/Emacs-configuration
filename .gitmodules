@@ -112,9 +112,6 @@
 [submodule "auto-dictionary-mode"]
         path = auto-dictionary-mode
         url = git://github.com/nschum/auto-dictionary-mode.git
-[submodule "magit"]
-        path = magit
-        url = git://github.com/AndreaCrotti/magit.git
 [submodule "words-mode"]
         path = words-mode
         url = git://github.com/AndreaCrotti/words-mode.git
@@ -143,5 +140,8 @@
         path = monky
         url = git://github.com/ananthakumaran/monky.git
 [submodule "coffee-mode"]
-	path = coffee-mode
-	url = git://github.com/defunkt/coffee-mode.git
+        path = coffee-mode
+        url = git://github.com/defunkt/coffee-mode.git
+[submodule "magit"]
+	path = magit
+	url = git://github.com/magit/magit.git

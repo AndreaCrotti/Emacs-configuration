@@ -8,11 +8,10 @@
 
 (autoload 'svn-status "psvn" "svn status" t)
 
-(autoload 'magit "magit" "magit" t)
-(autoload 'magit-status "magit" "magit-status" t)
-
-(eval-after-load 'magit
-  '(require 'magit-svn))
+(require 'magit)
+(require 'magit-svn)
+;; enabling globally magit-svn
+(add-hook 'magit-mode-hook 'turn-on-magit-svn)
 
 (autoload 'conky-status "conky" "conky" t)
 

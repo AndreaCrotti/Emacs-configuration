@@ -58,6 +58,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
   - [[http://snarfed.org/space/why_I_dont_run_shells_inside_Emacs][running a shell inside emacs]]
   - [[http://stackoverflow.com/questions/649000/why-emacs-vim-textmate-isnt-xcode-good-enough][why isn't xcode good enough (vs vim and emacs)]]
   - [[http://dotfiles.org/.emacs][ultimate dotfiles repository]]
+  - beaufitul architecture has an entire section about Emacs design
 
 * Sparse documentation
   From newcomment.el:
