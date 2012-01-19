@@ -30,7 +30,8 @@
 (setq
  magit-log-edit-confirm-cancellation t
  magit-process-connection-type nil
- magit-process-popup-time 10)
+ magit-process-popup-time 10
+ magit-status-buffer-switch-function 'switch-to-buffer)
 
 (defun ca-log-edit-modes ()
   "Activate modes for various log-edits"
