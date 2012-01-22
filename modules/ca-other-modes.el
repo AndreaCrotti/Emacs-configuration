@@ -167,6 +167,10 @@
 (add-to-list 'auto-mode-alist
              '("pylintrc" . conf-unix-mode))
 
+;; add to the end of the rules the rule that everything in ETC might be a conf file
+(setq auto-mode-alist
+      (append auto-mode-alist '(("etc" . conf-mode ))))
+
 (add-to-list 'auto-mode-alist '("PKGBUILD" . sh-mode))
 
 (autoload 'eimp-mode "eimp" "Emacs Image Manipulation Package." t)
