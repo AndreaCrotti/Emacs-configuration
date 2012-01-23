@@ -28,7 +28,7 @@
   :type 'list)
 
 (defcustom ca-show-battery
-  t
+  nil
   "show the battery level"
   :group 'ca
   :type 'boolean)
