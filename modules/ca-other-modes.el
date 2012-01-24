@@ -87,7 +87,16 @@
 (setq auto-mode-alist (append '(("\\.\\([Nn][Ss][Hh]\\)$" .
                                  nsis-mode)) auto-mode-alist))
 
-(add-hook 'before-save-hook 'whitespace-cleanup)
+;TODO: add some other conditions depending if it's my code or not
+(setq ca-non-whitespaces-modes '(makefile-gmake-mode))
+
+(defun ca-cleanup-on-conditions ()
+  (if (not (member major-mode ca-non-whitespaces-modes))
+      (whitespace-cleanup)
+    (when (y-or-n-p "Are you sure you want to cleanup?")
+      (whitespace-cleanup))))
+
+(add-hook 'before-save-hook 'ca-cleanup-on-conditions)
 
 (autoload 'batch-mode "batch-mode" t)
 (add-to-list 'auto-mode-alist '("\\.bat\\'" . batch-mode))
