@@ -74,4 +74,12 @@
       :group 'ca
       :type 'list)
 
+(defcustom ca-non-whitespaces-modes
+      '(makefile-gmake-mode
+        makefile-mode
+        makefile-bsdmake-mode)
+      "Modes that should not run the whitespace cleanup automatically"
+      :type 'list
+      :group 'ca)
+
 (provide 'ca-customs)

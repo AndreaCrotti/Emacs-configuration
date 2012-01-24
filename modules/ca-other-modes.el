@@ -87,9 +87,6 @@
 (setq auto-mode-alist (append '(("\\.\\([Nn][Ss][Hh]\\)$" .
                                  nsis-mode)) auto-mode-alist))
 
-;TODO: add some other conditions depending if it's my code or not
-(setq ca-non-whitespaces-modes '(makefile-gmake-mode))
-
 (defun ca-cleanup-on-conditions ()
   (if (not (member major-mode ca-non-whitespaces-modes))
       (whitespace-cleanup)
