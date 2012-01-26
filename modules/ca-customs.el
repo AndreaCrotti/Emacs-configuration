@@ -82,4 +82,9 @@
       :type 'list
       :group 'ca)
 
+(defcustom ca-command-frequency-enabled
+  nil
+  :type 'boolean
+  :group 'ca)
+
 (provide 'ca-customs)

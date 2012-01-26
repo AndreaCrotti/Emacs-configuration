@@ -207,17 +207,18 @@
 (add-hook 'c-mode-common-hook #'(lambda () (autopair-mode)))
 
 
-(require 'command-frequency)
-(command-frequency-autosave-mode t)
-(setq command-frequency-autosave-timeout 100)
-(command-frequency-mode t)
-
-;; also enable all the keys used
-(open-dribble-file (expand-file-name "~/.emacs.dribble"))
+(when ca-command-frequency-enabled
+  (require 'command-frequency)
+  (command-frequency-autosave-mode t)
+  (setq command-frequency-autosave-timeout 100)
+  (command-frequency-mode t)
+  ;; enable all the keys used
+  (open-dribble-file (expand-file-name "~/.emacs.dribble")))
 
 ; set conkeror as the default browser
-(setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "conkeror")
+(setq
+ browse-url-browser-function 'browse-url-generic
+ browse-url-generic-program "conkeror")
 
 (add-hook 'rst-mode-hook 'flyspell-mode)
 
