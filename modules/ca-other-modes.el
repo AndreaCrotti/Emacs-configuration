@@ -1,5 +1,7 @@
 (require 'ca-customs)
 
+;TODO: might write some nice macros to create simple language functions to call
+
 ;TODO: is this the same as just passing in the variable?
 (when ca-show-battery
   (display-battery-mode t))
@@ -43,8 +45,7 @@
 
 (autoload 'mako-html-mumamo-mode "autostart" "auto starting of nxhtml" t)
 ;; add other modes whenever needed
-(add-to-list 'auto-mode-alist '("\\.mak$" . mako-html-mumamo-mode))
-(add-to-list 'auto-mode-alist '("\\.mako$" . mako-html-mumamo-mode))
+(add-to-list 'auto-mode-alist '("\\.mako?$" . mako-html-mumamo-mode))
 
 (setq mumamo-chunk-coloring 3)
 
@@ -58,9 +59,7 @@
 
 (autoload 'yaml-mode "yaml-mode" "mode for yaml" t)
 (add-to-list 'auto-mode-alist
-             '("\\.yaml$" . yaml-mode))
-(add-to-list 'auto-mode-alist
-             '("\\.yml$" . yaml-mode))
+             '("\\.ya?ml$" . yaml-mode))
 
 (autoload 'go-mode "go-mode" "go mode" t)
 (add-to-list 'auto-mode-alist
@@ -70,8 +69,10 @@
 (add-to-list 'auto-mode-alist
              '("views$" . django-html-mode))
 
-(setq gdb-show-main nil)
-(setq gdb-many-windows t)
+; gdb settings, with emacs 24 it's MI by default
+(setq
+ gdb-show-main nil
+ gdb-many-windows t)
 
 (defadvice pdb (before gud-query-cmdline activate)
   "Provide a better default command line when called interactively."
