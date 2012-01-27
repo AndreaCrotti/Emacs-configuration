@@ -64,6 +64,7 @@
   :type 'list)
 
 ;TODO: how do we check if we can check for the existing snippets?
+;TODO: make it smarter, it would be good to accept also a function, in this way it can be made more generic
 (defcustom ca-auto-header-conses
       '(
         ("setup.py" . "setup")
