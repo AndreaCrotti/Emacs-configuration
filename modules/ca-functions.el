@@ -173,6 +173,12 @@ the program is found in `exec-path'; otherwise `message' is used."
   (end-of-paragraph-text)))
 
 
+(defun ca-occur ()
+  "Find the interesting occurrences"
+  (interactive)
+  (occur "TODO\\|FIXME\\|XXX"))
+
+
 (defun ca-google-map-it (address)
   "get the map of the given address"
   (interactive "sSearch for: ")
