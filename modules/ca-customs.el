@@ -84,6 +84,7 @@
 
 (defcustom ca-command-frequency-enabled
   nil
+  "Enable recording the command frequency"
   :type 'boolean
   :group 'ca)
 

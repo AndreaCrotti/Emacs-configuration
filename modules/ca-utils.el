@@ -608,4 +608,4 @@ Otherwise, expand the current region to select the lines the region touches."
           snip
         (ca-insert-at-startup (cdr snip))))))
 
-(provide 'ca-functions)
+(provide 'ca-utils)

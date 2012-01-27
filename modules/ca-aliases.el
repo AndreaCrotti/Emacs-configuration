@@ -1,4 +1,4 @@
-(require 'ca-functions)
+(require 'ca-utils)
 
 (defalias 'ac 'auto-complete-mode)
 (defalias 'bb 'bury-buffer)

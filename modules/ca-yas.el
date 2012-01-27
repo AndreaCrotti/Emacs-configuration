@@ -1,5 +1,5 @@
 (require 'ca-customs)
-(require 'ca-functions)
+(require 'ca-utils)
 (require 'yasnippet)
 
 (setq yas/root-directory

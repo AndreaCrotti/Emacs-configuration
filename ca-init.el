@@ -4,7 +4,7 @@
 
 (add-to-list 'load-path (make-conf-path "modules"))
 ; second argument as 0 to compile if they don't exist
-(require 'ca-functions)
+(require 'ca-utils)
 
 ;XXX: this has to be done as soon as possible or the default cedet will be loaded!!
 (when (not (boundp 'cedet-version))
