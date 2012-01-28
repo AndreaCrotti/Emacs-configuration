@@ -72,7 +72,7 @@ ANSICOLOR="${EMACS_SOURCE_DIR}/lisp/ansi-color.el"
 COMINT="${EMACS_SOURCE_DIR}/lisp/comint.el"
 CCCMDS="${EMACS_SOURCE_DIR}/lisp/progmodes/cc-cmds.el"
 SHELL="${EMACS_SOURCE_DIR}/lisp/shell.el"
-PYMACS="../pymacs/pymacs.el"
+PYMACS="../pymacs.el"
 # file holding the tests
 TESTFILE="py-bug-numbered-tests.el"
 TESTFILE2="python-mode-test.el"
@@ -159,6 +159,14 @@ $EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'py
 --funcall indentation-keyword-lp-885143-test \
 --funcall fore-00007F-breaks-indentation-lp:328788-test \
 --funcall indent-offset-not-guessed-when-loading-lp:902890-test \
+--funcall from-__future__-import-absolute_import-mishighlighted-lp-907084-test \
+--funcall automatic-indentation-is-broken-lp-889643-test \
+--funcall chars-uU-preceding-triple-quoted-get-string-face-lp-909517-test \
+--funcall wrong-type-argument-lp-901541-test \
+--funcall py-pychecker-run-missing-lp-910783-test \
+--funcall py-forward-into-nomenclature-lp-916818-test \
+--funcall py-forward-into-nomenclature-jumps-over-CamelCased-words-lp:919540-test \
+--funcall py-backward-into-nomenclature-caps-names-lp:919541-test \
 \
 --funcall multiline-list-indent-test \
 --funcall py-beginning-of-block-test \
@@ -169,7 +177,6 @@ $EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'py
 --funcall py-end-of-def-test \
 --funcall py-beginning-of-def-or-class-test \
 --funcall py-end-of-def-or-class-test \
---funcall py-electric-backspace-test \
 --funcall py-electric-delete-test \
 --funcall dict-error-test \
 --funcall near-bob-beginning-of-statement-test \
@@ -195,18 +202,23 @@ $EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'py
 --funcall close-block-test \
 --funcall py-shift-block-test \
 --funcall nesting-if-test \
---funcall py-end-of-print-statement-test \
 --funcall nested-try-test \
 --funcall nested-if-test \
---funcall nested-try-finally-test \
 --funcall py-shebang-consider-ipython-lp-849293-test \
---funcall py-insert-super-python2-test \
 --funcall py-insert-super-python3-test \
---funcall UnicodeEncodeError-python3-test \
 --funcall UnicodeEncodeError-lp:550661-test \
+--funcall py-shell-complete-test \
+--funcall py-completion-at-point-test \
 --funcall py-shebang-ipython-env-lp-849293-test \
---funcall py-execute-block-test \
 --funcall master-file-not-honored-lp:794850-test \
+--funcall py-insert-super-python2-test \
+--funcall nested-try-finally-test \
+--funcall py-electric-backspace-test \
+--funcall UnicodeEncodeError-python3-test \
+--funcall py-execute-block-test \
+--funcall tqs-list-error-test \
+--funcall py-end-of-print-statement-test \
+
 
 else
 
