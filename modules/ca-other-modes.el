@@ -93,8 +93,10 @@
   (cond
    ((member major-mode ca-whitespace-ask-modes)
     (when (y-or-n-p "Are you sure you want to cleanup")
+      (message "Doing the whitespace cleanup")
       (whitespace-cleanup)))
    ((not (member major-mode ca-non-whitespaces-modes))
+    (message "Doing the whitespace cleanup")
     (whitespace-cleanup))
    (t (message "Skipping the cleanup"))))
 
