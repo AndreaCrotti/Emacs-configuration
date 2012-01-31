@@ -59,6 +59,7 @@ Emacs is no more about text editing than astronomy is about telescopes.
   - [[http://stackoverflow.com/questions/649000/why-emacs-vim-textmate-isnt-xcode-good-enough][why isn't xcode good enough (vs vim and emacs)]]
   - [[http://dotfiles.org/.emacs][ultimate dotfiles repository]]
   - beaufitul architecture has an entire section about Emacs design
+  - [[http://stackoverflow.com/questions/8670207/when-to-quote-symbol-in-emacs-lisp][when to quote symbols in emacs lisp]]
 
 * Sparse documentation
   From newcomment.el:

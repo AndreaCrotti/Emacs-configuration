@@ -165,12 +165,13 @@
   (interactive)
   (re-search-backward ca-conf-section-regexp))
 
-(add-hook 'conf-unix-mode-hook '(lambda ()
-                                  (local-set-key (kbd "M-n") 'ca-next-conf-section)
-                                  (local-set-key (kbd "M-p") 'ca-prev-conf-section)))
+(add-hook 'conf-unix-mode-hook
+          '(lambda ()
+             (local-set-key (kbd "M-n") 'ca-next-conf-section)
+             (local-set-key (kbd "M-p") 'ca-prev-conf-section)))
 
 (dolist (ext ca-extra-conf-files)
-  (add-to-list 'auto-mode-alist '(ext . conf-mode)))
+  (add-to-list 'auto-mode-alist (cons ext 'conf-mode)))
 
 (add-to-list 'auto-mode-alist '("PKGBUILD" . sh-mode))
 
