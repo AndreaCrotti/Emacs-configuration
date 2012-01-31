@@ -169,23 +169,13 @@
                                   (local-set-key (kbd "M-n") 'ca-next-conf-section)
                                   (local-set-key (kbd "M-p") 'ca-prev-conf-section)))
 
-(add-to-list 'auto-mode-alist
-             '("\\.pkla\\'" . conf-mode))
-
-(add-to-list 'auto-mode-alist
-             '("shorewall" . conf-space-mode))
-
-(add-to-list 'auto-mode-alist
-             '("pylintrc" . conf-unix-mode))
-
-;; add to the end of the rules the rule that everything in ETC might be a conf file
-(setq auto-mode-alist
-      (append auto-mode-alist '(("etc" . conf-mode ))))
+(dolist (ext ca-extra-conf-files)
+  (add-to-list 'auto-mode-alist '(ext . conf-mode)))
 
 (add-to-list 'auto-mode-alist '("PKGBUILD" . sh-mode))
 
 (autoload 'eimp-mode "eimp" "Emacs Image Manipulation Package." t)
-(add-hook 'image-mode-hook 'eimp-mode)
+
 (setq eimp-enable-undo t)
 (setq eimp-max-concurrent-processes 4)
 

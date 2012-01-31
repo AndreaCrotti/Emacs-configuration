@@ -95,4 +95,10 @@
   :type 'boolean
   :group 'ca)
 
+(defcustom ca-extra-conf-files
+  '("\\.pkla\\'" "shorewall" "pylintrc" "\\.spec\\'" "etc")
+  "Extra list of regexp to enable conf-mode"
+  :type 'list
+  :group 'ca)
+
 (provide 'ca-customs)
