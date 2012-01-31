@@ -89,10 +89,14 @@
                                  nsis-mode)) auto-mode-alist))
 
 (defun ca-cleanup-on-conditions ()
-  (if (not (member major-mode ca-non-whitespaces-modes))
-      (whitespace-cleanup)
-    (when (y-or-n-p "Are you sure you want to cleanup?")
-      (whitespace-cleanup))))
+  "Cleanup automatically unless it's a mode where it should be asked"
+  (cond
+   ((member major-mode ca-whitespace-ask-modes)
+    (when (y-or-n-p "Are you sure you want to cleanup")
+      (whitespace-cleanup)))
+   ((not (member major-mode ca-non-whitespaces-modes))
+    (whitespace-cleanup))
+   (t (message "Skipping the cleanup"))))
 
 (add-hook 'before-save-hook 'ca-cleanup-on-conditions)
 

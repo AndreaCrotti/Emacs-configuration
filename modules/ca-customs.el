@@ -75,6 +75,12 @@
       :group 'ca
       :type 'list)
 
+(defcustom ca-whitespace-ask-modes
+  ()
+  "Modes where the whitespace cleanup should query the user"
+  :type 'list
+  :group 'ca)
+
 (defcustom ca-non-whitespaces-modes
       '(makefile-gmake-mode
         makefile-mode
