@@ -101,4 +101,10 @@
   :type 'list
   :group 'ca)
 
+
+(defcustom ca-conf-section-regexp
+  "\\[.*\\]"
+  :type 'string
+  :group 'ca)
+
 (provide 'ca-customs)

@@ -154,9 +154,6 @@
 
 ;;  (autoload 'ledger-mode "ledger" "ledger mode for accounting" t)
 
-;; separator might be different in the different conf mode dialects
-(setq ca-conf-section-regexp "\\[.*\\]")
-
 (defun ca-next-conf-section ()
   (interactive)
   (re-search-forward ca-conf-section-regexp))
@@ -171,6 +168,7 @@
              (local-set-key (kbd "M-p") 'ca-prev-conf-section)))
 
 (dolist (ext ca-extra-conf-files)
+  ; use cons otherwise the quoting has the wrong effect
   (add-to-list 'auto-mode-alist (cons ext 'conf-mode)))
 
 (add-to-list 'auto-mode-alist '("PKGBUILD" . sh-mode))
