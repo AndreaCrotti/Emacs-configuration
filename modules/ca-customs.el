@@ -67,14 +67,15 @@
 ;TODO: make it smarter, it would be good to accept also a function, in this way it can be made more generic
 (defcustom ca-auto-header-conses
       '(
-        ("setup.py" . "setup")
-        ("\.sh$" . "bash")
-        ("\.h$"  . "once")
-        ("\.hpp$" . "once"))
+	("setup.py" . "setup")
+	("\.sh$" . "bash")
+	("\.h$"  . "once")
+	("\.hpp$" . "once"))
       "snippets to expand per file extension"
       :group 'ca
       :type 'list)
 
+;TODO: might be a list of functions, which can be also analyzed in some other ways
 (defcustom ca-whitespace-ask-modes
   ()
   "Modes where the whitespace cleanup should query the user"
@@ -83,8 +84,10 @@
 
 (defcustom ca-non-whitespaces-modes
       '(makefile-gmake-mode
-        makefile-mode
-        makefile-bsdmake-mode)
+	makefile-mode
+	makefile-bsdmake-mode
+	message-mode
+	mail-mode)
       "Modes that should not run the whitespace cleanup automatically"
       :type 'list
       :group 'ca)
@@ -104,6 +107,7 @@
 
 (defcustom ca-conf-section-regexp
   "\\[.*\\]"
+  "Regexp to distinguish the different configuration sections"
   :type 'string
   :group 'ca)
 
