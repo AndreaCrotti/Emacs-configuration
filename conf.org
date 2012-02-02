@@ -6,9 +6,11 @@ My personal Emacs configuration
 Emacs is no more about text editing than astronomy is about telescopes.
 #+end_quote
 
+* TODO [#A] make a script to deploy automatically this configuration everywhere where is possible
+  might just be a shell script or CMake or the new project-organizer tool which handles the whole thing
+
 * TODO See how to use variables like *special-buffer-regexps* to have a better control over the buffer windows
 * TODO use the ERT testing framework to test my functions
-* TODO [#A] make a script to deploy automatically this configuration everywhere where is possible
 * DONE Write a function that setups all the possible paths automatically
   CLOSED: [2010-05-04 Mar 11:41]
 * DONE See if it's worthy to byte compile everything or not

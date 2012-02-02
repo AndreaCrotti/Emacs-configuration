@@ -94,10 +94,10 @@
    ((member major-mode ca-whitespace-ask-modes)
     (when (y-or-n-p "Are you sure you want to cleanup")
       (message "Doing the whitespace cleanup")
-      (whitespace-cleanup)))
+      (ca-cleanup-buffer)))
    ((not (member major-mode ca-non-whitespaces-modes))
     (message "Doing the whitespace cleanup")
-    (whitespace-cleanup))
+    (ca-cleanup-buffer))
    (t (message "Skipping the cleanup"))))
 
 (add-hook 'before-save-hook 'ca-cleanup-on-conditions)

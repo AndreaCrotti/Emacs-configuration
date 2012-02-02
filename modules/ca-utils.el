@@ -569,7 +569,7 @@ Otherwise, expand the current region to select the lines the region touches."
 (defun ca-cleanup-buffer ()
   "Perform a bunch of operations on the whitespace content of a buffer."
   (interactive)
-  (ca-indent-buffer)
+  ;; (ca-indent-buffer)
   (ca-untabify-buffer)
   ;TODO: use whitespace cleanup instead?
   (delete-trailing-whitespace))
