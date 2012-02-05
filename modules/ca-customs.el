@@ -123,4 +123,23 @@
   :type 'boolean
   :group 'ca)
 
+(defcustom ca-fixme-mode-hooks
+  '(python-mode-hook
+    c-mode-common-hook
+    ruby-mode-hook
+    lisp-interaction-mode-hook
+    org-mode-hook
+    haskell-mode-hook
+    emacs-lisp-mode-hook)
+  "Modes for which fixme-mode should be enabled"
+  :type 'list
+  :group 'ca
+  )
+
+(defcustom ca-auto-complete-modes
+  '(nesc-mode cmake-mode org-mode html-mode xml-mode haskell-mode ned-mode cpp-omnet-mode)
+  "Modes for which auto-complete should be enabled"
+  :type 'list
+  :group 'ca)
+
 (provide 'ca-customs)

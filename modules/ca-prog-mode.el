@@ -100,19 +100,27 @@
       ((fname (file-name-sans-extension (file-name-nondirectory (buffer-file-name)))))
     (browse-url (ca-doxy-path basepath fname))))
 
-; TODO: add it globally if possible
 (require 'fixme-mode)
-; for each of the modes we add it to the hook
-(add-to-list 'fixme-modes 'org-mode)
-(dolist (hook '(python-mode-hook
-                c-mode-common-hook
-                ruby-mode-hook
-                lisp-interaction-mode-hook
-                org-mode-hook
-                haskell-mode-hook
-                emacs-lisp-mode-hook))
-  (add-hook hook 'fixme-mode))
+
+(dolist (hook ca-fixme-mode-hooks)
+  (add-hook hook (lambda () (fixme-mode t))))
 
 (autoload 'gtags-mode "gtags" "gtags mode" t)
 
 (provide 'ca-prog-mode)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
