@@ -74,12 +74,6 @@
  gdb-show-main nil
  gdb-many-windows t)
 
-(defadvice pdb (before gud-query-cmdline activate)
-  "Provide a better default command line when called interactively."
-  (interactive
-   (list (gud-query-cmdline 'pdb.py
-                            (file-name-nondirectory buffer-file-name)))))
-
 (autoload 'nsis-mode "nsis-mode" "NSIS mode" t)
 
 (setq auto-mode-alist (append '(("\\.\\([Nn][Ss][Ii]\\)$" .
@@ -216,5 +210,8 @@
  browse-url-generic-program "conkeror")
 
 (add-hook 'rst-mode-hook 'flyspell-mode)
+
+(autoload 'puppet-mode "puppet-mode" "Major mode for editing puppet manifests")
+(add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
 
 (provide 'ca-other-modes)

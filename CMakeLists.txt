@@ -1,7 +1,7 @@
 #TODO: get the version from the git repository setting
 
 cmake_minimum_required(VERSION 2.8)
-#TODO: set NONE instead since we don't really build executables and 
+#TODO: set NONE instead since we don't really build executables and
 #similar things but just run some shell commands
 project(Emacs-Configuration NONE)
 
@@ -57,7 +57,7 @@ set(autoconf_projs tramp doxymacs)
 set(makefile_projs org-mode cedet)
 
 # foreach (aconf ${autoconf_projs})
-  
+
 #   #FIXME: this is also wrong because we need to define an output or a target
 #   #TODO: take the name of the subproject automatically
 #   add_custom_command(

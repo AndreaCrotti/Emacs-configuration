@@ -73,4 +73,12 @@
     ;; (ca-python-auto-complete)
     ))
 
+
+;TODO: check that this really works
+(defadvice pdb (before gud-query-cmdline activate)
+  "Provide a better default command line when called interactively."
+  (interactive
+   (list (gud-query-cmdline 'pdb.py
+                            (file-name-nondirectory buffer-file-name)))))
+
 (provide 'ca-python)
