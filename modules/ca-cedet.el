@@ -1,5 +1,4 @@
-(setq ca-cedet-modes
-      '(python-mode-hook c-mode-common-hook emacs-lisp-mode-hook makefile-mode-hook))
+(require 'ca-customs)
 
 (defun ca-next-tag ()
   (interactive)

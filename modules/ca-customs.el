@@ -45,7 +45,7 @@
   :group 'ca
   :type 'list)
 
-(defcustom ca-python-enable-rope t
+(defcustom ca-python-enable-rope nil
   "True if rope is enabled"
   :type 'boolean
   :group 'ca)
@@ -67,10 +67,10 @@
 ;TODO: make it smarter, it would be good to accept also a function, in this way it can be made more generic
 (defcustom ca-auto-header-conses
       '(
-	("setup.py" . "setup")
-	("\.sh$" . "bash")
-	("\.h$"  . "once")
-	("\.hpp$" . "once"))
+        ("setup.py" . "setup")
+        ("\.sh$" . "bash")
+        ("\.h$"  . "once")
+        ("\.hpp$" . "once"))
       "snippets to expand per file extension"
       :group 'ca
       :type 'list)
@@ -84,10 +84,10 @@
 
 (defcustom ca-non-whitespaces-modes
       '(makefile-gmake-mode
-	makefile-mode
-	makefile-bsdmake-mode
-	message-mode
-	mail-mode)
+        makefile-mode
+        makefile-bsdmake-mode
+        message-mode
+        mail-mode)
       "Modes that should not run the whitespace cleanup automatically"
       :type 'list
       :group 'ca)
@@ -109,6 +109,18 @@
   "\\[.*\\]"
   "Regexp to distinguish the different configuration sections"
   :type 'string
+  :group 'ca)
+
+(defcustom ca-cedet-modes
+  '(python-mode-hook c-mode-common-hook emacs-lisp-mode-hook makefile-mode-hook)
+  "Modes for which cedet should be enabled"
+  :type 'list
+  :group 'ca)
+
+(defcustom ca-cedet-enabled
+  nil
+  "Enable cedet"
+  :type 'boolean
   :group 'ca)
 
 (provide 'ca-customs)

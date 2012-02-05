@@ -4,11 +4,13 @@
 
 (add-to-list 'load-path (make-conf-path "modules"))
 ; second argument as 0 to compile if they don't exist
+(require 'ca-customs)
 (require 'ca-utils)
 
-;XXX: this has to be done as soon as possible or the default cedet will be loaded!!
-(when (not (boundp 'cedet-version))
-  (load (make-conf-path "cedet/common/cedet.el")))
+(when ca-cedet-enabled
+  (require 'ca-cedet)
+  (when (not (boundp 'cedet-version))
+    (load (make-conf-path "cedet/common/cedet.el"))))
 
 ;; all the subdirectories are added to the path, including modules
 (ca-gen-path-dirs base)
@@ -73,7 +75,6 @@
 (epa-file-enable)
 
 (require 'ca-themes)
-(require 'ca-cedet)
 (require 'ca-yas) ;; takes more than 2 seconds to load due to the huge list of files
 ;; see if it's possible to postpone loading the snippets
 ;; is the order important anyhow?
@@ -96,7 +97,6 @@
 (require 'ca-packages)
 (require 'ca-buffers)
 ;TODO: this doesn't contain any real knowledge, refactor it out
-(require 'ca-customs)
 (require 'ca-network)
 (require 'ca-faces)
 (require 'ca-haskell)
