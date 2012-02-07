@@ -19,10 +19,8 @@
   (local-set-key (kbd "M-.") 'semantic-complete-jump)
   (local-set-key (kbd "M-?") 'semantic-ia-fast-jump))
 
-;; this makes it able to load more than once
-(when (not (boundp 'cedet-version))
-  (load (make-conf-path "cedet/common/cedet.el")))
-
+;TODO: problem here is that semantic might still load the shipped version
+;if load-path is not set correctly
 (setq semantic-load-turn-everything-on t)
 (global-ede-mode nil)
 (setq ede-locate-setup-options '(ede-locate-global ede-locate-locate ede-locate-idutils))
