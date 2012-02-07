@@ -75,6 +75,12 @@
       :group 'ca
       :type 'list)
 
+(defcustom ca-whitespace-cleanup-enabled
+  nil
+  "True if the whitespace cleanup should be enabled, good candidate to use as dir-local variable"
+  :type 'boolean
+  :group) 'ca
+
 ;TODO: might be a list of functions, which can be also analyzed in some other ways
 (defcustom ca-whitespace-ask-modes
   ()

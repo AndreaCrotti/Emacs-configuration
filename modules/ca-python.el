@@ -15,7 +15,6 @@
     (setq py-shell-name "python2"))
 
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
-(add-to-list 'interpreter-mode-alist '("python" . python-mode))
 (add-to-list 'load-path (make-conf-path "python-mode/test"))
 (autoload 'doctest-mode "doctest-mode" "doc test python mode" t)
 
