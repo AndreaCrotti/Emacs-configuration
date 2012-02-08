@@ -9,9 +9,6 @@
 
 ;; what if this is set differently?
 (setq custom-file (make-conf-path "custom.el"))
-(when (file-exists-p custom-file)
-  (message "loading custom file")
-  (load-file custom-file))
 
 (when (not (boundp 'cedet-version))
   (load (make-conf-path "cedet/common/cedet.el")))
@@ -111,6 +108,10 @@
 ;TODO: switch to the use of profiles with different OS detection instead
 (when ca-linux
   (require 'ca-flymake))
+
+(when (file-exists-p custom-file)
+  (message "loading custom file")
+  (load-file custom-file))
 
 (defun ca-social-mode ()
   ;; this will set some additional setting that should make it differ
