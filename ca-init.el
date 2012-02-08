@@ -7,10 +7,14 @@
 (require 'ca-customs)
 (require 'ca-utils)
 
-(when ca-cedet-enabled
-  (require 'ca-cedet)
-  (when (not (boundp 'cedet-version))
-    (load (make-conf-path "cedet/common/cedet.el"))))
+;; what if this is set differently?
+(setq custom-file (make-conf-path "custom.el"))
+(when (file-exists-p custom-file)
+  (message "loading custom file")
+  (load-file custom-file))
+
+(when (not (boundp 'cedet-version))
+  (load (make-conf-path "cedet/common/cedet.el")))
 
 ;; all the subdirectories are added to the path, including modules
 (ca-gen-path-dirs base)
@@ -98,6 +102,7 @@
 (require 'ca-buffers)
 ;TODO: this doesn't contain any real knowledge, refactor it out
 (require 'ca-network)
+(require 'ca-cedet)
 (require 'ca-faces)
 (require 'ca-haskell)
 (require 'ca-scala)
@@ -106,12 +111,6 @@
 ;TODO: switch to the use of profiles with different OS detection instead
 (when ca-linux
   (require 'ca-flymake))
-
-;; what if this is set differently?
-(setq custom-file (make-conf-path "custom.el"))
-(when (file-exists-p custom-file)
-  (message "loading custom file")
-  (load-file custom-file))
 
 (defun ca-social-mode ()
   ;; this will set some additional setting that should make it differ
