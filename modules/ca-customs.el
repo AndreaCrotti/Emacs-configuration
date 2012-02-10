@@ -155,12 +155,13 @@
     org-mode-hook
     haskell-mode-hook
     rst-mode-hook
-    html-mode-hoo
-    text-mode
-    org-mode)
+    html-mode-hook
+    text-mode-hook
+    message-mode-hook
+    mail-mode-hook
+    org-mode-hook)
   "Modes for which fixme-mode should be enabled"
   :type 'list
-  :group 'ca
-  )
+  :group 'ca)
 
 (provide 'ca-customs)
