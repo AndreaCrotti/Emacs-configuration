@@ -148,4 +148,19 @@
   :type 'list
   :group 'ca)
 
+(defcustom ca-autopair-mode-hooks
+  '(python-mode-hook
+    c-mode-common-hook
+    ruby-mode-hook
+    org-mode-hook
+    haskell-mode-hook
+    rst-mode-hook
+    html-mode-hoo
+    text-mode
+    org-mode)
+  "Modes for which fixme-mode should be enabled"
+  :type 'list
+  :group 'ca
+  )
+
 (provide 'ca-customs)

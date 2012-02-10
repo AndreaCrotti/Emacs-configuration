@@ -175,7 +175,9 @@
 (setq eimp-max-concurrent-processes 4)
 
 (load-library "auto-pair")
-(autopair-global-mode t)
+(dolist (hook ca-autopair-mode-hooks)
+  (add-hook hook (lambda () (autopair-mode t))))
+
 (add-hook 'python-mode-hook
           #'(lambda ()
               (setq autopair-handle-action-fns
