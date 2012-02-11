@@ -1,12 +1,27 @@
-This project contains basically:
+Most python-mode.el commands start with prefix `py-'
 
-    * python-mode.el - major mode for editing Python source
-    * column-marker.el
-    * highlight-indentation.el
-    * doctest-mode.el - major mode for editing doctest files
-    * pycomplete.el - support for Python symbol completion (Emacs Lisp side)
-    * pycomplete.py - support for Python symbol completion (Python side)
+`M-x py- TAB'
+displays a list of them in completion-buffer. 
+See also commands list delivered in directory doc.
 
+List virtualenv related `M-x virtualenv- TAB'
+resp. Pymacs commands `M-x pymacs-'  
 
-Remaining files provide tests and tools for developers
+Commands related to a specific shell start with
+it's name as `ipython-complete'.
+Open an installed shell by 
 
+M-x SHELL
+
+With prefix C-u user is prompted to specify a PATH-TO-LOCAL-SHELL
+Also evaluating
+
+(py-shell nil DEDICATED PATH-TO-LOCAL-SHELL)
+
+if DEDICATED is set to `t', shell will get an unique name.
+
+Install a local shell by evaluating
+
+(defun MY-LOCAL-SHELL ()
+  (interactive)
+  (py-shell nil DEDICATED PATH-TO-LOCAL-SHELL))

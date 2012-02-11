@@ -124,32 +124,32 @@
          'py-forward-into-nomenclature-lp-916818-test
          'py-forward-into-nomenclature-jumps-over-CamelCased-words-lp:919540-test
          'py-backward-into-nomenclature-caps-names-lp:919541-test
+         'execute-buffer-ipython-fails-lp:928087-test
          'UnicodeEncodeError-lp:550661-test
-         'py-shell-complete-lp-328836-test
-
-         )))
+         'py-shell-complete-lp-328836-test)))
 
 (defun py-bug-tests-intern (testname &optional arg teststring)
-  (if arg
-      (progn
-        (set-buffer (get-buffer-create (replace-regexp-in-string "-base$" "-test" (prin1-to-string testname))))
-        (switch-to-buffer (current-buffer))
-        (erase-buffer)
-        (fundamental-mode)
-        (insert teststring)
-        (python-mode)
-        (funcall testname)
-        (message "%s" (concat (replace-regexp-in-string "-base$" "-test" (prin1-to-string testname)) " passed"))
-        (unless (< 1 arg)
-          (set-buffer-modified-p 'nil)
-          ;; (cond ((processp (get-process "Python3")) (kill-process "Python3"))
-          ;; ((processp (get-process "Python2")) (kill-process "Python2"))
-          ;; ((processp (get-process "Python")) (ignore-errors (kill-process "Python"))))
-          (kill-buffer (current-buffer))))
-    (with-temp-buffer
-      (let ((font-lock-verbose nil))
-        (insert teststring)
-        (funcall testname)))))
+  (let (py-load-pymacs-p)
+    (if arg
+        (progn
+          (set-buffer (get-buffer-create (replace-regexp-in-string "-base$" "-test" (prin1-to-string testname))))
+          (switch-to-buffer (current-buffer))
+          (erase-buffer)
+          (fundamental-mode)
+          (insert teststring)
+          (python-mode)
+          (funcall testname)
+          (message "%s" (concat (replace-regexp-in-string "-base$" "-test" (prin1-to-string testname)) " passed"))
+          (unless (< 1 arg)
+            (set-buffer-modified-p 'nil)
+            ;; (cond ((processp (get-process "Python3")) (kill-process "Python3"))
+            ;; ((processp (get-process "Python2")) (kill-process "Python2"))
+            ;; ((processp (get-process "Python")) (ignore-errors (kill-process "Python"))))
+            (kill-buffer (current-buffer))))
+      (with-temp-buffer
+        (let ((font-lock-verbose nil))
+          (insert teststring)
+          (funcall testname))))))
 
 (defvar python-mode-teststring "class OrderedDict1(dict):
     \"\"\"
@@ -628,16 +628,15 @@ print u'\\xA9'
     (py-bug-tests-intern 'UnicodeEncodeError-lp:550661-base 2 teststring)))
 
 (defun UnicodeEncodeError-lp:550661-base ()
-  (let ((py-shell-switch-buffers-on-execute t))
-    (goto-char 48)
-    (push-mark)
-    (end-of-line)
-    (py-execute-region (line-beginning-position) (point))
-    (sit-for 0.2)
-    (when (looking-back comint-prompt-regexp)
-      (goto-char (1- (match-beginning 0))))
-    (sit-for 0.1)
-    (assert (or (looking-back "©")(looking-at "©")) nil "UnicodeEncodeError-lp:550661-test failed")))
+  (goto-char 48)
+  (push-mark)
+  (end-of-line)
+  (py-execute-region-switch (line-beginning-position) (point))
+  (sit-for 0.2)
+  (when (looking-back comint-prompt-regexp)
+    (goto-char (1- (match-beginning 0))))
+  (sit-for 0.1)
+  (assert (or (looking-back "©")(looking-at "©")) nil "UnicodeEncodeError-lp:550661-test failed"))
 
 (defun indentation-of-continuation-lines-lp:691185-test (&optional arg load-branch-function)
   "With ARG greater 1 keep test buffer open.
@@ -2174,14 +2173,20 @@ This module is an optparse-inspired command-line parsing library that:
   (interactive "p")
   (let ((teststring "#! /usr/bin/env python
 # -*- coding: utf-8 -*-
+def doSomething(blah)
 print \"\"\"Es müsste \"müßte\" heißen.\"\"\"
 "))
     (when load-branch-function (funcall load-branch-function))
     (py-bug-tests-intern 'py-forward-into-nomenclature-lp-916818-base arg teststring)))
 
 (defun py-forward-into-nomenclature-lp-916818-base ()
-  (goto-char 61)
-  (assert (eq 68 (py-forward-into-nomenclature)) nil "py-forward-into-nomenclature-lp-916818-test failed"))
+  (goto-char 48)
+  (assert (eq 51 (py-forward-into-nomenclature)) nil "py-forward-into-nomenclature-lp-916818-test #1 failed")
+  (assert (eq 54 (py-forward-into-nomenclature)) nil "py-forward-into-nomenclature-lp-916818-test #2 failed")
+  (assert (eq 63 (py-forward-into-nomenclature)) nil "py-forward-into-nomenclature-lp-916818-test #3 failed")
+  (assert (eq 68 (py-forward-into-nomenclature)) nil "py-forward-into-nomenclature-lp-916818-test #4 failed")
+  (goto-char 88)
+  (assert (eq 95 (py-forward-into-nomenclature)) nil "py-forward-into-nomenclature-lp-916818-test #5 failed"))
 
 (defun tab-completion-in-Ipython-buffers-lp-916869-test (&optional arg load-branch-function)
   (interactive "p")
@@ -2228,6 +2233,32 @@ return SOME_Constant + blah
 (defun py-backward-into-nomenclature-caps-names-lp:919541-base ()
   (goto-char 64)
   (assert (eq 60 (py-backward-into-nomenclature)) nil "py-backward-into-nomenclature-caps-names-lp:919541-test failed"))
+
+(defun py-ipython-complete-lp:927136-test (&optional arg load-branch-function)
+  (interactive "p")
+  (py-shell nil nil "ipython" 'noswitch)
+  (let ((teststring "#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+impo"))
+    (when load-branch-function (funcall load-branch-function))
+    (py-bug-tests-intern 'py-ipython-complete-lp:927136-base arg teststring)))
+
+(defun py-ipython-complete-lp:927136-base ()
+  (assert (string= "import" (ipython-complete)) nil "py-ipython-complete-lp:927136-test failed"))
+
+(defun execute-buffer-ipython-fails-lp:928087-test (&optional arg load-branch-function)
+  (interactive "p")
+  (let ((teststring "#! /usr/bin/env ipython
+# -*- coding: utf-8 -*-
+print 4 + 5
+print u'\\xA9'
+"))
+    (when load-branch-function (funcall load-branch-function))
+    (py-bug-tests-intern 'execute-buffer-ipython-fails-lp:928087-base arg teststring)))
+
+(defun execute-buffer-ipython-fails-lp:928087-base ()
+  (assert (numberp (py-execute-buffer)) nil "execute-buffer-ipython-fails-lp:928087-test failed"))
+
 
 (provide 'py-bug-numbered-tests)
 ;;; py-bug-numbered-tests.el ends here

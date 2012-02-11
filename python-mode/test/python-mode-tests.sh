@@ -72,6 +72,7 @@ ANSICOLOR="${EMACS_SOURCE_DIR}/lisp/ansi-color.el"
 COMINT="${EMACS_SOURCE_DIR}/lisp/comint.el"
 CCCMDS="${EMACS_SOURCE_DIR}/lisp/progmodes/cc-cmds.el"
 SHELL="${EMACS_SOURCE_DIR}/lisp/shell.el"
+SKEL="${EMACS_SOURCE_DIR}/lisp/skeleton.el"
 PYMACS="../pymacs.el"
 # file holding the tests
 TESTFILE="py-bug-numbered-tests.el"
@@ -81,7 +82,7 @@ echo "\$PYMACS: $PYMACS"
 echo "\$PYTHONMODE: $PYTHONMODE"
 echo "\$PDIR/\$TESTFILE: $PDIR/$TESTFILE"
 
-$EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'python)(unload-feature 'python t))" --eval "(when (featurep 'python-mode)(unload-feature 'python-mode t))" --eval "(add-to-list 'load-path \"$PDIR/\")" --eval "(add-to-list 'load-path \"$TESTDIR/\")" --eval "(setq py-install-directory \"..\")" -load "$PYMACS" -load $CCCMDS -load $COMINT -load $SHELL -load $ANSICOLOR -load $CLMACS -load $BYTECOMP -load $CUSTOM -load "../$HIGHL" -load $PYTHONMODE -load "$PDIR/$TESTFILE" -load "$PDIR/$TESTFILE2" --eval "(quietly-read-abbrev-file (expand-file-name \"~/.abbrev_defs\"))" \
+$EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'python)(unload-feature 'python t))" --eval "(when (featurep 'python-mode)(unload-feature 'python-mode t))" --eval "(add-to-list 'load-path \"$PDIR/\")" --eval "(add-to-list 'load-path \"$TESTDIR/\")" --eval "(setq py-install-directory \"..\")" -load "$PYMACS" -load $CCCMDS -load $COMINT -load $SHELL -load $ANSICOLOR -load $CLMACS -load $BYTECOMP -load $CUSTOM -load $SKEL -load "../$HIGHL" -load $PYTHONMODE -load "$PDIR/$TESTFILE" -load "$PDIR/$TESTFILE2" --eval "(quietly-read-abbrev-file (expand-file-name \"~/.abbrev_defs\"))" \
 --funcall nested-dictionaries-indent-lp:328791-test \
 --funcall triple-quoted-string-dq-lp:302834-test \
 --funcall dq-in-tqs-string-lp:328813-test \
@@ -167,6 +168,7 @@ $EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'py
 --funcall py-forward-into-nomenclature-lp-916818-test \
 --funcall py-forward-into-nomenclature-jumps-over-CamelCased-words-lp:919540-test \
 --funcall py-backward-into-nomenclature-caps-names-lp:919541-test \
+--funcall execute-buffer-ipython-fails-lp:928087-test \
 \
 --funcall multiline-list-indent-test \
 --funcall py-beginning-of-block-test \
@@ -215,6 +217,7 @@ $EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'py
 --funcall nested-try-finally-test \
 --funcall py-electric-backspace-test \
 --funcall UnicodeEncodeError-python3-test \
+--funcall py-ipython-complete-lp:927136-test \
 --funcall py-execute-block-test \
 --funcall tqs-list-error-test \
 --funcall py-end-of-print-statement-test \
