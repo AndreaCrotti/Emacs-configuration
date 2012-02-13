@@ -155,6 +155,7 @@
     org-mode-hook
     haskell-mode-hook
     rst-mode-hook
+    latex-mode-hook
     html-mode-hook
     text-mode-hook
     message-mode-hook
