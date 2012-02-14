@@ -1,5 +1,5 @@
 ;;; tuareg.el --- Caml mode for (X)Emacs.   -*- coding: latin-1 -*-
-   
+
 ;;        Copyright © by INRIA, Albert Cohen, 2010.
 ;;        Licensed under the GNU General Public License.
 ;;
@@ -51,7 +51,7 @@
     (defun read-shell-command  (prompt &optional initial-input history)
       "Read a string from the minibuffer, using `shell-command-history'."
       (read-from-minibuffer prompt initial-input nil nil
-			    (or history 'shell-command-history))))
+                            (or history 'shell-command-history))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                             Import types and help features
@@ -86,17 +86,17 @@
 (defcustom tuareg-comment-end-extra-indent 0
   "*How many spaces to indent a leading comment end `*)'.
 If you expect comments to be indented like
-	(*
+        (*
           ...
-	 *)
+         *)
 even without leading `*', use `tuareg-comment-end-extra-indent' = 1."
   :group 'tuareg
   :type '(radio :extra-offset 8
-		:format "%{Comment End Extra Indent%}:
+                :format "%{Comment End Extra Indent%}:
    Comment alignment:\n%v"
-		(const :tag "align with `(' in comment opening" 0)
-		(const :tag "align with `*' in comment opening" 1)
-		(integer :tag "custom alignment" 0)))
+                (const :tag "align with `(' in comment opening" 0)
+                (const :tag "align with `*' in comment opening" 1)
+                (integer :tag "custom alignment" 0)))
 
 (defcustom tuareg-support-leading-star-comments t
   "*Enable automatic intentation of comments of the form
@@ -108,9 +108,9 @@ unless `tuareg-leading-star-in-doc' is also set.
 
 If you do not set this variable and still expect comments to be
 indented like
-	(*
+        (*
           ...
-	 *)
+         *)
 \(without leading `*'), set `tuareg-comment-end-extra-indent' to 1."
   :group 'tuareg :type 'boolean)
 
@@ -139,18 +139,18 @@ if it has to."
   "*If true, handle Caml Light character syntax (incompatible with labels)."
   :group 'tuareg :type 'boolean
   :set '(lambda (var val)
-	  (setq tuareg-support-camllight val)
-	  (if (boundp 'tuareg-mode-syntax-table)
-	      (modify-syntax-entry ?` (if val "\"" ".")
-				   tuareg-mode-syntax-table))))
+          (setq tuareg-support-camllight val)
+          (if (boundp 'tuareg-mode-syntax-table)
+              (modify-syntax-entry ?` (if val "\"" ".")
+                                   tuareg-mode-syntax-table))))
 
 (defcustom tuareg-support-metaocaml nil
   "*If true, handle MetaOCaml character syntax."
   :group 'tuareg :type 'boolean
   :set '(lambda (var val)
-	  (setq tuareg-support-metaocaml val)
-	  (if (boundp 'tuareg-font-lock-keywords)
-	      (tuareg-install-font-lock))))
+          (setq tuareg-support-metaocaml val)
+          (if (boundp 'tuareg-font-lock-keywords)
+              (tuareg-install-font-lock))))
 
 (defcustom tuareg-let-always-indent t
   "*If true, enforce indentation is at least `tuareg-let-indent' after a `let'.
@@ -285,8 +285,8 @@ Many people find eletric keywords irritating, so you can disable them by
 setting this variable to nil."
   :group 'tuareg :type 'boolean
   :set '(lambda (var val)
-	  (setq tuareg-use-abbrev-mode val)
-	  (abbrev-mode val)))
+          (setq tuareg-use-abbrev-mode val)
+          (abbrev-mode val)))
 
 (defcustom tuareg-electric-indent t
   "*Non-nil means electrically indent lines starting with `|', `)', `]' or `}'.
@@ -459,41 +459,41 @@ and `tuareg-xemacs-w3-manual' (XEmacs only)."
 (defun tuareg-leading-star-p ()
   (and tuareg-support-leading-star-comments
        (save-excursion ; this function does not make sense outside of a comment
-	 (tuareg-beginning-of-literal-or-comment)
-	 (and (or tuareg-leading-star-in-doc
-		  (not (looking-at "(\\*[Tt][Ee][Xx]\\|(\\*\\*")))
-	      (progn
-		(forward-line 1)
-		(back-to-indentation)
-		(looking-at "\\*[^)]"))))))
+         (tuareg-beginning-of-literal-or-comment)
+         (and (or tuareg-leading-star-in-doc
+                  (not (looking-at "(\\*[Tt][Ee][Xx]\\|(\\*\\*")))
+              (progn
+                (forward-line 1)
+                (back-to-indentation)
+                (looking-at "\\*[^)]"))))))
 
 (defun tuareg-auto-fill-insert-leading-star (&optional leading-star)
   (let ((point-leading-comment (looking-at "(\\*")) (return-leading nil))
     (save-excursion
       (back-to-indentation)
       (if tuareg-electric-indent
-	  (progn
-	    (if (and (tuareg-in-comment-p)
-		     (or leading-star
-			 (tuareg-leading-star-p)))
-		(progn
-		  (if (not (looking-at "(?\\*"))
-		      (insert-before-markers "* "))
-		  (setq return-leading t)))
-	    (if (not point-leading-comment)
-		;; Use optional argument to break recursion
-		(tuareg-indent-command t)))))
+          (progn
+            (if (and (tuareg-in-comment-p)
+                     (or leading-star
+                         (tuareg-leading-star-p)))
+                (progn
+                  (if (not (looking-at "(?\\*"))
+                      (insert-before-markers "* "))
+                  (setq return-leading t)))
+            (if (not point-leading-comment)
+                ;; Use optional argument to break recursion
+                (tuareg-indent-command t)))))
     return-leading))
 
 (defun tuareg-auto-fill-function ()
   (if (tuareg-in-literal-p) ()
     (let ((leading-star
-	   (if (not (char-equal ?\n last-command-char))
-	       (tuareg-auto-fill-insert-leading-star)
-	     nil)))
+           (if (not (char-equal ?\n last-command-char))
+               (tuareg-auto-fill-insert-leading-star)
+             nil)))
       (do-auto-fill)
       (if (not (char-equal ?\n last-command-char))
-	  (tuareg-auto-fill-insert-leading-star leading-star)))))
+          (tuareg-auto-fill-insert-leading-star leading-star)))))
 
 (defun tuareg-forward-char (&optional step)
   (if step (goto-char (+ (point) step))
@@ -518,33 +518,33 @@ and `tuareg-xemacs-w3-manual' (XEmacs only)."
 (defvar tuareg-cache-last-local nil)
 (make-variable-buffer-local 'tuareg-cache-last-local)
 (defvar tuareg-last-loc (cons nil nil))
-  
+
 (if tuareg-use-syntax-ppss
     (progn
       (defun tuareg-in-literal-p ()
-	"Returns non-nil if point is inside a Caml literal."
-	(nth 3 (syntax-ppss)))
+        "Returns non-nil if point is inside a Caml literal."
+        (nth 3 (syntax-ppss)))
       (defun tuareg-in-comment-p ()
-	"Returns non-nil if point is inside a Caml comment."
-	(nth 4 (syntax-ppss)))
+        "Returns non-nil if point is inside a Caml comment."
+        (nth 4 (syntax-ppss)))
       (defun tuareg-in-literal-or-comment-p ()
-	"Returns non-nil if point is inside a Caml literal or comment."
-	(nth 8 (syntax-ppss)))
+        "Returns non-nil if point is inside a Caml literal or comment."
+        (nth 8 (syntax-ppss)))
       (defun tuareg-beginning-of-literal-or-comment ()
-	"Skips to the beginning of the current literal or comment (or buffer)."
-	(interactive)
-	(goto-char (or (nth 8 (syntax-ppss)) (point))))
+        "Skips to the beginning of the current literal or comment (or buffer)."
+        (interactive)
+        (goto-char (or (nth 8 (syntax-ppss)) (point))))
       (defun tuareg-beginning-of-literal-or-comment-fast ()
-	(goto-char (or (nth 8 (syntax-ppss)) (point-min))))
+        (goto-char (or (nth 8 (syntax-ppss)) (point-min))))
       ;; FIXME: not clear if moving out of a string/comment counts as 1 or no.
       (defalias 'tuareg-backward-up-list 'backward-up-list))
 
   (defun tuareg-before-change-function (begin end)
     (setq tuareg-cache-stop
-	  (if (save-excursion (beginning-of-line) (= (point) (point-min)))
-	      (point-min)
-	    (min tuareg-cache-stop (1- begin)))))
-  
+          (if (save-excursion (beginning-of-line) (= (point) (point-min)))
+              (point-min)
+            (min tuareg-cache-stop (1- begin)))))
+
   (defun tuareg-in-literal-p ()
     "Return non-nil if point is inside a Caml literal."
     (car (tuareg-in-literal-or-comment)))
@@ -558,124 +558,124 @@ and `tuareg-xemacs-w3-manual' (XEmacs only)."
   (defun tuareg-in-literal-or-comment ()
     "Return the pair `((tuareg-in-literal-p) . (tuareg-in-comment-p))'."
     (if (and (<= (point) tuareg-cache-stop) tuareg-cache)
-	(progn
-	  (if (or (not tuareg-cache-local) (not tuareg-cache-last-local)
-		  (and (>= (point) (caar tuareg-cache-last-local))))
-	      (setq tuareg-cache-local tuareg-cache))
-	  (while (and tuareg-cache-local (< (point) (caar tuareg-cache-local)))
-	    (setq tuareg-cache-last-local tuareg-cache-local
-		  tuareg-cache-local (cdr tuareg-cache-local)))
-	  (setq tuareg-last-loc
-		(if tuareg-cache-local
-		    (cons (eq (cadar tuareg-cache-local) 'b)
-			  (> (cddar tuareg-cache-local) 0))
-		  (cons nil nil))))
+        (progn
+          (if (or (not tuareg-cache-local) (not tuareg-cache-last-local)
+                  (and (>= (point) (caar tuareg-cache-last-local))))
+              (setq tuareg-cache-local tuareg-cache))
+          (while (and tuareg-cache-local (< (point) (caar tuareg-cache-local)))
+            (setq tuareg-cache-last-local tuareg-cache-local
+                  tuareg-cache-local (cdr tuareg-cache-local)))
+          (setq tuareg-last-loc
+                (if tuareg-cache-local
+                    (cons (eq (cadar tuareg-cache-local) 'b)
+                          (> (cddar tuareg-cache-local) 0))
+                  (cons nil nil))))
       (let ((flag t) (op (point)) (mp (min (point) (1- (point-max))))
-	    (balance 0) (end-of-comment nil))
-	(while (and tuareg-cache (<= tuareg-cache-stop (caar tuareg-cache)))
-	  (setq tuareg-cache (cdr tuareg-cache)))
-	(if tuareg-cache
-	    (if (eq (cadar tuareg-cache) 'b)
-		(progn
-		  (setq tuareg-cache-stop (1- (caar tuareg-cache)))
-		  (goto-char tuareg-cache-stop)
-		  (setq balance (cddar tuareg-cache))
-		  (setq tuareg-cache (cdr tuareg-cache)))
-	      (setq balance (cddar tuareg-cache))
-	      (setq tuareg-cache-stop (caar tuareg-cache))
-	      (goto-char tuareg-cache-stop)
-	      (skip-chars-forward "("))
-	  (goto-char (point-min)))
-	(skip-chars-backward "\\\\*")
-	(while flag
-	  (if end-of-comment (setq balance 0 end-of-comment nil))
-	  (skip-chars-forward "^\\\\'`\"(\\*")
-	  (cond
-	   ((looking-at "\\\\")
-	    (tuareg-forward-char 2))
-	   ((looking-at "'\\([^\n\\']\\|\\\\[^ \t\n][^ \t\n]?[^ \t\n]?\\)'")
-	    (setq tuareg-cache (cons (cons (1+ (point)) (cons 'b balance))
-				     tuareg-cache))
-	    (goto-char (match-end 0))
-	    (setq tuareg-cache (cons (cons (point) (cons 'e balance))
-				     tuareg-cache)))
-	   ((and
-	     tuareg-support-camllight
-	     (looking-at "`\\([^\n\\']\\|\\\\[^ \t\n][^ \t\n]?[^ \t\n]?\\)`"))
-	    (setq tuareg-cache (cons (cons (1+ (point)) (cons 'b balance))
-				     tuareg-cache))
-	    (goto-char (match-end 0))
-	    (setq tuareg-cache (cons (cons (point) (cons 'e balance))
-				     tuareg-cache)))
-	   ((looking-at "\"")
-	    (tuareg-forward-char)
-	    (setq tuareg-cache (cons (cons (point) (cons 'b balance))
-				     tuareg-cache))
-	    (skip-chars-forward "^\\\\\"")
-	    (while (looking-at "\\\\")
-	      (tuareg-forward-char 2) (skip-chars-forward "^\\\\\""))
-	    (tuareg-forward-char)
-	    (setq tuareg-cache (cons (cons (point) (cons 'e balance))
-				     tuareg-cache)))
-	   ((looking-at "(\\*")
-	    (setq balance (1+ balance))
-	    (setq tuareg-cache (cons (cons (point) (cons nil balance))
-				     tuareg-cache))
-	    (tuareg-forward-char 2))
-	   ((looking-at "\\*)")
-	    (tuareg-forward-char 2)
-	    (if (> balance 1)
-		(progn
-		  (setq balance (1- balance))
-		  (setq tuareg-cache (cons (cons (point) (cons nil balance))
-					   tuareg-cache)))
-	      (setq end-of-comment t)
-	      (setq tuareg-cache (cons (cons (point) (cons nil 0))
-				       tuareg-cache))))
-	   (t (tuareg-forward-char)))
-	  (setq flag (<= (point) mp)))
-	(setq tuareg-cache-local tuareg-cache
-	      tuareg-cache-stop (point))
-	(goto-char op)
-	(if tuareg-cache (tuareg-in-literal-or-comment) 
-	  (setq tuareg-last-loc (cons nil nil))
-	  tuareg-last-loc))))
-  
+            (balance 0) (end-of-comment nil))
+        (while (and tuareg-cache (<= tuareg-cache-stop (caar tuareg-cache)))
+          (setq tuareg-cache (cdr tuareg-cache)))
+        (if tuareg-cache
+            (if (eq (cadar tuareg-cache) 'b)
+                (progn
+                  (setq tuareg-cache-stop (1- (caar tuareg-cache)))
+                  (goto-char tuareg-cache-stop)
+                  (setq balance (cddar tuareg-cache))
+                  (setq tuareg-cache (cdr tuareg-cache)))
+              (setq balance (cddar tuareg-cache))
+              (setq tuareg-cache-stop (caar tuareg-cache))
+              (goto-char tuareg-cache-stop)
+              (skip-chars-forward "("))
+          (goto-char (point-min)))
+        (skip-chars-backward "\\\\*")
+        (while flag
+          (if end-of-comment (setq balance 0 end-of-comment nil))
+          (skip-chars-forward "^\\\\'`\"(\\*")
+          (cond
+           ((looking-at "\\\\")
+            (tuareg-forward-char 2))
+           ((looking-at "'\\([^\n\\']\\|\\\\[^ \t\n][^ \t\n]?[^ \t\n]?\\)'")
+            (setq tuareg-cache (cons (cons (1+ (point)) (cons 'b balance))
+                                     tuareg-cache))
+            (goto-char (match-end 0))
+            (setq tuareg-cache (cons (cons (point) (cons 'e balance))
+                                     tuareg-cache)))
+           ((and
+             tuareg-support-camllight
+             (looking-at "`\\([^\n\\']\\|\\\\[^ \t\n][^ \t\n]?[^ \t\n]?\\)`"))
+            (setq tuareg-cache (cons (cons (1+ (point)) (cons 'b balance))
+                                     tuareg-cache))
+            (goto-char (match-end 0))
+            (setq tuareg-cache (cons (cons (point) (cons 'e balance))
+                                     tuareg-cache)))
+           ((looking-at "\"")
+            (tuareg-forward-char)
+            (setq tuareg-cache (cons (cons (point) (cons 'b balance))
+                                     tuareg-cache))
+            (skip-chars-forward "^\\\\\"")
+            (while (looking-at "\\\\")
+              (tuareg-forward-char 2) (skip-chars-forward "^\\\\\""))
+            (tuareg-forward-char)
+            (setq tuareg-cache (cons (cons (point) (cons 'e balance))
+                                     tuareg-cache)))
+           ((looking-at "(\\*")
+            (setq balance (1+ balance))
+            (setq tuareg-cache (cons (cons (point) (cons nil balance))
+                                     tuareg-cache))
+            (tuareg-forward-char 2))
+           ((looking-at "\\*)")
+            (tuareg-forward-char 2)
+            (if (> balance 1)
+                (progn
+                  (setq balance (1- balance))
+                  (setq tuareg-cache (cons (cons (point) (cons nil balance))
+                                           tuareg-cache)))
+              (setq end-of-comment t)
+              (setq tuareg-cache (cons (cons (point) (cons nil 0))
+                                       tuareg-cache))))
+           (t (tuareg-forward-char)))
+          (setq flag (<= (point) mp)))
+        (setq tuareg-cache-local tuareg-cache
+              tuareg-cache-stop (point))
+        (goto-char op)
+        (if tuareg-cache (tuareg-in-literal-or-comment)
+          (setq tuareg-last-loc (cons nil nil))
+          tuareg-last-loc))))
+
   (defun tuareg-beginning-of-literal-or-comment ()
     "Skips to the beginning of the current literal or comment (or buffer)."
     (interactive)
     (if (tuareg-in-literal-or-comment-p)
-	(tuareg-beginning-of-literal-or-comment-fast)))
-  
+        (tuareg-beginning-of-literal-or-comment-fast)))
+
   (defun tuareg-beginning-of-literal-or-comment-fast ()
     (while (and tuareg-cache-local
-		(or (eq 'b (cadar tuareg-cache-local))
-		    (> (cddar tuareg-cache-local) 0)))
+                (or (eq 'b (cadar tuareg-cache-local))
+                    (> (cddar tuareg-cache-local) 0)))
       (setq tuareg-cache-last-local tuareg-cache-local
-	    tuareg-cache-local (cdr tuareg-cache-local)))
+            tuareg-cache-local (cdr tuareg-cache-local)))
     (if tuareg-cache-last-local
-	(goto-char (caar tuareg-cache-last-local))
+        (goto-char (caar tuareg-cache-last-local))
       (goto-char (point-min)))
     (if (eq 'b (cadar tuareg-cache-last-local)) (tuareg-backward-char)))
-  
+
   (defun tuareg-backward-up-list ()
     "Safe up-list regarding comments, literals and errors."
     (let ((balance 1) (op (point)) (oc nil))
       (tuareg-in-literal-or-comment)
       (while (and (> (point) (point-min)) (> balance 0))
-	(setq oc (if tuareg-cache-local (caar tuareg-cache-local) (point-min)))
-	(condition-case nil (up-list -1) (error (goto-char (point-min))))
-	(if (>= (point) oc) (setq balance (1- balance))
-	  (goto-char op)
-	  (skip-chars-backward "^[]{}()") (tuareg-backward-char)
-	  (if (not (tuareg-in-literal-or-comment-p))
-	      (cond
-	       ((looking-at "[[{(]")
-		(setq balance (1- balance)))
-	       ((looking-at "[]})]")
-		(setq balance (1+ balance))))
-	    (tuareg-beginning-of-literal-or-comment-fast)))
-	(setq op (point)))))) ;; End of (if tuareg-use-syntax-ppss
+        (setq oc (if tuareg-cache-local (caar tuareg-cache-local) (point-min)))
+        (condition-case nil (up-list -1) (error (goto-char (point-min))))
+        (if (>= (point) oc) (setq balance (1- balance))
+          (goto-char op)
+          (skip-chars-backward "^[]{}()") (tuareg-backward-char)
+          (if (not (tuareg-in-literal-or-comment-p))
+              (cond
+               ((looking-at "[[{(]")
+                (setq balance (1- balance)))
+               ((looking-at "[]})]")
+                (setq balance (1+ balance))))
+            (tuareg-beginning-of-literal-or-comment-fast)))
+        (setq op (point)))))) ;; End of (if tuareg-use-syntax-ppss
 
 (defun tuareg-false-=-p ()
   "Is the underlying `=' the first/second letter of an operator?"
@@ -686,19 +686,19 @@ and `tuareg-xemacs-w3-manual' (XEmacs only)."
   "Is the underlying `;' a phrase break?"
   (and (char-equal ?\; (following-char))
        (or (and (not (eobp))
-		(char-equal ?\; (char-after (1+ (point)))))
-	   (char-equal ?\; (preceding-char)))))
+                (char-equal ?\; (char-after (1+ (point)))))
+           (char-equal ?\; (preceding-char)))))
 
 (defun tuareg-assoc-indent (kwop &optional look-for-let-or-and)
   "Return relative indentation of the keyword given in argument."
   (let ((ind (symbol-value (cdr (assoc kwop tuareg-keyword-alist))))
-	(looking-let-or-and (and look-for-let-or-and
-				 (looking-at "\\<\\(let\\|and\\)\\>"))))
+        (looking-let-or-and (and look-for-let-or-and
+                                 (looking-at "\\<\\(let\\|and\\)\\>"))))
     (if (string-match "\\<\\(with\\|function\\|parser?\\)\\>" kwop)
-	(+ (if (and tuareg-let-always-indent
-		    looking-let-or-and (< ind tuareg-let-indent))
-	       tuareg-let-indent ind)
-	   tuareg-|-extra-unindent)
+        (+ (if (and tuareg-let-always-indent
+                    looking-let-or-and (< ind tuareg-let-indent))
+               tuareg-let-indent ind)
+           tuareg-|-extra-unindent)
       ind)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -716,65 +716,65 @@ alignment and can thus lead to surprises."
   (append
    ;; The symbols can come from a JIS0208 font.
    (and (fboundp 'make-char) (fboundp 'charsetp) (charsetp 'japanese-jisx0208)
-	(list (cons "fun" (make-char 'japanese-jisx0208 38 75))
-	      (cons "sqrt" (make-char 'japanese-jisx0208 34 101))
-	      (cons "not" (make-char 'japanese-jisx0208 34 76))
-	      (cons "or" (make-char 'japanese-jisx0208 34 75))
-	      (cons "||" (make-char 'japanese-jisx0208 34 75))
-	      (cons "&&" (make-char 'japanese-jisx0208 34 74))
-	      ;; (cons "*." (make-char 'japanese-jisx0208 33 95))
-	      ;; (cons "/." (make-char 'japanese-jisx0208 33 96))
-	      (cons "->" (make-char 'japanese-jisx0208 34 42))
-	      (cons "=>" (make-char 'japanese-jisx0208 34 77))
-	      (cons "<-" (make-char 'japanese-jisx0208 34 43))
-	      (cons "<>" (make-char 'japanese-jisx0208 33 98))
-	      (cons "==" (make-char 'japanese-jisx0208 34 97))
-	      (cons ">=" (make-char 'japanese-jisx0208 33 102))
-	      (cons "<=" (make-char 'japanese-jisx0208 33 101))
-	      ;; Some greek letters for type parameters.
-	      (cons "'a" (make-char 'japanese-jisx0208 38 65))
-	      (cons "'b" (make-char 'japanese-jisx0208 38 66))
-	      (cons "'c" (make-char 'japanese-jisx0208 38 67))
-	      (cons "'d" (make-char 'japanese-jisx0208 38 68))))
+        (list (cons "fun" (make-char 'japanese-jisx0208 38 75))
+              (cons "sqrt" (make-char 'japanese-jisx0208 34 101))
+              (cons "not" (make-char 'japanese-jisx0208 34 76))
+              (cons "or" (make-char 'japanese-jisx0208 34 75))
+              (cons "||" (make-char 'japanese-jisx0208 34 75))
+              (cons "&&" (make-char 'japanese-jisx0208 34 74))
+              ;; (cons "*." (make-char 'japanese-jisx0208 33 95))
+              ;; (cons "/." (make-char 'japanese-jisx0208 33 96))
+              (cons "->" (make-char 'japanese-jisx0208 34 42))
+              (cons "=>" (make-char 'japanese-jisx0208 34 77))
+              (cons "<-" (make-char 'japanese-jisx0208 34 43))
+              (cons "<>" (make-char 'japanese-jisx0208 33 98))
+              (cons "==" (make-char 'japanese-jisx0208 34 97))
+              (cons ">=" (make-char 'japanese-jisx0208 33 102))
+              (cons "<=" (make-char 'japanese-jisx0208 33 101))
+              ;; Some greek letters for type parameters.
+              (cons "'a" (make-char 'japanese-jisx0208 38 65))
+              (cons "'b" (make-char 'japanese-jisx0208 38 66))
+              (cons "'c" (make-char 'japanese-jisx0208 38 67))
+              (cons "'d" (make-char 'japanese-jisx0208 38 68))))
    ;; Or a unicode font.
    (and (fboundp 'decode-char)
-	(list (cons "fun" (decode-char 'ucs 955))
-	      (cons "sqrt" (decode-char 'ucs 8730))
-	      (cons "not" (decode-char 'ucs 172))
-	      (cons "or" (decode-char 'ucs 8897))
-	      (cons "&&" (decode-char 'ucs 8896))
-	      (cons "||" (decode-char 'ucs 8897))
-	      ;; (cons "*." (decode-char 'ucs 215))
-	      ;; (cons "/." (decode-char 'ucs 247))
-	      (cons "->" (decode-char 'ucs 8594))
-	      (cons "<-" (decode-char 'ucs 8592))
-	      (cons "<=" (decode-char 'ucs 8804))
-	      (cons ">=" (decode-char 'ucs 8805))
-	      (cons "<>" (decode-char 'ucs 8800))
-	      (cons "==" (decode-char 'ucs 8801))
-	      ;; Some greek letters for type parameters.
-	      (cons "'a" (decode-char 'ucs 945))
-	      (cons "'b" (decode-char 'ucs 946))
-	      (cons "'c" (decode-char 'ucs 947))
-	      (cons "'d" (decode-char 'ucs 948))
-	      ))))
+        (list (cons "fun" (decode-char 'ucs 955))
+              (cons "sqrt" (decode-char 'ucs 8730))
+              (cons "not" (decode-char 'ucs 172))
+              (cons "or" (decode-char 'ucs 8897))
+              (cons "&&" (decode-char 'ucs 8896))
+              (cons "||" (decode-char 'ucs 8897))
+              ;; (cons "*." (decode-char 'ucs 215))
+              ;; (cons "/." (decode-char 'ucs 247))
+              (cons "->" (decode-char 'ucs 8594))
+              (cons "<-" (decode-char 'ucs 8592))
+              (cons "<=" (decode-char 'ucs 8804))
+              (cons ">=" (decode-char 'ucs 8805))
+              (cons "<>" (decode-char 'ucs 8800))
+              (cons "==" (decode-char 'ucs 8801))
+              ;; Some greek letters for type parameters.
+              (cons "'a" (decode-char 'ucs 945))
+              (cons "'b" (decode-char 'ucs 946))
+              (cons "'c" (decode-char 'ucs 947))
+              (cons "'d" (decode-char 'ucs 948))
+              ))))
 
 (defun tuareg-font-lock-compose-symbol (alist)
   "Compose a sequence of ascii chars into a symbol.
 Regexp match data 0 points to the chars."
   ;; Check that the chars should really be composed into a symbol.
   (let* ((start (match-beginning 0))
-	 (end (match-end 0))
-	 (syntaxes (if (eq (char-syntax (char-after start)) ?w)
-		       '(?w) '(?. ?\\))))
+         (end (match-end 0))
+         (syntaxes (if (eq (char-syntax (char-after start)) ?w)
+                       '(?w) '(?. ?\\))))
     (if (or (memq (char-syntax (or (char-before start) ?\ )) syntaxes)
-	    (memq (char-syntax (or (char-after end) ?\ )) syntaxes)
-	    (memq (get-text-property start 'face)
-		  '(tuareg-doc-face font-lock-string-face
-		    font-lock-comment-face)))
-	;; No composition for you. Let's actually remove any composition
-	;; we may have added earlier and which is now incorrect.
-	(remove-text-properties start end '(composition))
+            (memq (char-syntax (or (char-after end) ?\ )) syntaxes)
+            (memq (get-text-property start 'face)
+                  '(tuareg-doc-face font-lock-string-face
+                    font-lock-comment-face)))
+        ;; No composition for you. Let's actually remove any composition
+        ;; we may have added earlier and which is now incorrect.
+        (remove-text-properties start end '(composition))
       ;; That's a symbol alright, so add the composition.
       (compose-region start end (cdr (assoc (match-string 0) alist)))))
   ;; Return nil because we're not adding any face property.
@@ -784,14 +784,14 @@ Regexp match data 0 points to the chars."
   (when (fboundp 'compose-region)
     (let ((alist nil))
       (dolist (x tuareg-font-lock-symbols-alist)
-	(when (and (if (fboundp 'char-displayable-p)
-		       (char-displayable-p (cdr x))
-		     t)
-		   (not (assoc (car x) alist)))	;Not yet in alist.
-	  (push x alist)))
+        (when (and (if (fboundp 'char-displayable-p)
+                       (char-displayable-p (cdr x))
+                     t)
+                   (not (assoc (car x) alist))) ;Not yet in alist.
+          (push x alist)))
       (when alist
-	`((,(regexp-opt (mapcar 'car alist) t)
-	   (0 (tuareg-font-lock-compose-symbol ',alist))))))))
+        `((,(regexp-opt (mapcar 'car alist) t)
+           (0 (tuareg-font-lock-compose-symbol ',alist))))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                                  Font-Lock
@@ -809,48 +809,48 @@ Regexp match data 0 points to the chars."
 (defun tuareg-fontify (begin end)
   (if (eq major-mode 'tuareg-mode)
       (save-excursion
-	(let ((modified (buffer-modified-p))) ; Emacs hack (see below)
-	  (goto-char begin)
-	  (beginning-of-line)
-	  (setq begin (point))
-	  (goto-char (1- end))
-	  (end-of-line)
-	  ;; Dirty hack to trick `font-lock-default-unfontify-region'
-	  (if (not tuareg-with-xemacs) (forward-line 2))
-	  (setq end (point))
-	  (while (> end begin)
-	    (goto-char (1- end))
-	    (tuareg-in-literal-or-comment)
-	    (cond
-	     ((cdr tuareg-last-loc)
-	      (tuareg-beginning-of-literal-or-comment)
-	      (put-text-property (max begin (point)) end 'face
-				 (if (looking-at
-				      "(\\*[Tt][Ee][Xx]\\|(\\*\\*[^*]")
-				     tuareg-doc-face
-				   'font-lock-comment-face))
-	      (setq end (1- (point))))
-	     ((car tuareg-last-loc)
-	      (tuareg-beginning-of-literal-or-comment)
-	      (put-text-property (max begin (point)) end 'face
-				 'font-lock-string-face)
-	      (setq end (point)))
-	     (t (while (and tuareg-cache-local
-			    (or (> (caar tuareg-cache-local) end)
-				(eq 'b (cadar tuareg-cache-local))))
-		  (setq tuareg-cache-local (cdr tuareg-cache-local)))
-		(setq end (if tuareg-cache-local
-			      (caar tuareg-cache-local) begin)))))
-	  (if (not (or tuareg-with-xemacs modified)) ; properties taken
-	      (set-buffer-modified-p nil))))))       ; too seriously...
+        (let ((modified (buffer-modified-p))) ; Emacs hack (see below)
+          (goto-char begin)
+          (beginning-of-line)
+          (setq begin (point))
+          (goto-char (1- end))
+          (end-of-line)
+          ;; Dirty hack to trick `font-lock-default-unfontify-region'
+          (if (not tuareg-with-xemacs) (forward-line 2))
+          (setq end (point))
+          (while (> end begin)
+            (goto-char (1- end))
+            (tuareg-in-literal-or-comment)
+            (cond
+             ((cdr tuareg-last-loc)
+              (tuareg-beginning-of-literal-or-comment)
+              (put-text-property (max begin (point)) end 'face
+                                 (if (looking-at
+                                      "(\\*[Tt][Ee][Xx]\\|(\\*\\*[^*]")
+                                     tuareg-doc-face
+                                   'font-lock-comment-face))
+              (setq end (1- (point))))
+             ((car tuareg-last-loc)
+              (tuareg-beginning-of-literal-or-comment)
+              (put-text-property (max begin (point)) end 'face
+                                 'font-lock-string-face)
+              (setq end (point)))
+             (t (while (and tuareg-cache-local
+                            (or (> (caar tuareg-cache-local) end)
+                                (eq 'b (cadar tuareg-cache-local))))
+                  (setq tuareg-cache-local (cdr tuareg-cache-local)))
+                (setq end (if tuareg-cache-local
+                              (caar tuareg-cache-local) begin)))))
+          (if (not (or tuareg-with-xemacs modified)) ; properties taken
+              (set-buffer-modified-p nil))))))       ; too seriously...
 
 ;; XEmacs and Emacs have different documentation faces...
 (defvar tuareg-doc-face (if (facep 'font-lock-doc-face)
-			    'font-lock-doc-face
-			  'font-lock-doc-string-face))
+                            'font-lock-doc-face
+                          'font-lock-doc-string-face))
 
 ) ;; End of (unless tuareg-use-syntax-ppss
-  
+
 ;; By Stefan Monnier: redesigned font-lock installation and use char classes
 
 ;; When char classes are not available, character ranges only span
@@ -870,11 +870,11 @@ Regexp match data 0 points to the chars."
   (if (nth 3 state) font-lock-string-face
     (let ((start (nth 8 state)))
       (if (and (> (point-max) (+ start 2))
-	       (eq (char-after (+ start 2)) ?*)
-	       (not (eq (char-after (+ start 3)) ?*)))
-	  ;; This is a documentation comment
-	  tuareg-doc-face
-	font-lock-comment-face))))
+               (eq (char-after (+ start 2)) ?*)
+               (not (eq (char-after (+ start 3)) ?*)))
+          ;; This is a documentation comment
+          tuareg-doc-face
+        font-lock-comment-face))))
 
 (when (facep 'font-lock-reference-face)
   (defvar font-lock-constant-face)
@@ -894,12 +894,12 @@ Regexp match data 0 points to the chars."
 
 (when (featurep 'sym-lock)
   (make-face 'tuareg-font-lock-lambda-face
-	     "Face description for fun keywords (lambda operator).")
+             "Face description for fun keywords (lambda operator).")
   (set-face-parent 'tuareg-font-lock-lambda-face
-		   font-lock-function-name-face)
+                   font-lock-function-name-face)
   (set-face-font 'tuareg-font-lock-lambda-face
-		 sym-lock-font-name)
-  
+                 sym-lock-font-name)
+
   ;; To change this table, xfd -fn '-adobe-symbol-*--12-*' may be
   ;; used to determine the symbol character codes.
   (defvar tuareg-sym-lock-keywords
@@ -975,25 +975,25 @@ Regexp match data 0 points to the chars."
       (define-key map [?\C-c ?\t] 'caml-complete))
     map)
   "Keymap used in Tuareg mode.")
-  
+
 (defvar tuareg-mode-syntax-table
   (let ((st (make-syntax-table)))
     (modify-syntax-entry ?_ "_" st)
     (modify-syntax-entry ?? ". p" st)
     (modify-syntax-entry ?~ ". p" st)
     (modify-syntax-entry ?: "." st)
-    (modify-syntax-entry ?' "w" st)	; ' is part of words (for primes).
+    (modify-syntax-entry ?' "w" st)     ; ' is part of words (for primes).
     (modify-syntax-entry
      ;; ` is punctuation or character delimiter (Caml Light compatibility).
      ?` (if tuareg-support-camllight "\"" ".") st)
-    (modify-syntax-entry ?\" "\"" st)	; " is a string delimiter
+    (modify-syntax-entry ?\" "\"" st)   ; " is a string delimiter
     (modify-syntax-entry ?\\ "\\" st)
     (modify-syntax-entry ?*  ". 23" st)
     (condition-case nil
-	(progn
-	  (modify-syntax-entry ?\( "()1n" st)
-	  (modify-syntax-entry ?\) ")(4n" st))
-      (error		   ;XEmacs signals an error instead of ignoring `n'.
+        (progn
+          (modify-syntax-entry ?\( "()1n" st)
+          (modify-syntax-entry ?\) ")(4n" st))
+      (error               ;XEmacs signals an error instead of ignoring `n'.
        (modify-syntax-entry ?\( "()1" st)
        (modify-syntax-entry ?\) ")(4" st)))
     st)
@@ -1002,7 +1002,7 @@ Regexp match data 0 points to the chars."
 (defconst tuareg-font-lock-syntax
   `((?_ . "w") (?` . ".")
     ,@(unless tuareg-use-syntax-ppss
-	'((?\" . ".") (?\( . ".") (?\) . ".") (?* . "."))))
+        '((?\" . ".") (?\( . ".") (?\) . ".") (?* . "."))))
   "Syntax changes for Font-Lock.")
 
 (defvar tuareg-mode-abbrev-table ()
@@ -1012,10 +1012,10 @@ Regexp match data 0 points to the chars."
 (if tuareg-mode-abbrev-table ()
   (setq tuareg-mode-abbrev-table (make-abbrev-table))
   (mapcar 'tuareg-define-abbrev
-	  '("module" "class" "functor" "object" "type" "val" "inherit"
-	    "include" "virtual" "constraint" "exception" "external" "open"
-	    "method" "and" "initializer" "to" "downto" "do" "done" "else"
-	    "begin" "end" "let" "in" "then" "with"))
+          '("module" "class" "functor" "object" "type" "val" "inherit"
+            "include" "virtual" "constraint" "exception" "external" "open"
+            "method" "and" "initializer" "to" "downto" "do" "done" "else"
+            "begin" "end" "let" "in" "then" "with"))
   (setq abbrevs-changed nil))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1040,9 +1040,9 @@ use Sym-Lock:
 
 \(if (and (boundp 'window-system) window-system)
     (when (string-match \"XEmacs\" emacs-version)
-       	(if (not (and (boundp 'mule-x-win-initted) mule-x-win-initted))
+        (if (not (and (boundp 'mule-x-win-initted) mule-x-win-initted))
             (require 'sym-lock))
-       	(require 'font-lock)))
+        (require 'font-lock)))
 
 You have better byte-compile tuareg.el (and sym-lock.el if you use it)
 because symbol highlighting is very time consuming.
@@ -1088,7 +1088,7 @@ indentation facilities.
 
 Known bugs:
   - When writting a line with mixed code and comments, avoid putting
-    comments at the beginning or middle of the text. More precisely, 
+    comments at the beginning or middle of the text. More precisely,
     writing comments immediately after `=' or parentheses then writing
     some more code on the line leads to indentation errors. You may write
     `let x (* blah *) = blah' but should avoid `let x = (* blah *) blah'.
@@ -1129,14 +1129,14 @@ Special keys for Tuareg mode:\\{tuareg-mode-map}"
     (add-hook 'before-change-functions 'tuareg-before-change-function nil t))
   (make-local-variable 'normal-auto-fill-function)
   (setq normal-auto-fill-function 'tuareg-auto-fill-function)
-	 
+
   ;; Hooks for tuareg-mode, use them for tuareg-mode configuration
   (tuareg-install-font-lock)
   (run-hooks 'tuareg-mode-hook)
   (if tuareg-use-abbrev-mode (abbrev-mode 1))
   (message
    (concat "Major mode for editing and running Caml programs, "
-	   tuareg-mode-version ".")))
+           tuareg-mode-version ".")))
 
 (defun tuareg-install-font-lock (&optional no-sym-lock)
   (setq
@@ -1144,65 +1144,65 @@ Special keys for Tuareg mode:\\{tuareg-mode-map}"
    (append
     (list
      (list "\\<\\(external\\|open\\|include\\|rule\\|s\\(ig\\|truct\\)\\|module\\|functor\\|with[ \t\n]+\\(type\\|module\\)\\|val\\|type\\|method\\|virtual\\|constraint\\|class\\|in\\|inherit\\|initializer\\|let\\|rec\\|and\\|begin\\|object\\|end\\)\\>"
-	   0 'tuareg-font-lock-governing-face nil nil))
+           0 'tuareg-font-lock-governing-face nil nil))
     (if tuareg-support-metaocaml
-	(list (list "\\.<\\|>\\.\\|\\.~\\|\\.!"
-		    0 'tuareg-font-lock-multistage-face nil nil))
+        (list (list "\\.<\\|>\\.\\|\\.~\\|\\.!"
+                    0 'tuareg-font-lock-multistage-face nil nil))
       ())
     (list
      (list "\\<\\(false\\|true\\)\\>"
-	   0 'font-lock-constant-face nil nil)
+           0 'font-lock-constant-face nil nil)
      (list "\\<\\(as\\|do\\(ne\\|wnto\\)?\\|else\\|for\\|if\\|m\\(atch\\|utable\\)\\|new\\|p\\(arser\\|rivate\\)\\|t\\(hen\\|o\\|ry\\)\\|w\\(h\\(en\\|ile\\)\\|ith\\)\\|lazy\\|exception\\|raise\\|failwith\\|exit\\|assert\\|fun\\(ction\\)?\\)\\>"
-	   0 'font-lock-keyword-face nil nil)
+           0 'font-lock-keyword-face nil nil)
      (list "[][;,()|{}]\\|[@^!:*=<>&/%+~?#---]\\.?\\|\\.\\.\\.*\\|\\<\\(asr\\|asl\\|lsr\\|lsl\\|l?or\\|l?and\\|xor\\|not\\|mod\\|of\\|ref\\)\\>"
-	   0 'tuareg-font-lock-operator-face nil nil)
+           0 'tuareg-font-lock-operator-face nil nil)
      (list (concat "\\<\\(\\(method\\([ \t\n]+\\(private\\|virtual\\)\\)?\\)\\([ \t\n]+virtual\\)?\\|val\\([ \t\n]+mutable\\)?\\|external\\|and\\|class\\|let\\([ \t\n]+rec\\)?\\)\\>[ \t\n]*\\(['_" tuareg-lower "]\\(\\w\\|[._]\\)*\\)\\>[ \t\n]*\\(\\(\\w\\|[()_?~.'*:--->]\\)+\\|=[ \t\n]*fun\\(ction\\)?\\>\\)")
-	   8 'font-lock-function-name-face 'keep nil)
+           8 'font-lock-function-name-face 'keep nil)
      (list "\\<method\\([ \t\n]+\\(private\\|virtual\\)\\)?\\>[ \t\n]*\\(\\(\\w\\|[_,?~.]\\)*\\)"
-	   3 'font-lock-function-name-face 'keep nil)
+           3 'font-lock-function-name-face 'keep nil)
      (list "\\<\\(fun\\(ction\\)?\\)\\>[ \t\n]*\\(\\(\\w\\|[_ \t()*,]\\)+\\)"
-	   3 'font-lock-variable-name-face 'keep nil)
+           3 'font-lock-variable-name-face 'keep nil)
      (list "\\<\\(val\\([ \t\n]+mutable\\)?\\|external\\|and\\|class\\|let\\([ \t\n]+rec\\)?\\)\\>[ \t\n]*\\(\\(\\w\\|[_,?~.]\\)*\\)"
-	   4 'font-lock-variable-name-face 'keep nil)
+           4 'font-lock-variable-name-face 'keep nil)
      (list "\\<\\(val\\([ \t\n]+mutable\\)?\\|external\\|method\\|and\\|class\\|let\\([ \t\n]+rec\\)?\\)\\>[ \t\n]*\\(\\(\\w\\|[_,?~.]\\)*\\)\\>\\(\\(\\w\\|[->_ \t,?~.]\\|(\\(\\w\\|[--->_ \t,?~.=]\\)*)\\)*\\)"
-	   6 'font-lock-variable-name-face 'keep nil)
+           6 'font-lock-variable-name-face 'keep nil)
      (list "\\<\\(open\\|\\(class\\([ \t\n]+type\\)?\\)\\([ \t\n]+virtual\\)?\\|inherit\\|include\\|module\\([ \t\n]+\\(type\\|rec\\)\\)?\\|type\\)\\>[ \t\n]*\\(['~?]*\\([_--->.* \t]\\|\\w\\|(['~?]*\\([_--->.,* \t]\\|\\w\\)*)\\)*\\)"
-	   7 'font-lock-type-face 'keep nil)
+           7 'font-lock-type-face 'keep nil)
      (list "[^:>=]:[ \t\n]*\\(['~?]*\\([_--->.* \t]\\|\\w\\|(['~?]*\\([_--->.,* \t]\\|\\w\\)*)\\)*\\)"
-	   1 'font-lock-type-face 'keep nil)
+           1 'font-lock-type-face 'keep nil)
      (list "\\<\\([A-Z]\\w*\\>\\)[ \t]*\\."
-	   1 'font-lock-type-face 'keep nil)
+           1 'font-lock-type-face 'keep nil)
      (list (concat "\\<\\([?~]?[_" tuareg-alpha "]\\w*\\)[ \t\n]*:[^:>=]")
-	   1 'font-lock-variable-name-face 'keep nil)
+           1 'font-lock-variable-name-face 'keep nil)
      (list (concat "\\<exception\\>[ \t\n]*\\(\\<[_" tuareg-alpha "]\\w*\\>\\)")
-	   1 'font-lock-variable-name-face 'keep nil)
+           1 'font-lock-variable-name-face 'keep nil)
      (list "^#\\w+\\>"
-	   0 'font-lock-preprocessor-face t nil))
+           0 'font-lock-preprocessor-face t nil))
     (if tuareg-font-lock-symbols
-	(tuareg-font-lock-symbols-keywords)
+        (tuareg-font-lock-symbols-keywords)
       ())))
   (if (and (not no-sym-lock)
-	   (featurep 'sym-lock))
+           (featurep 'sym-lock))
       (progn
-	(setq sym-lock-color
-	      (face-foreground 'tuareg-font-lock-operator-face))
-	(if (not sym-lock-keywords)
-	    (sym-lock tuareg-sym-lock-keywords))))
+        (setq sym-lock-color
+              (face-foreground 'tuareg-font-lock-operator-face))
+        (if (not sym-lock-keywords)
+            (sym-lock tuareg-sym-lock-keywords))))
   (setq font-lock-defaults
-	(list*
-	 'tuareg-font-lock-keywords (not tuareg-use-syntax-ppss) nil
-	 tuareg-font-lock-syntax nil
-	 '(font-lock-syntactic-keywords
-	   . tuareg-font-lock-syntactic-keywords)
-	 '(parse-sexp-lookup-properties
-	   . t)
-	 '(font-lock-syntactic-face-function
-	   . tuareg-font-lock-syntactic-face-function)
-	 (unless tuareg-use-syntax-ppss
-	   '((font-lock-fontify-region-function
-	      . tuareg-fontify-region)))))
+        (list*
+         'tuareg-font-lock-keywords (not tuareg-use-syntax-ppss) nil
+         tuareg-font-lock-syntax nil
+         '(font-lock-syntactic-keywords
+           . tuareg-font-lock-syntactic-keywords)
+         '(parse-sexp-lookup-properties
+           . t)
+         '(font-lock-syntactic-face-function
+           . tuareg-font-lock-syntactic-face-function)
+         (unless tuareg-use-syntax-ppss
+           '((font-lock-fontify-region-function
+              . tuareg-fontify-region)))))
   (when (and (boundp 'font-lock-fontify-region-function)
-	     (not tuareg-use-syntax-ppss))
+             (not tuareg-use-syntax-ppss))
     (make-local-variable 'font-lock-fontify-region-function)
     (setq font-lock-fontify-region-function 'tuareg-fontify-region)))
 
@@ -1235,7 +1235,7 @@ Special keys for Tuareg mode:\\{tuareg-mode-map}"
 ;; Wrapper around next-error.
 
 ;; itz 04-21-96 instead of defining a new function, use defadvice
-;; that way we get our effect even when we do \C-x` in compilation buffer  
+;; that way we get our effect even when we do \C-x` in compilation buffer
 
 (defadvice next-error (after tuareg-next-error activate)
  "Read the extra positional information provided by the Caml compiler.
@@ -1246,34 +1246,34 @@ possible."
  (if (eq major-mode 'tuareg-mode)
      (let ((beg nil) (end nil))
        (save-excursion
-	 (set-buffer compilation-last-buffer)
-	 (save-excursion
-	   (goto-char (window-point (get-buffer-window (current-buffer) t)))
-	   (if (looking-at tuareg-error-chars-regexp)
-	       (setq beg (string-to-number (tuareg-match-string 1))
-		     end (string-to-number (tuareg-match-string 2))))))
+         (set-buffer compilation-last-buffer)
+         (save-excursion
+           (goto-char (window-point (get-buffer-window (current-buffer) t)))
+           (if (looking-at tuareg-error-chars-regexp)
+               (setq beg (string-to-number (tuareg-match-string 1))
+                     end (string-to-number (tuareg-match-string 2))))))
        (beginning-of-line)
        (if beg
-	   (progn
-	     (setq beg (+ (point) beg) end (+ (point) end))
-	     (goto-char beg) (push-mark end t t))))))
+           (progn
+             (setq beg (+ (point) beg) end (+ (point) end))
+             (goto-char beg) (push-mark end t t))))))
 
 (defvar tuareg-interactive-error-regexp
   (concat "\\(\\("
-	  "Toplevel input:"
-	  "\\|Entr.e interactive:"
-	  "\\|Characters [0-9-]*:"
-	  "\\|The global value [^ ]* is referenced before being defined."
-	  "\\|La valeur globale [^ ]* est utilis.e avant d'.tre d.finie."
-	  "\\|Reference to undefined global"
-	  "\\|The C primitive \"[^\"]*\" is not available."
-	  "\\|La primitive C \"[^\"]*\" est inconnue."
-	  "\\|Cannot find \\(the compiled interface \\)?file"
-	  "\\|L'interface compil.e [^ ]* est introuvable."
-	  "\\|Le fichier [^ ]* est introuvable."
-	  "\\|Exception non rattrap.e:"
-	  "\\|Uncaught exception:"
-	  "\\)[^#]*\\)" )
+          "Toplevel input:"
+          "\\|Entr.e interactive:"
+          "\\|Characters [0-9-]*:"
+          "\\|The global value [^ ]* is referenced before being defined."
+          "\\|La valeur globale [^ ]* est utilis.e avant d'.tre d.finie."
+          "\\|Reference to undefined global"
+          "\\|The C primitive \"[^\"]*\" is not available."
+          "\\|La primitive C \"[^\"]*\" est inconnue."
+          "\\|Cannot find \\(the compiled interface \\)?file"
+          "\\|L'interface compil.e [^ ]* est introuvable."
+          "\\|Le fichier [^ ]* est introuvable."
+          "\\|Exception non rattrap.e:"
+          "\\|Uncaught exception:"
+          "\\)[^#]*\\)" )
   "Regular expression matching the error messages produced by Caml.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1385,22 +1385,22 @@ considered as a special keyword.")
 Returns the actual text of the word, if found."
   (let ((found nil) (kwop nil))
     (while
-	(and (not found)
-	     (re-search-backward
-	      (concat
-	       "[^ \t\n_0-9" tuareg-alpha "]\\|\\<\\(\\w\\|_\\)+\\>\\|\\*)")
-	      (point-min) t))
+        (and (not found)
+             (re-search-backward
+              (concat
+               "[^ \t\n_0-9" tuareg-alpha "]\\|\\<\\(\\w\\|_\\)+\\>\\|\\*)")
+              (point-min) t))
       (setq kwop (tuareg-match-string 0))
       (if kwop
-	  (if (tuareg-in-comment-p)
-	      (tuareg-beginning-of-literal-or-comment-fast)
-	    (setq found t))
-	(setq found t)))
+          (if (tuareg-in-comment-p)
+              (tuareg-beginning-of-literal-or-comment-fast)
+            (setq found t))
+        (setq found t)))
     (if found kwop (goto-char (point-min)) nil)))
 
 (defconst tuareg-find-kwop-regexp
   (concat tuareg-matching-keyword-regexp
-	  "\\|\\<\\(for\\|while\\|do\\|if\\|begin\\|s\\(ig\\|truct\\)\\|object\\)\\>\\|[][(){}]\\|\\*)"))
+          "\\|\\<\\(for\\|while\\|do\\|if\\|begin\\|s\\(ig\\|truct\\)\\|object\\)\\>\\|[][(){}]\\|\\*)"))
 
 (defun tuareg-make-find-kwop-regexp (kwop-regexp)
   (concat tuareg-find-kwop-regexp "\\|" kwop-regexp))
@@ -1412,48 +1412,48 @@ Skips blocks etc...
 Ignore occurences inside literals and comments.
 If found, return the actual text of the keyword or operator."
   (let ((found nil)
-	(kwop nil)
-	(kwop-regexp (if tuareg-support-metaocaml
-			 (concat kr "\\|\\.<\\|>\\.") kr)))
+        (kwop nil)
+        (kwop-regexp (if tuareg-support-metaocaml
+                         (concat kr "\\|\\.<\\|>\\.") kr)))
     (while (and (not found)
-		(re-search-backward kwop-regexp (point-min) t)
-		(setq kwop (tuareg-match-string 0)))
+                (re-search-backward kwop-regexp (point-min) t)
+                (setq kwop (tuareg-match-string 0)))
       (cond
        ((tuareg-in-literal-or-comment-p)
-	(tuareg-beginning-of-literal-or-comment-fast))
+        (tuareg-beginning-of-literal-or-comment-fast))
        ((looking-at "[]})]")
-	(tuareg-backward-up-list))
+        (tuareg-backward-up-list))
        ((tuareg-at-phrase-break-p)
-	(setq found t))
+        (setq found t))
        ((and do-not-skip-regexp (looking-at do-not-skip-regexp))
-	(if (and (string= kwop "|") (char-equal ?| (preceding-char)))
-	    (backward-char)
-	  (setq found t)))
+        (if (and (string= kwop "|") (char-equal ?| (preceding-char)))
+            (backward-char)
+          (setq found t)))
        ((looking-at tuareg-matching-keyword-regexp)
-	(funcall (cdr (assoc (tuareg-match-string 0)
-			     tuareg-leading-kwop-alist))))
+        (funcall (cdr (assoc (tuareg-match-string 0)
+                             tuareg-leading-kwop-alist))))
        (t (setq found t))))
     (if found kwop (goto-char (point-min)) nil)))
 
 (defun tuareg-find-match ()
   (tuareg-find-kwop tuareg-find-kwop-regexp))
 
-(defconst tuareg-find-,-match-regexp
+(defconst tuareg-find-comma-match-regexp
   (tuareg-make-find-kwop-regexp
    "\\<\\(and\\|match\\|begin\\|else\\|exception\\|then\\|try\\|with\\|or\\|fun\\|function\\|let\\|do\\)\\>\\|->\\|[[{(]"))
-(defun tuareg-find-,-match ()
-  (tuareg-find-kwop tuareg-find-,-match-regexp))
+(defun tuareg-find-comma-match ()
+  (tuareg-find-kwop tuareg-find-comma-match-regexp))
 
 (defconst tuareg-find-with-match-regexp
   (tuareg-make-find-kwop-regexp
    "\\<\\(match\\|try\\|module\\|begin\\|with\\)\\>\\|[[{(]"))
 (defun tuareg-find-with-match ()
   (let ((kwop (tuareg-find-kwop tuareg-find-with-match-regexp
-				"\\<with\\>")))
+                                "\\<with\\>")))
     (if (string= kwop "with")
-	(progn
-	  (tuareg-find-with-match)
-	  (tuareg-find-with-match)))
+        (progn
+          (tuareg-find-with-match)
+          (tuareg-find-with-match)))
     kwop))
 
 (defconst tuareg-find-in-match-regexp
@@ -1461,13 +1461,13 @@ If found, return the actual text of the keyword or operator."
 (defun tuareg-find-in-match ()
   (let ((kwop (tuareg-find-kwop tuareg-find-in-match-regexp "\\<and\\>")))
     (cond ((string= kwop "and") (tuareg-find-in-match))
-	  (t kwop))))
+          (t kwop))))
 
 (defconst tuareg-find-else-match-regexp
   (tuareg-make-find-kwop-regexp ";\\|->\\|\\<with\\>"))
 (defun tuareg-find-else-match ()
   (let ((kwop (tuareg-find-kwop tuareg-find-else-match-regexp
-				"->\\|\\<\\(with\\|then\\)\\>")))
+                                "->\\|\\<\\(with\\|then\\)\\>")))
     (cond
      ((string= kwop "then")
       (tuareg-find-match))
@@ -1476,9 +1476,9 @@ If found, return the actual text of the keyword or operator."
      ((string= kwop "->")
       (setq kwop (tuareg-find-->-match))
       (while (string= kwop "|")
-	(setq kwop (tuareg-find-|-match)))
+        (setq kwop (tuareg-find-|-match)))
       (if (string= kwop "with")
-	  (tuareg-find-with-match))
+          (tuareg-find-with-match))
       (tuareg-find-else-match))
      ((string= kwop ";")
       (tuareg-find-semi-colon-match)
@@ -1487,14 +1487,14 @@ If found, return the actual text of the keyword or operator."
 
 (defun tuareg-find-do-match ()
   (let ((kwop (tuareg-find-kwop tuareg-find-kwop-regexp
-				   "\\<\\(down\\)?to\\>")))
+                                   "\\<\\(down\\)?to\\>")))
     (if (or (string= kwop "to") (string= kwop "downto"))
-	(tuareg-find-match) kwop)))
+        (tuareg-find-match) kwop)))
 
 (defun tuareg-find-done-match ()
   (let ((kwop (tuareg-find-kwop tuareg-find-kwop-regexp "\\<do\\>")))
     (if (string= kwop "do")
-	(tuareg-find-do-match) kwop)))
+        (tuareg-find-do-match) kwop)))
 
 (defconst tuareg-find-and-match-regexp
   "\\<\\(do\\(ne\\)?\\|e\\(lse\\|nd\\)\\|in\\|then\\|\\(down\\)?to\\)\\>\\|\\<\\(for\\|while\\|do\\|if\\|begin\\|s\\(ig\\|truct\\)\\|class\\)\\>\\|[][(){}]\\|\\*)\\|\\<\\(rule\\|exception\\|let\\|in\\|type\\|val\\|module\\)\\>")
@@ -1502,35 +1502,35 @@ If found, return the actual text of the keyword or operator."
   (concat tuareg-find-and-match-regexp "\\|\\<and\\>"))
 (defun tuareg-find-and-match (&optional do-not-recurse)
   (let* ((kwop (tuareg-find-kwop (if do-not-recurse
-				     tuareg-find-and-match-regexp-dnr
-				   tuareg-find-and-match-regexp)
-				 "\\<and\\>"))
-	 (old-point (point)))
+                                     tuareg-find-and-match-regexp-dnr
+                                   tuareg-find-and-match-regexp)
+                                 "\\<and\\>"))
+         (old-point (point)))
     (cond ((or (string= kwop "type") (string= kwop "module"))
-	   (let ((kwop2 (tuareg-find-meaningful-word)))
-	     (cond ((string= kwop2 "with")
-		    kwop2)
-		   ((string= kwop2 "and")
-		    (tuareg-find-and-match))
-		   ((and (string= kwop "module")
-			(string= kwop2 "let"))
-		    kwop2)
-		   (t (goto-char old-point) kwop))))
-	  (t kwop))))
+           (let ((kwop2 (tuareg-find-meaningful-word)))
+             (cond ((string= kwop2 "with")
+                    kwop2)
+                   ((string= kwop2 "and")
+                    (tuareg-find-and-match))
+                   ((and (string= kwop "module")
+                        (string= kwop2 "let"))
+                    kwop2)
+                   (t (goto-char old-point) kwop))))
+          (t kwop))))
 
 (defconst tuareg-find-=-match-regexp
   (tuareg-make-find-kwop-regexp "\\<\\(val\\|let\\|m\\(ethod\\|odule\\)\\|type\\|class\\|when\\|i[fn]\\)\\>\\|="))
 (defun tuareg-find-=-match ()
   (let ((kwop (tuareg-find-kwop tuareg-find-=-match-regexp
-				"\\<\\(and\\|in\\)\\>\\|=")))
+                                "\\<\\(and\\|in\\)\\>\\|=")))
     (cond
      ((string= kwop "and")
       (tuareg-find-and-match))
      ((and (string= kwop "=")
-	   (not (tuareg-false-=-p)))
+           (not (tuareg-false-=-p)))
       (while (and (string= kwop "=")
-		  (not (tuareg-false-=-p)))
-	(setq kwop (tuareg-find-=-match)))
+                  (not (tuareg-false-=-p)))
+        (setq kwop (tuareg-find-=-match)))
       kwop)
      (t kwop))))
 
@@ -1549,30 +1549,30 @@ If found, return the actual text of the keyword or operator."
    "\\<\\(with\\|fun\\(ction\\)?\\|type\\|parser?\\)\\>\\|[=|]"))
 (defun tuareg-find-|-match ()
   (let* ((kwop (tuareg-find-kwop tuareg-find-|-match-regexp
-				 "\\<\\(and\\|with\\)\\>\\||"))
-	 (old-point (point)))
+                                 "\\<\\(and\\|with\\)\\>\\||"))
+         (old-point (point)))
     (cond ((string= kwop "and")
-	   (setq old-point (point))
-	   (setq kwop (tuareg-find-and-match))
-	   (goto-char old-point)
-	   kwop)
-	  ((and (string= kwop "|")
-		(looking-at "|[^|]")
-		(tuareg-in-indentation-p))
-	   kwop)
-	  ((string= kwop "|") (tuareg-find-|-match))
-	  ((and (string= kwop "=")
-		(or (looking-at "=[ \t]*\\((\\*\\|$\\)")
-		    (tuareg-false-=-p)
-		    (not (string= (save-excursion (tuareg-find-=-match))
-				  "type"))))
-	   (tuareg-find-|-match))
-	  ((string= kwop "parse")
-	   (if (and (string-match "\\.mll" (buffer-name))
-		    (save-excursion
-		      (string= (tuareg-find-meaningful-word) "=")))
-	       kwop (tuareg-find-|-match)))
-	  (t kwop))))
+           (setq old-point (point))
+           (setq kwop (tuareg-find-and-match))
+           (goto-char old-point)
+           kwop)
+          ((and (string= kwop "|")
+                (looking-at "|[^|]")
+                (tuareg-in-indentation-p))
+           kwop)
+          ((string= kwop "|") (tuareg-find-|-match))
+          ((and (string= kwop "=")
+                (or (looking-at "=[ \t]*\\((\\*\\|$\\)")
+                    (tuareg-false-=-p)
+                    (not (string= (save-excursion (tuareg-find-=-match))
+                                  "type"))))
+           (tuareg-find-|-match))
+          ((string= kwop "parse")
+           (if (and (string-match "\\.mll" (buffer-name))
+                    (save-excursion
+                      (string= (tuareg-find-meaningful-word) "=")))
+               kwop (tuareg-find-|-match)))
+          (t kwop))))
 
 (defconst tuareg-find-->-match-regexp
   (tuareg-make-find-kwop-regexp "\\<\\(external\\|val\\|method\\|let\\|with\\|fun\\(ction\\|ctor\\)?\\|parser\\)\\>\\|[|:;]"))
@@ -1581,41 +1581,41 @@ If found, return the actual text of the keyword or operator."
     (cond
      ((string= kwop "|")
       (if (tuareg-in-indentation-p)
-	  kwop
-	(progn (forward-char -1) (tuareg-find-->-match))))
+          kwop
+        (progn (forward-char -1) (tuareg-find-->-match))))
      ((not (string= kwop ":")) kwop)
      ;; If we get this far, we know we're looking at a colon.
      ((or (char-equal (char-before) ?:)
-	  (char-equal (char-after (1+ (point))) ?:)
-	  (char-equal (char-after (1+ (point))) ?>))
+          (char-equal (char-after (1+ (point))) ?:)
+          (char-equal (char-after (1+ (point))) ?>))
       (tuareg-find-->-match))
      ;; Patch by T. Freeman
      (t (let ((oldpoint (point))
-	      (match (tuareg-find-->-match)))
-	  (if (looking-at ":")
-	      match
-	    (progn
-	      ;; Go back to where we were before the recursive call.
-	      (goto-char oldpoint)
-	      kwop)))))))
+              (match (tuareg-find-->-match)))
+          (if (looking-at ":")
+              match
+            (progn
+              ;; Go back to where we were before the recursive call.
+              (goto-char oldpoint)
+              kwop)))))))
 
 (defconst tuareg-find-semi-colon-match-regexp
   (tuareg-make-find-kwop-regexp ";[ \t]*\\((\\*\\|$\\)\\|->\\|\\<\\(let\\|method\\|with\\|try\\|initializer\\)\\>"))
 (defun tuareg-find-semi-colon-match (&optional leading-semi-colon)
   (tuareg-find-kwop tuareg-find-semi-colon-match-regexp
-			 "\\<\\(in\\|end\\|and\\|do\\|with\\)\\>")
+                         "\\<\\(in\\|end\\|and\\|do\\|with\\)\\>")
   ;; We don't need to find the keyword matching `and' since we know it's `let'!
   (cond
    ((looking-at ";[ \t]*\\((\\*\\|$\\)")
     (forward-line 1)
     (while (or (tuareg-in-comment-p)
-	       (looking-at "^[ \t]*\\((\\*\\|$\\)"))
+               (looking-at "^[ \t]*\\((\\*\\|$\\)"))
       (forward-line 1))
     (back-to-indentation)
     (current-column))
    ((and leading-semi-colon
-	 (looking-at "\\((\\|\\[[<|]?\\|{<?\\)[ \t]*[^ \t\n]")
-	 (not (looking-at "[[{(][|<]?[ \t]*\\((\\*\\|$\\)")))
+         (looking-at "\\((\\|\\[[<|]?\\|{<?\\)[ \t]*[^ \t\n]")
+         (not (looking-at "[[{(][|<]?[ \t]*\\((\\*\\|$\\)")))
     (current-column))
    ((looking-at "\\((\\|\\[[<|]?\\|{<?\\)[ \t]*\\((\\*\\|$\\)")
     (tuareg-back-to-paren-or-indentation t)
@@ -1631,11 +1631,11 @@ If found, return the actual text of the keyword or operator."
     (+ (current-column) tuareg-begin-indent))
    ((looking-at "->")
     (if (save-excursion
-	  (tuareg-find-->-match)
-	  (looking-at "\\<\\(with\\|fun\\(ction\\)?\\|parser\\)\\>\\||"))
-	(progn
-	  (tuareg-back-to-paren-or-indentation)
-	  (+ (current-column) tuareg-default-indent))
+          (tuareg-find-->-match)
+          (looking-at "\\<\\(with\\|fun\\(ction\\)?\\|parser\\)\\>\\||"))
+        (progn
+          (tuareg-back-to-paren-or-indentation)
+          (+ (current-column) tuareg-default-indent))
       (tuareg-find-semi-colon-match)))
    ((looking-at "\\<end\\>")
     (tuareg-find-match)
@@ -1651,99 +1651,99 @@ If found, return the actual text of the keyword or operator."
 
 (defconst tuareg-find-phrase-indentation-regexp
   (tuareg-make-find-kwop-regexp (concat tuareg-governing-phrase-regexp
-					"\\|\\<and\\>")))
+                                        "\\|\\<and\\>")))
 (defconst tuareg-find-phrase-indentation-regexp-pb
   (concat tuareg-find-phrase-indentation-regexp "\\|;;"))
 (defconst tuareg-find-phrase-indentation-class-regexp
   (concat tuareg-matching-keyword-regexp "\\|\\<class\\>"))
 (defun tuareg-find-phrase-indentation (&optional phrase-break)
   (if (and (looking-at "\\<\\(type\\|module\\)\\>") (> (point) (point-min))
-	   (save-excursion
-	     (tuareg-find-meaningful-word)
-	     (looking-at "\\<\\(module\\|with\\|and\\|let\\)\\>")))
+           (save-excursion
+             (tuareg-find-meaningful-word)
+             (looking-at "\\<\\(module\\|with\\|and\\|let\\)\\>")))
       (progn
-	(tuareg-find-meaningful-word)
-	(+ (current-column) tuareg-default-indent))
+        (tuareg-find-meaningful-word)
+        (+ (current-column) tuareg-default-indent))
     (let ((looking-at-and (looking-at "\\<and\\>"))
-	  (kwop (tuareg-find-kwop
-		 (if phrase-break
-		     tuareg-find-phrase-indentation-regexp-pb
-		   tuareg-find-phrase-indentation-regexp)
-		 "\\<\\(end\\|and\\|with\\|in\\)\\>"))
-	  (tmpkwop nil) (curr nil))
+          (kwop (tuareg-find-kwop
+                 (if phrase-break
+                     tuareg-find-phrase-indentation-regexp-pb
+                   tuareg-find-phrase-indentation-regexp)
+                 "\\<\\(end\\|and\\|with\\|in\\)\\>"))
+          (tmpkwop nil) (curr nil))
       (if (and kwop (string= kwop "and"))
-	  (setq kwop (tuareg-find-and-match)))
+          (setq kwop (tuareg-find-and-match)))
       (if (not kwop) (current-column)
-	(cond
-	 ((string= kwop "end")
-	  (if (not (save-excursion
-		     (setq tmpkwop (tuareg-find-match))
-		     (setq curr (point))
-		     (string= tmpkwop "object")))
-	      (progn
-		(tuareg-find-match)
-		(tuareg-find-phrase-indentation phrase-break))
-	    (tuareg-find-kwop tuareg-find-phrase-indentation-class-regexp)
-	    (current-column)))
-	 ((and (string= kwop "with")
-	       (not (save-excursion
-		      (setq tmpkwop (tuareg-find-with-match))
-		      (setq curr (point))
-		      (string= tmpkwop "module"))))
-	  (goto-char curr)
-	  (tuareg-find-phrase-indentation phrase-break))
-	 ((and (string= kwop "in")
-	       (not (save-excursion
-		      (setq tmpkwop (tuareg-find-in-match))
-		      (if (string= tmpkwop "and")
-			  (setq tmpkwop (tuareg-find-and-match)))
-		      (setq curr (point))
-		      (and (string= tmpkwop "let")
-			   (not (tuareg-looking-at-expression-let))))))
-	  (goto-char curr)
-	  (tuareg-find-phrase-indentation phrase-break))
-	 ((tuareg-at-phrase-break-p)
-	  (end-of-line)
-	  (tuareg-skip-blank-and-comments)
-	  (current-column))
-	 ((string= kwop "let")
-	  (if (tuareg-looking-at-expression-let)
-	      (tuareg-find-phrase-indentation phrase-break)
-	    (current-column)))
-	 ((string= kwop "with")
-	  (current-column))
-	 ((string= kwop "end")
-	  (current-column))
-	 ((string= kwop "in")
-	  (tuareg-find-in-match)
-	  (current-column))
-	 ((string= kwop "class")
-	  (tuareg-back-to-paren-or-indentation)
-	  (current-column))
-	 ((looking-at "\\<\\(object\\|s\\(ig\\|truct\\)\\)\\>")
-	  (tuareg-back-to-paren-or-indentation t)
-	  (+ (tuareg-assoc-indent kwop) (current-column)))
-	 ((or (string= kwop "type") (string= kwop "module"))
-	  (if (or (tuareg-looking-at-false-type)
-		  (tuareg-looking-at-false-module))
-	      (if looking-at-and (current-column)
-		(tuareg-find-meaningful-word)
-		(if (looking-at "\\<and\\>")
-		    (progn
-		      (tuareg-find-and-match)
-		      (tuareg-find-phrase-indentation phrase-break))
-		  (tuareg-find-phrase-indentation phrase-break)))
-	    (current-column)))
-	 ((looking-at
-	   "\\(\\.<\\|(\\|\\[[<|]?\\|{<?\\)[ \t]*\\((\\*\\|$\\)")
-	  (tuareg-back-to-paren-or-indentation)
-	  (+ (current-column) tuareg-default-indent))
-	 ((looking-at "\\(\\.<\\|(\\|\\[[<|]?\\|{<?\\)[ \t]*[^ \t\n]")
-	  (tuareg-search-forward-paren)
-	  (current-column))
-	 ((string= kwop "open") ; compatible with Caml Light `#open'
-	  (tuareg-back-to-paren-or-indentation) (current-column))
-	 (t (current-column)))))))
+        (cond
+         ((string= kwop "end")
+          (if (not (save-excursion
+                     (setq tmpkwop (tuareg-find-match))
+                     (setq curr (point))
+                     (string= tmpkwop "object")))
+              (progn
+                (tuareg-find-match)
+                (tuareg-find-phrase-indentation phrase-break))
+            (tuareg-find-kwop tuareg-find-phrase-indentation-class-regexp)
+            (current-column)))
+         ((and (string= kwop "with")
+               (not (save-excursion
+                      (setq tmpkwop (tuareg-find-with-match))
+                      (setq curr (point))
+                      (string= tmpkwop "module"))))
+          (goto-char curr)
+          (tuareg-find-phrase-indentation phrase-break))
+         ((and (string= kwop "in")
+               (not (save-excursion
+                      (setq tmpkwop (tuareg-find-in-match))
+                      (if (string= tmpkwop "and")
+                          (setq tmpkwop (tuareg-find-and-match)))
+                      (setq curr (point))
+                      (and (string= tmpkwop "let")
+                           (not (tuareg-looking-at-expression-let))))))
+          (goto-char curr)
+          (tuareg-find-phrase-indentation phrase-break))
+         ((tuareg-at-phrase-break-p)
+          (end-of-line)
+          (tuareg-skip-blank-and-comments)
+          (current-column))
+         ((string= kwop "let")
+          (if (tuareg-looking-at-expression-let)
+              (tuareg-find-phrase-indentation phrase-break)
+            (current-column)))
+         ((string= kwop "with")
+          (current-column))
+         ((string= kwop "end")
+          (current-column))
+         ((string= kwop "in")
+          (tuareg-find-in-match)
+          (current-column))
+         ((string= kwop "class")
+          (tuareg-back-to-paren-or-indentation)
+          (current-column))
+         ((looking-at "\\<\\(object\\|s\\(ig\\|truct\\)\\)\\>")
+          (tuareg-back-to-paren-or-indentation t)
+          (+ (tuareg-assoc-indent kwop) (current-column)))
+         ((or (string= kwop "type") (string= kwop "module"))
+          (if (or (tuareg-looking-at-false-type)
+                  (tuareg-looking-at-false-module))
+              (if looking-at-and (current-column)
+                (tuareg-find-meaningful-word)
+                (if (looking-at "\\<and\\>")
+                    (progn
+                      (tuareg-find-and-match)
+                      (tuareg-find-phrase-indentation phrase-break))
+                  (tuareg-find-phrase-indentation phrase-break)))
+            (current-column)))
+         ((looking-at
+           "\\(\\.<\\|(\\|\\[[<|]?\\|{<?\\)[ \t]*\\((\\*\\|$\\)")
+          (tuareg-back-to-paren-or-indentation)
+          (+ (current-column) tuareg-default-indent))
+         ((looking-at "\\(\\.<\\|(\\|\\[[<|]?\\|{<?\\)[ \t]*[^ \t\n]")
+          (tuareg-search-forward-paren)
+          (current-column))
+         ((string= kwop "open") ; compatible with Caml Light `#open'
+          (tuareg-back-to-paren-or-indentation) (current-column))
+         (t (current-column)))))))
 
 (defconst tuareg-back-to-paren-or-indentation-regexp
   "[][(){}]\\|\\.<\\|>\\.\\|\\*)\\|^[ \t]*\\(.\\|\n\\)")
@@ -1758,42 +1758,42 @@ If found, return the actual text of the keyword or operator."
 Returns t iff skipped to indentation."
   (if (or (bolp) (tuareg-in-indentation-p)) (progn (back-to-indentation) t)
     (let ((kwop (tuareg-find-kwop
-		 (if tuareg-lazy-paren
-		     (if forward-in
-			 tuareg-back-to-paren-or-indentation-lazy-in-regexp
-		       tuareg-back-to-paren-or-indentation-lazy-regexp)
-		   (if forward-in
-		       tuareg-back-to-paren-or-indentation-in-regexp
-		     tuareg-back-to-paren-or-indentation-regexp))
-		 "\\<and\\|with\\|in\\>"))
-	  (retval))
+                 (if tuareg-lazy-paren
+                     (if forward-in
+                         tuareg-back-to-paren-or-indentation-lazy-in-regexp
+                       tuareg-back-to-paren-or-indentation-lazy-regexp)
+                   (if forward-in
+                       tuareg-back-to-paren-or-indentation-in-regexp
+                     tuareg-back-to-paren-or-indentation-regexp))
+                 "\\<and\\|with\\|in\\>"))
+          (retval))
       (if (string= kwop "with")
-	  (let ((with-point (point)))
-	    (setq kwop (tuareg-find-with-match))
-	    (if (or (string= kwop "match") (string= kwop "try"))
-		(tuareg-find-kwop
-		 tuareg-back-to-paren-or-indentation-regexp
-		 "\\<and\\>")
-	      (setq kwop "with") (goto-char with-point))))
+          (let ((with-point (point)))
+            (setq kwop (tuareg-find-with-match))
+            (if (or (string= kwop "match") (string= kwop "try"))
+                (tuareg-find-kwop
+                 tuareg-back-to-paren-or-indentation-regexp
+                 "\\<and\\>")
+              (setq kwop "with") (goto-char with-point))))
       (setq retval
-	    (cond
-	     ((string= kwop "with") nil)
-	     ((string= kwop "in") (tuareg-in-indentation-p))
-	     ((looking-at "[[{(]") (tuareg-search-forward-paren) nil)
-	     ((looking-at "\\.<")
-	      (if tuareg-support-metaocaml
-		  (progn
-		    (tuareg-search-forward-paren) nil)
-		(tuareg-back-to-paren-or-indentation forward-in)))
-	     (t (back-to-indentation) t)))
+            (cond
+             ((string= kwop "with") nil)
+             ((string= kwop "in") (tuareg-in-indentation-p))
+             ((looking-at "[[{(]") (tuareg-search-forward-paren) nil)
+             ((looking-at "\\.<")
+              (if tuareg-support-metaocaml
+                  (progn
+                    (tuareg-search-forward-paren) nil)
+                (tuareg-back-to-paren-or-indentation forward-in)))
+             (t (back-to-indentation) t)))
       (cond
        ((looking-at "|[^|]")
-	(re-search-forward "|[^|][ \t]*") nil)
+        (re-search-forward "|[^|][ \t]*") nil)
        ((and forward-in (string= kwop "in"))
-	(tuareg-find-in-match)
-	(tuareg-back-to-paren-or-indentation forward-in)
-	(if (looking-at "\\<\\(let\\|and\\)\\>")
-	    (forward-char tuareg-in-indent)) nil)
+        (tuareg-find-in-match)
+        (tuareg-back-to-paren-or-indentation forward-in)
+        (if (looking-at "\\<\\(let\\|and\\)\\>")
+            (forward-char tuareg-in-indent)) nil)
        (t retval)))))
 
 (defun tuareg-search-forward-paren ()
@@ -1807,54 +1807,54 @@ Returns t iff skipped to indentation."
   (tuareg-make-find-kwop-regexp tuareg-kwop-regexp))
 (defun tuareg-compute-argument-indent (leading-operator)
   (let ((old-point (save-excursion (beginning-of-line) (point)))
-	(match-end-point) (kwop))
+        (match-end-point) (kwop))
     (setq kwop (tuareg-find-kwop tuareg-compute-argument-indent-regexp
-				 tuareg-keyword-regexp))
+                                 tuareg-keyword-regexp))
     (setq match-end-point (+ (point) (length kwop))) ; match-end is invalid !
     (cond
      ((and (string= kwop "->")
-	   (not (looking-at "->[ \t]*\\((\\*.*\\)?$")))
+           (not (looking-at "->[ \t]*\\((\\*.*\\)?$")))
       (let* (matching-kwop matching-pos)
-	(save-excursion
-	  (setq matching-kwop (tuareg-find-->-match))
-	  (setq matching-pos (point)))
-	(cond
-	 ((string= matching-kwop ":")
-	  (goto-char matching-pos)
-	  (tuareg-find-->-match) ; matching `val' or `let'
-	  (+ (current-column) tuareg-val-indent))
-	 ((string= matching-kwop "|")
-	  (goto-char matching-pos)
-	  (+ (tuareg-add-default-indent leading-operator)
-	     (current-column) tuareg-|-extra-unindent tuareg-default-indent))
-	 (t
-	  (tuareg-back-to-paren-or-indentation)
-	  (+ (tuareg-add-default-indent leading-operator) (current-column))))))
+        (save-excursion
+          (setq matching-kwop (tuareg-find-->-match))
+          (setq matching-pos (point)))
+        (cond
+         ((string= matching-kwop ":")
+          (goto-char matching-pos)
+          (tuareg-find-->-match) ; matching `val' or `let'
+          (+ (current-column) tuareg-val-indent))
+         ((string= matching-kwop "|")
+          (goto-char matching-pos)
+          (+ (tuareg-add-default-indent leading-operator)
+             (current-column) tuareg-|-extra-unindent tuareg-default-indent))
+         (t
+          (tuareg-back-to-paren-or-indentation)
+          (+ (tuareg-add-default-indent leading-operator) (current-column))))))
      ((string= kwop "fun")
       (tuareg-back-to-paren-or-indentation t)
       (+ (current-column)
-	 (tuareg-assoc-indent kwop)))
+         (tuareg-assoc-indent kwop)))
      ((<= old-point (point))
       (+ (tuareg-add-default-indent leading-operator) (current-column)))
      (t
       (forward-line 1)
       (beginning-of-line)
       (while (or (tuareg-in-comment-p) (looking-at "^[ \t]*\\((\\*.*\\)?$"))
-	(forward-line 1))
+        (forward-line 1))
       (tuareg-back-to-paren-or-indentation)
       (if (save-excursion (goto-char match-end-point)
-			  (looking-at "[ \t]*\\((\\*.*\\)?$"))
-	  (+ (tuareg-add-default-indent leading-operator)
-	     (current-column))
-	(current-column))))))
+                          (looking-at "[ \t]*\\((\\*.*\\)?$"))
+          (+ (tuareg-add-default-indent leading-operator)
+             (current-column))
+        (current-column))))))
 
 (defun tuareg-indent-from-paren (&optional leading-operator)
   (if (looking-at
        "\\(\\.<\\|(\\|\\[[<|]?\\|{<?\\)[ \t]*\\((\\*\\|$\\)")
       (progn
-	(tuareg-back-to-paren-or-indentation t)
-	(+ tuareg-default-indent
-	   (current-column))) ; parens do not operate
+        (tuareg-back-to-paren-or-indentation t)
+        (+ tuareg-default-indent
+           (current-column))) ; parens do not operate
     (tuareg-search-forward-paren)
     (+ (tuareg-add-default-indent leading-operator)
        (current-column))))
@@ -1868,172 +1868,172 @@ Returns t iff skipped to indentation."
     ;; (save-excursion
     ;;  (tuareg-find-meaningful-word)
     ;;  (if (looking-at tuareg-operator-regexp)
-    ;;	  (setq leading-operator t)))
+    ;;    (setq leading-operator t)))
     (save-excursion
       (let ((kwop (tuareg-find-kwop (if leading-operator
-					tuareg-compute-argument-indent-regexp
-				      tuareg-compute-normal-indent-regexp)
-				    tuareg-keyword-regexp)))
-	(if (string= kwop "and") (setq kwop (tuareg-find-and-match)))
-	(while (or (and (string= kwop "=")
-			(tuareg-false-=-p))
-		   (and (looking-at "^[ \t]*\\((\\*.*\\)?$")
-			(not (= (point) (point-min)))))
-	  (setq kwop (tuareg-find-kwop tuareg-compute-normal-indent-regexp
-				       tuareg-keyword-regexp))
-	  (if (string= kwop "and") (setq kwop (tuareg-find-and-match))))
-	(if (not kwop) (current-column)
-	  (cond
-	   ((tuareg-at-phrase-break-p)
-	    (tuareg-find-phrase-indentation t))
-	   ((and (string= kwop "|") (not  (char-equal ?\[ (preceding-char))))
-	    (tuareg-backward-char)
-	    (tuareg-back-to-paren-or-indentation)
-	    (+ (current-column) tuareg-default-indent
-	       (tuareg-add-default-indent leading-operator)))
-	   ((or (looking-at "[[{(]")
-		(and (looking-at "[<|]")
-		     (char-equal ?\[ (preceding-char))
-		     (progn (tuareg-backward-char) t))
-		(and (looking-at "<")
-		     (char-equal ?\{ (preceding-char))
-		     (progn (tuareg-backward-char) t)))
-	    (tuareg-indent-from-paren leading-operator))
-	   ((looking-at "\\.<")
-	    (tuareg-indent-from-paren leading-operator))
-	   ((looking-at "->")
-	    (let ((keyword-->-match (save-excursion (tuareg-find-->-match))))
-	      (cond ((string= keyword-->-match "|")
-		     (tuareg-find-->-match)
-		     (re-search-forward "|[ \t]*")
-		     (+ (current-column) tuareg-default-indent))
-		    ((string= keyword-->-match ":")
-		     (tuareg-find-->-match) ; slow, better to save the column
-		     (tuareg-find-->-match) ; matching `val' or `let'
-		     (+ (current-column) tuareg-val-indent))
-		    (t (tuareg-back-to-paren-or-indentation)
-		       (+ tuareg-default-indent (current-column))))))
-	   ((looking-at tuareg-keyword-regexp)
-	    (cond ((string= kwop ";")
-		   (if (looking-at ";[ \t]*\\((\\*\\|$\\)")
-		       (tuareg-find-semi-colon-match)
-		     (tuareg-back-to-paren-or-indentation t)
-		     (+ (current-column) tuareg-default-indent)))
-		  ((string= kwop ",")
-		   (if (looking-at ",[ \t]*\\((\\*\\|$\\)")
-		       (progn
-			 (setq kwop (tuareg-find-,-match))
-			 (if (or (looking-at "[[{(]\\|\\.<")
-				 (and (looking-at "[<|]")
-				      (char-equal ?\[ (preceding-char))
-				      (progn (tuareg-backward-char) t))
-				 (and (looking-at "<")
-				      (char-equal ?\{ (preceding-char))
-				      (progn (tuareg-backward-char) t)))
-			     (tuareg-indent-from-paren t)
-			   (tuareg-back-to-paren-or-indentation t)
-			   (+ (current-column)
-			      (tuareg-assoc-indent kwop))))
-		     (tuareg-back-to-paren-or-indentation t)
-		     (+ (current-column) tuareg-default-indent)))
-		  ((and (looking-at "\\<\\(in\\|begin\\|do\\)\\>\\|->")
-			(not (looking-at
-			      "\\([a-z]+\\|->\\)[ \t]*\\((\\*\\|$\\)")))
-		   (if (string= kwop "in")
-		       (re-search-forward "\\<in\\>[ \t]*")
-		     (tuareg-back-to-paren-or-indentation t))
-		   (+ (current-column)
-		      (tuareg-add-default-indent leading-operator)
-		      (if (string= kwop "in") 0 ; aligned, do not indent
-			(tuareg-assoc-indent kwop))))
-		  ((string= kwop "with")
-		   (if (save-excursion
-			 (let ((tmpkwop (tuareg-find-with-match)))
-			   (or (string= tmpkwop "module")
-			       (string= tmpkwop "{"))))
-		       (progn
-			 (tuareg-back-to-paren-or-indentation)
-			 (+ (current-column) tuareg-default-indent))
-		     (tuareg-back-to-paren-or-indentation)
-		     (+ (current-column)
-			(tuareg-assoc-indent kwop t))))
-		  ((string= kwop "in")
-		   (tuareg-find-in-match)
-		   (tuareg-back-to-paren-or-indentation)
-		   (+ (current-column) tuareg-in-indent))
-		  ((or (string= kwop "let") (string= kwop "and"))
-		   (tuareg-back-to-paren-or-indentation t)
-		   (+ (current-column)
-		      tuareg-default-indent
-		      (tuareg-assoc-indent kwop t)))
-		  (t (tuareg-back-to-paren-or-indentation t)
-		     (+ (current-column)
-			(tuareg-assoc-indent kwop t)))))
-	   ((and (looking-at "=") (not (tuareg-false-=-p)))
-	    (let ((current-column-module-type nil))
-	      (+
-	       (progn
-		 (tuareg-find-=-match)
-		 (save-excursion
-		   (if (looking-at "\\<and\\>") (tuareg-find-and-match))
-		   (cond
-		    ((looking-at "\\<type\\>")
-		     (tuareg-find-meaningful-word)
-		     (if (looking-at "\\<module\\>")
-			 (progn
-			   (setq current-column-module-type (current-column))
-			   tuareg-default-indent)
-		       (if (looking-at "\\<\\(with\\|and\\)\\>")
-			   (progn
-			     (tuareg-find-with-match)
-			     (setq current-column-module-type (current-column))
-			     tuareg-default-indent)
-			 (re-search-forward "\\<type\\>")
-			 (beginning-of-line)
-			 (+ tuareg-type-indent
-			    tuareg-|-extra-unindent))))
-		    ((looking-at
-		      "\\<\\(val\\|let\\|m\\(ethod\\|odule\\)\\|class\\|when\\|\\|for\\|if\\)\\>")
-		     (let ((matched-string (tuareg-match-string 0)))
-		       (tuareg-back-to-paren-or-indentation t)
-		       (setq current-column-module-type (current-column))
-		       (tuareg-assoc-indent matched-string)))
-		    ((looking-at "\\<object\\>")
-		     (tuareg-back-to-paren-or-indentation t)
-		     (setq current-column-module-type (current-column))
-		     (+ (tuareg-assoc-indent "object")
-			tuareg-default-indent))
-		    (t (tuareg-back-to-paren-or-indentation t)
-		       (setq current-column-module-type
-			     (+ (current-column) tuareg-default-indent))
-		       tuareg-default-indent))))
-	       (if current-column-module-type
-		   current-column-module-type
-		 (current-column)))))
-	   (nil 0)
-	   (t (tuareg-compute-argument-indent leading-operator))))))))
+                                        tuareg-compute-argument-indent-regexp
+                                      tuareg-compute-normal-indent-regexp)
+                                    tuareg-keyword-regexp)))
+        (if (string= kwop "and") (setq kwop (tuareg-find-and-match)))
+        (while (or (and (string= kwop "=")
+                        (tuareg-false-=-p))
+                   (and (looking-at "^[ \t]*\\((\\*.*\\)?$")
+                        (not (= (point) (point-min)))))
+          (setq kwop (tuareg-find-kwop tuareg-compute-normal-indent-regexp
+                                       tuareg-keyword-regexp))
+          (if (string= kwop "and") (setq kwop (tuareg-find-and-match))))
+        (if (not kwop) (current-column)
+          (cond
+           ((tuareg-at-phrase-break-p)
+            (tuareg-find-phrase-indentation t))
+           ((and (string= kwop "|") (not  (char-equal ?\[ (preceding-char))))
+            (tuareg-backward-char)
+            (tuareg-back-to-paren-or-indentation)
+            (+ (current-column) tuareg-default-indent
+               (tuareg-add-default-indent leading-operator)))
+           ((or (looking-at "[[{(]")
+                (and (looking-at "[<|]")
+                     (char-equal ?\[ (preceding-char))
+                     (progn (tuareg-backward-char) t))
+                (and (looking-at "<")
+                     (char-equal ?\{ (preceding-char))
+                     (progn (tuareg-backward-char) t)))
+            (tuareg-indent-from-paren leading-operator))
+           ((looking-at "\\.<")
+            (tuareg-indent-from-paren leading-operator))
+           ((looking-at "->")
+            (let ((keyword-->-match (save-excursion (tuareg-find-->-match))))
+              (cond ((string= keyword-->-match "|")
+                     (tuareg-find-->-match)
+                     (re-search-forward "|[ \t]*")
+                     (+ (current-column) tuareg-default-indent))
+                    ((string= keyword-->-match ":")
+                     (tuareg-find-->-match) ; slow, better to save the column
+                     (tuareg-find-->-match) ; matching `val' or `let'
+                     (+ (current-column) tuareg-val-indent))
+                    (t (tuareg-back-to-paren-or-indentation)
+                       (+ tuareg-default-indent (current-column))))))
+           ((looking-at tuareg-keyword-regexp)
+            (cond ((string= kwop ";")
+                   (if (looking-at ";[ \t]*\\((\\*\\|$\\)")
+                       (tuareg-find-semi-colon-match)
+                     (tuareg-back-to-paren-or-indentation t)
+                     (+ (current-column) tuareg-default-indent)))
+                  ((string= kwop ",")
+                   (if (looking-at ",[ \t]*\\((\\*\\|$\\)")
+                       (progn
+                         (setq kwop (tuareg-find-comma-match))
+                         (if (or (looking-at "[[{(]\\|\\.<")
+                                 (and (looking-at "[<|]")
+                                      (char-equal ?\[ (preceding-char))
+                                      (progn (tuareg-backward-char) t))
+                                 (and (looking-at "<")
+                                      (char-equal ?\{ (preceding-char))
+                                      (progn (tuareg-backward-char) t)))
+                             (tuareg-indent-from-paren t)
+                           (tuareg-back-to-paren-or-indentation t)
+                           (+ (current-column)
+                              (tuareg-assoc-indent kwop))))
+                     (tuareg-back-to-paren-or-indentation t)
+                     (+ (current-column) tuareg-default-indent)))
+                  ((and (looking-at "\\<\\(in\\|begin\\|do\\)\\>\\|->")
+                        (not (looking-at
+                              "\\([a-z]+\\|->\\)[ \t]*\\((\\*\\|$\\)")))
+                   (if (string= kwop "in")
+                       (re-search-forward "\\<in\\>[ \t]*")
+                     (tuareg-back-to-paren-or-indentation t))
+                   (+ (current-column)
+                      (tuareg-add-default-indent leading-operator)
+                      (if (string= kwop "in") 0 ; aligned, do not indent
+                        (tuareg-assoc-indent kwop))))
+                  ((string= kwop "with")
+                   (if (save-excursion
+                         (let ((tmpkwop (tuareg-find-with-match)))
+                           (or (string= tmpkwop "module")
+                               (string= tmpkwop "{"))))
+                       (progn
+                         (tuareg-back-to-paren-or-indentation)
+                         (+ (current-column) tuareg-default-indent))
+                     (tuareg-back-to-paren-or-indentation)
+                     (+ (current-column)
+                        (tuareg-assoc-indent kwop t))))
+                  ((string= kwop "in")
+                   (tuareg-find-in-match)
+                   (tuareg-back-to-paren-or-indentation)
+                   (+ (current-column) tuareg-in-indent))
+                  ((or (string= kwop "let") (string= kwop "and"))
+                   (tuareg-back-to-paren-or-indentation t)
+                   (+ (current-column)
+                      tuareg-default-indent
+                      (tuareg-assoc-indent kwop t)))
+                  (t (tuareg-back-to-paren-or-indentation t)
+                     (+ (current-column)
+                        (tuareg-assoc-indent kwop t)))))
+           ((and (looking-at "=") (not (tuareg-false-=-p)))
+            (let ((current-column-module-type nil))
+              (+
+               (progn
+                 (tuareg-find-=-match)
+                 (save-excursion
+                   (if (looking-at "\\<and\\>") (tuareg-find-and-match))
+                   (cond
+                    ((looking-at "\\<type\\>")
+                     (tuareg-find-meaningful-word)
+                     (if (looking-at "\\<module\\>")
+                         (progn
+                           (setq current-column-module-type (current-column))
+                           tuareg-default-indent)
+                       (if (looking-at "\\<\\(with\\|and\\)\\>")
+                           (progn
+                             (tuareg-find-with-match)
+                             (setq current-column-module-type (current-column))
+                             tuareg-default-indent)
+                         (re-search-forward "\\<type\\>")
+                         (beginning-of-line)
+                         (+ tuareg-type-indent
+                            tuareg-|-extra-unindent))))
+                    ((looking-at
+                      "\\<\\(val\\|let\\|m\\(ethod\\|odule\\)\\|class\\|when\\|\\|for\\|if\\)\\>")
+                     (let ((matched-string (tuareg-match-string 0)))
+                       (tuareg-back-to-paren-or-indentation t)
+                       (setq current-column-module-type (current-column))
+                       (tuareg-assoc-indent matched-string)))
+                    ((looking-at "\\<object\\>")
+                     (tuareg-back-to-paren-or-indentation t)
+                     (setq current-column-module-type (current-column))
+                     (+ (tuareg-assoc-indent "object")
+                        tuareg-default-indent))
+                    (t (tuareg-back-to-paren-or-indentation t)
+                       (setq current-column-module-type
+                             (+ (current-column) tuareg-default-indent))
+                       tuareg-default-indent))))
+               (if current-column-module-type
+                   current-column-module-type
+                 (current-column)))))
+           (nil 0)
+           (t (tuareg-compute-argument-indent leading-operator))))))))
 
 (defun tuareg-looking-at-expression-let ()
   (save-excursion
     (tuareg-find-meaningful-word)
     (and (not (tuareg-at-phrase-break-p))
-	 (not (and tuareg-support-metaocaml
-		   (looking-at "\\.")
-		   (char-equal ?> (preceding-char))))
-	 (or (looking-at "[[({;=]\\|\\<\\(begin\\|i[fn]\\|do\\|t\\(ry\\|hen\\)\\|else\\|match\\|wh\\(ile\\|en\\)\\)\\>")
-	     (looking-at tuareg-operator-regexp)))))
+         (not (and tuareg-support-metaocaml
+                   (looking-at "\\.")
+                   (char-equal ?> (preceding-char))))
+         (or (looking-at "[[({;=]\\|\\<\\(begin\\|i[fn]\\|do\\|t\\(ry\\|hen\\)\\|else\\|match\\|wh\\(ile\\|en\\)\\)\\>")
+             (looking-at tuareg-operator-regexp)))))
 
 (defun tuareg-looking-at-false-module ()
   (save-excursion (tuareg-find-meaningful-word)
-		  (looking-at "\\<\\(let\\|with\\|and\\)\\>")))
+                  (looking-at "\\<\\(let\\|with\\|and\\)\\>")))
 
 (defun tuareg-looking-at-false-sig-struct ()
   (save-excursion (tuareg-find-module)
-		  (looking-at "\\<module\\>")))
+                  (looking-at "\\<module\\>")))
 
 (defun tuareg-looking-at-false-type ()
   (save-excursion (tuareg-find-meaningful-word)
-		  (looking-at "\\<\\(class\\|with\\|module\\|and\\)\\>")))
+                  (looking-at "\\<\\(class\\|with\\|module\\|and\\)\\>")))
 
 (defun tuareg-looking-at-in-let ()
   (save-excursion (string= (tuareg-find-meaningful-word) "in")))
@@ -2059,7 +2059,7 @@ Returns t iff skipped to indentation."
 Compute new indentation based on Caml syntax."
   (interactive "*")
     (if (not from-leading-star)
-	(tuareg-auto-fill-insert-leading-star))
+        (tuareg-auto-fill-insert-leading-star))
   (let ((case-fold-search nil))
     (tuareg-modify-syntax)
     (save-excursion
@@ -2074,119 +2074,119 @@ Compute new indentation based on Caml syntax."
      ((tuareg-in-comment-p)
       (cond
        ((looking-at "(\\*")
-	(if tuareg-indent-leading-comments
-	    (save-excursion
-	      (while (and (progn (beginning-of-line)
-				 (> (point) 1))
-			  (progn (forward-line -1)
-				 (back-to-indentation)
-				 (tuareg-in-comment-p))))
-	      (if (looking-at "[ \t]*$")
-		  (progn
-		    (tuareg-skip-blank-and-comments)
-		    (if (or (looking-at "$") (tuareg-in-comment-p))
-			0
-		      (tuareg-compute-indent)))
-		(forward-line 1)
-		(tuareg-compute-normal-indent)))
-	  (current-column)))
+        (if tuareg-indent-leading-comments
+            (save-excursion
+              (while (and (progn (beginning-of-line)
+                                 (> (point) 1))
+                          (progn (forward-line -1)
+                                 (back-to-indentation)
+                                 (tuareg-in-comment-p))))
+              (if (looking-at "[ \t]*$")
+                  (progn
+                    (tuareg-skip-blank-and-comments)
+                    (if (or (looking-at "$") (tuareg-in-comment-p))
+                        0
+                      (tuareg-compute-indent)))
+                (forward-line 1)
+                (tuareg-compute-normal-indent)))
+          (current-column)))
        ((looking-at "\\*\\**)")
-	(tuareg-beginning-of-literal-or-comment-fast)
-	(if (tuareg-leading-star-p)
-	    (+ (current-column)
-	       (if (save-excursion
-		     (forward-line 1)
-		     (back-to-indentation)
-		     (looking-at "*")) 1
-		 tuareg-comment-end-extra-indent))
-	  (+ (current-column) tuareg-comment-end-extra-indent)))
+        (tuareg-beginning-of-literal-or-comment-fast)
+        (if (tuareg-leading-star-p)
+            (+ (current-column)
+               (if (save-excursion
+                     (forward-line 1)
+                     (back-to-indentation)
+                     (looking-at "*")) 1
+                 tuareg-comment-end-extra-indent))
+          (+ (current-column) tuareg-comment-end-extra-indent)))
        (tuareg-indent-comments
-	(let ((star (and (tuareg-leading-star-p)
-			 (looking-at "\\*"))))
-	  (tuareg-beginning-of-literal-or-comment-fast)
-	  (if star (re-search-forward "(") (re-search-forward "(\\*+[ \t]*"))
-	  (current-column)))
+        (let ((star (and (tuareg-leading-star-p)
+                         (looking-at "\\*"))))
+          (tuareg-beginning-of-literal-or-comment-fast)
+          (if star (re-search-forward "(") (re-search-forward "(\\*+[ \t]*"))
+          (current-column)))
        (t (current-column))))
      ((tuareg-in-literal-p)
       (current-column))
      ((looking-at "\\<let\\>")
       (if (tuareg-looking-at-expression-let)
-	  (if (tuareg-looking-at-in-let)
-	      (progn
-		(tuareg-find-meaningful-word)
-		(tuareg-find-in-match)
-		(tuareg-back-to-paren-or-indentation)
-		(current-column))
-	    (tuareg-compute-normal-indent))
-	(tuareg-find-phrase-indentation)))
+          (if (tuareg-looking-at-in-let)
+              (progn
+                (tuareg-find-meaningful-word)
+                (tuareg-find-in-match)
+                (tuareg-back-to-paren-or-indentation)
+                (current-column))
+            (tuareg-compute-normal-indent))
+        (tuareg-find-phrase-indentation)))
      ((looking-at tuareg-governing-phrase-regexp-with-break)
       (tuareg-find-phrase-indentation))
      ((and tuareg-sig-struct-align (looking-at "\\<\\(sig\\|struct\\)\\>"))
       (if (string= (tuareg-find-module) "module") (current-column)
-	(tuareg-back-to-paren-or-indentation)
-	(+ tuareg-default-indent (current-column))))
+        (tuareg-back-to-paren-or-indentation)
+        (+ tuareg-default-indent (current-column))))
      ((looking-at ";") (tuareg-find-semi-colon-match t))
      ((or (looking-at "%\\|;;")
-	  (and tuareg-support-camllight (looking-at "#"))
-	  (looking-at "#\\<\\(open\\|load\\|use\\)\\>")) 0)
+          (and tuareg-support-camllight (looking-at "#"))
+          (looking-at "#\\<\\(open\\|load\\|use\\)\\>")) 0)
      ((or (looking-at tuareg-leading-kwop-regexp)
-	  (and tuareg-support-metaocaml
-	       (looking-at ">\\.")))
+          (and tuareg-support-metaocaml
+               (looking-at ">\\.")))
       (let ((kwop (tuareg-match-string 0)))
-	(let* ((old-point (point))
-	       (paren-match-p (looking-at "[|>]?[]})]\\|>\\."))
-	       (need-not-back-kwop (string= kwop "and"))
-	       (real-| (looking-at "|\\([^|]\\|$\\)"))
-	       (matching-kwop
-		(if (string= kwop "and")
-		    (tuareg-find-and-match t)
-		  (funcall (cdr (assoc kwop tuareg-leading-kwop-alist)))))
-	       (match-|-keyword-p
-		(and matching-kwop
-		     (looking-at tuareg-match-|-keyword-regexp))))
-	  (cond
-	   ((and (string= kwop "|") real-|)
-	    (cond
-	     ((string= matching-kwop "|")
-	      (if (not need-not-back-kwop)
-		  (tuareg-back-to-paren-or-indentation))
-	      (current-column))
-	     ((and (string= matching-kwop "=")
-		   (not (tuareg-false-=-p)))
-	      (re-search-forward "=[ \t]*")
-	      (current-column))
-	     (match-|-keyword-p
-	      (if (not need-not-back-kwop)
-		  (tuareg-back-to-paren-or-indentation))
-	      (- (+ (tuareg-assoc-indent
-		     matching-kwop t)
-		    (current-column))
-		 (if (string= matching-kwop "type") 0
-		   tuareg-|-extra-unindent)))
-	     (t (goto-char old-point)
-		(tuareg-compute-normal-indent))))
-	   ((and (string= kwop "|") (not real-|))
-	    (goto-char old-point)
-	    (tuareg-compute-normal-indent))
-	   ((and
-	     (looking-at "\\(\\[|?\\|{<?\\|(\\|\\.<\\)[ \t]*[^ \t\n]")
-	     (not (looking-at "\\([[{(][|<]?\\|\\.<\\)[ \t]*\\((\\*\\|$\\)")))
-	    (if (and (string= kwop "|") real-|)
-		(current-column)
-	      (if (not paren-match-p)
-		  (tuareg-search-forward-paren))
-	      (if tuareg-lazy-paren
-		  (tuareg-back-to-paren-or-indentation))
-	      (current-column)))
-	   ((and (string= kwop "with")
-		 (or (string= matching-kwop "module")
-		     (string= matching-kwop "struct")))
-	    (tuareg-back-to-paren-or-indentation nil)
-	    (+ (current-column) tuareg-default-indent))
-	   ((not need-not-back-kwop)
-	    (tuareg-back-to-paren-or-indentation (not (string= kwop "in")))
-	    (current-column))
-	   (t (current-column))))))
+        (let* ((old-point (point))
+               (paren-match-p (looking-at "[|>]?[]})]\\|>\\."))
+               (need-not-back-kwop (string= kwop "and"))
+               (real-| (looking-at "|\\([^|]\\|$\\)"))
+               (matching-kwop
+                (if (string= kwop "and")
+                    (tuareg-find-and-match t)
+                  (funcall (cdr (assoc kwop tuareg-leading-kwop-alist)))))
+               (match-|-keyword-p
+                (and matching-kwop
+                     (looking-at tuareg-match-|-keyword-regexp))))
+          (cond
+           ((and (string= kwop "|") real-|)
+            (cond
+             ((string= matching-kwop "|")
+              (if (not need-not-back-kwop)
+                  (tuareg-back-to-paren-or-indentation))
+              (current-column))
+             ((and (string= matching-kwop "=")
+                   (not (tuareg-false-=-p)))
+              (re-search-forward "=[ \t]*")
+              (current-column))
+             (match-|-keyword-p
+              (if (not need-not-back-kwop)
+                  (tuareg-back-to-paren-or-indentation))
+              (- (+ (tuareg-assoc-indent
+                     matching-kwop t)
+                    (current-column))
+                 (if (string= matching-kwop "type") 0
+                   tuareg-|-extra-unindent)))
+             (t (goto-char old-point)
+                (tuareg-compute-normal-indent))))
+           ((and (string= kwop "|") (not real-|))
+            (goto-char old-point)
+            (tuareg-compute-normal-indent))
+           ((and
+             (looking-at "\\(\\[|?\\|{<?\\|(\\|\\.<\\)[ \t]*[^ \t\n]")
+             (not (looking-at "\\([[{(][|<]?\\|\\.<\\)[ \t]*\\((\\*\\|$\\)")))
+            (if (and (string= kwop "|") real-|)
+                (current-column)
+              (if (not paren-match-p)
+                  (tuareg-search-forward-paren))
+              (if tuareg-lazy-paren
+                  (tuareg-back-to-paren-or-indentation))
+              (current-column)))
+           ((and (string= kwop "with")
+                 (or (string= matching-kwop "module")
+                     (string= matching-kwop "struct")))
+            (tuareg-back-to-paren-or-indentation nil)
+            (+ (current-column) tuareg-default-indent))
+           ((not need-not-back-kwop)
+            (tuareg-back-to-paren-or-indentation (not (string= kwop "in")))
+            (current-column))
+           (t (current-column))))))
      (t (tuareg-compute-normal-indent)))))
 
 (defun tuareg-split-string ()
@@ -2195,50 +2195,50 @@ Compute new indentation based on Caml syntax."
   (tuareg-backward-char))
 
 (defadvice newline-and-indent (around
-			       tuareg-newline-and-indent
-			       activate)
+                               tuareg-newline-and-indent
+                               activate)
   "Handle multi-line strings in Tuareg mode."
     (let ((hooked (and (eq major-mode 'tuareg-mode) (tuareg-in-literal-p)))
-	  (split-mark))
+          (split-mark))
       (if (not hooked) nil
-	(setq split-mark (set-marker (make-marker) (point)))
-	(tuareg-split-string))
+        (setq split-mark (set-marker (make-marker) (point)))
+        (tuareg-split-string))
       ad-do-it
       (if (not hooked) nil
-	(goto-char split-mark)
-	(set-marker split-mark nil))))
+        (goto-char split-mark)
+        (set-marker split-mark nil))))
 
 (defun tuareg-electric ()
   "If inserting a | operator at beginning of line, reindent the line."
   (interactive "*")
   (let ((electric (and tuareg-electric-indent
-		       (tuareg-in-indentation-p)
-		       (not (tuareg-in-literal-p))
-		       (not (tuareg-in-comment-p)))))
+                       (tuareg-in-indentation-p)
+                       (not (tuareg-in-literal-p))
+                       (not (tuareg-in-comment-p)))))
     (self-insert-command 1)
     (if (and electric
-	     (not (and (char-equal ?| (preceding-char))
-		       (save-excursion
-			 (tuareg-backward-char)
-			 (tuareg-find-|-match)
-			 (not (looking-at tuareg-match-|-keyword-regexp))))))
-	(indent-according-to-mode))))
+             (not (and (char-equal ?| (preceding-char))
+                       (save-excursion
+                         (tuareg-backward-char)
+                         (tuareg-find-|-match)
+                         (not (looking-at tuareg-match-|-keyword-regexp))))))
+        (indent-according-to-mode))))
 
 (defun tuareg-electric-rp ()
   "If inserting a ) operator or a comment-end at beginning of line,
 reindent the line."
   (interactive "*")
   (let ((electric (and tuareg-electric-indent
-		       (or (tuareg-in-indentation-p)
-			   (char-equal ?* (preceding-char)))
-		       (not (tuareg-in-literal-p))
-		       (or (not (tuareg-in-comment-p))
-			   (save-excursion
-			     (back-to-indentation)
-			     (looking-at "\\*"))))))
+                       (or (tuareg-in-indentation-p)
+                           (char-equal ?* (preceding-char)))
+                       (not (tuareg-in-literal-p))
+                       (or (not (tuareg-in-comment-p))
+                           (save-excursion
+                             (back-to-indentation)
+                             (looking-at "\\*"))))))
     (self-insert-command 1)
     (if electric
-	(indent-according-to-mode))))
+        (indent-according-to-mode))))
 
 (defun tuareg-electric-rc ()
   "If inserting a } operator at beginning of line, reindent the line.
@@ -2248,26 +2248,26 @@ Also, if the matching { is followed by a < and this } is not preceded
 by >, insert one >."
   (interactive "*")
   (let* ((prec (preceding-char))
-	 (look-bra (and tuareg-electric-close-vector
-			(not (tuareg-in-literal-or-comment-p))
-			(not (char-equal ?> prec))))
-	 (electric (and tuareg-electric-indent
-			(or (tuareg-in-indentation-p)
-			    (and (char-equal ?> prec)
-				 (save-excursion (tuareg-backward-char)
-						 (tuareg-in-indentation-p))))
-			(not (tuareg-in-literal-or-comment-p)))))
+         (look-bra (and tuareg-electric-close-vector
+                        (not (tuareg-in-literal-or-comment-p))
+                        (not (char-equal ?> prec))))
+         (electric (and tuareg-electric-indent
+                        (or (tuareg-in-indentation-p)
+                            (and (char-equal ?> prec)
+                                 (save-excursion (tuareg-backward-char)
+                                                 (tuareg-in-indentation-p))))
+                        (not (tuareg-in-literal-or-comment-p)))))
     (self-insert-command 1)
     (if look-bra
-	(save-excursion
-	  (let ((inserted-char
-		 (save-excursion
-		   (tuareg-backward-char)
-		   (tuareg-backward-up-list)
-		   (cond ((looking-at "{<") ">")
-			 (t "")))))
-	    (tuareg-backward-char)
-	    (insert inserted-char))))
+        (save-excursion
+          (let ((inserted-char
+                 (save-excursion
+                   (tuareg-backward-char)
+                   (tuareg-backward-up-list)
+                   (cond ((looking-at "{<") ">")
+                         (t "")))))
+            (tuareg-backward-char)
+            (insert inserted-char))))
     (if electric (indent-according-to-mode))))
 
 (defun tuareg-electric-rb ()
@@ -2278,49 +2278,49 @@ Also, if the matching [ is followed by a | and this ] is not preceded
 by |, insert one |."
   (interactive "*")
   (let* ((prec (preceding-char))
-	 (look-|-or-bra (and tuareg-electric-close-vector
-			     (not (tuareg-in-literal-or-comment-p))
-			     (not (and (char-equal ?| prec)
-				       (not (char-equal
-					     (save-excursion
-					       (tuareg-backward-char)
-					       (preceding-char)) ?\[))))))
-	 (electric (and tuareg-electric-indent
-			(or (tuareg-in-indentation-p)
-			    (and (char-equal ?| prec)
-				 (save-excursion (tuareg-backward-char)
-						 (tuareg-in-indentation-p))))
-			(not (tuareg-in-literal-or-comment-p)))))
+         (look-|-or-bra (and tuareg-electric-close-vector
+                             (not (tuareg-in-literal-or-comment-p))
+                             (not (and (char-equal ?| prec)
+                                       (not (char-equal
+                                             (save-excursion
+                                               (tuareg-backward-char)
+                                               (preceding-char)) ?\[))))))
+         (electric (and tuareg-electric-indent
+                        (or (tuareg-in-indentation-p)
+                            (and (char-equal ?| prec)
+                                 (save-excursion (tuareg-backward-char)
+                                                 (tuareg-in-indentation-p))))
+                        (not (tuareg-in-literal-or-comment-p)))))
     (self-insert-command 1)
     (if look-|-or-bra
-	(save-excursion
-	  (let ((inserted-char
-		 (save-excursion
-		   (tuareg-backward-char)
-		   (tuareg-backward-up-list)
-		   (cond ((looking-at "\\[|") "|")
-			 (t "")))))
-	    (tuareg-backward-char)
-	    (insert inserted-char))))
+        (save-excursion
+          (let ((inserted-char
+                 (save-excursion
+                   (tuareg-backward-char)
+                   (tuareg-backward-up-list)
+                   (cond ((looking-at "\\[|") "|")
+                         (t "")))))
+            (tuareg-backward-char)
+            (insert inserted-char))))
     (if electric (indent-according-to-mode))))
 
 (defun tuareg-abbrev-hook ()
   "If inserting a leading keyword at beginning of line, reindent the line."
   (if (not (tuareg-in-literal-or-comment-p))
       (let* ((bol (save-excursion (beginning-of-line) (point)))
-	     (kw (save-excursion
-		   (and (re-search-backward "^[ \t]*\\(\\w\\|_\\)+\\=" bol t)
-			(tuareg-match-string 1)))))
-	(if kw (progn
-		   (insert " ")
-		   (indent-according-to-mode)
-		   (backward-delete-char-untabify 1))))))
+             (kw (save-excursion
+                   (and (re-search-backward "^[ \t]*\\(\\w\\|_\\)+\\=" bol t)
+                        (tuareg-match-string 1)))))
+        (if kw (progn
+                   (insert " ")
+                   (indent-according-to-mode)
+                   (backward-delete-char-untabify 1))))))
 
 (defun tuareg-skip-to-end-of-phrase ()
   (let ((old-point (point)))
     (if (and (string= (tuareg-find-meaningful-word) ";")
-	     (char-equal (preceding-char) ?\;))
-	(setq old-point (1- (point))))
+             (char-equal (preceding-char) ?\;))
+        (setq old-point (1- (point))))
     (goto-char old-point)
     (let ((kwop (tuareg-find-meaningful-word)))
       (goto-char (+ (point) (length kwop))))))
@@ -2328,13 +2328,13 @@ by |, insert one |."
 (defun tuareg-skip-blank-and-comments ()
   (skip-chars-forward " \t\n")
   (while (and (not (eobp)) (tuareg-in-comment-p)
-	      (search-forward "*)" nil t))
+              (search-forward "*)" nil t))
     (skip-chars-forward " \t\n")))
 
 (defun tuareg-skip-back-blank-and-comments ()
   (skip-chars-backward " \t\n")
   (while (save-excursion (tuareg-backward-char)
-			 (and (> (point) (point-min)) (tuareg-in-comment-p)))
+                         (and (> (point) (point-min)) (tuareg-in-comment-p)))
     (tuareg-backward-char)
     (tuareg-beginning-of-literal-or-comment) (skip-chars-backward " \t\n")))
 
@@ -2350,22 +2350,22 @@ by |, insert one |."
   (let ((old-point (point)))
     (tuareg-find-kwop tuareg-beginning-phrase-regexp)
     (while (and (> (point) (point-min)) (< (point) old-point)
-		(or (not (looking-at tuareg-beginning-phrase-regexp))
-		    (and (looking-at "\\<let\\>")
-			 (tuareg-looking-at-expression-let))
-		    (and (looking-at "\\<module\\>")
-			 (tuareg-looking-at-false-module))
-		    (and (looking-at "\\<\\(sig\\|struct\\)\\>")
-			 (tuareg-looking-at-false-sig-struct))
-		    (and (looking-at "\\<type\\>")
-			 (tuareg-looking-at-false-type))))
+                (or (not (looking-at tuareg-beginning-phrase-regexp))
+                    (and (looking-at "\\<let\\>")
+                         (tuareg-looking-at-expression-let))
+                    (and (looking-at "\\<module\\>")
+                         (tuareg-looking-at-false-module))
+                    (and (looking-at "\\<\\(sig\\|struct\\)\\>")
+                         (tuareg-looking-at-false-sig-struct))
+                    (and (looking-at "\\<type\\>")
+                         (tuareg-looking-at-false-type))))
       (if (looking-at "\\<end\\>")
-	  (tuareg-find-match)
-	(if (not (bolp)) (tuareg-backward-char))
-	(setq old-point (point))
-	(tuareg-find-kwop tuareg-beginning-phrase-regexp)))
+          (tuareg-find-match)
+        (if (not (bolp)) (tuareg-backward-char))
+        (setq old-point (point))
+        (tuareg-find-kwop tuareg-beginning-phrase-regexp)))
     (if (tuareg-at-phrase-break-p)
-	(progn (end-of-line) (tuareg-skip-blank-and-comments)))
+        (progn (end-of-line) (tuareg-skip-blank-and-comments)))
     (back-to-indentation)
     (point)))
 
@@ -2373,29 +2373,29 @@ by |, insert one |."
   (let ((found) (move t))
     (while (and move (> (point) current))
       (if (re-search-forward "\\<end\\>" (point-max) t)
-	  (when (not (tuareg-in-literal-or-comment-p))
-	    (let ((kwop) (iter))
-	      (save-excursion
-		(tuareg-backward-char 3)
-		(setq kwop (tuareg-find-match))
-		(cond
-		 ((looking-at "\\<\\(object\\)\\>")
-		  (tuareg-find-phrase-beginning))
-		 ((and (looking-at "\\<\\(struct\\|sig\\)\\>")
-		       (tuareg-looking-at-false-sig-struct))
-		  (tuareg-find-phrase-beginning)))
-		(if (> (point) begin)
-		    (setq iter t)))
-	      (cond
-	       ((or iter
-		    (and
-		     (string= kwop "sig")
-		     (looking-at "[ \t\n]*\\(\\<with\\>[ \t\n]*\\<type\\>\\|=\\)")))
-		(if (> (point) current)
-		    (setq current (point))
-		  (setq found nil move nil)))
-	       (t (setq found t move nil)))))
-	(setq found nil move nil)))
+          (when (not (tuareg-in-literal-or-comment-p))
+            (let ((kwop) (iter))
+              (save-excursion
+                (tuareg-backward-char 3)
+                (setq kwop (tuareg-find-match))
+                (cond
+                 ((looking-at "\\<\\(object\\)\\>")
+                  (tuareg-find-phrase-beginning))
+                 ((and (looking-at "\\<\\(struct\\|sig\\)\\>")
+                       (tuareg-looking-at-false-sig-struct))
+                  (tuareg-find-phrase-beginning)))
+                (if (> (point) begin)
+                    (setq iter t)))
+              (cond
+               ((or iter
+                    (and
+                     (string= kwop "sig")
+                     (looking-at "[ \t\n]*\\(\\<with\\>[ \t\n]*\\<type\\>\\|=\\)")))
+                (if (> (point) current)
+                    (setq current (point))
+                  (setq found nil move nil)))
+               (t (setq found t move nil)))))
+        (setq found nil move nil)))
     found))
 
 (defun tuareg-search-forward-end ()
@@ -2408,14 +2408,14 @@ by |, insert one |."
   (concat tuareg-matching-keyword-regexp "\\|" tuareg-inside-block-opening))
 (defun tuareg-inside-block-find-kwop ()
   (let ((kwop (tuareg-find-kwop tuareg-inside-block-regexp
-				"\\<\\(and\\|end\\)\\>")))
+                                "\\<\\(and\\|end\\)\\>")))
     (if (string= kwop "and") (setq kwop (tuareg-find-and-match)))
     (if (string= kwop "with") (setq kwop nil))
     (if (string= kwop "end")
-	(progn
-	  (tuareg-find-match)
-	  (tuareg-find-kwop tuareg-inside-block-regexp)
-	  (tuareg-inside-block-find-kwop))
+        (progn
+          (tuareg-find-match)
+          (tuareg-find-kwop tuareg-inside-block-regexp)
+          (tuareg-inside-block-find-kwop))
       kwop)))
 
 (defun tuareg-inside-block-p ()
@@ -2424,48 +2424,48 @@ by |, insert one |."
   (let ((begin) (end) (and-end) (and-iter t) (kwop t))
     (save-excursion
       (if (looking-at "\\<and\\>")
-	  (tuareg-find-and-match))
+          (tuareg-find-and-match))
       (setq begin (point))
       (if (or (and (looking-at "\\<class\\>")
-		   (save-excursion
-		     (re-search-forward "\\<object\\>"
-					(point-max) t)
-		     (while (and (tuareg-in-literal-or-comment-p)
+                   (save-excursion
+                     (re-search-forward "\\<object\\>"
+                                        (point-max) t)
+                     (while (and (tuareg-in-literal-or-comment-p)
                                  (re-search-forward "\\<object\\>"
                                                     (point-max) t)))
-		     (tuareg-find-phrase-beginning)
-		     (> (point) begin)))
-	      (and (looking-at "\\<module\\>")
-		   (save-excursion
-		     (re-search-forward "\\<\\(sig\\|struct\\)\\>"
-					(point-max) t)
-		     (while (and (tuareg-in-literal-or-comment-p)
+                     (tuareg-find-phrase-beginning)
+                     (> (point) begin)))
+              (and (looking-at "\\<module\\>")
+                   (save-excursion
+                     (re-search-forward "\\<\\(sig\\|struct\\)\\>"
+                                        (point-max) t)
+                     (while (and (tuareg-in-literal-or-comment-p)
                                  (re-search-forward "\\<\\(sig\\|struct\\)\\>"
                                                     (point-max) t)))
-		     (tuareg-find-phrase-beginning)
-		     (> (point) begin)))) ()
-	(if (not (looking-at tuareg-inside-block-opening-full))
-	    (setq kwop (tuareg-inside-block-find-kwop)))
-	(if (not kwop) ()
-	  (setq begin (point))
-	  (if (not (tuareg-search-forward-end)) ()
-	    (tuareg-backward-char 3)
-	    (if (not (looking-at "\\<end\\>")) ()
-	      (tuareg-forward-char 3)
-	      (setq end (point))
-	      (setq and-end (point))
-	      (tuareg-skip-blank-and-comments)
-	      (while (and and-iter (looking-at "\\<and\\>"))
-		(setq and-end (point))
-		(if (not (tuareg-search-forward-end)) ()
-		  (tuareg-backward-char 3)
-		  (if (not (looking-at "\\<end\\>")) ()
-		    (tuareg-forward-char 3)
-		    (setq and-end (point))
-		    (tuareg-skip-blank-and-comments)))
-		(if (<= (point) and-end)
-		    (setq and-iter nil)))
-	      (list begin end and-end))))))))
+                     (tuareg-find-phrase-beginning)
+                     (> (point) begin)))) ()
+        (if (not (looking-at tuareg-inside-block-opening-full))
+            (setq kwop (tuareg-inside-block-find-kwop)))
+        (if (not kwop) ()
+          (setq begin (point))
+          (if (not (tuareg-search-forward-end)) ()
+            (tuareg-backward-char 3)
+            (if (not (looking-at "\\<end\\>")) ()
+              (tuareg-forward-char 3)
+              (setq end (point))
+              (setq and-end (point))
+              (tuareg-skip-blank-and-comments)
+              (while (and and-iter (looking-at "\\<and\\>"))
+                (setq and-end (point))
+                (if (not (tuareg-search-forward-end)) ()
+                  (tuareg-backward-char 3)
+                  (if (not (looking-at "\\<end\\>")) ()
+                    (tuareg-forward-char 3)
+                    (setq and-end (point))
+                    (tuareg-skip-blank-and-comments)))
+                (if (<= (point) and-end)
+                    (setq and-iter nil)))
+              (list begin end and-end))))))))
 
 (defun tuareg-move-inside-block-opening ()
   "Go to the beginning of the enclosing module or class.
@@ -2474,9 +2474,9 @@ Notice that white-lines (or comments) located immediately before a
 module/class are considered enclosed in this module/class."
   (interactive)
   (let* ((old-point (point))
-	 (kwop (tuareg-inside-block-find-kwop)))
+         (kwop (tuareg-inside-block-find-kwop)))
     (if (not kwop)
-	(goto-char old-point))
+        (goto-char old-point))
     (tuareg-find-phrase-beginning)))
 
 (defun tuareg-discover-phrase (&optional quiet)
@@ -2487,41 +2487,41 @@ module/class are considered enclosed in this module/class."
     (if (> (point) end) (setq end (point)))
     (save-excursion
       (let ((begin (point)) (cpt 0) (lines-left 0) (stop)
-	    (inside-block (tuareg-inside-block-p))
-	    (looking-block (looking-at tuareg-inside-block-opening-full)))
-	(if (and looking-block inside-block)
-	    (progn
-	      (setq begin (nth 0 inside-block))
-	      (setq end (nth 2 inside-block))
-	      (goto-char end))
-	  (if inside-block
-	      (progn
-		(setq stop (save-excursion (goto-char (nth 1 inside-block))
-					   (beginning-of-line) (point)))
-		(if (< stop end) (setq stop (point-max))))
-	    (setq stop (point-max)))
-	  (save-restriction
-	    (goto-char end)
-	    (while (and (= lines-left 0)
-			(or (not inside-block) (< (point) stop))
-			(<= (save-excursion
-			      (tuareg-find-phrase-beginning)) end))
-	      (if (not quiet)
-		  (progn
-		    (setq cpt (1+ cpt))
-		    (if (= 8 cpt)
-			(message "Looking for enclosing phrase..."))))
-	      (setq end (point))
-	      (tuareg-skip-to-end-of-phrase)
-	      (beginning-of-line)
-	      (narrow-to-region (point) (point-max))
-	      (goto-char end)
-	      (setq lines-left (forward-line 1)))))
-	(if (>= cpt 8) (message "Looking for enclosing phrase... done."))
-	(save-excursion (tuareg-skip-blank-and-comments) (setq end (point)))
-	(tuareg-skip-back-blank-and-comments)
-	(tuareg-restore-syntax)
-	(list begin (point) end)))))
+            (inside-block (tuareg-inside-block-p))
+            (looking-block (looking-at tuareg-inside-block-opening-full)))
+        (if (and looking-block inside-block)
+            (progn
+              (setq begin (nth 0 inside-block))
+              (setq end (nth 2 inside-block))
+              (goto-char end))
+          (if inside-block
+              (progn
+                (setq stop (save-excursion (goto-char (nth 1 inside-block))
+                                           (beginning-of-line) (point)))
+                (if (< stop end) (setq stop (point-max))))
+            (setq stop (point-max)))
+          (save-restriction
+            (goto-char end)
+            (while (and (= lines-left 0)
+                        (or (not inside-block) (< (point) stop))
+                        (<= (save-excursion
+                              (tuareg-find-phrase-beginning)) end))
+              (if (not quiet)
+                  (progn
+                    (setq cpt (1+ cpt))
+                    (if (= 8 cpt)
+                        (message "Looking for enclosing phrase..."))))
+              (setq end (point))
+              (tuareg-skip-to-end-of-phrase)
+              (beginning-of-line)
+              (narrow-to-region (point) (point-max))
+              (goto-char end)
+              (setq lines-left (forward-line 1)))))
+        (if (>= cpt 8) (message "Looking for enclosing phrase... done."))
+        (save-excursion (tuareg-skip-blank-and-comments) (setq end (point)))
+        (tuareg-skip-back-blank-and-comments)
+        (tuareg-restore-syntax)
+        (list begin (point) end)))))
 
 (defun tuareg-mark-phrase ()
   "Put mark at end of this Caml phrase, point at beginning.
@@ -2538,8 +2538,8 @@ The Caml phrase is the phrase just before the point."
       (tuareg-next-phrase quiet))
   (if (looking-at ";;")
       (progn
-	(forward-char 2)
-	(tuareg-skip-blank-and-comments))))
+        (forward-char 2)
+        (tuareg-skip-blank-and-comments))))
 
 (defun tuareg-previous-phrase ()
   "Skip to the beginning of the previous phrase."
@@ -2555,61 +2555,61 @@ or indent all lines in the current phrase."
   (save-excursion
     (back-to-indentation)
     (if (tuareg-in-comment-p)
-	(let* ((cobpoint (save-excursion
-			   (tuareg-beginning-of-literal-or-comment)
-			   (point)))
-	       (begpoint (save-excursion
-			   (while (and (> (point) cobpoint)
-				       (tuareg-in-comment-p)
-				       (not (looking-at "^[ \t]*$")))
-			     (forward-line -1))
-			   (max cobpoint (point))))
-	       (coepoint (save-excursion
-			   (while (tuareg-in-comment-p)
-			     (re-search-forward "\\*)"))
-			   (point)))
-	       (endpoint (save-excursion
-			   (re-search-forward "^[ \t]*$" coepoint 'end)
-			   (beginning-of-line)
-			   (forward-line 1)
-			   (point)))
-	       (leading-star (tuareg-leading-star-p)))
-	  (goto-char begpoint)
-	  (while (and leading-star
-		      (< (point) endpoint)
-		      (not (looking-at "^[ \t]*$")))
-	    (forward-line 1)
-	    (back-to-indentation)
-	    (if (looking-at "\\*\\**\\([^)]\\|$\\)")
-		(progn
-		  (delete-char 1)
-		  (setq endpoint (1- endpoint)))))
-	  (goto-char (min (point) endpoint))
-	  (fill-region begpoint endpoint)
-	  (re-search-forward "\\*)")
-	  (setq endpoint (point))
-	  (if leading-star
-	      (progn
-		(goto-char begpoint)
-		(forward-line 1)
-		(if (< (point) endpoint)
-		    (tuareg-auto-fill-insert-leading-star t))))
-	  (indent-region begpoint endpoint nil))
+        (let* ((cobpoint (save-excursion
+                           (tuareg-beginning-of-literal-or-comment)
+                           (point)))
+               (begpoint (save-excursion
+                           (while (and (> (point) cobpoint)
+                                       (tuareg-in-comment-p)
+                                       (not (looking-at "^[ \t]*$")))
+                             (forward-line -1))
+                           (max cobpoint (point))))
+               (coepoint (save-excursion
+                           (while (tuareg-in-comment-p)
+                             (re-search-forward "\\*)"))
+                           (point)))
+               (endpoint (save-excursion
+                           (re-search-forward "^[ \t]*$" coepoint 'end)
+                           (beginning-of-line)
+                           (forward-line 1)
+                           (point)))
+               (leading-star (tuareg-leading-star-p)))
+          (goto-char begpoint)
+          (while (and leading-star
+                      (< (point) endpoint)
+                      (not (looking-at "^[ \t]*$")))
+            (forward-line 1)
+            (back-to-indentation)
+            (if (looking-at "\\*\\**\\([^)]\\|$\\)")
+                (progn
+                  (delete-char 1)
+                  (setq endpoint (1- endpoint)))))
+          (goto-char (min (point) endpoint))
+          (fill-region begpoint endpoint)
+          (re-search-forward "\\*)")
+          (setq endpoint (point))
+          (if leading-star
+              (progn
+                (goto-char begpoint)
+                (forward-line 1)
+                (if (< (point) endpoint)
+                    (tuareg-auto-fill-insert-leading-star t))))
+          (indent-region begpoint endpoint nil))
       (let ((pair (tuareg-discover-phrase)))
-	(indent-region (nth 0 pair) (nth 1 pair) nil)))))
+        (indent-region (nth 0 pair) (nth 1 pair) nil)))))
 
 (defun tuareg-find-alternate-file ()
   "Switch Implementation/Interface."
   (interactive)
   (let ((name (buffer-file-name)))
     (if (string-match "\\`\\(.*\\)\\.ml\\(i\\)?\\'" name)
-	(find-file (concat (tuareg-match-string 1 name)
-			   (if (match-beginning 2) ".ml" ".mli"))))))
+        (find-file (concat (tuareg-match-string 1 name)
+                           (if (match-beginning 2) ".ml" ".mli"))))))
 
 (defun tuareg-insert-class-form ()
   "Insert a nicely formatted class-end form, leaving a mark after end."
   (interactive "*")
-  (let ((prec (preceding-char))) 
+  (let ((prec (preceding-char)))
     (if (and prec (not (char-equal ?\  (char-syntax prec))))
         (insert " ")))
   (let ((old (point)))
@@ -2626,7 +2626,7 @@ or indent all lines in the current phrase."
   (interactive "*")
   (let ((prec (preceding-char)))
     (if (and prec (not (char-equal ?\  (char-syntax prec))))
-	(insert " ")))
+        (insert " ")))
   (let ((old (point)))
     (insert "begin\n\nend\n")
     (end-of-line)
@@ -2640,7 +2640,7 @@ or indent all lines in the current phrase."
   (interactive "*")
   (let ((prec (preceding-char)))
     (if (and prec (not (char-equal ?\  (char-syntax prec))))
-	(insert " ")))
+        (insert " ")))
   (let ((old (point)))
     (insert "for  do\n\ndone\n")
     (end-of-line)
@@ -2656,7 +2656,7 @@ or indent all lines in the current phrase."
   (interactive "*")
   (let ((prec (preceding-char)))
     (if (and prec (not (char-equal ?\  (char-syntax prec))))
-	(insert " ")))
+        (insert " ")))
   (let ((old (point)))
     (insert "while  do\n\ndone\n")
     (end-of-line)
@@ -2672,7 +2672,7 @@ or indent all lines in the current phrase."
   (interactive "*")
   (let ((prec (preceding-char)))
     (if (and prec (not (char-equal ?\  (char-syntax prec))))
-	(insert " ")))
+        (insert " ")))
   (let ((old (point)))
     (insert "if\n\nthen\n\nelse\n")
     (end-of-line)
@@ -2689,7 +2689,7 @@ or indent all lines in the current phrase."
   (interactive "*")
   (let ((prec (preceding-char)))
     (if (and prec (not (char-equal ?\  (char-syntax prec))))
-	(insert " ")))
+        (insert " ")))
   (let ((old (point)))
     (insert "match\n\nwith\n")
     (end-of-line)
@@ -2704,7 +2704,7 @@ or indent all lines in the current phrase."
   (interactive "*")
   (let ((prec (preceding-char)))
     (if (and prec (not (char-equal ?\  (char-syntax prec))))
-	(insert " ")))
+        (insert " ")))
   (let ((old (point)))
     (insert "let  in\n")
     (end-of-line)
@@ -2720,7 +2720,7 @@ or indent all lines in the current phrase."
   (interactive "*")
   (let ((prec (preceding-char)))
     (if (and prec (not (char-equal ?\  (char-syntax prec))))
-	(insert " ")))
+        (insert " ")))
   (let ((old (point)))
     (insert "try\n\nwith\n")
     (end-of-line)
@@ -2765,44 +2765,44 @@ or indent all lines in the current phrase."
   (when (eq major-mode 'tuareg-interactive-mode)
     (save-excursion
       (when (>= comint-last-input-end comint-last-input-start)
-	(if tuareg-interactive-read-only-input
-	    (add-text-properties
-	     comint-last-input-start comint-last-input-end
-	     (list 'read-only t)))
-	(if (and font-lock-mode tuareg-interactive-input-font-lock)
-	    (progn
-	      (font-lock-fontify-region comint-last-input-start
-					comint-last-input-end)
-	      (if (featurep 'sym-lock)
-		  (sym-lock-make-symbols-atomic comint-last-input-start
-						comint-last-input-end))))
-	(if tuareg-interactive-output-font-lock
-	    (save-excursion
-	      (goto-char (point-max))
-	      (re-search-backward comint-prompt-regexp
-				  comint-last-input-end t)
-	      (add-text-properties
-	       comint-last-input-end (point)
-	       '(face tuareg-font-lock-interactive-output-face))))
-	(if tuareg-interactive-error-font-lock
-	    (save-excursion
-	      (goto-char comint-last-input-end)
-	      (while (re-search-forward tuareg-interactive-error-regexp () t)
-		(let ((matchbeg (match-beginning 1))
-		      (matchend (match-end 1)))
-		  (save-excursion
-		    (goto-char matchbeg)
-		    (put-text-property
-		     matchbeg matchend
-		     'face 'tuareg-font-lock-interactive-error-face)
-		    (if (looking-at tuareg-interactive-toplevel-error-regexp)
-			(let ((beg (string-to-number (tuareg-match-string 1)))
-			      (end (string-to-number (tuareg-match-string 2))))
-			  (put-text-property
-			   (+ comint-last-input-start beg)
-			   (+ comint-last-input-start end)
-			   'face 'tuareg-font-lock-error-face)
-			  )))))))))))
+        (if tuareg-interactive-read-only-input
+            (add-text-properties
+             comint-last-input-start comint-last-input-end
+             (list 'read-only t)))
+        (if (and font-lock-mode tuareg-interactive-input-font-lock)
+            (progn
+              (font-lock-fontify-region comint-last-input-start
+                                        comint-last-input-end)
+              (if (featurep 'sym-lock)
+                  (sym-lock-make-symbols-atomic comint-last-input-start
+                                                comint-last-input-end))))
+        (if tuareg-interactive-output-font-lock
+            (save-excursion
+              (goto-char (point-max))
+              (re-search-backward comint-prompt-regexp
+                                  comint-last-input-end t)
+              (add-text-properties
+               comint-last-input-end (point)
+               '(face tuareg-font-lock-interactive-output-face))))
+        (if tuareg-interactive-error-font-lock
+            (save-excursion
+              (goto-char comint-last-input-end)
+              (while (re-search-forward tuareg-interactive-error-regexp () t)
+                (let ((matchbeg (match-beginning 1))
+                      (matchend (match-end 1)))
+                  (save-excursion
+                    (goto-char matchbeg)
+                    (put-text-property
+                     matchbeg matchend
+                     'face 'tuareg-font-lock-interactive-error-face)
+                    (if (looking-at tuareg-interactive-toplevel-error-regexp)
+                        (let ((beg (string-to-number (tuareg-match-string 1)))
+                              (end (string-to-number (tuareg-match-string 2))))
+                          (put-text-property
+                           (+ comint-last-input-start beg)
+                           (+ comint-last-input-start end)
+                           'face 'tuareg-font-lock-error-face)
+                          )))))))))))
 
 (define-derived-mode tuareg-interactive-mode comint-mode "Tuareg-Interactive"
   "Major mode for interacting with a Caml process.
@@ -2813,8 +2813,8 @@ be sent from another buffer in Caml mode.
 Special keys for Tuareg interactive mode:\\{tuareg-interactive-mode-map}"
   (tuareg-install-font-lock t)
   (if (or tuareg-interactive-input-font-lock
-	  tuareg-interactive-output-font-lock
-	  tuareg-interactive-error-font-lock)
+          tuareg-interactive-output-font-lock
+          tuareg-interactive-error-font-lock)
       (font-lock-mode 1))
   (add-hook 'comint-output-filter-functions 'tuareg-interactive-filter)
   (if (not (boundp 'after-change-functions)) ()
@@ -2849,36 +2849,36 @@ I/O via buffer `*caml-toplevel*'."
   (if cmd
       (setq tuareg-interactive-program cmd)
     (if (not (comint-check-proc tuareg-interactive-buffer-name))
-	(setq tuareg-interactive-program
-	      (read-shell-command "Caml toplevel to run: "
-				  tuareg-interactive-program))))
+        (setq tuareg-interactive-program
+              (read-shell-command "Caml toplevel to run: "
+                                  tuareg-interactive-program))))
   (if (not (comint-check-proc tuareg-interactive-buffer-name))
       (let ((cmdlist (tuareg-args-to-list tuareg-interactive-program))
             (process-connection-type nil))
-	(set-buffer (apply (function make-comint) "caml-toplevel"
-			   (car cmdlist) nil (cdr cmdlist)))
-	(tuareg-interactive-mode)
-	(sleep-for 1))))
+        (set-buffer (apply (function make-comint) "caml-toplevel"
+                           (car cmdlist) nil (cdr cmdlist)))
+        (tuareg-interactive-mode)
+        (sleep-for 1))))
 
 (defun tuareg-args-to-list (string)
   (let ((where (string-match "[ \t]" string)))
     (cond ((null where) (list string))
-	  ((not (= where 0))
-	   (cons (substring string 0 where)
-		 (tuareg-args-to-list (substring string (+ 1 where)
-						 (length string)))))
-	  (t (let ((pos (string-match "[^ \t]" string)))
-	       (if (null pos)
-		   nil
-		 (tuareg-args-to-list (substring string pos
-						 (length string)))))))))
+          ((not (= where 0))
+           (cons (substring string 0 where)
+                 (tuareg-args-to-list (substring string (+ 1 where)
+                                                 (length string)))))
+          (t (let ((pos (string-match "[^ \t]" string)))
+               (if (null pos)
+                   nil
+                 (tuareg-args-to-list (substring string pos
+                                                 (length string)))))))))
 
 (defun tuareg-interactive-get-old-input ()
   (save-excursion
     (let ((end (point)))
       (re-search-backward comint-prompt-regexp (point-min) t)
       (if (looking-at comint-prompt-regexp)
-	  (re-search-forward comint-prompt-regexp))
+          (re-search-forward comint-prompt-regexp))
       (buffer-substring-no-properties (point) end))))
 
 (defun tuareg-interactive-end-of-phrase ()
@@ -2904,8 +2904,8 @@ current phrase else insert a newline."
   (interactive)
   (if (tuareg-interactive-end-of-phrase)
       (progn
-	(comint-send-input)
-	(goto-char (point-max)))
+        (comint-send-input)
+        (goto-char (point-max)))
     (insert "\n")
     (message tuareg-interactive-send-warning)))
 
@@ -2915,8 +2915,8 @@ current phrase else insert a newline and indent."
   (interactive)
   (if (tuareg-interactive-end-of-phrase)
       (progn
-	(goto-char (point-max))
-	(comint-send-input))
+        (goto-char (point-max))
+        (comint-send-input))
     (insert "\n")
     (indent-according-to-mode)
     (message tuareg-interactive-send-warning)))
@@ -2937,18 +2937,18 @@ current phrase else insert a newline and indent."
     (let ((text (buffer-substring-no-properties start end)))
       (goto-char end)
       (if (string= text "")
-	  (message "Cannot send empty commands to Caml toplevel!")
-	(set-buffer tuareg-interactive-buffer-name)
-	(goto-char (point-max))
-	(setq tuareg-interactive-last-phrase-pos-in-toplevel (point))
-	(comint-send-string tuareg-interactive-buffer-name
-			    (concat text ";;"))
-	(let ((pos (point)))
-	  (comint-send-input)
-	  (if tuareg-interactive-echo-phrase
-	      (save-excursion
-		(goto-char pos)
-		(insert (concat text ";;")))))))
+          (message "Cannot send empty commands to Caml toplevel!")
+        (set-buffer tuareg-interactive-buffer-name)
+        (goto-char (point-max))
+        (setq tuareg-interactive-last-phrase-pos-in-toplevel (point))
+        (comint-send-string tuareg-interactive-buffer-name
+                            (concat text ";;"))
+        (let ((pos (point)))
+          (comint-send-input)
+          (if tuareg-interactive-echo-phrase
+              (save-excursion
+                (goto-char pos)
+                (insert (concat text ";;")))))))
     (when tuareg-display-buffer-on-eval
       (display-buffer tuareg-interactive-buffer-name))))
 
@@ -2965,10 +2965,10 @@ current phrase else insert a newline and indent."
   (let ((end))
     (save-excursion
       (let ((pair (tuareg-discover-phrase)))
-	(setq end (nth 2 pair))
-	(tuareg-eval-region (nth 0 pair) (nth 1 pair))))
+        (setq end (nth 2 pair))
+        (tuareg-eval-region (nth 0 pair) (nth 1 pair))))
     (if tuareg-skip-after-eval-phrase
-	(goto-char end))))
+        (goto-char end))))
 
 (defun tuareg-eval-buffer ()
   "Send the buffer to the Tuareg Interactive process."
@@ -2982,16 +2982,16 @@ current phrase else insert a newline and indent."
       (set-buffer tuareg-interactive-buffer-name)
       (goto-char tuareg-interactive-last-phrase-pos-in-toplevel)
       (setq error-pos
-	    (re-search-forward tuareg-interactive-toplevel-error-regexp
-			       (point-max) t))
+            (re-search-forward tuareg-interactive-toplevel-error-regexp
+                               (point-max) t))
       (if error-pos
-	  (progn
-	    (setq beg (string-to-number (tuareg-match-string 1))
-		  end (string-to-number (tuareg-match-string 2))))))
+          (progn
+            (setq beg (string-to-number (tuareg-match-string 1))
+                  end (string-to-number (tuareg-match-string 2))))))
     (if (not error-pos)
-	(message "No syntax or typing error in last phrase.")
+        (message "No syntax or typing error in last phrase.")
       (setq beg (+ tuareg-interactive-last-phrase-pos-in-source beg)
-	    end (+ tuareg-interactive-last-phrase-pos-in-source end))
+            end (+ tuareg-interactive-last-phrase-pos-in-source end))
       (goto-char beg)
       (put-text-property beg end 'face 'tuareg-font-lock-error-face))))
 
@@ -3001,15 +3001,15 @@ current phrase else insert a newline and indent."
     (save-excursion
       (goto-char tuareg-interactive-last-phrase-pos-in-toplevel)
       (setq error-pos
-	    (re-search-forward tuareg-interactive-toplevel-error-regexp
-			       (point-max) t))
+            (re-search-forward tuareg-interactive-toplevel-error-regexp
+                               (point-max) t))
       (if error-pos
-	  (setq beg (string-to-number (tuareg-match-string 1))
-		end (string-to-number (tuareg-match-string 2)))))
+          (setq beg (string-to-number (tuareg-match-string 1))
+                end (string-to-number (tuareg-match-string 2)))))
     (if (not error-pos)
-	(message "No syntax or typing error in last phrase.")
+        (message "No syntax or typing error in last phrase.")
       (setq beg (+ tuareg-interactive-last-phrase-pos-in-toplevel beg)
-	    end (+ tuareg-interactive-last-phrase-pos-in-toplevel end))
+            end (+ tuareg-interactive-last-phrase-pos-in-toplevel end))
       (put-text-property beg end 'face 'tuareg-font-lock-error-face)
       (goto-char beg))))
 
@@ -3017,15 +3017,15 @@ current phrase else insert a newline and indent."
   (interactive)
   (if (comint-check-proc tuareg-interactive-buffer-name)
       (save-excursion
-	(set-buffer tuareg-interactive-buffer-name)
-	(comint-interrupt-subjob))))
+        (set-buffer tuareg-interactive-buffer-name)
+        (comint-interrupt-subjob))))
 
 (defun tuareg-kill-caml ()
   (interactive)
   (if (comint-check-proc tuareg-interactive-buffer-name)
       (save-excursion
-	(set-buffer tuareg-interactive-buffer-name)
-	(comint-kill-subjob))))
+        (set-buffer tuareg-interactive-buffer-name)
+        (comint-kill-subjob))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                               Menu support
@@ -3100,11 +3100,11 @@ current phrase else insert a newline and indent."
     (if (not (functionp 'easy-menu-create-keymaps)) ()
       ;; Patch for Emacs
       (add-hook 'menu-bar-update-hook
-		'tuareg-with-emacs-update-definitions-menu)
+                'tuareg-with-emacs-update-definitions-menu)
       (make-local-variable 'tuareg-definitions-keymaps)
       (setq tuareg-definitions-keymaps
-	    (cdr (easy-menu-create-keymaps
-		  "Definitions" tuareg-definitions-menu)))
+            (cdr (easy-menu-create-keymaps
+                  "Definitions" tuareg-definitions-menu)))
       (setq tuareg-definitions-menu-last-buffer nil))))
 
 (easy-menu-define
@@ -3137,12 +3137,12 @@ current phrase else insert a newline and indent."
 (defun tuareg-with-emacs-update-definitions-menu ()
   (if (current-local-map)
       (let ((keymap
-	     (lookup-key (current-local-map) [menu-bar Tuareg Definitions])))
-	(if (and
-	     (keymapp keymap)
-	     (not (eq tuareg-definitions-menu-last-buffer (current-buffer))))
-	    (setcdr keymap tuareg-definitions-keymaps)
-	  (setq tuareg-definitions-menu-last-buffer (current-buffer))))))
+             (lookup-key (current-local-map) [menu-bar Tuareg Definitions])))
+        (if (and
+             (keymapp keymap)
+             (not (eq tuareg-definitions-menu-last-buffer (current-buffer))))
+            (setcdr keymap tuareg-definitions-keymaps)
+          (setq tuareg-definitions-menu-last-buffer (current-buffer))))))
 
 (defun tuareg-toggle-option (symbol)
   (interactive)
@@ -3155,23 +3155,23 @@ current phrase else insert a newline and indent."
   (easy-menu-change
    '("Tuareg") "Tuareg Options"
    (mapcar (lambda (pair)
-	     (if (consp pair)
-		 (vector (car pair)
-			 (list 'tuareg-toggle-option (cdr pair))
-			 ':style 'toggle
-			 ':selected (nth 1 (cdr pair))
-			 ':active t)
-	       pair)) tuareg-options-list))
+             (if (consp pair)
+                 (vector (car pair)
+                         (list 'tuareg-toggle-option (cdr pair))
+                         ':style 'toggle
+                         ':selected (nth 1 (cdr pair))
+                         ':active t)
+               pair)) tuareg-options-list))
   (easy-menu-change
    '("Tuareg") "Tuareg Interactive Options"
    (mapcar (lambda (pair)
-	     (if (consp pair)
-		 (vector (car pair)
-			 (list 'tuareg-toggle-option (cdr pair))
-			 ':style 'toggle
-			 ':selected (nth 1 (cdr pair))
-			 ':active t)
-	       pair)) tuareg-interactive-options-list)))
+             (if (consp pair)
+                 (vector (car pair)
+                         (list 'tuareg-toggle-option (cdr pair))
+                         ':style 'toggle
+                         ':selected (nth 1 (cdr pair))
+                         ':active t)
+               pair)) tuareg-interactive-options-list)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                             Browse Manual
@@ -3193,7 +3193,7 @@ current phrase else insert a newline and indent."
   (start-process-shell-command
    "netscape" nil
    (concat "netscape -remote 'openURL ("
-	   url ", newwindow)' || netscape " url)))
+           url ", newwindow)' || netscape " url)))
 
 (defun tuareg-mmm-manual (url)
   "*Browse Caml reference manual."
@@ -3210,43 +3210,43 @@ current phrase else insert a newline and indent."
   "Browse the Caml library."
   (interactive)
   (let ((buf-name "*caml-library*") (opoint)
-	(dir (read-from-minibuffer "Library path: " tuareg-library-path)))
+        (dir (read-from-minibuffer "Library path: " tuareg-library-path)))
     (if (and (file-directory-p dir) (file-readable-p dir))
-	(progn
-	  (setq tuareg-library-path dir)
-	  ;; List *.ml and *.mli files
-	  (with-output-to-temp-buffer buf-name
-	    (buffer-disable-undo standard-output)
-	    (save-excursion
-	      (set-buffer buf-name)
-	      (kill-all-local-variables)
-	      (make-local-variable 'tuareg-library-path)
-	      (setq tuareg-library-path dir)
-	      ;; Help
-	      (insert "Directory \"" dir "\".\n") 
-	      (insert "Select a file with middle mouse button or RETURN.\n\n")
-	      (insert "Interface files (.mli):\n\n")
-	      (insert-directory (concat dir "/*.mli") "-C" t nil)
-	      (insert "\n\nImplementation files (.ml):\n\n")
-	      (insert-directory (concat dir "/*.ml") "-C" t nil)
-	      ;; '.', '-' and '_' are now letters
-	      (modify-syntax-entry ?. "w")
-	      (modify-syntax-entry ?_ "w")
-	      (modify-syntax-entry ?- "w")
-	      ;; Every file name is now mouse-sensitive
-	      (goto-char (point-min))
-	      (while (< (point) (point-max))
-		(re-search-forward "\\.ml.?\\>")
-		(setq opoint (point))
-		(re-search-backward "\\<" (point-min) 1)
-		(put-text-property (point) opoint 'mouse-face 'highlight)
-		(goto-char (+ 1 opoint)))
-	      ;; Activate tuareg-library mode
-	      (setq major-mode 'tuareg-library-mode)
-	      (setq mode-name "tuareg-library")
-	      (use-local-map tuareg-library-mode-map)
-	      (setq buffer-read-only t)))))))
-  
+        (progn
+          (setq tuareg-library-path dir)
+          ;; List *.ml and *.mli files
+          (with-output-to-temp-buffer buf-name
+            (buffer-disable-undo standard-output)
+            (save-excursion
+              (set-buffer buf-name)
+              (kill-all-local-variables)
+              (make-local-variable 'tuareg-library-path)
+              (setq tuareg-library-path dir)
+              ;; Help
+              (insert "Directory \"" dir "\".\n")
+              (insert "Select a file with middle mouse button or RETURN.\n\n")
+              (insert "Interface files (.mli):\n\n")
+              (insert-directory (concat dir "/*.mli") "-C" t nil)
+              (insert "\n\nImplementation files (.ml):\n\n")
+              (insert-directory (concat dir "/*.ml") "-C" t nil)
+              ;; '.', '-' and '_' are now letters
+              (modify-syntax-entry ?. "w")
+              (modify-syntax-entry ?_ "w")
+              (modify-syntax-entry ?- "w")
+              ;; Every file name is now mouse-sensitive
+              (goto-char (point-min))
+              (while (< (point) (point-max))
+                (re-search-forward "\\.ml.?\\>")
+                (setq opoint (point))
+                (re-search-backward "\\<" (point-min) 1)
+                (put-text-property (point) opoint 'mouse-face 'highlight)
+                (goto-char (+ 1 opoint)))
+              ;; Activate tuareg-library mode
+              (setq major-mode 'tuareg-library-mode)
+              (setq mode-name "tuareg-library")
+              (use-local-map tuareg-library-mode-map)
+              (setq buffer-read-only t)))))))
+
 (defvar tuareg-library-mode-map
   (let ((map (make-keymap)))
     (suppress-keymap map)
@@ -3259,12 +3259,12 @@ current phrase else insert a newline and indent."
   (interactive)
   (save-excursion
     (if (text-properties-at (point))
-	(let (beg)
-	  (re-search-backward "\\<") (setq beg (point))
-	  (re-search-forward "\\>")
-	  (find-file-read-only (concat tuareg-library-path "/"
-				       (buffer-substring-no-properties
-					beg (point))))))))
+        (let (beg)
+          (re-search-backward "\\<") (setq beg (point))
+          (re-search-forward "\\>")
+          (find-file-read-only (concat tuareg-library-path "/"
+                                       (buffer-substring-no-properties
+                                        beg (point))))))))
 
 (defun tuareg-library-mouse-find-file (event)
   "Visit the file name you click on."
@@ -3285,7 +3285,7 @@ current phrase else insert a newline and indent."
 
 (defconst tuareg-definitions-bind-skip-regexp
   (concat "\\<\\(rec\\|type\\|virtual\\)\\>\\|'[" tuareg-alpha "][0-9_'"
-	  tuareg-alpha "]*\\|('.*)")
+          tuareg-alpha "]*\\|('.*)")
   "Regexp matching stuff to ignore after a binding keyword.")
 
 (defvar tuareg-definitions-menu (list ["Scan..." tuareg-list-definitions t])
@@ -3299,87 +3299,87 @@ jump via the definitions menu."
   (message "Searching definitions...")
   (save-excursion
     (let ((cpt 0) (kw) (menu) (scan-error)
-	  (value-list) (type-list) (module-list) (class-list) (misc-list))
+          (value-list) (type-list) (module-list) (class-list) (misc-list))
       (goto-char (point-min))
       (tuareg-skip-blank-and-comments)
       (while (and (< (point) (point-max)) (not scan-error))
-	(if (looking-at tuareg-definitions-regexp)
-	    (progn
-	      (setq kw (tuareg-match-string 0))
-	      (if (string= kw "and")
-		  (setq kw (save-match-data
-			     (save-excursion (tuareg-find-and-match)))))
-	      (if (or (string= kw "exception")
-		      (string= kw "val")) (setq kw "let"))
-	      ;; Skip optional elements
-	      (goto-char (match-end 0))
-	      (tuareg-skip-blank-and-comments)
-	      (if (looking-at tuareg-definitions-bind-skip-regexp)
-		  (goto-char (match-end 0)))
-	      (tuareg-skip-blank-and-comments)
-	      (if (looking-at
-		   (concat "\\<[" tuareg-alpha "][0-9_'" tuareg-alpha "]*\\>"))
-		  ;; Menu item : [name (goto-char ...) t]
-		  (let* ((p (make-marker))
-			 (ref (vector (tuareg-match-string 0)
-				      (list 'tuareg-goto p) t)))
-		    (setq cpt (1+ cpt))
-		    (message (concat "Searching definitions... ("
-				     (number-to-string cpt) ")"))
-		    (set-marker p (point))
-		    (cond
-		     ((string= kw "let")
-		      (setq value-list (cons ref value-list)))
-		     ((string= kw "type")
-		      (setq type-list (cons ref type-list)))
-		     ((string= kw "module")
-		      (setq module-list (cons ref module-list)))
-		     ((string= kw "class")
-		      (setq class-list (cons ref class-list)))
-		     (t (setq misc-list (cons ref misc-list))))))))
-	;; Skip to next phrase or next top-level `and'
-	(tuareg-forward-char)
-	(let ((old-point (point)) (last-and))
-	  (tuareg-next-phrase t)
-	  (setq last-and (point))
-	  (if (< last-and old-point)
-	      (setq scan-error t)
-	    (save-excursion
-	      (while (and (re-search-backward "\\<and\\>" old-point t)
-			  (not (tuareg-in-literal-or-comment-p))
-			  (save-excursion (tuareg-find-and-match)
-					  (>= old-point (point))))
-		(setq last-and (point)))))
-	  (goto-char last-and)))
+        (if (looking-at tuareg-definitions-regexp)
+            (progn
+              (setq kw (tuareg-match-string 0))
+              (if (string= kw "and")
+                  (setq kw (save-match-data
+                             (save-excursion (tuareg-find-and-match)))))
+              (if (or (string= kw "exception")
+                      (string= kw "val")) (setq kw "let"))
+              ;; Skip optional elements
+              (goto-char (match-end 0))
+              (tuareg-skip-blank-and-comments)
+              (if (looking-at tuareg-definitions-bind-skip-regexp)
+                  (goto-char (match-end 0)))
+              (tuareg-skip-blank-and-comments)
+              (if (looking-at
+                   (concat "\\<[" tuareg-alpha "][0-9_'" tuareg-alpha "]*\\>"))
+                  ;; Menu item : [name (goto-char ...) t]
+                  (let* ((p (make-marker))
+                         (ref (vector (tuareg-match-string 0)
+                                      (list 'tuareg-goto p) t)))
+                    (setq cpt (1+ cpt))
+                    (message (concat "Searching definitions... ("
+                                     (number-to-string cpt) ")"))
+                    (set-marker p (point))
+                    (cond
+                     ((string= kw "let")
+                      (setq value-list (cons ref value-list)))
+                     ((string= kw "type")
+                      (setq type-list (cons ref type-list)))
+                     ((string= kw "module")
+                      (setq module-list (cons ref module-list)))
+                     ((string= kw "class")
+                      (setq class-list (cons ref class-list)))
+                     (t (setq misc-list (cons ref misc-list))))))))
+        ;; Skip to next phrase or next top-level `and'
+        (tuareg-forward-char)
+        (let ((old-point (point)) (last-and))
+          (tuareg-next-phrase t)
+          (setq last-and (point))
+          (if (< last-and old-point)
+              (setq scan-error t)
+            (save-excursion
+              (while (and (re-search-backward "\\<and\\>" old-point t)
+                          (not (tuareg-in-literal-or-comment-p))
+                          (save-excursion (tuareg-find-and-match)
+                                          (>= old-point (point))))
+                (setq last-and (point)))))
+          (goto-char last-and)))
       (if scan-error
-	  (message "Parse error when scanning definitions: line %s!"
-		   (if tuareg-with-xemacs
-		       (line-number)
-		     (1+ (count-lines 1 (point)))))
-	;; Sort and build lists
-	(mapcar (lambda (pair)
-		  (if (cdr pair)
-		      (setq menu
-			    (append (tuareg-split-long-list
-				     (car pair) (tuareg-sort-definitions (cdr pair)))
-				    menu))))
-		(list (cons "Miscellaneous" misc-list)
-		      (cons "Values" value-list)
-		      (cons "Classes" class-list)
-		      (cons "Types" type-list)
-		      (cons "Modules" module-list)))
-	;; Update definitions menu
-	(setq tuareg-definitions-menu
-	      (append menu (list "---"
-				 ["Rescan..." tuareg-list-definitions t])))
-	(if (or tuareg-with-xemacs
-		(not (functionp 'easy-menu-create-keymaps))) ()
-	  ;; Patch for Emacs
-	  (setq tuareg-definitions-keymaps
-		(cdr (easy-menu-create-keymaps 
-		      "Definitions" tuareg-definitions-menu)))
-	  (setq tuareg-definitions-menu-last-buffer nil))
-	(message "Searching definitions... done"))))
+          (message "Parse error when scanning definitions: line %s!"
+                   (if tuareg-with-xemacs
+                       (line-number)
+                     (1+ (count-lines 1 (point)))))
+        ;; Sort and build lists
+        (mapcar (lambda (pair)
+                  (if (cdr pair)
+                      (setq menu
+                            (append (tuareg-split-long-list
+                                     (car pair) (tuareg-sort-definitions (cdr pair)))
+                                    menu))))
+                (list (cons "Miscellaneous" misc-list)
+                      (cons "Values" value-list)
+                      (cons "Classes" class-list)
+                      (cons "Types" type-list)
+                      (cons "Modules" module-list)))
+        ;; Update definitions menu
+        (setq tuareg-definitions-menu
+              (append menu (list "---"
+                                 ["Rescan..." tuareg-list-definitions t])))
+        (if (or tuareg-with-xemacs
+                (not (functionp 'easy-menu-create-keymaps))) ()
+          ;; Patch for Emacs
+          (setq tuareg-definitions-keymaps
+                (cdr (easy-menu-create-keymaps
+                      "Definitions" tuareg-definitions-menu)))
+          (setq tuareg-definitions-menu-last-buffer nil))
+        (message "Searching definitions... done"))))
   (tuareg-update-definitions-menu))
 
 (defun tuareg-goto (pos)
@@ -3388,16 +3388,16 @@ jump via the definitions menu."
 
 (defun tuareg-sort-definitions (list)
   (let* ((last "") (cpt 1)
-	 (list (sort (nreverse list)
-		     (lambda (p q) (string< (elt p 0) (elt q 0)))))
-	 (tail list))
+         (list (sort (nreverse list)
+                     (lambda (p q) (string< (elt p 0) (elt q 0)))))
+         (tail list))
     (while tail
       (if (string= (elt (car tail) 0) last)
-	  (progn
-	    (setq cpt (1+ cpt))
-	    (aset (car tail) 0 (format "%s (%d)" last cpt)))
-	(setq cpt 1)
-	(setq last (elt (car tail) 0)))
+          (progn
+            (setq cpt (1+ cpt))
+            (aset (car tail) 0 (format "%s (%d)" last cpt)))
+        (setq cpt 1)
+        (setq last (elt (car tail) 0)))
       (setq tail (cdr tail)))
     list))
 
@@ -3405,7 +3405,7 @@ jump via the definitions menu."
 (defun tuareg-nth (n list)
   (if (or (<= n 1) (null list) (null (cdr list))) list
     (tuareg-nth (1- n) (cdr list))))
-    
+
 ;; Split a definition list if it is too long
 (defun tuareg-split-long-list (title list)
   (let ((tail (tuareg-nth tuareg-definitions-max-items list)))
@@ -3430,8 +3430,8 @@ jump via the definitions menu."
 
 (condition-case nil
     (progn (require 'speedbar)
-	   (speedbar-add-supported-extension
-	    '(".ml" ".mli" ".mll" ".mly")))
+           (speedbar-add-supported-extension
+            '(".ml" ".mli" ".mll" ".mly")))
   (error nil))
 
 (defvar tuareg-load-hook nil
