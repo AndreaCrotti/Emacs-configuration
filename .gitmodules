@@ -140,8 +140,8 @@
         path = coffee-mode
         url = git://github.com/defunkt/coffee-mode.git
 [submodule "magit"]
-        path = magit
-        url = git://github.com/magit/magit.git
+	path = magit
+	url = git://github.com/magit/magit.git
 [submodule "clojure-mode"]
 	path = clojure-mode
 	url = git://github.com/technomancy/clojure-mode.git
