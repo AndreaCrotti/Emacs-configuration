@@ -160,6 +160,9 @@
     text-mode-hook
     message-mode-hook
     mail-mode-hook
+    cmake-mode-hook
+    shell-mode-hook
+    sh-mode-hook
     org-mode-hook)
   "Modes for which fixme-mode should be enabled"
   :type 'list
