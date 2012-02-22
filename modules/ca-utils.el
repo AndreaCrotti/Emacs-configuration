@@ -612,8 +612,9 @@ Otherwise, expand the current region to select the lines the region touches."
   "Launch the windows explorer in the current directory and selects current file"
   (interactive)
   (w32-shell-execute
-   "open"
-   "explorer"
-   (concat "/e,/select," (pwd))))
+   "explore"
+   (if buffer-file-name
+       (concat (file-name-directory (buffer-file-name)))
+       (nth 1 (split-string (pwd) " ")))))
 
 (provide 'ca-utils)
