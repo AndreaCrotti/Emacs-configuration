@@ -608,4 +608,12 @@ Otherwise, expand the current region to select the lines the region touches."
           snip
         (ca-insert-at-startup (cdr snip))))))
 
+(defun explorer ()
+  "Launch the windows explorer in the current directory and selects current file"
+  (interactive)
+  (w32-shell-execute
+   "open"
+   "explorer"
+   (concat "/e,/select," (pwd))))
+
 (provide 'ca-utils)

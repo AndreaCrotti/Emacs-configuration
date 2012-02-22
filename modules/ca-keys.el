@@ -10,6 +10,8 @@
 (global-set-key [f9] 'ido-switch-buffer)
 ;; visualization
 (global-set-key [f11] 'ca-full)
+(when windows
+  (global-set-key [f12] 'explorer))
 
 ;; textmate-like bindings
 (global-set-key (kbd "M-RET") 'ca-newline-force)
