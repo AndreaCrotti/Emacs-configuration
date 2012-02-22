@@ -153,6 +153,7 @@
     c-mode-common-hook
     ruby-mode-hook
     org-mode-hook
+    conf-mode
     haskell-mode-hook
     rst-mode-hook
     latex-mode-hook
