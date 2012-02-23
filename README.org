@@ -54,7 +54,8 @@ submodules are required and some need also to be compiled.
 
 ** Windows:
    For windows there is an external package to simplify, [[http://www.ourcomments.org/Emacs/EmacsW32Util.html][emacsW32, make it easier on windows]]
-   [[http://ftp.gnu.org/gnu/emacs/windows/][Emacs build for windows]]
+   - [[http://ftp.gnu.org/gnu/emacs/windows/][Emacs build for windows]]
+   - [[http://code.google.com/p/emacs-for-windows/][emacs for windows, built from bzr]]
 
 ** Linux
    Normally a emacs23 package is included in every distribution
