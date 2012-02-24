@@ -22,6 +22,7 @@
     (latex-mode . " \\newline")
     (org-mode . " \\newline")
     (tuareg-mode . ";;")
+    (tuareg-interactive-mode . ";;")
     (html-mode . " <br>"))
   "Closing char for different modes"
   :group 'ca
