@@ -149,22 +149,24 @@
   :group 'ca)
 
 (defcustom ca-autopair-mode-hooks
-  '(python-mode-hook
+  '(
     c-mode-common-hook
-    ruby-mode-hook
-    org-mode-hook
+    cmake-mode-hook
     conf-mode
     haskell-mode-hook
-    rst-mode-hook
-    latex-mode-hook
     html-mode-hook
-    text-mode-hook
-    message-mode-hook
+    latex-mode-hook
     mail-mode-hook
-    cmake-mode-hook
-    shell-mode-hook
+    message-mode-hook
+    nsis-mode-hook
+    org-mode-hook
+    python-mode-hook
+    rst-mode-hook
+    ruby-mode-hook
     sh-mode-hook
-    org-mode-hook)
+    shell-mode-hook
+    text-mode-hook
+    )
   "Modes for which fixme-mode should be enabled"
   :type 'list
   :group 'ca)
