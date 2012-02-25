@@ -23,6 +23,7 @@
     (org-mode . " \\newline")
     (tuareg-mode . ";;")
     (tuareg-interactive-mode . ";;")
+    (typerex-mode . ";;")
     (html-mode . " <br>"))
   "Closing char for different modes"
   :group 'ca
@@ -167,6 +168,8 @@
     sh-mode-hook
     shell-mode-hook
     text-mode-hook
+    tuareg-mode-hook
+    typerex-mode-hook
     )
   "Modes for which fixme-mode should be enabled"
   :type 'list

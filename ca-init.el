@@ -104,6 +104,7 @@
 (require 'ca-haskell)
 (require 'ca-scala)
 (require 'ca-latex)
+(require 'ca-ocaml)
 
 ;TODO: switch to the use of profiles with different OS detection instead
 (when ca-linux
