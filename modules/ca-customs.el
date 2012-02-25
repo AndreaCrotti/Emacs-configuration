@@ -145,7 +145,17 @@
   )
 
 (defcustom ca-auto-complete-modes
-  '(nesc-mode cmake-mode org-mode html-mode xml-mode haskell-mode ned-mode cpp-omnet-mode)
+  '(
+    cmake-mode
+    cpp-omnet-mode
+    haskell-mode
+    html-mode
+    ned-mode
+    nesc-mode
+    org-mode
+    xml-mode
+    typerex-mode
+    )
   "Modes for which auto-complete should be enabled"
   :type 'list
   :group 'ca)
