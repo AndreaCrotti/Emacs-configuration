@@ -1,16 +1,10 @@
 (require 'ca-customs)
-;; TODO: with emacs23 is sufficient to enable subword-mode probably
-(autoload 'camelCase-mode "camelCase-mode")
 
 (dolist (hook ca-camelCase-modes)
-  (add-hook hook 'camelCase-mode))
+  (add-hook hook (lambda () (subword-mode t))))
 
 (require 'eldoc)
-;; Maybe better a direct activation??
-(dolist (hook '(ruby-mode-hook
-                lisp-interaction-mode-hook
-                ielm-mode-hook
-                emacs-lisp-mode-hook))
+(dolist (hook ca-eldoc-modes)
   (add-hook hook 'turn-on-eldoc-mode))
 
 (require 'etags-select)
@@ -68,7 +62,7 @@
         (with-current-buffer buffer
           (search-forward "WARNING" nil t)
           (search-forward "warning" nil t))))
-      (run-with-timer 1 nil
+      (run-with-timer 3 nil
                       'kill-buffer
                       buffer)))
 
@@ -108,19 +102,3 @@
 (autoload 'gtags-mode "gtags" "gtags mode" t)
 
 (provide 'ca-prog-mode)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

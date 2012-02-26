@@ -36,16 +36,35 @@
   :type 'boolean)
 
 (defcustom ca-spell-langs
-  '(emacs-lisp-mode-hook python-mode-hook c-mode-common-hook nesc-mode-hook java-mode-hook jde-mode-hook haskell-mode-hook)
+  '(emacs-lisp-mode-hook
+    python-mode-hook
+    c-mode-common-hook
+    nesc-mode-hook
+    java-mode-hook
+    jde-mode-hook
+    haskell-mode-hook)
   "Set of programming modes for which I want to enable spelling in comments and strings"
   :group 'ca
   :type 'list)
 
 (defcustom ca-camelCase-modes
-  '(python-mode-hook java-mode-hook c-mode-common-hook nesc-mode-hook)
+  '(python-mode-hook
+    java-mode-hook
+    c-mode-common-hook
+    nesc-mode-hook)
   "Modes where camelizing is allowed"
   :group 'ca
   :type 'list)
+
+(defcustom ca-eldoc-modes
+  '(ruby-mode-hook
+    lisp-interaction-mode-hook
+    ielm-mode-hook
+    emacs-lisp-mode-hook)
+  "Activate eldoc mode"
+  :group 'ca
+  :type 'list
+  )
 
 (defcustom ca-python-enable-rope nil
   "True if rope is enabled"
