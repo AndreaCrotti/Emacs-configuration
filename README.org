@@ -13,11 +13,12 @@ Cloning the repository only is *not enough*, because some of the
 submodules are required and some need also to be compiled.
 
 * Features
-  - yasnippet
+  - yasnippet and thousands of snippets
   - desktop mode and nice hooks
   - auto completion
   - python-mode
   - haskell-mode
+  - tuareg-mode
   - org-mode
   - flymake supporting many programming modes
   - code folding and navigation via semantic in all languages supported
