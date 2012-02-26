@@ -13,7 +13,7 @@
 ;; enabling globally magit-svn
 (add-hook 'magit-mode-hook 'turn-on-magit-svn)
 
-(autoload 'conky-status "conky" "conky" t)
+(autoload 'monky-status "monky" "mercurial mode" t)
 
 (defun ca-detect-git-svn ()
   "Detects if the project is actually git-svn or not"
