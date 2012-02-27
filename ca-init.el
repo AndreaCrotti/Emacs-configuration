@@ -98,14 +98,19 @@
 (require 'ca-bookmarks)
 (require 'ca-packages)
 (require 'ca-buffers)
+(require 'ca-desktop)
 ;TODO: this doesn't contain any real knowledge, refactor it out
 (require 'ca-network)
 (require 'ca-cedet)
 (require 'ca-faces)
 (require 'ca-haskell)
 (require 'ca-scala)
+(require 'ca-java)
+(require 'ca-ruby)
 (require 'ca-latex)
 (require 'ca-ocaml)
+(require 'ca-c)
+(require 'ca-clojure)
 
 ;TODO: switch to the use of profiles with different OS detection instead
 (when ca-linux

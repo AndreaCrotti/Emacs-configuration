@@ -22,7 +22,8 @@
                (c-basic-offset . 4)))
 
 (autoload 'expand-member-functions "member-functions" "Expand C++ member function declarations" t)
-(add-hook 'c++-mode-hook (lambda () (local-set-key "\C-cm" #'expand-member-functions)))
+(add-hook 'c++-mode-hook
+          (lambda () (local-set-key "\C-cm" #'expand-member-functions)))
 
 
 (defun ca-cpp-header-file-p ()
