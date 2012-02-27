@@ -1,3 +1,17 @@
+(defcustom ca-font-list
+  '("monaco-12" "inconsolata-14" "courier-13")
+  "list of usable fonts"
+  :group 'ca
+  :type 'list
+  )
+
+(defcustom ca-preferred-font
+  "inconsolata-14"
+  "preferred font"
+  :group 'ca
+  :type 'list
+  )
+
 (defcustom ca-preferred-reopen-rw-mode "sudo"
   "preferred mode for reopen"
   :type 'string
