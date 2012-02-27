@@ -7,6 +7,7 @@
 
 ;; Maybe needed to set to fixed for some modes
 (setq
+ yas/prompt-functions '(yas/ido-prompt yas/completing-prompt yas/x-prompt yas/dropdown-prompt yas/no-prompt)
  yas/indent-line 'auto
  yas/ignore-filenames-as-triggers nil)
 

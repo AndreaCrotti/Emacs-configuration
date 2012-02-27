@@ -30,7 +30,8 @@
 (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
 (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
 
-(add-hook 'auto-save-hook (lambda () (desktop-save-in-desktop-dir)))
+;TODO: uncomment if you want to enable the desktop save
+;; (add-hook 'auto-save-hook (lambda () (desktop-save-in-desktop-dir)))
 
 (setq desktop-clear-preserve-buffers
       (append '("\\.newsrc-dribble" "\\.org$" "eternal" "\\*shell\\*" "\\*group\\*" "\\*ielm\\*") desktop-clear-preserve-buffers))
