@@ -93,11 +93,6 @@
 (defun ca-cleanup-on-conditions ()
   "Cleanup automatically unless it's a mode where it should be asked"
   (cond
-   ((member major-mode ca-whitespace-ask-modes)
-    (when (y-or-n-p "Are you sure you want to cleanup?")
-      (message "Doing the whitespace cleanup")
-      (ca-cleanup-buffer)))
-
    ((ca-cleanup-enable)
     (message "Doing the whitespace cleanup")
     (ca-cleanup-buffer))

@@ -102,13 +102,6 @@
   :type 'boolean
   :group 'ca)
 
-;TODO: might be a list of functions, which can be also analyzed in some other ways
-(defcustom ca-whitespace-ask-modes
-  ()
-  "Modes where the whitespace cleanup should query the user"
-  :type 'list
-  :group 'ca)
-
 (defcustom ca-non-whitespaces-modes
       '(makefile-gmake-mode
         makefile-mode
