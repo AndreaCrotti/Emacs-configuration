@@ -43,9 +43,6 @@
 [submodule "jdibug"]
         path = jdibug
         url = http://github.com/emacsmirror/jdibug.git
-[submodule "tramp"]
-        path = tramp
-        url = git://github.com/emacsmirror/tramp.git
 [submodule "ebib"]
         path = ebib
         url = git://repo.or.cz/ebib.git
@@ -100,9 +97,6 @@
 [submodule "org-passwords"]
         path = org-passwords
         url = git://github.com/AndreaCrotti/org-passwords.git
-[submodule "tramp-adb"]
-        path = tramp-adb
-        url = git://github.com/juergenhoetzel/tramp-adb.git
 [submodule "cssh"]
         path = cssh
         url = git://github.com/dimitri/cssh.git
@@ -140,8 +134,8 @@
         path = coffee-mode
         url = git://github.com/defunkt/coffee-mode.git
 [submodule "magit"]
-	path = magit
-	url = git://github.com/magit/magit.git
+        path = magit
+        url = git://github.com/magit/magit.git
 [submodule "clojure-mode"]
-	path = clojure-mode
-	url = git://github.com/technomancy/clojure-mode.git
+        path = clojure-mode
+        url = git://github.com/technomancy/clojure-mode.git
