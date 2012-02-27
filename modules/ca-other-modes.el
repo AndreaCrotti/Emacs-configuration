@@ -82,16 +82,26 @@
 (setq auto-mode-alist (append '(("\\.\\([Nn][Ss][Hh]\\)$" .
                                  nsis-mode)) auto-mode-alist))
 
+(defvar ca-cleanup-is-enabled nil
+  "This variable should be set locally to enable the whitespace cleanup")
+
+(defun ca-cleanup-enable ()
+  (and
+   (not (member major-mode ca-non-whitespaces-modes))
+   ca-cleanup-is-enabled))
+
 (defun ca-cleanup-on-conditions ()
   "Cleanup automatically unless it's a mode where it should be asked"
   (cond
    ((member major-mode ca-whitespace-ask-modes)
-    (when (y-or-n-p "Are you sure you want to cleanup")
+    (when (y-or-n-p "Are you sure you want to cleanup?")
       (message "Doing the whitespace cleanup")
       (ca-cleanup-buffer)))
-   ((not (member major-mode ca-non-whitespaces-modes))
+
+   ((ca-cleanup-enable)
     (message "Doing the whitespace cleanup")
     (ca-cleanup-buffer))
+
    (t (message "Skipping the cleanup"))))
 
 (add-hook 'before-save-hook 'ca-cleanup-on-conditions)
