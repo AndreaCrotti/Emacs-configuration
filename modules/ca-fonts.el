@@ -1,4 +1,3 @@
-;TODO: add a custom setting for the font, and find a way to check if they are available
 (require 'ca-customs)
 
 (defun ca-cycle-font ()
