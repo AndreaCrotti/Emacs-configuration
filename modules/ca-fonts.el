@@ -1,8 +1,6 @@
 ;TODO: add a custom setting for the font, and find a way to check if they are available
 (require 'ca-customs)
 
-(set-default-font "Bitstream Vera Sans Mono-14")
-
 (defun ca-cycle-font ()
   "Change font in current frame"
   (interactive)
@@ -18,6 +16,6 @@
     (redraw-frame (selected-frame))))
 
 (frame-parameter nil 'font)
-(set-frame-font "inconsolata-14")
+(set-frame-font ca-preferred-font)
 
 (provide 'ca-fonts)

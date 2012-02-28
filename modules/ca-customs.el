@@ -38,6 +38,7 @@
     (tuareg-mode . ";;")
     (tuareg-interactive-mode . ";;")
     (typerex-mode . ";;")
+    (typerex-interactive-mode . ";;")
     (html-mode . " <br>"))
   "Closing char for different modes"
   :group 'ca
