@@ -139,3 +139,6 @@
 [submodule "clojure-mode"]
         path = clojure-mode
         url = git://github.com/technomancy/clojure-mode.git
+[submodule "el-get"]
+	path = el-get
+	url = git://github.com/dimitri/el-get.git
