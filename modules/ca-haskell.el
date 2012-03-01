@@ -28,6 +28,7 @@
              (define-key haskell-mode-map [tab] 'haskell-indent-cycle)
              (define-key haskell-mode-map "\C-ch" 'haskell-hoogle)
              (define-key haskell-mode-map "\C-cl" 'hs-lint)
+             ;FIXME: the yas triggering is not working in haskell mode
              (make-variable-buffer-local 'yas/trigger-key)
              (setq yas/trigger-key [tab])
              (define-key yas/keymap [tab] 'yas/next-field)

@@ -18,4 +18,19 @@
 ;; (add-to-list 'ac-dictionary-directories "/usr/share/emacs/site-lisp/auto-complete-mode/ac-dict")
 (ac-config-default)
 
+(require 'typerex)
+;TODO: add this lookup in eldoc, to see the declaration right
+;down in the minibuffer
+
+(defun ca-find-ocaml-declaration (&optional value)
+  "Show the ocaml declarations for the given function"
+  (interactive)
+  (let*
+      ((to_lookup
+        (or value (read-from-minibuffer "symbol:\n" (thing-at-point 'symbol))))
+       (grep_cmd
+        (format "grep -nH -e \"val %s\" %s/*.mli" to_lookup typerex-library-path)))
+
+    (grep grep_cmd)))
+
 (provide 'ca-ocaml)
