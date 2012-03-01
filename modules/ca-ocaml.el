@@ -22,12 +22,13 @@
 ;TODO: add this lookup in eldoc, to see the declaration right
 ;down in the minibuffer
 
+;TODO: support cedet or some other semantic analysis if possible
 (defun ca-find-ocaml-declaration (&optional value)
   "Show the ocaml declarations for the given function"
   (interactive)
   (let*
       ((to_lookup
-        (or value (read-from-minibuffer "symbol:\n" (thing-at-point 'symbol))))
+        (or value (read-from-minibuffer "symbol:" (thing-at-point 'symbol))))
        (grep_cmd
         (format "grep -nH -e \"val %s\" %s/*.mli" to_lookup typerex-library-path)))
 
