@@ -8,12 +8,10 @@
 (autoload 'run-haskell "inf-haskell" "inferior haskell" t)
 
 ;; here some haskell variables
-(setq haskell-doc-show-global-types t)
-(setq haskell-program-name "ghci")
-                                        ; where haskell-hoogle is loaded?
-
-;; enabled to get indentation over if-then-else
-(setq haskell-indent-thenelse 1)
+(setq
+ haskell-doc-show-global-types t
+ haskell-program-name "ghci"
+ haskell-indent-thenelse 1)
 
 ;; If nothing found pass the control
 (add-hook 'haskell-mode-hook

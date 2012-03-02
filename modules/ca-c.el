@@ -12,8 +12,9 @@
 (autoload 'cclookup-update "cclookup"
   "Run cclookup-update and create the database at `cclookup-db-file'." t)
 
-(setq cclookup-program (make-conf-path "cclookup/cclookup.py"))
-(setq cclookup-db-file (make-conf-path "cclookup/cclookup.db"))
+(setq
+ cclookup-program (make-conf-path "cclookup/cclookup.py")
+ cclookup-db-file (make-conf-path "cclookup/cclookup.db"))
 
 (c-add-style "qt-gnu"
              '("gnu"
@@ -36,21 +37,5 @@
 
 (add-to-list 'magic-mode-alist
              '(ca-cpp-header-file-p . c++-mode))
-
-;;  (add-hook 'c++-mode-hook 'ca-is-omnet-cpp-file)
-;; (remove-hook 'c++-mode-hook 'ca-is-omnet-cpp-file)
-;; this means that the variable is set locally
-(make-variable-buffer-local 'changing-to-omnet)
-
-(defun ca-is-omnet-cpp-file ()
-  "check if the file is to be considered omnet-mode or not"
-  (when
-      (and (or
-            (not changing-to-omnet)
-            (file-exists-p "omnetpp.ini")
-            (search-forward "<omnetpp.h>")))
-    (setq changing-to-omnet t)
-    (cpp-omnet-mode)
-    (setq changing-to-omnet nil)))
 
 (provide 'ca-c)

@@ -1,3 +1,15 @@
+(defcustom ca-preferred-to-language "German"
+  "Language to translate to"
+  :group 'ca
+  :type 'string
+  )
+
+(defcustom ca-preferred-from-language "English"
+  "Language to translate from"
+  :group 'ca
+  :type 'string
+  )
+
 (defcustom ca-font-list
   '("monaco-12" "inconsolata-14" "courier-13")
   "list of usable fonts"

@@ -21,8 +21,8 @@
 
 (require 'browse-kill-ring)
 
-(setq babel-preferred-from-language "German")
-(setq babel-preferred-to-language "English")
+(setq babel-preferred-from-language ca-preferred-from-language)
+(setq babel-preferred-to-language ca-preferred-to-language)
 
 (autoload 'babel-region-default "babel" "translating default" t)
 (autoload 'babel-region "babel" "translating a region" t)
