@@ -13,6 +13,7 @@
 
 (autoload 'paredit-mode "paredit" "paredit mode" t)
 (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
+(add-hook 'ielm-mode-hook 'paredit-mode)
 
 (add-to-list 'auto-mode-alist '("\\.mirah$" . ruby-mode))
 
