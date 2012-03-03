@@ -7,20 +7,15 @@
 (defvar message-signature-separator "^-- *$" "\
     Regexp matching the signature separator.")
 
-;TODO: send mails with MSMTP or configure gmail smartly
 (autoload 'smtpmail-send-it "smtpmail")
-;; rwth server
 
-;; (setq smtpmail-smtp-server "relay-auth.rwth-aachen.de")
-;; (setq smtpmail-smtp-service 465)
-;; (setq smtpmail-debug-info t)
-
-(setq message-send-mail-function 'smtpmail-send-it
-      smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
-      smtpmail-auth-credentials '(("smtp.gmail.com" 587 "andrea.crotti.0@gmail.com" nil))
-      smtpmail-default-smtp-server "smtp.gmail.com"
-      smtpmail-smtp-server "smtp.gmail.com"
-      smtpmail-smtp-service 587)
+(setq
+ message-send-mail-function 'smtpmail-send-it
+ smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
+ smtpmail-auth-credentials '(("smtp.gmail.com" 587 "andrea.crotti.0@gmail.com" nil))
+ smtpmail-default-smtp-server "smtp.gmail.com"
+ smtpmail-smtp-server "smtp.gmail.com"
+ smtpmail-smtp-service 587)
 
 (setq compose-mail-user-agent-warnings nil)
 ;; message-mode is a superset of mail-mode and nicer to use

@@ -1,8 +1,8 @@
-(require 'package)
-(package-initialize)
-
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(when (locate-library "package")
+  (require 'package)
+  (package-initialize)
+  (add-to-list 'package-archives
+               '("marmalade" . "http://marmalade-repo.org/packages/") t))
 
 (defvar ca-packages
   '(ack-and-a-half auctex clojure-mode coffee-mode deft expand-region

@@ -13,6 +13,7 @@
 
 (autoload 'paredit-mode "paredit" "paredit mode" t)
 (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
+(add-hook 'ielm-mode-hook 'paredit-mode)
 
 (add-to-list 'auto-mode-alist '("\\.mirah$" . ruby-mode))
 
@@ -176,8 +177,9 @@
 
 (autoload 'eimp-mode "eimp" "Emacs Image Manipulation Package." t)
 
-(setq eimp-enable-undo t)
-(setq eimp-max-concurrent-processes 4)
+(setq
+ eimp-enable-undo t
+ eimp-max-concurrent-processes 4)
 
 (load-library "auto-pair")
 (dolist (hook ca-autopair-mode-hooks)

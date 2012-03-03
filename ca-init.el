@@ -101,7 +101,7 @@
 (require 'ca-desktop)
 ;TODO: this doesn't contain any real knowledge, refactor it out
 (require 'ca-network)
-(require 'ca-cedet)
+;; (require 'ca-cedet)
 (require 'ca-faces)
 (require 'ca-haskell)
 (require 'ca-scala)
