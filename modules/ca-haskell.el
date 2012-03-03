@@ -25,7 +25,7 @@
              (turn-on-haskell-doc-mode)
              (turn-on-haskell-indentation)
              ;; This would be very nice but it conflicts with yasnippet
-             (define-key haskell-mode-map [tab] 'haskell-indent-cycle)
+             ;; (define-key haskell-mode-map [tab] 'haskell-indent-cycle)
              (define-key haskell-mode-map "\C-ch" 'haskell-hoogle)
              (define-key haskell-mode-map "\C-cl" 'hs-lint)
              ;FIXME: the yas triggering is not working in haskell mode
