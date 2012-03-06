@@ -20,11 +20,9 @@
 ;; (add-to-list 'ac-dictionary-directories "/usr/share/emacs/site-lisp/auto-complete-mode/ac-dict")
 (ac-config-default)
 
-;TODO: this should not be really necessary
-(add-to-list 'load-path "/usr/share/emacs/site-lisp")
-(require 'typerex)
-;TODO: add this lookup in eldoc, to see the declaration right
-;down in the minibuffer
+(when ca-linux
+  (add-to-list 'load-path "/usr/share/emacs/site-lisp")
+  (require 'typerex))
 
 ;TODO: support cedet or some other semantic analysis if possible
 (defun ca-find-ocaml-declaration (&optional value)

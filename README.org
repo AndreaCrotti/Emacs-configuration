@@ -62,3 +62,5 @@ submodules are required and some need also to be compiled:
 
 ** Linux
    Normally a emacs23 package is included in every distribution
+
+* TODO make yasnippet snippets load for every mode separately on demand

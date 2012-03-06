@@ -8,6 +8,7 @@
 
 (autoload 'svn-status "psvn" "svn status" t)
 
+;TODO: remove the requires if possible, making the auto-loading work
 (require 'magit)
 (require 'magit-svn)
 ;; enabling globally magit-svn
@@ -52,6 +53,7 @@
 
 (add-hook 'find-file-hook 'ca-is-version-control-file)
 
+;TODO: use vc-responsible-backend to find out what is the associated backend
 (defun ca-provide-vc-backend ()
   "Return the right status function to call"
   (interactive)

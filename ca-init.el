@@ -101,7 +101,8 @@
 (require 'ca-desktop)
 ;TODO: this doesn't contain any real knowledge, refactor it out
 (require 'ca-network)
-;; (require 'ca-cedet)
+;TODO: make it conditional, checking if it's the small mac or not
+(require 'ca-cedet)
 (require 'ca-faces)
 (require 'ca-haskell)
 (require 'ca-scala)
