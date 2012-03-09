@@ -142,3 +142,6 @@
 [submodule "el-get"]
 	path = el-get
 	url = git://github.com/dimitri/el-get.git
+[submodule "typerex"]
+	path = typerex
+	url = git://github.com/OCamlPro/typerex.git
