@@ -203,7 +203,7 @@
   '(
     c-mode-common-hook
     cmake-mode-hook
-    conf-mode
+    conf-mode-hook
     haskell-mode-hook
     html-mode-hook
     latex-mode-hook
