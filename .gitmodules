@@ -145,3 +145,6 @@
 [submodule "typerex"]
 	path = typerex
 	url = git://github.com/OCamlPro/typerex.git
+[submodule "arduino-mode"]
+	path = arduino-mode
+	url = git://github.com/bookest/arduino-mode.git

@@ -14,7 +14,6 @@
     (put this-command 'state (1+ (% currentState (length ca-font-list))))
     (redraw-frame (selected-frame))))
 
-(frame-parameter nil 'font)
-(set-frame-font ca-preferred-font)
+(set-default-font ca-preferred-font)
 
 (provide 'ca-fonts)
