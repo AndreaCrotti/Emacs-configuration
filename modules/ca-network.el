@@ -165,6 +165,7 @@
 ;; Join the #emacs and #erc channels whenever connecting to Freenode.
 (setq erc-autojoin-channels-alist
       '(("freenode.net"
+         "#mailman" "#pelican"
          "#emacs" "#erc" "#ruby-lang"
          "#python" "#git" "#github" "#c" "#c++" "#conkeror"
          "#android" "#latex" "#org-mode" "#postfix" "#procmail"
