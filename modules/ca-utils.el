@@ -215,6 +215,13 @@ the program is found in `exec-path'; otherwise `message' is used."
         (message "%s already present" closing-char))
       (ca-newline-force))))
 
+(defun ca-grep-in-current (to_grep)
+  "grep in the current directory"
+  (interactive "s\n")
+  (let
+      ((grep_cmd (format "grep -nH -e %s *" to_grep)))
+    (grep grep_cmd)))
+
 (defun ca-err-switch()
   "switch on/off error debugging"
   (interactive)
