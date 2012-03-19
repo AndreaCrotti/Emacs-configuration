@@ -14,6 +14,7 @@
     (put this-command 'state (1+ (% currentState (length ca-font-list))))
     (redraw-frame (selected-frame))))
 
+;FIXME: this is not set automatically for new frames
 (set-default-font ca-preferred-font)
 
 (provide 'ca-fonts)

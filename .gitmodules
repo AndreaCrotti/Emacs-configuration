@@ -148,3 +148,6 @@
 [submodule "arduino-mode"]
 	path = arduino-mode
 	url = git://github.com/bookest/arduino-mode.git
+[submodule "haskell-mode"]
+	path = haskell-mode
+	url = git://github.com/haskell/haskell-mode.git
