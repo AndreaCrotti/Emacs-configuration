@@ -41,8 +41,9 @@
               (nntp-address "news.eternal-september.org")
               (nntp-port-number 119))))
 
-(setq gnus-large-newsgroup 2000)
-(setq gnus-fetch-old-headers nil)
+(setq
+ gnus-large-newsgroup 2000
+ gnus-fetch-old-headers nil)
 
 ;; close idle connections for 30 minutes
 ;  (gnus-demon-add-handler 'gnus-group-get-new-news 2 t)
@@ -67,6 +68,7 @@
 (setq gnus-use-trees t
       gnus-generate-tree-function 'gnus-generate-horizontal-tree
       gnus-tree-minimize-window nil)
+
 (gnus-add-configuration
  '(article
    (vertical 1.0
@@ -112,7 +114,6 @@
               (with-current-buffer gnus-dribble-buffer
                 (setq buffer-save-without-query t)))))
 
-(setq ca-gnussync-remote "thesis")
 (setq ca-gnussync-rsync-binary "/opt/local/bin/rsync")
 (setq ca-gnussync-rsync-options "-auRvzp --delete")
 (setq ca-gnussync-extra-files nil)
@@ -192,12 +193,13 @@
 
 (autoload 'erc-nicklist "erc-nicklist" "erc nicklist" t)
 
-(setq rfc-url-save-directory "~/rfc")
-(setq rfc-index-url "http://www.ietf.org/iesg/1rfc_index.txt")
-(setq rfc-archive-alist (list (concat rfc-url-save-directory "/rfc.zip")
-                              rfc-url-save-directory
-                              "http://www.ietf.org/rfc/"))
-(setq rfc-insert-content-url-hook '(rfc-url-save))
+(setq
+ rfc-url-save-directory "~/rfc"
+ rfc-insert-content-url-hook '(rfc-url-save)
+ rfc-index-url "http://www.ietf.org/iesg/1rfc_index.txt"
+ rfc-archive-alist (list (concat rfc-url-save-directory "/rfc.zip")
+                         rfc-url-save-directory
+                         "http://www.ietf.org/rfc/"))
 
 (require 'irfc)
 (setq irfc-directory "~/rfcs")
