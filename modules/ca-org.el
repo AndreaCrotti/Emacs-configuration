@@ -86,4 +86,12 @@
   (add-hook hook 'turn-on-orgstruct)
   (add-hook hook 'turn-on-orgtbl))
 
+(setq org-link-abbrev-alist
+      '(
+        ("google"   . "http://www.google.com/search?q=")
+        ("gmap"     . "http://maps.google.com/maps?q=%s")
+        ("omap"     . "http://nominatim.openstreetmap.org/search?q=%s&polygon=1")
+        ("mailman_bug" . "https://bugs.launchpad.net/mailman/+bug/%s"
+        )))
+
 (provide 'ca-org)
