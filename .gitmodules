@@ -79,9 +79,6 @@
 [submodule "cclookup"]
         path = cclookup
         url = git://github.com/tsgates/cclookup.git
-[submodule "gnus"]
-        path = gnus
-        url = http://git.gnus.org/gnus.git
 [submodule "google-maps"]
         path = google-maps
         url = git://git.naquadah.org/google-maps.git
@@ -140,14 +137,14 @@
         path = clojure-mode
         url = git://github.com/technomancy/clojure-mode.git
 [submodule "el-get"]
-	path = el-get
-	url = git://github.com/dimitri/el-get.git
+        path = el-get
+        url = git://github.com/dimitri/el-get.git
 [submodule "typerex"]
-	path = typerex
-	url = git://github.com/OCamlPro/typerex.git
+        path = typerex
+        url = git://github.com/OCamlPro/typerex.git
 [submodule "arduino-mode"]
-	path = arduino-mode
-	url = git://github.com/bookest/arduino-mode.git
+        path = arduino-mode
+        url = git://github.com/bookest/arduino-mode.git
 [submodule "haskell-mode"]
-	path = haskell-mode
-	url = git://github.com/haskell/haskell-mode.git
+        path = haskell-mode
+        url = git://github.com/haskell/haskell-mode.git
