@@ -213,11 +213,6 @@
   ;; enable all the keys used
   (open-dribble-file (expand-file-name "~/.emacs.dribble")))
 
-; set conkeror as the default browser
-(setq
- browse-url-browser-function 'browse-url-generic
- browse-url-generic-program "conkeror")
-
 (add-hook 'rst-mode-hook 'flyspell-mode)
 
 (autoload 'puppet-mode "puppet-mode" "Major mode for editing puppet manifests")
