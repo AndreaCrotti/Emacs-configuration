@@ -16,12 +16,6 @@
 ;; all the subdirectories are added to the path, including modules
 (ca-gen-path-dirs base)
 
-;TODO: try to move it inside miniconf.org instead
-(add-to-list 'load-path (make-conf-path "gnus/lisp"))
-(require 'gnus-load)
-
-(add-to-list 'Info-default-directory-list (make-conf-path "gnus/texi/"))
-
 (add-to-list 'load-path (make-conf-path "tramp/lisp"))
 
 (let
