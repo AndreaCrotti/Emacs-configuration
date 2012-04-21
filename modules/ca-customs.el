@@ -214,6 +214,7 @@
     python-mode-hook
     rst-mode-hook
     ruby-mode-hook
+    scala-mode-hook
     sh-mode-hook
     shell-mode-hook
     text-mode-hook
