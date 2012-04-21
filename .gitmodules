@@ -148,3 +148,6 @@
 [submodule "haskell-mode"]
         path = haskell-mode
         url = git://github.com/haskell/haskell-mode.git
+[submodule "google-contacts.el"]
+	path = google-contacts.el
+	url = git://git.naquadah.org/google-contacts.el.git
