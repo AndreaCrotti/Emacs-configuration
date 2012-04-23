@@ -42,16 +42,18 @@
   :type 'string)
 
 (defcustom ca-newline-force-close-alist
-  '((python-mode . ":")
+  '(
+    (html-mode . " <br>")
     (jython-mode . ":")
-    (prolog-mode . ".")
     (latex-mode . " \\newline")
     (org-mode . " \\newline")
-    (tuareg-mode . ";;")
+    (prolog-mode . ".")
+    (python-mode . ":")
     (tuareg-interactive-mode . ";;")
-    (typerex-mode . ";;")
+    (tuareg-mode . ";;")
     (typerex-interactive-mode . ";;")
-    (html-mode . " <br>"))
+    (typerex-mode . ";;")
+    )
   "Closing char for different modes"
   :group 'ca
   :type 'list)
@@ -69,7 +71,9 @@
     nesc-mode-hook
     java-mode-hook
     jde-mode-hook
-    haskell-mode-hook)
+    haskell-mode-hook
+    scala-mode-hook
+    )
   "Set of programming modes for which I want to enable spelling in comments and strings"
   :group 'ca
   :type 'list)
@@ -192,8 +196,9 @@
     ned-mode
     nesc-mode
     org-mode
-    xml-mode
+    scala-mode
     typerex-mode
+    xml-mode
     )
   "Modes for which auto-complete should be enabled"
   :type 'list
