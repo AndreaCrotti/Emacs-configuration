@@ -151,3 +151,6 @@
 [submodule "google-contacts.el"]
 	path = google-contacts.el
 	url = git://git.naquadah.org/google-contacts.el.git
+[submodule "emacs-oauth"]
+	path = emacs-oauth
+	url = git://github.com/psanford/emacs-oauth.git
