@@ -1,6 +1,9 @@
 (require 'ca-erc)
 (require 'ca-mail)
 
+; to avoid clashing with the other instance of emacs
+(setq command-frequency-table-file "~/.emacs.social.frequencies")
+
 (require 'irfc)
 (setq irfc-directory "~/rfcs")
 

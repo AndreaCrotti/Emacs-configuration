@@ -154,3 +154,6 @@
 [submodule "emacs-oauth"]
 	path = emacs-oauth
 	url = git://github.com/psanford/emacs-oauth.git
+[submodule "offlineimap-el"]
+	path = offlineimap-el
+	url = git://git.naquadah.org/offlineimap-el.git

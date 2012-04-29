@@ -93,9 +93,6 @@
 (require 'ca-packages)
 (require 'ca-buffers)
 (require 'ca-desktop)
-;TODO: this doesn't contain any real knowledge, refactor it out
-(require 'ca-network)
-;TODO: make it conditional, checking if it's the small mac or not
 (require 'ca-cedet)
 (require 'ca-faces)
 (require 'ca-haskell)
@@ -119,6 +116,6 @@
   ;; this will set some additional setting that should make it differ
   ;; from the normal mode
   ;; for example I might not need to load all the programming stuff
-  (require 'ca-social))
+  (require 'ca-network))
 
 (provide 'ca-init)
