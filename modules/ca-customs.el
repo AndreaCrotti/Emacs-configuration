@@ -230,4 +230,16 @@
   :type 'list
   :group 'ca)
 
+(defcustom erc-autojoin-channels-alist
+  '("freenode.net"
+    "#mailman" "#pelican"
+    "#emacs" "#erc" "#ruby-lang"
+    "#python" "#git" "#github" "#c" "#c++" "#conkeror"
+    "#android" "#latex" "#org-mode" "#postfix" "#procmail"
+    "#android-devel" "#libav-devel" "#archlinux" "#xmonad" "#ledger"
+    "#scipy" "#haskell" "#macosx" "#scala" "#ubuntu" "#clojure")
+  "List of channels to join automatically"
+  :type 'list
+  :group 'ca)
+
 (provide 'ca-customs)
