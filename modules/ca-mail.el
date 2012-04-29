@@ -1,5 +1,6 @@
 ;; setting where the mail is coming from
 (setq mail-setup-with-from t)
+(require 'nnir)
 
 ;; This is just to enable flyspell in mail-mode
 ;; FIXME: check if this dirty hack is still needed
@@ -21,11 +22,13 @@
  ;; message-mode is a superset of mail-mode and nicer to use
  mail-user-agent 'message-user-agent)
 
+(setq imap-shell-program "/usr/lib/dovecot/imap -o mail_location=maildir:$HOME/mail_clones/andrea_gmail")
+
 (setq gnus-select-method
-      '(nnimap "gmail"
-               (nnimap-address "imap.gmail.com")
+      '(nnimap "local"
                (nnir-search-engine imap)
-               (nnimap-stream ssl)))
+               (nnimap-address "localhost")
+               (nnimap-stream shell)))
 
 ;TODO: if it was received on gmail it's not copied twice
 (setq gnus-message-archive-group "nnimap+gmail:Sent")
