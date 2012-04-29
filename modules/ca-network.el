@@ -1,4 +1,5 @@
 (require 'ca-erc)
+(require 'ca-mail)
 
 (setq
  rfc-url-save-directory "~/rfc"

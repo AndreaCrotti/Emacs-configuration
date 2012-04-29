@@ -32,9 +32,6 @@
 
 (setq gnus-secondary-select-methods
       '(
-        ;; (nnimap "xype internal"
-        ;;         (nnimap-address "localhost")
-        ;;         (nnimap-server-port "1143"))
         (nntp "news.gmane.org")
         ;; Configuration for http://www.eternal-september.org/
         (nntp "eternal"
@@ -52,6 +49,8 @@
 ;; add the topic groups
 (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
 
+;TODO: add something similar when writing to different people
+;or use auto-dictionary otherwise to try to understand the rightthing
 (add-hook 'gnus-select-group-hook
           (lambda ()
             (cond
@@ -62,7 +61,8 @@
              (t
               (ispell-change-dictionary "english")))))
 
-(add-hook 'message-setup-hook (lambda () (flyspell-mode t)))
+(add-hook 'message-setup-hook
+          (lambda () (flyspell-mode t)))
 
 ;; add an additional window buffer with the tree
 (setq gnus-use-trees t
