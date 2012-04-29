@@ -112,10 +112,7 @@
   (message "loading custom file")
   (load-file custom-file))
 
-(defun ca-social-mode ()
-  ;; this will set some additional setting that should make it differ
-  ;; from the normal mode
-  ;; for example I might not need to load all the programming stuff
+(defun ca-network-mode ()
   (require 'ca-network))
 
 (provide 'ca-init)
