@@ -101,4 +101,6 @@
 
 (autoload 'gtags-mode "gtags" "gtags mode" t)
 
+(add-to-list 'auto-mode-alist '("\\.gdb$" . gdb-script-mode))
+
 (provide 'ca-prog-mode)
