@@ -77,15 +77,6 @@
  ; don't show if done in agenda
  org-agenda-skip-scheduled-if-done t)
 
-(setq org-struct-hooks
-      '(message-mode-hook
-        mail-mode-hook))
-
-;TODO: move to some other settings
-(dolist (hook org-struct-hooks)
-  (add-hook hook 'turn-on-orgstruct)
-  (add-hook hook 'turn-on-orgtbl))
-
 (setq org-link-abbrev-alist
       '(
         ("google"   . "http://www.google.com/search?q=")

@@ -161,4 +161,15 @@
 
 (define-key notmuch-show-mode-map (kbd "C-c C-c") 'lld-notmuch-goto-message-in-gnus)
 
+(require 'org)
+
+(setq org-struct-hooks
+      '(message-mode-hook
+        mail-mode-hook))
+
+(dolist (hook org-struct-hooks)
+  (add-hook hook 'orgstruct++-mode 'append)
+  (add-hook hook 'orgtbl-mode 'append)
+  (add-hook hook 'turn-on-auto-fill 'append))
+
 (provide 'ca-mail)
