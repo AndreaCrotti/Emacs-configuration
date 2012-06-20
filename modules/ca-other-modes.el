@@ -6,6 +6,8 @@
 (when ca-show-battery
   (display-battery-mode t))
 
+(add-to-list 'auto-mode-alist '("\\.xsd" . xml-mode))
+
 (add-to-list 'load-path (make-conf-path "ess-mirror/lisp"))
 (autoload 'R "ess-site" "loading R env" t)
 (setq ess-directory (expand-file-name "~/"))
@@ -21,7 +23,6 @@
 (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
 (autoload 'mercury-mode "prolog" "Major mode for editing Mercury programs." t)
 (setq prolog-system 'swi)
-(add-to-list 'auto-mode-alist '("\\.pl$" . prolog-mode))
 
 (autoload 'nesc-mode "nesc" nil t)
 (add-to-list 'auto-mode-alist '("\\.nc$" . nesc-mode))
