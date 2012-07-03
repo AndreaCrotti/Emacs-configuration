@@ -113,6 +113,8 @@
   (load-file custom-file))
 
 (defun ca-network-mode ()
-  (require 'ca-network))
+  (require 'ca-network)
+  (desktop-save-mode nil)
+  (gnus))
 
 (provide 'ca-init)

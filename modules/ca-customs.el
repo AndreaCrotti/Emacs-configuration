@@ -150,7 +150,7 @@
   :group 'ca)
 
 (defcustom ca-extra-conf-files
-  '("\\.pkla\\'" "shorewall" "pylintrc" "\\.spec\\'" "etc")
+  '("\\.pkla\\'" "shorewall" "pylintrc" "\\.spec\\'")
   "Extra list of regexp to enable conf-mode"
   :type 'list
   :group 'ca)
