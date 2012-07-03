@@ -222,4 +222,9 @@
 (setq auto-mode-alist
       (cons '("\\.ml\\w?" . tuareg-mode) auto-mode-alist))
 
+;; visual basic scripting
+(autoload 'visual-basic-mode "visual-basic-mode" "Visual Basic mode." t)
+(setq auto-mode-alist (append '(("\\.\\(frm\\|bas\\|cls\\|vbs\\)$" .
+                                 visual-basic-mode)) auto-mode-alist))
+
 (provide 'ca-other-modes)
