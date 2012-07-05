@@ -227,4 +227,9 @@
 (setq auto-mode-alist (append '(("\\.\\(frm\\|bas\\|cls\\|vbs\\)$" .
                                  visual-basic-mode)) auto-mode-alist))
 
+(add-to-list 'auto-mode-alist '("Vagrantfile" . ruby-mode))
+
+(autoload 'php-mode "php-mode" "Major mode for php files")
+(add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
+
 (provide 'ca-other-modes)
