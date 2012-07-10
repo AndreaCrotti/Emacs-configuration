@@ -232,4 +232,8 @@
 (autoload 'php-mode "php-mode" "Major mode for php files")
 (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
 
+(autoload 'arduino-mode "arduino-mode" "Mode to work with arduino")
+(add-to-list 'auto-mode-alist '("\\.pde\\'" . arduino-mode))
+(add-to-list 'auto-mode-alist '("\\.ino\\'" . arduino-mode))
+
 (provide 'ca-other-modes)
