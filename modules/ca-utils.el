@@ -2,6 +2,19 @@
 (require 'ca-customs)
 (require 'ca-environment)
 
+; add an ack command to replace the grep
+(defvar ack-history nil
+  "History for the `ack' command.")
+
+(defun ack (command-args)
+  (interactive
+   (let ((ack-command "ack --nogroup --with-filename --all "))
+     (list (read-shell-command "Run ack (like this): "
+                               ack-command
+                               'ack-history))))
+  (let ((compilation-disable-input t))
+    (compilation-start (concat command-args " < " null-device)
+                       'grep-mode)))
 
 ;FIXME: this is not really working, fix it and make it only available on osx
 (setq ca-growl-mode nil)

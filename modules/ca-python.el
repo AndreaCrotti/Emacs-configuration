@@ -8,15 +8,19 @@
 (load-library (concat py-install-directory "/python-mode"))
 
 ; use eval-after-load to set the right keys for python with cedet
+(add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
+(add-to-list 'load-path (make-conf-path "python-mode/test"))
+(autoload 'doctest-mode "doctest-mode" "doc test python mode" t)
 
 (if ca-linux
     ;; TODO: should also check if it's actually in the path and check
     ;; that he automatic settings are also working
     (setq py-shell-name "python2"))
 
-(add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
-(add-to-list 'load-path (make-conf-path "python-mode/test"))
-(autoload 'doctest-mode "doctest-mode" "doc test python mode" t)
+(setq
+ py-smart-indentation t
+ )
+
 
 (defun ca-python-remove-pdb ()
   "Remove the pdb tracking lines"
@@ -27,6 +31,8 @@
 
 (add-hook 'python-mode-hook
           (lambda ()
+            ;TODO: check if it's actually a good idea
+            ;; (py-smart-operator-mode-on)
             (local-set-key (kbd "M-D") 'ca-python-remove-pdb)))
 
 ;FIXME: not really working yet, and try to make it more generic
