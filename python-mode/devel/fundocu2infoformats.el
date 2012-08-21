@@ -28,41 +28,34 @@
 (defun finds-from-programm ()
   (let ((directory-in (or (and (not (string= "" py-devel-directory-in)) py-devel-directory-in) default-directory))
         (directory-out (or (and (not (string= "" py-devel-directory-out)) py-devel-directory-out default-directory)) (concat default-directory "doc"))
-        (erg (concat default-directory "python-mode.el"))
+        (erg (buffer-file-name))
         (buffer (current-buffer)))
     (message "Lade %s" erg)
     (find-file erg)
     (finds buffer directory-in directory-out)))
 
 (defun finds (&optional buffer directory-in directory-out)
-  "List all commands in file alongside with their documentation. "
+  "Writes all commands in BUFFER alongside with their documentation into directory \"doc\" as \*.org and \*rst file ."
   (interactive)
   (let* ((oldbuf (buffer-name (or buffer (current-buffer))))
          ;; (file (buffer-file-name))
          (orgname (concat (substring oldbuf 0 (string-match "\\." oldbuf)) ".org"))
          (reSTname (concat (substring oldbuf 0 (string-match "\\." oldbuf)) ".rst"))
          (directory-in (or directory-in (and (not (string= "" py-devel-directory-in)) py-devel-directory-in) default-directory))
-         (directory-out (or directory-out (and (not (string= "" py-devel-directory-out)) py-devel-directory-out) default-directory))
-         (directory-out-prepare
-          (if directory-out
-              (if
-                  (string-match ".+/$" directory-out)
-                  directory-out
-                (concat directory-out "/"))
-            default-directory))
-         (directory-out (unless (and directory-out (string-match ".*/doc" directory-out))  (concat directory-out-prepare "doc/"))))
+         (directory-out (or directory-out (expand-file-name finds-directory-out))))
     (finds-base oldbuf orgname reSTname directory-in directory-out)))
 
 (defun finds-base (oldbuf orgname reSTname directory-in directory-out)
   (save-restriction
-    (let (commandslist)
+    (let ((suffix (file-name-nondirectory (buffer-file-name)))
+          commandslist)
       ;; (widen)
       (goto-char (point-min))
       ;; (eval-buffer)
-      (while (not (eobp))
+      (while (and (not (eobp))(re-search-forward "^(defun [[:alpha:]]" nil t 1))
         (when (commandp (symbol-at-point))
-          (lexical-let* ((name (symbol-at-point))
-                         (docu (documentation name)))
+          (let* ((name (symbol-at-point))
+                 (docu (documentation name)))
             (unless docu (message "don't see docu string for %s" (prin1-to-string name)))
             (add-to-list 'commandslist (cons (prin1-to-string name) docu))
             ;; (message "%s" (car commandslist))
@@ -72,23 +65,22 @@
       (setq commandslist (nreverse commandslist))
       (with-temp-buffer
         (switch-to-buffer (current-buffer))
-        (insert (concat ";; a list of " "python-mode-el" " commands
-\(setq " "python-mode-el" "-commands (quote "))
+        (insert (concat ";; a list of " suffix " commands
+\(setq " (replace-regexp-in-string  "\\." "-" suffix) "-commands (quote "))
         (insert (prin1-to-string commandslist))
         (insert "))")
         (eval-buffer)
-        (write-file (concat directory-out "commands-" "python-mode-el"
-                            ;; (concat (substring oldbuf 0 (string-match "\\." oldbuf)) ".el")
-                            )))
-      (with-temp-buffer
-        (dolist (ele commandslist)
-          (insert (concat (car ele) "\n")))
-        (write-file (concat directory-out "python-mode-commands.txt")))
+        ;; (write-file (concat directory-out "commands-" suffix))
+)
+      ;; (with-temp-buffer
+      ;;   (dolist (ele commandslist)
+      ;;     (insert (concat (car ele) "\n")))
+      ;;   (write-file (concat directory-out suffix "-commands.txt")))
 
       (with-temp-buffer
         ;; org
         ;; (insert (concat (capitalize (substring oldbuf 0 (string-match "\." oldbuf))) " commands" "\n\n"))
-        (insert "Python-mode commands\n\n")
+        (insert (concat  suffix " commands\n\n"))
         (dolist (ele commandslist)
           (insert (concat "* "(car ele) "\n"))
           (insert (concat "   " (cdr ele) "\n")))
@@ -101,8 +93,8 @@
         ;; (insert (concat (make-string (length (concat (substring oldbuf 0 (string-match "\." oldbuf)) " commands")) ?\=) "\n\n"))
         (insert "====================\n\n")
         (dolist (ele commandslist)
-          (insert (concat (car ele) "\n\n"))
-          (insert (concat (make-string (length (car ele)) ?\-) "\n\n"))
+          (insert (concat (car ele) "\n"))
+          (insert (concat (make-string (length (car ele)) ?\-) "\n"))
           (insert (concat (cdr ele) "\n\n")))
         (write-file (concat directory-out "commands-" reSTname))
         (find-file (concat directory-out "commands-" reSTname))))))
