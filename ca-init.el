@@ -10,9 +10,6 @@
 ;; what if this is set differently?
 (setq custom-file (make-conf-path "custom.el"))
 
-(when (not (boundp 'cedet-version))
-  (load (make-conf-path "cedet/common/cedet.el")))
-
 ;; all the subdirectories are added to the path, including modules
 (ca-gen-path-dirs base)
 
@@ -93,7 +90,7 @@
 (require 'ca-packages)
 (require 'ca-buffers)
 (require 'ca-desktop)
-(require 'ca-cedet)
+;; (require 'ca-cedet)
 (require 'ca-faces)
 (require 'ca-haskell)
 (require 'ca-scala)

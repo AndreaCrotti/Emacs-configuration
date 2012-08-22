@@ -1,4 +1,10 @@
 (require 'ca-customs)
+(require 'cedet)
+(require 'ede)
+(require 'semantic)
+(require 'semantic/db)
+(require 'semantic/wisent)
+(require 'srecode)
 
 (defun ca-next-tag ()
   (interactive)
@@ -21,9 +27,8 @@
 
 ;TODO: problem here is that semantic might still load the shipped version
 ;if load-path is not set correctly
-(setq semantic-load-turn-everything-on t)
-(global-ede-mode nil)
-(setq ede-locate-setup-options '(ede-locate-global ede-locate-locate ede-locate-idutils))
+(global-ede-mode t)
+;; (setq ede-locate-setup-options '(ede-locate-global ede-locate-locate ede-locate-idutils))
 
 (dolist
     (hook ca-cedet-modes)
@@ -33,25 +38,24 @@
 ;; (global-semantic-decoration-mode 1)
 (global-semantic-highlight-func-mode 1)
 (global-semantic-highlight-edits-mode 1)
-(global-semantic-idle-scheduler-mode 1)
-(global-semantic-idle-summary-mode 1)
-(global-semantic-mru-bookmark-mode 1)
+;; (global-semantic-idle-scheduler-mode 1)
+;; (global-semantic-idle-summary-mode 1)
+;; (global-semantic-mru-bookmark-mode 1)
 
-(defun ca-c-like-cedet-hook ()
-  (local-set-key [(control return)] 'semantic-ia-complete-symbol)
-  (local-set-key "\C-c?" 'semantic-ia-complete-symbol-menu)
-  (local-set-key "\C-c>" 'semantic-complete-analyze-inline)
-  (local-set-key "\C-cj" 'semantic-ia-fast-jump)
-  (local-set-key "\C-cq" 'semantic-ia-show-doc)
-  (local-set-key "\C-cs" 'semantic-ia-show-summary)
-  (local-set-key "\C-cp" 'semantic-analyze-proto-impl-toggle)
-  (local-set-key "." 'semantic-complete-self-insert)
-  (local-set-key ">" 'semantic-complete-self-insert))
+;; (defun ca-c-like-cedet-hook ()
+;;   (local-set-key [(control return)] 'semantic-ia-complete-symbol)
+;;   (local-set-key "\C-c?" 'semantic-ia-complete-symbol-menu)
+;;   (local-set-key "\C-c>" 'semantic-complete-analyze-inline)
+;;   (local-set-key "\C-cj" 'semantic-ia-fast-jump)
+;;   (local-set-key "\C-cq" 'semantic-ia-show-doc)
+;;   (local-set-key "\C-cs" 'semantic-ia-show-summary)
+;;   (local-set-key "\C-cp" 'semantic-analyze-proto-impl-toggle)
+;;   (local-set-key "." 'semantic-complete-self-insert)
+;;   (local-set-key ">" 'semantic-complete-self-insert))
 
-(defun ca-cpp-cedet-hook ()
-  (local-set-key ":" 'semantic-complete-self-insert))
+;; (defun ca-cpp-cedet-hook ()
+;;   (local-set-key ":" 'semantic-complete-self-insert))
 
 (global-semanticdb-minor-mode 1)
-(require 'semanticdb-global)
 
 (provide 'ca-cedet)
