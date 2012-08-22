@@ -34,9 +34,6 @@
 [submodule "psvn"]
         path = psvn
         url = git://github.com/emacsmirror/psvn.git
-[submodule "yasnippet-snippets"]
-        path = yasnippet-snippets
-        url = git://github.com/AndreaCrotti/yasnippet-snippets.git
 [submodule "rinari"]
         path = rinari
         url = git://github.com/eschulte/rinari.git
@@ -116,8 +113,8 @@
         path = ensime
         url = git://github.com/aemoncannon/ensime.git
 [submodule "pycoverage.el"]
-	path = pycoverage.el
-	url = git://github.com/mattharrison/pycoverage.el.git
+        path = pycoverage.el
+        url = git://github.com/mattharrison/pycoverage.el.git
 [submodule "evil"]
         path = evil
         url = git://gitorious.org/evil/evil.git
@@ -155,5 +152,8 @@
         path = offlineimap-el
         url = git://git.naquadah.org/offlineimap-el.git
 [submodule "paredit"]
-	path = paredit
-	url = https://github.com/guns/paredit.git
+        path = paredit
+        url = https://github.com/guns/paredit.git
+[submodule "yasnippet-snippets"]
+	path = yasnippet-snippets
+	url = git://github.com/AndreaCrotti/yasnippet-snippets.git
