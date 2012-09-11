@@ -92,6 +92,6 @@
 (powerline-default)
 
 (require 'guru-mode)
-(guru-global-mode)
+;; (guru-global-mode)
 
 (provide 'ca-misc)
