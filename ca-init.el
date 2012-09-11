@@ -3,9 +3,12 @@
   (expand-file-name (concat base path)))
 
 (add-to-list 'load-path (make-conf-path "modules"))
+(add-to-list 'load-path (make-conf-path "cedet/lisp/cedet"))
 ; second argument as 0 to compile if they don't exist
 (require 'ca-customs)
 (require 'ca-utils)
+
+(load (make-conf-path "cedet/lisp/cedet/cedet.el"))
 
 ;; what if this is set differently?
 (setq custom-file (make-conf-path "custom.el"))
@@ -90,7 +93,7 @@
 (require 'ca-packages)
 (require 'ca-buffers)
 (require 'ca-desktop)
-;; (require 'ca-cedet)
+(require 'ca-cedet)
 (require 'ca-faces)
 (require 'ca-haskell)
 (require 'ca-scala)
