@@ -157,3 +157,6 @@
 [submodule "yasnippet-snippets"]
 	path = yasnippet-snippets
 	url = git://github.com/AndreaCrotti/yasnippet-snippets.git
+[submodule "cedet"]
+	path = cedet
+	url = http://git.randomsample.de/cedet.git
