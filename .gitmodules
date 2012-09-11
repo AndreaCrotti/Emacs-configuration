@@ -160,3 +160,9 @@
 [submodule "cedet"]
 	path = cedet
 	url = http://git.randomsample.de/cedet.git
+[submodule "guru-mode"]
+	path = guru-mode
+	url = https://github.com/bbatsov/guru-mode.git
+[submodule "powerline"]
+	path = powerline
+	url = https://github.com/milkypostman/powerline.git

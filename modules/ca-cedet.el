@@ -1,6 +1,7 @@
 (require 'ca-customs)
 (require 'cedet)
 (require 'semantic)
+(require 'semantic/wisent)
 
 (defun ca-next-tag ()
   (interactive)
@@ -20,11 +21,6 @@
   (local-set-key "\C-xnn" 'semantic-narrow-to-tag)
   (local-set-key (kbd "M-.") 'semantic-complete-jump)
   (local-set-key (kbd "M-?") 'semantic-ia-fast-jump))
-
-;TODO: problem here is that semantic might still load the shipped version
-;if load-path is not set correctly
-(global-ede-mode t)
-;; (setq ede-locate-setup-options '(ede-locate-global ede-locate-locate ede-locate-idutils))
 
 (dolist
     (hook ca-cedet-modes)

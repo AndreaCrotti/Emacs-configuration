@@ -93,7 +93,7 @@
 (require 'ca-packages)
 (require 'ca-buffers)
 (require 'ca-desktop)
-(require 'ca-cedet)
+;; (require 'ca-cedet)
 (require 'ca-faces)
 (require 'ca-haskell)
 (require 'ca-scala)
