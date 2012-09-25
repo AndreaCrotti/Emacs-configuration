@@ -16,6 +16,13 @@
     (compilation-start (concat command-args " < " null-device)
                        'grep-mode)))
 
+(defun ack-todos ()
+  (interactive)
+  (let
+      ((ack-command "ack --nogroup --with-filename --all \"TODO|FIXME|XXX\""))
+    (compilation-start (concat ack-command " < " null-device)
+                       'grep-mode)))
+
 ;FIXME: this is not really working, fix it and make it only available on osx
 (setq ca-growl-mode nil)
 
