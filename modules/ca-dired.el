@@ -12,7 +12,8 @@
             ;; define some more useful keys
             (define-key dired-mode-map "b" 'browse-url-of-dired-file)))
 
-(setq dired-listing-switches "-al -I .git -I .bzr -I .hg")
+(when ca-linux
+  (setq dired-listing-switches "-al -I .git -I .bzr -I .hg"))
 
 (require 'dired-details)
 (dired-details-install)
