@@ -8,7 +8,7 @@
 (require 'ca-customs)
 (require 'ca-utils)
 
-(load (make-conf-path "cedet/lisp/cedet/cedet.el"))
+(load (make-conf-path "cedet/cedet-devel-load.el"))
 
 ;; what if this is set differently?
 (setq custom-file (make-conf-path "custom.el"))
