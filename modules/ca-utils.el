@@ -23,6 +23,12 @@
     (compilation-start (concat ack-command " < " null-device)
                        'grep-mode)))
 
+(defun ca-pylint ()
+  (interactive)
+  (let
+      ((lint "pycheckers *.py"))
+    (compilation-start lint 'grep-mode)))
+
 ;FIXME: this is not really working, fix it and make it only available on osx
 (setq ca-growl-mode nil)
 
