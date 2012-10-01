@@ -29,6 +29,12 @@
       ((lint "pycheckers *.py"))
     (compilation-start lint 'grep-mode)))
 
+(defun ca-pyl ()
+  (interactive)
+  (let
+      ((lint (concat "pycheckers " (buffer-file-name))))
+    (compilation-start lint 'grep-mode)))
+
 ;FIXME: this is not really working, fix it and make it only available on osx
 (setq ca-growl-mode nil)
 
