@@ -7,6 +7,11 @@
 ;; compile facilities
 (global-set-key [f5] 'recompile)
 (global-set-key [f6] 'anything)
+
+(add-hook 'python-mode-hook
+          (lambda ()
+            (local-set-key [f8] 'ca-pyl)))
+
 (global-set-key [f9] 'ido-switch-buffer)
 ;; visualization
 (global-set-key [f11] 'ca-full)
