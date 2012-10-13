@@ -88,9 +88,9 @@
 
 
 ; support for coverage
-(add-to-list 'load-path (make-conf-path "pycoverage.el"))
-(load-library "pycov2")
-(require 'linum)
+;; (add-to-list 'load-path (make-conf-path "pycoverage.el"))
+;; (load-library "pycov2")
+;; (require 'linum)
 ;; (add-hook 'python-mode-hook
 ;;           '(lambda ()
 ;;              (pycov2-mode)
