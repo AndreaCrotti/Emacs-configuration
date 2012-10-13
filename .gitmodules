@@ -166,3 +166,6 @@
 [submodule "powerline"]
 	path = powerline
 	url = https://github.com/milkypostman/powerline.git
+[submodule "scala-mode"]
+	path = scala-mode
+	url = git://github.com/haxney/scala-mode.git
