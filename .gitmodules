@@ -169,3 +169,6 @@
 [submodule "scala-mode"]
 	path = scala-mode
 	url = git://github.com/haxney/scala-mode.git
+[submodule "pony-mode"]
+	path = pony-mode
+	url = https://github.com/davidmiller/pony-mode
