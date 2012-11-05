@@ -326,7 +326,7 @@ the program is found in `exec-path'; otherwise `message' is used."
   "Visit all the files in the current git project"
   (interactive)
   (dolist
-      (file (ca-ls-git-files))
+      (file (ca-ls-git-py-files))
     (message "Opening %s" file)
     ;; we have to keep the original position
     (save-excursion (find-file file))))
@@ -360,6 +360,15 @@ the program is found in `exec-path'; otherwise `message' is used."
   "List the files in the git repository"
   (let
       ((result (shell-command-to-string (concat "git ls-files"))))
+    (if
+        (string-match "fatal" result)
+        nil
+      (split-string result))))
+
+(defun ca-ls-git-py-files ()
+  "List the files in the git repository"
+  (let
+      ((result (shell-command-to-string (concat "git ls-files | grep .*py$"))))
     (if
         (string-match "fatal" result)
         nil
