@@ -69,6 +69,7 @@
 (require 'epa)
 (epa-file-enable)
 
+;; (require 'ca-cedet)
 (require 'ca-fonts)
 (require 'ca-themes)
 (require 'ca-yas) ;; takes more than 2 seconds to load due to the huge list of files
@@ -93,7 +94,6 @@
 (require 'ca-packages)
 (require 'ca-buffers)
 (require 'ca-desktop)
-;; (require 'ca-cedet)
 (require 'ca-faces)
 (require 'ca-haskell)
 (require 'ca-scala)
@@ -103,6 +103,7 @@
 (require 'ca-ocaml)
 (require 'ca-c)
 (require 'ca-clojure)
+(require 'ca-web)
 
 ;TODO: switch to the use of profiles with different OS detection instead
 (when ca-linux
