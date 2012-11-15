@@ -103,7 +103,7 @@
 (require 'ca-ocaml)
 (require 'ca-c)
 (require 'ca-clojure)
-(require 'ca-web)
+;; (require 'ca-web)
 
 ;TODO: switch to the use of profiles with different OS detection instead
 (when ca-linux
