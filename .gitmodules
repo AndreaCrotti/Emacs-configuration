@@ -172,3 +172,6 @@
 [submodule "pony-mode"]
 	path = pony-mode
 	url = https://github.com/davidmiller/pony-mode
+[submodule "js3-mode"]
+	path = js3-mode
+	url = git://github.com/thomblake/js3-mode.git
