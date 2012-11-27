@@ -175,3 +175,6 @@
 [submodule "js3-mode"]
 	path = js3-mode
 	url = git://github.com/thomblake/js3-mode.git
+[submodule "less-css-mode"]
+	path = less-css-mode
+	url = git://github.com/purcell/less-css-mode.git
