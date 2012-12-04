@@ -178,3 +178,6 @@
 [submodule "less-css-mode"]
 	path = less-css-mode
 	url = git://github.com/purcell/less-css-mode.git
+[submodule "ac-slime"]
+	path = ac-slime
+	url = https://github.com/purcell/ac-slime.git

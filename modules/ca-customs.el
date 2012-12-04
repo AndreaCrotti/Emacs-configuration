@@ -207,6 +207,7 @@
 (defcustom ca-autopair-mode-hooks
   '(
     c-mode-common-hook
+    clojure-mode-hook
     cmake-mode-hook
     conf-mode-hook
     haskell-mode-hook
