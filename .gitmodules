@@ -184,3 +184,6 @@
 [submodule "markdown-mode"]
 	path = markdown-mode
 	url = git://github.com/defunkt/markdown-mode.git
+[submodule "find-file-in-repository"]
+	path = find-file-in-repository
+	url = git://github.com/hoffstaetter/find-file-in-repository.git

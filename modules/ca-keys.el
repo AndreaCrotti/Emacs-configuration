@@ -1,5 +1,6 @@
 (require 'ca-environment)
 
+(require 'find-file-in-repository)
 
 (global-set-key [f1] 'delete-window)
 (global-set-key [f2] 'split-window-horizontally)
@@ -7,6 +8,7 @@
 ;; compile facilities
 (global-set-key [f5] 'recompile)
 (global-set-key [f6] 'anything)
+(global-set-key [f7] 'find-file-in-repository)
 
 (add-hook 'python-mode-hook
           (lambda ()
