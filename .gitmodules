@@ -181,3 +181,6 @@
 [submodule "ac-slime"]
 	path = ac-slime
 	url = https://github.com/purcell/ac-slime.git
+[submodule "markdown-mode"]
+	path = markdown-mode
+	url = git://github.com/defunkt/markdown-mode.git

@@ -243,4 +243,11 @@
   :type 'list
   :group 'ca)
 
+(defcustom ca-flymake-enabled
+  t
+  "if T flymake is enabled"
+  :type 'boolean
+  :group 'ca
+  )
+
 (provide 'ca-customs)

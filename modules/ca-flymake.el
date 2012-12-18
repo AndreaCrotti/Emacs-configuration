@@ -3,6 +3,7 @@
 (defun ca-activate-flymake ()
   "Activates flymake when real buffer and you have write access"
   (if (and
+       ca-flymake-enabled
        (buffer-file-name)
        (file-writable-p buffer-file-name))
       (progn
@@ -29,7 +30,7 @@
 (add-to-list 'flymake-allowed-file-name-masks
              '("\\.py\\'" ca-flymake-python-init))
 
-(add-hook 'python-mode-hook 'ca-activate-flymake)
+;; (add-hook 'python-mode-hook 'ca-activate-flymake)
 
 (eval-when-compile (require 'cl))
 

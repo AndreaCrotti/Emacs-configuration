@@ -236,4 +236,11 @@
 (add-to-list 'auto-mode-alist '("\\.pde\\'" . arduino-mode))
 (add-to-list 'auto-mode-alist '("\\.ino\\'" . arduino-mode))
 
+;; settings for markdown
+(autoload 'markdown-mode "markdown-mode"
+  "Major mode for editing Markdown files" t)
+
+(setq auto-mode-alist
+      (cons '("\\.text" . markdown-mode) auto-mode-alist))
+
 (provide 'ca-other-modes)
