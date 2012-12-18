@@ -187,3 +187,6 @@
 [submodule "find-file-in-repository"]
 	path = find-file-in-repository
 	url = git://github.com/hoffstaetter/find-file-in-repository.git
+[submodule "helm"]
+	path = helm
+	url = git://github.com/emacs-helm/helm.git
