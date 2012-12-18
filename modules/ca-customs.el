@@ -243,11 +243,21 @@
   :type 'list
   :group 'ca)
 
-(defcustom ca-flymake-enabled
-  t
+(defcustom ca-flymake-enabled t
   "if T flymake is enabled"
   :type 'boolean
   :group 'ca
   )
+
+(defcustom ca-anything-requires-pattern 2
+  "number of characters to input before starting to search"
+  :type 'int
+  :group 'ca)
+
+(defcustom ca-anything-prune-dir
+  '(".git" ".svn")
+  "directories to skip"
+  :type 'list
+  :group 'ca)
 
 (provide 'ca-customs)
