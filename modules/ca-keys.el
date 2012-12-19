@@ -14,8 +14,6 @@
           (lambda ()
             (local-set-key [f8] 'ca-pyl)))
 
-(global-set-key [f9] 'ido-switch-buffer)
-;; visualization
 (global-set-key [f11] 'ca-full)
 (when ca-win
   (global-set-key [f12] 'ca-explorer))
