@@ -1,3 +1,4 @@
+(require 'anything)
 (require 'ca-customs)
 
 (defun my-get-source-directory (path)
@@ -25,3 +26,5 @@
   "Source for searching matching files recursively.")
 
 (add-to-list 'anything-sources 'ca-anything-file-search)
+
+(provide 'ca-anything)
