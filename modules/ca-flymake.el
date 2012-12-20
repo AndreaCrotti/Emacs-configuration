@@ -30,7 +30,7 @@
 (add-to-list 'flymake-allowed-file-name-masks
              '("\\.py\\'" ca-flymake-python-init))
 
-;; (add-hook 'python-mode-hook 'ca-activate-flymake)
+(add-hook 'python-mode-hook 'ca-activate-flymake)
 
 (eval-when-compile (require 'cl))
 
