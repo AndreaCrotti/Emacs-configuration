@@ -10,13 +10,12 @@
 (global-set-key [f6] 'anything)
 (global-set-key [f7] 'find-file-in-repository)
 
+(global-set-key [f8] 'ca-new-shell)
+
+; this could be made generic, with some nice linting for every language
 (add-hook 'python-mode-hook
           (lambda ()
-            (local-set-key [f8] 'ca-pyl)))
-
-(global-set-key [f11] 'ca-full)
-(when ca-win
-  (global-set-key [f12] 'ca-explorer))
+            (local-set-key [f9] 'ca-pyl)))
 
 ;; textmate-like bindings
 (global-set-key (kbd "M-RET") 'ca-newline-force)

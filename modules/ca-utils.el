@@ -401,6 +401,14 @@ the program is found in `exec-path'; otherwise `message' is used."
   "list the current branches"
   (remove "*" (split-string (shell-command-to-string "git branch"))))
 
+(defun ca-m ()
+  "switch to master"
+  (interactive)
+  (ca-git-checkout "master"))
+
+(defun ca-git-checkout (branch)
+  (shell-command (concat "git checkout " branch)))
+
 (defun ca-git-change-branch ()
   "change the actual git branch asking with completion"
   (interactive)
@@ -410,8 +418,8 @@ the program is found in `exec-path'; otherwise `message' is used."
         (> (length branches) 1)
         (let
             ((branch (completing-read "checkout to: " branches)))
-          (shell-command (concat "git checkout " branch)))
-      (message "no other branches, sorry"))))
+          (ca-git-checkout branch)
+      (message "no other branches, sorry")))))
 
 (defun ca-git-create-branch ()
   "creates a new branch"
@@ -674,5 +682,9 @@ Otherwise, expand the current region to select the lines the region touches."
    (if buffer-file-name
        (concat (file-name-directory (buffer-file-name)))
        (nth 1 (split-string (pwd) " ")))))
+
+(defun ca-new-shell ()
+  (interactive)
+  (shell (concat "*shell-" default-directory)))
 
 (provide 'ca-utils)
