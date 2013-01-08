@@ -243,6 +243,11 @@
 (add-to-list 'auto-mode-alist '("\\.text$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
 
+(autoload 'textile-mode "textile-mode"
+  "Mode for editing textile files" t )
+
+(add-to-list 'auto-mode-alist '("\\.textile$" . textile-mode))
+
 (add-to-list 'auto-mode-alist '("\\.service$" . conf-mode))
 
 (provide 'ca-other-modes)
