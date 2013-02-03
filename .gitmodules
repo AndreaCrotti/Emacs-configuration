@@ -190,3 +190,6 @@
 [submodule "helm"]
 	path = helm
 	url = git://github.com/emacs-helm/helm.git
+[submodule "emacs-jedi"]
+	path = emacs-jedi
+	url = git://github.com/tkf/emacs-jedi.git

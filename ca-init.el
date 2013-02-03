@@ -3,12 +3,12 @@
   (expand-file-name (concat base path)))
 
 (add-to-list 'load-path (make-conf-path "modules"))
-(add-to-list 'load-path (make-conf-path "cedet/lisp/cedet"))
+;; (add-to-list 'load-path (make-conf-path "cedet/lisp/cedet"))
 ; second argument as 0 to compile if they don't exist
 (require 'ca-customs)
 (require 'ca-utils)
 
-(load (make-conf-path "cedet/cedet-devel-load.el"))
+;; (load (make-conf-path "cedet/cedet-devel-load.el"))
 
 ;; what if this is set differently?
 (setq custom-file (make-conf-path "custom.el"))
