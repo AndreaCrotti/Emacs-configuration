@@ -242,6 +242,7 @@
 
 (add-to-list 'auto-mode-alist '("\\.text$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 
 (autoload 'textile-mode "textile-mode"
   "Mode for editing textile files" t )
