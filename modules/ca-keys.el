@@ -1,3 +1,4 @@
+(require 'magit)
 (require 'ca-environment)
 
 (require 'find-file-in-repository)
@@ -9,6 +10,7 @@
 (global-set-key [f5] 'recompile)
 (global-set-key [f6] 'anything)
 (global-set-key [f7] 'find-file-in-repository)
+(global-set-key (kbd "<C-f7>") 'magit-checkout)
 
 (global-set-key [f8] 'ca-new-shell)
 

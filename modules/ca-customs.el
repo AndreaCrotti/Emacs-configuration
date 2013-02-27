@@ -18,7 +18,7 @@
   )
 
 (defcustom ca-preferred-font
-  "inconsolata-14"
+  "inconsolata-13"
   "preferred font"
   :group 'ca
   :type 'list
