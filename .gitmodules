@@ -193,3 +193,6 @@
 [submodule "emacs-jedi"]
 	path = emacs-jedi
 	url = git://github.com/tkf/emacs-jedi.git
+[submodule "puppet-flymake"]
+	path = puppet-flymake
+	url = git://github.com/grimradical/puppet-flymake.git
