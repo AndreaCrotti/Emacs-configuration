@@ -196,3 +196,6 @@
 [submodule "puppet-flymake"]
 	path = puppet-flymake
 	url = git://github.com/grimradical/puppet-flymake.git
+[submodule "pomodoro.el"]
+	path = pomodoro.el
+	url = git://github.com/baudtack/pomodoro.el.git
