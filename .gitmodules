@@ -199,3 +199,6 @@
 [submodule "pomodoro.el"]
 	path = pomodoro.el
 	url = git://github.com/baudtack/pomodoro.el.git
+[submodule "elnode"]
+	path = elnode
+	url = git://github.com/nicferrier/elnode.git
