@@ -7,7 +7,7 @@
 (defvar ca-packages
   '(ack-and-a-half auctex clojure-mode coffee-mode deft expand-region
                    gist groovy-mode haml-mode haskell-mode inf-ruby
-                   magit magithub markdown-mode paredit projectile python
+                   magit magithub markdown-mode projectile python
                    sass-mode rainbow-mode scss-mode solarized-theme
                    volatile-highlights yaml-mode yari zenburn-theme)
   "A list of packages to ensure are installed at launch.")
