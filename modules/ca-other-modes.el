@@ -40,8 +40,8 @@
 (autoload 'applescript-mode "applescript-mode" "mode for applescript files" t)
 
 (setq inferior-lisp-program "sbcl")
-(require 'slime)
-(slime-setup '(slime-fancy))
+;; (require 'slime)
+;; (slime-setup '(slime-fancy))
 
 (setq nxhtml-menu-mode nil)
 

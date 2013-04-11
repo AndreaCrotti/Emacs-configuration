@@ -46,7 +46,7 @@
 
 ;; Clock configuration
 (setq org-clock-persist t)
-(org-clock-persistence-insinuate)
+;; (org-clock-persistence-insinuate)
 
 (setq
  org-completion-use-ido t
