@@ -155,50 +155,50 @@
         path = paredit
         url = https://github.com/guns/paredit.git
 [submodule "yasnippet-snippets"]
-	path = yasnippet-snippets
-	url = git://github.com/AndreaCrotti/yasnippet-snippets.git
-[submodule "cedet"]
-	path = cedet
-	url = http://git.randomsample.de/cedet.git
+        path = yasnippet-snippets
+        url = git://github.com/AndreaCrotti/yasnippet-snippets.git
 [submodule "guru-mode"]
-	path = guru-mode
-	url = https://github.com/bbatsov/guru-mode.git
+        path = guru-mode
+        url = https://github.com/bbatsov/guru-mode.git
 [submodule "powerline"]
-	path = powerline
-	url = https://github.com/milkypostman/powerline.git
+        path = powerline
+        url = https://github.com/milkypostman/powerline.git
 [submodule "scala-mode"]
-	path = scala-mode
-	url = git://github.com/haxney/scala-mode.git
+        path = scala-mode
+        url = git://github.com/haxney/scala-mode.git
 [submodule "pony-mode"]
-	path = pony-mode
-	url = https://github.com/davidmiller/pony-mode
+        path = pony-mode
+        url = https://github.com/davidmiller/pony-mode
 [submodule "js3-mode"]
-	path = js3-mode
-	url = git://github.com/thomblake/js3-mode.git
+        path = js3-mode
+        url = git://github.com/thomblake/js3-mode.git
 [submodule "less-css-mode"]
-	path = less-css-mode
-	url = git://github.com/purcell/less-css-mode.git
+        path = less-css-mode
+        url = git://github.com/purcell/less-css-mode.git
 [submodule "ac-slime"]
-	path = ac-slime
-	url = https://github.com/purcell/ac-slime.git
+        path = ac-slime
+        url = https://github.com/purcell/ac-slime.git
 [submodule "markdown-mode"]
-	path = markdown-mode
-	url = git://github.com/defunkt/markdown-mode.git
+        path = markdown-mode
+        url = git://github.com/defunkt/markdown-mode.git
 [submodule "find-file-in-repository"]
-	path = find-file-in-repository
-	url = git://github.com/hoffstaetter/find-file-in-repository.git
+        path = find-file-in-repository
+        url = git://github.com/hoffstaetter/find-file-in-repository.git
 [submodule "helm"]
-	path = helm
-	url = git://github.com/emacs-helm/helm.git
+        path = helm
+        url = git://github.com/emacs-helm/helm.git
 [submodule "emacs-jedi"]
-	path = emacs-jedi
-	url = git://github.com/tkf/emacs-jedi.git
+        path = emacs-jedi
+        url = git://github.com/tkf/emacs-jedi.git
 [submodule "puppet-flymake"]
-	path = puppet-flymake
-	url = git://github.com/grimradical/puppet-flymake.git
+        path = puppet-flymake
+        url = git://github.com/grimradical/puppet-flymake.git
 [submodule "pomodoro.el"]
-	path = pomodoro.el
-	url = git://github.com/baudtack/pomodoro.el.git
+        path = pomodoro.el
+        url = git://github.com/baudtack/pomodoro.el.git
 [submodule "elnode"]
-	path = elnode
-	url = git://github.com/nicferrier/elnode.git
+        path = elnode
+        url = git://github.com/nicferrier/elnode.git
+[submodule "minimap"]
+        path = minimap
+        url = git://randomsample.de/minimap.git
