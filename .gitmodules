@@ -22,9 +22,6 @@
 [submodule "c-eldoc"]
         path = c-eldoc
         url = http://github.com/nflath/c-eldoc.git
-[submodule "php-mode"]
-        path = php-mode
-        url = git://github.com/emacsmirror/php-mode.git
 [submodule "org-jekyll"]
         path = org-jekyll
         url = git://github.com/juanre/org-jekyll.git
@@ -199,3 +196,6 @@
 [submodule "minimap"]
         path = minimap
         url = git://randomsample.de/minimap.git
+[submodule "php-mode"]
+	path = php-mode
+	url = git://github.com/ejmr/php-mode.git
