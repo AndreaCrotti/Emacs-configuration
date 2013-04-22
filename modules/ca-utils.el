@@ -8,7 +8,7 @@
 
 (defun ack (command-args)
   (interactive
-   (let ((ack-command "ack --nogroup --with-filename --all "))
+   (let ((ack-command "ack --nogroup --with-filename "))
      (list (read-shell-command "Run ack (like this): "
                                ack-command
                                'ack-history))))
