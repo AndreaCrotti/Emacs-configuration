@@ -50,10 +50,10 @@
 (setq org-export-latex-listings t)
 
 ;; you must include the listings package
-(add-to-list 'org-export-latex-packages-alist '("" "listings"))
+;; (add-to-list 'org-export-latex-packages-alist '("" "listings"))
 
 ;; if you want colored source code then you need to include the color package
-(add-to-list 'org-export-latex-packages-alist '("" "color"))
+;; (add-to-list 'org-export-latex-packages-alist '("" "color"))
 
 (add-hook 'LaTeX-mode-hook
           (lambda ()
