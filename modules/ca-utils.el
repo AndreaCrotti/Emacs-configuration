@@ -6,15 +6,18 @@
 (defvar ack-history nil
   "History for the `ack' command.")
 
-(defun ack (command-args)
+(defconst ack-command-py "ack --nogroup --with-filename --python --ignore-dir=ve ")
+(defconst ack-command-default "ack --nogroup --with-filename ")
+
+;TODO: use the optional argument as well
+(defun ack (command-args &optional command)
   (interactive
-   (let ((ack-command "ack --nogroup --with-filename "))
+   (let ((ack-command ack-command-py))
      (list (read-shell-command "Run ack (like this): "
                                ack-command
                                'ack-history))))
   (let ((compilation-disable-input t))
-    (compilation-start (concat command-args " < " null-device)
-                       'grep-mode)))
+    (compilation-start (concat command-args " < " null-device) 'grep-mode)))
 
 (defun ack-todos ()
   (interactive)
