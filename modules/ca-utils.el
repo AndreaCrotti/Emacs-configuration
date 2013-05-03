@@ -12,7 +12,7 @@
 ;TODO: use the optional argument as well
 (defun ack (command-args &optional command)
   (interactive
-   (let ((ack-command ack-command-py))
+   (let ((ack-command ack-command-default))
      (list (read-shell-command "Run ack (like this): "
                                ack-command
                                'ack-history))))
@@ -30,7 +30,7 @@
   (interactive
    (let ((ack-command "ack --nogroup --with-filename --python "))
      (list (read-shell-command "Run ack (like this): "
-                               ack-command
+                               ack-command-py
                                'ack-history))))
   (let ((compilation-disable-input t))
     (compilation-start (concat command-args " < " null-device)
