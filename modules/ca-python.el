@@ -1,5 +1,10 @@
+(require 'jedi)
 (require 'ca-customs)
 (require 'ca-environment)
+
+(add-hook 'python-mode-hook 'jedi:setup)
+(add-hook 'python-mode-hook 'jedi:ac-setup)
+(setq jedi:setup-keys t)
 
 (setq
  py-install-directory (make-conf-path "python-mode")

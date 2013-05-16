@@ -202,3 +202,12 @@
 [submodule "multiple-cursors.el"]
 	path = multiple-cursors.el
 	url = git://github.com/magnars/multiple-cursors.el.git
+[submodule "emacs-epc"]
+	path = emacs-epc
+	url = git://github.com/kiwanami/emacs-epc.git
+[submodule "emacs-deferred"]
+	path = emacs-deferred
+	url = https://github.com/kiwanami/emacs-deferred
+[submodule "emacs-ctable"]
+	path = emacs-ctable
+	url = https://github.com/kiwanami/emacs-ctable
