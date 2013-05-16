@@ -4,6 +4,13 @@
 
 (add-hook 'python-mode-hook 'jedi:setup)
 (add-hook 'python-mode-hook 'jedi:ac-setup)
+
+(add-hook 'python-mode-hook
+          (lambda ()
+            (local-set-key "\C-cd" 'jedi:show-doc)
+            (local-set-key (kbd "M-SPC") 'jedi:complete)
+            (local-set-key (kbd "M-.") 'jedi:goto-definition)))
+
 (setq jedi:setup-keys t)
 
 (setq
@@ -52,36 +59,6 @@
       (compilation-mode)
       (shell-command (format "cd %s && %s setup.py %s"
                              project-root py-shell-name command)))))
-
-; taken from http://www.enigmacurry.com/2009/01/21/autocompleteel-python-code-completion-in-emacs/, see https://github.com/EnigmaCurry/emacs/blob/master/ryan-python.el for an updated version
-(defvar ac-source-rope
-  '((candidates
-     . (lambda ()
-         (prefix-list-elements (rope-completions) ac-target))))
-  "Source for Rope")
-
-(defun ca-python-auto-complete ()
-  (eval-after-load 'ca-python-auto-complete
-    (add-hook 'python-mode-hook
-              '(lambda ()
-                 (add-to-list 'ac-sources ac-source-rope)))))
-
-(when (and ca-linux ca-python-enable-rope)
-  (progn
-    ;; pymacs section
-    (add-to-list 'load-path (concat py-install-directory "/pymacs"))
-    (setenv "PYMACS_PYTHON" "python2.7")
-    (require 'pymacs)
-    (pymacs-load "ropemacs" "rope-")
-    (add-hook 'python-mode-hook
-              (lambda ()
-                ;FIXME: not taken in the right consideration?
-                (local-set-key (kbd "M-/") 'dabbrev-expand)
-                (local-set-key [f7] 'rope-find-file)))
-
-    (setq ropemacs-enable-autoimport t)
-    ;; (ca-python-auto-complete)
-    ))
 
 
 ;TODO: check that this really works
