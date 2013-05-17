@@ -2,11 +2,10 @@
 (require 'ca-customs)
 (require 'ca-environment)
 
-(add-hook 'python-mode-hook 'jedi:setup)
-(add-hook 'python-mode-hook 'jedi:ac-setup)
-
 (add-hook 'python-mode-hook
           (lambda ()
+            (jedi:setup)
+            (jedi:ac-setup)
             (local-set-key "\C-cd" 'jedi:show-doc)
             (local-set-key (kbd "M-SPC") 'jedi:complete)
             (local-set-key (kbd "M-.") 'jedi:goto-definition)))
