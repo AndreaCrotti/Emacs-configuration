@@ -211,3 +211,6 @@
 [submodule "emacs-ctable"]
 	path = emacs-ctable
 	url = https://github.com/kiwanami/emacs-ctable
+[submodule "emacs-ipython-notebook"]
+	path = emacs-ipython-notebook
+	url = git://github.com/tkf/emacs-ipython-notebook.git
