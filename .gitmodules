@@ -214,3 +214,6 @@
 [submodule "emacs-ipython-notebook"]
 	path = emacs-ipython-notebook
 	url = git://github.com/tkf/emacs-ipython-notebook.git
+[submodule "web-mode"]
+	path = web-mode
+	url = git://github.com/fxbois/web-mode.git
