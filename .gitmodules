@@ -214,3 +214,6 @@
 [submodule "emacs-ipython-notebook"]
 	path = emacs-ipython-notebook
 	url = git://github.com/tkf/emacs-ipython-notebook.git
+[submodule "show-keys.el"]
+	path = show-keys.el
+	url = https://github.com/candera/show-keys.el.git
