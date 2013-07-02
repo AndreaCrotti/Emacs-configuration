@@ -197,23 +197,26 @@
         path = minimap
         url = git://randomsample.de/minimap.git
 [submodule "php-mode"]
-	path = php-mode
-	url = git://github.com/ejmr/php-mode.git
+        path = php-mode
+        url = git://github.com/ejmr/php-mode.git
 [submodule "multiple-cursors.el"]
-	path = multiple-cursors.el
-	url = git://github.com/magnars/multiple-cursors.el.git
+        path = multiple-cursors.el
+        url = git://github.com/magnars/multiple-cursors.el.git
 [submodule "emacs-epc"]
-	path = emacs-epc
-	url = git://github.com/kiwanami/emacs-epc.git
+        path = emacs-epc
+        url = git://github.com/kiwanami/emacs-epc.git
 [submodule "emacs-deferred"]
-	path = emacs-deferred
-	url = https://github.com/kiwanami/emacs-deferred
+        path = emacs-deferred
+        url = https://github.com/kiwanami/emacs-deferred
 [submodule "emacs-ctable"]
-	path = emacs-ctable
-	url = https://github.com/kiwanami/emacs-ctable
+        path = emacs-ctable
+        url = https://github.com/kiwanami/emacs-ctable
 [submodule "emacs-ipython-notebook"]
-	path = emacs-ipython-notebook
-	url = git://github.com/tkf/emacs-ipython-notebook.git
+        path = emacs-ipython-notebook
+        url = git://github.com/tkf/emacs-ipython-notebook.git
 [submodule "show-keys.el"]
-	path = show-keys.el
-	url = https://github.com/candera/show-keys.el.git
+        path = show-keys.el
+        url = https://github.com/candera/show-keys.el.git
+[submodule "web-mode"]
+        path = web-mode
+        url = git://github.com/fxbois/web-mode.git
