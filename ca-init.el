@@ -23,6 +23,7 @@
                  auctex
                  bitlbee
                  bookmark+
+                 ein
                  evil
                  find-file-in-repository
                  flymake
@@ -34,7 +35,9 @@
                  ;; google-maps
                  google-translate
                  google-weather
+                 hackernews
                  helm
+                 heroku
                  htmlize
                  jedi
                  magit
@@ -45,6 +48,7 @@
                  powerline
                  python-mode
                  puppet-mode
+                 rebox2
                  yasnippet
                  scala-mode
                  slime
