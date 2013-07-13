@@ -8,12 +8,6 @@ Previously everything was in *conf.org*, an org-mode file contanining
 all the code. The file is still but now it contains only some
 documentation and useful links.
 
-Cloning the repository only is *not enough*, because some of the
-submodules are required and some need also to be compiled:
-- gnus
-- cedet
-- doxymacs
-
 * Features
   - yasnippet and thousands of snippets
   - desktop mode and nice hooks
@@ -35,12 +29,6 @@ submodules are required and some need also to be compiled:
   - Create or modify your *.emacs* in your $HOME with the following:
     + (setq base "~/Emacs-configuration/")
     + (load (concat base "ca-init.el"))
-
-  Some modes imported in this way might need to be compiled first, for example:
-  - doxymacs
-  - auctex
-  - org-mode
-  - gnus
 
   Most of them can be compiled but it's not necessary, check the
   instructions in the README/INSTALL files in the appropriate paths
