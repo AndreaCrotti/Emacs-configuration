@@ -23,6 +23,7 @@
                  auctex
                  bitlbee
                  bookmark+
+                 evil
                  find-file-in-repository
                  flymake
                  flymake-css
@@ -37,6 +38,11 @@
                  htmlize
                  jedi
                  magit
+                 memory-usage
+                 minimap
+                 pomodoro
+                 pony-mode
+                 powerline
                  python-mode
                  puppet-mode
                  yasnippet
@@ -44,6 +50,7 @@
                  slime
                  slime-clj
                  textile-mode
+                 tuareg
                  undo-tree
                  web-mode
                  wget
