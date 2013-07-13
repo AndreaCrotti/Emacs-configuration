@@ -25,6 +25,8 @@
                  bookmark+
                  clojure-mode
                  cmake-mode
+                 dpaste
+                 dired+
                  ebib
                  ein
                  emms
@@ -51,10 +53,13 @@
                  helm
                  heroku
                  htmlize
+                 lua-mode
                  jedi
                  magit
                  memory-usage
                  minimap
+                 monky
+                 multiple-cursors
                  pomodoro
                  pony-mode
                  powerline
