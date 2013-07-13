@@ -1,16 +1,6 @@
-(add-to-list 'load-path (make-conf-path "org-mode/lisp"))
-(add-to-list 'load-path (make-conf-path "org-mode/contrib/babel/lisp"))
-(add-to-list 'load-path (make-conf-path "org-mode/contrib/babel/lisp/langs"))
-(add-to-list 'load-path (make-conf-path "org-mode/contrib/lisp"))
-
-(autoload 'org-mode (make-conf-path "org-mode/lisp/org") "from git org mode" t)
-
 (setq
  org-replace-disputed-keys t
  org-goto-interface 'outline-path-completion)
-
-;; org contact settings
-(require 'org-contacts)
 
 (setq org-capture-mail-only-template
       '("c" "Contacts" entry (file "~/org/test_contacts.org")
@@ -41,8 +31,6 @@
 (setq
  org-enforce-todo-dependencies t
  org-enforce-todo-checkbox-dependencies t)
-
-(add-to-list 'Info-default-directory-list (make-conf-path "org-mode/doc/"))
 
 ;; Clock configuration
 (setq org-clock-persist t)
