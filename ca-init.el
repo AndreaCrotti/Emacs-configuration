@@ -21,12 +21,17 @@
                  auto-complete
                  autopair
                  auctex
+                 bitlbee
+                 bookmark+
                  find-file-in-repository
+                 helm
+                 htmlize
                  jedi
                  magit
                  org
                  python-mode
                  yasnippet
+                 textile-mode
 ))
 
 (mapc 'install-if-needed ca-to-install)
@@ -134,7 +139,6 @@
 (require 'ca-c)
 (require 'ca-clojure)
 (require 'ca-web)
-(require 'ca-anything)
 
 ;TODO: switch to the use of profiles with different OS detection instead
 (when ca-linux

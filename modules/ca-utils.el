@@ -2,40 +2,6 @@
 (require 'ca-customs)
 (require 'ca-environment)
 
-; add an ack command to replace the grep
-(defvar ack-history nil
-  "History for the `ack' command.")
-
-(defconst ack-command-py "ack --nogroup --with-filename --python --ignore-dir=ve ")
-(defconst ack-command-default "ack --nogroup --with-filename ")
-
-;TODO: use the optional argument as well
-(defun ack (command-args &optional command)
-  (interactive
-   (let ((ack-command ack-command-default))
-     (list (read-shell-command "Run ack (like this): "
-                               ack-command
-                               'ack-history))))
-  (let ((compilation-disable-input t))
-    (compilation-start (concat command-args " < " null-device) 'grep-mode)))
-
-(defun ack-todos ()
-  (interactive)
-  (let
-      ((ack-command "ack --nogroup --with-filename --all \"TODO|FIXME|XXX\""))
-    (compilation-start (concat ack-command " < " null-device)
-                       'grep-mode)))
-
-(defun ack-py (command-args)
-  (interactive
-   (let ((ack-command "ack --nogroup --with-filename --python "))
-     (list (read-shell-command "Run ack (like this): "
-                               ack-command-py
-                               'ack-history))))
-  (let ((compilation-disable-input t))
-    (compilation-start (concat command-args " < " null-device)
-                       'grep-mode)))
-
 (defun ca-pylint ()
   (interactive)
   (let
