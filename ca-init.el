@@ -23,6 +23,7 @@
                  auctex
                  bitlbee
                  bookmark+
+                 c-eldoc
                  clojure-mode
                  cmake-mode
                  dpaste
@@ -53,18 +54,23 @@
                  helm
                  heroku
                  htmlize
+                 less-css-mode
                  lua-mode
                  jedi
                  magit
+                 markdown-mode
                  memory-usage
                  minimap
                  monky
                  multiple-cursors
+                 offlineimap
+                 php-mode
                  pomodoro
                  pony-mode
                  powerline
                  python-mode
                  puppet-mode
+                 psvn
                  rebox2
                  rinari
                  ruby-compilation
@@ -77,6 +83,7 @@
                  undo-tree
                  web-mode
                  wget
+                 yaml-mode
 ))
 
 (mapc 'install-if-needed ca-to-install)
