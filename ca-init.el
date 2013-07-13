@@ -23,12 +23,16 @@
                  auctex
                  bitlbee
                  bookmark+
+                 clojure-mode
                  ein
                  evil
                  emacs-eclim
+                 go-mode
+                 groovy-mode
                  find-file-in-repository
                  flymake
                  flymake-css
+                 flymake-hlint
                  flymake-jshint
                  flymake-jslint
                  gist
@@ -36,6 +40,7 @@
                  ;; google-maps
                  google-translate
                  google-weather
+                 kanban
                  hackernews
                  haskell-mode
                  helm
