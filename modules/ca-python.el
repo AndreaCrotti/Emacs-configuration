@@ -1,3 +1,4 @@
+(require 'python-mode)
 (require 'jedi)
 (require 'ca-customs)
 (require 'ca-environment)
@@ -12,11 +13,7 @@
 
 (setq jedi:setup-keys t)
 
-(setq
- py-install-directory (make-conf-path "python-mode")
- py-electric-colon-active t)
-
-(load-library (concat py-install-directory "/python-mode"))
+(setq py-electric-colon-active t)
 
 ; use eval-after-load to set the right keys for python with cedet
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))

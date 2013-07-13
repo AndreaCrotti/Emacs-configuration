@@ -49,15 +49,9 @@
 (require 'ob-ditaa)
 (require 'ob-sh)
 (require 'ob-python)
-(require 'ob-ruby)
 (require 'ob-dot)
 
-;; TODO: first check if it's installed maybe
-;; (setq org-latex-to-pdf-process '("texi2dvi -p -b -c -V %f"))
-
-;; TODO: check if this is really useful and how to autocomplete it
-(org-add-link-type "ebib" 'ebib)
-
+(require 'org-agenda)
 (setq
 ; open in another window and restore the configuration on closing
  org-agenda-window-setup 'other-window
