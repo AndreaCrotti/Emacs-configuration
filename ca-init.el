@@ -25,6 +25,7 @@
                  bookmark+
                  ein
                  evil
+                 emacs-eclim
                  find-file-in-repository
                  flymake
                  flymake-css
@@ -36,6 +37,7 @@
                  google-translate
                  google-weather
                  hackernews
+                 haskell-mode
                  helm
                  heroku
                  htmlize
@@ -49,6 +51,8 @@
                  python-mode
                  puppet-mode
                  rebox2
+                 rinari
+                 ruby-compilation
                  yasnippet
                  scala-mode
                  slime
