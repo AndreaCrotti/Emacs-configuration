@@ -24,7 +24,11 @@
                  bitlbee
                  bookmark+
                  clojure-mode
+                 cmake-mode
+                 ebib
                  ein
+                 emms
+                 erlang
                  evil
                  emacs-eclim
                  go-mode
@@ -40,6 +44,7 @@
                  ;; google-maps
                  google-translate
                  google-weather
+                 graphviz-dot-mode
                  kanban
                  hackernews
                  haskell-mode
