@@ -24,13 +24,29 @@
                  bitlbee
                  bookmark+
                  find-file-in-repository
+                 flymake
+                 flymake-css
+                 flymake-jshint
+                 flymake-jslint
+                 gist
+                 google-contacts
+                 ;; google-maps
+                 google-translate
+                 google-weather
                  helm
                  htmlize
                  jedi
                  magit
                  python-mode
+                 puppet-mode
                  yasnippet
+                 scala-mode
+                 slime
+                 slime-clj
                  textile-mode
+                 undo-tree
+                 web-mode
+                 wget
 ))
 
 (mapc 'install-if-needed ca-to-install)

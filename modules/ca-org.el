@@ -50,6 +50,7 @@
 (require 'ob-sh)
 (require 'ob-dot)
 (require 'org-agenda)
+
 (setq
 ; open in another window and restore the configuration on closing
  org-agenda-window-setup 'other-window
