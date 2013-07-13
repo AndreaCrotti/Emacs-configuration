@@ -1,3 +1,37 @@
+(require 'package)
+(package-initialize)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/"))
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/") t)
+
+(package-refresh-contents)
+
+(defun install-if-needed (package)
+  (unless (package-installed-p package)
+    (package-install package)))
+
+;; make more packages available with the package installer
+(setq
+ ca-to-install '(
+                 ac-slime
+                 ac-js2
+                 ack
+                 android-mode
+                 auto-complete
+                 autopair
+                 auctex
+                 find-file-in-repository
+                 jedi
+                 magit
+                 org
+                 python-mode
+                 yasnippet
+))
+
+(mapc 'install-if-needed ca-to-install)
+
+
 (defun make-conf-path (path)
   "Shortcut to create the path of the configuration"
   (expand-file-name (concat base path)))
