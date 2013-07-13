@@ -28,7 +28,6 @@
                  htmlize
                  jedi
                  magit
-                 org
                  python-mode
                  yasnippet
                  textile-mode

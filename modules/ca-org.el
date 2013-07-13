@@ -48,9 +48,7 @@
 ;; TODO: is it possible to use autoload here?
 (require 'ob-ditaa)
 (require 'ob-sh)
-(require 'ob-python)
 (require 'ob-dot)
-
 (require 'org-agenda)
 (setq
 ; open in another window and restore the configuration on closing
