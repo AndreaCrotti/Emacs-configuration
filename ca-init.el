@@ -23,9 +23,12 @@
                  auctex
                  bitlbee
                  bookmark+
+                 browse-kill-ring
                  c-eldoc
                  clojure-mode
                  cmake-mode
+                 csharp-mode
+                 d-mode
                  dpaste
                  dired+
                  ebib
@@ -54,7 +57,9 @@
                  helm
                  heroku
                  htmlize
+                 ipython
                  less-css-mode
+                 log4j-mode
                  lua-mode
                  jedi
                  magit
@@ -64,11 +69,13 @@
                  monky
                  multiple-cursors
                  offlineimap
+                 p4
                  php-mode
                  pomodoro
                  pony-mode
                  powerline
                  python-mode
+                 prolog
                  puppet-mode
                  psvn
                  rebox2
@@ -81,6 +88,7 @@
                  textile-mode
                  tuareg
                  undo-tree
+                 virtualenv
                  web-mode
                  wget
                  yaml-mode
