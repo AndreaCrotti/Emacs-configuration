@@ -39,6 +39,7 @@
                  emacs-eclim
                  go-mode
                  groovy-mode
+                 gtags
                  find-file-in-repository
                  flymake
                  flymake-css

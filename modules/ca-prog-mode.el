@@ -7,11 +7,6 @@
 (dolist (hook ca-eldoc-modes)
   (add-hook hook 'turn-on-eldoc-mode))
 
-(require 'etags-select)
-
-(require 'etags-table)
-(setq etags-table-search-up-depth 1)
-
 (defun ca-gtags-create-or-update ()
   "create or update the gnu global tag file"
   (interactive)

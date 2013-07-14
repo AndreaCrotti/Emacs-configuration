@@ -182,7 +182,7 @@
  eimp-enable-undo t
  eimp-max-concurrent-processes 4)
 
-(load-library "auto-pair")
+(require 'autopair)
 (dolist (hook ca-autopair-mode-hooks)
   (add-hook hook (lambda () (autopair-mode t))))
 
