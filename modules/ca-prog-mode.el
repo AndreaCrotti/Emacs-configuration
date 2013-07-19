@@ -70,14 +70,6 @@
 
 (add-to-list 'auto-mode-alist '("Doxyfile" . conf-unix-mode))
 
-(add-to-list 'load-path (make-conf-path "doxymacs/lisp"))
-;; supporting doxymacs and doxymacs font locking
-(add-hook 'c-mode-common-hook
-          '(lambda ()
-             (require 'doxymacs)
-             (doxymacs-mode t)
-             (doxymacs-font-lock)))
-
 (defun ca-doxy-path (basepath classname)
   "convert the class name to the format used by doxygen"
   (concat basepath "doc/html/class_" (un-camelcase-string classname "_") ".html"))

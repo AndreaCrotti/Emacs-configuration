@@ -31,10 +31,6 @@
 (defalias 'ws 'whitespace-mode)
 (defalias 'bu 'browse-url)
 
-(defalias 'mem 'doxymacs-insert-member-comment)
-(defalias 'fun 'doxymacs-insert-function-comment)
-(defalias 'file 'doxymacs-insert-file-comment)
-
 ;; Those below are my favourite themes
 (defalias 'black 'color-theme-hober)
 (defalias 'blue 'color-theme-deep-blue)

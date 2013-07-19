@@ -10,9 +10,6 @@
 [submodule "yaml-mode"]
         path = yaml-mode
         url = http://github.com/yoshiki/yaml-mode.git
-[submodule "doxymacs"]
-        path = doxymacs
-        url = git://doxymacs.git.sourceforge.net/gitroot/doxymacs/doxymacs
 [submodule "gist.el"]
         path = gist.el
         url = git://github.com/defunkt/gist.el.git
