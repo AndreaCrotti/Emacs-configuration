@@ -18,16 +18,22 @@
                  ac-js2
                  ack
                  android-mode
+                 apache-mode
+                 ascii
                  auto-complete
                  autopair
                  auctex
+                 batch-mode
                  bitlbee
                  bookmark+
                  browse-kill-ring
                  c-eldoc
                  clojure-mode
                  cmake-mode
+                 color-moccur
                  csharp-mode
+                 csv-mode
+                 dired-details
                  d-mode
                  dpaste
                  dired+
@@ -71,6 +77,7 @@
                  multiple-cursors
                  offlineimap
                  p4
+                 phantomjs
                  php-mode
                  pomodoro
                  pony-mode
