@@ -57,7 +57,7 @@
         (with-current-buffer buffer
           (search-forward "WARNING" nil t)
           (search-forward "warning" nil t))))
-      (run-with-timer 3 nil
+      (run-with-timer ca-compilation-kill-buffer-timeout nil
                       'kill-buffer
                       buffer)))
 

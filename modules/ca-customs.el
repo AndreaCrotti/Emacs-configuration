@@ -260,4 +260,9 @@
   :type 'list
   :group 'ca)
 
+(defcustom ca-compilation-kill-buffer-timeout 10
+  "Seconds to wait before kill the compilation buffer"
+  :type 'int
+  :group 'ca)
+
 (provide 'ca-customs)
