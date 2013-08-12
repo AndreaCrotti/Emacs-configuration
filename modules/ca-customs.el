@@ -212,6 +212,7 @@
     conf-mode-hook
     haskell-mode-hook
     html-mode-hook
+    javascript-mode-hook
     latex-mode-hook
     mail-mode-hook
     message-mode-hook
