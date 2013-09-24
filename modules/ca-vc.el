@@ -10,7 +10,6 @@
 
 ;TODO: remove the requires if possible, making the auto-loading work
 (require 'magit)
-(require 'magit-svn)
 ;; enabling globally magit-svn
 (add-hook 'magit-mode-hook 'turn-on-magit-svn)
 
