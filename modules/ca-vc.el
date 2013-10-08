@@ -10,9 +10,6 @@
 
 ;TODO: remove the requires if possible, making the auto-loading work
 (require 'magit)
-;; enabling globally magit-svn
-(add-hook 'magit-mode-hook 'turn-on-magit-svn)
-
 (autoload 'monky-status "monky" "mercurial mode" t)
 
 (defun ca-detect-git-svn ()
