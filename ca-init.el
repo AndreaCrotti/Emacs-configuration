@@ -17,6 +17,7 @@
                  ac-slime
                  ac-js2
                  ack
+                 adoc-mode
                  android-mode
                  apache-mode
                  ascii
@@ -220,5 +221,7 @@
   (require 'ca-network)
   (desktop-save-mode nil)
   (gnus))
+
+(add-to-list 'auto-mode-alist (cons "\\.asciidoc\\'" 'adoc-mode))
 
 (provide 'ca-init)
