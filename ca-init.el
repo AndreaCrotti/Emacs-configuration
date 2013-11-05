@@ -76,6 +76,7 @@
                  minimap
                  monky
                  multiple-cursors
+                 notmuch
                  offlineimap
                  p4
                  phantomjs
