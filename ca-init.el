@@ -44,6 +44,7 @@
                  erlang
                  evil
                  emacs-eclim
+                 edit-server
                  go-mode
                  groovy-mode
                  gtags
