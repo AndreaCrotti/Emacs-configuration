@@ -41,6 +41,7 @@
                  ebib
                  ein
                  emms
+                 ensime
                  erlang
                  evil
                  emacs-eclim
@@ -92,6 +93,7 @@
                  rebox2
                  rinari
                  ruby-compilation
+                 ruby-mode
                  yasnippet
                  scala-mode
                  slime

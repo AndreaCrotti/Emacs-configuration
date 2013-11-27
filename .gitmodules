@@ -97,9 +97,6 @@
 [submodule "emacs-eclim"]
         path = emacs-eclim
         url = git://github.com/senny/emacs-eclim.git
-[submodule "ensime"]
-        path = ensime
-        url = git://github.com/aemoncannon/ensime.git
 [submodule "pycoverage.el"]
         path = pycoverage.el
         url = git://github.com/mattharrison/pycoverage.el.git
