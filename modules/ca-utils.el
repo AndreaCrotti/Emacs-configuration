@@ -625,9 +625,6 @@ Otherwise, expand the current region to select the lines the region touches."
   (let ((baseurl "http://www.google.com/codesearch?q=%s"))
     (browse-url (format baseurl (thing-at-point 'symbol) ))))
 
-(defun ca-with-comment (str)
-  (format "%s%s%s" comment-start str comment-end))
-
 (defun ca-is-new-file ()
   "Check if it's a new file"
   (not (file-exists-p buffer-file-name)))
