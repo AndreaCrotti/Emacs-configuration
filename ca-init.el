@@ -109,18 +109,21 @@
 
 (mapc 'install-if-needed ca-to-install)
 
+(add-hook 'after-init-hook #'global-flycheck-mode)
+(smartparens-global-mode t)
+(show-paren-mode t)
+(column-number-mode t)
+
 
 (defun make-conf-path (path)
   "Shortcut to create the path of the configuration"
   (expand-file-name (concat base path)))
 
 (add-to-list 'load-path (make-conf-path "modules"))
-;; (add-to-list 'load-path (make-conf-path "cedet/lisp/cedet"))
+
 ; second argument as 0 to compile if they don't exist
 (require 'ca-customs)
 (require 'ca-utils)
-
-;; (load (make-conf-path "cedet/cedet-devel-load.el"))
 
 ;; what if this is set differently?
 (setq custom-file (make-conf-path "custom.el"))
@@ -151,8 +154,6 @@
  inhibit-startup-message t
  initial-scratch-message nil)
 
-(show-paren-mode t)
-(column-number-mode t)
 ;; always truncate lines (useful for netbook), not working yet in ORG MODE
 (setq truncate-lines nil)
 ;; Setting indent-tabs-mode for only spaces
@@ -213,9 +214,6 @@
 (require 'ca-clojure)
 (require 'ca-web)
 
-;TODO: switch to the use of profiles with different OS detection instead
-(when ca-linux
-  (require 'ca-flymake))
 
 (when (file-exists-p custom-file)
   (message "loading custom file")
@@ -225,7 +223,5 @@
   (require 'ca-network)
   (desktop-save-mode nil)
   (gnus))
-
-(add-to-list 'auto-mode-alist (cons "\\.asciidoc\\'" 'adoc-mode))
 
 (provide 'ca-init)

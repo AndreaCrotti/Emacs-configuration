@@ -97,17 +97,6 @@
   :type 'list
   )
 
-(defcustom ca-python-enable-rope nil
-  "True if rope is enabled"
-  :type 'boolean
-  :group 'ca)
-
-;FIXME: not used at the moment
-(defcustom ca-python-enable-cedet t
-  "True if we should use cedet also for python"
-  :type 'boolean
-  :group 'ca)
-
 (defcustom ca-backend-assoc
   '(('Git . 'magit-status)
     ('Hg . 'hg-status)
@@ -163,7 +152,7 @@
   :group 'ca)
 
 (defcustom ca-cedet-modes
-  '(python-mode-hook c-mode-common-hook emacs-lisp-mode-hook makefile-mode-hook)
+  '(c-mode-common-hook emacs-lisp-mode-hook makefile-mode-hook)
   "Modes for which cedet should be enabled"
   :type 'list
   :group 'ca)
@@ -204,33 +193,6 @@
   :type 'list
   :group 'ca)
 
-(defcustom ca-autopair-mode-hooks
-  '(
-    c-mode-common-hook
-    clojure-mode-hook
-    cmake-mode-hook
-    conf-mode-hook
-    haskell-mode-hook
-    html-mode-hook
-    javascript-mode-hook
-    latex-mode-hook
-    mail-mode-hook
-    message-mode-hook
-    nsis-mode-hook
-    org-mode-hook
-    python-mode-hook
-    rst-mode-hook
-    ruby-mode-hook
-    scala-mode-hook
-    sh-mode-hook
-    shell-mode-hook
-    text-mode-hook
-    tuareg-mode-hook
-    typerex-mode-hook
-    )
-  "Modes for which fixme-mode should be enabled"
-  :type 'list
-  :group 'ca)
 
 (defcustom erc-autojoin-channels-alist
   '("freenode.net"
@@ -244,11 +206,6 @@
   :type 'list
   :group 'ca)
 
-(defcustom ca-flymake-enabled t
-  "if T flymake is enabled"
-  :type 'boolean
-  :group 'ca
-  )
 
 (defcustom ca-anything-requires-pattern 2
   "number of characters to input before starting to search"
@@ -267,3 +224,5 @@
   :group 'ca)
 
 (provide 'ca-customs)
+
+;;; ca-customs.el ends here

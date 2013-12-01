@@ -182,29 +182,6 @@
  eimp-enable-undo t
  eimp-max-concurrent-processes 4)
 
-(require 'autopair)
-(dolist (hook ca-autopair-mode-hooks)
-  (add-hook hook (lambda () (autopair-mode t))))
-
-(add-hook 'python-mode-hook
-          #'(lambda ()
-              (setq autopair-handle-action-fns
-                    (list #'autopair-default-handle-action
-                          #'autopair-python-triple-quote-action))))
-
-(add-hook 'latex-mode-hook
-          #'(lambda ()
-              (set (make-local-variable 'autopair-handle-action-fns)
-                   (list #'autopair-default-handle-action
-                         #'autopair-latex-mode-paired-delimiter-action))))
-
-(add-hook 'c++-mode-hook
-          #'(lambda ()
-              (push '(?< . ?>)
-                    (getf autopair-extra-pairs :code))))
-
-(add-hook 'c-mode-common-hook #'(lambda () (autopair-mode)))
-
 
 (when ca-command-frequency-enabled
   (require 'command-frequency)
@@ -254,5 +231,7 @@
 (add-to-list 'auto-mode-alist '("\\.textile$" . textile-mode))
 
 (add-to-list 'auto-mode-alist '("\\.service$" . conf-mode))
+
+(add-to-list 'auto-mode-alist (cons "\\.asciidoc\\'" 'adoc-mode))
 
 (provide 'ca-other-modes)

@@ -3,6 +3,7 @@
 (require 'ca-customs)
 (require 'ca-environment)
 
+;TODO: add some binding to jump to things that are not defined
 (add-hook 'python-mode-hook
           (lambda ()
             (jedi:setup)
