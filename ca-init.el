@@ -30,6 +30,7 @@
                  browse-kill-ring
                  c-eldoc
                  clojure-mode
+                 cider
                  cmake-mode
                  color-moccur
                  csharp-mode
@@ -50,11 +51,7 @@
                  groovy-mode
                  gtags
                  find-file-in-repository
-                 flymake
-                 flymake-css
-                 flymake-hlint
-                 flymake-jshint
-                 flymake-jslint
+                 flycheck
                  gist
                  google-contacts
                  ;; google-maps
@@ -96,6 +93,7 @@
                  ruby-mode
                  yasnippet
                  scala-mode
+                 smartparens
                  slime
                  slime-clj
                  textile-mode
