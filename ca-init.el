@@ -14,6 +14,7 @@
 ;; make more packages available with the package installer
 (setq
  ca-to-install '(
+                 4clojure
                  ac-slime
                  ac-js2
                  ack
@@ -29,7 +30,10 @@
                  bookmark+
                  browse-kill-ring
                  c-eldoc
+                 cljdoc
+                 clojure-cheatsheet
                  clojure-mode
+                 clojure-test-mode
                  cider
                  cmake-mode
                  color-moccur
