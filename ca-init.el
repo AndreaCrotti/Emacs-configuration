@@ -81,6 +81,7 @@
                  multiple-cursors
                  notmuch
                  offlineimap
+                 org-jekyll
                  p4
                  phantomjs
                  php-mode

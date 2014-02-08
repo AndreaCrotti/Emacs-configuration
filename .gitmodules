@@ -16,9 +16,6 @@
 [submodule "c-eldoc"]
         path = c-eldoc
         url = http://github.com/nflath/c-eldoc.git
-[submodule "org-jekyll"]
-        path = org-jekyll
-        url = git://github.com/juanre/org-jekyll.git
 [submodule "malabar-mode"]
         path = malabar-mode
         url = git://github.com/espenhw/malabar-mode.git
@@ -70,9 +67,6 @@
 [submodule "google-maps"]
         path = google-maps
         url = git://git.naquadah.org/google-maps.git
-[submodule "jshint-mode"]
-        path = jshint-mode
-        url = git://github.com/daleharvey/jshint-mode.git
 [submodule "js2-mode"]
         path = js2-mode
         url = git://github.com/mooz/js2-mode.git
