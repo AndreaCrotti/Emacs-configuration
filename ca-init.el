@@ -21,6 +21,7 @@
                  adoc-mode
                  android-mode
                  apache-mode
+                 arduino-mode
                  ascii
                  auto-complete
                  autopair
@@ -51,6 +52,7 @@
                  evil
                  emacs-eclim
                  edit-server
+                 ensime
                  go-mode
                  groovy-mode
                  gtags
