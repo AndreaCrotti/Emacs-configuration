@@ -1,30 +1,9 @@
 [submodule "programming-tools"]
         path = programming-tools
         url = git://github.com/AndreaCrotti/programming-tools.git
-[submodule "ess-mirror"]
-        path = ess-mirror
-        url = git://github.com/AndreaCrotti/ess-mirror.git
-[submodule "undo-tree"]
-        path = undo-tree
-        url = http://www.dr-qubit.org/git/undo-tree.git
-[submodule "js2-mode"]
-        path = js2-mode
-        url = git://github.com/mooz/js2-mode.git
 [submodule "org-passwords"]
         path = org-passwords
         url = git://github.com/AndreaCrotti/org-passwords.git
-[submodule "pycoverage.el"]
-        path = pycoverage.el
-        url = git://github.com/mattharrison/pycoverage.el.git
-[submodule "coffee-mode"]
-        path = coffee-mode
-        url = git://github.com/defunkt/coffee-mode.git
-[submodule "clojure-mode"]
-        path = clojure-mode
-        url = git://github.com/technomancy/clojure-mode.git
-[submodule "el-get"]
-        path = el-get
-        url = git://github.com/dimitri/el-get.git
 [submodule "typerex"]
         path = typerex
         url = git://github.com/OCamlPro/typerex.git
@@ -34,12 +13,6 @@
 [submodule "yasnippet-snippets"]
         path = yasnippet-snippets
         url = git://github.com/AndreaCrotti/yasnippet-snippets.git
-[submodule "elnode"]
-        path = elnode
-        url = git://github.com/nicferrier/elnode.git
 [submodule "show-keys.el"]
         path = show-keys.el
         url = https://github.com/candera/show-keys.el.git
-[submodule "web-mode"]
-        path = web-mode
-        url = git://github.com/fxbois/web-mode.git
