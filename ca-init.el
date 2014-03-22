@@ -46,6 +46,7 @@
                  dired+
                  ebib
                  ein
+                 emmet-mode
                  emms
                  ensime
                  erlang
