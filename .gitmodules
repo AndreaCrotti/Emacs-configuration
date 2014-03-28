@@ -7,9 +7,6 @@
 [submodule "typerex"]
         path = typerex
         url = git://github.com/OCamlPro/typerex.git
-[submodule "google-contacts.el"]
-        path = google-contacts.el
-        url = git://git.naquadah.org/google-contacts.el.git
 [submodule "yasnippet-snippets"]
         path = yasnippet-snippets
         url = git://github.com/AndreaCrotti/yasnippet-snippets.git
