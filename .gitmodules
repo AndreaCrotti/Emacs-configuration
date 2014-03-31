@@ -10,6 +10,3 @@
 [submodule "yasnippet-snippets"]
         path = yasnippet-snippets
         url = git://github.com/AndreaCrotti/yasnippet-snippets.git
-[submodule "show-keys.el"]
-        path = show-keys.el
-        url = https://github.com/candera/show-keys.el.git
