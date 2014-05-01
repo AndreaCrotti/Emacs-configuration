@@ -84,6 +84,7 @@
                  multiple-cursors
                  notmuch
                  offlineimap
+                 org-gcal
                  org-jekyll
                  p4
                  phantomjs
