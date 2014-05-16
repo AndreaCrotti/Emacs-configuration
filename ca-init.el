@@ -56,7 +56,7 @@
                  ensime
                  go-mode
                  groovy-mode
-                 gtags
+                 ;;gtags
                  find-file-in-repository
                  flycheck
                  gist
