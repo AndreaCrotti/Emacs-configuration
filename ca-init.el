@@ -31,7 +31,7 @@
                  bookmark+
                  browse-kill-ring
                  c-eldoc
-                 cljdoc
+                 ;cljdoc
                  clojure-cheatsheet
                  clojure-mode
                  clojure-test-mode
@@ -230,5 +230,11 @@
   (require 'ca-network)
   (desktop-save-mode nil)
   (gnus))
+
+(when (eq system-type 'darwin) ;; mac specific settings
+  (setq mac-option-modifier 'alt)
+  (setq mac-command-modifier 'meta)
+  ;;(global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
+  )
 
 (provide 'ca-init)
