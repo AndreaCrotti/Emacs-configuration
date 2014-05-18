@@ -38,6 +38,7 @@
                  cider
                  cmake-mode
                  color-moccur
+                 color-theme
                  csharp-mode
                  csv-mode
                  dired-details
@@ -71,7 +72,7 @@
                  helm
                  heroku
                  htmlize
-                 ipython
+                 ;;ipython
                  less-css-mode
                  log4j-mode
                  lua-mode
@@ -87,12 +88,12 @@
                  org-gcal
                  org-jekyll
                  p4
-                 phantomjs
+                 ;;phantomjs
                  php-mode
                  pomodoro
                  pony-mode
                  powerline
-                 python-mode
+                 ;python-mode
                  prolog
                  puppet-mode
                  psvn
@@ -104,13 +105,13 @@
                  scala-mode
                  smartparens
                  slime
-                 slime-clj
+                 ;slime-clj
                  textile-mode
                  tuareg
                  undo-tree
                  virtualenv
                  web-mode
-                 wget
+                 ;wget
                  yaml-mode
 ))
 
@@ -232,6 +233,7 @@
   (gnus))
 
 (when (eq system-type 'darwin) ;; mac specific settings
+  (add-to-list 'exec-path "/usr/local/bin")
   (setq mac-option-modifier 'alt)
   (setq mac-command-modifier 'meta)
   ;;(global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
