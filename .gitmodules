@@ -9,4 +9,4 @@
         url = git://github.com/OCamlPro/typerex.git
 [submodule "yasnippet-snippets"]
         path = yasnippet-snippets
-        url = git://github.com/AndreaCrotti/yasnippet-snippets.git
+        url = github:AndreaCrotti/yasnippet-snippets.git

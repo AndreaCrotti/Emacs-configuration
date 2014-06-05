@@ -1,28 +1,32 @@
 ;;; po-mode.el -- major mode for GNU gettext PO files
 
-;; Copyright (C) 1995-1999, 2000-2002, 2005-2008, 2010 Free Software Foundation, Inc.
+;; Copyright (C) 1995-1999, 2000-2002, 2005-2007 Free Software Foundation, Inc.
 
-;; Authors: François Pinard <pinard@iro.umontreal.ca>
+;; Authors: Fran�ois Pinard <pinard@iro.umontreal.ca>
 ;;          Greg McGary <gkm@magilla.cichlid.com>
 ;; Keywords: i18n gettext
 ;; Created: 1995
 
 ;; This file is part of GNU gettext.
 
-;; This program is free software: you can redistribute it and/or modify
+;; GNU gettext is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 3 of the License, or
-;; (at your option) any later version.
+;; the Free Software Foundation; either version 2, or (at your option)
+;; any later version.
 
-;; This program is distributed in the hope that it will be useful,
+;; GNU gettext is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+;; along with GNU Emacs; see the file COPYING.  If not, write to the
+;; Free Software Foundation, 51 Franklin Street, Fifth Floor,
+;; Boston, MA 02110-1301, USA.
 
 ;;; Commentary:
+
+;; jart 2010-01-19: Added autoload comment to po-mode
 
 ;; This package provides the tools meant to help editing PO files,
 ;; as documented in the GNU gettext user's manual.  See this manual
@@ -33,15 +37,13 @@
 ;;
 ;;   (autoload 'po-mode "po-mode"
 ;;             "Major mode for translators to edit PO files" t)
-;;   (setq auto-mode-alist (cons '("\\.po\\'\\|\\.po\\." . po-mode)
-;;                               auto-mode-alist))
+;;   (setq auto-mode-alist (cons '("\\.po\\'\\|\\.po\\." . po-mode) auto-mode-alist))
 ;;
 ;; To use the right coding system automatically under Emacs 20 or newer,
 ;; also add:
 ;;
 ;;   (autoload 'po-find-file-coding-system "po-compat")
-;;   (modify-coding-system-alist 'file "\\.po\\'\\|\\.po\\."
-;;                               'po-find-file-coding-system)
+;;   (modify-coding-system-alist 'file "\\.po\\'\\|\\.po\\." 'po-find-file-coding-system)
 ;;
 ;; You may also adjust some variables, below, by defining them in your
 ;; '.emacs' file, either directly or through command 'M-x customize'.
@@ -62,7 +64,7 @@
 
 ;;; Code:
 
-(defconst po-mode-version-string "2.2" "\
+(defconst po-mode-version-string "2.1" "\
 Version number of this version of po-mode.el.")
 
 ;;; Emacs portability matters - part I.
@@ -115,14 +117,6 @@ Version number of this version of po-mode.el.")
 (defcustom po-auto-fuzzy-on-edit nil
   "*Automatically mark entries fuzzy when being edited."
   :type 'boolean
-  :group 'po)
-
-(defcustom po-auto-delete-previous-msgid t
-  "*Automatically delete previous msgid (marked #|) when editing entry.
-Value is nil, t, or ask."
-  :type '(choice (const nil)
-                 (const t)
-                 (const ask))
   :group 'po)
 
 (defcustom po-auto-select-on-unfuzzy nil
@@ -194,6 +188,7 @@ slightly different."
     ("(Afan) Oromo" . "om")
     ("Abkhazian" . "ab")
     ("Achinese" . "ace")
+    ("Adangme" . "ad")
     ("Afar" . "aa")
     ("Afrikaans" . "af")
     ("Akan" . "ak")
@@ -213,9 +208,10 @@ slightly different."
     ("Balinese" . "ban")
     ("Baluchi" . "bal")
     ("Bambara" . "bm")
+    ("Banda" . "bad")
     ("Bashkir" . "ba")
     ("Basque" . "eu")
-    ("Beja" . "bej")
+    ("Batak" . "btk")
     ("Belarusian" . "be")
     ("Bemba" . "bem")
     ("Bengali" . "bn")
@@ -232,7 +228,6 @@ slightly different."
     ("Burmese" . "my")
     ("Catalan" . "ca")
     ("Cebuano" . "ceb")
-    ("Central Khmer" . "km")
     ("Chamorro" . "ch")
     ("Chechen" . "ce")
     ("Chinese" . "zh")
@@ -307,7 +302,7 @@ slightly different."
     ("Kashmiri" . "ks")
     ("Kashubian" . "csb")
     ("Kazakh" . "kk")
-    ("Khmer" . "km") ; old name
+    ("Khmer" . "km")
     ("Kikuyu" . "ki")
     ("Kimbundu" . "kmb")
     ("Kinyarwanda" . "rw")
@@ -374,7 +369,7 @@ slightly different."
     ("Old English" . "ang")
     ("Oriya" . "or")
     ("Ossetian" . "os")
-    ("Páez" . "pbb")
+    ("P�ez" . "pbb")
     ("Pali" . "pi")
     ("Pampanga" . "pam")
     ("Pangasinan" . "pag")
@@ -385,9 +380,8 @@ slightly different."
     ("Punjabi" . "pa")
     ("Quechua" . "qu")
     ("Rajasthani" . "raj")
-    ("Rhaeto-Roman" . "rm") ; old name
+    ("Rhaeto-Roman" . "rm")
     ("Romanian" . "ro")
-    ("Romansh" . "rm")
     ("Russian" . "ru")
     ("Samoan" . "sm")
     ("Sango" . "sg")
@@ -395,8 +389,7 @@ slightly different."
     ("Santali" . "sat")
     ("Sardinian" . "sc")
     ("Sasak" . "sas")
-    ("Scots" . "gd") ; old name
-    ("Scottish Gaelic" . "gd")
+    ("Scots" . "gd")
     ("Serbian" . "sr")
     ("Serer" . "srr")
     ("Sesotho" . "st")
@@ -695,12 +688,12 @@ No doubt that highlighting, when Emacs does not allow it, is a kludge."
 (defvar po-start-of-entry)
 (defvar po-start-of-msgctxt) ; = po-start-of-msgid if there is no msgctxt
 (defvar po-start-of-msgid)
-(defvar po-start-of-msgid_plural) ; = nil if there is no msgid_plural
 (defvar po-start-of-msgstr-block)
 (defvar po-start-of-msgstr-form)
 (defvar po-end-of-msgstr-form)
 (defvar po-end-of-entry)
 (defvar po-entry-type)
+(defvar po-msgstr-form-flavor)
 
 ;; A few counters are usefully shown in the Emacs mode line.
 (defvar po-translated-counter)
@@ -1009,18 +1002,6 @@ Initialize or replace current translation with the original message"))])
                          (error (_"I do not know how to mail to '%s'") to))))))
   "Function to start composing an electronic message.")
 
-(defvar po-any-previous-msgctxt-regexp
-  "^#\\(~\\)?|[ \t]*msgctxt.*\n\\(#\\(~\\)?|[ \t]*\".*\n\\)*"
-  "Regexp matching a whole #| msgctxt field, whether obsolete or not.")
-
-(defvar po-any-previous-msgid-regexp
-  "^#\\(~\\)?|[ \t]*msgid.*\n\\(#\\(~\\)?|[ \t]*\".*\n\\)*"
-  "Regexp matching a whole #| msgid field, whether obsolete or not.")
-
-(defvar po-any-previous-msgid_plural-regexp
-  "^#\\(~\\)?|[ \t]*msgid_plural.*\n\\(#\\(~\\)?|[ \t]*\".*\n\\)*"
-  "Regexp matching a whole #| msgid_plural field, whether obsolete or not.")
-
 (defvar po-any-msgctxt-msgid-regexp
   "^\\(#~[ \t]*\\)?msg\\(ctxt\\|id\\).*\n\\(\\(#~[ \t]*\\)?\".*\n\\)*"
   "Regexp matching a whole msgctxt or msgid field, whether obsolete or not.")
@@ -1029,12 +1010,8 @@ Initialize or replace current translation with the original message"))])
   "^\\(#~[ \t]*\\)?msgid.*\n\\(\\(#~[ \t]*\\)?\".*\n\\)*"
   "Regexp matching a whole msgid field, whether obsolete or not.")
 
-(defvar po-any-msgid_plural-regexp
-  "^\\(#~[ \t]*\\)?msgid_plural.*\n\\(\\(#~[ \t]*\\)?\".*\n\\)*"
-  "Regexp matching a whole msgid_plural field, whether obsolete or not.")
-
 (defvar po-any-msgstr-block-regexp
-  "^\\(#~[ \t]*\\)?msgstr\\([ \t]\\|\\[0\\]\\).*\n\\(\\(#~[ \t]*\\)?\".*\n\\)*\\(\\(#~[ \t]*\\)?msgstr\\[[0-9]\\].*\n\\(\\(#~[ \t]*\\)?\".*\n\\)*\\)*"
+  "^\\(#~[ \t]*\\)?msgstr.*\n\\(\\(#~[ \t]*\\)?\".*\n\\)*\\(\\(#~[ \t]*\\)?msgstr\\[[0-9]\\].*\n\\(\\(#~[ \t]*\\)?\".*\n\\)*\\)*"
   "Regexp matching a whole msgstr or msgstr[] field, whether obsolete or not.")
 
 (defvar po-any-msgstr-form-regexp
@@ -1158,6 +1135,7 @@ Initialize or replace current translation with the original message"))])
     po-mode-map)
   "Keymap for PO mode.")
 
+;;;###autoload
 (defun po-mode ()
   "Major mode for translators when they edit PO files.
 
@@ -1183,7 +1161,6 @@ all reachable through 'M-x customize', in group 'Emacs.Editing.I18n.Po'."
   (make-local-variable 'po-start-of-entry)
   (make-local-variable 'po-start-of-msgctxt)
   (make-local-variable 'po-start-of-msgid)
-  (make-local-variable 'po-start-of-msgid_plural)
   (make-local-variable 'po-start-of-msgstr-block)
   (make-local-variable 'po-end-of-entry)
   (make-local-variable 'po-entry-type)
@@ -1377,7 +1354,7 @@ Position %d/%d; %d translated, %d fuzzy, %d untranslated, %d obsolete")
                     ;; This is an oldish header.  Replace it all.
                     (goto-char end-of-header)
                     (while (> (point) (point-min))
-                      (forward-line -1)
+                      (previous-line 1)
                       (insert "#~ ")
                       (beginning-of-line))
                     (beginning-of-line)
@@ -1417,17 +1394,16 @@ Position %d/%d; %d translated, %d fuzzy, %d untranslated, %d obsolete")
                        t t))))
         (message ""))
     (message (_"PO-Revision-Date should be adjusted...")))
-  ;; Return nil to indicate that the buffer has not yet been saved.
   nil)
 
 ;;; Handling span of entry, entry type and entry attributes.
 
 (defun po-find-span-of-entry ()
   "Find the extent of the PO file entry where the cursor is.
-Set variables po-start-of-entry, po-start-of-msgctxt, po-start-of-msgid,
-po-start-of-msgid_plural, po-start-of-msgstr-block, po-end-of-entry, and
-po-entry-type to meaningful values. po-entry-type may be set to: obsolete,
-fuzzy, untranslated, or translated."
+Set variables PO-START-OF-ENTRY, PO-START-OF-MSGCTXT, PO-START-OF-MSGID,
+po-start-of-msgstr-block, PO-END-OF-ENTRY and PO-ENTRY-TYPE to meaningful
+values. Decreasing priority of type interpretation is: obsolete, fuzzy,
+untranslated or translated."
   (let ((here (point)))
     (if (re-search-backward po-any-msgstr-block-regexp nil t)
         (progn
@@ -1485,19 +1461,12 @@ fuzzy, untranslated, or translated."
     (re-search-forward po-any-msgid-regexp)
     (setq po-start-of-msgid (match-beginning 0))
     (save-excursion
-      (goto-char po-start-of-msgid)
-      (setq po-start-of-msgid_plural
-            (if (re-search-forward po-any-msgid_plural-regexp
-                                   po-start-of-msgstr-block t)
-                (match-beginning 0)
-              nil)))
-    (save-excursion
       (when (>= here po-start-of-msgstr-block)
         ;; point was somewhere inside of msgstr*
         (goto-char here)
         (end-of-line)
         (re-search-backward "^\\(#~[ \t]*\\)?msgstr"))
-      ;; Detect the boundaries of the msgstr we are interested in.
+      ;; Detect the bounderies of the msgstr we are interested in.
       (re-search-forward po-any-msgstr-form-regexp)
       (setq po-start-of-msgstr-form (match-beginning 0)
             po-end-of-msgstr-form (match-end 0)))
@@ -1530,7 +1499,7 @@ fuzzy, untranslated, or translated."
               (insert ", " name)))
         (skip-chars-forward "\n")
         (while (eq (following-char) ?#)
-          (forward-line 1))
+          (next-line 1))
         (insert "#, " name "\n")))))
 
 (defun po-delete-attribute (name)
@@ -1703,12 +1672,9 @@ If WRAP is not nil, the search may wrap around the buffer."
   (po-find-span-of-entry)
   (if (or (eq po-entry-type 'untranslated)
           (eq po-entry-type 'obsolete)
-          (prog1 (y-or-n-p (_"Really lose previous translation? "))
-                 (message "")))
-      ;; In an entry with plural forms, use the msgid_plural string,
-      ;; as it is more general than the msgid string.
-      (if (po-set-msgstr-form (or (po-get-msgid_plural) (po-get-msgid)))
-          (po-maybe-delete-previous-untranslated))))
+          (y-or-n-p (_"Really lose previous translation? ")))
+      (po-set-msgstr-form (po-get-msgid)))
+  (message ""))
 
 ;; Obsolete entries.
 
@@ -1749,7 +1715,6 @@ which does not match exactly.")
   (cond ((eq po-entry-type 'fuzzy)
          (po-decrease-type-counter)
          (po-delete-attribute "fuzzy")
-         (po-maybe-delete-previous-untranslated)
          (po-current-entry)
          (po-increase-type-counter)))
   (if po-auto-select-on-unfuzzy
@@ -1777,7 +1742,7 @@ which does not match exactly.")
     (po-previous-entry-with-regexp po-any-msgstr-block-regexp t)
     (po-find-span-of-entry)
     (while (not (eq po-entry-type 'translated))
-      (po-previous-entry-with-regexp po-any-msgstr-block-regexp t)
+      (po-previous-entry-with-regexp po-untranslated-regexp t)
       (po-find-span-of-entry))))
 
 ;; Auto-selection feature.
@@ -1925,33 +1890,22 @@ If FORM is itself a string, then this string is used for insertion."
   "Extract and return the unquoted msgid string."
   (let ((string (po-extract-unquoted (current-buffer)
                                      po-start-of-msgid
-                                     (or po-start-of-msgid_plural
-                                         po-start-of-msgstr-block))))
+                                     po-start-of-msgstr-block)))
     string))
 
-(defun po-get-msgid_plural ()
-  "Extract and return the unquoted msgid_plural string.
-Return nil if it is not present."
-  (if po-start-of-msgid_plural
-      (let ((string (po-extract-unquoted (current-buffer)
-                                         po-start-of-msgid_plural
-                                         po-start-of-msgstr-block)))
-        string)
-    nil))
-
 (defun po-get-msgstr-flavor ()
-  "Helper function to detect msgstr and msgstr[] variants.
-Returns one of \"msgstr\" or \"msgstr[i]\" for some i."
-  (save-excursion
-    (goto-char po-start-of-msgstr-form)
-    (re-search-forward "^\\(#~[ \t]*\\)?\\(msgstr\\(\\[[0-9]\\]\\)?\\)")
-    (match-string 2)))
+  "Helper function to detect msgstr and msgstr[] variants."
+  (beginning-of-line)
+  (re-search-forward "^\\(#~[ \t]*\\)?\\(msgstr\\(\\[[0-9]\\]\\)?\\)")
+  (match-string 2))
 
 (defun po-get-msgstr-form ()
   "Extract and return the unquoted msgstr string."
-  (let ((string (po-extract-unquoted (current-buffer)
+  (let ((flavor (po-get-msgstr-flavor))
+        (string (po-extract-unquoted (current-buffer)
                                      po-start-of-msgstr-form
                                      po-end-of-msgstr-form)))
+    (setq po-msgstr-form-flavor flavor)
     string))
 
 (defun po-set-msgid (form)
@@ -1982,7 +1936,7 @@ is properly requoted before the replacement occurs.
 Returns 'nil' if the buffer has not been modified, for if the new msgstr
 described by FORM is merely identical to the msgstr already in place."
   (let ((string (po-eval-requoted form
-                                  (po-get-msgstr-flavor)
+                                  po-msgstr-form-flavor
                                   (eq po-entry-type 'obsolete))))
     (save-excursion
       (goto-char po-start-of-msgstr-form)
@@ -2008,15 +1962,13 @@ described by FORM is merely identical to the msgstr already in place."
   "Empty the msgstr string from current entry, pushing it on the kill ring."
   (interactive)
   (po-kill-ring-save-msgstr)
-  (if (po-set-msgstr-form "")
-      (po-maybe-delete-previous-untranslated)))
+  (po-set-msgstr-form ""))
 
 (defun po-yank-msgstr ()
   "Replace the current msgstr string by the top of the kill ring."
   (interactive)
   (po-find-span-of-entry)
-  (if (po-set-msgstr-form (if (eq last-command 'yank) '(yank-pop 1) '(yank)))
-      (po-maybe-delete-previous-untranslated))
+  (po-set-msgstr-form (if (eq last-command 'yank) '(yank-pop 1) '(yank)))
   (setq this-command 'yank))
 
 (defun po-fade-out-entry ()
@@ -2139,62 +2091,7 @@ The string is properly recommented before the replacement occurs."
   (po-set-comment (if (eq last-command 'yank) '(yank-pop 1) '(yank)))
   (setq this-command 'yank)
   (po-redisplay))
-
-;;; Deleting the "previous untranslated" comment.
-
-(defun po-previous-untranslated-region-for (rx)
-  "Return the list of previous untranslated regions (at most one) for the
-given regular expression RX."
-  (save-excursion
-    (goto-char po-start-of-entry)
-    (if (re-search-forward rx po-start-of-msgctxt t)
-        (list (cons (copy-marker (match-beginning 0))
-                    (copy-marker (match-end 0))))
-      nil)))
-
-(defun po-previous-untranslated-regions ()
-  "Return the list of previous untranslated regions in the current entry."
-  (append (po-previous-untranslated-region-for po-any-previous-msgctxt-regexp)
-          (po-previous-untranslated-region-for po-any-previous-msgid-regexp)
-          (po-previous-untranslated-region-for po-any-previous-msgid_plural-regexp)))
-
-(defun po-delete-previous-untranslated ()
-  "Delete the previous msgctxt, msgid, msgid_plural fields (marked as #|
-comments) from the current entry."
-  (interactive)
-  (po-find-span-of-entry)
-  (let ((buffer-read-only po-read-only))
-    (dolist (region (po-previous-untranslated-regions))
-      (delete-region (car region) (cdr region))))
-  (po-redisplay))
-
-(defun po-maybe-delete-previous-untranslated ()
-  "Delete the previous msgctxt, msgid, msgid_plural fields (marked as #|
-comments) from the current entry, if the user gives the permission."
-  (po-find-span-of-entry)
-  (let ((previous-regions (po-previous-untranslated-regions)))
-    (if previous-regions
-        (if (or (eq po-auto-delete-previous-msgid t)
-                (and (eq po-auto-delete-previous-msgid 'ask)
-                     (let ((overlays nil))
-                       (unwind-protect
-                           (progn
-                             (setq overlays
-                                   (mapcar (function
-                                             (lambda (region)
-                                               (let ((overlay (po-create-overlay)))
-                                                 (po-highlight overlay (car region) (cdr region))
-                                                 overlay)))
-                                           previous-regions))
-                             ;; Scroll, to show the previous-regions.
-                             (goto-char (car (car previous-regions)))
-                             (prog1 (y-or-n-p (_"Delete previous msgid comments? "))
-                                    (message "")))
-                         (mapc 'po-dehighlight overlays)))))
-            (let ((buffer-read-only po-read-only))
-              (dolist (region previous-regions)
-                (delete-region (car region) (cdr region))))))))
-
+
 ;;; Editing management and submode.
 
 ;; In a string edit buffer, BACK-POINTER points to one of the slots of the
@@ -2369,16 +2266,15 @@ When done with the `ediff' session press \\[exit-recursive-edit] exit to
            (po-set-comment string)
            (po-redisplay))
           ((= (point) po-start-of-msgstr-form)
-           (if (po-set-msgstr-form string)
-               (progn
-                 (po-maybe-delete-previous-untranslated)
-                 (if (and po-auto-fuzzy-on-edit
-                          (eq po-entry-type 'translated))
-                     (progn
-                       (po-decrease-type-counter)
-                       (po-add-attribute "fuzzy")
-                       (po-current-entry)
-                       (po-increase-type-counter))))))
+           (let ((replaced (po-set-msgstr-form string)))
+             (if (and replaced
+                      po-auto-fuzzy-on-edit
+                      (eq po-entry-type 'translated))
+                 (progn
+                   (po-decrease-type-counter)
+                   (po-add-attribute "fuzzy")
+                   (po-current-entry)
+                   (po-increase-type-counter)))))
           (t (debug)))))
 
 (defun po-edit-string (string type expand-tabs)
@@ -2409,7 +2305,6 @@ Run functions on po-subedit-mode-hook."
           (setq slot (list marker edit-buffer overlay)
                 po-edited-fields (cons slot po-edited-fields))
           (pop-to-buffer edit-buffer)
-          (text-mode)
           (set (make-local-variable 'po-subedit-back-pointer) slot)
           (set (make-local-variable 'indent-line-function)
                'indent-relative)
@@ -3557,7 +3452,6 @@ strings remain."
 ;; Hey Emacs!
 ;; Local Variables:
 ;; indent-tabs-mode: nil
-;; coding: utf-8
 ;; End:
 
 ;;; po-mode.el ends here

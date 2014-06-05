@@ -7,3 +7,4 @@ conf.el
 *defs.el
 .svn
 .hg
+/python-mode.el-6.1.3/
