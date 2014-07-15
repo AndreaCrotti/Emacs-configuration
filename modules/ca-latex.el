@@ -39,9 +39,6 @@
 ;TODO: only require when auctex is loaded maybe
 ;; (require 'preview)
 
-;; requite org-latex so that the following variables are defined
-(require 'org-latex)
-
 ;; require reftex cite for citations
 (require 'reftex-cite)
 (setq reftex-default-bibliography '("cit"))
