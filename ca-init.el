@@ -221,6 +221,7 @@
 (require 'ca-c)
 (require 'ca-clojure)
 (require 'ca-web)
+(require 'ca-server)
 
 
 (when (file-exists-p custom-file)
