@@ -436,6 +436,14 @@ the program is found in `exec-path'; otherwise `message' is used."
     ;; recursive call
     (ca-find-project-root (concat (file-name-as-directory root) "..")))))
 
+(defun ca-project-name (buffer-name)
+  "Returns the name of the project that contains the given buffer."
+  (let ((root-dir (ca-find-project-root)))
+    (if root-dir
+        (file-name-nondirectory
+         (directory-file-name root-dir))
+      nil)))
+
 (defun ca-select-line ()
   "If the mark is not active, select the current line.
 Otherwise, expand the current region to select the lines the region touches."
