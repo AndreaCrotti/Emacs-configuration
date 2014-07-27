@@ -4,6 +4,9 @@
 (require 'ca-customs)
 (require 'ca-environment)
 
+(venv-initialize-interactive-shells) ;; if you want interactive shell support
+(venv-initialize-eshell) ;; if you want eshell support
+
 (setq jedi:complete-on-dot t)
 (setq jedi:setup-keys t)
 
@@ -28,6 +31,7 @@
 ;TODO: add some binding to jump to things that are not defined
 (add-hook 'python-mode-hook
           (lambda ()
+            (hack-local-variables)
             (jedi-setup-venv)
             (jedi:setup)
             (jedi:ac-setup)
