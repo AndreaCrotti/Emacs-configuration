@@ -110,6 +110,7 @@
                  tuareg
                  undo-tree
                  virtualenv
+                 virtualenvwrapper
                  web-mode
                  ;wget
                  yaml-mode
