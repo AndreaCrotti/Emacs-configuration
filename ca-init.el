@@ -55,6 +55,7 @@
                  emacs-eclim
                  edit-server
                  ensime
+                 ess
                  go-mode
                  groovy-mode
                  ;;gtags
