@@ -224,6 +224,7 @@
 (require 'ca-clojure)
 (require 'ca-web)
 (require 'ca-server)
+(require 'ca-lisp)
 
 
 (when (file-exists-p custom-file)
