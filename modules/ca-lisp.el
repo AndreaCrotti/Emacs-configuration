@@ -3,3 +3,5 @@
 (slime-setup)
 
 (require 'ac-slime-autoloads)
+
+(provide 'ca-lisp)
