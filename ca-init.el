@@ -73,6 +73,7 @@
                  helm
                  heroku
                  htmlize
+                 indent-guide
                  ;;ipython
                  less-css-mode
                  log4j-mode
@@ -123,6 +124,7 @@
 (smartparens-global-mode t)
 (show-paren-mode t)
 (column-number-mode t)
+(indent-guide-global-mode t)
 
 
 (defun make-conf-path (path)
