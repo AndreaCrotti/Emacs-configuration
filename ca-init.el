@@ -80,6 +80,7 @@
                  lua-mode
                  jedi
                  magit
+                 malabar-mode
                  markdown-mode
                  memory-usage
                  minimap
