@@ -48,12 +48,13 @@
                  dired+
                  ebib
                  ein
+                 elein
                  emmet-mode
                  emms
                  ensime
                  erlang
                  evil
-                 emacs-eclim
+                 emacs-droid
                  edit-server
                  ensime
                  ess
@@ -229,7 +230,7 @@
 (require 'ca-clojure)
 (require 'ca-web)
 (require 'ca-server)
-(require 'ca-lisp)
+;; (require 'ca-lisp)
 
 
 (when (file-exists-p custom-file)
