@@ -31,6 +31,7 @@
                  bookmark+
                  browse-kill-ring
                  c-eldoc
+                 company
                  ;cljdoc
                  clojure-cheatsheet
                  clojure-mode
