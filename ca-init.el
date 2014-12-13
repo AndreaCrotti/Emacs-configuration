@@ -74,6 +74,7 @@
                  heroku
                  htmlize
                  indent-guide
+                 inf-clojure
                  ;;ipython
                  less-css-mode
                  log4j-mode
@@ -219,7 +220,7 @@
 (require 'ca-faces)
 (require 'ca-haskell)
 (require 'ca-scala)
-(require 'ca-java)
+;; (require 'ca-java)
 (require 'ca-ruby)
 (require 'ca-latex)
 (require 'ca-ocaml)
