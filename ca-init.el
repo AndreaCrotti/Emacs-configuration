@@ -231,6 +231,7 @@
 (require 'ca-web)
 (require 'ca-server)
 ;; (require 'ca-lisp)
+(require 'ca-javascript)
 
 
 (when (file-exists-p custom-file)
