@@ -120,6 +120,7 @@
                  web-mode
                  ;wget
                  yaml-mode
+                 zenburn-theme
 ))
 
 (mapc 'install-if-needed ca-to-install)
