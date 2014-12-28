@@ -8,7 +8,7 @@
  yas-prompt-functions '(yas/ido-prompt yas/completing-prompt yas/x-prompt yas/dropdown-prompt yas/no-prompt)
  yas-indent-line 'auto)
 
-(yas--initialize)
+(yas-reload-all)
 
 (message "loading all the snippets")
 (mapc 'yas-load-directory yas-snippet-dirs)
