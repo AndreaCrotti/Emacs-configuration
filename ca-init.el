@@ -103,6 +103,7 @@
                  prolog
                  puppet-mode
                  psvn
+                 python-mode
                  rebox2
                  rinari
                  ruby-compilation
@@ -132,7 +133,7 @@
 (indent-guide-global-mode t)
 
 (global-prettify-symbols-mode t)
-(which-function-mode t)
+;; (which-function-mode t)
 
 (defun make-conf-path (path)
   "Shortcut to create the path of the configuration"
