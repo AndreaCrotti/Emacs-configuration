@@ -35,7 +35,6 @@
                  ;cljdoc
                  clojure-cheatsheet
                  clojure-mode
-                 clojure-test-mode
                  cider
                  cmake-mode
                  color-moccur
