@@ -13,11 +13,6 @@
 
 (global-set-key [f8] 'ca-new-shell)
 
-; this could be made generic, with some nice linting for every language
-(add-hook 'python-mode-hook
-          (lambda ()
-            (local-set-key [f9] 'ca-pyl)))
-
 ;; textmate-like bindings
 (global-set-key (kbd "M-RET") 'ca-newline-force)
 (global-set-key [M-S-return] 'ca-newline-force-close)
@@ -41,9 +36,6 @@
 (global-set-key "\C-x\C-b" 'ibuffer)
 (global-set-key "\C-x\C-p" 'find-file-at-point)
 (global-set-key "\C-x\C-r" 'ca-find-file-root)
-
-(global-set-key (kbd "<C-f9>") 'ca-cycle-font)
-
 
 ;; make shift-TAB works correctly also on osx
 (when ca-mac

@@ -50,7 +50,6 @@
                  elein
                  emmet-mode
                  emms
-                 ensime
                  erlang
                  evil
                  emacs-droid
