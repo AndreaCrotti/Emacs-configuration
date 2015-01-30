@@ -102,6 +102,8 @@
                  puppet-mode
                  psvn
                  python-mode
+                 rainbow-mode
+                 rainbow-delimiters
                  rebox2
                  rinari
                  ruby-compilation
@@ -178,6 +180,9 @@
 (setq-default indent-tabs-mode nil)
 
 (require 'tramp)
+
+(rainbow-delimiters-mode t)
+(rainbow-mode t)
 
 (require 'ido)
 (ido-mode t)
