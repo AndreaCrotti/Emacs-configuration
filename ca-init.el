@@ -65,7 +65,6 @@
                  google-contacts
                  ;; google-maps
                  google-translate
-                 google-weather
                  graphviz-dot-mode
                  kanban
                  hackernews
@@ -97,7 +96,6 @@
                  pomodoro
                  pony-mode
                  powerline
-                 ;python-mode
                  prolog
                  puppet-mode
                  psvn
