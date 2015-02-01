@@ -79,6 +79,7 @@
                  log4j-mode
                  lua-mode
                  jedi
+                 js-comint
                  magit
                  malabar-mode
                  markdown-mode
@@ -137,6 +138,7 @@
   "Shortcut to create the path of the configuration"
   (expand-file-name (concat base path)))
 
+(add-to-list 'load-path (make-conf-path "python-mode"))
 (add-to-list 'load-path (make-conf-path "modules"))
 
 ; second argument as 0 to compile if they don't exist
@@ -148,8 +150,6 @@
 
 ;; all the subdirectories are added to the path, including modules
 (ca-gen-path-dirs base)
-
-(add-to-list 'load-path (make-conf-path "tramp/lisp"))
 
 (let
     ((tools (concat base "programming-tools")))
