@@ -2,8 +2,8 @@
 (package-initialize)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/"))
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/") t)
+;; (add-to-list 'package-archives
+;;              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 
 (package-refresh-contents)
 
@@ -56,6 +56,7 @@
                  edit-server
                  ensime
                  ess
+                 git-gutter
                  go-mode
                  groovy-mode
                  ;;gtags
@@ -237,6 +238,7 @@
 (require 'ca-server)
 ;; (require 'ca-lisp)
 (require 'ca-javascript)
+(require 'ca-git-gutter)
 
 
 (when (file-exists-p custom-file)

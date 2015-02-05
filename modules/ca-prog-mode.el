@@ -24,6 +24,8 @@
 
 (autoload 'po-mode "po-mode+"
   "Major mode for translators to edit PO files" t)
+(require 'po-mode)
+(require 'po-compat)
 
 (add-to-list 'auto-mode-alist
              '("\\.po$" . po-mode))
@@ -36,7 +38,6 @@
 (modify-coding-system-alist 'file "\\.po\\'\\|\\.po\\."
                             'po-find-file-coding-system)
 (autoload 'po-find-file-coding-system "po-mode")
-
 
 (dolist (lang-hook ca-spell-langs)
   (add-hook  lang-hook 'flyspell-prog-mode))
