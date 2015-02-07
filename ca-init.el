@@ -109,7 +109,7 @@
                  ruby-compilation
                  ruby-mode
                  yasnippet
-                 scala-mode
+                 scala-mode2
                  smartparens
                  slime
                  ;slime-clj
