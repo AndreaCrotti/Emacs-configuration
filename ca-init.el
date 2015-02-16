@@ -52,7 +52,6 @@
                  emms
                  erlang
                  evil
-                 emacs-droid
                  edit-server
                  ensime
                  ess

@@ -6,6 +6,7 @@
 
 (add-hook 'scala-mode-hook
           (lambda ()
+            (local-set-key (kbd "<C-f5>") 'ensime-sbt-do-run)
             (local-set-key [f5] 'ensime-sbt-do-test)))
 
 (provide 'ca-scala)
