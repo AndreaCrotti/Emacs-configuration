@@ -7,6 +7,7 @@
 (savehist-mode t) ; save also minibuffer history, very useful
 
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+(if (fboundp 'horizontal-scroll-bar-mode) (horizontal-scroll-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (menu-bar-mode -1)
 
