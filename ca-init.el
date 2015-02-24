@@ -48,6 +48,8 @@
                  ebib
                  ein
                  elein
+                 elixir-mode
+                 elixir-mix
                  emmet-mode
                  emms
                  erlang
