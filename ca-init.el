@@ -72,6 +72,7 @@
                  hackernews
                  haskell-mode
                  helm
+                 helm-projectile
                  heroku
                  htmlize
                  indent-guide
