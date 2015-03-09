@@ -49,7 +49,7 @@
                  ein
                  elein
                  elixir-mode
-                 elixir-mix
+                 ;; elixir-mix
                  emmet-mode
                  emms
                  erlang
