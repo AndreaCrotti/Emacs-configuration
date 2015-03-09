@@ -240,6 +240,7 @@
 ;; (require 'ca-lisp)
 (require 'ca-javascript)
 (require 'ca-git-gutter)
+(require 'ca-helm)
 
 
 (when (file-exists-p custom-file)

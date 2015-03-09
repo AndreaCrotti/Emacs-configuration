@@ -45,4 +45,10 @@
 (global-set-key (kbd "C-M-n") 'fixme-next)
 (global-set-key (kbd "C-M-p") 'fixme-prev)
 
+; Helm settings
+(global-set-key (kbd "C-x b") 'helm-mini)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-c h o") 'helm-occur)
+
 (provide 'ca-keys)
