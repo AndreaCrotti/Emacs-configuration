@@ -1,8 +1,8 @@
 ;FIXME: by default the more stupid default version is loaded, find out
 ;how to load the new one
-(add-to-list 'auto-mode-alist '("\\.[tT]e[xX]\\'" . latex-mode))
+(add-to-list 'auto-mode-alist '("\\.[tT]e[xX]\\'" . tex-mode))
 (add-to-list 'load-path (make-conf-path "auctex"))
-(autoload 'latex-mode "auctex" "latex mode" t)
+(autoload 'tex-mode "auctex" "latex mode" t)
 
 ; these variables are only defined in auctex
 (setq
