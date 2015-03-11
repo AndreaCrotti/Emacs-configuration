@@ -8,7 +8,8 @@
 
 ;; compile facilities
 (global-set-key [f5] 'recompile)
-(global-set-key [f7] 'find-file-in-repository)
+;; (global-set-key [f7] 'find-file-in-repository)
+(global-set-key [f7] 'helm-projectile-find-file)
 (global-set-key (kbd "<C-f7>") 'magit-checkout)
 
 (global-set-key [f8] 'ca-new-shell)
