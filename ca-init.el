@@ -90,6 +90,7 @@
                  minimap
                  monky
                  multiple-cursors
+                 noctilux-theme
                  notmuch
                  offlineimap
                  org-gcal
