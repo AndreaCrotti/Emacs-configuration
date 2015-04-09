@@ -2,6 +2,10 @@
  org-replace-disputed-keys t
  org-goto-interface 'outline-path-completion)
 
+; Nicer bullets
+(require 'org-bullets)
+(org-bullets-mode t)
+
 (setq org-capture-mail-only-template
       '("c" "Contacts" entry (file "~/org/test_contacts.org")
        "* %(org-contacts-template-name)

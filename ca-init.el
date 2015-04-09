@@ -74,6 +74,7 @@
                  helm
                  helm-projectile
                  heroku
+                 hi2
                  htmlize
                  indent-guide
                  inf-clojure
@@ -93,6 +94,7 @@
                  noctilux-theme
                  notmuch
                  offlineimap
+                 org-bullets
                  org-gcal
                  org-jekyll
                  p4
