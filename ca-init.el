@@ -245,6 +245,7 @@
 (require 'ca-javascript)
 (require 'ca-git-gutter)
 (require 'ca-helm)
+(require 'ca-smarparens-lisp)
 
 
 (when (file-exists-p custom-file)
