@@ -88,6 +88,8 @@
 
 ;; TODO: make it a defcustom also, or better locate it automatically
 (setq fortune-dir "/opt/local/share/games/fortune/")
+(require 'smart-mode-line)
+(smart-mode-line-enable t)
 ;; (require 'powerline)
 ;; (powerline-default-theme)
 (provide 'ca-misc)
