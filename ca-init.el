@@ -97,6 +97,7 @@
                  org-bullets
                  org-gcal
                  org-jekyll
+                 org-present
                  p4
                  ;;phantomjs
                  php-mode
@@ -245,8 +246,9 @@
 (require 'ca-javascript)
 (require 'ca-git-gutter)
 (require 'ca-helm)
-(require 'ca-smarparens-lisp)
-
+(require 'ca-smartparens-lisp)
+(require 'ca-present)
+(setq magit-auto-revert-mode nil)
 
 (when (file-exists-p custom-file)
   (message "loading custom file")

@@ -69,4 +69,4 @@
 ;; sexp with paren?
 (define-key emacs-lisp-mode-map (kbd ")") 'sp-up-sexp)
 
-(provide 'ca-smarparens-lisp)
+(provide 'ca-smartparens-lisp)
