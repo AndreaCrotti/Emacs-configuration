@@ -9,6 +9,9 @@ all the code. The file is still but now it contains only some
 documentation and useful links.
 
 * Features
+
+  #+ATTR_HTML: title="Join the chat at https://gitter.im/AndreaCrotti/Emacs-configuration"
+  [[https://gitter.im/AndreaCrotti/Emacs-configuration?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge][file:https://badges.gitter.im/Join%20Chat.svg]]
   - yasnippet and thousands of snippets
   - desktop mode and nice hooks
   - auto completion
