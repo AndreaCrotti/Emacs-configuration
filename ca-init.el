@@ -1,13 +1,16 @@
+(require 'cl)
 (require 'package)
+
 (package-initialize)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/"))
-;; (add-to-list 'package-archives
-;;              '("marmalade" . "http://marmalade-repo.org/packages/") t)
+
 (defun online? ()
+  "Detect if it's online or not,
+  ;TODO:find a better way to filter out interfaces"
   (if (and (functionp 'network-interface-list)
            (network-interface-list))
-      (some (lambda (iface) (unless (equal "lo" (car iface))
+      (some (lambda (iface) (unless (or (equal "lo" (car iface)) (equal "docker0" (car iface)))
                          (member 'up (first (last (network-interface-info
                                                    (car iface)))))))
             (network-interface-list))
