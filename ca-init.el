@@ -4,12 +4,21 @@
              '("melpa" . "http://melpa.milkbox.net/packages/"))
 ;; (add-to-list 'package-archives
 ;;              '("marmalade" . "http://marmalade-repo.org/packages/") t)
-
-(package-refresh-contents)
+(defun online? ()
+  (if (and (functionp 'network-interface-list)
+           (network-interface-list))
+      (some (lambda (iface) (unless (equal "lo" (car iface))
+                         (member 'up (first (last (network-interface-info
+                                                   (car iface)))))))
+            (network-interface-list))
+    t))
 
 (defun install-if-needed (package)
   (unless (package-installed-p package)
     (package-install package)))
+
+(when (online?)
+    (package-refresh-contents))
 
 ;; make more packages available with the package installer
 (setq
@@ -130,7 +139,8 @@
                  zenburn-theme
 ))
 
-(mapc 'install-if-needed ca-to-install)
+(when (online?)
+    (mapc 'install-if-needed ca-to-install))
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (smartparens-global-mode t)

@@ -2,9 +2,6 @@
 (require 'ca-customs)
 (require 'ca-environment)
 
-;FIXME: this is not really working, fix it and make it only available on osx
-(setq ca-growl-mode nil)
-
 ;; from TH on emacs mailing, list
 ;FIXME: check why is not working and the variable names
 (defun ca-find-file-sudo (file)
@@ -12,28 +9,6 @@
   (interactive "F")
   (set-buffer (find-file (concat "/sudo::" file))))
 
-;; (defadvice find-file (around ca-find-file activate)
-;;   "Open FILENAME using tramp's sudo method if it's read-only."
-;;   (if (and (not (file-writable-p (ad-get-argument 0)))
-;;            (not (file-remote-p (ad-get-argument 0)))
-;;            (y-or-n-p
-;;             (concat "File " (ad-get-argument 0) " is read-only.  Open it as root? ")))
-;;       (ca-find-file-sudo (ad-get-argument 0))
-;;     ad-do-it))
-
-(defun ca-growl ()
-  (interactive)
-  (if (not ca-growl-mode)
-      (progn
-        (message "enabling growl mode notification")
-        (add-hook 'pre-command-hook 'ca-popup-last)
-        (setq ca-growl-mode t))
-    (progn
-      (setq-default pre-command-hook (remq 'ca-popup-last pre-command-hook))
-      (message "disabling growl mode notification")
-      (setq ca-growl-mode nil))))
-
-;TODO: this is only for mac anyway
 (defun ca-presentation-mode ()
   "what to enable in a presentation mode"
   ;TODO: also add a function to cancel all this changes
@@ -42,69 +17,6 @@
   (global-semantic-decoration-mode -1)
   (global-semantic-idle-summary-mode -1))
 
-(when ca-mac
-  (defun ca-do-applescript (str)
-    "Synchronously run applescript STR."
-    (with-temp-buffer
-      (insert str)
-      (shell-command-on-region (point-min) (point-max) "osascript" nil t)
-      (buffer-string)))
-
-  (defun ca-mac-open-terminal ()
-    (interactive)
-    (let ((dir ""))
-      (cond
-       ((and (local-variable-p 'dired-directory) dired-directory)
-        (setq dir dired-directory))
-       ((stringp (buffer-file-name))
-        (setq dir (file-name-directory (buffer-file-name))))
-       )
-      (ca-do-applescript
-       (format "
-tell application \"Terminal\"
-  activate
-  try
-    do script with command \"cd %s\"
-  on error
-    beep
-  end try
-end tell" dir))))
-
-  (defun ca-growl-popup (msg)
-    "Pop up a growl notification with MSG, or display an Emacs message.
-The \"ca-growlnotify\" program is used if `window-system' is non-nil and
-the program is found in `exec-path'; otherwise `message' is used."
-    (interactive)
-    (if (and window-system (executable-find "ca-growlnotify"))
-        (shell-command (concat "growlnotify -a /Applications/Emacs.app/ -m "
-                               (shell-quote-argument msg)))
-      (message msg)))
-
-  (defun ca-popup-last ()
-    (interactive)
-    (let
-        ((last-key (key-description (this-command-keys))))
-      ;; check if we don't have a "stupid" sequence
-      (unless
-          (= (length (this-command-keys-vector)) 1)
-        (ca-growl-popup last-key)))))
-
-(defun ca-toggle-fullscreen (&optional f)
-  (interactive)
-  (let ((current-value (frame-parameter nil 'fullscreen)))
-    (set-frame-parameter nil 'fullscreen
-                         (if (equal 'fullboth current-value)
-                             (if (boundp 'old-fullscreen) old-fullscreen nil)
-                           (progn (setq old-fullscreen current-value)
-                                  'fullboth)))))
-
-(defun ca-full (&optional f)
-  (interactive)
-  (if
-      ca-mac
-      ;; included in emacs 23.2
-      (ns-toggle-ca-fullscreen)
-    (ca-toggle-fullscreen)))
 
 (defun ca-recompile-modules-directory ()
   "Simple wrapper to recompile the modules directory"
@@ -166,17 +78,10 @@ the program is found in `exec-path'; otherwise `message' is used."
   (chmod (buffer-file-name) "777"))
 
 (defun ca-make-fortune ()
-(interactive)
-(let ((beg (point)))
-  (insert (shell-command-to-string "fortune"))
-  (end-of-paragraph-text)))
-
-
-(defun ca-occur ()
-  "Find the interesting occurrences"
   (interactive)
-  (occur "TODO\\|FIXME\\|XXX"))
-
+  (let ((beg (point)))
+    (insert (shell-command-to-string "fortune"))
+    (end-of-paragraph-text)))
 
 (defun ca-google-map-it (address)
   "get the map of the given address"
@@ -185,7 +90,6 @@ the program is found in `exec-path'; otherwise `message' is used."
       ((base "http://maps.google.it/maps?q=%s"))
     (browse-url (format base (url-hexify-string address)))))
 
-;; My own functions
 (defun ca-newline-force()
   "Goes to newline leaving untouched the rest of the line"
   (interactive)
