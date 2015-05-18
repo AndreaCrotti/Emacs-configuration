@@ -129,6 +129,7 @@
                  yasnippet
                  scala-mode2
                  smartparens
+                 smart-mode-line
                  slime
                  ;slime-clj
                  textile-mode

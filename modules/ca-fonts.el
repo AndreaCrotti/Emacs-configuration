@@ -15,6 +15,6 @@
     (redraw-frame (selected-frame))))
 
 ;FIXME: this is not set automatically for new frames
-(set-default-font ca-preferred-font)
+;; (set-default-font ca-preferred-font)
 
 (provide 'ca-fonts)
