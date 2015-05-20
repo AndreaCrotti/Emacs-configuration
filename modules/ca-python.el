@@ -1,4 +1,3 @@
-(require 'python-mode)
 (require 'virtualenvwrapper)
 (require 'jedi)
 (require 'ca-customs)

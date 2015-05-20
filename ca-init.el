@@ -120,7 +120,7 @@
                  prolog
                  puppet-mode
                  psvn
-                 python-mode
+                 ;; python-mode
                  rainbow-mode
                  rainbow-delimiters
                  rebox2
