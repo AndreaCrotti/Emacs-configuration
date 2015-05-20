@@ -57,6 +57,7 @@
                  d-mode
                  dpaste
                  dired+
+                 dockerfile-mode
                  ebib
                  ein
                  elein
