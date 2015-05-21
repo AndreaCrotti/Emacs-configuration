@@ -45,7 +45,7 @@
 
 (defun ca-is-version-control-file ()
   "Return nil unless the file is in the git files"
-  (if (vc-working-revision (buffer-file-name))
+  (if (vc-backend (buffer-file-name))
       (auto-revert-mode t)))
 
 (add-hook 'find-file-hook 'ca-is-version-control-file)
