@@ -66,6 +66,7 @@
                  emmet-mode
                  emms
                  erlang
+                 eval-in-repl
                  evil
                  edit-server
                  ensime
