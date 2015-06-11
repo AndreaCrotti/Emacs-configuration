@@ -1,4 +1,12 @@
 (require 'cider)
+(require 'clj-refactor)
+
+(add-hook 'clojure-mode-hook
+          (lambda
+            (clj-refactor-mode t)
+            (cljr-add-keybindings-with-prefix "C-c C-m")))
+
+(add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
 
 (autoload 'clojure-mode "clojure-mode" "clojure mode" t)
 (add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
