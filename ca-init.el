@@ -45,6 +45,7 @@
                  c-eldoc
                  company
                  ;cljdoc
+                 clj-refactor
                  clojure-cheatsheet
                  clojure-mode
                  cider
