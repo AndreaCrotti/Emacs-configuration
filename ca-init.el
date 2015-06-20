@@ -262,9 +262,17 @@
 (require 'ca-javascript)
 (require 'ca-git-gutter)
 (require 'ca-helm)
-(require 'ca-smartparens-lisp)
 (require 'ca-present)
+(require 'ca-clojure)
+(require 'ca-smartparens-lisp)
 (setq magit-auto-revert-mode nil)
+
+(require 'helm-projectile)
+
+(projectile-global-mode t)
+(yas-global-mode t)
+(desktop-save-mode t)
+(load-theme 'noctilux)
 
 (when (file-exists-p custom-file)
   (message "loading custom file")
