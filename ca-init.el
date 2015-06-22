@@ -206,6 +206,7 @@
 (rainbow-delimiters-mode t)
 (rainbow-mode t)
 
+;TODO: probably not needed this anymore
 (require 'ido)
 (ido-mode t)
 
