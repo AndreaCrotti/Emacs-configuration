@@ -26,6 +26,7 @@
 
 ;; magit settings
 (setq
+ magit-auto-revert-mode nil
  magit-log-edit-confirm-cancellation t
  magit-process-connection-type nil
  magit-process-popup-time 10

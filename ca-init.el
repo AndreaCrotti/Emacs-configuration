@@ -267,7 +267,6 @@
 (require 'ca-present)
 (require 'ca-clojure)
 (require 'ca-smartparens-lisp)
-(setq magit-auto-revert-mode nil)
 
 (require 'helm-projectile)
 
@@ -275,6 +274,7 @@
 (yas-global-mode t)
 (desktop-save-mode t)
 (load-theme 'noctilux)
+(setq magit-auto-revert-mode nil)
 
 (when (file-exists-p custom-file)
   (message "loading custom file")
