@@ -134,8 +134,6 @@
 (autoload 'synonyms "synonyms" "thesaurus" t nil)
 (setq synonyms-file (make-conf-path "misc/mthesaur.txt"))
 
-(require 'session)
-
 (autoload 'dot-mode "graphiz-dot-mode" "graphviz dot mode" t)
 ;TODO: dot-mode-hook is defined but not called yet, maybe eval-after-load might be more useful?
 (add-hook 'dot-mode-hook

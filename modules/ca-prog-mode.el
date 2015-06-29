@@ -82,11 +82,6 @@
       ((fname (file-name-sans-extension (file-name-nondirectory (buffer-file-name)))))
     (browse-url (ca-doxy-path basepath fname))))
 
-(require 'fixme-mode)
-
-(dolist (hook ca-fixme-mode-hooks)
-  (add-hook hook (lambda () (fixme-mode t))))
-
 (autoload 'gtags-mode "gtags" "gtags mode" t)
 
 (add-to-list 'auto-mode-alist '("\\.gdb$" . gdb-script-mode))

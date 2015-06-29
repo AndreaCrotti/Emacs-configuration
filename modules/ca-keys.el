@@ -43,9 +43,6 @@
   (define-key (keymap-parent local-function-key-map) [S-tab] nil)
   (global-set-key [S-tab] #'tab-to-tab-stop))
 
-(global-set-key (kbd "C-M-n") 'fixme-next)
-(global-set-key (kbd "C-M-p") 'fixme-prev)
-
 ; Helm settings
 (global-set-key (kbd "C-x b") 'helm-mini)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
