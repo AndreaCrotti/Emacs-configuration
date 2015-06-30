@@ -27,7 +27,6 @@
 (setq
  ca-to-install '(
                  4clojure
-                 ac-slime
                  ac-js2
                  ack
                  adoc-mode
@@ -134,6 +133,7 @@
                  smartparens
                  smart-mode-line
                  sly
+                 sly-company
                  textile-mode
                  tuareg
                  undo-tree
