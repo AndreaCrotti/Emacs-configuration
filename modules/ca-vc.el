@@ -11,7 +11,6 @@
 ;TODO: remove the requires if possible, making the auto-loading work
 (require 'magit)
 (autoload 'monky-status "monky" "mercurial mode" t)
-(magit-auto-revert-mode nil)
 
 (defun ca-detect-git-svn ()
   "Detects if the project is actually git-svn or not"
@@ -40,7 +39,6 @@
   (auto-fill-mode t))
 
 (add-hook 'magit-log-edit-mode-hook 'ca-log-edit-modes)
-(add-hook 'monky-log-edit-mode-hook 'ca-log-edit-modes)
 
 ;TODO: use  (vc-ensure-vc-buffer) to make it more general
 
