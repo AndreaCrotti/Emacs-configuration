@@ -31,6 +31,8 @@
  magit-process-popup-time 10
  magit-status-buffer-switch-function 'switch-to-buffer)
 
+(global-git-commit-mode t)
+
 (defun ca-log-edit-modes ()
   "Activate modes for various log-edits"
   (orgtbl-mode t)
@@ -38,10 +40,9 @@
   (flyspell-mode t)
   (auto-fill-mode t))
 
-(add-hook 'magit-log-edit-mode-hook 'ca-log-edit-modes)
+(add-hook 'git-commit-mode-hook 'ca-log-edit-modes)
 
-;TODO: use  (vc-ensure-vc-buffer) to make it more general
-
+;;TODO: this might be removed as well?
 (defun ca-is-version-control-file ()
   "Return nil unless the file is in the git files"
   (if (vc-backend (buffer-file-name))
