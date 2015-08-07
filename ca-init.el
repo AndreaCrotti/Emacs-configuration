@@ -155,6 +155,8 @@
 (indent-guide-global-mode t)
 
 (global-prettify-symbols-mode t)
+(global-linum-mode t)
+(show-paren-mode t)
 ;; (which-function-mode t)
 
 (defun make-conf-path (path)
