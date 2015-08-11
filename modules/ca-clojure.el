@@ -21,5 +21,10 @@
             (clj-refactor-mode t)
             (cljr-add-keybindings-with-prefix "C-c C-m")))
 
+(defun figwheel-repl ()
+  (interactive)
+  (run-clojure "lein figwheel"))
+
+(add-hook 'clojure-mode-hook #'inf-clojure-minor-mode)
 
 (provide 'ca-clojure)
