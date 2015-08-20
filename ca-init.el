@@ -85,6 +85,7 @@
                  haskell-mode
                  helm
                  helm-projectile
+                 helm-swoop
                  heroku
                  hi2
                  htmlize
@@ -203,8 +204,8 @@
 
 (require 'tramp)
 
-(rainbow-delimiters-mode t)
-(rainbow-mode t)
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'prog-mode-hook #'rainbow-mode)
 
 ;TODO: probably not needed this anymore
 (require 'ido)
