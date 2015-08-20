@@ -8,16 +8,12 @@
 (setq nrepl-log-messages t)
 (setq cider-repl-use-clojure-font-lock t)
 
-; cider mode works better with company-mode than ac apparently
-(require 'company)
-(add-hook 'cider-repl-mode-hook 'company-mode)
-(add-hook 'cider-mode-hook 'company-mode)
 (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
 (add-hook 'cider-repl-mode-hook 'cider-turn-on-eldoc-mode)
 
-
 (add-hook 'clojure-mode-hook
           (lambda ()
+            (setq-local cider-repl-use-pretty-printing t)
             (clj-refactor-mode t)
             (cljr-add-keybindings-with-prefix "C-c C-m")))
 
@@ -25,6 +21,6 @@
   (interactive)
   (run-clojure "lein figwheel"))
 
-(add-hook 'clojure-mode-hook #'inf-clojure-minor-mode)
+(add-hook 'clojurescript-mode-hook #'inf-clojure-minor-mode)
 
 (provide 'ca-clojure)

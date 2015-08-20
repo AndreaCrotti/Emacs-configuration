@@ -27,14 +27,12 @@
 (setq
  ca-to-install '(
                  4clojure
-                 ac-js2
                  ack
                  adoc-mode
                  android-mode
                  apache-mode
                  arduino-mode
                  ascii
-                 auto-complete
                  autopair
                  auctex
                  batch-mode
@@ -149,6 +147,7 @@
     (mapc 'install-if-needed ca-to-install))
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
+(global-company-mode t)
 (smartparens-global-mode t)
 (show-paren-mode t)
 (column-number-mode t)
@@ -233,7 +232,6 @@
 ;; is the order important anyhow?
 
 (require 'ca-python)
-(require 'ca-auto-complete)
 (require 'ca-org)
 ;; these things change the global state
 (require 'ca-keys)
