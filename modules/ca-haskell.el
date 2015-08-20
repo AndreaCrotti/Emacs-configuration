@@ -18,7 +18,6 @@
           '(lambda ()
              (require 'haskell-doc) ; Is this the only way?
              (require 'haskell-indent)
-             (require 'haskell-complete)
              (require 'inf-haskell)
              (turn-on-haskell-doc-mode)
              (turn-on-haskell-indentation)
@@ -29,7 +28,6 @@
              ;FIXME: the yas triggering is not working in haskell mode
              (make-variable-buffer-local 'yas/trigger-key)
              (setq yas/trigger-key [tab])
-             (define-key yas/keymap [tab] 'yas/next-field)
-             (add-to-list 'ac-sources 'my/ac-source-haskell)))
+             (define-key yas/keymap [tab] 'yas/next-field)))
 
 (provide 'ca-haskell)

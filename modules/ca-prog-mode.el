@@ -42,9 +42,6 @@
 (dolist (lang-hook ca-spell-langs)
   (add-hook  lang-hook 'flyspell-prog-mode))
 
-(require 'auto-complete)
-(ac-flyspell-workaround)
-
 (require 'gist)
 
 (autoload 'lisppaste "lisppaste" "lisppaste" t)

@@ -176,24 +176,6 @@
   :group 'ca
   )
 
-(defcustom ca-auto-complete-modes
-  '(
-    cmake-mode
-    cpp-omnet-mode
-    haskell-mode
-    html-mode
-    ned-mode
-    nesc-mode
-    org-mode
-    scala-mode
-    typerex-mode
-    xml-mode
-    )
-  "Modes for which auto-complete should be enabled"
-  :type 'list
-  :group 'ca)
-
-
 (defcustom erc-autojoin-channels-alist
   '("freenode.net"
     "#mailman" "#pelican"

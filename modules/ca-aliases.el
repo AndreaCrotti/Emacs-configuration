@@ -1,6 +1,5 @@
 (require 'ca-utils)
 
-(defalias 'ac 'auto-complete-mode)
 (defalias 'bb 'bury-buffer)
 (defalias 'dml 'delete-matching-lines)
 (defalias 'eb 'eval-buffer)
