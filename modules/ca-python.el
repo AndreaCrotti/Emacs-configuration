@@ -36,14 +36,17 @@
         (print "Not finding any virtualenv")))))
 
 
+(require 'company-jedi)
 ;TODO: add some binding to jump to things that are not defined
 (add-hook 'python-mode-hook
           (lambda ()
+            (add-to-list 'company-backends 'company-jedi)
             (hack-local-variables)
             (jedi-setup-venv)
             (jedi:setup)
+            (jedi:ac-setup)
             (local-set-key "\C-cd" 'jedi:show-doc)
-            (local-set-key (kbd "M-SPC") 'jedi:complete)
+            ;; (local-set-key (kbd "M-SPC") 'jedi:complete)
             (local-set-key (kbd "M-.") 'jedi:goto-definition)
             (local-set-key (kbd "M-D") 'ca-python-remove-pdb)))
 

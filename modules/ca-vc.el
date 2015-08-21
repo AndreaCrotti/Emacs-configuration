@@ -11,6 +11,7 @@
 ;TODO: remove the requires if possible, making the auto-loading work
 (require 'magit)
 (autoload 'monky-status "monky" "mercurial mode" t)
+(setq magit-push-always-verify nil)
 
 (defun ca-detect-git-svn ()
   "Detects if the project is actually git-svn or not"
