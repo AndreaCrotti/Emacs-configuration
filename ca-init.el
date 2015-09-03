@@ -73,6 +73,7 @@
                  go-mode
                  groovy-mode
                  ;;gtags
+                 feature-mode
                  find-file-in-repository
                  flycheck
                  gist

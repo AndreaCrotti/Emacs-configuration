@@ -1,9 +1,8 @@
 (require 'desktop)
 (require 'ca-customs)
 
-(desktop-save-mode -1)
 ;; save always
-(setq desktop-save nil)
+(setq desktop-save t)
 (defun ca-print-desktop ()
   (interactive)
   (message "current desktop is %s" desktop-dirname))
