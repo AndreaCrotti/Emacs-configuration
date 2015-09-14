@@ -228,7 +228,6 @@
 (setq calendar-date-style 'european)
 
 (require 'ca-fonts)
-(require 'ca-themes)
 (require 'ca-yas) ;; takes more than 2 seconds to load due to the huge list of files
 ;; see if it's possible to postpone loading the snippets
 ;; is the order important anyhow?
