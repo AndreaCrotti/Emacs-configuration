@@ -12,10 +12,21 @@
 (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
 (add-hook 'cider-repl-mode-hook 'cider-turn-on-eldoc-mode)
 
+(defun ca-next-defun ()
+  (interactive)
+  (end-of-defun 2)
+  (beginning-of-defun 1))
+
+(defun ca-prev-defun ()
+  (interactive)
+  (beginning-of-defun))
+
 (add-hook 'clojure-mode-hook
           (lambda ()
             (setq-local cider-repl-use-pretty-printing t)
             (local-set-key [f5] 'helm-imenu)
+            (local-set-key (kbd "M-p") 'ca-prev-defun)
+            (local-set-key (kbd "M-n") 'ca-next-defun)
             (clj-refactor-mode t)
             (cljr-add-keybindings-with-prefix "C-c C-m")))
 
