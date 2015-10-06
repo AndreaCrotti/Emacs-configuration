@@ -148,7 +148,7 @@
 (when (online?)
     (mapc 'install-if-needed ca-to-install))
 
-(add-hook 'after-init-hook #'global-flycheck-mode)
+(global-flycheck-mode t)
 (global-company-mode t)
 (smartparens-global-mode t)
 (show-paren-mode t)
@@ -158,7 +158,7 @@
 (global-prettify-symbols-mode t)
 (global-linum-mode t)
 (show-paren-mode t)
-;; (which-function-mode t)
+(which-function-mode t)
 
 (defun make-conf-path (path)
   "Shortcut to create the path of the configuration"

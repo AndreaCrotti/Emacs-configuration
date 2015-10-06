@@ -5,6 +5,7 @@
 (add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
 
 (add-hook 'clojure-mode-hook 'cider-mode)
+(add-hook 'clojurescript-mode-hook 'cider-mode)
 (setq nrepl-log-messages t)
 (setq cider-repl-use-clojure-font-lock t)
 
@@ -14,13 +15,12 @@
 (add-hook 'clojure-mode-hook
           (lambda ()
             (setq-local cider-repl-use-pretty-printing t)
+            (local-set-key [f5] 'helm-imenu)
             (clj-refactor-mode t)
             (cljr-add-keybindings-with-prefix "C-c C-m")))
 
 (defun figwheel-repl ()
   (interactive)
   (run-clojure "lein figwheel"))
-
-(add-hook 'clojurescript-mode-hook #'inf-clojure-minor-mode)
 
 (provide 'ca-clojure)
