@@ -7,7 +7,8 @@
 (global-set-key [f2] 'split-window-horizontally)
 
 ;; compile facilities
-(global-set-key [f5] 'recompile)
+(global-set-key [f5] 'helm-imenu)
+(global-set-key (kbd "<C-f5>") 'recompile)
 ;; (global-set-key [f7] 'find-file-in-repository)
 (global-set-key [f7] 'helm-projectile-find-file)
 (global-set-key (kbd "<C-f7>") 'magit-checkout)

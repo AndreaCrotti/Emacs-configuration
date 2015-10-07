@@ -25,6 +25,8 @@
           (lambda ()
             (setq-local cider-repl-use-pretty-printing t)
             (local-set-key [f5] 'helm-imenu)
+            ;;TODO: these two can be global keys, possibly checking
+            ;;first if M-p/M-n is not already bound to something
             (local-set-key (kbd "M-p") 'ca-prev-defun)
             (local-set-key (kbd "M-n") 'ca-next-defun)
             (clj-refactor-mode t)
