@@ -19,10 +19,9 @@
              (require 'haskell-doc) ; Is this the only way?
              (require 'haskell-indent)
              (require 'inf-haskell)
-             (turn-on-haskell-doc-mode)
-             (turn-on-haskell-indentation)
-             ;; This would be very nice but it conflicts with yasnippet
-             ;; (define-key haskell-mode-map [tab] 'haskell-indent-cycle)
+             (haskell-doc-mode t)
+             (haskell-indentation-mode t)
+
              (define-key haskell-mode-map "\C-ch" 'haskell-hoogle)
              (define-key haskell-mode-map "\C-cl" 'hs-lint)
              ;FIXME: the yas triggering is not working in haskell mode
