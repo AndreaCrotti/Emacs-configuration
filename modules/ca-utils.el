@@ -544,4 +544,14 @@ Otherwise, expand the current region to select the lines the region touches."
   (interactive)
   (shell (concat "*shell-" default-directory)))
 
+
+(defun ca-next-defun ()
+  (interactive)
+  (end-of-defun 2)
+  (beginning-of-defun 1))
+
+(defun ca-prev-defun ()
+  (interactive)
+  (beginning-of-defun))
+
 (provide 'ca-utils)

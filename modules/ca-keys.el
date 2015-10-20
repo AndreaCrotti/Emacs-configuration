@@ -50,4 +50,7 @@
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-c h o") 'helm-occur)
 
+(global-set-key (kbd "M-p") 'ca-prev-defun)
+(global-set-key (kbd "M-n") 'ca-next-defun)
+
 (provide 'ca-keys)
