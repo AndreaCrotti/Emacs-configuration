@@ -41,6 +41,7 @@
                  browse-kill-ring
                  c-eldoc
                  company
+                 company-jedi
                  ;cljdoc
                  clj-refactor
                  clojure-cheatsheet
