@@ -113,6 +113,7 @@
                  org-gcal
                  org-jekyll
                  org-present
+                 ox-reveal
                  p4
                  ;;phantomjs
                  php-mode
