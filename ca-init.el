@@ -5,6 +5,8 @@
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/"))
 
+(require 'url-handlers)
+
 (defun online? ()
   "Detect if it's online or not,
   ;TODO:find a better way to filter out interfaces"
