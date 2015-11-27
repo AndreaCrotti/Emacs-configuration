@@ -38,6 +38,7 @@
                  autopair
                  auctex
                  batch-mode
+                 beacon
                  bitlbee
                  bookmark+
                  browse-kill-ring
@@ -266,7 +267,7 @@
 (require 'ca-server)
 ;; (require 'ca-lisp)
 (require 'ca-javascript)
-(require 'ca-git-gutter)
+;;(require 'ca-git-gutter)
 (require 'ca-helm)
 (require 'ca-present)
 (require 'ca-clojure)
@@ -274,6 +275,7 @@
 
 (require 'helm-projectile)
 
+(beacon-mode t)
 (projectile-global-mode t)
 (yas-global-mode t)
 (desktop-save-mode t)
