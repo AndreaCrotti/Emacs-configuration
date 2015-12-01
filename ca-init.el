@@ -80,6 +80,7 @@
                  feature-mode
                  find-file-in-repository
                  flycheck
+                 flycheck-pos-tip
                  gist
                  google-contacts
                  ;; google-maps
@@ -154,6 +155,9 @@
     (mapc 'install-if-needed ca-to-install))
 
 (global-flycheck-mode t)
+(eval-after-load 'flycheck
+  '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+
 (global-company-mode t)
 (smartparens-global-mode t)
 (show-paren-mode t)
