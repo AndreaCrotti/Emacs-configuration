@@ -131,6 +131,7 @@
                  rainbow-mode
                  rainbow-delimiters
                  rebox2
+                 restclient
                  rinari
                  ruby-compilation
                  ruby-mode
@@ -155,8 +156,10 @@
     (mapc 'install-if-needed ca-to-install))
 
 (global-flycheck-mode t)
-(eval-after-load 'flycheck
-  '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+;; if desired we can change this
+;; (eval-after-load 'flycheck
+;;   '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+;; (setq flycheck-display-errors-function #'flycheck-display-error-messages)
 
 (global-company-mode t)
 (smartparens-global-mode t)
