@@ -285,7 +285,7 @@
 (beacon-mode t)
 (projectile-global-mode t)
 (yas-global-mode t)
-(desktop-save-mode t)
+;; (desktop-save-mode t)
 (load-theme 'noctilux)
 (setq magit-auto-revert-mode nil)
 
