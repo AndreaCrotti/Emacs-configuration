@@ -1,10 +1,7 @@
 ;FIXME: by default the more stupid default version is loaded, find out
 ;how to load the new one
 (add-to-list 'auto-mode-alist '("\\.[tT]e[xX]\\'" . tex-mode))
-(add-to-list 'load-path (make-conf-path "auctex"))
-(autoload 'tex-mode "auctex" "latex mode" t)
 
-; these variables are only defined in auctex
 (setq
  TeX-auto-save t
  TeX-parse-self t
@@ -34,10 +31,6 @@
             (local-set-key (kbd "M-.") 'reftex-goto-label)
             (local-set-key (kbd "M-n") 'ca-reftex-next-label)
             (local-set-key (kbd "M-p") 'ca-reftex-previous-label)))
-
-(add-to-list 'load-path (make-conf-path "auctex/preview"))
-;TODO: only require when auctex is loaded maybe
-;; (require 'preview)
 
 ;; require reftex cite for citations
 (require 'reftex-cite)
