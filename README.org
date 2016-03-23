@@ -14,20 +14,18 @@ documentation and useful links.
   [[https://gitter.im/AndreaCrotti/Emacs-configuration?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge][file:https://badges.gitter.im/Join%20Chat.svg]]
   - yasnippet and thousands of snippets
   - desktop mode and nice hooks
-  - auto completion
+  - auto completion with company mode
   - python-mode
   - haskell-mode
   - tuareg-mode
-  - org-mode
-  - flymake supporting many programming modes
-  - code folding and navigation via semantic in all languages supported
+  - flycheck
+
   And much more...
 
 * Usage
   To try it out:
   - git clone git://github.com/AndreaCrotti/Emacs-configuration.git
   - git submodule update --init
-    (This could take a long time)
   - create an empty "custom.el" where you cloned the repository
   - Create or modify your *.emacs* in your $HOME with the following:
     + (setq base "~/Emacs-configuration/")
@@ -37,21 +35,3 @@ documentation and useful links.
   instructions in the README/INSTALL files in the appropriate paths
   To customize I suggest to use M-x customize (will write on your
   custom file) or write your own setqs in the custom.el file.
-
-* Where you can get emacs 23:
-** OSX:
-   Emacs has bindings for many different UI systems, there are native versions for most of the operating systems.
-   [[http://atomized.org/wp-content/cocoa-emacs-nightly/][emacs osx nightly builds]]
-   If you want an easier fork for OSX there is [[http://aquamacs.org/][aquamacs]]
-
-   [[http://lds.li/post/583988654/cocoa-emacs-23-2-final-build-for-os-x][Here]] you can find a build for cocoa emacs 23.2, now fullscreen finally works calling *ns-toggle-fullscreen*
-
-** Windows:
-   For windows there is an external package to simplify, [[http://www.ourcomments.org/Emacs/EmacsW32Util.html][emacsW32, make it easier on windows]]
-   - [[http://ftp.gnu.org/gnu/emacs/windows/][Emacs build for windows]]
-   - [[http://code.google.com/p/emacs-for-windows/][emacs for windows, built from bzr]]
-
-** Linux
-   Normally a emacs23 package is included in every distribution
-
-* TODO make yasnippet snippets load for every mode separately on demand

@@ -141,6 +141,7 @@
                  smart-mode-line
                  sly
                  sly-company
+                 sos
                  textile-mode
                  tuareg
                  undo-tree
