@@ -1,4 +1,5 @@
 (require 'cider)
+(require 'cider-eldoc)
 (require 'clj-refactor)
 (require 'ca-utils)
 
