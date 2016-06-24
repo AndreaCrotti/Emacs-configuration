@@ -106,6 +106,7 @@
 (autoload 'batch-mode "batch-mode" t)
 (add-to-list 'auto-mode-alist '("\\.bat\\'" . batch-mode))
 (add-to-list 'auto-mode-alist '("\\.cmd\\'" . batch-mode))
+(add-to-list 'auto-mode-alist '("\\.raml\\'" . yaml-mode))
 
 (autoload 'erlang-mode "erlang" "erlang mode" t)
 
