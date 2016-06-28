@@ -119,6 +119,7 @@
                  org-present
                  ox-reveal
                  p4
+                 persistent-scratch
                  ;;phantomjs
                  php-mode
                  pomodoro

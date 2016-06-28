@@ -229,4 +229,7 @@
 
 (add-to-list 'auto-mode-alist (cons "\\.asciidoc\\'" 'adoc-mode))
 
+
+(persistent-scratch-autosave-mode t)
+
 (provide 'ca-other-modes)
