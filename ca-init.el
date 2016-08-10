@@ -31,6 +31,7 @@
                  4clojure
                  ack
                  adoc-mode
+                 ag
                  android-mode
                  apache-mode
                  arduino-mode
@@ -45,7 +46,6 @@
                  c-eldoc
                  company
                  company-jedi
-                 ;cljdoc
                  clj-refactor
                  clojure-cheatsheet
                  clojure-mode
@@ -64,7 +64,6 @@
                  ein
                  elein
                  elixir-mode
-                 ;; elixir-mix
                  emmet-mode
                  emms
                  erlang
@@ -76,14 +75,12 @@
                  git-gutter
                  go-mode
                  groovy-mode
-                 ;;gtags
                  feature-mode
                  find-file-in-repository
                  flycheck
                  flycheck-pos-tip
                  gist
                  google-contacts
-                 ;; google-maps
                  google-translate
                  graphviz-dot-mode
                  kanban
@@ -97,7 +94,6 @@
                  htmlize
                  indent-guide
                  inf-clojure
-                 ;;ipython
                  less-css-mode
                  log4j-mode
                  lua-mode
@@ -120,7 +116,6 @@
                  ox-reveal
                  p4
                  persistent-scratch
-                 ;;phantomjs
                  php-mode
                  pomodoro
                  pony-mode
@@ -128,7 +123,6 @@
                  prolog
                  puppet-mode
                  psvn
-                 ;; python-mode
                  rainbow-mode
                  rainbow-delimiters
                  rebox2
@@ -137,7 +131,6 @@
                  ruby-compilation
                  ruby-mode
                  yasnippet
-                 scala-mode2
                  smartparens
                  smart-mode-line
                  sly
@@ -149,10 +142,8 @@
                  virtualenv
                  virtualenvwrapper
                  web-mode
-                 ;wget
                  yaml-mode
-                 zenburn-theme
-))
+                 zenburn-theme))
 
 (when (online?)
     (mapc 'install-if-needed ca-to-install))

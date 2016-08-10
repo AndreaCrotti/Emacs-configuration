@@ -42,8 +42,6 @@
 (dolist (lang-hook ca-spell-langs)
   (add-hook  lang-hook 'flyspell-prog-mode))
 
-(require 'gist)
-
 (autoload 'lisppaste "lisppaste" "lisppaste" t)
 
 (defun ca-kill-compile-buffer-if-successful (buffer string)

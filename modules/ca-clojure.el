@@ -14,9 +14,6 @@
 (setq nrepl-log-messages t)
 (setq cider-repl-use-clojure-font-lock t)
 
-(add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
-(add-hook 'cider-repl-mode-hook 'cider-turn-on-eldoc-mode)
-
 (add-hook 'clojure-mode-hook
           (lambda ()
             (setq-local cider-repl-use-pretty-printing t)

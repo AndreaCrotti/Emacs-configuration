@@ -68,6 +68,11 @@
         ("gmap"     . "http://maps.google.com/maps?q=%s")
         ("omap"     . "http://nominatim.openstreetmap.org/search?q=%s&polygon=1")
         ("mailman_bug" . "https://bugs.launchpad.net/mailman/+bug/%s"
-        )))
+         )))
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((sql . t)
+   (python . t)))
 
 (provide 'ca-org)
