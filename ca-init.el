@@ -1,4 +1,4 @@
-(require 'cl)
+@(require 'cl)
 (require 'package)
 
 (package-initialize)
@@ -37,54 +37,57 @@
                  apache-mode
                  arduino-mode
                  ascii
-                 autopair
                  auctex
+                 autopair
                  batch-mode
                  beacon
                  bitlbee
                  bookmark+
                  browse-kill-ring
                  c-eldoc
-                 company
-                 company-jedi
+                 cider
                  clj-refactor
                  clojure-cheatsheet
                  clojure-mode
-                 cider
                  cmake-mode
                  color-moccur
                  color-theme
+                 company
+                 company-go
+                 company-jedi
                  csharp-mode
                  csv-mode
-                 dired-details
+                 cython-mode
                  d-mode
-                 dpaste
                  dired+
+                 dired-details
                  dockerfile-mode
+                 dpaste
                  ebib
+                 edit-server
                  ein
                  elein
                  elixir-mode
                  emmet-mode
                  emms
+                 ensime
                  erlang
+                 ess
                  eval-in-repl
                  evil
-                 edit-server
-                 ensime
-                 ess
-                 git-gutter
-                 go-mode
-                 groovy-mode
                  feature-mode
                  find-file-in-repository
                  flycheck
                  flycheck-pos-tip
                  gist
+                 git-commit
+                 git-gutter
+                 go-mode
+                 golint
                  google-contacts
                  google-translate
                  graphviz-dot-mode
-                 kanban
+                 groovy-mode
                  hackernews
                  haskell-mode
                  helm
@@ -95,11 +98,15 @@
                  htmlize
                  indent-guide
                  inf-clojure
+                 jedi
+                 js-comint
+                 js2-mode
+                 know-your-http-well
+                 kanban
+                 ledger-mode
                  less-css-mode
                  log4j-mode
                  lua-mode
-                 jedi
-                 js-comint
                  magit
                  malabar-mode
                  markdown-mode
@@ -107,6 +114,7 @@
                  minimap
                  monky
                  multiple-cursors
+                 nix-mode
                  noctilux-theme
                  notmuch
                  offlineimap
@@ -122,20 +130,19 @@
                  pony-mode
                  powerline
                  prolog
-                 puppet-mode
                  psvn
-                 rainbow-mode
+                 puppet-mode
                  rainbow-delimiters
+                 rainbow-mode
                  rebox2
                  restclient
                  rinari
                  ruby-compilation
                  ruby-mode
-                 yasnippet
-                 smartparens
-                 smart-mode-line
                  sly
                  sly-company
+                 smart-mode-line
+                 smartparens
                  sos
                  textile-mode
                  tuareg
@@ -144,7 +151,9 @@
                  virtualenvwrapper
                  web-mode
                  yaml-mode
-                 zenburn-theme))
+                 yasnippet
+                 zenburn-theme
+                 ))
 
 (when (online?)
     (mapc 'install-if-needed ca-to-install))
