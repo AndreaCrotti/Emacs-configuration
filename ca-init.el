@@ -2,8 +2,9 @@
 (require 'package)
 
 (package-initialize)
+
 (add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/"))
+             '("melpa" . "https://melpa.org/packages/"))
 
 (require 'url-handlers)
 
@@ -251,7 +252,6 @@
 (require 'ca-prog-mode)
 (require 'ca-vc)
 (require 'ca-bookmarks)
-(require 'ca-packages)
 (require 'ca-buffers)
 (require 'ca-desktop)
 (require 'ca-faces)
