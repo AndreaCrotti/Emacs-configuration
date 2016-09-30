@@ -1,4 +1,4 @@
-@(require 'cl)
+(require 'cl)
 (require 'package)
 
 (package-initialize)
@@ -124,6 +124,7 @@
                  org-present
                  ox-reveal
                  p4
+                 paradox
                  persistent-scratch
                  php-mode
                  pomodoro
