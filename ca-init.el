@@ -45,6 +45,8 @@
                  bookmark+
                  browse-kill-ring
                  c-eldoc
+                 cask
+                 cask-mode
                  cider
                  clj-refactor
                  clojure-cheatsheet
@@ -289,7 +291,7 @@
 (projectile-global-mode t)
 (yas-global-mode t)
 ;; (desktop-save-mode t)
-(load-theme 'noctilux)
+(load-theme 'dracula)
 (setq magit-auto-revert-mode nil)
 
 (when (file-exists-p custom-file)
