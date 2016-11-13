@@ -48,6 +48,10 @@
                  cask
                  cask-mode
                  cider
+                 cider-decompile
+                 cider-eval-sexp-fu
+                 cider-profile
+                 cider-spy
                  clj-refactor
                  clojure-cheatsheet
                  clojure-mode
@@ -70,6 +74,9 @@
                  ein
                  elein
                  elixir-mode
+                 elixir-yasnippets
+                 elm-mode
+                 elm-yasnippets
                  emmet-mode
                  emms
                  ensime
@@ -80,6 +87,12 @@
                  feature-mode
                  find-file-in-repository
                  flycheck
+                 flycheck-clojure
+                 flycheck-cython
+                 flycheck-elixir
+                 flycheck-elm
+                 flycheck-haskell
+                 flycheck-pony
                  flycheck-pos-tip
                  gist
                  git-commit
