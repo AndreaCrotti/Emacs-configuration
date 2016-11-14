@@ -17,4 +17,13 @@
 ;FIXME: this is not set automatically for new frames
 ;; (set-default-font ca-preferred-font)
 
+;; ubuntu fonts to set on various screens
+(defun ca-big ()
+  (interactive)
+  (set-default-font "-unknown-Ubuntu Mono-normal-normal-normal-*-17-*-*-*-m-0-iso10646-1"))
+
+(defun ca-small ()
+  (interactive)
+  (set-default-font "-unknown-Ubuntu Mono-normal-normal-normal-*-15-*-*-*-m-0-iso10646-1"))
+
 (provide 'ca-fonts)
