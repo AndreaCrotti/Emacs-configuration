@@ -299,6 +299,7 @@
 (require 'ca-present)
 (require 'ca-clojure)
 (require 'ca-smartparens-lisp)
+(require 'ca-devops)
 
 (require 'helm-projectile)
 
