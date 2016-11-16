@@ -34,6 +34,7 @@
                  adoc-mode
                  ag
                  android-mode
+                 ansible
                  apache-mode
                  arduino-mode
                  ascii
@@ -129,6 +130,7 @@
                  minimap
                  monky
                  multiple-cursors
+                 nginx-mode
                  nix-mode
                  noctilux-theme
                  notmuch
