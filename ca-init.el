@@ -60,8 +60,15 @@
                  color-moccur
                  color-theme
                  company
+                 company-ansible
+                 company-ghc
+                 company-ghci
                  company-go
+                 company-inf-ruby
                  company-jedi
+                 company-lua
+                 company-restclient
+                 company-shell
                  csharp-mode
                  csv-mode
                  cython-mode
@@ -95,9 +102,14 @@
                  flycheck-haskell
                  flycheck-pony
                  flycheck-pos-tip
+                 flycheck-purescript
+                 flycheck-mypy
                  gist
+                 gitconfig
+                 git-annex
                  git-commit
                  git-gutter
+                 gitlab
                  go-mode
                  golint
                  google-contacts
@@ -107,6 +119,23 @@
                  hackernews
                  haskell-mode
                  helm
+                 helm-ag
+                 helm-aws
+                 helm-cider
+                 helm-chrome
+                 helm-clojuredocs
+                 helm-company
+                 helm-dired-history
+                 helm-dired-recent-dirs
+                 helm-flycheck
+                 helm-flyspell
+                 helm-ghc
+                 helm-git
+                 helm-git-files
+                 helm-gitlab
+                 helm-google
+                 helm-make
+                 helm-spotify
                  helm-projectile
                  helm-swoop
                  heroku
