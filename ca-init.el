@@ -76,6 +76,7 @@
                  dired+
                  dired-details
                  dockerfile-mode
+                 dracula-theme
                  dpaste
                  ebib
                  edit-server
