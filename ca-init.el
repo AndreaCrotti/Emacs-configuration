@@ -192,6 +192,7 @@
                  smart-mode-line
                  smartparens
                  sos
+                 terraform-mode
                  textile-mode
                  tuareg
                  undo-tree

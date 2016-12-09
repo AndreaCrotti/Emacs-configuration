@@ -26,4 +26,12 @@
   (interactive)
   (set-default-font "-unknown-Ubuntu Mono-normal-normal-normal-*-15-*-*-*-m-0-iso10646-1"))
 
+(defun ca-inconsolata ()
+  (interactive)
+  (set-default-font "-PfEd-Inconsolata-normal-normal-normal-*-17-*-*-*-m-0-iso10646-1"))
+
+(defun ca-inconsolata-small ()
+  (interactive)
+  (set-default-font "-PfEd-Inconsolata-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1")2)
+
 (provide 'ca-fonts)
