@@ -73,6 +73,9 @@
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((sql . t)
+   (clojure . t)
+   (haskell . t)
+   (dot . t)
    (python . t)))
 
 (provide 'ca-org)
