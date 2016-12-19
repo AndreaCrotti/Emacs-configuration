@@ -76,6 +76,12 @@
    (clojure . t)
    (haskell . t)
    (dot . t)
+   (ruby . t)
+   (scheme . t)
+   ;; (R . t)
+   (ditaa . t)
+   (lisp . t)
+   (lua . t)
    (python . t)))
 
 (provide 'ca-org)
