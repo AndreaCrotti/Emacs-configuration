@@ -59,6 +59,7 @@
                  cmake-mode
                  color-moccur
                  color-theme
+                 color-theme-solarized
                  company
                  company-ansible
                  company-ghc
@@ -197,10 +198,12 @@
                  smart-mode-line
                  smartparens
                  sos
+                 slime
                  terraform-mode
                  textile-mode
                  tuareg
                  undo-tree
+                 use-package
                  virtualenv
                  virtualenvwrapper
                  web-mode
