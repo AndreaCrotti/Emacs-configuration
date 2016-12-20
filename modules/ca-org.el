@@ -74,6 +74,7 @@
  'org-babel-load-languages
  '((sql . t)
    (clojure . t)
+   (lisp . t)
    (haskell . t)
    (dot . t)
    (python . t)))
