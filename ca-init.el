@@ -101,11 +101,16 @@
                  flycheck-cython
                  flycheck-elixir
                  flycheck-elm
+                 flycheck-ghcmod
                  flycheck-haskell
+                 flycheck-mix
+                 flycheck-ocaml
                  flycheck-pony
                  flycheck-pos-tip
                  flycheck-purescript
+                 flycheck-rust
                  flycheck-mypy
+                 flycheck-stack
                  gist
                  gitconfig
                  git-annex
