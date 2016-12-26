@@ -29,4 +29,12 @@
              (setq yas/trigger-key [tab])
              (define-key yas/keymap [tab] 'yas/next-field)))
 
+(setq ghc-ghc-options '("-fno-warn-missing-signatures")
+      haskell-compile-cabal-build-command "cd %s && stack build"
+      haskell-process-type 'stack-ghci
+      haskell-interactive-popup-errors nil
+      haskell-process-args-stack-ghci '("--ghc-options=-ferror-spans" "--with-ghc=ghci-ng")
+      haskell-process-path-ghci "stack"
+)
+
 (provide 'ca-haskell)
