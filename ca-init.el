@@ -192,6 +192,7 @@
                  restclient
                  rinari
                  ruby-compilation
+                 ruby-electric
                  ruby-mode
                  sly
                  sly-company
