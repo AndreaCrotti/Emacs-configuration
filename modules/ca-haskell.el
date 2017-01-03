@@ -13,17 +13,25 @@
  haskell-program-name "ghci"
  haskell-indent-thenelse 1)
 
+;; install cabal globally before using this
+;; (let ((my-cabal-path (expand-file-name "~/.cabal/bin")))
+;;   (setenv "PATH" (concat my-cabal-path path-separator (getenv "PATH")))
+;;   (add-to-list 'exec-path my-cabal-path))
+;; (custom-set-variables '(haskell-tags-on-save t))
+
 ;; If nothing found pass the control
 (add-hook 'haskell-mode-hook
           '(lambda ()
              (require 'haskell-doc) ; Is this the only way?
              (require 'haskell-indent)
              (require 'inf-haskell)
+             (hindent-mode t)
              (haskell-doc-mode t)
              (haskell-indentation-mode t)
 
              (define-key haskell-mode-map "\C-ch" 'haskell-hoogle)
              (define-key haskell-mode-map "\C-cl" 'hs-lint)
+             (define-key haskell-mode-map [f5] 'haskell-navigate-imports)
              ;FIXME: the yas triggering is not working in haskell mode
              (make-variable-buffer-local 'yas/trigger-key)
              (setq yas/trigger-key [tab])

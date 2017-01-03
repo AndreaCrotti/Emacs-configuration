@@ -146,6 +146,7 @@
                  helm-projectile
                  helm-swoop
                  heroku
+                 hindent
                  hi2
                  htmlize
                  indent-guide
