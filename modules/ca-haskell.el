@@ -11,7 +11,7 @@
 (setq
  haskell-doc-show-global-types t
  haskell-program-name "ghci"
- haskell-indent-thenelse 1)
+ haskell-indent-thenelse t)
 
 ;; install cabal globally before using this
 ;; (let ((my-cabal-path (expand-file-name "~/.cabal/bin")))
@@ -25,6 +25,7 @@
              (require 'haskell-doc) ; Is this the only way?
              (require 'haskell-indent)
              (require 'inf-haskell)
+             (intero-mode t)
              (hindent-mode t)
              (haskell-doc-mode t)
              (haskell-indentation-mode t)
