@@ -10,13 +10,12 @@
 (venv-initialize-interactive-shells)
 (venv-initialize-eshell)
 
-(setq jedi:complete-on-dot t)
-(setq jedi:setup-keys t)
-
 (setq
+ jedi:complete-on-dot t
+ jedi:setup-keys t
  py-electric-colon-active t
- py-smart-indentation t
-)
+ py-smart-indentation t)
+
 
 (defun ca-python-remove-pdb ()
   "Remove the pdb tracking lines"

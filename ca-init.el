@@ -56,6 +56,7 @@
                  clj-refactor
                  clojure-cheatsheet
                  clojure-mode
+                 clojure-mode-extra-font-locking
                  cmake-mode
                  color-moccur
                  color-theme
@@ -201,8 +202,11 @@
                  smartparens
                  sos
                  slime
+                 solarized-theme
                  terraform-mode
                  textile-mode
+                 tern
+                 tern-auto-complete
                  tuareg
                  undo-tree
                  use-package
