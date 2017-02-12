@@ -18,6 +18,7 @@
           (lambda ()
             (setq-local cider-repl-use-pretty-printing t)
             (local-set-key [f5] 'helm-imenu)
+            (cider-auto-test-mode t)
             ;;TODO: these two can be global keys, possibly checking
             ;;first if M-p/M-n is not already bound to something
             (clj-refactor-mode t)
