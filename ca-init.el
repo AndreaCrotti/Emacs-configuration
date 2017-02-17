@@ -347,6 +347,8 @@
 (require 'ca-clojure)
 (require 'ca-smartparens-lisp)
 (require 'ca-devops)
+(require 'ca-purescript)
+(require 'ca-elm)
 
 (require 'helm-projectile)
 
@@ -365,12 +367,7 @@
   (require 'ca-network)
   (desktop-save-mode nil)
   (gnus))
-; (add-to-list 'exec-path "/home/andrea/.local/bin")
-(when (eq system-type 'darwin) ;; mac specific settings
-  (add-to-list 'exec-path "/usr/local/bin")
-  (setq mac-option-modifier 'alt)
-  (setq mac-command-modifier 'meta)
-  ;;(global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
-  )
+
+(add-to-list 'exec-path "/home/andrea/.local/bin")
 
 (provide 'ca-init)

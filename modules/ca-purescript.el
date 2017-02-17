@@ -7,3 +7,5 @@
     (company-mode)
     (flycheck-mode)
     (turn-on-purescript-indentation)))
+
+(provide 'ca-purescript)
