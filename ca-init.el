@@ -188,6 +188,8 @@
                  prolog
                  psvn
                  puppet-mode
+                 purescript-mode
+                 psc-ide
                  rainbow-delimiters
                  rainbow-mode
                  rebox2
@@ -363,7 +365,7 @@
   (require 'ca-network)
   (desktop-save-mode nil)
   (gnus))
-
+; (add-to-list 'exec-path "/home/andrea/.local/bin")
 (when (eq system-type 'darwin) ;; mac specific settings
   (add-to-list 'exec-path "/usr/local/bin")
   (setq mac-option-modifier 'alt)
