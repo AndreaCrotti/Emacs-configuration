@@ -18,6 +18,7 @@
           (lambda ()
             (setq-local cider-repl-use-pretty-printing t)
             (local-set-key [f5] 'helm-imenu)
+            (local-set-key [f6] 'cljr-helm)
             (cider-auto-test-mode t)
             ;;TODO: these two can be global keys, possibly checking
             ;;first if M-p/M-n is not already bound to something
@@ -27,5 +28,10 @@
 (defun figwheel-repl ()
   (interactive)
   (run-clojure "lein figwheel"))
+
+;; this seems to work quite well with figwheel
+(setq cider-cljs-lein-repl
+      "(do (user/run)
+           (user/browser-repl))")
 
 (provide 'ca-clojure)
