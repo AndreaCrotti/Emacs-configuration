@@ -98,6 +98,7 @@
                  feature-mode
                  find-file-in-repository
                  flycheck
+                 flycheck-cask
                  flycheck-clojure
                  flycheck-cython
                  flycheck-elixir
@@ -108,10 +109,13 @@
                  flycheck-ocaml
                  flycheck-pony
                  flycheck-pos-tip
+                 flycheck-perl6
                  flycheck-purescript
                  flycheck-rust
                  flycheck-mypy
+                 flycheck-scala-sbt
                  flycheck-stack
+                 flycheck-swift
                  gist
                  gitconfig
                  git-annex
