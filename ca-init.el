@@ -194,6 +194,7 @@
                  psvn
                  puppet-mode
                  purescript-mode
+                 pytest
                  psc-ide
                  rainbow-delimiters
                  rainbow-mode
@@ -375,5 +376,6 @@
   (gnus))
 
 (add-to-list 'exec-path "/home/andrea/.local/bin")
+(global-undo-tree-mode t)
 
 (provide 'ca-init)
