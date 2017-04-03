@@ -25,13 +25,12 @@
             (clj-refactor-mode t)
             (cljr-add-keybindings-with-prefix "C-c C-m")))
 
+(add-hook 'cider-repl-mode
+          (lambda ()
+            (local-set-key [f6] 'cljr-helm)))
+
 (defun figwheel-repl ()
   (interactive)
   (run-clojure "lein figwheel"))
-
-;; this seems to work quite well with figwheel
-(setq cider-cljs-lein-repl
-      "(do (user/run)
-           (user/browser-repl))")
 
 (provide 'ca-clojure)
