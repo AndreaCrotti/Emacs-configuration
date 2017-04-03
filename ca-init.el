@@ -33,6 +33,7 @@
                  ack
                  adoc-mode
                  ag
+                 alchemist
                  android-mode
                  ansible
                  apache-mode
@@ -210,6 +211,7 @@
                  sos
                  slime
                  solarized-theme
+                 sx
                  terraform-mode
                  textile-mode
                  tern
