@@ -163,6 +163,7 @@
                  js2-mode
                  know-your-http-well
                  kanban
+                 kibit-helper
                  ledger-mode
                  less-css-mode
                  log4j-mode
