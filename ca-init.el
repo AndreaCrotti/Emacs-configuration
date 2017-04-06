@@ -54,6 +54,7 @@
                  cider-eval-sexp-fu
                  cider-profile
                  cider-spy
+                 cljr-helm
                  clj-refactor
                  clojure-cheatsheet
                  clojure-mode
@@ -167,7 +168,6 @@
                  log4j-mode
                  lua-mode
                  magit
-                 malabar-mode
                  markdown-mode
                  memory-usage
                  minimap
@@ -295,20 +295,6 @@
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'prog-mode-hook #'rainbow-mode)
 
-;TODO: probably not needed this anymore
-(require 'ido)
-(ido-mode t)
-
-(setq
- ido-enable-tramp-completion t
- ido-enable-flex-matching t
- ido-enable-regexp nil
- ido-use-url-at-point t
- ido-create-new-buffer 'always
- ido-default-buffer-method 'selected-window
- ido-everywhere t
- ido-use-filename-at-point 'guess)
-
 ;; make it possible to disable it
 (windmove-default-keybindings 'shift)
 
@@ -351,7 +337,6 @@
 ;;(require 'ca-git-gutter)
 (require 'ca-helm)
 (require 'ca-present)
-(require 'ca-clojure)
 (require 'ca-smartparens-lisp)
 (require 'ca-devops)
 (require 'ca-purescript)

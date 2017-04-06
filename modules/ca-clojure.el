@@ -19,11 +19,7 @@
             (setq-local cider-repl-use-pretty-printing t)
             (local-set-key [f5] 'helm-imenu)
             (local-set-key [f6] 'cljr-helm)
-            (cider-auto-test-mode t)
-            ;;TODO: these two can be global keys, possibly checking
-            ;;first if M-p/M-n is not already bound to something
-            (clj-refactor-mode t)
-            (cljr-add-keybindings-with-prefix "C-c C-m")))
+            (cider-auto-test-mode t)))
 
 (add-hook 'cider-repl-mode
           (lambda ()
