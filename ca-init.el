@@ -36,6 +36,8 @@
                  alchemist
                  android-mode
                  ansible
+                 ansible-doc
+                 ansible-vault
                  apache-mode
                  arduino-mode
                  ascii
@@ -148,6 +150,7 @@
                  helm-git-files
                  helm-gitlab
                  helm-google
+                 helm-hoogle
                  helm-make
                  helm-spotify
                  helm-projectile
@@ -160,6 +163,7 @@
                  inf-clojure
                  jedi
                  js-comint
+                 json-mode
                  js2-mode
                  know-your-http-well
                  kanban
