@@ -81,6 +81,7 @@
                  d-mode
                  dired+
                  dired-details
+                 docker
                  dockerfile-mode
                  dracula-theme
                  dpaste
@@ -165,6 +166,7 @@
                  js-comint
                  json-mode
                  js2-mode
+                 kubernetes
                  know-your-http-well
                  kanban
                  kibit-helper
