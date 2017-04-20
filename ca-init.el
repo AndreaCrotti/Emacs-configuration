@@ -163,6 +163,7 @@
                  indent-guide
                  inf-clojure
                  jedi
+                 jinja2-mode
                  js-comint
                  json-mode
                  js2-mode
@@ -188,7 +189,7 @@
                  org-bullets
                  org-gcal
                  org-jekyll
-                 org-present
+                 ;;org-present
                  ox-reveal
                  p4
                  paradox
@@ -343,7 +344,7 @@
 (require 'ca-javascript)
 ;;(require 'ca-git-gutter)
 (require 'ca-helm)
-(require 'ca-present)
+;;(require 'ca-present)
 (require 'ca-smartparens-lisp)
 (require 'ca-devops)
 (require 'ca-purescript)
