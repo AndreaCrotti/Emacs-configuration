@@ -162,6 +162,7 @@
                  htmlize
                  indent-guide
                  inf-clojure
+                 intero
                  jedi
                  jinja2-mode
                  js-comint
