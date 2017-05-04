@@ -8,4 +8,6 @@
     (flycheck-mode)
     (turn-on-purescript-indentation)))
 
+(setq psc-ide-use-npm-bin t)
+
 (provide 'ca-purescript)
