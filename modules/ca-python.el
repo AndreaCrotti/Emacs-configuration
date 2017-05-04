@@ -36,7 +36,7 @@
 
 
 (require 'company-jedi)
-;TODO: add some binding to jump to things that are not defined
+                                        ;TODO: add some binding to jump to things that are not defined
 (add-hook 'python-mode-hook
           (lambda ()
             (add-to-list 'company-backends 'company-jedi)
@@ -47,6 +47,15 @@
             (local-set-key "\C-cd" 'jedi:show-doc)
             ;; (local-set-key (kbd "M-SPC") 'jedi:complete)
             (local-set-key (kbd "M-.") 'jedi:goto-definition)
-            (local-set-key (kbd "M-D") 'ca-python-remove-pdb)))
+            (local-set-key (kbd "M-D") 'ca-python-remove-pdb)
+            (local-set-key [f6] 'pytest-module)
+            ;; (local-set-key "\C-ca" 'pytest-all)
+            ;; (local-set-key "\C-cm" 'pytest-module)
+            ;; (local-set-key "\C-c." 'pytest-one)
+            ;; (local-set-key "\C-cd" 'pytest-directory)
+            ;; (local-set-key "\C-cpa" 'pytest-pdb-all)
+            ;; (local-set-key "\C-cpm" 'pytest-pdb-module)
+            ;; (local-set-key "\C-cp." 'pytest-pdb-one)
+            ))
 
 (provide 'ca-python)
