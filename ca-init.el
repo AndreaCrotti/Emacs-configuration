@@ -200,6 +200,7 @@
                  pony-mode
                  powerline
                  prolog
+                 protobuf-mode
                  psvn
                  puppet-mode
                  purescript-mode
