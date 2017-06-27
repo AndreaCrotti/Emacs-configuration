@@ -177,6 +177,10 @@
                  log4j-mode
                  lua-mode
                  magit
+                 magit-annex
+                 magit-gitflow
+                 magit-gh-pulls
+                 magithub
                  markdown-mode
                  memory-usage
                  minimap
