@@ -355,6 +355,7 @@
 (require 'ca-devops)
 (require 'ca-purescript)
 (require 'ca-elm)
+(require 'ca-restclient)
 
 (require 'helm-projectile)
 
