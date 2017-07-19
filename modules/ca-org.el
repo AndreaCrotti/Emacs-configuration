@@ -51,7 +51,7 @@
 
 ;; TODO: is it possible to use autoload here?
 (require 'ob-ditaa)
-(require 'ob-sh)
+;;(require 'ob-sh)
 (require 'ob-dot)
 (require 'org-agenda)
 

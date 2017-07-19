@@ -58,6 +58,7 @@
                  cider-spy
                  cljr-helm
                  clj-refactor
+                 cljsbuild-mode
                  clojure-cheatsheet
                  clojure-mode
                  clojure-mode-extra-font-locking
@@ -67,6 +68,9 @@
                  color-theme-solarized
                  company
                  company-ansible
+                 company-cabal
+                 company-dict
+                 company-erlang
                  company-ghc
                  company-ghci
                  company-go
@@ -75,6 +79,7 @@
                  company-lua
                  company-restclient
                  company-shell
+                 company-web
                  csharp-mode
                  csv-mode
                  cython-mode
@@ -190,6 +195,17 @@
                  nix-mode
                  noctilux-theme
                  notmuch
+                 ob-elixir
+                 ob-diagrams
+                 ob-go
+                 ob-http
+                 ob-ipython
+                 ob-lfe
+                 ob-prolog
+                 ob-redis
+                 ob-rust
+                 ob-sql-mode
+                 ob-typescript
                  offlineimap
                  org-bullets
                  org-gcal
