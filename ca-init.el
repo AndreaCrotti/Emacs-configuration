@@ -179,7 +179,6 @@
                  magit
                  magit-annex
                  magit-gitflow
-                 magit-gh-pulls
                  magithub
                  markdown-mode
                  memory-usage
