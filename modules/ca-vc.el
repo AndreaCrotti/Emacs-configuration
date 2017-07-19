@@ -10,10 +10,11 @@
 
 ;TODO: remove the requires if possible, making the auto-loading work
 (require 'magit)
-(require 'magit-gh-pulls)
+(require 'magithub)
+(magithub-feature-autoinject)
 
-(add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls)
 (autoload 'monky-status "monky" "mercurial mode" t)
+
 (setq magit-push-always-verify nil)
 
 (defun ca-detect-git-svn ()
