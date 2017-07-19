@@ -184,7 +184,6 @@
                  magit
                  magit-annex
                  magit-gitflow
-                 magit-gh-pulls
                  magithub
                  markdown-mode
                  memory-usage
@@ -371,6 +370,7 @@
 (require 'ca-devops)
 (require 'ca-purescript)
 (require 'ca-elm)
+(require 'ca-restclient)
 
 (require 'helm-projectile)
 
