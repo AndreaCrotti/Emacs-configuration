@@ -209,6 +209,7 @@
                  org-bullets
                  org-gcal
                  org-jekyll
+                 outline-magic
                  ;;org-present
                  ox-reveal
                  p4
