@@ -372,6 +372,7 @@
 (require 'ca-purescript)
 (require 'ca-elm)
 (require 'ca-restclient)
+(require 'ca-elixir)
 
 (require 'helm-projectile)
 
