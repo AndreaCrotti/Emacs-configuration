@@ -1,8 +1,19 @@
+;; custom file loaded at the very beginning
+(defun make-conf-path (path)
+  "Shortcut to create the path of the configuration"
+  (expand-file-name (concat base path)))
+
+;; what if this is set differently?
+(setq custom-file (make-conf-path "custom.el"))
+
+(when (file-exists-p custom-file)
+  (message "loading custom file")
+  (load-file custom-file))
+
 (require 'cl)
 (require 'package)
 
 (package-initialize)
-
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
 
@@ -236,8 +247,9 @@
                  ruby-mode
                  sly
                  sly-company
-                 smart-mode-line
                  smartparens
+                 smart-mode-line
+                 smart-mode-line-powerline-theme
                  sos
                  slime
                  solarized-theme
@@ -277,19 +289,12 @@
 (show-paren-mode t)
 (which-function-mode t)
 
-(defun make-conf-path (path)
-  "Shortcut to create the path of the configuration"
-  (expand-file-name (concat base path)))
-
 (add-to-list 'load-path (make-conf-path "python-mode"))
 (add-to-list 'load-path (make-conf-path "modules"))
 
 ; second argument as 0 to compile if they don't exist
 (require 'ca-customs)
 (require 'ca-utils)
-
-;; what if this is set differently?
-(setq custom-file (make-conf-path "custom.el"))
 
 ;; all the subdirectories are added to the path, including modules
 (ca-gen-path-dirs base)
@@ -331,7 +336,7 @@
 (setq calendar-date-style 'european)
 
 (require 'ca-fonts)
-(require 'ca-yas) ;; takes more than 2 seconds to load due to the huge list of files
+;;(require 'ca-yas) ;; takes more than 2 seconds to load due to the huge list of files
 ;; see if it's possible to postpone loading the snippets
 ;; is the order important anyhow?
 
@@ -380,12 +385,9 @@
 (projectile-global-mode t)
 (yas-global-mode t)
 ;; (desktop-save-mode t)
-(load-theme 'dracula)
+(load-theme 'dracula t)
 (setq magit-auto-revert-mode nil)
 
-(when (file-exists-p custom-file)
-  (message "loading custom file")
-  (load-file custom-file))
 
 (defun ca-network-mode ()
   (require 'ca-network)

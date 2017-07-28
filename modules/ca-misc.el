@@ -88,8 +88,12 @@
 
 ;; TODO: make it a defcustom also, or better locate it automatically
 (setq fortune-dir "/opt/local/share/games/fortune/")
-(require 'smart-mode-line)
-(smart-mode-line-enable t)
-;; (require 'powerline)
-;; (powerline-default-theme)
+
+(require 'powerline)
+(setq powerline-arrow-shape 'curve)
+(setq powerline-default-separator-dir '(right . left))
+;; These two lines you really need.
+(setq sml/theme 'powerline)
+(sml/setup)
+
 (provide 'ca-misc)
