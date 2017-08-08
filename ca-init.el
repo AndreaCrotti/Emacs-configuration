@@ -116,6 +116,7 @@
                  ess
                  eval-in-repl
                  evil
+                 expand-region
                  feature-mode
                  find-file-in-repository
                  flycheck
@@ -237,6 +238,7 @@
                  purescript-mode
                  pytest
                  psc-ide
+                 racket-mode
                  rainbow-delimiters
                  rainbow-mode
                  rebox2
