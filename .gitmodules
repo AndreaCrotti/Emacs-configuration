@@ -1,6 +1,3 @@
 [submodule "programming-tools"]
         path = programming-tools
         url = git://github.com/AndreaCrotti/programming-tools.git
-[submodule "yasnippet-snippets"]
-        path = yasnippet-snippets
-        url = github:AndreaCrotti/yasnippet-snippets.git

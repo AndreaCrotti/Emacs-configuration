@@ -1,32 +1,18 @@
 (require 'ca-customs)
-;TODO: add support for more extensions, and add automatically magit-svn if possible
 
 (setq
  vc-handled-backends '(Git Hg CVS SVN Bzr SCCS RCS Mtn Arch)
  ;; always opening the real file instead!
  vc-follow-symlinks t)
 
-(autoload 'svn-status "psvn" "svn status" t)
-
 ;TODO: remove the requires if possible, making the auto-loading work
 (require 'magit)
-(require 'magithub)
-(magithub-feature-autoinject t)
+;; (require 'magithub)
+;;(magithub-feature-autoinject t)
 
 (autoload 'monky-status "monky" "mercurial mode" t)
 
 (setq magit-push-always-verify nil)
-
-(defun ca-detect-git-svn ()
-  "Detects if the project is actually git-svn or not"
-  (interactive)
-  (with-temp-buffer
-    (insert-file-contents ".git/config")
-    (goto-line 0)
-    ;; (catch)
-    (condition-case err
-        (re-search-forward "svn-remote")
-      (search-failed -1))))
 
 ;; magit settings
 (setq

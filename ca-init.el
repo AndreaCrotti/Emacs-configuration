@@ -268,6 +268,7 @@
                  web-mode
                  yaml-mode
                  yasnippet
+                 yasnippet-snippets
                  zenburn-theme
                  ))
 
