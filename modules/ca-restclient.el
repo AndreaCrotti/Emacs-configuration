@@ -12,7 +12,7 @@
 (add-hook 'restclient-mode-hook
           (lambda ()
             (outline-minor-mode t)
-            (define-key outline-minor-mode-map (kbd "<tab>") 'outline-cycle)
+            (local-set-key (kbd "<tab>") 'outline-cycle)
             (setq outline-regexp "#+")))
 
 (provide 'ca-restclient)

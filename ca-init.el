@@ -387,16 +387,10 @@
 (beacon-mode t)
 (projectile-global-mode t)
 (yas-global-mode t)
-;; (desktop-save-mode t)
 (load-theme 'dracula t)
 (setq magit-auto-revert-mode nil)
 
-
-(defun ca-network-mode ()
-  (require 'ca-network)
-  (desktop-save-mode nil)
-  (gnus))
-
+(desktop-save-mode t)
 (add-to-list 'exec-path "/home/andrea/.local/bin")
 (global-undo-tree-mode t)
 
