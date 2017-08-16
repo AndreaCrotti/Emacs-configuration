@@ -1,5 +1,4 @@
 (require 'magit)
-(require 'ca-environment)
 
 (require 'find-file-in-repository)
 
@@ -38,11 +37,6 @@
 (global-set-key "\C-x\C-b" 'ibuffer)
 (global-set-key "\C-x\C-p" 'find-file-at-point)
 (global-set-key "\C-x\C-r" 'ca-find-file-root)
-
-;; make shift-TAB works correctly also on osx
-(when ca-mac
-  (define-key (keymap-parent local-function-key-map) [S-tab] nil)
-  (global-set-key [S-tab] #'tab-to-tab-stop))
 
 ; Helm settings
 (global-set-key (kbd "C-x b") 'helm-mini)

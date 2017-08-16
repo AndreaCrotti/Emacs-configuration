@@ -1,6 +1,3 @@
-(require 'ca-environment)
-
-;; reverting automatically the buffer
 (setq
  dired-auto-revert-buffer 1
  dired-isearch-filenames 'dwim)
@@ -12,8 +9,7 @@
             ;; define some more useful keys
             (define-key dired-mode-map "b" 'browse-url-of-dired-file)))
 
-(when ca-linux
-  (setq dired-listing-switches "-al -I .git -I .bzr -I .hg"))
+(setq dired-listing-switches "-al -I .git -I .bzr -I .hg")
 
 (require 'dired-details)
 (dired-details-install)

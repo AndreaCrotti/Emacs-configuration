@@ -49,20 +49,6 @@
           (lambda ()
             (local-set-key [f7] 'browse-paper-at-point)))
 
-; FIXME: overwriting too much in this case, some old program-selection
-; should be kept as it was
-(when ca-linux
-  (setq TeX-view-program-list '(("Evince" "evince --page-label=%(outpage) %o")
-                                ("Okular" "okular --page %(outpage) %o")))
-  (setq TeX-view-program-selection '((output-pdf "Evince"))))
-
-(when ca-mac
-  (setq
-   TeX-view-program-list '(("open" "open %o"))
-   TeX-view-program-selection '((output-pdf "open"))
-   TeX-source-correlate-method 'synctex
-   LaTeX-command "latex -synctex=1"))
-
 (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
 
 (setq Tex-source-correlate-start-server t)

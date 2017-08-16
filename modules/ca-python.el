@@ -1,7 +1,6 @@
 (require 'virtualenvwrapper)
 (require 'jedi)
 (require 'ca-customs)
-(require 'ca-environment)
 
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 (add-to-list 'load-path (make-conf-path "python-mode/test"))

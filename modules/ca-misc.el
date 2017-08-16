@@ -1,5 +1,3 @@
-(require 'ca-environment)
-
 (require 'saveplace)
 
 (setq visible-bell nil) ; Turn beep off

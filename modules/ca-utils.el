@@ -1,6 +1,5 @@
 (require 'calendar)
 (require 'ca-customs)
-(require 'ca-environment)
 
 ;; from TH on emacs mailing, list
 ;FIXME: check why is not working and the variable names
@@ -462,8 +461,8 @@ Otherwise, expand the current region to select the lines the region touches."
     (fill-region (region-beginning) (region-end) nil)))
 
 ;; Handy key definitions
-(define-key global-map "\M-Q" 'ca-unfill-paragraph)
-(define-key global-map "\M-\C-q" 'ca-unfill-region)
+(global-set-key "\M-Q" 'ca-unfill-paragraph)
+(global-set-key "\M-\C-q" 'ca-unfill-region)
 
 (defun ca-camelize (s)
   "Convert under_score string S to CamelCase string."
