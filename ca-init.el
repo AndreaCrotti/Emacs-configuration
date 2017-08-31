@@ -387,7 +387,7 @@
 (beacon-mode t)
 (projectile-global-mode t)
 (yas-global-mode t)
-(load-theme 'dracula t)
+(load-theme 'noctilux t)
 (setq magit-auto-revert-mode nil)
 
 (desktop-save-mode t)

@@ -7,8 +7,8 @@
 
 ;TODO: remove the requires if possible, making the auto-loading work
 (require 'magit)
-;; (require 'magithub)
-;;(magithub-feature-autoinject t)
+(require 'magithub)
+(magithub-feature-autoinject t)
 
 (autoload 'monky-status "monky" "mercurial mode" t)
 
