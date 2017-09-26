@@ -135,7 +135,7 @@
                  flycheck-purescript
                  flycheck-rust
                  flycheck-mypy
-                 flycheck-scala-sbt
+                 ;; flycheck-scala-sbt
                  flycheck-stack
                  flycheck-swift
                  gist
@@ -220,7 +220,7 @@
                  offlineimap
                  org-bullets
                  org-gcal
-                 org-jekyll
+                 ;; org-jekyll
                  outline-magic
                  ;;org-present
                  ox-reveal
