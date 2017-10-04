@@ -117,6 +117,7 @@
                  eval-in-repl
                  evil
                  expand-region
+                 exec-path-from-shell
                  feature-mode
                  find-file-in-repository
                  flycheck
@@ -383,6 +384,7 @@
 (require 'ca-elixir)
 
 (require 'helm-projectile)
+(require 'ca-mac)
 
 (beacon-mode t)
 (projectile-global-mode t)
