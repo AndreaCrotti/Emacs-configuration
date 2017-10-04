@@ -21,7 +21,7 @@
             (local-set-key [f6] 'cljr-helm)
             (cider-auto-test-mode t)))
 
-(add-hook 'cider-repl-mode
+(add-hook 'cider-repl-mode-hook
           (lambda ()
             (local-set-key [f6] 'cljr-helm)))
 
