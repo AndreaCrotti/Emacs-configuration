@@ -266,35 +266,6 @@
   (interactive)
   (ca-git-checkout "master"))
 
-(defun ca-git-checkout (branch)
-  (shell-command (concat "git checkout " branch)))
-
-(defun ca-git-change-branch ()
-  "change the actual git branch asking with completion"
-  (interactive)
-  (let
-      ((branches (ca-git-branches-list)))
-    (if
-        (> (length branches) 1)
-        (let
-            ((branch (completing-read "checkout to: " branches)))
-          (ca-git-checkout branch)
-      (message "no other branches, sorry")))))
-
-(defun ca-git-create-branch ()
-  "creates a new branch"
-  (interactive)
-  (let
-      ((branch-name (read-from-minibuffer "Name: ")))
-    (shell-command (concat "git checkout -b " branch-name))))
-
-(defun ca-query-replace-in-git (from to)
-  "query replace regexp on the files given"
-  (interactive "sFrom: \nsTo: ")
-  (ca-dired-git (pwd))
-  (dired-mark-files-regexp ".[ch]")
-  (dired-do-query-replace-regexp from to))
-
 ;; When it's a git project we can use a grep over git ls-files
 ;; same thing for mercurial
 ;; check also with the Makefiles in general if we can do something like this
