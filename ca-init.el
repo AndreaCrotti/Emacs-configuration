@@ -131,6 +131,7 @@
                  flycheck-elm
                  flycheck-ghcmod
                  flycheck-haskell
+                 flycheck-joker
                  flycheck-mix
                  flycheck-ocaml
                  flycheck-pony
@@ -385,6 +386,7 @@
 (require 'ca-elm)
 (require 'ca-restclient)
 (require 'ca-elixir)
+(require 'ca-go)
 
 (require 'helm-projectile)
 (require 'ca-mac)
