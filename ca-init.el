@@ -359,7 +359,6 @@
 (require 'ca-other-modes)
 (require 'ca-prog-mode)
 (require 'ca-vc)
-(require 'ca-bookmarks)
 (require 'ca-buffers)
 (require 'ca-desktop)
 (require 'ca-faces)
