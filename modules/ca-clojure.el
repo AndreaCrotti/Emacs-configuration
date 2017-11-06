@@ -19,6 +19,7 @@
             (setq-local cider-repl-use-pretty-printing t)
             (local-set-key [f5] 'helm-imenu)
             (local-set-key [f6] 'cljr-helm)
+            (local-set-key (kbd "<C-f5>") 'cider-test-run-test)
             (cider-auto-test-mode t)))
 
 (add-hook 'cider-repl-mode-hook
