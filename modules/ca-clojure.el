@@ -2,6 +2,7 @@
 (require 'cider-eldoc)
 (require 'clj-refactor)
 (require 'ca-utils)
+(require 'flycheck-joker)
 
 (autoload 'clojure-mode "clojure-mode" "clojure mode" t)
 (add-hook 'cider-mode-hook
@@ -26,8 +27,5 @@
           (lambda ()
             (local-set-key [f6] 'cljr-helm)))
 
-(defun figwheel-repl ()
-  (interactive)
-  (run-clojure "lein figwheel"))
-
+(add-to-list 'auto-mode-alist '("\\riemann.config\\'" . clojure-mode))
 (provide 'ca-clojure)

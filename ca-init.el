@@ -252,6 +252,7 @@
                  ruby-mode
                  sly
                  sly-company
+                 skewer-mode
                  smartparens
                  smart-mode-line
                  smart-mode-line-powerline-theme
