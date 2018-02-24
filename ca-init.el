@@ -65,7 +65,6 @@
                  cider
                  cider-decompile
                  cider-eval-sexp-fu
-                 cider-profile
                  cider-spy
                  cljr-helm
                  clj-refactor

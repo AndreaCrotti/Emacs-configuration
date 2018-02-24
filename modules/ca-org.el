@@ -2,6 +2,8 @@
  org-replace-disputed-keys t
  org-goto-interface 'outline-path-completion)
 
+(require 'ox-reveal)
+
 ; Nicer bullets
 (require 'org-bullets)
 (org-bullets-mode t)
