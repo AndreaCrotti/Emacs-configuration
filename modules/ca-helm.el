@@ -12,6 +12,7 @@
 (setq helm-buffers-fuzzy-matching t
       helm-recentf-fuzzy-match t
       helm-locate-fuzzy-match t
+      helm-use-frame-when-more-than-two-windows nil
       helm-M-x-fuzzy-match t)
 
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)

@@ -17,6 +17,9 @@
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
 
+;; (add-to-list 'package-archives
+;;              '("melpa-stable" . "http://stable.melpa.org/packages/"))
+
 (require 'url-handlers)
 
 (defun online? ()
@@ -54,6 +57,7 @@
                  ascii
                  auctex
                  autopair
+                 auto-highlight-symbol
                  batch-mode
                  beacon
                  bitlbee
@@ -96,6 +100,7 @@
                  d-mode
                  dired+
                  dired-details
+                 diff-hl-mode
                  docker
                  dockerfile-mode
                  dracula-theme
@@ -178,6 +183,8 @@
                  heroku
                  hindent
                  hi2
+                 highlight-blocks-mode
+                 highlight-indent-guides
                  htmlize
                  indent-guide
                  inf-clojure
@@ -198,7 +205,7 @@
                  magit
                  magit-annex
                  magit-gitflow
-                 magithub
+                 ;; magithub
                  markdown-mode
                  memory-usage
                  minimap
