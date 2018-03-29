@@ -1,6 +1,5 @@
 (require 'auto-highlight-symbol)
 (require 'highlight-blocks)
-(require 'highlight-changes)
 (require 'highlight-indent-guides)
 (require 'diff-hl)
 

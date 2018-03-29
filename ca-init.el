@@ -395,6 +395,7 @@
 
 (require 'helm-projectile)
 (require 'ca-mac)
+(require 'ca-highlight)
 
 (beacon-mode t)
 (projectile-global-mode t)
