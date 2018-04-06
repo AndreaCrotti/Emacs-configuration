@@ -100,7 +100,7 @@
                  d-mode
                  dired+
                  dired-details
-                 diff-hl-mode
+                 diff-hl
                  docker
                  dockerfile-mode
                  dracula-theme
@@ -149,7 +149,6 @@
                  gitconfig
                  git-annex
                  git-commit
-                 git-gutter
                  gitlab
                  go-mode
                  golint
@@ -183,7 +182,7 @@
                  heroku
                  hindent
                  hi2
-                 highlight-blocks-mode
+                 highlight-blocks
                  highlight-indent-guides
                  htmlize
                  indent-guide
@@ -283,7 +282,7 @@
                  ))
 
 (when (online?)
-    (mapc 'install-if-needed ca-to-install))
+  (mapc 'install-if-needed ca-to-install))
 
 (global-flycheck-mode t)
 ;; if desired we can change this
@@ -291,18 +290,17 @@
 ;;   '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
 ;; (setq flycheck-display-errors-function #'flycheck-display-error-messages)
 
-(global-company-mode t)
-(smartparens-global-mode t)
-(show-paren-mode t)
 (column-number-mode t)
-(indent-guide-global-mode t)
-
-(global-prettify-symbols-mode t)
+(display-time-mode t)
+(global-company-mode t)
 (global-linum-mode t)
+(global-prettify-symbols-mode t)
+(indent-guide-global-mode t)
 (show-paren-mode t)
+(smartparens-global-mode t)
+(transient-mark-mode t)
 (which-function-mode t)
 
-(add-to-list 'load-path (make-conf-path "python-mode"))
 (add-to-list 'load-path (make-conf-path "modules"))
 
 ; second argument as 0 to compile if they don't exist
@@ -312,11 +310,6 @@
 ;; all the subdirectories are added to the path, including modules
 (ca-gen-path-dirs base)
 
-(let
-    ((tools (concat base "programming-tools")))
-  (add-to-list 'exec-path tools)
-  (setenv "PATH" (concat (getenv "PATH") ":" tools)))
-
 (setq
  backup-by-copying t      ; don't clobber symlinks
  backup-directory-alist '(("." . "~/.saves"))    ; don't litter my fs tree
@@ -325,9 +318,6 @@
  kept-old-versions 2
  version-control t
  vc-make-backup-files t)       ; use versioned backups
-
-(display-time-mode 1)
-(transient-mark-mode 1)
 
 (setq
  initial-major-mode 'emacs-lisp-mode
@@ -372,7 +362,6 @@
 (require 'ca-faces)
 (require 'ca-haskell)
 (require 'ca-scala)
-;; (require 'ca-java)
 (require 'ca-ruby)
 (require 'ca-latex)
 (require 'ca-ocaml)
@@ -382,7 +371,6 @@
 (require 'ca-server)
 ;; (require 'ca-lisp)
 (require 'ca-javascript)
-;;(require 'ca-git-gutter)
 (require 'ca-helm)
 ;;(require 'ca-present)
 (require 'ca-smartparens-lisp)
@@ -404,7 +392,6 @@
 (setq magit-auto-revert-mode nil)
 
 (desktop-save-mode t)
-(add-to-list 'exec-path "/home/andrea/.local/bin")
 (global-undo-tree-mode t)
 
 (provide 'ca-init)
