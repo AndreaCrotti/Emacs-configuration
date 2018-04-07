@@ -209,7 +209,6 @@
                  markdown-mode
                  memory-usage
                  minimap
-                 monky
                  multiple-cursors
                  nginx-mode
                  nix-mode

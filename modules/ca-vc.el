@@ -10,8 +10,6 @@
 (require 'magithub)
 (magithub-feature-autoinject t)
 
-(autoload 'monky-status "monky" "mercurial mode" t)
-
 (setq magit-push-always-verify nil)
 
 ;; magit settings
