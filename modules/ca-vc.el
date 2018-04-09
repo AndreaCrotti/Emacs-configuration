@@ -14,8 +14,6 @@
 
 ;; magit settings
 (setq
- magit-auto-revert-mode nil
- magit-log-edit-confirm-cancellation t
  magit-process-connection-type nil
  magit-process-popup-time 10
  magit-status-buffer-switch-function 'switch-to-buffer)
@@ -30,25 +28,5 @@
   (auto-fill-mode t))
 
 (add-hook 'git-commit-mode-hook 'ca-log-edit-modes)
-
-;;TODO: this might be removed as well?
-(defun ca-is-version-control-file ()
-  "Return nil unless the file is in the git files"
-  (if (vc-backend (buffer-file-name))
-      (auto-revert-mode t)))
-
-(add-hook 'find-file-hook 'ca-is-version-control-file)
-
-;TODO: use vc-responsible-backend to find out what is the associated backend
-(defun ca-provide-vc-backend ()
-  "Return the right status function to call"
-  (interactive)
-  (when (ca-is-version-control-file)
-    (let*
-        ((backend (vc-backend (buffer-file-name)))
-         (found (assoc backend ca-backend-assoc)))
-      (if found
-          (cdr found)
-        'vc-dir))))
 
 (provide 'ca-vc)

@@ -4,14 +4,9 @@
 
 ;; Maybe needed to set to fixed for some modes
 (setq
- yas-snippet-dirs (list (make-conf-path "yasnippet-snippets/"))
- yas-prompt-functions '(yas/ido-prompt yas/completing-prompt yas/x-prompt yas/dropdown-prompt yas/no-prompt)
+ yas-prompt-functions
+ '(yas/ido-prompt yas/completing-prompt yas/x-prompt yas/dropdown-prompt yas/no-prompt)
  yas-indent-line 'auto)
-
-(yas-reload-all)
-
-(message "loading all the snippets")
-(mapc 'yas-load-directory yas-snippet-dirs)
 
 ;; simple function to create a .yas-parents
 (defun ca-make-yas-parents-file (path)
