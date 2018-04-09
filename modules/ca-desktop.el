@@ -17,13 +17,6 @@
               "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
               "\\)$"))
 
-(defun ca-dired-git-current ()
-  (ca-dired-git-files  desktop-dirname))
-
-;; first we have to pass to the right dir
-(if ca-dired-git-after-desktop
-    (add-hook 'desktop-after-read-hook 'ca-dired-git-current))
-
 (add-to-list 'desktop-modes-not-to-save 'dired-mode)
 (add-to-list 'desktop-modes-not-to-save 'Info-mode)
 (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)

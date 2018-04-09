@@ -6,7 +6,6 @@
 (defalias 'elm 'emacs-lisp-mode)
 (defalias 'er 'eval-region)
 (defalias 'go 'google-search-it)
-(defalias 'gr 'ca-grep-in-current)
 (defalias 'gs 'google-search-selection)
 (defalias 'll 'load-library)
 (defalias 'qrs 'query-replace-regexp)

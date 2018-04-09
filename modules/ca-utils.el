@@ -57,12 +57,6 @@
   (interactive)
   (require 'ca-init))
 
-;TODO: this is an utility function which might be in a library
-(defun ca-mapcar-head (fn-head fn-rest list)
-  "Like MAPCAR, but applies a different function to the first element."
-  (if list
-      (cons (funcall fn-head (car list)) (mapcar fn-rest (cdr list)))))
-
 ; TODO: maybe better as a macro
 
 (defun ca-manipulate-matched-text (fn)
@@ -71,23 +65,14 @@
       ((matched-text (buffer-substring (match-beginning 0) (match-end 0))))
     (funcall fn matched-text)))
 
-;FIXME: not correct yet
-(defun ca-px()
-  (interactive)
-  (chmod (buffer-file-name) "777"))
-
 (defun ca-make-fortune ()
+The chat program is in public domain. This is not the GNU public license. If
+it breaks then you get to keep both pieces.
+(Copyright notice for the chat program)
   (interactive)
   (let ((beg (point)))
     (insert (shell-command-to-string "fortune"))
     (end-of-paragraph-text)))
-
-(defun ca-google-map-it (address)
-  "get the map of the given address"
-  (interactive "sSearch for: ")
-  (let
-      ((base "http://maps.google.it/maps?q=%s"))
-    (browse-url (format base (url-hexify-string address)))))
 
 (defun ca-newline-force()
   "Goes to newline leaving untouched the rest of the line"
@@ -117,13 +102,6 @@
         (message "%s already present" closing-char))
       (ca-newline-force))))
 
-(defun ca-grep-in-current (to_grep)
-  "grep in the current directory"
-  (interactive "s\n")
-  (let
-      ((grep_cmd (format "grep -nH -e %s *" to_grep)))
-    (grep grep_cmd)))
-
 (defun ca-err-switch()
   "switch on/off error debugging"
   (interactive)
@@ -131,24 +109,6 @@
       (setq debug-on-error nil)
     (setq debug-on-error t))
   (message "debug-on-error now %s" debug-on-error))
-
-;; someday might want to rotate windows if more than 2 of them
-(defun ca-swap-windows ()
-  "If you have 2 windows, it swaps them."
-  (interactive)
-  (cond
-   ((not (= (count-windows) 2)) (message "You need exactly 2 windows to do this."))
-   (t
-    (let* ((w1 (first (window-list)))
-           (w2 (second (window-list)))
-           (b1 (window-buffer w1))
-           (b2 (window-buffer w2))
-           (s1 (window-start w1))
-           (s2 (window-start w2)))
-      (set-window-buffer w1 b2)
-      (set-window-buffer w2 b1)
-      (set-window-start w1 s2)
-      (set-window-start w2 s1)))))
 
 (defun ca-rename-file-and-buffer (new-name)
   "Renames both current buffer and file it's visiting to NEW-NAME."
@@ -192,62 +152,8 @@
       (delete-file currentFile)
       (message "Deleted file: %s " currentFile))))
 
-(defun ca-open-git-files ()
-  "Visit all the files in the current git project"
-  (interactive)
-  (dolist
-      (file (ca-ls-git-py-files))
-    (message "Opening %s" file)
-    ;; we have to keep the original position
-    (save-excursion (find-file file))))
-
 (defun ca-before-last (list)
   (nth (- (length list) 2) list))
-
-(defun ca-dired-git (directory)
-  (interactive "D")
-  (ca-dired-git-files directory))
-
-;TODO: extend or use magit functionalities for this
-(defun ca-dired-git-files (directory)
-  (cd directory)
-  "Open a dired buffer containing the local git files"
-  (let ((files (ca-ls-git-files)))
-    (if
-        (or
-         (< (length files) 200)
-         (yes-or-no-p (format "%d files, are you sure?" (length files))))
-        ;; rename the buffer to something with a sense
-        (progn
-          (dired (ca-ls-git-files))
-          (rename-buffer (ca-git-dired-buffer-name directory))))))
-
-(defun ca-git-dired-buffer-name (directory)
-  (concat "git-" (before-last (split-string directory "/"))))
-
-;; TODO: take the return code instead
-(defun ca-ls-git-files ()
-  "List the files in the git repository"
-  (let
-      ((result (shell-command-to-string (concat "git ls-files"))))
-    (if
-        (string-match "fatal" result)
-        nil
-      (split-string result))))
-
-(defun ca-ls-git-py-files ()
-  "List the files in the git repository"
-  (let
-      ((result (shell-command-to-string (concat "git ls-files | grep .*py$"))))
-    (if
-        (string-match "fatal" result)
-        nil
-      (split-string result))))
-
-(defun ca-git-add-file ()
-  "Add current file to repository"
-  (interactive)
-  (shell-command (format "git add %s" (buffer-file-name))))
 
 (defun ca-git-grep-string (string-to-find)
   "Look for a string using git-grep"
@@ -260,51 +166,6 @@
 (defun ca-git-branches-list ()
   "list the current branches"
   (remove "*" (split-string (shell-command-to-string "git branch"))))
-
-(defun ca-m ()
-  "switch to master"
-  (interactive)
-  (ca-git-checkout "master"))
-
-;; When it's a git project we can use a grep over git ls-files
-;; same thing for mercurial
-;; check also with the Makefiles in general if we can do something like this
-;; In this way is too simplicistic
-
-(setq ca-project-roots
-  '(".git" ".hg" "Rakefile" "Makefile" "README" "build.xml" "setup.py"))
-
-(defun ca-root-match(root names)
-  (member (car names) (directory-files root)))
-
-(defun ca-root-matches(root names)
-  (if (ca-root-match root names)
-      (ca-root-match root names)
-    (if (eq (length (cdr names)) 0)
-        'nil
-      (ca-root-matches root (cdr names)))))
-
-;; should return also the type and the certainty level
-(defun ca-find-project-root (&optional root)
-  "Determines the current project root by recursively searching for an indicator."
-  (interactive)
-  (when (null root)
-    (setq root default-directory))
-  (cond
-   ((ca-root-matches root ca-project-roots)
-    (expand-file-name root))
-   ((equal (expand-file-name root) "/") nil)
-   (t
-    ;; recursive call
-    (ca-find-project-root (concat (file-name-as-directory root) "..")))))
-
-(defun ca-project-name (buffer-name)
-  "Returns the name of the project that contains the given buffer."
-  (let ((root-dir (ca-find-project-root)))
-    (if root-dir
-        (file-name-nondirectory
-         (directory-file-name root-dir))
-      nil)))
 
 (defun ca-select-line ()
   "If the mark is not active, select the current line.
