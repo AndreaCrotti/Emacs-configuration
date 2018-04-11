@@ -50,8 +50,6 @@
 (defalias 'gcb 'ca-git-change-branch)
 
 (defalias 'loc 'locate)
-(defalias 'ga 'ca-git-add-file)
-(defalias 'go 'ca-open-git-files)
 (defalias 'co 'ca-occur)
 
 (provide 'ca-aliases)
