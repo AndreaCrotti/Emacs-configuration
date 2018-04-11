@@ -65,15 +65,6 @@
       ((matched-text (buffer-substring (match-beginning 0) (match-end 0))))
     (funcall fn matched-text)))
 
-(defun ca-make-fortune ()
-The chat program is in public domain. This is not the GNU public license. If
-it breaks then you get to keep both pieces.
-(Copyright notice for the chat program)
-  (interactive)
-  (let ((beg (point)))
-    (insert (shell-command-to-string "fortune"))
-    (end-of-paragraph-text)))
-
 (defun ca-newline-force()
   "Goes to newline leaving untouched the rest of the line"
   (interactive)
