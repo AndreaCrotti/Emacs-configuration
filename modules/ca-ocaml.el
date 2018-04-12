@@ -16,7 +16,6 @@
 
 (setq-default indent-tabs-mode nil)
 
-;;TODO: support cedet or some other semantic analysis if possible
 (defun ca-find-ocaml-declaration (&optional value)
   "Show the ocaml declarations for the given function"
   (interactive)

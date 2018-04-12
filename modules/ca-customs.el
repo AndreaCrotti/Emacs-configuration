@@ -151,18 +151,6 @@
   :type 'string
   :group 'ca)
 
-(defcustom ca-cedet-modes
-  '(c-mode-common-hook emacs-lisp-mode-hook makefile-mode-hook)
-  "Modes for which cedet should be enabled"
-  :type 'list
-  :group 'ca)
-
-(defcustom ca-cedet-enabled
-  nil
-  "Enable cedet"
-  :type 'boolean
-  :group 'ca)
-
 (defcustom ca-fixme-mode-hooks
   '(python-mode-hook
     c-mode-common-hook
