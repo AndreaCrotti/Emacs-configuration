@@ -1,27 +1,6 @@
 (require 'calendar)
 (require 'ca-customs)
 
-;; from TH on emacs mailing, list
-;FIXME: check why is not working and the variable names
-(defun ca-find-file-sudo (file)
-  "Opens FILE with root privileges."
-  (interactive "F")
-  (set-buffer (find-file (concat "/sudo::" file))))
-
-(defun ca-presentation-mode ()
-  "what to enable in a presentation mode"
-  ;TODO: also add a function to cancel all this changes
-  (interactive)
-  (color-theme-high-contrast)
-  (global-semantic-decoration-mode -1)
-  (global-semantic-idle-summary-mode -1))
-
-
-(defun ca-recompile-modules-directory ()
-  "Simple wrapper to recompile the modules directory"
-  (interactive)
-  (byte-recompile-directory (make-conf-path "modules") 0))
-
 (defun ca-gen-path-dirs (base-dir)
   "Add to load path all the subdirectories of first level"
   (interactive)
