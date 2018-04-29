@@ -380,6 +380,7 @@
 (require 'ca-restclient)
 (require 'ca-elixir)
 (require 'ca-go)
+(require 'ca-helm-swoop)
 
 (require 'helm-projectile)
 (require 'ca-mac)
