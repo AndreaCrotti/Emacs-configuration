@@ -18,4 +18,11 @@
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 (add-to-list 'helm-sources-using-default-as-input 'helm-source-man-pages)
 
+(add-hook 'eshell-mode-hook
+          (lambda ()
+            (eshell-cmpl-initialize)
+            (define-key eshell-mode-map [remap eshell-pcomplete] 'helm-esh-pcomplete)
+            (define-key eshell-mode-map (kbd "M-s f") 'helm-eshell-prompts-all)
+            (define-key eshell-mode-map (kbd "M-r") 'helm-eshell-history)))
+
 (provide 'ca-helm)

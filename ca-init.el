@@ -17,6 +17,9 @@
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
 
+(add-to-list 'package-archives
+             '("org" . "https://orgmode.org/elpa/"))
+
 ;; (add-to-list 'package-archives
 ;;              '("melpa-stable" . "http://stable.melpa.org/packages/"))
 
@@ -185,6 +188,7 @@
                  highlight-blocks
                  highlight-indent-guides
                  htmlize
+                 impatient-mode
                  indent-guide
                  inf-clojure
                  intero

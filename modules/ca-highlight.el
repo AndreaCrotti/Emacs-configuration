@@ -5,7 +5,8 @@
 
 (global-auto-highlight-symbol-mode t)
 
-(add-hook 'prog-mode-hook 'highlight-blocks-mode)
+;; (add-hook 'prog-mode-hook 'highlight-blocks-mode)
+
 (indent-guide-global-mode t)
 (global-diff-hl-mode t)
 
