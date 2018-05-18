@@ -7,3 +7,4 @@ conf.el
 .svn
 .hg
 /python-mode.el-6.1.3/
+/modules/flycheck_*.el
