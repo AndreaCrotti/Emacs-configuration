@@ -13,6 +13,8 @@
 (require 'cl)
 (require 'package)
 
+(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
+
 (package-initialize)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
@@ -20,8 +22,8 @@
 (add-to-list 'package-archives
              '("org" . "https://orgmode.org/elpa/"))
 
-;; (add-to-list 'package-archives
-;;              '("melpa-stable" . "http://stable.melpa.org/packages/"))
+(add-to-list 'package-archives
+             '("melpa-stable" . "http://stable.melpa.org/packages/"))
 
 (require 'url-handlers)
 
@@ -57,14 +59,11 @@
                  ansible-vault
                  apache-mode
                  arduino-mode
-                 ascii
                  auctex
                  autopair
                  auto-highlight-symbol
-                 batch-mode
                  beacon
                  bitlbee
-                 bookmark+
                  browse-kill-ring
                  c-eldoc
                  cask
@@ -101,8 +100,8 @@
                  csv-mode
                  cython-mode
                  d-mode
-                 dired+
-                 dired-details
+                 ;;dired+
+                 ;; dired-details
                  diff-hl
                  docker
                  dockerfile-mode
@@ -225,16 +224,13 @@
                  ob-ipython
                  ob-lfe
                  ob-prolog
-                 ob-redis
                  ob-rust
                  ob-sql-mode
                  ob-typescript
                  offlineimap
                  org-bullets
                  org-gcal
-                 ;; org-jekyll
                  outline-magic
-                 ;;org-present
                  ox-reveal
                  p4
                  paradox
@@ -245,7 +241,7 @@
                  powerline
                  prolog
                  protobuf-mode
-                 psvn
+                 ;;psvn
                  puppet-mode
                  purescript-mode
                  pytest
