@@ -13,7 +13,6 @@
 (require 'cl)
 (require 'package)
 
-(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
 
 (package-initialize)
 (add-to-list 'package-archives
@@ -44,6 +43,8 @@
 
 (when (online?)
     (package-refresh-contents))
+
+(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
 
 ;; make more packages available with the package installer
 (setq
@@ -389,7 +390,7 @@
 (beacon-mode t)
 (projectile-global-mode t)
 (yas-global-mode t)
-(load-theme 'noctilux t)
+;; (load-theme 'noctilux t)
 (setq magit-auto-revert-mode nil)
 
 (desktop-save-mode t)
