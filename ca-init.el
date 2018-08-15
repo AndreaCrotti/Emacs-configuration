@@ -391,6 +391,10 @@
 (yas-global-mode t)
 (setq magit-auto-revert-mode nil)
 
+(projectile-global-mode t)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+
 (desktop-save-mode t)
 (global-undo-tree-mode t)
 
