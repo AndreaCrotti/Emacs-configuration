@@ -281,7 +281,7 @@
                  yasnippet-snippets
                  zenburn-theme
                  yafolding
-                 ))
+                 which-key))
 
 (when (online?)
   (mapc 'install-if-needed ca-to-install))
@@ -302,6 +302,7 @@
 (smartparens-global-mode t)
 (transient-mark-mode t)
 (which-function-mode t)
+(which-key-mode t)
 
 (add-to-list 'load-path (make-conf-path "modules"))
 
@@ -390,7 +391,6 @@
 
 (beacon-mode t)
 (yas-global-mode t)
-(setq magit-auto-revert-mode nil)
 
 (projectile-global-mode t)
 (define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map)
