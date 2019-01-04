@@ -23,7 +23,6 @@
 (defun ca-log-edit-modes ()
   "Activate modes for various log-edits"
   (orgtbl-mode t)
-  (orgstruct-mode t)
   (flyspell-mode t)
   (auto-fill-mode t))
 

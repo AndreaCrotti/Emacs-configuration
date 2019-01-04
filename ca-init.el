@@ -24,6 +24,8 @@
 (add-to-list 'package-archives
              '("melpa-stable" . "http://stable.melpa.org/packages/"))
 
+(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
+
 (require 'url-handlers)
 
 (defun online? ()
@@ -43,8 +45,6 @@
 
 (when (online?)
     (package-refresh-contents))
-
-(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
 
 ;; make more packages available with the package installer
 (setq
