@@ -24,6 +24,8 @@
 (add-to-list 'package-archives
              '("melpa-stable" . "http://stable.melpa.org/packages/"))
 
+(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
+
 (require 'url-handlers)
 
 (defun online? ()
@@ -43,8 +45,6 @@
 
 (when (online?)
     (package-refresh-contents))
-
-(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
 
 ;; make more packages available with the package installer
 (setq
@@ -280,7 +280,8 @@
                  yasnippet
                  yasnippet-snippets
                  zenburn-theme
-                 ))
+                 yafolding
+                 which-key))
 
 (when (online?)
   (mapc 'install-if-needed ca-to-install))
@@ -301,6 +302,7 @@
 (smartparens-global-mode t)
 (transient-mark-mode t)
 (which-function-mode t)
+(which-key-mode t)
 
 (add-to-list 'load-path (make-conf-path "modules"))
 
@@ -389,13 +391,13 @@
 
 (beacon-mode t)
 (yas-global-mode t)
-(setq magit-auto-revert-mode nil)
 
 (projectile-global-mode t)
 (define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 
-(desktop-save-mode t)
+;; (desktop-save-mode t)
+
 (global-undo-tree-mode t)
 (load-theme 'solarized-dark)
 
