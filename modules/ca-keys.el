@@ -12,7 +12,7 @@
 (global-set-key [f7] 'helm-projectile-find-file)
 (global-set-key (kbd "<C-f7>") 'magit-checkout)
 
-(global-set-key [f8] 'ca-new-shell)
+(global-set-key [f8] 'projectile-run-eshell)
 
 ;; textmate-like bindings
 (global-set-key (kbd "M-RET") 'ca-newline-force)
