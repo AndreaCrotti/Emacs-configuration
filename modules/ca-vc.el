@@ -7,7 +7,7 @@
 
 ;TODO: remove the requires if possible, making the auto-loading work
 (require 'magit)
-(require 'magithub)
+;; (require 'magithub)
 ;; (magithub-feature-autoinject t)
 
 (setq magit-push-always-verify nil)

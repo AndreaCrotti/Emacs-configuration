@@ -206,7 +206,7 @@
                  log4j-mode
                  lua-mode
                  magit
-                 magithub
+                 ;; magithub
                  magit-annex
                  magit-gitflow
                  ;; magithub
