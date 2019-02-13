@@ -38,4 +38,12 @@
   (interactive)
   (set-default-font "-PfEd-Inconsolata-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1")2)
 
+(defun ca-inconsolata-linux-big ()
+  (interactive)
+  (set-default-font "Inconsolata:pixelsize=17:foundry=CYRE:weight=normal:slant=normal:width=normal:spacing=100:scalable=true"))
+
+(defun ca-inconsolata-linux-small ()
+  (interactive)
+  (set-default-font "Inconsolata:pixelsize=14:foundry=CYRE:weight=normal:slant=normal:width=normal:spacing=100:scalable=true"))
+
 (provide 'ca-fonts)
