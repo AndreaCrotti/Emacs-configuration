@@ -228,6 +228,7 @@
                  ob-rust
                  ob-sql-mode
                  ob-typescript
+                 olivetti
                  offlineimap
                  org-bullets
                  org-gcal
@@ -237,6 +238,7 @@
                  paradox
                  persistent-scratch
                  php-mode
+                 poet-theme
                  pomodoro
                  pony-mode
                  powerline
@@ -271,6 +273,7 @@
                  tern
                  tern-auto-complete
                  tuareg
+                 typo
                  undo-tree
                  use-package
                  virtualenv

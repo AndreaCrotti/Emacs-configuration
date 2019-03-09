@@ -6,7 +6,8 @@
 
 ; Nicer bullets
 (require 'org-bullets)
-(org-bullets-mode t)
+(setq org-bullets-bullet-list'("◉" "○"))
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode t)))
 
 (setq org-capture-mail-only-template
       '("c" "Contacts" entry (file "~/org/test_contacts.org")
