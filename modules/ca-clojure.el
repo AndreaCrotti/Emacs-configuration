@@ -27,5 +27,14 @@
           (lambda ()
             (local-set-key [f6] 'cljr-helm)))
 
+;; a few useful functions
+(defun kaocha ()
+  (interactive)
+  (elein-run-cmd "kaocha"))
+
+(defun lein-test ()
+  (interactive)
+  (elein-run-cmd "test"))
+
 (add-to-list 'auto-mode-alist '("\\riemann.config\\'" . clojure-mode))
 (provide 'ca-clojure)
