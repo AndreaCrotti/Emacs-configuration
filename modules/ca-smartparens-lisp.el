@@ -1,12 +1,12 @@
 ;;; Smartparens
 (require 'smartparens-config)
-(smartparens-global-mode t)
 (show-smartparens-global-mode t)
+(smartparens-global-strict-mode t)
 
 ;; Add smartparens-strict-mode to all sp--lisp-modes hooks. C-h v sp--lisp-modes
 ;; to customize/view this list.
 (mapc (lambda (mode)
-        (add-hook (intern (format "%s-hook" (symbol-name mode))) 'smartparens-strict-mode))
+        (add-hook (intern (format "%s-hook" (symbol-name mode))) 'smartparens-mode))
       sp--lisp-modes)
 
 ;; Conveniently set keys into the sp-keymap, limiting the keybinding to buffers

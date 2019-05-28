@@ -302,7 +302,6 @@
 (global-prettify-symbols-mode t)
 (indent-guide-global-mode t)
 (show-paren-mode t)
-(smartparens-global-mode t)
 (transient-mark-mode t)
 (which-function-mode t)
 (which-key-mode t)
