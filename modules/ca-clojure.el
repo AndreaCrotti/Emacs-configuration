@@ -3,6 +3,12 @@
 ;;(require 'clj-refactor)
 (require 'ca-utils)
 (require 'flycheck-joker)
+(require 'flycheck-clj-kondo)
+
+(dolist (checkers '((clj-kondo-clj . clojure-joker)
+                    (clj-kondo-cljs . clojurescript-joker)
+                    (clj-kondo-cljc . clojure-joker)))
+  (flycheck-add-next-checker (car checkers) (cons 'error (cdr checkers))))
 
 (autoload 'clojure-mode "clojure-mode" "clojure mode" t)
 (add-hook 'cider-mode-hook
