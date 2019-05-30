@@ -1,7 +1,8 @@
 ;;; Smartparens
 (require 'smartparens-config)
-(smartparens-global-mode t)
+(require 'poly-ein)
 (show-smartparens-global-mode t)
+(smartparens-global-mode t)
 
 ;; Add smartparens-strict-mode to all sp--lisp-modes hooks. C-h v sp--lisp-modes
 ;; to customize/view this list.
