@@ -126,6 +126,7 @@
                  evil
                  expand-region
                  exec-path-from-shell
+                 fancy-narrow
                  feature-mode
                  find-file-in-repository
                  flycheck
