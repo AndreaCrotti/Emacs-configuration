@@ -47,4 +47,7 @@
 (global-set-key (kbd "M-p") 'ca-prev-defun)
 (global-set-key (kbd "M-n") 'ca-next-defun)
 
+(global-set-key (kbd "\C-cf") 'fancy-narrow-to-defun)
+(global-set-key (kbd "\C-cw") 'fancy-widen)
+
 (provide 'ca-keys)
