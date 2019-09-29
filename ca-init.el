@@ -132,6 +132,7 @@
                  flycheck
                  flycheck-cask
                  flycheck-clojure
+                 flycheck-clj-kondo
                  flycheck-cython
                  flycheck-elixir
                  flycheck-elm
