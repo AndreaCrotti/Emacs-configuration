@@ -11,4 +11,5 @@ magit-status on the project root directory. Use dired otherwise."
       (magit-status (projectile-project-root))
     (dired (projectile-project-root))))
 
-(setq projectile-switch-project-action 'projectile-use-magit-if-possible)
+;; (setq projectile-switch-project-action 'projectile-use-magit-if-possible)
+(setq projectile-switch-project-action 'projectile-find-file-dwim)
