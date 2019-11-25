@@ -24,7 +24,7 @@
 (add-to-list 'package-archives
              '("melpa-stable" . "http://stable.melpa.org/packages/"))
 
-(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
+;; (add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
 
 (require 'url-handlers)
 
@@ -41,16 +41,17 @@
 
 (defun install-if-needed (package)
   (unless (package-installed-p package)
+    (print package)
     (package-install package)))
 
 (when (online?)
-    (package-refresh-contents))
+  (package-refresh-contents))
 
-;; make more packages available with the package installer
+;; MAKE MORE packages available with the package installer
 (setq
  ca-to-install '(
                  4clojure
-                 ack
+                 ;;ack
                  adoc-mode
                  ag
                  alchemist
@@ -67,16 +68,16 @@
                  bitlbee
                  browse-kill-ring
                  c-eldoc
-                 cask
-                 cask-mode
+                 ;; cask
+                 ;; cask-mode
                  cider
                  cider-decompile
                  cider-eval-sexp-fu
-                 cider-spy
+                 ;;cider-spy
                  cljr-helm
                  clj-refactor
                  cljsbuild-mode
-                 clojure-cheatsheet
+                 ;;clojure-cheatsheet
                  clojure-mode
                  clojure-mode-extra-font-locking
                  cmake-mode
@@ -110,6 +111,7 @@
                  dpaste
                  ebib
                  edit-server
+                 ejc-sql
                  ein
                  elein
                  elixir-mode
@@ -260,8 +262,9 @@
                  ruby-compilation
                  ruby-electric
                  ruby-mode
+                 sayid
                  sly
-                 sly-company
+                 ;;sly-company
                  skewer-mode
                  smartparens
                  smart-mode-line
@@ -286,7 +289,14 @@
                  yasnippet-snippets
                  zenburn-theme
                  yafolding
-                 which-key))
+                 which-key
+
+                 ;; ruby packages
+                 helm-robe
+                 robe
+                 rubocop
+                 ;; rubocop-fmt
+                 yari))
 
 (when (online?)
   (mapc 'install-if-needed ca-to-install))

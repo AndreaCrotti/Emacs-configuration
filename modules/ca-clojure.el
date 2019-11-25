@@ -24,9 +24,16 @@
 (setq nrepl-log-messages t)
 (setq cider-repl-use-clojure-font-lock t)
 
+(defun ca-cider-or-dumb-jump ()
+  (interactive)
+  (if (cider-connected-p)
+      (cider-find-var)
+    (dumb-jump-go)))
+
 (add-hook 'clojure-mode-hook
           (lambda ()
             (setq-local cider-repl-use-pretty-printing t)
+            (local-set-key (kbd "M-.") 'ca-cider-or-dumb-jump)
             (local-set-key [f5] 'helm-imenu)
             (local-set-key [f6] 'cljr-helm)
             (local-set-key (kbd "<C-f5>") 'cider-test-run-test)
