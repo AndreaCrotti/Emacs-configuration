@@ -296,7 +296,13 @@
                  robe
                  rubocop
                  ;; rubocop-fmt
-                 yari))
+                 yari
+                 ;; rust stuff
+                 rust-mode
+                 racer
+                 company-racer
+                 flycheck-rust
+                 ))
 
 (when (online?)
   (mapc 'install-if-needed ca-to-install))
@@ -413,6 +419,7 @@
 ;; (desktop-save-mode t)
 
 (global-undo-tree-mode t)
-(load-theme 'solarized-dark)
+;; (load-theme 'solarized-dark)
+(load-theme 'solarized-zenburn)
 
 (provide 'ca-init)
