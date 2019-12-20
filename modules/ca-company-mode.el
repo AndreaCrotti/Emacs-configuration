@@ -6,4 +6,7 @@
 
 ;; (define-key company-mode-map "\C-p" 'company-select-previous)
 
+(setq company-tooltip-align-annotations t
+      company-minimum-prefix-length 1)
+
 (provide 'ca-company-mode)

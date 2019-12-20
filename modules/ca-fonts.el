@@ -34,6 +34,13 @@
   (interactive)
   (set-default-font "-PfEd-Inconsolata-normal-normal-normal-*-19-*-*-*-m-0-iso10646-1"))
 
+
+(defun menlo-big ()
+  (interactive)
+  (set-default-font "-*-Menlo-normal-normal-normal-*-16-*-*-*-m-0-iso10646-1"))
+
+(set-default-font "-*-Menlo-normal-normal-normal-*-22-*-*-*-m-0-iso10646-1")
+
 (defun ca-inconsolata-small ()
   (interactive)
   (set-default-font "-PfEd-Inconsolata-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1")2)

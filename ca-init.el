@@ -302,6 +302,7 @@
                  racer
                  company-racer
                  flycheck-rust
+                 toml-mode
                  ))
 
 (when (online?)
