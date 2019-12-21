@@ -262,6 +262,7 @@
                  ruby-compilation
                  ruby-electric
                  ruby-mode
+                 rbenv
                  sayid
                  sly
                  ;;sly-company

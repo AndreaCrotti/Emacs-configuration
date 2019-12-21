@@ -39,7 +39,7 @@
   (interactive)
   (set-default-font "-*-Menlo-normal-normal-normal-*-16-*-*-*-m-0-iso10646-1"))
 
-(set-default-font "-*-Menlo-normal-normal-normal-*-22-*-*-*-m-0-iso10646-1")
+;; (set-default-font "-*-Menlo-normal-normal-normal-*-22-*-*-*-m-0-iso10646-1")
 
 (defun ca-inconsolata-small ()
   (interactive)
