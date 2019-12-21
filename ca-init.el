@@ -304,7 +304,7 @@
                  company-racer
                  flycheck-rust
                  toml-mode
-                 ))
+                 cargo))
 
 (when (online?)
   (mapc 'install-if-needed ca-to-install))
@@ -410,6 +410,7 @@
 (require 'helm-projectile)
 (require 'ca-mac)
 (require 'ca-highlight)
+(require 'ca-rust)
 
 (beacon-mode t)
 (yas-global-mode t)
