@@ -5,8 +5,8 @@
 (require 'flycheck-joker)
 (require 'flycheck-clj-kondo)
 
-(eval-after-load 'clojure-mode
-  '(sayid-setup-package))
+;; (eval-after-load 'clojure-mode
+;;   '(sayid-setup-package))
 
 (dolist (checkers '((clj-kondo-clj . clojure-joker)
                     (clj-kondo-cljs . clojurescript-joker)
