@@ -1,8 +1,12 @@
-;; custom file loaded at the very beginning
 (defun make-conf-path (path)
   "Shortcut to create the path of the configuration"
   (expand-file-name (concat base path)))
 
+(add-to-list 'load-path (make-conf-path "modules"))
+
+(require 'ca-speed)
+
+;; custom file loaded at the very beginning
 ;; what if this is set differently?
 (setq custom-file (make-conf-path "custom.el"))
 
@@ -304,7 +308,8 @@
                  company-racer
                  flycheck-rust
                  toml-mode
-                 cargo))
+                 cargo
+                 lsp-ui))
 
 (when (online?)
   (mapc 'install-if-needed ca-to-install))
@@ -325,8 +330,6 @@
 (transient-mark-mode t)
 (which-function-mode t)
 (which-key-mode t)
-
-(add-to-list 'load-path (make-conf-path "modules"))
 
 ; second argument as 0 to compile if they don't exist
 (require 'ca-customs)
