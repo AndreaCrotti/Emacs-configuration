@@ -19,8 +19,6 @@
 
 (add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
 
-(add-hook 'clojure-mode-hook 'cider-mode)
-(add-hook 'clojurescript-mode-hook 'cider-mode)
 (setq nrepl-log-messages t)
 (setq cider-repl-use-clojure-font-lock t)
 
@@ -42,6 +40,8 @@
 (add-hook 'cider-repl-mode-hook
           (lambda ()
             (local-set-key [f6] 'cljr-helm)))
+
+(add-hook 'clojure-mode-hook '#cider-mode)
 
 ;; a few useful functions
 (defun kaocha ()
