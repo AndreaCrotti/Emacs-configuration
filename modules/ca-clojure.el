@@ -28,9 +28,12 @@
       (cider-find-var)
     (dumb-jump-go)))
 
+(add-hook 'clojure-mode-hook #'cider-mode)
+
 (add-hook 'clojure-mode-hook
           (lambda ()
             (setq-local cider-repl-use-pretty-printing t)
+            (local-set-key (kbd "M-?") 'ca-cider-or-dumb-jump)
             (local-set-key (kbd "M-.") 'ca-cider-or-dumb-jump)
             (local-set-key [f5] 'helm-imenu)
             (local-set-key [f6] 'cljr-helm)
@@ -41,8 +44,6 @@
           (lambda ()
             (local-set-key [f6] 'cljr-helm)))
 
-(add-hook 'clojure-mode-hook '#cider-mode)
-
 ;; a few useful functions
 (defun kaocha ()
   (interactive)
@@ -51,6 +52,11 @@
 (defun lein-test ()
   (interactive)
   (elein-run-cmd "test"))
+
+(defun ca-carve ()
+  (interactive)
+  (compile
+   "clojure -Acarve --opts '{:paths [\"src\" \"test\"] :report {:format :text}}' && exit 1"))
 
 (add-to-list 'auto-mode-alist '("\\riemann.config\\'" . clojure-mode))
 (provide 'ca-clojure)
