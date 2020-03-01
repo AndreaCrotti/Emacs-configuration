@@ -58,5 +58,10 @@
   (compile
    "clojure -Acarve --opts '{:paths [\"src\" \"test\"] :report {:format :text}}' && exit 1"))
 
+(defun ca-carve-src-only ()
+  (interactive)
+  (compile
+   "clojure -Acarve --opts '{:paths [\"src\"] :report {:format :text}}' && exit 1"))
+
 (add-to-list 'auto-mode-alist '("\\riemann.config\\'" . clojure-mode))
 (provide 'ca-clojure)
