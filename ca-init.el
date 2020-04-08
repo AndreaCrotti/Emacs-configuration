@@ -17,18 +17,13 @@
 (require 'cl)
 (require 'package)
 
-
 (package-initialize)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/"))
 
-(add-to-list 'package-archives
-             '("org" . "https://orgmode.org/elpa/"))
-
-(add-to-list 'package-archives
-             '("melpa-stable" . "http://stable.melpa.org/packages/"))
-
-;; (add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
+(setq package-archives
+      '(("melpa-stable" . "http://stable.melpa.org/packages/")
+        ("org" . "https://orgmode.org/elpa/")
+        ("melpa" . "http://melpa.org/packages/")
+        ("gnu" . "http://elpa.gnu.org/packages/")))
 
 (require 'url-handlers)
 
