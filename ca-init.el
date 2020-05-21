@@ -309,6 +309,9 @@
 (when (online?)
   (mapc 'install-if-needed ca-to-install))
 
+(fira-code-mode)
+(set-default-font "-*-Fira Code-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
+
 (global-flycheck-mode t)
 ;; if desired we can change this
 ;; (eval-after-load 'flycheck
