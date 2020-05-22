@@ -4,6 +4,9 @@
 
 (add-to-list 'load-path (make-conf-path "modules"))
 
+(defun mac? () (eq 'darwin system-type))
+(defun linux? () (eq 'gnu/linux system-type))
+
 (require 'ca-speed)
 
 ;; custom file loaded at the very beginning
@@ -309,9 +312,6 @@
 (when (online?)
   (mapc 'install-if-needed ca-to-install))
 
-(fira-code-mode)
-(set-default-font "-*-Fira Code-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
-
 (global-flycheck-mode t)
 ;; if desired we can change this
 ;; (eval-after-load 'flycheck
@@ -425,5 +425,13 @@
 (global-undo-tree-mode t)
 ;; (load-theme 'solarized-dark)
 (load-theme 'solarized-zenburn)
+
+(when (mac?)
+  (require 'fira-code-mode)
+  (fira-code-mode)
+  (set-default-font "-*-Fira Code-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1"))
+
+(when (linux?)
+  (set-default-font "-CTDB-Fira Code-normal-normal-normal-*-13-*-*-*-d-0-iso10646-1"))
 
 (provide 'ca-init)
