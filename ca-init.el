@@ -432,6 +432,6 @@
   (set-default-font "-*-Fira Code-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1"))
 
 (when (linux?)
-  (set-default-font "-CTDB-Fira Code-normal-normal-normal-*-13-*-*-*-d-0-iso10646-1"))
+  (set-default-font "-CTDB-Fira Code-normal-normal-normal-*-15-*-*-*-d-0-iso10646-1"))
 
 (provide 'ca-init)
