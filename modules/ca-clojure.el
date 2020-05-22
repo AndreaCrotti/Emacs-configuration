@@ -64,4 +64,42 @@
    "clojure -Acarve --opts '{:paths [\"src\"] :report {:format :text}}' && exit 1"))
 
 (add-to-list 'auto-mode-alist '("\\riemann.config\\'" . clojure-mode))
+
+(defun prf/cider/send-to-repl (sexp &optional eval ns)
+  "Send SEXP to Cider Repl. If EVAL is t, evaluate it.
+Optionally, we can change namespace by specifying NS."
+  (cider-switch-to-repl-buffer ns)
+  (goto-char cider-repl-input-start-mark)
+  (delete-region (point) (point-max))
+  (save-excursion
+    (insert sexp)
+    (when (equal (char-before) ?\n)
+      (delete-char -1)))
+  (when eval
+    (cider-repl--send-input t)))
+
+(defun prf/clj/pomegranate-dep (dep)
+  "Format a Clojure Pomegranate dependency import for DEP."
+  (concat
+   (format
+    "%s"
+    ;; NB: this is clojure!
+    `(use '[cemerick.pomegranate :only (add-dependencies)]))
+   (s-replace-all
+    `(("\\." . ".")
+      ("mydep" . ,dep))
+    (format
+     "%S"
+     ;; NB: this is clojure!
+     `(add-dependencies :coordinates '[mydep]
+                        :repositories (merge cemerick.pomegranate.aether/maven-central
+                                             {"clojars" "https://clojars.org/repo"}))))))
+
+(defun prf/cider/inject-pomegranate-dep (&optional dep ns)
+  "Auto-import DEP in the current Clojure Repl using Pomegranate.
+Optionally, we can change namespace by specifying NS."
+  (interactive)
+  (setq dep (or dep (read-string "Dep: ")))
+  (prf/cider/send-to-repl (prf/clj/pomegranate-dep dep) t ns))
+
 (provide 'ca-clojure)
