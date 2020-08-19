@@ -6,13 +6,13 @@
 (global-set-key [f2] 'split-window-horizontally)
 
 ;; compile facilities
-(global-set-key [f5] 'helm-imenu)
+;; (global-set-key [f5] 'helm-imenu)
 (global-set-key (kbd "<C-f5>") 'recompile)
-;; (global-set-key [f7] 'find-file-in-repository)
-(global-set-key [f7] 'helm-projectile-find-file)
 (global-set-key (kbd "<C-f7>") 'magit-checkout)
+(global-set-key [f7] 'helm-projectile-find-file)
 
 (global-set-key [f8] 'projectile-run-eshell)
+(global-set-key (kbd "<C-f6>") 'projectile-ag)
 
 ;; textmate-like bindings
 (global-set-key (kbd "M-RET") 'ca-newline-force)
@@ -42,7 +42,7 @@
 (global-set-key (kbd "C-x b") 'helm-mini)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "C-c h o") 'helm-occur)
+(global-set-key (kbd "M-s o") 'helm-occur)
 
 (global-set-key (kbd "M-p") 'ca-prev-defun)
 (global-set-key (kbd "M-n") 'ca-next-defun)
