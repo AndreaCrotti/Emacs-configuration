@@ -265,7 +265,6 @@
                  ruby-electric
                  ruby-mode
                  rbenv
-                 sayid
                  sly
                  ;;sly-company
                  skewer-mode
