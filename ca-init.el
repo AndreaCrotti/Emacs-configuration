@@ -46,8 +46,8 @@
     (print package)
     (package-install package)))
 
-(when (online?)
-  (package-refresh-contents))
+;; (when (online?)
+;;   (package-refresh-contents))
 
 ;; MAKE MORE packages available with the package installer
 (setq
@@ -265,7 +265,6 @@
                  ruby-electric
                  ruby-mode
                  rbenv
-                 sayid
                  sly
                  ;;sly-company
                  skewer-mode
@@ -307,10 +306,15 @@
                  flycheck-rust
                  toml-mode
                  cargo
-                 lsp-ui))
+                 lsp-ui
+                 wakatime-mode))
 
 (when (online?)
   (mapc 'install-if-needed ca-to-install))
+
+;; (require 'fira-code-mode)
+;; (fira-code-mode)
+(set-default-font "-*-Fira Code-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
 
 (global-flycheck-mode t)
 ;; if desired we can change this
@@ -419,12 +423,18 @@
 (projectile-global-mode t)
 (define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+(global-wakatime-mode t)
 
 ;; (desktop-save-mode t)
 
 (global-undo-tree-mode t)
 ;; (load-theme 'solarized-dark)
 (load-theme 'solarized-zenburn)
+;; (load-theme 'dracula)
+
+;; (require 'fira-code-mode)
+;; (fira-code-mode)
+(set-default-font "-*-Fira Code-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
 
 ;; (when (mac?)
 ;;   (require 'fira-code-mode)
