@@ -46,14 +46,13 @@
     (print package)
     (package-install package)))
 
-;; (when (online?)
-;;   (package-refresh-contents))
+(when (online?)
+  (package-refresh-contents))
 
 ;; MAKE MORE packages available with the package installer
 (setq
- ca-to-install '(
-                 4clojure
-                 ;;ack
+ ca-to-install '(4clojure
+                 ack
                  adoc-mode
                  ag
                  alchemist
@@ -70,22 +69,17 @@
                  bitlbee
                  browse-kill-ring
                  c-eldoc
-                 ;; cask
-                 ;; cask-mode
                  cider
                  cider-decompile
                  cider-eval-sexp-fu
-                 ;;cider-spy
                  cljr-helm
                  clj-refactor
                  cljsbuild-mode
-                 ;;clojure-cheatsheet
                  clojure-mode
                  clojure-mode-extra-font-locking
                  cmake-mode
                  color-moccur
                  color-theme
-                 color-theme-solarized
                  company
                  company-ansible
                  company-cabal
@@ -104,8 +98,6 @@
                  csv-mode
                  cython-mode
                  d-mode
-                 ;;dired+
-                 ;; dired-details
                  diff-hl
                  docker
                  dockerfile-mode
@@ -123,7 +115,7 @@
                  emamux
                  emmet-mode
                  emms
-                 ensime
+                 ;; ensime
                  erlang
                  ess
                  eval-in-repl
@@ -143,16 +135,12 @@
                  flycheck-ghcmod
                  flycheck-haskell
                  flycheck-joker
-                 flycheck-mix
                  flycheck-ocaml
                  flycheck-pony
                  flycheck-pos-tip
                  flycheck-perl6
-                 flycheck-purescript
                  flycheck-rust
                  flycheck-mypy
-                 ;; flycheck-scala-sbt
-                 flycheck-stack
                  flycheck-swift
                  gist
                  gitconfig
@@ -188,7 +176,6 @@
                  helm-spotify
                  helm-projectile
                  helm-swoop
-                 heroku
                  hindent
                  hi2
                  highlight-blocks
@@ -212,10 +199,8 @@
                  log4j-mode
                  lua-mode
                  magit
-                 ;; magithub
                  magit-annex
                  magit-gitflow
-                 ;; magithub
                  markdown-mode
                  memory-usage
                  minimap
@@ -250,7 +235,6 @@
                  powerline
                  prolog
                  protobuf-mode
-                 ;;psvn
                  puppet-mode
                  purescript-mode
                  pytest
@@ -266,7 +250,6 @@
                  ruby-mode
                  rbenv
                  sly
-                 ;;sly-company
                  skewer-mode
                  smartparens
                  smart-mode-line
@@ -314,7 +297,7 @@
 
 ;; (require 'fira-code-mode)
 ;; (fira-code-mode)
-(set-default-font "-*-Fira Code-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
+;; (set-default-font "-*-Fira Code-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
 
 (global-flycheck-mode t)
 ;; if desired we can change this
@@ -391,7 +374,7 @@
 (require 'ca-desktop)
 (require 'ca-faces)
 (require 'ca-haskell)
-(require 'ca-scala)
+;; (require 'ca-scala)
 (require 'ca-ruby)
 (require 'ca-latex)
 (require 'ca-ocaml)
@@ -423,7 +406,7 @@
 (projectile-global-mode t)
 (define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-(global-wakatime-mode t)
+;; (global-wakatime-mode t)
 
 ;; (desktop-save-mode t)
 
@@ -431,17 +414,5 @@
 ;; (load-theme 'solarized-dark)
 (load-theme 'solarized-zenburn)
 ;; (load-theme 'dracula)
-
-;; (require 'fira-code-mode)
-;; (fira-code-mode)
-(set-default-font "-*-Fira Code-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
-
-;; (when (mac?)
-;;   (require 'fira-code-mode)
-;;   (fira-code-mode)
-;;   (set-default-font "-*-Fira Code-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1"))
-
-;; (when (linux?)
-;;   (set-default-font "-CTDB-Fira Code-normal-normal-normal-*-15-*-*-*-d-0-iso10646-1"))
 
 (provide 'ca-init)
