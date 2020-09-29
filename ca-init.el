@@ -347,6 +347,8 @@
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'prog-mode-hook #'rainbow-mode)
 
+(add-hook 'text-mode-hook #'variable-pitch-mode)
+
 ;; make it possible to disable it
 (windmove-default-keybindings 'shift)
 
@@ -374,7 +376,6 @@
 (require 'ca-desktop)
 (require 'ca-faces)
 (require 'ca-haskell)
-;; (require 'ca-scala)
 (require 'ca-ruby)
 (require 'ca-latex)
 (require 'ca-ocaml)
@@ -382,7 +383,6 @@
 (require 'ca-clojure)
 (require 'ca-web)
 (require 'ca-server)
-;; (require 'ca-lisp)
 (require 'ca-javascript)
 (require 'ca-helm)
 ;;(require 'ca-present)
@@ -412,7 +412,7 @@
 
 (global-undo-tree-mode t)
 ;; (load-theme 'solarized-dark)
-(load-theme 'solarized-zenburn)
-;; (load-theme 'dracula)
+;; (load-theme 'solarized-zenburn)
+(load-theme 'dracula)
 
 (provide 'ca-init)
