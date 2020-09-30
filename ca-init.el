@@ -46,8 +46,10 @@
     (print package)
     (package-install package)))
 
-(when (online?)
-  (package-refresh-contents))
+(defun reload ()
+  (interactive)
+  (when (online?)
+    (package-refresh-contents)))
 
 ;; MAKE MORE packages available with the package installer
 (setq
