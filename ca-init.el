@@ -408,7 +408,7 @@
 (projectile-global-mode t)
 (define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-;; (global-wakatime-mode t)
+(global-wakatime-mode t)
 
 ;; (desktop-save-mode t)
 
