@@ -7,8 +7,6 @@
 (defun mac? () (eq 'darwin system-type))
 (defun linux? () (eq 'gnu/linux system-type))
 
-(require 'ca-speed)
-
 ;; custom file loaded at the very beginning
 ;; what if this is set differently?
 (setq custom-file (make-conf-path "custom.el"))
@@ -136,7 +134,6 @@
                  flycheck-elm
                  flycheck-ghcmod
                  flycheck-haskell
-                 flycheck-joker
                  flycheck-ocaml
                  flycheck-pony
                  flycheck-pos-tip
@@ -398,7 +395,7 @@
 (require 'ca-helm-swoop)
 
 (require 'helm-projectile)
-(require 'ca-mac)
+;; (require 'ca-mac)
 (require 'ca-highlight)
 (require 'ca-rust)
 
@@ -408,7 +405,7 @@
 (projectile-global-mode t)
 (define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-(global-wakatime-mode t)
+;; (global-wakatime-mode nil)
 
 ;; (desktop-save-mode t)
 
