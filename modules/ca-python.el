@@ -1,7 +1,3 @@
-(require 'virtualenvwrapper)
-(require 'jedi)
-(require 'ca-customs)
-
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 (add-to-list 'load-path (make-conf-path "python-mode/test"))
 (autoload 'doctest-mode "doctest-mode" "doc test python mode" t)
@@ -34,10 +30,13 @@
         (print "Not finding any virtualenv")))))
 
 
-(require 'company-jedi)
                                         ;TODO: add some binding to jump to things that are not defined
 (add-hook 'python-mode-hook
           (lambda ()
+            (require 'virtualenvwrapper)
+            (require 'jedi)
+            (require 'company-jedi)
+
             (add-to-list 'company-backends 'company-jedi)
             (hack-local-variables)
             (jedi-setup-venv)

@@ -1,7 +1,3 @@
-(require 'magit)
-
-(require 'find-file-in-repository)
-
 (global-set-key [f1] 'delete-window)
 (global-set-key [f2] 'split-window-horizontally)
 
@@ -49,5 +45,7 @@
 
 (global-set-key (kbd "\C-cf") 'fancy-narrow-to-defun)
 (global-set-key (kbd "\C-cw") 'fancy-widen)
+
+(global-set-key (kbd "\C-cd") 'wordnut-search)
 
 (provide 'ca-keys)

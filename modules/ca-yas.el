@@ -1,7 +1,3 @@
-(require 'ca-customs)
-(require 'ca-utils)
-(require 'yasnippet)
-
 ;; Maybe needed to set to fixed for some modes
 (setq
  yas-prompt-functions

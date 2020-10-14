@@ -2,8 +2,6 @@
  org-replace-disputed-keys t
  org-goto-interface 'outline-path-completion)
 
-(require 'ox-reveal)
-
 ; Nicer bullets
 (require 'org-bullets)
 (setq org-bullets-bullet-list'("◉" "○"))
@@ -53,10 +51,10 @@
  org-default-notes-file (concat org-directory "notes.org"))
 
 ;; TODO: is it possible to use autoload here?
-(require 'ob-ditaa)
+;; (require 'ob-ditaa)
 ;;(require 'ob-sh)
-(require 'ob-dot)
-(require 'org-agenda)
+;; (require 'ob-dot)
+;; (require 'org-agenda)
 
 (setq
 ; open in another window and restore the configuration on closing

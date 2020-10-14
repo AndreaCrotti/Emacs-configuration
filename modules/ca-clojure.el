@@ -12,7 +12,8 @@
 
 (autoload 'clojure-mode "clojure-mode" "clojure mode" t)
 (add-hook 'cider-mode-hook
-          (lambda () (setq next-error-function #'flycheck-next-error-function)))
+          (lambda ()
+            (setq next-error-function #'flycheck-next-error-function)))
 
 (add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
 

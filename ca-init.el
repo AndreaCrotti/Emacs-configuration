@@ -4,10 +4,7 @@
 
 (add-to-list 'load-path (make-conf-path "modules"))
 
-(defun mac? () (eq 'darwin system-type))
-(defun linux? () (eq 'gnu/linux system-type))
-
-(require 'ca-speed)
+(require 'cl)
 
 ;; custom file loaded at the very beginning
 ;; what if this is set differently?
@@ -17,18 +14,11 @@
   (message "loading custom file")
   (load-file custom-file))
 
-(require 'cl)
-(require 'package)
-
-(package-initialize)
-
 (setq package-archives
       '(("melpa-stable" . "http://stable.melpa.org/packages/")
         ("org" . "https://orgmode.org/elpa/")
         ("melpa" . "http://melpa.org/packages/")
         ("gnu" . "http://elpa.gnu.org/packages/")))
-
-(require 'url-handlers)
 
 (defun online? ()
   "Detect if it's online or not,
@@ -46,10 +36,6 @@
     (print package)
     (package-install package)))
 
-(defun reload ()
-  (interactive)
-  (when (online?)
-    (package-refresh-contents)))
 
 ;; MAKE MORE packages available with the package installer
 (setq
@@ -284,7 +270,6 @@
                  rubocop
                  ;; rubocop-fmt
                  yari
-                 ;; rust stuff
                  rust-mode
                  racer
                  company-racer
@@ -292,21 +277,20 @@
                  toml-mode
                  cargo
                  lsp-ui
-                 wakatime-mode))
+                 wakatime-mode
+                 wordnut
+                 define-word
+                 synosaurus))
 
-(when (online?)
-  (mapc 'install-if-needed ca-to-install))
-
-;; (require 'fira-code-mode)
-;; (fira-code-mode)
-;; (set-default-font "-*-Fira Code-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
+(defun reload ()
+  (interactive)
+  (when (online?)
+    (require 'package)
+    (package-initialize)
+    (package-refresh-contents)
+    (mapc 'install-if-needed ca-to-install)))
 
 (global-flycheck-mode t)
-;; if desired we can change this
-;; (eval-after-load 'flycheck
-;;   '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
-;; (setq flycheck-display-errors-function #'flycheck-display-error-messages)
-
 (column-number-mode t)
 (display-time-mode t)
 (global-company-mode t)
@@ -322,7 +306,7 @@
 (require 'ca-customs)
 (require 'ca-utils)
 
-;; all the subdirectories are added to the path, including modules
+;; ;; all the subdirectories are added to the path, including modules
 (ca-gen-path-dirs base)
 
 (setq
@@ -339,12 +323,8 @@
  inhibit-startup-message t
  initial-scratch-message nil)
 
-;; always truncate lines (useful for netbook), not working yet in ORG MODE
-(setq truncate-lines nil)
 ;; Setting indent-tabs-mode for only spaces
 (setq-default indent-tabs-mode nil)
-
-(require 'tramp)
 
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'prog-mode-hook #'rainbow-mode)
@@ -357,18 +337,15 @@
 (setq calendar-date-style 'european)
 
 (require 'ca-fonts)
-;;(require 'ca-yas) ;; takes more than 2 seconds to load due to the huge list of files
-;; see if it's possible to postpone loading the snippets
-;; is the order important anyhow?
 
-(require 'ca-python)
+;; (require 'ca-python)
 (require 'ca-org)
-;; these things change the global state
+;; ;; these things change the global state
 (require 'ca-keys)
 (require 'ca-aliases)
 
-;; some other things which might be optional
-;; create a dictionary structure where
+;; ;; some other things which might be optional
+;; ;; create a dictionary structure where
 (require 'ca-dired)
 (require 'ca-misc)
 (require 'ca-other-modes)
@@ -377,44 +354,42 @@
 (require 'ca-buffers)
 (require 'ca-desktop)
 (require 'ca-faces)
-(require 'ca-haskell)
-(require 'ca-ruby)
-(require 'ca-latex)
-(require 'ca-ocaml)
+;; (require 'ca-haskell)
+;; (require 'ca-ruby)
+;; (require 'ca-latex)
+;; (require 'ca-ocaml)
 (require 'ca-c)
 (require 'ca-clojure)
 (require 'ca-web)
-(require 'ca-server)
+;; (require 'ca-server)
 (require 'ca-javascript)
 (require 'ca-helm)
-;;(require 'ca-present)
 (require 'ca-smartparens-lisp)
 (require 'ca-devops)
-(require 'ca-purescript)
-(require 'ca-elm)
+;; (require 'ca-purescript)
+;; (require 'ca-elm)
 (require 'ca-restclient)
-(require 'ca-elixir)
-(require 'ca-go)
+;; (require 'ca-elixir)
+;; (require 'ca-go)
 (require 'ca-helm-swoop)
 
 (require 'helm-projectile)
-(require 'ca-mac)
 (require 'ca-highlight)
 (require 'ca-rust)
 
 (beacon-mode t)
-(yas-global-mode t)
+;; (yas-global-mode t)
 
 (projectile-global-mode t)
 (define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-(global-wakatime-mode t)
+;; (global-wakatime-mode t)
 
-;; (desktop-save-mode t)
+;; ;; (desktop-save-mode t)
 
-(global-undo-tree-mode t)
-;; (load-theme 'solarized-dark)
-;; (load-theme 'solarized-zenburn)
-(load-theme 'dracula)
+;; (global-undo-tree-mode t)
+;; ;; (load-theme 'solarized-dark)
+;; ;; (load-theme 'solarized-zenburn)
+;; (load-theme 'dracula)
 
-(provide 'ca-init)
+;; (provide 'ca-init)
