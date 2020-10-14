@@ -181,15 +181,6 @@
  eimp-enable-undo t
  eimp-max-concurrent-processes 4)
 
-
-(when ca-command-frequency-enabled
-  (require 'command-frequency)
-  (command-frequency-autosave-mode t)
-  (setq command-frequency-autosave-timeout 100)
-  (command-frequency-mode t)
-  ;; enable all the keys used
-  (open-dribble-file (expand-file-name "~/.emacs.dribble")))
-
 (add-hook 'rst-mode-hook 'flyspell-mode)
 
 (autoload 'puppet-mode "puppet-mode" "Major mode for editing puppet manifests")
