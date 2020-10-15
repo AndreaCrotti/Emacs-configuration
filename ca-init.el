@@ -289,6 +289,7 @@
     (package-refresh-contents)
     (mapc 'install-if-needed ca-to-install)))
 
+(require 'flycheck)
 (global-flycheck-mode t)
 (column-number-mode t)
 (display-time-mode t)
@@ -391,4 +392,4 @@
 ;; ;; (load-theme 'solarized-zenburn)
 ;; (load-theme 'dracula)
 
-;; (provide 'ca-init)
+(provide 'ca-init)
