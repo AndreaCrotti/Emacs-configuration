@@ -4,7 +4,13 @@
         ("melpa" . "http://melpa.org/packages/")
         ("gnu" . "http://elpa.gnu.org/packages/")))
 
-(require 'use-package)
+(eval-when-compile
+  ;; Following line is not needed if use-package.el is in ~/.emacs.d
+  (add-to-list 'load-path "~/Emacs-Configuration/use-package")
+  (require 'use-package))
+
+(load-file "~/Emacs-Configuration/functions.el")
+(load-file "~/Emacs-Configuration/misc.el")
 
 (use-package ack)
 (use-package adoc-mode)
@@ -39,11 +45,9 @@
 (use-package dracula-theme)
 (use-package edit-server)
 (use-package elein)
-(use-package emamux)
 (use-package emmet-mode)
 (use-package expand-region)
 (use-package fancy-narrow)
-(use-package feature-mode)
 (use-package find-file-in-repository)
 (use-package flycheck
   :ensure t
@@ -52,7 +56,6 @@
 (use-package flycheck-clojure)
 (use-package flycheck-pos-tip)
 (use-package gist)
-(use-package git-annex)
 (use-package git-commit)
 (use-package gitconfig)
 (use-package helm)
@@ -76,7 +79,6 @@
   :ensure t
   :bind (("\C-xg" . magit-status)))
 (use-package markdown-mode)
-(use-package minimap)
 (use-package multiple-cursors)
 (use-package nginx-mode)
 (use-package nix-mode)
@@ -86,24 +88,51 @@
 (use-package org-gcal)
 (use-package paradox)
 (use-package persistent-scratch)
-(use-package powerline)
+(use-package powerline
+  :custom
+  (powerline-arrow-shape 'curve)
+  (powerline-default-separator-dir '(right . left)))
+
 (use-package projectile
   :init (projectile-global-mode)
   :bind (("C-c C-p" . projectile-command-map)
 	 ("s-p" . projectile-command-map)))
 (use-package rainbow-delimiters
   :ensure t
-  :hook prog-mode)
+  :init (rainbow-delimiters-mode))
 (use-package rainbow-mode
   :ensure t
-  :hook prog-mode)
+  :init (rainbow-mode))
 (use-package restclient)
-(use-package smart-mode-line)
+(use-package smart-mode-line
+  :custom
+  (sml/theme 'powerline)
+  :init (sml/setup))
+
 (use-package smart-mode-line-powerline-theme)
 (use-package smartparens
   :ensure t
-  :init (smartparens-strict-mode)
-  :hook prog-mode)
+  :init (smartparens-global-strict-mode)
+  :bind
+  (("C-M-f" . sp-forward-sexp)
+   ("C-M-b" . sp-backward-sexp)
+   ("C-M-d" . sp-down-sexp)
+   ("C-M-a" . sp-backward-down-sexp)
+   ("C-M-e" . sp-up-sexp)
+   ("C-M-u" . sp-backward-up-sexp)
+   ("C-M-t" . sp-transpose-sexp)
+   ("C-M-n" . sp-next-sexp)
+   ("C-M-p" . sp-previous-sexp)
+   ("C-M-k" . sp-kill-sexp)
+   ("C-M-w" . sp-copy-sexp)
+   ("C-<right>" . sp-forward-slurp-sexp)
+   ("C-<left>" . sp-forward-barf-sexp)
+   ("C-]" . sp-select-next-thing-exchange)
+   ("C-<left_bracket>" . sp-select-previous-thing)
+   ("C-M-]" . sp-select-next-thing)
+   ("M-F" . sp-forward-symbol)
+   ("M-B" . sp-backward-symbol)))
+
 (use-package toml-mode)
 (use-package undo-tree
   :init (global-undo-tree-mode))
@@ -150,6 +179,7 @@
          ("M-y" . helm-show-kill-ring)
 	 ("M-s o" . helm-occur)
 	 ("C-x C-f" . helm-find-files)
+         ("C-x b" . helm-mini)
          ([f10] . helm-buffers-list)
          ([S-f10] . helm-recentf))
   :custom
@@ -178,21 +208,7 @@
 (use-package ibuffer
   :bind (("C-x C-b" . ibuffer)))
 
-(setq
- initial-major-mode 'emacs-lisp-mode
- inhibit-startup-message t
- initial-scratch-message nil)
-
-(setq-default indent-tabs-mode nil)
-
-(defun ca-next-defun ()
-  (interactive)
-  (end-of-defun 2)
-  (beginning-of-defun 1))
-
-(defun ca-prev-defun ()
-  (interactive)
-  (beginning-of-defun))
+(use-package winner)
 
 (global-set-key (kbd "M-p") 'ca-prev-defun)
 (global-set-key (kbd "M-n") 'ca-next-defun)
