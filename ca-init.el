@@ -20,9 +20,17 @@
 (use-package auto-highlight-symbol)
 (use-package browse-kill-ring)
 (use-package c-eldoc)
+
 (use-package cider
-  :init (cider-mode)
-  :hook clojure-mode)
+  :ensure t
+  :defer t
+  :init (add-hook 'cider-mode-hook #'clj-refactor-mode)
+  :diminish subword-mode
+  :config
+  (setq cider-font-lock-dynamically '(macro core function var)
+        nrepl-hide-special-buffers t
+        cider-overlays-use-font-lock t)
+  (cider-repl-toggle-pretty-printing))
 
 (use-package cider-decompile)
 (use-package cider-eval-sexp-fu)
@@ -30,8 +38,12 @@
 (use-package cljr-helm)
 (use-package cljsbuild-mode)
 (use-package clojure-mode
-  :custom
-  (cider-repl-use-pretty-printing t))
+  :ensure t
+  :mode (("\\.clj\\'" . clojure-mode)
+         ("\\.edn\\'" . clojure-mode))
+  :init
+  (add-hook 'clojure-mode-hook #'subword-mode)
+  (add-hook 'clojure-mode-hook #'idle-highlight-mode))
 
 (use-package clojure-mode-extra-font-locking)
 (use-package color-moccur)
@@ -201,6 +213,7 @@
 
 (use-package cider-repl
   :custom
+  (cider-repl-display-in-current-window t)
   (cider-repl-use-clojure-font-lock t))
 
 (use-package cider-test
