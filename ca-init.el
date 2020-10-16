@@ -7,7 +7,9 @@
 (eval-when-compile
   ;; Following line is not needed if use-package.el is in ~/.emacs.d
   (add-to-list 'load-path "~/Emacs-Configuration/use-package")
-  (require 'use-package))
+  (require 'use-package)
+  (require 'package)
+  (package-initialize))
 
 (load-file "~/Emacs-Configuration/functions.el")
 (load-file "~/Emacs-Configuration/misc.el")
@@ -190,7 +192,8 @@
   (helm-locate-fuzzy-match t)
   (helm-use-frame-when-more-than-two-windows nil)
   (helm-M-x-fuzzy-match t)
-  (helm-autoresize-mode t))
+  (helm-autoresize-mode t)
+  (helm-mode t))
 
 (use-package nrepl-client
   :custom
