@@ -1,1 +1,0 @@
-Test emacs functions with the ERT framework
