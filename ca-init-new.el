@@ -102,6 +102,7 @@
 (use-package smart-mode-line-powerline-theme)
 (use-package smartparens
   :ensure t
+  :init (smartparens-strict-mode)
   :hook prog-mode)
 (use-package toml-mode)
 (use-package undo-tree
