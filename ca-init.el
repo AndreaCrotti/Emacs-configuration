@@ -331,7 +331,7 @@
 
 (add-hook 'text-mode-hook #'variable-pitch-mode)
 
-;; make it possible to disable it
+;; make it possible to disable its
 (windmove-default-keybindings 'shift)
 
 (setq calendar-date-style 'european)

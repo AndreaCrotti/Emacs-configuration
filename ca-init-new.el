@@ -1,12 +1,3 @@
-(defun make-conf-path (path)
-  "Shortcut to create the path of the configuration"
-  (expand-file-name (concat base path)))
-
-(setq custom-file (make-conf-path "custom.el"))
-(when (file-exists-p custom-file)
-  (message "loading custom file")
-  (load-file custom-file))
-
 (setq package-archives
       '(("melpa-stable" . "http://stable.melpa.org/packages/")
         ("org" . "https://orgmode.org/elpa/")
@@ -21,22 +12,27 @@
 (use-package auto-highlight-symbol)
 (use-package browse-kill-ring)
 (use-package c-eldoc)
-(use-package cider)
+(use-package cider
+  :init (cider-mode)
+  :hook clojure-mode)
+
 (use-package cider-decompile)
 (use-package cider-eval-sexp-fu)
 (use-package clj-refactor)
 (use-package cljr-helm)
 (use-package cljsbuild-mode)
-(use-package clojure-mode)
+(use-package clojure-mode
+  :custom
+  (cider-repl-use-pretty-printing t))
+
 (use-package clojure-mode-extra-font-locking)
 (use-package color-moccur)
-(use-package company)
+(use-package company
+  :ensure t
+  :init (global-company-mode))
 (use-package company-dict)
-(use-package company-go)
-(use-package company-jedi)
 (use-package company-restclient)
 (use-package company-shell)
-(use-package company-web)
 (use-package csv-mode)
 (use-package docker)
 (use-package dockerfile-mode)
@@ -49,7 +45,9 @@
 (use-package fancy-narrow)
 (use-package feature-mode)
 (use-package find-file-in-repository)
-(use-package flycheck)
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode))
 (use-package flycheck-clj-kondo)
 (use-package flycheck-clojure)
 (use-package flycheck-pos-tip)
@@ -57,11 +55,6 @@
 (use-package git-annex)
 (use-package git-commit)
 (use-package gitconfig)
-(use-package go-mode)
-(use-package golint)
-(use-package graphviz-dot-mode)
-(use-package groovy-mode)
-(use-package haskell-mode)
 (use-package helm)
 (use-package helm-ag)
 (use-package helm-aws)
@@ -76,17 +69,18 @@
 (use-package helm-git-files)
 (use-package helm-google)
 (use-package helm-make)
-(use-package helm-projectile)
+(use-package helm-projectile
+  :bind (( "<f7>" . helm-projectile-find-file)))
 (use-package helm-swoop)
-(use-package indent-guide)
 (use-package inf-clojure)
-(use-package jedi)
 (use-package json-mode)
 (use-package know-your-http-well)
 (use-package ledger-mode)
 (use-package less-css-mode)
 (use-package log4j-mode)
-(use-package magit)
+(use-package magit
+  :ensure t
+  :bind (("\C-xg" . magit-status)))
 (use-package markdown-mode)
 (use-package minimap)
 (use-package multiple-cursors)
@@ -102,35 +96,114 @@
 (use-package paradox)
 (use-package persistent-scratch)
 (use-package powerline)
-(use-package rainbow-delimiters)
-(use-package rainbow-mode)
+(use-package projectile
+  :init (projectile-global-mode)
+  :bind (("C-c C-p" . projectile-command-map)
+	 ("s-p" . projectile-command-map)))
+(use-package rainbow-delimiters
+  :ensure t
+  :hook prog-mode)
+(use-package rainbow-mode
+  :ensure t
+  :hook prog-mode)
 (use-package restclient)
 (use-package smart-mode-line)
 (use-package smart-mode-line-powerline-theme)
-(use-package smartparens)
-(use-package sos)
-(use-package sx)
+(use-package smartparens
+  :ensure t
+  :hook prog-mode)
 (use-package toml-mode)
-(use-package typo)
-(use-package undo-tree)
+(use-package undo-tree
+  :init (global-undo-tree-mode))
 (use-package web-mode)
 (use-package which-key)
 (use-package wordnut)
-(use-package yafolding)
 (use-package yaml-mode)
 (use-package yasnippet)
 (use-package yasnippet-snippets)
 
+(use-package dired
+  :custom
+  (dired-auto-revert-buffer 1)
+  (dired-isearch-filenames 'dwim)
+  (dired-listing-switches "-al"))
+
+(use-package simple
+  :init (column-number-mode))
+
+(use-package time
+  :init (display-time-mode))
+
+(use-package linum
+  :init (global-linum-mode))
+
+(use-package paren
+  :init (show-paren-mode))
+
+(use-package which-func
+  :init (which-function-mode))
+
+(use-package which-key
+  :init (which-key-mode))
+
+(use-package windmove
+  :init (windmove-default-keybindings 'shift))
+
+;; TODO: reconfigure these two??
+(global-prettify-symbols-mode t)
+(transient-mark-mode t)
+
 (use-package helm
   :bind (("M-x" . helm-M-x)
          ("M-y" . helm-show-kill-ring)
-         ("M-<f5>" . helm-find-files)
+	 ("M-s o" . helm-occur)
+	 ("C-x C-f" . helm-find-files)
          ([f10] . helm-buffers-list)
          ([S-f10] . helm-recentf))
-  :config
-  (setq helm-buffers-fuzzy-matching t)
-  (setq helm-recentf-fuzzy-match t)
-  (setq helm-locate-fuzzy-match t)
-  (setq helm-use-frame-when-more-than-two-windows nil)
-  (setq helm-M-x-fuzzy-match t)
-  (setq helm-autoresize-mode t))
+  :custom
+  (helm-buffers-fuzzy-matching t)
+  (helm-recentf-fuzzy-match t)
+  (helm-locate-fuzzy-match t)
+  (helm-use-frame-when-more-than-two-windows nil)
+  (helm-M-x-fuzzy-match t)
+  (helm-autoresize-mode t))
+
+(use-package nrepl-client
+  :custom
+  (nrepl-log-messages t))
+
+(use-package cider-repl
+  :custom
+  (cider-repl-use-clojure-font-lock t))
+
+(use-package cider-test
+  :custom
+  (cider-auto-test-mode t))
+
+(use-package dumb-jump
+  :bind (("M-?" . dumb-jump-go)))
+
+(use-package ibuffer
+  :bind (("C-x C-b" . ibuffer)))
+
+(setq
+ initial-major-mode 'emacs-lisp-mode
+ inhibit-startup-message t
+ initial-scratch-message nil)
+
+(setq-default indent-tabs-mode nil)
+
+(defun ca-next-defun ()
+  (interactive)
+  (end-of-defun 2)
+  (beginning-of-defun 1))
+
+(defun ca-prev-defun ()
+  (interactive)
+  (beginning-of-defun))
+
+(global-set-key (kbd "M-p") 'ca-prev-defun)
+(global-set-key (kbd "M-n") 'ca-next-defun)
+
+(load-theme 'dracula)
+(set-frame-font "-CTDB-Fira Code-normal-normal-normal-*-13-*-*-*-d-0-iso10646-1")
