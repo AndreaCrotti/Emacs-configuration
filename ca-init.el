@@ -289,7 +289,11 @@
     (package-refresh-contents)
     (mapc 'install-if-needed ca-to-install)))
 
+<<<<<<< HEAD
 (require 'flycheck)
+=======
+(reload)
+>>>>>>> cf75fbf... sadly need to reload or the auto package load does not work for some reason
 (global-flycheck-mode t)
 (column-number-mode t)
 (display-time-mode t)
