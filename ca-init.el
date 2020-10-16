@@ -47,6 +47,8 @@
 (use-package elein)
 (use-package emmet-mode)
 (use-package expand-region)
+(use-package eshell
+  :bind (("<f8>" . eshell)))
 (use-package fancy-narrow)
 (use-package find-file-in-repository)
 (use-package flycheck
