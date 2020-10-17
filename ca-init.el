@@ -32,11 +32,8 @@
         cider-overlays-use-font-lock t)
   (cider-repl-toggle-pretty-printing))
 
-(use-package cider-decompile)
-(use-package cider-eval-sexp-fu)
 (use-package clj-refactor)
 (use-package cljr-helm)
-(use-package cljsbuild-mode)
 (use-package clojure-mode
   :ensure t
   :mode (("\\.clj\\'" . clojure-mode)
@@ -46,7 +43,6 @@
   (add-hook 'clojure-mode-hook #'idle-highlight-mode))
 
 (use-package clojure-mode-extra-font-locking)
-(use-package color-moccur)
 (use-package company
   :ensure t
   :init (global-company-mode))
@@ -63,11 +59,13 @@
 (use-package expand-region)
 (use-package eshell
   :bind (("<f8>" . eshell)))
+
 (use-package fancy-narrow)
 (use-package find-file-in-repository)
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode))
+
 (use-package flycheck-clj-kondo)
 (use-package flycheck-clojure)
 (use-package flycheck-pos-tip)
@@ -85,6 +83,7 @@
 (use-package helm-make)
 (use-package helm-projectile
   :bind (( "<f7>" . helm-projectile-find-file)))
+
 (use-package helm-swoop)
 (use-package inf-clojure)
 (use-package json-mode)
@@ -94,6 +93,7 @@
 (use-package magit
   :ensure t
   :bind (("\C-xg" . magit-status)))
+
 (use-package markdown-mode)
 (use-package multiple-cursors)
 (use-package nginx-mode)
@@ -113,12 +113,15 @@
   :init (projectile-global-mode)
   :bind (("C-c C-p" . projectile-command-map)
 	 ("s-p" . projectile-command-map)))
+
 (use-package rainbow-delimiters
   :ensure t
   :init (rainbow-delimiters-mode))
+
 (use-package rainbow-mode
   :ensure t
   :init (rainbow-mode))
+
 (use-package restclient)
 (use-package smart-mode-line
   :custom
