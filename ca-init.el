@@ -196,6 +196,7 @@
 	 ("M-s o" . helm-occur)
 	 ("C-x C-f" . helm-find-files)
          ("C-x b" . helm-mini)
+         ("C-x r b" . helm-filtered-bookmarks)
          ([f10] . helm-buffers-list)
          ([S-f10] . helm-recentf))
   :custom
