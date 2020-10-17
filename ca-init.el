@@ -11,6 +11,7 @@
   (require 'package)
   (package-initialize))
 
+(setq custom-safe-themes t)
 (load-file "~/Emacs-Configuration/functions.el")
 (load-file "~/Emacs-Configuration/misc.el")
 
