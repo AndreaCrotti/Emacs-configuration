@@ -117,9 +117,9 @@
   (powerline-default-separator-dir '(right . left)))
 
 (use-package projectile
+  :ensure t
   :init (projectile-global-mode)
-  :bind (("C-c C-p" . projectile-command-map)
-	 ("s-p" . projectile-command-map)))
+  :bind (("<f9>" . projectile-command-map)))
 
 (use-package rainbow-delimiters
   :ensure t
@@ -224,8 +224,14 @@
 
 (use-package cider-repl
   :custom
-  (cider-repl-display-in-current-window t)
-  (cider-repl-use-clojure-font-lock t))
+  (cider-repl-pop-to-buffer-on-connect 'display-only)
+  (cider-repl-display-in-current-window nil)
+  (cider-repl-use-clojure-font-lock t)
+  (cider-repl-use-pretty-printing t)
+  (cider-repl-prompt-function 'cider-repl-prompt-abbreviated)
+  (cider-repl-tab-command #'indent-for-tab-command)
+  (cider-repl-buffer-size-limit 100000)
+  (cider-repl-require-ns-on-set t))
 
 (use-package cider-test
   :custom
