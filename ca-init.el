@@ -27,9 +27,11 @@
   :defer t
   :init (add-hook 'cider-mode-hook #'clj-refactor-mode)
   :diminish subword-mode
+  :bind (("C-<f5>" . cider-test-run-test))
   :config
   (setq cider-font-lock-dynamically '(macro core function var)
         nrepl-hide-special-buffers t
+
         cider-overlays-use-font-lock t)
   (cider-repl-toggle-pretty-printing))
 
@@ -44,6 +46,7 @@
   (add-hook 'clojure-mode-hook #'idle-highlight-mode))
 
 (use-package clojure-mode-extra-font-locking)
+
 (use-package company
   :ensure t
   :init (global-company-mode))
@@ -82,6 +85,9 @@
 (use-package helm-flyspell)
 (use-package helm-google)
 (use-package helm-make)
+(use-package helm-imenu
+  :bind (("<f5>" . helm-imenu)))
+
 (use-package helm-projectile
   :bind (( "<f7>" . helm-projectile-find-file)))
 
@@ -226,6 +232,7 @@
   (cider-auto-test-mode t))
 
 (use-package dumb-jump
+  :ensure t
   :bind (("M-?" . dumb-jump-go)))
 
 (use-package ibuffer
