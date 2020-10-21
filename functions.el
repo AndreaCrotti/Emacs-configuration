@@ -7,7 +7,6 @@
   (interactive)
   (beginning-of-defun))
 
-
 (defun ca-err-switch()
   "switch on/off error debugging"
   (interactive)
@@ -23,3 +22,9 @@
   (ca-untabify-buffer)
   ;TODO: use whitespace cleanup instead?
   (delete-trailing-whitespace))
+
+(defun ca-remove-dos-eol ()
+  "Do not show ^M in files containing mixed UNIX and DOS line endings."
+  (interactive)
+  (setq buffer-display-table (make-display-table))
+  (aset buffer-display-table ?\^M []))

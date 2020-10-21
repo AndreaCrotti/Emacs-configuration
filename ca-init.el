@@ -96,6 +96,7 @@
 (use-package inf-clojure)
 (use-package json-mode)
 (use-package know-your-http-well)
+(use-package kotlin-mode)
 (use-package less-css-mode)
 (use-package log4j-mode)
 (use-package magit
