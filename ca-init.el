@@ -49,7 +49,13 @@
 
 (use-package company
   :ensure t
-  :init (global-company-mode))
+  :init (global-company-mode)
+  :custom
+  (company-tooltip-align-annotations t)
+  (company-minimum-prefix-length 1)
+  (company-idle-delay 0.3)
+  (company-show-numbers t))
+
 (use-package company-dict)
 (use-package company-restclient)
 (use-package company-shell)
@@ -99,12 +105,47 @@
 (use-package kotlin-mode)
 (use-package less-css-mode)
 (use-package log4j-mode)
+(use-package lsp-mode
+  :ensure t
+  :commands lsp
+  :init
+  (add-hook 'rust-mode-hook #'lsp))
+
+(use-package lsp-ui
+  :ensure t
+  :config
+  (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+
+(use-package rust-mode
+  :ensure t
+  :config
+  (setq rust-format-on-save t)
+  (add-hook 'rust-mode-hook #'company-mode))
+
+(use-package flycheck-rust
+  :ensure t
+  :config
+  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+
+(use-package company-lsp
+  :commands company-lsp)
+
+(use-package cargo
+  :ensure t
+  :hook
+  (rust-mode . cargo-minor-mode))
+
 (use-package magit
   :ensure t
   :bind (("\C-xg" . magit-status)))
 
 (use-package markdown-mode)
-(use-package multiple-cursors)
+(use-package multiple-cursors
+  :ensure t
+  :bind ("C->" . mc/mark-next-like-this)
+  ("C-<" . mc/mark-previous-like-this)
+  ("C-c C-<" . mc/mark-all-like-this))
+
 (use-package nginx-mode)
 (use-package nix-mode)
 (use-package ob-diagrams)
@@ -247,6 +288,15 @@
 
 (use-package ibuffer
   :bind (("C-x C-b" . ibuffer)))
+
+(use-package ibuffer-vc
+  :ensure t
+  :defer t
+  :init (add-hook 'ibuffer-hook
+                  (lambda ()
+                    (ibuffer-vc-set-filter-groups-by-vc-root)
+                    (unless (eq ibuffer-sorting-mode 'alphabetic)
+                      (ibuffer-do-sort-by-alphabetic)))))
 
 (use-package winner)
 
