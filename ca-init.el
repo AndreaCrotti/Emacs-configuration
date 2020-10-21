@@ -92,6 +92,7 @@
   :bind (( "<f7>" . helm-projectile-find-file)))
 
 (use-package helm-swoop)
+(use-package idle-highlight-mode)
 (use-package inf-clojure)
 (use-package json-mode)
 (use-package know-your-http-well)
