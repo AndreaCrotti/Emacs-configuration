@@ -140,6 +140,8 @@
 (use-package smart-mode-line-powerline-theme)
 (use-package smartparens
   :ensure t
+  :config
+  (require 'smartparens-config)
   :init (smartparens-global-strict-mode)
   :bind
   (("C-M-f" . sp-forward-sexp)
