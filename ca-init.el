@@ -160,12 +160,8 @@
   ("C-<" . mc/mark-previous-like-this)
   ("C-c C-<" . mc/mark-all-like-this))
 
-(use-package nginx-mode)
 (use-package nix-mode)
-(use-package ob-diagrams)
-(use-package ob-http)
 (use-package org-bullets)
-(use-package org-gcal)
 (use-package paradox)
 (use-package persistent-scratch)
 (use-package powerline
@@ -236,6 +232,7 @@
 (use-package toml-mode)
 (use-package undo-tree
   :init (global-undo-tree-mode))
+
 (use-package web-mode)
 (use-package which-key)
 (use-package wordnut)
