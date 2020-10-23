@@ -1,37 +1,13 @@
 #+OPTIONS: toc:nil num:nil
 Emacs configuration
 
-The configuration loader is in ca-init.el, and all the submodules are
-in the modules directory.
-
-Previously everything was in *conf.org*, an org-mode file contanining
-all the code. The file is still but now it contains only some
-documentation and useful links.
-
-* Features
-
-  #+ATTR_HTML: title="Join the chat at https://gitter.im/AndreaCrotti/Emacs-configuration"
-  [[https://gitter.im/AndreaCrotti/Emacs-configuration?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge][file:https://badges.gitter.im/Join%20Chat.svg]]
-  - yasnippet and thousands of snippets
-  - desktop mode and nice hooks
-  - auto completion with company mode
-  - python-mode
-  - haskell-mode
-  - tuareg-mode
-  - flycheck
-
-  And much more...
+This configuration uses use-package heavily, configured mostly for Clojure development.
 
 * Usage
   To try it out:
   - git clone git://github.com/AndreaCrotti/Emacs-configuration.git
   - git submodule update --init
-  - create an empty "custom.el" where you cloned the repository
+  - create an optional *custom.el* file for your own customization (which gets loaded for last)
   - Create or modify your *.emacs* in your $HOME with the following:
     + (setq base "~/Emacs-configuration/")
     + (load (concat base "ca-init.el"))
-
-  Most of them can be compiled but it's not necessary, check the
-  instructions in the README/INSTALL files in the appropriate paths
-  To customize I suggest to use M-x customize (will write on your
-  custom file) or write your own setqs in the custom.el file.
