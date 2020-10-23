@@ -4,6 +4,8 @@
         ("melpa" . "http://melpa.org/packages/")
         ("gnu" . "http://elpa.gnu.org/packages/")))
 
+(eval-when-compile (require 'cl))
+
 (eval-when-compile
   ;; Following line is not needed if use-package.el is in ~/.emacs.d
   (add-to-list 'load-path "~/Emacs-Configuration/use-package")
@@ -15,12 +17,19 @@
 (load-file "~/Emacs-Configuration/functions.el")
 (load-file "~/Emacs-Configuration/misc.el")
 
+(require 'use-package)
+(setq use-package-verbose t)
+
 (use-package ack)
 (use-package adoc-mode)
 (use-package ag)
 (use-package auto-highlight-symbol)
+(use-package autorevert
+  :config
+  (setq auto-revert-interval 1)
+  (global-auto-revert-mode))
+
 (use-package browse-kill-ring)
-(use-package c-eldoc)
 
 (use-package cider
   :ensure t
@@ -42,14 +51,13 @@
   :mode (("\\.clj\\'" . clojure-mode)
          ("\\.edn\\'" . clojure-mode))
   :init
-  (add-hook 'clojure-mode-hook #'subword-mode)
-  (add-hook 'clojure-mode-hook #'idle-highlight-mode))
+  (add-hook 'clojure-mode-hook #'subword-mode))
 
 (use-package clojure-mode-extra-font-locking)
 
 (use-package company
-  :ensure t
   :init (global-company-mode)
+  :ensure t
   :custom
   (company-tooltip-align-annotations t)
   (company-minimum-prefix-length 1)
@@ -60,10 +68,17 @@
 (use-package company-restclient)
 (use-package company-shell)
 (use-package csv-mode)
+(use-package diff-hl
+  :config (global-diff-hl-mode))
+
 (use-package docker)
 (use-package dockerfile-mode)
 (use-package dracula-theme)
 (use-package edit-server)
+(use-package eldoc
+  :diminish eldoc-mode
+  :config (add-hook 'prog-mode-hook 'eldoc-mode))
+
 (use-package elein)
 (use-package emmet-mode)
 (use-package expand-region)
@@ -79,6 +94,12 @@
 (use-package flycheck-clj-kondo)
 (use-package flycheck-clojure)
 (use-package flycheck-pos-tip)
+(use-package flyspell
+  :diminish flyspell-mode
+  :config
+  (add-hook 'text-mode-hook 'flyspell-mode)
+  (add-hook 'prog-mode-hook 'flyspell-prog-mode))
+
 (use-package gist)
 (use-package git-commit)
 (use-package gitconfig)
@@ -106,24 +127,20 @@
 (use-package less-css-mode)
 (use-package log4j-mode)
 (use-package lsp-mode
-  :ensure t
   :commands lsp
   :init
   (add-hook 'rust-mode-hook #'lsp))
 
 (use-package lsp-ui
-  :ensure t
   :config
   (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
 (use-package rust-mode
-  :ensure t
   :config
   (setq rust-format-on-save t)
   (add-hook 'rust-mode-hook #'company-mode))
 
 (use-package flycheck-rust
-  :ensure t
   :config
   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 
@@ -131,17 +148,14 @@
   :commands company-lsp)
 
 (use-package cargo
-  :ensure t
   :hook
   (rust-mode . cargo-minor-mode))
 
 (use-package magit
-  :ensure t
   :bind (("\C-xg" . magit-status)))
 
 (use-package markdown-mode)
 (use-package multiple-cursors
-  :ensure t
   :bind ("C->" . mc/mark-next-like-this)
   ("C-<" . mc/mark-previous-like-this)
   ("C-c C-<" . mc/mark-all-like-this))
@@ -160,8 +174,15 @@
   (powerline-default-separator-dir '(right . left)))
 
 (use-package projectile
+  :diminish projectile-mode
   :ensure t
-  :init (projectile-global-mode)
+  :config
+  (projectile-global-mode)
+  (bind-keys :map projectile-mode-map
+             ("s-d" . projectile-find-dir)
+             ("s-p" . projectile-switch-project)
+             ("s-f" . projectile-find-file)
+             ("s-a" . projectile-ag))
   :bind (("<f9>" . projectile-command-map)))
 
 (use-package rainbow-delimiters
@@ -203,6 +224,12 @@
    ("C-M-]" . sp-select-next-thing)
    ("M-F" . sp-forward-symbol)
    ("M-B" . sp-backward-symbol)))
+
+(use-package time
+  :custom
+  (display-time-24hr-format t)
+  (display-time-default-load-average nil)
+  (display-time-mode))
 
 (use-package toml-mode)
 (use-package undo-tree
@@ -269,6 +296,8 @@
 
 (use-package cider-repl
   :custom
+  (cider-prompt-for-symbol nil)
+  (cider-repl-display-help-banner nil)
   (cider-repl-pop-to-buffer-on-connect 'display-only)
   (cider-repl-display-in-current-window nil)
   (cider-repl-use-clojure-font-lock t)
@@ -329,3 +358,6 @@
 (when (file-exists-p "~/Emacs-Configuration/custom.el")
   (message "loading custom file")
   (load-file "~/Emacs-Configuration/custom.el"))
+
+(when (fboundp 'toggle-frame-fullscreen)
+  (toggle-frame-fullscreen))

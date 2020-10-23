@@ -10,7 +10,8 @@
 (setq
  initial-major-mode 'emacs-lisp-mode
  inhibit-startup-message t
- initial-scratch-message nil)
+ initial-scratch-message nil
+ confirm-nonexistent-file-or-buffer nil)
 
 (setq-default indent-tabs-mode nil)
 
@@ -21,8 +22,9 @@
 (global-set-key [f1] 'delete-window)
 (global-set-key [f2] 'split-window-horizontally)
 
-
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (when (fboundp 'horizontal-scroll-bar-mode) (horizontal-scroll-bar-mode -1))
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
