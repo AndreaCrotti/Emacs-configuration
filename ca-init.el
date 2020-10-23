@@ -331,7 +331,8 @@
                     (unless (eq ibuffer-sorting-mode 'alphabetic)
                       (ibuffer-do-sort-by-alphabetic)))))
 
-(use-package winner)
+(use-package winner
+  :config (winner-mode t))
 
 (global-set-key (kbd "M-p") 'ca-prev-defun)
 (global-set-key (kbd "M-n") 'ca-next-defun)
