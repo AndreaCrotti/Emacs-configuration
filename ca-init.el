@@ -29,6 +29,11 @@
   (setq auto-revert-interval 1)
   (global-auto-revert-mode))
 
+(use-package beacon
+  :ensure t
+  :custom
+  (beacon-blink-duration 0.5))
+
 (use-package browse-kill-ring)
 
 (use-package cider
