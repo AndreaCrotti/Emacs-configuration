@@ -187,11 +187,13 @@
 
 (use-package rainbow-delimiters
   :ensure t
-  :init (rainbow-delimiters-mode))
+  :config
+  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 (use-package rainbow-mode
   :ensure t
-  :init (rainbow-mode))
+  :config
+  (add-hook 'prog-mode-hook #'rainbow-mode))
 
 (use-package restclient)
 (use-package smart-mode-line
