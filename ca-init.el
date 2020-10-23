@@ -363,6 +363,3 @@
 (when (file-exists-p "~/Emacs-Configuration/custom.el")
   (message "loading custom file")
   (load-file "~/Emacs-Configuration/custom.el"))
-
-(when (fboundp 'toggle-frame-fullscreen)
-  (toggle-frame-fullscreen))
