@@ -320,7 +320,7 @@
   (cider-repl-prompt-function 'cider-repl-prompt-abbreviated)
   (cider-repl-tab-command #'indent-for-tab-command)
   (cider-repl-buffer-size-limit 100000)
-  (cider-repl-require-ns-on-set t))
+  (cider-repl-require-ns-on-set nil))
 
 (use-package cider-test
   :custom
