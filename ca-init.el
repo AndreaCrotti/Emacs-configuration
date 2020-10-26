@@ -242,8 +242,19 @@
 (use-package which-key)
 (use-package wordnut)
 (use-package yaml-mode)
-(use-package yasnippet)
-(use-package yasnippet-snippets)
+
+(use-package yasnippet-snippets
+  :ensure t)
+
+(use-package yasnippet
+  :ensure t
+  :custom
+  (yas-verbosity 2)
+  (yas-wrap-around-region t)
+
+  :config
+  (yas-reload-all)
+  (yas-global-mode))
 
 (use-package dired
   :custom
