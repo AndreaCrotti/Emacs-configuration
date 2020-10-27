@@ -6,16 +6,19 @@
 
 (eval-when-compile (require 'cl))
 
+(defun make-relative-path (filename)
+  (concat base filename))
+
 (eval-when-compile
   ;; Following line is not needed if use-package.el is in ~/.emacs.d
-  (add-to-list 'load-path "~/Emacs-Configuration/use-package")
+  (add-to-list 'load-path (make-relative-path "use-package"))
   (require 'use-package)
   (require 'package)
   (package-initialize))
 
 (setq custom-safe-themes t)
-(load-file "~/Emacs-Configuration/functions.el")
-(load-file "~/Emacs-Configuration/misc.el")
+(load-file (make-relative-path "functions.el"))
+(load-file (make-relative-path "misc.el"))
 
 (require 'use-package)
 (setq use-package-verbose t)
@@ -378,8 +381,8 @@
 (defalias 'ws 'whitespace-mode)
 (defalias 'bu 'browse-url)
 
-(when (file-exists-p "~/Emacs-Configuration/custom.el")
+(when (file-exists-p (make-relative-path "custom.el"))
   (message "loading custom file")
-  (load-file "~/Emacs-Configuration/custom.el"))
+  (load-file (make-relative-path "custom.el")))
 
 (load-file "~/Emacs-Configuration/custom.el")
