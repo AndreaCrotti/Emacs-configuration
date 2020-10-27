@@ -124,7 +124,10 @@
   :bind (( "<f7>" . helm-projectile-find-file)))
 
 (use-package helm-swoop)
-(use-package idle-highlight-mode)
+(use-package idle-highlight-mode
+  :diminish idle-highlight-mode
+  :config (add-hook 'prog-mode-hook 'idle-highlight-mode))
+
 (use-package inf-clojure)
 (use-package json-mode)
 (use-package know-your-http-well)
@@ -175,7 +178,7 @@
   (powerline-default-separator-dir '(right . left)))
 
 (use-package projectile
-  :diminish projectile-mode
+  :diminish projectile
   :ensure t
   :config
   (projectile-global-mode)
@@ -188,11 +191,13 @@
 
 (use-package rainbow-delimiters
   :ensure t
+  :delight
   :config
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 (use-package rainbow-mode
   :ensure t
+  :delight
   :config
   (add-hook 'prog-mode-hook #'rainbow-mode))
 
@@ -205,6 +210,7 @@
 (use-package smart-mode-line-powerline-theme)
 (use-package smartparens
   :ensure t
+  :delight
   :config
   (require 'smartparens-config)
   :init (smartparens-global-strict-mode)
@@ -236,6 +242,7 @@
 
 (use-package toml-mode)
 (use-package undo-tree
+  :diminish "U"
   :init (global-undo-tree-mode))
 
 (use-package web-mode)
@@ -374,3 +381,5 @@
 (when (file-exists-p "~/Emacs-Configuration/custom.el")
   (message "loading custom file")
   (load-file "~/Emacs-Configuration/custom.el"))
+
+(load-file "~/Emacs-Configuration/custom.el")
