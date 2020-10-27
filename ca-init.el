@@ -16,6 +16,8 @@
   (require 'package)
   (package-initialize))
 
+(package-refresh-contents)
+
 (setq custom-safe-themes t)
 (load-file (make-relative-path "functions.el"))
 (load-file (make-relative-path "misc.el"))
@@ -253,8 +255,8 @@
 (use-package wordnut)
 (use-package yaml-mode)
 
-(use-package yasnippet-snippets
-  :ensure t)
+;; (use-package yasnippet-snippets
+;;   :ensure t)
 
 (use-package yasnippet
   :ensure t
