@@ -1,6 +1,5 @@
 (setq package-archives
-      '(("melpa-stable" . "http://stable.melpa.org/packages/")
-        ("org" . "https://orgmode.org/elpa/")
+      '(("org" . "https://orgmode.org/elpa/")
         ("melpa" . "http://melpa.org/packages/")
         ("gnu" . "http://elpa.gnu.org/packages/")))
 
