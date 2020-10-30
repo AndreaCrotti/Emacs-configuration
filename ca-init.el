@@ -11,18 +11,26 @@
 (eval-when-compile
   ;; Following line is not needed if use-package.el is in ~/.emacs.d
   (add-to-list 'load-path (make-relative-path "use-package"))
-  (require 'use-package)
-  (require 'package)
-  (package-initialize))
+  (require 'use-package))
 
+(require 'package)
+(package-initialize)
 (package-refresh-contents)
+(setq use-package-always-ensure t)
 
-(setq custom-safe-themes t)
+ (setq custom-safe-themes t)
 (load-file (make-relative-path "functions.el"))
 (load-file (make-relative-path "misc.el"))
 
 (require 'use-package)
 (setq use-package-verbose t)
+(setq use-package-always-unsure t)
+
+(use-package auto-package-update
+  :config
+  (setq auto-package-update-delete-old-versions t)
+  (setq auto-package-update-hide-results t)
+  (auto-package-update-maybe))
 
 (use-package ack)
 (use-package adoc-mode)
@@ -267,14 +275,9 @@
   (yas-reload-all)
   (yas-global-mode))
 
-(use-package dired
-  :custom
-  (dired-auto-revert-buffer 1)
-  (dired-isearch-filenames 'dwim)
-  (dired-listing-switches "-al"))
-
-(use-package simple
-  :init (column-number-mode))
+(setq dired-auto-revert-buffer 1)
+(setq dired-isearch-filenames 'dwim)
+(setq dired-listing-switches "-al")
 
 (use-package time
   :init (display-time-mode))
