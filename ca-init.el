@@ -183,7 +183,10 @@
 (use-package nix-mode)
 (use-package org-bullets)
 (use-package paradox)
-(use-package persistent-scratch)
+(use-package persistent-scratch
+  :config
+  (persistent-scratch-autosave-mode))
+
 (use-package powerline
   :custom
   (powerline-arrow-shape 'curve)
