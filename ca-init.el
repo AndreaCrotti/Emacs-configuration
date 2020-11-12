@@ -70,7 +70,9 @@
   (cider-repl-prompt-function 'cider-repl-prompt-abbreviated)
   (cider-repl-tab-command #'indent-for-tab-command)
   (cider-repl-buffer-size-limit 100000)
-  (cider-repl-require-ns-on-set nil))
+  (cider-repl-require-ns-on-set nil)
+  (nrepl-log-messages t)
+  (cider-auto-test-mode t))
 
 (use-package clj-refactor)
 (use-package cljr-helm)
@@ -330,14 +332,6 @@
   (helm-M-x-fuzzy-match t)
   (helm-autoresize-mode t)
   (helm-mode t))
-
-(use-package nrepl-client
-  :custom
-  (nrepl-log-messages t))
-
-(use-package cider-test
-  :custom
-  (cider-auto-test-mode t))
 
 (use-package dumb-jump
   :ensure t
