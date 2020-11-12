@@ -59,7 +59,18 @@
         nrepl-hide-special-buffers t
 
         cider-overlays-use-font-lock t)
-  (cider-repl-toggle-pretty-printing))
+  (cider-repl-toggle-pretty-printing)
+  :custom
+  (cider-prompt-for-symbol nil)
+  (cider-repl-display-help-banner nil)
+  (cider-repl-pop-to-buffer-on-connect 'display-only)
+  (cider-repl-display-in-current-window nil)
+  (cider-repl-use-clojure-font-lock t)
+  (cider-repl-use-pretty-printing t)
+  (cider-repl-prompt-function 'cider-repl-prompt-abbreviated)
+  (cider-repl-tab-command #'indent-for-tab-command)
+  (cider-repl-buffer-size-limit 100000)
+  (cider-repl-require-ns-on-set nil))
 
 (use-package clj-refactor)
 (use-package cljr-helm)
@@ -120,7 +131,8 @@
 (use-package gist)
 (use-package git-commit)
 (use-package gitconfig)
-(use-package helm)
+(use-package helm
+  :bind (("<f5>" . helm-imenu)))
 (use-package helm-ag)
 (use-package helm-cider)
 (use-package helm-clojuredocs)
@@ -129,9 +141,6 @@
 (use-package helm-flyspell)
 (use-package helm-google)
 (use-package helm-make)
-(use-package helm-imenu
-  :bind (("<f5>" . helm-imenu)))
-
 (use-package helm-projectile
   :bind (( "<f7>" . helm-projectile-find-file)))
 
@@ -325,19 +334,6 @@
 (use-package nrepl-client
   :custom
   (nrepl-log-messages t))
-
-(use-package cider-repl
-  :custom
-  (cider-prompt-for-symbol nil)
-  (cider-repl-display-help-banner nil)
-  (cider-repl-pop-to-buffer-on-connect 'display-only)
-  (cider-repl-display-in-current-window nil)
-  (cider-repl-use-clojure-font-lock t)
-  (cider-repl-use-pretty-printing t)
-  (cider-repl-prompt-function 'cider-repl-prompt-abbreviated)
-  (cider-repl-tab-command #'indent-for-tab-command)
-  (cider-repl-buffer-size-limit 100000)
-  (cider-repl-require-ns-on-set nil))
 
 (use-package cider-test
   :custom
