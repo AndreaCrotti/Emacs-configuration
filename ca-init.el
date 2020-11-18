@@ -218,12 +218,12 @@
   :ensure t
   :config
   (projectile-global-mode)
-  (bind-keys :map projectile-mode-map
-             ("s-d" . projectile-find-dir)
-             ("s-p" . projectile-switch-project)
-             ("s-f" . projectile-find-file)
-             ("s-a" . projectile-ag))
-  :bind (("<f9>" . projectile-command-map)))
+  :bind (("<f9>" . projectile-command-map)
+         :map projectile-mode-map
+         ("s-d" . projectile-find-dir)
+         ("s-p" . projectile-switch-project)
+         ("s-f" . projectile-find-file)
+         ("s-a" . projectile-ag)))
 
 (use-package rainbow-delimiters
   :ensure t
@@ -249,7 +249,7 @@
   :delight
   :config
   (require 'smartparens-config)
-  :init (smartparens-global-strict-mode)
+  :init (smartparens-global-mode)
   :bind
   (("C-M-f" . sp-forward-sexp)
    ("C-M-b" . sp-backward-sexp)
