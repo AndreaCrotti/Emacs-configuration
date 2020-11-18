@@ -75,7 +75,6 @@
   (cider-auto-test-mode t))
 
 (use-package clj-refactor)
-(use-package cljr-helm)
 (use-package clojure-mode
   :ensure t
   :mode (("\\.clj\\'" . clojure-mode)
@@ -133,20 +132,7 @@
 (use-package gist)
 (use-package git-commit)
 (use-package gitconfig)
-(use-package helm
-  :bind (("<f5>" . helm-imenu)))
-(use-package helm-ag)
-(use-package helm-cider)
-(use-package helm-clojuredocs)
-(use-package helm-company)
-(use-package helm-flycheck)
-(use-package helm-flyspell)
-(use-package helm-google)
-(use-package helm-make)
-(use-package helm-projectile
-  :bind (( "<f7>" . helm-projectile-find-file)))
 
-(use-package helm-swoop)
 (use-package idle-highlight-mode
   :diminish idle-highlight-mode
   :config (add-hook 'prog-mode-hook 'idle-highlight-mode))
@@ -270,6 +256,14 @@
    ("M-F" . sp-forward-symbol)
    ("M-B" . sp-backward-symbol)))
 
+(use-package selectrum
+  :ensure t
+  :config (selectrum-mode))
+
+(use-package selectrum-prescient
+  :ensure t
+  :config (selectrum-prescient-mode))
+
 (use-package time
   :custom
   (display-time-24hr-format t)
@@ -324,24 +318,6 @@
 ;; TODO: reconfigure these two??
 (global-prettify-symbols-mode t)
 (transient-mark-mode t)
-
-(use-package helm
-  :bind (("M-x" . helm-M-x)
-         ("M-y" . helm-show-kill-ring)
-	 ("M-s o" . helm-occur)
-	 ("C-x C-f" . helm-find-files)
-         ("C-x b" . helm-mini)
-         ("C-x r b" . helm-filtered-bookmarks)
-         ([f10] . helm-buffers-list)
-         ([S-f10] . helm-recentf))
-  :custom
-  (helm-buffers-fuzzy-matching t)
-  (helm-recentf-fuzzy-match t)
-  (helm-locate-fuzzy-match t)
-  (helm-use-frame-when-more-than-two-windows nil)
-  (helm-M-x-fuzzy-match t)
-  (helm-autoresize-mode t)
-  (helm-mode t))
 
 (use-package dumb-jump
   :ensure t
