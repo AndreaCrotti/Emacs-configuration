@@ -205,6 +205,7 @@
   :config
   (projectile-global-mode)
   :bind (("<f9>" . projectile-command-map)
+         ("<f6>" . projectile-ag)
          ("<f7>" . projectile-find-file)
          :map projectile-mode-map
          ("s-d" . projectile-find-dir)
