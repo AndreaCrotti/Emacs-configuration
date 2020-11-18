@@ -107,7 +107,7 @@
 (use-package edit-server)
 (use-package eldoc
   :diminish eldoc-mode
-  :config (add-hook 'prog-mode-hook 'eldoc-mode))
+  :config (global-eldoc-mode))
 
 (use-package elein)
 (use-package emmet-mode)
