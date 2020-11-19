@@ -46,7 +46,8 @@
   :custom
   (beacon-blink-duration 0.5))
 
-(use-package browse-kill-ring)
+(use-package browse-kill-ring
+  :config (browse-kill-ring-default-keybindings))
 
 (use-package cider
   :ensure t
