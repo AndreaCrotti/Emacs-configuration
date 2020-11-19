@@ -152,6 +152,9 @@
 
 (use-package know-your-http-well)
 (use-package kotlin-mode)
+(use-package imenu
+  :bind (("<f5>" . imenu)))
+
 (use-package less-css-mode)
 (use-package log4j-mode)
 (use-package lsp-mode
