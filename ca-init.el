@@ -215,7 +215,9 @@
          ("s-d" . projectile-find-dir)
          ("s-p" . projectile-switch-project)
          ("s-f" . projectile-find-file)
-         ("s-a" . projectile-ag)))
+         ("s-a" . projectile-ag))
+  :custom
+  (projectile-completion-system 'default))
 
 (use-package rainbow-delimiters
   :ensure t
