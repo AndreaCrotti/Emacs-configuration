@@ -166,6 +166,17 @@
   :config
   (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
+(use-package restclient
+  :init
+  (add-to-list 'auto-mode-alist '("\\.rest" . restclient-mode))
+  :config
+  (add-hook 'restclient-mode-hook 'outline-minor-mode)
+  (add-hook 'restclient-mode-hook
+            (lambda ()
+              (outline-minor-mode t)
+              (local-set-key (kbd "<tab>") 'outline-cycle)
+              (setq outline-regexp "#+"))))
+
 (use-package rust-mode
   :config
   (setq rust-format-on-save t)
