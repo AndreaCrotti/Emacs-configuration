@@ -47,7 +47,8 @@
   (beacon-blink-duration 0.5))
 
 (use-package browse-kill-ring
-  :config (browse-kill-ring-default-keybindings))
+  :config
+  (browse-kill-ring-default-keybindings))
 
 (use-package cider
   :ensure t
@@ -112,9 +113,6 @@
 (use-package elein)
 (use-package emmet-mode)
 (use-package expand-region)
-(use-package eshell
-  :bind (("<f8>" . eshell)))
-
 (use-package fancy-narrow)
 (use-package find-file-in-repository)
 (use-package flycheck
@@ -219,9 +217,10 @@
   :ensure t
   :config
   (projectile-global-mode)
-  :bind (("<f9>" . projectile-command-map)
-         ("<f6>" . projectile-ag)
+  :bind (("<f6>" . projectile-ag)
          ("<f7>" . projectile-find-file)
+         ("<f8>" . projectile-run-shell)
+         ("<f9>" . projectile-command-map)
          :map projectile-mode-map
          ("s-d" . projectile-find-dir)
          ("s-p" . projectile-switch-project)
