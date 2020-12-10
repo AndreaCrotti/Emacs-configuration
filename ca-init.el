@@ -386,4 +386,8 @@
   (message "loading custom file")
   (load-file (make-relative-path "custom.el")))
 
+(when (file-exists-p (make-relative-path "hacks.el"))
+  (message "loading hacks file")
+  (load-file (make-relative-path "hacks.el")))
+
 (load-file "~/Emacs-Configuration/custom.el")
