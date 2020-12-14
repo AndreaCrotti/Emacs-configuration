@@ -131,6 +131,11 @@
 (use-package gist)
 (use-package git-commit)
 (use-package gitconfig)
+(use-package guru-mode
+  :custom
+  (guru-warn-only t)
+  :config
+  (guru-global-mode t))
 
 (use-package idle-highlight-mode
   :diminish idle-highlight-mode
