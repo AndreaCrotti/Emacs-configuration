@@ -18,7 +18,7 @@
 (package-refresh-contents)
 (setq use-package-always-ensure t)
 
- (setq custom-safe-themes t)
+(setq custom-safe-themes t)
 (load-file (make-relative-path "functions.el"))
 (load-file (make-relative-path "misc.el"))
 
@@ -387,12 +387,7 @@
 (defalias 'ws 'whitespace-mode)
 (defalias 'bu 'browse-url)
 
-(when (file-exists-p (make-relative-path "custom.el"))
-  (message "loading custom file")
-  (load-file (make-relative-path "custom.el")))
-
-(when (file-exists-p (make-relative-path "hacks.el"))
-  (message "loading hacks file")
-  (load-file (make-relative-path "hacks.el")))
-
-(load-file "~/Emacs-Configuration/custom.el")
+(dolist (f '("custom.el" "hacks.el"))
+  (when (file-exists-p (make-relative-path f))
+    (message "loading extra file" f)
+    (load-file (make-relative-path f))))
