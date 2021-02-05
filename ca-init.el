@@ -247,12 +247,12 @@
   (add-hook 'prog-mode-hook #'rainbow-mode))
 
 (use-package restclient)
+(use-package smart-mode-line-powerline-theme)
 (use-package smart-mode-line
   :custom
   (sml/theme 'powerline)
   :init (sml/setup))
 
-(use-package smart-mode-line-powerline-theme)
 (use-package smartparens
   :ensure t
   :delight
