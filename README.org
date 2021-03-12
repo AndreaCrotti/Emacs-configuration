@@ -9,5 +9,5 @@ This configuration uses use-package heavily, configured mostly for Clojure devel
   - git submodule update --init
   - create an optional *custom.el* file for your own customization (which gets loaded for last)
   - Create or modify your *.emacs* in your $HOME with the following:
-    + (setq base "~/Emacs-configuration/")
+    + (setq base "~/Emacs-Configuration/")
     + (load (concat base "ca-init.el"))
