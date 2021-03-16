@@ -189,9 +189,6 @@
   :config
   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 
-(use-package company-lsp
-  :commands company-lsp)
-
 (use-package cargo
   :hook
   (rust-mode . cargo-minor-mode))
