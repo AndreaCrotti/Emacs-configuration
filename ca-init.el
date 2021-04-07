@@ -81,6 +81,7 @@
   :ensure t
   :mode (("\\.clj\\'" . clojure-mode)
          ("\\.edn\\'" . clojure-mode))
+  :bind (("M-." . lsp-find-definition))
   :init
   (add-hook 'clojure-mode-hook #'subword-mode))
 
@@ -156,7 +157,7 @@
 (use-package know-your-http-well)
 (use-package kotlin-mode)
 (use-package imenu
-  :bind (("<f5>" . imenu)))
+  :bind (("<f5>" . lsp-ui-menu)))
 
 (use-package less-css-mode)
 (use-package log4j-mode)
@@ -249,6 +250,7 @@
   :config
   (projectile-global-mode)
   :bind (("<f6>" . projectile-ag)
+         ("C-<f6>" . projectile-replace)
          ("<f7>" . projectile-find-file)
          ("<f8>" . projectile-run-shell)
          ("<f9>" . projectile-command-map)
