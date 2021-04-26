@@ -50,6 +50,10 @@
   :config
   (browse-kill-ring-default-keybindings))
 
+(use-package clj-refactor
+  :custom
+  (cljr-add-ns-to-blank-clj-files nil))
+
 (use-package cider
   :ensure t
   :defer t
