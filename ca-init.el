@@ -211,7 +211,7 @@
   (add-hook 'restclient-mode-hook
             (lambda ()
               (outline-minor-mode t)
-              (local-set-key (kbd "<tab>") 'outline-cycle)
+              (local-set-key (kbd "<tab>") 'outline-toggle-children)
               (setq outline-regexp "#+"))))
 
 (use-package rust-mode
