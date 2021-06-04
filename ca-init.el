@@ -237,6 +237,10 @@
   ("C-c C-<" . mc/mark-all-like-this))
 
 (use-package nix-mode)
+(use-package ox-reveal)
+(use-package org
+  :custom
+  (org-src-tab-acts-natively t))
 (use-package org-bullets)
 (use-package paradox)
 (use-package persistent-scratch
