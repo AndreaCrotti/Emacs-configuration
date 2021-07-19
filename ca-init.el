@@ -87,7 +87,8 @@
          ("\\.edn\\'" . clojure-mode))
   :bind (("M-." . lsp-find-definition))
   :init
-  (add-hook 'clojure-mode-hook #'subword-mode))
+  (add-hook 'clojure-mode-hook #'subword-mode)
+  (add-to-list 'auto-mode-alist '("\\.bb" . clojure-mode)))
 
 (use-package clojure-mode-extra-font-locking)
 
@@ -161,7 +162,7 @@
 (use-package know-your-http-well)
 (use-package kotlin-mode)
 (use-package imenu
-  :bind (("<f5>" . lsp-ui-menu)))
+  :bind (("<f5>" . imenu)))
 
 (use-package less-css-mode)
 (use-package log4j-mode)
@@ -191,10 +192,10 @@
   ;; submitting bug reports with `lsp-workspace-show-log`
   ;; (lsp-log-io t)
 
-  (lsp-eldoc-enable-hover nil)
+  (lsp-eldoc-enable-hover t)
   (lsp-enable-indentation nil)
-  (lsp-enable-folding nil)
-  (lsp-headerline-breadcrumb-enable nil)
+  (lsp-enable-folding t)
+  (lsp-headerline-breadcrumb-enable t)
   (lsp-idle-delay .01)
   (lsp-keymap-prefix nil))
 
