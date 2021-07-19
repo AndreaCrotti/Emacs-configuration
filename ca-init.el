@@ -295,7 +295,7 @@
   :delight
   :config
   (require 'smartparens-config)
-  (turn-on-smartparens-strict-mode)
+  (smartparens-global-strict-mode t)
   :bind
   (("C-M-f" . sp-forward-sexp)
    ("C-M-b" . sp-backward-sexp)
