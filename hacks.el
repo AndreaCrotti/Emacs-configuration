@@ -31,3 +31,9 @@ Turning on wordnut mode runs the normal hook `wordnut-mode-hook'.
   (setq org-startup-folded nil)
   (org-mode)
   (view-mode))
+
+;; change the size of markup in markdown/asciidoc documents to
+;; something that mmakes more sense
+(dolist (i (number-sequence 0 5))
+  (set-face-attribute
+   (intern (format "markup-title-%d-face" i)) nil :height (+ 1.0 (/ (- 10.0 i) 20.0))))
