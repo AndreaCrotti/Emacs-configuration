@@ -36,7 +36,8 @@
 (use-package adoc-mode
   :init
   (add-to-list 'auto-mode-alist (cons "\\.adoc\\'" 'adoc-mode))
-  (add-to-list 'auto-mode-alist (cons "\\.txt\\'" 'adoc-mode)))
+  (add-to-list 'auto-mode-alist (cons "\\.txt\\'" 'adoc-mode))
+  (add-hook 'adoc-mode-hook (lambda () (buffer-face-mode t))))
 
 (use-package ag)
 (use-package auto-highlight-symbol)
@@ -235,7 +236,11 @@
 (use-package magit
   :bind (("\C-xg" . magit-status)))
 
-(use-package markdown-mode)
+(use-package markdown-mode
+  :init
+  (add-hook 'markdown-mode-hook (lambda () (buffer-face-mode t)))
+  (add-to-list 'auto-mode-alist '("\\.md" . markdown-mode)))
+
 (use-package multiple-cursors
   :bind ("C->" . mc/mark-next-like-this)
   ("C-<" . mc/mark-previous-like-this)
