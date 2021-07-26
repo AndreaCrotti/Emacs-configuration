@@ -33,7 +33,11 @@
   (auto-package-update-maybe))
 
 (use-package ack)
-(use-package adoc-mode)
+(use-package adoc-mode
+  :init
+  (add-to-list 'auto-mode-alist (cons "\\.adoc\\'" 'adoc-mode))
+  (add-to-list 'auto-mode-alist (cons "\\.txt\\'" 'adoc-mode)))
+
 (use-package ag)
 (use-package auto-highlight-symbol)
 (use-package autorevert
