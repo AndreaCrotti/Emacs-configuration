@@ -295,7 +295,7 @@
   :delight
   :config
   (require 'smartparens-config)
-  (smartparens-global-strict-mode t)
+  (turn-on-smartparens-strict-mode)
   :bind
   (("C-M-f" . sp-forward-sexp)
    ("C-M-b" . sp-backward-sexp)
@@ -340,8 +340,8 @@
 (use-package wordnut)
 (use-package yaml-mode)
 
-;; (use-package yasnippet-snippets
-;;   :ensure t)
+(use-package yasnippet-snippets
+  :ensure t)
 
 (use-package yasnippet
   :ensure t
