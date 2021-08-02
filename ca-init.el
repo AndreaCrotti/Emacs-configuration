@@ -252,6 +252,10 @@
   :custom
   (org-src-tab-acts-natively t))
 (use-package org-bullets)
+(use-package org-roam
+  :custom
+  (org-roam-v2-ack t))
+
 (use-package paradox)
 (use-package persistent-scratch
   :config
