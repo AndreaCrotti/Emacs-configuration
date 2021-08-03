@@ -254,8 +254,16 @@
   (org-src-tab-acts-natively t))
 (use-package org-bullets)
 (use-package org-roam
+  :init
+  (setq org-roam-v2-ack t)
   :custom
-  (org-roam-v2-ack t))
+  (org-roam-directory "~/RoamNotes")
+  (org-roam-completion-everywhere t)
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n i" . org-roam-node-insert))
+  :config
+  (org-roam-setup))
 
 (use-package paradox)
 (use-package persistent-scratch
