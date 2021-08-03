@@ -142,6 +142,10 @@
 
 (use-package gist)
 (use-package git-commit)
+(use-package git-auto-commit-mode
+  :custom
+  (gac-debounce-interval 0.5))
+
 (use-package gitconfig)
 (use-package guru-mode
   :custom
