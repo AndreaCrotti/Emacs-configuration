@@ -251,7 +251,9 @@
 (use-package ox-reveal)
 (use-package org
   :custom
-  (org-src-tab-acts-natively t))
+  (org-src-tab-acts-natively t)
+  (org-agenda-files (list (file-truename "~/RoamNotes/"))))
+
 (use-package org-bullets)
 (use-package org-roam
   :init
