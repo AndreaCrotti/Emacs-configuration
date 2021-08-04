@@ -262,6 +262,8 @@
 
 (use-package org
   :hook (org-mode . ca-org-mode-setup)
+  :bind
+  (("C-c a" . org-agenda))
   :custom
   (org-src-tab-acts-natively t)
   (org-hide-emphasis-markers t)
