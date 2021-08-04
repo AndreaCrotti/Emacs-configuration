@@ -253,12 +253,24 @@
 
 (use-package nix-mode)
 (use-package ox-reveal)
+
+(defun ca-org-mode-setup ()
+  (org-indent-mode)
+  (variable-pitch-mode 1)
+  (auto-fill-mode 0)
+  (visual-line-mode 1))
+
 (use-package org
+  :hook (org-mode . ca-org-mode-setup)
   :custom
   (org-src-tab-acts-natively t)
+  (org-hide-emphasis-markers t)
   (org-agenda-files (list (file-truename "~/RoamNotes/"))))
 
-(use-package org-bullets)
+(use-package org-bullets
+  :after org
+  :hook (org-mode . org-bullets-mode))
+
 (use-package org-roam
   :init
   (setq org-roam-v2-ack t)
