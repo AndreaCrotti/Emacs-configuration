@@ -117,6 +117,8 @@
   (company-idle-delay 0.3)
   (company-show-numbers t))
 
+(use-package command-log-mode)
+
 (use-package company-dict)
 (use-package company-restclient)
 (use-package company-shell)
