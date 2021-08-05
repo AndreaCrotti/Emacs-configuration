@@ -1,3 +1,17 @@
+;; performance changes
+
+(setq gc-cons-threshold (* 50 1000 1000))
+
+;; Profile emacs startup
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (message "*** Emacs loaded in %s with %d garbage collections."
+                     (format "%.2f seconds"
+                             (float-time
+                              (time-subtract after-init-time before-init-time)))
+                     gcs-done)))
+
+
 (setq package-archives
       '(("org" . "https://orgmode.org/elpa/")
         ("melpa" . "http://melpa.org/packages/")
@@ -15,9 +29,9 @@
 
 (require 'package)
 (package-initialize)
-(package-refresh-contents)
-(setq use-package-always-ensure t)
+;; (package-refresh-contents)
 
+;; (setq use-package-always-ensure t)
 (setq custom-safe-themes t)
 (load-file (make-relative-path "functions.el"))
 (load-file (make-relative-path "misc.el"))
@@ -41,14 +55,13 @@
   )
 
 (use-package ag)
-(use-package auto-highlight-symbol)
+;; (use-package auto-highlight-symbol)
 (use-package autorevert
   :config
   (setq auto-revert-interval 1)
   (global-auto-revert-mode))
 
 (use-package beacon
-  :ensure t
   :custom
   (beacon-blink-duration 0.5))
 
@@ -61,7 +74,6 @@
   (cljr-add-ns-to-blank-clj-files nil))
 
 (use-package cider
-  :ensure t
   :defer t
   :init (add-hook 'cider-mode-hook #'clj-refactor-mode)
   :diminish subword-mode
@@ -88,7 +100,6 @@
 
 (use-package clj-refactor)
 (use-package clojure-mode
-  :ensure t
   :mode (("\\.clj\\'" . clojure-mode)
          ("\\.edn\\'" . clojure-mode))
   :bind (("M-." . lsp-find-definition))
@@ -100,7 +111,6 @@
 
 (use-package company
   :init (global-company-mode)
-  :ensure t
   :custom
   (company-tooltip-align-annotations t)
   (company-minimum-prefix-length 1)
@@ -128,7 +138,6 @@
 (use-package fancy-narrow)
 (use-package find-file-in-repository)
 (use-package flycheck
-  :ensure t
   :init (global-flycheck-mode))
 
 (use-package flycheck-clj-kondo)
@@ -161,7 +170,6 @@
 (use-package json-mode)
 
 (use-package kaocha-runner
-  :ensure t
   :bind (:map clojure-mode-map
               ("C-c k t" . kaocha-runner-run-test-at-point)
               ("C-c k r" . kaocha-runner-run-tests)
@@ -300,7 +308,6 @@
 
 (use-package projectile
   :diminish projectile
-  :ensure t
   :config
   (projectile-global-mode)
   :bind (("<f6>" . projectile-ag)
@@ -317,13 +324,11 @@
   (projectile-completion-system 'default))
 
 (use-package rainbow-delimiters
-  :ensure t
   :delight
   :config
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 (use-package rainbow-mode
-  :ensure t
   :delight
   :config
   (add-hook 'prog-mode-hook #'rainbow-mode))
@@ -336,7 +341,6 @@
   :init (sml/setup))
 
 (use-package smartparens
-  :ensure t
   :delight
   :config
   (require 'smartparens-config)
@@ -362,11 +366,9 @@
    ("M-B" . sp-backward-symbol)))
 
 (use-package selectrum
-  :ensure t
   :config (selectrum-mode))
 
 (use-package selectrum-prescient
-  :ensure t
   :config (selectrum-prescient-mode))
 
 (use-package time
@@ -385,11 +387,9 @@
 (use-package wordnut)
 (use-package yaml-mode)
 
-(use-package yasnippet-snippets
-  :ensure t)
+(use-package yasnippet-snippets)
 
 (use-package yasnippet
-  :ensure t
   :custom
   (yas-verbosity 2)
   (yas-wrap-around-region t)
@@ -425,14 +425,12 @@
 (transient-mark-mode t)
 
 (use-package dumb-jump
-  :ensure t
   :bind (("M-?" . dumb-jump-go)))
 
 (use-package ibuffer
   :bind (("C-x C-b" . ibuffer)))
 
 (use-package ibuffer-vc
-  :ensure t
   :defer t
   :init (add-hook 'ibuffer-hook
                   (lambda ()
