@@ -342,9 +342,13 @@
 
 (use-package smartparens
   :delight
+  :init
+  (progn
+    (smartparens-global-strict-mode 1)
+    (show-smartparens-global-mode 1))
   :config
-  (require 'smartparens-config)
-  (turn-on-smartparens-strict-mode)
+  (progn
+    (setq smartparens-strict-mode 1))
   :bind
   (("C-M-f" . sp-forward-sexp)
    ("C-M-b" . sp-backward-sexp)
