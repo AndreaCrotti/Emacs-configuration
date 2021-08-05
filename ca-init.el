@@ -443,8 +443,11 @@
 (use-package winner
   :config (winner-mode t))
 
+(use-package wakatime-mode)
+
 (global-set-key (kbd "M-p") 'ca-prev-defun)
 (global-set-key (kbd "M-n") 'ca-next-defun)
+
 
 (defalias 'bb 'bury-buffer)
 (defalias 'dml 'delete-matching-lines)
