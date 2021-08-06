@@ -6,7 +6,7 @@ This configuration uses use-package heavily, configured mostly for Clojure devel
 * Usage
   To try it out:
   - git clone git://github.com/AndreaCrotti/Emacs-configuration.git
-  - git submodule update --init
+  - git submodule update init
   - create an optional *custom.el* file for your own customization (which gets loaded for last)
   - Create or modify your *.emacs* in your $HOME with the following:
     + (setq base "~/Emacs-Configuration/")
