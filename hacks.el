@@ -38,3 +38,15 @@ Turning on wordnut mode runs the normal hook `wordnut-mode-hook'.
   (let ((new-height (+ 1.0 (/ (- 10.0 i) 20.0))))
     (set-face-attribute
      (intern (format "markup-title-%d-face" i)) nil :height new-height)))
+
+(defun 4k-p ()
+  (> (x-display-pixel-width) 7000))
+
+;; use a different font height depending on resolution
+(defun fontify-frame (frame)
+  (interactive)
+  (if window-system
+      (progn
+        (if (4k-p)
+            (set-face-attribute 'default frame :font "Fira Code" :height 150)
+          (set-face-attribute 'default frame :font "Fira Code" :height 120)))))
