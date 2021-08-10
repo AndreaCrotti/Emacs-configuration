@@ -83,7 +83,6 @@
         nrepl-hide-special-buffers t
 
         cider-overlays-use-font-lock t)
-  (cider-repl-toggle-pretty-printing)
   :custom
   (cider-prompt-for-symbol nil)
   (cider-repl-display-help-banner nil)
