@@ -250,6 +250,14 @@
 (use-package magit
   :bind (("\C-xg" . magit-status)))
 
+(use-package marginalia
+  :bind (("M-A" . marginalia-cycle)
+         :map minibuffer-local-map
+         ("M-A". marginalia-cycle))
+
+  :init
+  (marginalia-mode))
+
 (use-package markdown-mode
   :init
   ;; (add-hook 'markdown-mode-hook (lambda () (buffer-face-mode t)))
