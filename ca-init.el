@@ -17,6 +17,8 @@
         ("melpa" . "http://melpa.org/packages/")
         ("gnu" . "http://elpa.gnu.org/packages/")))
 
+(setq use-package-always-ensure t)
+
 (eval-when-compile (require 'cl))
 
 (defun make-relative-path (filename)
@@ -29,9 +31,8 @@
 
 (require 'package)
 (package-initialize)
-;; (package-refresh-contents)
+(package-refresh-contents)
 
-;; (setq use-package-always-ensure t)
 (setq custom-safe-themes t)
 (load-file (make-relative-path "functions.el"))
 (load-file (make-relative-path "misc.el"))
@@ -277,6 +278,8 @@
   (auto-fill-mode 0)
   (visual-line-mode 1))
 
+(require 'ob-clojure)
+
 (use-package org
   :hook (org-mode . ca-org-mode-setup)
   :bind
@@ -291,7 +294,8 @@
         org-hide-block-startup nil
         org-src-preserve-indentation nil
         org-startup-folded 'content
-        org-cycle-separator-lines 2)
+        org-cycle-separator-lines 2
+        org-babel-clojure-backend 'cider)
   :custom
   (org-src-tab-acts-natively t)
   (org-hide-emphasis-markers t)
@@ -362,13 +366,8 @@
 
 (use-package smartparens
   :delight
-  :init
-  (progn
-    (smartparens-global-strict-mode 1)
-    (show-smartparens-global-mode 1))
   :config
-  (progn
-    (setq smartparens-strict-mode 1))
+  (smartparens-global-strict-mode t)
   :bind
   (("C-M-f" . sp-forward-sexp)
    ("C-M-b" . sp-backward-sexp)
@@ -388,6 +387,10 @@
    ("C-M-]" . sp-select-next-thing)
    ("M-F" . sp-forward-symbol)
    ("M-B" . sp-backward-symbol)))
+
+(use-package smartparens-config
+  :ensure smartparens
+  :config (progn (show-smartparens-global-mode t)))
 
 (use-package selectrum
   :config (selectrum-mode))
