@@ -451,6 +451,10 @@
 (global-prettify-symbols-mode t)
 (transient-mark-mode t)
 
+(use-package diredfl
+  :config
+  (diredfl-global-mode))
+
 (use-package dumb-jump
   :bind (("M-?" . dumb-jump-go)))
 
