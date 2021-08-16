@@ -136,7 +136,9 @@
 
 (use-package elein)
 (use-package emmet-mode)
-(use-package expand-region)
+(use-package expand-region
+  :bind ("C-=" . er/expand-region))
+
 (use-package fancy-narrow)
 (use-package find-file-in-repository)
 (use-package flycheck
@@ -468,6 +470,21 @@
                     (ibuffer-vc-set-filter-groups-by-vc-root)
                     (unless (eq ibuffer-sorting-mode 'alphabetic)
                       (ibuffer-do-sort-by-alphabetic)))))
+
+;; this might affect multiple cursors in a weird way,
+;; since you can't just write to replace
+;; (use-package selected
+;;   :commands selected-minor-mode
+;;   :init
+;;   (setq selected-org-mode-map (make-sparse-keymap))
+;;   :bind (:map selected-keymap
+;;               ("q" . selected-off)
+;;               ("u" . upcase-region)
+;;               ("d" . downcase-region)
+;;               ("w" . count-words-region)
+;;               ("m" . apply-macro-to-region-lines)
+;;               :map selected-org-mode-map
+;;               ("t" . org-table-convert-region)))
 
 (use-package winner
   :config (winner-mode t))
