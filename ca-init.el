@@ -196,6 +196,7 @@
          (web-mode . lsp)
          (sh-mode . lsp))
 
+  :bind (("M-?" . lsp-find-definition))
   :config
   ;; add paths to your local installation of project mgmt tools, like lein
   (setenv "PATH" (concat "/usr/local/bin" path-separator (getenv "PATH")))
@@ -456,9 +457,6 @@
 (use-package diredfl
   :config
   (diredfl-global-mode))
-
-(use-package dumb-jump
-  :bind (("M-?" . dumb-jump-go)))
 
 (use-package ibuffer
   :bind (("C-x C-b" . ibuffer)))
