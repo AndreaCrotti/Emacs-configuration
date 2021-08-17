@@ -34,3 +34,10 @@
 
 ;; set a font with something like
 ;; (set-face-attribute 'default nil :font "Fira Code" :height 140)
+
+(set-default-coding-systems 'utf-8)
+
+(server-start)
+
+(setq display-time-format "%l:%M %p %b %y"
+      display-time-default-load-average nil)

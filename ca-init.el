@@ -126,6 +126,7 @@
 (use-package diff-hl
   :config (global-diff-hl-mode))
 
+(use-package diminish)
 (use-package docker)
 (use-package dockerfile-mode)
 (use-package dracula-theme)
@@ -160,6 +161,13 @@
   (gac-debounce-interval 0.5))
 
 (use-package gitconfig)
+(use-package git-gutter
+  :diminish
+  :hook ((text-mode . git-gutter-mode)
+         (prog-mode . git-gutter-mode))
+  :config
+  (setq git-gutter:update-interval 2))
+
 (use-package guru-mode
   :custom
   (guru-warn-only t)
