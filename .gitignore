@@ -9,3 +9,4 @@ conf.el
 /python-mode.el-6.1.3/
 /modules/flycheck_*.el
 custom.el
+/.nrepl-port
