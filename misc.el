@@ -30,5 +30,7 @@
 
 (set-fringe-mode 10)
 
+(global-unset-key (kbd "C-z"))
+
 ;; set a font with something like
 ;; (set-face-attribute 'default nil :font "Fira Code" :height 140)
