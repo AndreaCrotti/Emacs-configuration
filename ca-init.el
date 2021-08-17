@@ -102,7 +102,6 @@
 (use-package clojure-mode
   :mode (("\\.clj\\'" . clojure-mode)
          ("\\.edn\\'" . clojure-mode))
-  :bind (("M-." . lsp-find-definition))
   :init
   (add-hook 'clojure-mode-hook #'subword-mode)
   (add-to-list 'auto-mode-alist '("\\.bb" . clojure-mode)))
@@ -122,6 +121,7 @@
 (use-package company-dict)
 (use-package company-restclient)
 (use-package company-shell)
+(use-package csharp-mode)
 (use-package csv-mode)
 (use-package diff-hl
   :config (global-diff-hl-mode))
@@ -221,6 +221,8 @@
   (lsp-headerline-breadcrumb-enable t)
   (lsp-idle-delay .01)
   (lsp-keymap-prefix nil))
+
+(use-package lsp-java)
 
 (use-package lsp-ui
   :disabled t
