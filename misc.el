@@ -41,3 +41,6 @@
 
 (setq display-time-format "%l:%M %p %b %y"
       display-time-default-load-average nil)
+
+;; useful for lsp and other external processes
+(setq read-process-output-max (* 1024 1024))
