@@ -205,7 +205,8 @@
          (sh-mode . lsp))
 
   :bind (("M-?" . lsp-find-definition)
-         ("M-/" . lsp-find-references))
+         ("M-/" . lsp-find-references)
+         ("M-'" . lsp-treemacs-call-hierarchy))
   :config
   ;; add paths to your local installation of project mgmt tools, like lein
   (setenv "PATH" (concat "/usr/local/bin" path-separator (getenv "PATH")))
