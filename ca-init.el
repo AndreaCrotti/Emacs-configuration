@@ -356,7 +356,7 @@
   :config
   (persistent-scratch-autosave-mode))
 
-(use-package postframe)
+(use-package posframe)
 
 (use-package powerline
   :custom
