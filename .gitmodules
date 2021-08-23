@@ -1,3 +1,6 @@
 [submodule "use-package"]
 	path = use-package
 	url = git@github.com:jwiegley/use-package.git
+[submodule "ligature.el"]
+	path = ligature.el
+	url = git@github.com:mickeynp/ligature.el.git
