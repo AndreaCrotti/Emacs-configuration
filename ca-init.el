@@ -349,7 +349,8 @@
          ("C-c n c" . org-roam.capture)
          ("C-c n j" . org-roam-dailies-capture-today))
   :config
-  (org-roam-setup))
+  (org-roam-setup)
+  (require 'org-roam-protocol))
 
 (use-package paradox)
 (use-package persistent-scratch
