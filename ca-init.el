@@ -475,6 +475,8 @@
 (use-package paren
   :init (show-paren-mode))
 
+(use-package vega-view)
+
 (use-package which-func
   :init (which-function-mode))
 
