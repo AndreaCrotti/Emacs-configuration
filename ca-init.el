@@ -159,6 +159,7 @@
   (add-hook 'text-mode-hook 'flyspell-mode)
   (add-hook 'prog-mode-hook 'flyspell-prog-mode))
 
+(use-package graphviz-dot-mode)
 (use-package gist)
 (use-package git-commit)
 (use-package git-auto-commit-mode
@@ -327,6 +328,10 @@
         org-startup-folded 'content
         org-cycle-separator-lines 2
         org-babel-clojure-backend 'cider)
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((dot . t)
+     (calc . t)))
   :custom
   (org-src-tab-acts-natively t)
   (org-hide-emphasis-markers t)
