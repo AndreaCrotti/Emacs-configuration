@@ -331,7 +331,8 @@
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((dot . t)
-     (calc . t)))
+     (calc . t)
+     (plantuml . t)))
   :custom
   (org-src-tab-acts-natively t)
   (org-hide-emphasis-markers t)
@@ -355,12 +356,14 @@
          ("C-c n j" . org-roam-dailies-capture-today))
   :config
   (org-roam-setup)
-  (require 'org-roam-protocol))
-
+  (require 'org-roam-protocol)
+)
 (use-package paradox)
 (use-package persistent-scratch
   :config
   (persistent-scratch-autosave-mode))
+
+(use-package plantuml-mode)
 
 (use-package posframe)
 
