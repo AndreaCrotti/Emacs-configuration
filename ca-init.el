@@ -336,7 +336,8 @@
   :custom
   (org-src-tab-acts-natively t)
   (org-hide-emphasis-markers t)
-  (org-agenda-files (list (file-truename "~/RoamNotes/"))))
+  (org-agenda-files (list (file-truename "~/RoamNotes/")
+                          (file-truename "~/RoamNotes/daily/"))))
 
 (use-package org-bullets
   :after org
