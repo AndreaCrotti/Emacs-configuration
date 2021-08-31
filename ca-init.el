@@ -256,6 +256,8 @@
   (setq lsp-ui-doc-position 'bottom)
   (lsp-ui-doc-show))
 
+(use-package rfc-mode)
+
 (use-package restclient
   :init
   (add-to-list 'auto-mode-alist '("\\.rest" . restclient-mode))
