@@ -212,7 +212,7 @@
          (sh-mode . lsp))
 
   :bind (("M-?" . lsp-find-definition)
-         ("M-/" . lsp-find-references)
+         ;; ("M-/" . lsp-find-references)
          ("M-'" . lsp-treemacs-call-hierarchy))
   :config
   (setq gc-cons-threshold 100000000)
