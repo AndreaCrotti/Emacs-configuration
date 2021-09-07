@@ -140,6 +140,13 @@
   :diminish eldoc-mode
   :config (global-eldoc-mode))
 
+
+(use-package ediff
+  :custom
+  (ediff-diff-options "-w")
+  (ediff-split-window-function (quote split-window-vertically))
+  (ediff-window-setup-function (quote ediff-setup-windows-plain)))
+
 (use-package elein)
 (use-package emmet-mode)
 (use-package expand-region
