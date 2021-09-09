@@ -41,6 +41,8 @@
 (setq use-package-verbose t)
 (setq use-package-always-unsure t)
 
+(use-package async)
+
 (use-package auto-package-update
   :config
   (setq auto-package-update-delete-old-versions t)
@@ -262,6 +264,10 @@
   (setq lsp-ui-sideline-show-hover nil)
   (setq lsp-ui-doc-position 'bottom)
   (lsp-ui-doc-show))
+
+(use-package eredis)
+(use-package redis)
+(use-package tldr)
 
 (use-package rfc-mode)
 
