@@ -318,6 +318,7 @@
 
 (use-package nix-mode)
 (use-package ox-reveal)
+(use-package ox-asciidoc)
 
 (defun ca-org-mode-setup ()
   (org-indent-mode)
