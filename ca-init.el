@@ -477,8 +477,6 @@
 (use-package wordnut)
 (use-package yaml-mode)
 
-(use-package yasnippet-snippets)
-
 (use-package yasnippet
   :custom
   (yas-verbosity 2)
@@ -487,6 +485,9 @@
   :config
   (yas-reload-all)
   (yas-global-mode))
+
+(use-package yasnippet-snippets
+  :after yasnippet)
 
 (setq dired-auto-revert-buffer 1)
 (setq dired-isearch-filenames 'dwim)
