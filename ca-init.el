@@ -524,6 +524,27 @@
 (use-package ibuffer
   :bind (("C-x C-b" . ibuffer)))
 
+(use-package darkroom
+  :commands darkroom-mode
+  :config
+  (setq darkroom-text-scale-increase 1))
+
+(defun ac/enter-focus-mode ()
+  (interactive)
+  (darkroom-mode 1)
+  (display-line-numbers-mode 0))
+
+(defun ac/leave-focus-mode ()
+  (interactive)
+  (darkroom-mode 0)
+  (display-line-numbers-mode 1))
+
+(defun ac/toggle-focus-mode ()
+  (interactive)
+  (if (symbol-value darkroom-mode)
+      (ac/leave-focus-mode)
+    (ac/enter-focus-mode)))
+
 (use-package ibuffer-vc
   :defer t
   :init (add-hook 'ibuffer-hook
