@@ -68,6 +68,7 @@
   :custom
   (beacon-blink-duration 0.5))
 
+(use-package browse-at-remote)
 (use-package browse-kill-ring
   :config
   (browse-kill-ring-default-keybindings))
@@ -170,6 +171,9 @@
 
 (use-package graphviz-dot-mode)
 (use-package gist)
+(use-package gitlab)
+(use-package gitlab-ci-mode)
+(use-package gitlab-ci-mode-flycheck)
 (use-package git-commit)
 (use-package git-auto-commit-mode
   :custom
