@@ -572,6 +572,8 @@
 ;;               :map selected-org-mode-map
 ;;               ("t" . org-table-convert-region)))
 
+(use-package typescript-mode)
+
 (use-package winner
   :config (winner-mode t))
 
