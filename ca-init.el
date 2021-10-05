@@ -248,7 +248,7 @@
   ;; turn this on to capture client/server comms before
   ;; submitting bug reports with `lsp-workspace-show-log`
   ;; (lsp-log-io t)
-  ;; (lsp-lens-enable t)
+  (lsp-lens-enable nil) ; lovely feature but too slow
   (lsp-eldoc-enable-hover t)
   (lsp-enable-indentation nil)
   (lsp-enable-folding t)
