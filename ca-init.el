@@ -425,11 +425,11 @@
   :interpreter
   ("scala" . scala-mode))
 
-(use-package smart-mode-line-powerline-theme)
-(use-package smart-mode-line
-  :custom
-  (sml/theme 'powerline)
-  :init (sml/setup))
+;; (use-package smart-mode-line-powerline-theme)
+;; (use-package smart-mode-line
+;;   :custom
+;;   (sml/theme 'powerline)
+;;   :init (sml/setup))
 
 (use-package smartparens
   :delight
@@ -500,8 +500,8 @@
 (use-package time
   :init (display-time-mode))
 
-(use-package linum
-  :init (global-linum-mode))
+;; (use-package linum
+;;   :init (global-linum-mode))
 
 (use-package paren
   :init (show-paren-mode))
