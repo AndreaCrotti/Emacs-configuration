@@ -500,9 +500,6 @@
 (use-package time
   :init (display-time-mode))
 
-;; (use-package linum
-;;   :init (global-linum-mode))
-
 (use-package paren
   :init (show-paren-mode))
 
