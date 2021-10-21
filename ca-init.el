@@ -64,6 +64,10 @@
   (setq auto-revert-interval 1)
   (global-auto-revert-mode))
 
+(use-package log4j-mode
+  :config
+  (add-hook 'log4j-mode-hook #'auto-revert-tail-mode))
+
 (use-package beacon
   :custom
   (beacon-blink-duration 0.5))
