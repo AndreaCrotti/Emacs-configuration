@@ -529,11 +529,6 @@
 (use-package ibuffer
   :bind (("C-x C-b" . ibuffer)))
 
-(use-package darkroom
-  :commands darkroom-mode
-  :config
-  (setq darkroom-text-scale-increase 1))
-
 (defun ac/enter-focus-mode ()
   (interactive)
   (darkroom-mode 1)
