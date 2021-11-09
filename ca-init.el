@@ -376,6 +376,7 @@
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
          ("C-c n i" . org-roam-node-insert)
+         ("C-c n d" . org-roam-dailies-goto-today)
          ("C-c n g" . org-roam-graph)
          ("C-c n c" . org-roam.capture)
          ("C-c n j" . org-roam-dailies-capture-today))
