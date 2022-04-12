@@ -155,6 +155,10 @@
   (ediff-window-setup-function (quote ediff-setup-windows-plain)))
 
 (use-package elein)
+(use-package ejc-sql
+  :custom
+  (clomacs-httpd-default-port 8090))
+
 (use-package emmet-mode)
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
@@ -317,7 +321,10 @@
 (use-package markdown-mode
   :init
   ;; (add-hook 'markdown-mode-hook (lambda () (buffer-face-mode t)))
-  (add-to-list 'auto-mode-alist '("\\.md" . markdown-mode)))
+  (add-to-list 'auto-mode-alist '("\\.md" . markdown-mode))
+  :bind
+  ("M-<left>" . markdown-promote)
+  ("M-<right>" . markdown-demote))
 
 (use-package multiple-cursors
   :bind ("C->" . mc/mark-next-like-this)
