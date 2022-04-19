@@ -2,6 +2,12 @@
 
 (setq gc-cons-threshold (* 50 1000 1000))
 
+;; emacs 28 native compilation settings
+(setq native-comp-deferred-compilation t
+      native-comp-async-query-on-exit t
+      native-comp-async-jobs-number 4
+      native-comp-async-report-warnings-errors nil)
+
 ;; Profile emacs startup
 (add-hook 'emacs-startup-hook
           (lambda ()
