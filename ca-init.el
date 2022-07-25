@@ -186,6 +186,7 @@
   (add-hook 'prog-mode-hook 'flyspell-prog-mode))
 
 (use-package graphviz-dot-mode)
+(use-package graphql-mode)
 (use-package gist)
 (use-package gitlab)
 (use-package gitlab-ci-mode)
@@ -241,22 +242,23 @@ _tf_: Thread first all         _il_: Introduce let             _am_: Add missing
 _tt_: Thread last              _ml_: Move to let
 _tl_: Thread last all          _ef_: Extract function
 _ua_: Unwind all               _rn_: Rename
-_uw_: Unwind thread
+_uw_: Unwind thread            _mf_: Move formattedtextfield
 "
 
-  ("cp" lsp-clojure-cycle-privacy)
-  ("cn" lsp-clojure-clean-ns)
-  ("cc" lsp-clojure-cycle-coll)
   ("am" lsp-clojure-add-missing-libspec)
+  ("cc" lsp-clojure-cycle-coll)
+  ("cn" lsp-clojure-clean-ns)
+  ("cp" lsp-clojure-cycle-privacy)
+  ("ef" lsp-clojure-extract-function)
   ("el" lsp-clojure-expand-let)
   ("il" lsp-clojure-introduce-let)
-  ("ef" lsp-clojure-extract-function)
+  ("mf" lsp-clojure-move-form)
   ("ml" lsp-clojure-move-to-let)
-  ("th" lsp-clojure-thread-first)
   ("rn" lsp-rename)
   ("tf" lsp-clojure-thread-first-all)
-  ("tt" lsp-clojure-thread-last)
+  ("th" lsp-clojure-thread-first)
   ("tl" lsp-clojure-thread-last-all)
+  ("tt" lsp-clojure-thread-last)
   ("ua" lsp-clojure-unwind-all)
   ("uw" lsp-clojure-unwind-thread))
 
@@ -293,6 +295,7 @@ _uw_: Unwind thread
   ;; submitting bug reports with `lsp-workspace-show-log`
   ;; (lsp-log-io t)
   (lsp-lens-enable t)
+  (lsp-signature t)
   (lsp-eldoc-enable-hover t)
   (lsp-enable-indentation nil)
   (lsp-enable-folding t)
