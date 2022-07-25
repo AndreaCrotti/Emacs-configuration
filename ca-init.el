@@ -128,7 +128,7 @@
   :custom
   (company-tooltip-align-annotations t)
   (company-minimum-prefix-length 1)
-  (company-idle-delay 0.3)
+  (company-idle-delay 0.1)
   (company-show-numbers t))
 
 (use-package command-log-mode)
