@@ -4,6 +4,7 @@
       kept-new-versions 6
       kept-old-versions 2
       version-control t
+      undo-tree-history-directory-alist '(("." . "~/.undo-tree"))
       vc-make-backup-files t)       ; use versioned backups
 
 (setq initial-major-mode 'emacs-lisp-mode
