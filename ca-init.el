@@ -78,6 +78,8 @@
   :custom
   (beacon-blink-duration 0.5))
 
+(use-package bf-mode)
+
 (use-package browse-at-remote)
 (use-package browse-kill-ring
   :config
