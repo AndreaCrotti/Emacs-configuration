@@ -86,13 +86,13 @@
         ("C-x t M-t" . treemacs-find-tag)))
 
 (use-package treemacs-projectile
-  :after (treemacs projectile)
+  :after (treemacs projectile))
 
 (use-package treemacs-icons-dired
-  :hook (dired-mode . treemacs-icons-dired-enable-once)
+  :hook (dired-mode . treemacs-icons-dired-enable-once))
 
 (use-package treemacs-magit
-  :after (treemacs magit)
+  :after (treemacs magit))
 
 
 (use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
