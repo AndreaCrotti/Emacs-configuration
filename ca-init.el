@@ -60,7 +60,8 @@
   :init
   (add-to-list 'auto-mode-alist (cons "\\.adoc\\'" 'adoc-mode))
   (add-to-list 'auto-mode-alist (cons "\\.txt\\'" 'adoc-mode))
-  ;; (add-hook 'adoc-mode-hook (lambda () (buffer-face-mode t)))
+  :config
+  (setq outline-regexp "[=]+")
   )
 
 (use-package ag)
@@ -450,7 +451,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :diminish projectile
   :config
   (projectile-global-mode)
-  :bind (("<f6>" . projectile-ag)
+  :bind (("<f6>" . projectile-rigrep)
          ("C-<f6>" . projectile-replace)
          ("<f7>" . projectile-find-file)
          ("<f8>" . projectile-run-shell)
@@ -623,6 +624,16 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :config (winner-mode t))
 
 (use-package wakatime-mode)
+
+(use-package all-the-icons)
+(use-package treemacs)
+(use-package treemacs-all-the-icons)
+
+(add-hook 'dired-mode-hook 'treemacs-icons-dired-mode)
+
+(use-package ripgrep
+  :config
+  (setq ripgrep-arguments '("--max-columns 150" "--max-columns-preview")))
 
 (use-package indium)
 
