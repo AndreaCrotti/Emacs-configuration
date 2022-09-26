@@ -451,7 +451,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :diminish projectile
   :config
   (projectile-global-mode)
-  :bind (("<f6>" . projectile-rigrep)
+  :bind (("<f6>" . projectile-ripgrep)
          ("C-<f6>" . projectile-replace)
          ("<f7>" . projectile-find-file)
          ("<f8>" . projectile-run-shell)
