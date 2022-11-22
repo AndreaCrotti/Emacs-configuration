@@ -36,8 +36,6 @@
   (require 'use-package))
 
 (require 'package)
-(package-initialize)
-(package-refresh-contents)
 
 (setq custom-safe-themes t)
 (load-file (make-relative-path "functions.el"))
