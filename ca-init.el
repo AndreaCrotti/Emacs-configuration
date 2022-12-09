@@ -477,6 +477,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :interpreter
   ("scala" . scala-mode))
 
+(use-package smart-mode-line)
 ;; (use-package smart-mode-line-powerline-theme)
 ;; (use-package smart-mode-line
 ;;   :custom
