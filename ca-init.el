@@ -123,6 +123,7 @@
   (add-to-list 'auto-mode-alist '("\\.bb" . clojure-mode)))
 
 (use-package clojure-mode-extra-font-locking)
+(use-package jet)
 
 (use-package company
   :init (global-company-mode)
