@@ -431,7 +431,23 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :config
   (org-roam-setup)
   (require 'org-roam-protocol)
-)
+  )
+
+(use-package websocket
+  :after org-roam)
+
+(use-package org-roam-ui
+    :after org-roam ;; or :after org
+;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+;;         a hookable mode anymore, you're advised to pick something yourself
+;;         if you don't care about startup time, use
+;;  :hook (after-init . org-roam-ui-mode)
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t))
+
 (use-package paradox)
 (use-package persistent-scratch
   :config
@@ -628,6 +644,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package all-the-icons)
 (use-package treemacs)
 (use-package treemacs-all-the-icons)
+(use-package treemacs-projectile)
 
 (add-hook 'dired-mode-hook 'treemacs-icons-dired-mode)
 
