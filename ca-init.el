@@ -310,7 +310,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package lsp-metals)
 
 (use-package lsp-ui
-  :disabled t
   :config
   (add-hook 'lsp-mode-hook 'lsp-ui-mode)
   (setq lsp-ui-sideline-enable t)
@@ -661,3 +660,21 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (when (file-exists-p (make-relative-path f))
     (message "loading extra file" f)
     (load-file (make-relative-path f))))
+
+;; Enable the www ligature in every possible major mode
+(use-package ligature)
+(ligature-set-ligatures 't '("www"))
+
+;; Enable ligatures in programming modes
+(ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
+                                     ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
+                                     "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
+                                     "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
+                                     "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
+                                     "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
+                                     "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
+                                     "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
+                                     "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
+                                     "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+
+(global-ligature-mode 't)
