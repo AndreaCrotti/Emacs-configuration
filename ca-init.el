@@ -295,13 +295,13 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :custom
   ;; turn this on to capture client/server comms before
   ;; submitting bug reports with `lsp-workspace-show-log`
-  ;; (lsp-log-io t)
+  (lsp-log-io t)
   (lsp-lens-enable t)
   (lsp-signature t)
   (lsp-eldoc-enable-hover t)
-  (lsp-enable-indentation nil)
+  (lsp-enable-indentation t)
   (lsp-enable-folding t)
-  (lsp-headerline-breadcrumb-enable t)
+  (lsp-headerline-breadcrumb-enable nil)
   (lsp-idle-delay .01)
   (lsp-keymap-prefix nil))
 
