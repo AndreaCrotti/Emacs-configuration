@@ -350,6 +350,9 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package magit
   :bind (("\C-xg" . magit-status)))
 
+(use-package magit-delta
+  :hook (magit-mode . magit-delta-mode))
+
 (use-package marginalia
   :bind (("M-A" . marginalia-cycle)
          :map minibuffer-local-map
@@ -673,7 +676,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package sudo-edit
   :bind
-  (("C-c C-r" . sudo-edit)))
+  (("C-x C-r" . sudo-edit)))
 
 (global-set-key (kbd "M-p") 'ca-prev-defun)
 (global-set-key (kbd "M-n") 'ca-next-defun)
