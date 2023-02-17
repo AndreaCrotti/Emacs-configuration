@@ -678,6 +678,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :bind
   (("C-x C-r" . sudo-edit)))
 
+(use-package fish-mode)
+
 (global-set-key (kbd "M-p") 'ca-prev-defun)
 (global-set-key (kbd "M-n") 'ca-next-defun)
 
