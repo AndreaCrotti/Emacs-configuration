@@ -351,7 +351,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :bind (("\C-xg" . magit-status)))
 
 (use-package magit-delta
-  :hook (magit-mode . magit-delta-mode))
+  ;; :hook (magit-mode . magit-delta-mode)
+  )
 
 (use-package marginalia
   :bind (("M-A" . marginalia-cycle)
@@ -645,9 +646,10 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package all-the-icons)
 (use-package treemacs
+  :after (projectile)
   :config
-  (add-hook 'find-file-hook 'treemacs-add-and-display-current-project-exclusively)
-  (treemacs))
+  (add-hook 'projectile-find-file-hook
+            'treemacs-display-current-project-exclusively))
 
 (use-package treemacs-projectile
   :after (treemacs projectile))
