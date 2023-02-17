@@ -646,7 +646,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package all-the-icons)
 (use-package treemacs
   :config
-  (add-hook 'find-file-hook 'treemacs-display-current-project-exclusively)
+  (add-hook 'find-file-hook 'treemacs-add-and-display-current-project-exclusively)
   (treemacs))
 
 (use-package treemacs-projectile
