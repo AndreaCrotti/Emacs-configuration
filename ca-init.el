@@ -455,6 +455,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start t))
 
+(use-package org-msg)
+
 (use-package paradox)
 (use-package persistent-scratch
   :config
@@ -668,15 +670,12 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (treemacs-git-commit-diff-mode t)
 
   :config
-  (add-hook 'find-file-hook 'treemacs-enable-and-show)
-  )
+  (add-hook 'find-file-hook 'treemacs-enable-and-show))
 
 (use-package treemacs-projectile
   :after (treemacs projectile))
 
 (use-package treemacs-all-the-icons)
-
-(add-hook 'dired-mode-hook 'treemacs-icons-dired-mode)
 
 (use-package ripgrep
   :config
