@@ -45,6 +45,10 @@
 (setq use-package-verbose t)
 (setq use-package-always-unsure t)
 
+(use-package use-package-hydra)
+(use-package major-mode-hydra)
+(use-package pretty-hydra)
+
 (use-package async)
 
 (use-package auto-package-update
@@ -645,17 +649,32 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package wakatime-mode)
 
 (use-package all-the-icons)
+
+(defun treemacs-enable-and-show ()
+  (when (equal 'none (treemacs-current-visibility))
+    (treemacs--init))
+
+  (with-current-buffer (find-buffer-visiting buffer-file-name)
+    (treemacs-display-current-project-exclusively)) )
+
 (use-package treemacs
   :after (projectile)
-  :config
-  (add-hook 'projectile-find-file-hook
-            'treemacs-display-current-project-exclusively))
+  :custom
+  (treemacs-tag-follow-mode t)
+  (treemacs-follow-mode t)
+  (treemacs-filewatch-mode t)
+  (treemacs-git-mode t)
+  (treemacs-indent-guide-mode t)
+  (treemacs-git-commit-diff-mode t)
+
+  ;; :config
+  ;; (add-hook 'find-file-hook 'treemacs-enable-and-show)
+  )
 
 (use-package treemacs-projectile
   :after (treemacs projectile))
 
 (use-package treemacs-all-the-icons)
-(use-package treemacs-projectile)
 
 (add-hook 'dired-mode-hook 'treemacs-icons-dired-mode)
 
