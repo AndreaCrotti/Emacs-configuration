@@ -667,8 +667,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (treemacs-indent-guide-mode t)
   (treemacs-git-commit-diff-mode t)
 
-  ;; :config
-  ;; (add-hook 'find-file-hook 'treemacs-enable-and-show)
+  :config
+  (add-hook 'find-file-hook 'treemacs-enable-and-show)
   )
 
 (use-package treemacs-projectile
