@@ -116,6 +116,11 @@
   (nrepl-log-messages t)
   (cider-auto-test-mode t))
 
+(use-package cider-hydra
+  :after cider
+  :config
+  (add-hook 'clojure-mode-hook #'cider-hydra-mode))
+
 (use-package clj-refactor)
 (use-package clojure-mode
   :mode (("\\.clj\\'" . clojure-mode)
@@ -714,3 +719,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (when (file-exists-p (make-relative-path f))
     (message "loading extra file" f)
     (load-file (make-relative-path f))))
+
+(defhydra hydra-zoom (global-map "C-<f2>")
+  "zoom"
+  ("g" text-scale-increase "in")
+  ("l" text-scale-decrease "out"))
