@@ -147,6 +147,12 @@
 (use-package company-dict)
 (use-package company-restclient)
 (use-package company-shell)
+(use-package company-math)
+(use-package merlin)
+(use-package ess)
+(use-package company-terraform)
+(use-package company-web)
+
 (use-package csharp-mode)
 (use-package csv-mode)
 (use-package dap-mode
