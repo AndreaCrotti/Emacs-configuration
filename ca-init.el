@@ -290,6 +290,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :bind (("M-?" . lsp-find-definition)
          ;; ("M-/" . lsp-find-references)
          ("M-'" . lsp-treemacs-call-hierarchy))
+
   :config
   (setq gc-cons-threshold 100000000)
   (setq read-process-output-max (* 1024 1024))
@@ -639,21 +640,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
                     (unless (eq ibuffer-sorting-mode 'alphabetic)
                       (ibuffer-do-sort-by-alphabetic)))))
 
-;; this might affect multiple cursors in a weird way,
-;; since you can't just write to replace
-;; (use-package selected
-;;   :commands selected-minor-mode
-;;   :init
-;;   (setq selected-org-mode-map (make-sparse-keymap))
-;;   :bind (:map selected-keymap
-;;               ("q" . selected-off)
-;;               ("u" . upcase-region)
-;;               ("d" . downcase-region)
-;;               ("w" . count-words-region)
-;;               ("m" . apply-macro-to-region-lines)
-;;               :map selected-org-mode-map
-;;               ("t" . org-table-convert-region)))
-
 (use-package typescript-mode)
 
 (use-package winner
@@ -664,11 +650,14 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package all-the-icons)
 
 (defun treemacs-enable-and-show ()
-  (when (equal 'none (treemacs-current-visibility))
-    (treemacs--init))
+  (when (and buffer-file-name
+             ;; hack since RoamNotes capture buffers get weird
+             (not (string-match-p "RoamNotes" buffer-file-name)))
+    (when (equal 'none (treemacs-current-visibility))
+      (treemacs--init))
 
-  (with-current-buffer (find-buffer-visiting buffer-file-name)
-    (treemacs-display-current-project-exclusively)) )
+    (with-current-buffer (find-buffer-visiting buffer-file-name)
+      (treemacs-display-current-project-exclusively))))
 
 (use-package treemacs
   :after (projectile)
