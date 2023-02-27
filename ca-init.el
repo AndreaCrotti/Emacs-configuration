@@ -1,3 +1,4 @@
+
 ;; performance changes
 
 (setq gc-cons-threshold (* 50 1000 1000))
@@ -706,6 +707,15 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (("C-x C-r" . sudo-edit)))
 
 (use-package fish-mode)
+
+(use-package hideshow
+  :hook ((prog-mode . hs-minor-mode))
+  :bind
+  (("C-<tab>" . hs-toggle-hiding)))
+
+(use-package shell
+  :init
+  (dirtrack-mode))
 
 (global-set-key (kbd "M-p") 'ca-prev-defun)
 (global-set-key (kbd "M-n") 'ca-next-defun)
