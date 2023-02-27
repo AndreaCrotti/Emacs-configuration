@@ -717,6 +717,15 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :init
   (dirtrack-mode))
 
+(use-package zoom
+  :init
+  (setq zoom-mode t
+        zoom-size '(0.618 . 0.618)))
+
+(use-package hungry-delete
+  :init
+  (global-hungry-delete-mode t))
+
 (global-set-key (kbd "M-p") 'ca-prev-defun)
 (global-set-key (kbd "M-n") 'ca-next-defun)
 
