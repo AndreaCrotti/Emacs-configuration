@@ -404,7 +404,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   ("M-<right>" . markdown-demote))
 
 (use-package multiple-cursors
-  :bind ("C->" . mc/mark-next-like-this)
+  :bind
+  ("C->" . mc/mark-next-like-this)
   ("C-<" . mc/mark-previous-like-this)
   ("C-c C-<" . mc/mark-all-like-this))
 
@@ -466,8 +467,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
          ("C-c n j" . org-roam-dailies-capture-today))
   :config
   (org-roam-setup)
-  (require 'org-roam-protocol)
-  )
+  (require 'org-roam-protocol))
 
 (use-package websocket
   :after org-roam)
@@ -737,6 +737,9 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :init
   (setq zoom-mode t
         zoom-size '(0.618 . 0.618)))
+
+(use-package terraform-mode)
+(use-package terraform-doc)
 
 (use-package hungry-delete
   :init
