@@ -380,6 +380,9 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package magit
   :bind (("\C-xg" . magit-status)))
 
+(use-package forge
+  :after magit)
+
 (use-package magit-delta
   ;; :hook (magit-mode . magit-delta-mode)
   )
