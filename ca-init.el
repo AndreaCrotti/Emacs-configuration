@@ -501,6 +501,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (powerline-default-separator-dir '(right . left)))
 
 (use-package projectile
+  :after magit
   :diminish projectile
   :config
   (projectile-global-mode)
@@ -515,7 +516,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
          ("s-f" . projectile-find-file)
          ("s-a" . projectile-ag))
   :custom
-  (projectile-completion-system 'default))
+  (projectile-completion-system 'default)
+  (projectile-switch-project-action 'magit-status))
 
 (use-package rainbow-delimiters
   :delight
