@@ -130,6 +130,8 @@
   (nrepl-log-messages t)
   (cider-auto-test-mode t))
 
+(use-package neil)
+
 (use-package cider-hydra
   :after cider
   :config
@@ -746,6 +748,12 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package hungry-delete
   :init
   (global-hungry-delete-mode t))
+
+(use-package flycheck-grammarly
+  :after flycheck
+  :hook ((flycheck-mode  . flycheck-grammarly-setup))
+  :custom
+  (flycheck-grammarly-check-time 0.8))
 
 (global-set-key (kbd "M-p") 'ca-prev-defun)
 (global-set-key (kbd "M-n") 'ca-next-defun)
