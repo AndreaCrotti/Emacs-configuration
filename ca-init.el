@@ -130,11 +130,14 @@
   (nrepl-log-messages t)
   (cider-auto-test-mode t))
 
-(use-package neil)
+(use-package neil
+  :custom
+  (neil-inject-dep-to-project-p t))
 
 (use-package cider-hydra
   :after cider
   :config
+
   (add-hook 'clojure-mode-hook #'cider-hydra-mode))
 
 (use-package clj-refactor)
