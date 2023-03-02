@@ -522,7 +522,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
          ("s-a" . projectile-ag))
   :custom
   (projectile-completion-system 'default)
-  (projectile-switch-project-action 'magit-status))
+  (projectile-switch-project-action 'projectile-find-file))
 
 (use-package rainbow-delimiters
   :delight
@@ -757,6 +757,16 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :hook ((flycheck-mode  . flycheck-grammarly-setup))
   :custom
   (flycheck-grammarly-check-time 0.8))
+
+(use-package tide)
+
+(use-package tern)
+
+(use-package sly)
+
+(use-package nyan-mode
+  :config
+  (nyan-mode t))
 
 (global-set-key (kbd "M-p") 'ca-prev-defun)
 (global-set-key (kbd "M-n") 'ca-next-defun)
