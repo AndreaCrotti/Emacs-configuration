@@ -18,7 +18,6 @@
                               (time-subtract after-init-time before-init-time)))
                      gcs-done)))
 
-
 (setq package-archives
       '(("org" . "https://orgmode.org/elpa/")
         ("melpa" . "http://melpa.org/packages/")
@@ -303,6 +302,9 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
          (clojurec-mode . lsp)
          (clojurescript-mode . lsp)
          (scala-mode . lsp)
+         (terraform-mode . lsp)
+         (yaml-mode . lsp)
+         (json-mode . lsp)
          (web-mode . lsp)
          (sh-mode . lsp))
 
@@ -415,6 +417,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   ("C-c C-<" . mc/mark-all-like-this))
 
 (use-package nix-mode)
+(use-package guix)
+
 (use-package ox-reveal)
 (use-package ox-asciidoc)
 
