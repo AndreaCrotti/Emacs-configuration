@@ -262,8 +262,10 @@
 
 (use-package know-your-http-well)
 (use-package kotlin-mode)
-(use-package imenu
-  :bind (("<f5>" . imenu)))
+(use-package imenu)
+
+(use-package imenu-anywhere
+  :bind (("<f5>" . imenu-anywhere)))
 
 (use-package less-css-mode)
 (use-package log4j-mode)
@@ -579,11 +581,31 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :ensure smartparens
   :config (progn (show-smartparens-global-mode t)))
 
-(use-package selectrum
-  :config (selectrum-mode))
+(use-package vertico
+  :init
+  (vertico-mode)
 
-(use-package selectrum-prescient
-  :config (selectrum-prescient-mode))
+  ;; Different scroll margin
+  ;; (setq vertico-scroll-margin 0)
+
+  ;; Show more candidates
+  ;; (setq vertico-count 20)
+
+  ;; Grow and shrink the Vertico minibuffer
+  ;; (setq vertico-resize t)
+
+  ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
+  ;; (setq vertico-cycle t)
+  )
+
+(use-package vertico-prescient
+  :init
+  (vertico-prescient-mode))
+
+(use-package marginalia
+  :ensure t
+  :config
+  (marginalia-mode))
 
 (use-package time
   :custom
@@ -625,8 +647,9 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package vega-view)
 
-(use-package which-func
-  :init (which-function-mode))
+;;enable again when the issue currently happening is fixed
+;; (use-package which-func
+;;   :init (which-function-mode nil))
 
 (use-package which-key
   :init (which-key-mode))
