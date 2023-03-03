@@ -306,7 +306,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
          (yaml-mode . lsp)
          (json-mode . lsp)
          (web-mode . lsp)
-         (sh-mode . lsp))
+         (sh-mode . lsp)
+         (python-mode . lsp))
 
   :bind (("M-?" . lsp-find-definition)
          ;; ("M-/" . lsp-find-references)
@@ -690,7 +691,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package treemacs
   :after (projectile)
   :custom
-  (treemacs-tag-follow-mode t)
+  (treemacs-tag-follow-mode nil)
   (treemacs-follow-mode t)
   (treemacs-filewatch-mode t)
   (treemacs-git-mode nil)
