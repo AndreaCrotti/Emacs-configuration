@@ -305,6 +305,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
          (clojurescript-mode . lsp)
          (java-mode . lsp)
          (json-mode . lsp)
+         (elixir-mode . lsp)
+         (elm-mode . lsp)
          (kotlin-mode . lsp)
          (markdown-mode . lsp)
          (python-mode . lsp)
@@ -312,7 +314,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
          (sh-mode . lsp)
          (terraform-mode . lsp)
          (web-mode . lsp)
-         (yaml-mode . lsp))
+         (yaml-mode . lsp)
+         (xml-mode . lsp))
 
   :bind (("M-?" . lsp-find-definition)
          ;; ("M-/" . lsp-find-references)
