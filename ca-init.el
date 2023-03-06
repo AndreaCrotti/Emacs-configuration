@@ -431,6 +431,9 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (auto-fill-mode 0)
   (visual-line-mode 1))
 
+(use-package ob-clojurescript)
+(use-package ob-rust)
+
 (require 'ob-clojure)
 
 (use-package org
@@ -453,6 +456,10 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
    'org-babel-load-languages
    '((dot . t)
      (calc . t)
+     (mermaid . t)
+     (nix . t)
+     (rust . t)
+     (clojure . t)
      (plantuml . t)))
   :custom
   (org-src-tab-acts-natively t)
@@ -465,6 +472,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :hook (org-mode . org-bullets-mode))
 
 (use-package org-roam
+  :after org
   :init
   (setq org-roam-v2-ack t)
   :custom
@@ -602,8 +610,12 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :init
   (vertico-prescient-mode))
 
+(use-package orderless
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
+
 (use-package marginalia
-  :ensure t
   :config
   (marginalia-mode))
 
