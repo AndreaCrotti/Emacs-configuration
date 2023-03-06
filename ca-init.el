@@ -303,13 +303,16 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :hook ((clojure-mode . lsp)
          (clojurec-mode . lsp)
          (clojurescript-mode . lsp)
-         (scala-mode . lsp)
-         (terraform-mode . lsp)
-         (yaml-mode . lsp)
+         (java-mode . lsp)
          (json-mode . lsp)
-         (web-mode . lsp)
+         (kotlin-mode . lsp)
+         (markdown-mode . lsp)
+         (python-mode . lsp)
+         (scala-mode . lsp)
          (sh-mode . lsp)
-         (python-mode . lsp))
+         (terraform-mode . lsp)
+         (web-mode . lsp)
+         (yaml-mode . lsp))
 
   :bind (("M-?" . lsp-find-definition)
          ;; ("M-/" . lsp-find-references)
@@ -422,7 +425,10 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package nix-mode)
 (use-package guix)
 
-(use-package ox-reveal)
+(use-package ox-reveal
+  :custom
+  (org-reveal-root "/home/andrea/src/forks/reveal.js"))
+
 (use-package ox-asciidoc)
 
 (defun ca-org-mode-setup ()
