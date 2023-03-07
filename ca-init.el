@@ -498,6 +498,12 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (org-roam-setup)
   (require 'org-roam-protocol))
 
+(use-package org-roam-bibtex)
+
+(use-package citar
+  :custom
+  (citar-bibliography '("~/RoamNotes/references.bib")))
+
 (use-package websocket
   :after org-roam)
 
