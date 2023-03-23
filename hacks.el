@@ -34,10 +34,10 @@ Turning on wordnut mode runs the normal hook `wordnut-mode-hook'.
 
 ;; change the size of markup in asciidoc documents to
 ;; something that mmakes more sense
-(dolist (i (number-sequence 0 5))
-  (let ((new-height (+ 1.0 (/ (- 10.0 i) 20.0))))
-    (set-face-attribute
-     (intern (format "markup-title-%d-face" i)) nil :height new-height)))
+;; (dolist (i (number-sequence 0 5))
+;;   (let ((new-height (+ 1.0 (/ (- 10.0 i) 20.0))))
+;;     (set-face-attribute
+;;      (intern (format "markup-title-%d-face" i)) nil :height new-height)))
 
 (defun 4k-p ()
   (> (x-display-pixel-width) 7000))

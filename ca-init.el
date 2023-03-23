@@ -1,3 +1,5 @@
+(setq base "/home/andrea/Emacs-Configuration/")
+(add-to-list 'load-path "/home/andrea/Emacs-Configuration/")
 
 ;; performance changes
 
@@ -84,9 +86,9 @@
 (use-package bf-mode)
 
 (use-package browse-at-remote)
-(use-package browse-kill-ring
-  :config
-  (browse-kill-ring-default-keybindings))
+;; (use-package browse-kill-ring
+;;   :config
+;;   (browse-kill-ring-default-keybindings))
 
 (use-package clj-refactor
   :custom
@@ -179,7 +181,10 @@
   (lsp-mode . dap-ui-mode))
 
 (use-package diff-hl
-  :config (global-diff-hl-mode))
+  :config (global-diff-hl-mode t))
+
+(use-package hl-todo
+  :config (global-hl-todo-mode t))
 
 (use-package diminish)
 (use-package docker)
@@ -396,8 +401,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package magit
   :bind (("\C-xg" . magit-status)))
 
-(use-package forge
-  :after magit)
+(use-package forge)
 
 (use-package magit-delta
   ;; :hook (magit-mode . magit-delta-mode)
@@ -536,7 +540,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (powerline-default-separator-dir '(right . left)))
 
 (use-package projectile
-  :after magit
   :diminish projectile
   :config
   (projectile-global-mode)
@@ -580,6 +583,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :delight
   :config
   (smartparens-global-strict-mode t)
+  (show-smartparens-global-mode t)
   :bind
   (("C-M-f" . sp-forward-sexp)
    ("C-M-b" . sp-backward-sexp)
@@ -599,10 +603,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
    ("C-M-]" . sp-select-next-thing)
    ("M-F" . sp-forward-symbol)
    ("M-B" . sp-backward-symbol)))
-
-(use-package smartparens-config
-  :ensure smartparens
-  :config (progn (show-smartparens-global-mode t)))
 
 (use-package vertico
   :init
@@ -748,8 +748,9 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (treemacs-indent-guide-mode t)
   (treemacs-git-commit-diff-mode nil)
 
-  :config
-  (add-hook 'find-file-hook 'treemacs-enable-and-show))
+  ;; :config
+  ;; (add-hook 'find-file-hook 'treemacs-enable-and-show)
+  )
 
 (use-package treemacs-projectile
   :after (treemacs projectile))
@@ -809,7 +810,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package flycheck-grammarly
   :after flycheck
-  :hook ((flycheck-mode  . flycheck-grammarly-setup))
+  ;; :hook ((flycheck-mode  . flycheck-grammarly-setup))
   :custom
   (flycheck-grammarly-check-time 0.8))
 
@@ -835,3 +836,10 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   "zoom"
   ("g" text-scale-increase "in")
   ("l" text-scale-decrease "out"))
+
+(use-package doom-themes)
+
+(recentf-mode t)
+(setq recentf-auto-cleanup 'never)
+
+(use-package writeroom-mode)
