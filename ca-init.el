@@ -534,10 +534,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package posframe)
 
-(use-package powerline
-  :custom
-  (powerline-arrow-shape 'curve)
-  (powerline-default-separator-dir '(right . left)))
+(use-package doom-modeline
+  :hook (after-init . doom-modeline-mode))
 
 (use-package projectile
   :diminish projectile
@@ -840,7 +838,18 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package doom-themes)
 
+(use-package recentf
+  :custom
+  (recentf-max-saved-items 200)
+  (recentf-max-menu-items 100))
+
 (recentf-mode t)
 (setq recentf-auto-cleanup 'never)
 
 (use-package writeroom-mode)
+
+(dolist (mode '(org-mode-hook
+                term-mode-hook
+                shell-mode-hook
+                eshell-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
