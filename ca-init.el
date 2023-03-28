@@ -584,6 +584,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :config
   (smartparens-global-strict-mode t)
   (show-smartparens-global-mode t)
+  (require 'smartparens-config)
   :bind
   (("C-M-f" . sp-forward-sexp)
    ("C-M-b" . sp-backward-sexp)
