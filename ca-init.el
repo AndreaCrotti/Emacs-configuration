@@ -308,15 +308,18 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :hook ((clojure-mode . lsp)
          (clojurec-mode . lsp)
          (clojurescript-mode . lsp)
+         (dockerfile-mode . lsp)
          (java-mode . lsp)
          (json-mode . lsp)
          (elixir-mode . lsp)
          (elm-mode . lsp)
+         (json-mode . lsp)
          (kotlin-mode . lsp)
          (markdown-mode . lsp)
          (python-mode . lsp)
          (scala-mode . lsp)
          (sh-mode . lsp)
+         (typescript-mode . lsp)
          (terraform-mode . lsp)
          (web-mode . lsp)
          (yaml-mode . lsp)
@@ -845,6 +848,10 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (recentf-mode t)
 (setq recentf-auto-cleanup 'never)
+
+(use-package digit-groups
+  :config
+  (digit-groups-global-mode t))
 
 (use-package writeroom-mode)
 
