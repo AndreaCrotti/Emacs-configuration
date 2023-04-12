@@ -305,7 +305,9 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   ("uw" lsp-clojure-unwind-thread))
 
 (use-package lsp-mode
-  :hook ((clojure-mode . lsp)
+  :hook ((c-mode . lsp)
+         (cc-mode . lsp)
+         (clojure-mode . lsp)
          (clojurec-mode . lsp)
          (clojurescript-mode . lsp)
          (dockerfile-mode . lsp)
@@ -313,6 +315,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
          (json-mode . lsp)
          (elixir-mode . lsp)
          (elm-mode . lsp)
+         (graphql-mode . lsp)
          (json-mode . lsp)
          (kotlin-mode . lsp)
          (markdown-mode . lsp)
@@ -333,7 +336,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (setq gc-cons-threshold 100000000)
   (setq read-process-output-max (* 1024 1024))
   (setq lsp-idle-delay 0.500)
-  (setq lsp-log-io nil)
+  (setq lsp-log-io t)
   (setq lsp-completion-provider :capf)
   ;; add paths to your local installation of project mgmt tools, like lein
   (setenv "PATH" (concat "/usr/local/bin" path-separator (getenv "PATH")))
@@ -353,7 +356,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (lsp-lens-enable t)
   (lsp-signature t)
   (lsp-eldoc-enable-hover t)
-  (lsp-enable-indentation t)
+  (lsp-enable-indentation nil)
   (lsp-enable-folding t)
   (lsp-headerline-breadcrumb-enable nil)
   (lsp-idle-delay .01)
@@ -854,6 +857,9 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (digit-groups-global-mode t))
 
 (use-package writeroom-mode)
+
+(use-package github-browse-file)
+(use-package doom-themes)
 
 (dolist (mode '(org-mode-hook
                 term-mode-hook
