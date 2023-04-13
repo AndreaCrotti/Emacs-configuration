@@ -320,6 +320,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
          (kotlin-mode . lsp)
          (markdown-mode . lsp)
          (python-mode . lsp)
+         (rust-mode . lsp)
          (scala-mode . lsp)
          (sh-mode . lsp)
          (typescript-mode . lsp)
@@ -860,6 +861,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package github-browse-file)
 (use-package doom-themes)
+
+(use-package sqlite3)
 
 (dolist (mode '(org-mode-hook
                 term-mode-hook
