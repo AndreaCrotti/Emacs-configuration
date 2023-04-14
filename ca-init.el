@@ -863,6 +863,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package doom-themes)
 
 (use-package sqlite3)
+(use-package sqlformat)
 
 (dolist (mode '(org-mode-hook
                 term-mode-hook
