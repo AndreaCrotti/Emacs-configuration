@@ -456,6 +456,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (require 'ob-clojure)
 
+(use-package ob-nix)
+
 (use-package org
   :hook (org-mode . ca-org-mode-setup)
   :bind
@@ -476,7 +478,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
    'org-babel-load-languages
    '((dot . t)
      (calc . t)
-     (mermaid . t)
      (nix . t)
      (rust . t)
      (clojure . t)
@@ -748,12 +749,15 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :after (projectile)
   :custom
   (treemacs-tag-follow-mode nil)
+  (treemacs-project-follow-mode t)
   (treemacs-follow-mode t)
   (treemacs-filewatch-mode t)
   (treemacs-git-mode nil)
   (treemacs-indent-guide-mode t)
   (treemacs-git-commit-diff-mode nil)
+  (treemacs-fringe-indicator-mode t)
 
+  (treemacs-git-mode t)
   ;; :config
   ;; (add-hook 'find-file-hook 'treemacs-enable-and-show)
   )
@@ -870,3 +874,14 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
                 shell-mode-hook
                 eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+(defun clerk-show ()
+  (interactive)
+  (when-let
+      ((filename
+        (buffer-file-name)))
+    (save-buffer)
+    (cider-interactive-eval
+     (concat "(nextjournal.clerk/show! \"" filename "\")"))))
+
+(define-key clojure-mode-map (kbd "<M-return>") 'clerk-show)
