@@ -735,33 +735,19 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package all-the-icons)
 
-(defun treemacs-enable-and-show ()
-  (when (and buffer-file-name
-             ;; hack since RoamNotes capture buffers get weird
-             (not (string-match-p "RoamNotes" buffer-file-name)))
-    (when (equal 'none (treemacs-current-visibility))
-      (treemacs--init))
-
-    (with-current-buffer (find-buffer-visiting buffer-file-name)
-      (treemacs-display-current-project-exclusively))))
-
 (use-package treemacs
   :after (projectile)
   :custom
-  (treemacs-tag-follow-mode nil)
-  (treemacs-project-follow-mode t)
+  (treemacs-filewatch-mode t)
+  (treemacs-filewatch-mode t)
   (treemacs-follow-mode t)
-  (treemacs-filewatch-mode t)
-  (treemacs-git-mode nil)
-  (treemacs-indent-guide-mode t)
-  (treemacs-git-commit-diff-mode nil)
   (treemacs-fringe-indicator-mode t)
-  (treemacs-filewatch-mode t)
-
+  (treemacs-git-commit-diff-mode nil)
+  (treemacs-git-mode nil)
   (treemacs-git-mode t)
-  ;; :config
-  ;; (add-hook 'find-file-hook 'treemacs-enable-and-show)
-  )
+  (treemacs-indent-guide-mode t)
+  (treemacs-project-follow-mode t)
+  (treemacs-tag-follow-mode nil))
 
 (use-package treemacs-projectile
   :after (treemacs projectile))
