@@ -756,6 +756,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (treemacs-indent-guide-mode t)
   (treemacs-git-commit-diff-mode nil)
   (treemacs-fringe-indicator-mode t)
+  (treemacs-filewatch-mode t)
 
   (treemacs-git-mode t)
   ;; :config
