@@ -1,3 +1,4 @@
+
 (setq base "/home/andrea/Emacs-Configuration/")
 (add-to-list 'load-path "/home/andrea/Emacs-Configuration/")
 
@@ -189,6 +190,7 @@
 (use-package diminish)
 (use-package docker)
 (use-package dockerfile-mode)
+(use-package docker-compose-mode)
 (use-package dracula-theme)
 (use-package edit-server)
 (use-package eldoc
@@ -855,10 +857,13 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package sqlite3)
 (use-package sqlformat)
+(use-package zig-mode)
+
 
 (dolist (mode '(org-mode-hook
                 term-mode-hook
                 shell-mode-hook
+                ;; cider-mode-hook
                 eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
