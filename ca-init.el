@@ -868,7 +868,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (dolist (mode '(org-mode-hook
                 term-mode-hook
                 shell-mode-hook
-                ;; cider-mode-hook
+                cider-repl-mode-hook
                 eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
