@@ -329,7 +329,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
          (terraform-mode . lsp)
          (web-mode . lsp)
          (yaml-mode . lsp)
-         (xml-mode . lsp))
+         (xml-mode . lsp)
+         (zig-mode . lsp))
 
   :bind (("M-?" . lsp-find-definition)
          ;; ("M-/" . lsp-find-references)
@@ -407,10 +408,14 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :hook
   (rust-mode . cargo-minor-mode))
 
-(use-package magit
-  :bind (("\C-xg" . magit-status)))
+(use-package forge
+  :after magit)
 
-(use-package forge)
+(use-package magit
+  :bind (("\C-xg" . magit-status))
+  ;; should we load forge automatically if possible?
+  ;; :config (require 'forge)
+  )
 
 (use-package magit-delta
   ;; :hook (magit-mode . magit-delta-mode)
