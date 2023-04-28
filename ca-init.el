@@ -865,6 +865,10 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package zig-mode)
 
 
+(use-package highlight-indent-guides
+  :custom (highlight-indent-guides-method 'character)
+  :hook ((prog-mode . highlight-indent-guides-mode)))
+
 (dolist (mode '(org-mode-hook
                 term-mode-hook
                 shell-mode-hook
