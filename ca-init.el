@@ -364,7 +364,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (lsp-enable-folding t)
   (lsp-headerline-breadcrumb-enable nil)
   (lsp-idle-delay .01)
-  (lsp-keymap-prefix nil))
+  (lsp-keymap-prefix nil)
+  (lsp-treemacs-sync-mode t))
 
 (use-package lsp-java)
 
