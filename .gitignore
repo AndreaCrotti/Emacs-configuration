@@ -10,3 +10,8 @@ conf.el
 /modules/flycheck_*.el
 custom.el
 /.nrepl-port
+/.cache/
+/.clj-kondo/
+/.lsp/
+/.persistent-scratch
+/elpa/
