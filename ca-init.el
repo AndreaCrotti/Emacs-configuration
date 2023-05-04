@@ -750,11 +750,9 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :after (projectile)
   :custom
   (treemacs-filewatch-mode t)
-  (treemacs-filewatch-mode t)
   (treemacs-follow-mode t)
   (treemacs-fringe-indicator-mode t)
   (treemacs-git-commit-diff-mode nil)
-  (treemacs-git-mode nil)
   (treemacs-git-mode t)
   (treemacs-indent-guide-mode t)
   (treemacs-project-follow-mode t)
