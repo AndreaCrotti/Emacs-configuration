@@ -108,11 +108,24 @@
   (interactive)
   (cider-nrepl-sync-request:eval "(portal.api/close)"))
 
+(use-package cape
+  :init
+  (defalias 'cape-cider-lsp
+    (cape-super-capf #'cider-complete-at-point #'lsp-completion-at-point))
+  (add-to-list 'completion-at-point-functions #'cape-cider-lsp)
+  (add-to-list 'completion-at-point-functions #'cape-file))
+
 (use-package cider
   :defer t
   :init (add-hook 'cider-mode-hook #'clj-refactor-mode)
   :diminish subword-mode
   :bind (("C-<f5>" . cider-test-run-test))
+  ;; add this when the syntax is fixed
+  ;; :hook
+  ;; (lambda ()
+  ;;   (add-to-list
+  ;;    'completion-at-point-functions
+  ;;    #'cape-cider-lsp))
   :config
   (setq cider-font-lock-dynamically '(macro core function var)
         nrepl-hide-special-buffers t
