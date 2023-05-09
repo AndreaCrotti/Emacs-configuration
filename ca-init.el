@@ -87,9 +87,9 @@
 (use-package bf-mode)
 
 (use-package browse-at-remote)
-;; (use-package browse-kill-ring
-;;   :config
-;;   (browse-kill-ring-default-keybindings))
+(use-package browse-kill-ring
+  :config
+  (browse-kill-ring-default-keybindings))
 
 (use-package clj-refactor
   :custom
