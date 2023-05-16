@@ -422,14 +422,14 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :hook
   (rust-mode . cargo-minor-mode))
 
-(use-package forge
-  :after magit)
+(use-package forge)
 
 (use-package magit
   :bind (("\C-xg" . magit-status))
   ;; should we load forge automatically if possible?
-  ;; :config (require 'forge)
+  :config (require 'forge)
   )
+
 
 (use-package magit-todos
   :after magit)
