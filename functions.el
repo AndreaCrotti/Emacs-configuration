@@ -28,3 +28,18 @@
   (interactive)
   (setq buffer-display-table (make-display-table))
   (aset buffer-display-table ?\^M []))
+
+;; TODO: trigger it automatically whenever you are on a data structure??
+(defun get-path ()
+  "Get the path in a certain data structure"
+  (let (path done)
+    (save-excursion
+      (while (not done)
+        (if (and (sp-backward-sexp)
+                 (save-excursion (sp-backward-up-sexp)))
+            (progn
+              (when-let ((thing (thing-at-point 'symbol)))
+                (push (substring-no-properties thing) path))
+              (sp-backward-up-sexp))
+          (setq done t))))
+    (message "Path: %s" path)))
