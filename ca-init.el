@@ -879,6 +879,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package sqlformat)
 (use-package zig-mode)
 
+(use-package go-mode)
 
 (use-package highlight-indent-guides
   :custom (highlight-indent-guides-method 'column)
