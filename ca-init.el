@@ -880,6 +880,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package zig-mode)
 
 (use-package go-mode)
+(use-package chezmoi)
 
 (use-package highlight-indent-guides
   :custom (highlight-indent-guides-method 'column)
