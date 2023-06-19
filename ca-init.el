@@ -145,6 +145,8 @@
   (nrepl-log-messages t)
   (cider-auto-test-mode t))
 
+(use-package babashka)
+
 (use-package neil
   :custom
   (neil-inject-dep-to-project-p t))
@@ -251,6 +253,8 @@
   :custom
   (gac-debounce-interval 0.5))
 
+(use-package git-timemachine)
+
 (use-package gitconfig)
 ;; (use-package git-gutter
 ;;   :diminish
@@ -354,6 +358,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (setq read-process-output-max (* 1024 1024))
   (setq lsp-idle-delay 0.500)
   (setq lsp-log-io t)
+  (setq lsp-use-plists nil)
   (setq lsp-completion-provider :capf)
   ;; add paths to your local installation of project mgmt tools, like lein
   (setenv "PATH" (concat "/usr/local/bin" path-separator (getenv "PATH")))
@@ -885,6 +890,11 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package highlight-indent-guides
   :custom (highlight-indent-guides-method 'column)
   :hook ((prog-mode . highlight-indent-guides-mode)))
+
+(use-package crux)
+(use-package minimap)
+(use-package bm)
+(use-package focus)
 
 (dolist (mode '(org-mode-hook
                 term-mode-hook
