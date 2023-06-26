@@ -774,7 +774,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (treemacs-git-mode t)
   (treemacs-indent-guide-mode t)
   (treemacs-project-follow-mode t)
-  (treemacs-tag-follow-mode nil))
+  (treemacs-tag-follow-mode t))
 
 (use-package treemacs-projectile
   :after (treemacs projectile))
