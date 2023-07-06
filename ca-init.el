@@ -846,7 +846,10 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package nyan-mode
   :config
-  (nyan-mode t))
+  (nyan-mode t)
+  :custom
+  (nyan-animate-nyancat t)
+  (nyan-wavy-trail t))
 
 (global-set-key (kbd "M-p") 'ca-prev-defun)
 (global-set-key (kbd "M-n") 'ca-next-defun)
