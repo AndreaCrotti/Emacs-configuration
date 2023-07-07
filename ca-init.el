@@ -108,12 +108,12 @@
   (interactive)
   (cider-nrepl-sync-request:eval "(portal.api/close)"))
 
-(use-package cape
-  :init
-  (defalias 'cape-cider-lsp
-    (cape-super-capf #'cider-complete-at-point #'lsp-completion-at-point))
-  (add-to-list 'completion-at-point-functions #'cape-cider-lsp)
-  (add-to-list 'completion-at-point-functions #'cape-file))
+;; (use-package cape
+;;   :init
+;;   (defalias 'cape-cider-lsp
+;;     (cape-super-capf #'cider-complete-at-point #'lsp-completion-at-point))
+;;   (add-to-list 'completion-at-point-functions #'cape-cider-lsp)
+;;   (add-to-list 'completion-at-point-functions #'cape-file))
 
 (use-package cider
   :defer t
@@ -617,7 +617,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package smartparens
   :delight
   :config
-  (smartparens-global-strict-mode t)
   (show-smartparens-global-mode t)
   (require 'smartparens-config)
   :bind
@@ -712,10 +711,10 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 ;;enable again when the issue currently happening is fixed
 ;; (use-package which-func
-;;   :init (which-function-mode nil))
+;;   :config (which-func-mode t))
 
 (use-package which-key
-  :init (which-key-mode))
+  :init (which-key-mode t))
 
 (use-package windmove
   :init (windmove-default-keybindings 'shift))
@@ -916,3 +915,5 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
      (concat "(nextjournal.clerk/show! \"" filename "\")"))))
 
 (define-key clojure-mode-map (kbd "<M-return>") 'clerk-show)
+
+(smartparens-global-strict-mode t)
