@@ -890,7 +890,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package chezmoi)
 
 (use-package highlight-indent-guides
-  :custom (highlight-indent-guides-method 'column)
+  :custom (highlight-indent-guides-method 'character)
   :hook ((prog-mode . highlight-indent-guides-mode)))
 
 (use-package crux)
