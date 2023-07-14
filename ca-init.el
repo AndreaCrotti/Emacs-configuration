@@ -486,6 +486,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (require 'ob-clojure)
 
 (use-package ob-nix)
+(use-package ob-sql-mode)
+(use-package org-sql)
 
 (use-package org
   :hook (org-mode . ca-org-mode-setup)
@@ -884,6 +886,11 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package sqlite3)
 (use-package sqlformat)
+
+(add-hook 'sql-interactive-mode-hook
+          (lambda ()
+            (toggle-truncate-lines t)))
+
 (use-package zig-mode)
 
 (use-package go-mode)
