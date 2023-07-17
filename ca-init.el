@@ -427,6 +427,12 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :hook
   (rust-mode . cargo-minor-mode))
 
+(use-package jq-mode)
+
+(use-package jq-format)
+
+(use-package restclient-jq)
+
 (use-package forge)
 
 (use-package magit
