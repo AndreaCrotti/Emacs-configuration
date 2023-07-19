@@ -909,6 +909,10 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package crux)
 (use-package minimap)
 (use-package bm)
+(use-package ssh-tunnels)
+(use-package ssh)
+(use-package ssh-agency)
+(use-package ssh-config-mode)
 (use-package focus)
 
 (dolist (mode '(org-mode-hook
