@@ -1,5 +1,6 @@
 
 (setq base "/home/andrea/Emacs-Configuration/")
+
 (add-to-list 'load-path "/home/andrea/Emacs-Configuration/")
 
 ;; performance changes
@@ -175,7 +176,7 @@
   :custom
   (company-tooltip-align-annotations t)
   (company-minimum-prefix-length 1)
-  (company-idle-delay 0.1)
+  (company-idle-delay 0.2)
   (company-show-numbers t))
 
 (use-package command-log-mode)
@@ -914,6 +915,10 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package ssh-agency)
 (use-package ssh-config-mode)
 (use-package focus)
+
+(use-package direnv
+ :config
+ (direnv-mode))
 
 (dolist (mode '(org-mode-hook
                 term-mode-hook
