@@ -916,6 +916,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package ssh-config-mode)
 (use-package focus)
 
+(use-package svelte-mode)
+
 (use-package direnv
  :config
  (direnv-mode))
@@ -937,5 +939,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
      (concat "(nextjournal.clerk/show! \"" filename "\")"))))
 
 (define-key clojure-mode-map (kbd "<M-return>") 'clerk-show)
+(pixel-scroll-precision-mode t)
 
 (smartparens-global-strict-mode t)
