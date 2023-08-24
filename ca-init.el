@@ -42,7 +42,8 @@
 (setq package-archives
       '(("org" . "https://orgmode.org/elpa/")
         ("melpa" . "http://melpa.org/packages/")
-        ("gnu" . "http://elpa.gnu.org/packages/")))
+        ("gnu" . "http://elpa.gnu.org/packages/")
+        ("melpa-stable" . "https://stable.melpa.org/packages/")))
 
 (setq use-package-always-ensure t)
 
@@ -126,14 +127,15 @@
   (interactive)
   (cider-nrepl-sync-request:eval "(portal.api/close)"))
 
-(setq straight-x-pinned-packages '("cider" . "f39e0b52014913f5acc1dc28ad94c68385c0834e"))
+(add-to-list 'straight-x-pinned-packages '("cider" . "f39e0b52014913f5acc1dc28ad94c68385c0834e"))
 
 (use-package cider
-  :straight
-  (cider :type git
-         :host github
-         :repo "clojure-emacs/cider")
+  ;; :straight
+  ;; (cider :type git
+  ;;        :host github
+  ;;        :repo "clojure-emacs/cider")
 
+  :pin melpa-stable
   :ensure t
   :init (add-hook 'cider-mode-hook #'clj-refactor-mode)
   :diminish subword-mode
@@ -911,7 +913,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package writeroom-mode)
 
 (use-package github-browse-file)
-(use-package doom-themes)
 
 (use-package sqlite3)
 (use-package sqlformat)
