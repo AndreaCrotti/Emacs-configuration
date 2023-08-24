@@ -127,14 +127,7 @@
   (interactive)
   (cider-nrepl-sync-request:eval "(portal.api/close)"))
 
-(add-to-list 'straight-x-pinned-packages '("cider" . "f39e0b52014913f5acc1dc28ad94c68385c0834e"))
-
 (use-package cider
-  ;; :straight
-  ;; (cider :type git
-  ;;        :host github
-  ;;        :repo "clojure-emacs/cider")
-
   :pin melpa-stable
   :ensure t
   :init (add-hook 'cider-mode-hook #'clj-refactor-mode)
