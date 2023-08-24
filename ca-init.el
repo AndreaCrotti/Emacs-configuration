@@ -1,9 +1,26 @@
 
-(setq base "/home/andrea/Emacs-Configuration/")
+(setq base "/home/andrea/Emacs-Configuration/lisp/")
 
-(add-to-list 'load-path "/home/andrea/Emacs-Configuration/")
+(add-to-list 'load-path base)
+(setq package-enable-at-startup nil)
+
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 6))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+(straight-use-package 'use-package)
 
 ;; performance changes
+
 
 (setq gc-cons-threshold (* 50 1000 1000))
 
@@ -92,9 +109,9 @@
   :config
   (browse-kill-ring-default-keybindings))
 
-(use-package clj-refactor
-  :custom
-  (cljr-add-ns-to-blank-clj-files nil))
+;; (use-package clj-refactor
+;;   :custom
+;;   (cljr-add-ns-to-blank-clj-files nil))
 
 (defun portal.api/open ()
   (interactive)
@@ -109,15 +126,15 @@
   (interactive)
   (cider-nrepl-sync-request:eval "(portal.api/close)"))
 
-;; (use-package cape
-;;   :init
-;;   (defalias 'cape-cider-lsp
-;;     (cape-super-capf #'cider-complete-at-point #'lsp-completion-at-point))
-;;   (add-to-list 'completion-at-point-functions #'cape-cider-lsp)
-;;   (add-to-list 'completion-at-point-functions #'cape-file))
+(setq straight-x-pinned-packages '("cider" . "f39e0b52014913f5acc1dc28ad94c68385c0834e"))
 
 (use-package cider
-  :defer t
+  :straight
+  (cider :type git
+         :host github
+         :repo "clojure-emacs/cider")
+
+  :ensure t
   :init (add-hook 'cider-mode-hook #'clj-refactor-mode)
   :diminish subword-mode
   :bind (("C-<f5>" . cider-test-run-test))
@@ -190,7 +207,6 @@
 (use-package company-terraform)
 (use-package company-web)
 
-(use-package csharp-mode)
 (use-package csv-mode)
 (use-package dap-mode
   :hook
@@ -221,9 +237,9 @@
   (ediff-window-setup-function (quote ediff-setup-windows-plain)))
 
 (use-package elein)
-(use-package ejc-sql
-  :custom
-  (clomacs-httpd-default-port 8090))
+;; (use-package ejc-sql
+;;   :custom
+;;   (clomacs-httpd-default-port 8090))
 
 (use-package emmet-mode)
 (use-package expand-region
@@ -235,7 +251,7 @@
   :init (global-flycheck-mode))
 
 (use-package flycheck-clj-kondo)
-(use-package flycheck-clojure)
+;; (use-package flycheck-clojure)
 (use-package flycheck-pos-tip)
 (use-package flyspell
   :diminish flyspell-mode
@@ -335,7 +351,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
          (json-mode . lsp)
          (elixir-mode . lsp)
          (elm-mode . lsp)
-         (graphql-mode . lsp)
+         ;; (graphql-mode . lsp)
          (json-mode . lsp)
          (kotlin-mode . lsp)
          (markdown-mode . lsp)
@@ -384,7 +400,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (lsp-headerline-breadcrumb-enable nil)
   (lsp-idle-delay .01)
   (lsp-keymap-prefix nil)
-  (lsp-treemacs-sync-mode t))
+  (lsp-treemacs-sync-mode t)
+  (lsp-file-watch-threshold 5000))
 
 (use-package lsp-java)
 
@@ -397,6 +414,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (setq lsp-ui-sideline-show-hover nil)
   (setq lsp-ui-doc-position 'bottom)
   (lsp-ui-doc-show))
+
+(use-package lsp-tailwindcss)
 
 (use-package eredis)
 (use-package redis)
@@ -716,7 +735,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package paren
   :init (show-paren-mode))
 
-(use-package vega-view)
+;; (use-package vega-view)
 
 ;;enable again when the issue currently happening is fixed
 ;; (use-package which-func
@@ -777,12 +796,15 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :custom
   (treemacs-filewatch-mode t)
   (treemacs-follow-mode t)
-  (treemacs-fringe-indicator-mode t)
+  ;; this keeps on asking the mode otherwise
+  (treemacs-fringe-indicator-mode nil)
   (treemacs-git-commit-diff-mode nil)
   (treemacs-git-mode t)
   (treemacs-indent-guide-mode t)
   (treemacs-project-follow-mode t)
-  (treemacs-tag-follow-mode t))
+  (treemacs-tag-follow-mode nil)
+  (treemacs-tag-follow-delay 3)
+  )
 
 (use-package treemacs-projectile
   :after (treemacs projectile))
