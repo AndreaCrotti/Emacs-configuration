@@ -110,9 +110,9 @@
   :config
   (browse-kill-ring-default-keybindings))
 
-;; (use-package clj-refactor
-;;   :custom
-;;   (cljr-add-ns-to-blank-clj-files nil))
+(use-package clj-refactor
+  :custom
+  (cljr-add-ns-to-blank-clj-files nil))
 
 (defun portal.api/open ()
   (interactive)
@@ -130,7 +130,7 @@
 (use-package cider
   :pin melpa-stable
   :ensure t
-  :init (add-hook 'cider-mode-hook #'clj-refactor-mode)
+  ;; :init (add-hook 'cider-mode-hook #'clj-refactor-mode)
   :diminish subword-mode
   :bind (("C-<f5>" . cider-test-run-test))
   ;; add this when the syntax is fixed
@@ -170,7 +170,6 @@
 
   (add-hook 'clojure-mode-hook #'cider-hydra-mode))
 
-(use-package clj-refactor)
 (use-package clojure-mode
   :mode (("\\.clj\\'" . clojure-mode)
          ("\\.edn\\'" . clojure-mode))
