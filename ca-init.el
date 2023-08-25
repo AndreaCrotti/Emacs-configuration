@@ -130,7 +130,7 @@
 (use-package cider
   :pin melpa-stable
   :ensure t
-  ;; :init (add-hook 'cider-mode-hook #'clj-refactor-mode)
+  :init (add-hook 'cider-mode-hook #'clj-refactor-mode)
   :diminish subword-mode
   :bind (("C-<f5>" . cider-test-run-test))
   ;; add this when the syntax is fixed
