@@ -153,6 +153,7 @@
   (cider-repl-use-pretty-printing t)
   (cider-repl-prompt-function 'cider-repl-prompt-abbreviated)
   (cider-repl-tab-command #'indent-for-tab-command)
+  (cider-enrich-classpath t)
   (cider-repl-buffer-size-limit 100000)
   (cider-repl-require-ns-on-set nil)
   (nrepl-log-messages t)
@@ -907,7 +908,11 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package github-browse-file)
 
 (use-package sqlite3)
-(use-package sqlformat)
+(use-package sqlformat
+  :custom
+  (sqlformat-command 'sqlfluff)
+  ;; how do we make this smarter?
+  (sqlformat-args '("--dialect" "mysql")))
 
 (add-hook 'sql-interactive-mode-hook
           (lambda ()
