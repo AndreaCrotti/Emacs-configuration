@@ -42,6 +42,7 @@
 (setq package-archives
       '(("org" . "https://orgmode.org/elpa/")
         ("melpa" . "http://melpa.org/packages/")
+        ("nongnu" . "https://elpa.nongnu.org/nongnu/")
         ("gnu" . "http://elpa.gnu.org/packages/")
         ("melpa-stable" . "https://stable.melpa.org/packages/")))
 
@@ -948,6 +949,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
                 cider-repl-mode-hook
                 eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+(use-package eat)
 
 (defun clerk-show ()
   (interactive)
