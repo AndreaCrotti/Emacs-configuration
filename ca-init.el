@@ -113,6 +113,8 @@
 
 (use-package clj-refactor
   :custom
+  (cljr-auto-clean-ns nil)
+  (cljr-auto-sort-ns nil)
   (cljr-add-ns-to-blank-clj-files nil))
 
 (defun portal.api/open ()
@@ -370,7 +372,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (setq gc-cons-threshold 100000000)
   (setq read-process-output-max (* 1024 1024))
   (setq lsp-idle-delay 0.500)
-  (setq lsp-log-io t)
   (setq lsp-use-plists nil)
   (setq lsp-completion-provider :capf)
   ;; add paths to your local installation of project mgmt tools, like lein
@@ -951,6 +952,9 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 (use-package eat)
+(use-package exercism)
+(use-package leetcode)
+
 
 (defun clerk-show ()
   (interactive)
