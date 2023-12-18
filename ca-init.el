@@ -339,6 +339,12 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   ("uw" lsp-clojure-unwind-thread))
 
 (use-package lsp-mode
+  :custom
+  ;; (lsp-pylsp-plugins-autopep8-enabled  nil)
+  (lsp-pylsp-plugins-black-enabled t)
+  ;; (lsp-pylsp-plugins-flake8-enabled nil)
+  (lsp-pylsp-plugins-isort-enabled t)
+
   :hook ((c-mode . lsp)
          (cc-mode . lsp)
          (clojure-mode . lsp)
