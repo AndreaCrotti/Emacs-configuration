@@ -171,7 +171,6 @@
 (use-package cider-hydra
   :after cider
   :config
-
   (add-hook 'clojure-mode-hook #'cider-hydra-mode))
 
 (use-package clojure-mode
@@ -543,6 +542,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
      (clojure . t)
      (plantuml . t)))
   :custom
+  (add-to-list 'org-structure-template-alist '("N" . "notes"))
   (org-src-tab-acts-natively t)
   (org-hide-emphasis-markers t)
   (org-agenda-files (list (file-truename "~/RoamNotes/")
@@ -876,13 +876,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package tern)
 
 (use-package sly)
-
-(use-package nyan-mode
-  :config
-  (nyan-mode t)
-  :custom
-  (nyan-animate-nyancat t)
-  (nyan-wavy-trail t))
 
 (global-set-key (kbd "M-p") 'ca-prev-defun)
 (global-set-key (kbd "M-n") 'ca-next-defun)
