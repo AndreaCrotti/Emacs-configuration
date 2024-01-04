@@ -479,7 +479,14 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :init
   (marginalia-mode))
 
+(use-package mixed-pitch)
+
+(use-package olivetti)
+
 (use-package markdown-mode
+  :hook
+  (markdown-mode . mixed-pitch-mode)
+  (markdown-mode . olivetti-mode)
   :init
   ;; (add-hook 'markdown-mode-hook (lambda () (buffer-face-mode t)))
   (add-to-list 'auto-mode-alist '("\\.md" . markdown-mode))
@@ -867,7 +874,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package flycheck-grammarly
   :after flycheck
-  ;; :hook ((flycheck-mode  . flycheck-grammarly-setup))
+  :hook (flycheck-mode  . flycheck-grammarly-setup)
   :custom
   (flycheck-grammarly-check-time 0.8))
 
@@ -953,7 +960,14 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package eat)
 (use-package exercism)
 (use-package leetcode)
+(use-package carbon-now-sh)
 
+(setq treesit-language-source-alist
+      '((astro "https://github.com/virchau13/tree-sitter-astro")
+        (css "https://github.com/tree-sitter/tree-sitter-css")
+        (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")))
+
+(add-to-list 'auto-mode-alist '("\\.astro" . astro-ts-mode))
 
 (defun clerk-show ()
   (interactive)
