@@ -300,6 +300,8 @@
 
 (use-package know-your-http-well)
 (use-package kotlin-mode)
+(use-package gradle-mode)
+(use-package flycheck-gradle)
 (use-package imenu)
 
 (use-package imenu-anywhere
