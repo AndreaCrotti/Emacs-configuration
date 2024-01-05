@@ -364,6 +364,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
          (sh-mode . lsp)
          (typescript-mode . lsp)
          (terraform-mode . lsp)
+         (tuareg-mode . lsp)
          (web-mode . lsp)
          (yaml-mode . lsp)
          (xml-mode . lsp)
@@ -548,8 +549,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
      (rust . t)
      (clojure . t)
      (plantuml . t)))
-  :custom
   (add-to-list 'org-structure-template-alist '("N" . "notes"))
+  :custom
   (org-src-tab-acts-natively t)
   (org-hide-emphasis-markers t)
   (org-agenda-files (list (file-truename "~/RoamNotes/")
