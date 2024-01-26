@@ -964,6 +964,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package exercism)
 (use-package leetcode)
 (use-package carbon-now-sh)
+(use-package dune)
 
 (setq treesit-language-source-alist
       '((astro "https://github.com/virchau13/tree-sitter-astro")
