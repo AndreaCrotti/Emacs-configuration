@@ -1,5 +1,5 @@
 
-(setq base "/home/andrea/Emacs-Configuration/lisp/")
+(setq base (expand-file-name "~/Emacs-Configuration/lisp/"))
 
 (add-to-list 'load-path base)
 (setq package-enable-at-startup nil)
@@ -24,8 +24,7 @@
 
 (setq gc-cons-threshold (* 50 1000 1000))
 
-;; emacs 28 native compilation settings
-(setq native-comp-deferred-compilation t
+(setq native-comp-jit-compilation t
       native-comp-async-query-on-exit t
       native-comp-async-jobs-number 4
       native-comp-async-report-warnings-errors nil)
@@ -50,7 +49,9 @@
 
 (eval-when-compile (require 'cl))
 
-(defun make-relative-path (filename)
+(defun make-relative-path
+  (filename)
+  "Create a relative path"
   (concat base filename))
 
 (eval-when-compile
@@ -118,15 +119,18 @@
   (cljr-add-ns-to-blank-clj-files nil))
 
 (defun portal.api/open ()
+  "Open the API portal."
   (interactive)
   (cider-nrepl-sync-request:eval
    "(do (ns dev) (def portal ((requiring-resolve 'portal.api/open) {:theme :portal.colors/solarized-dark})) (add-tap (requiring-resolve 'portal.api/submit)))"))
 
 (defun portal.api/clear ()
+  "Clear the state of the portal."
   (interactive)
   (cider-nrepl-sync-request:eval "(portal.api/clear)"))
 
 (defun portal.api/close ()
+  "Close the portal."
   (interactive)
   (cider-nrepl-sync-request:eval "(portal.api/close)"))
 
@@ -772,16 +776,19 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :bind (("C-x C-b" . ibuffer)))
 
 (defun ac/enter-focus-mode ()
+  "Enter focus mode."
   (interactive)
   (darkroom-mode 1)
   (display-line-numbers-mode 0))
 
 (defun ac/leave-focus-mode ()
+  "Leave focus mode."
   (interactive)
   (darkroom-mode 0)
   (display-line-numbers-mode 1))
 
 (defun ac/toggle-focus-mode ()
+  "Toggle focus mode."
   (interactive)
   (if (symbol-value darkroom-mode)
       (ac/leave-focus-mode)
@@ -965,6 +972,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package leetcode)
 (use-package carbon-now-sh)
 (use-package dune)
+(use-package tuareg)
 
 (setq treesit-language-source-alist
       '((astro "https://github.com/virchau13/tree-sitter-astro")
@@ -974,6 +982,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (add-to-list 'auto-mode-alist '("\\.astro" . astro-ts-mode))
 
 (defun clerk-show ()
+  "Show clerk."
   (interactive)
   (when-let
       ((filename
@@ -986,3 +995,5 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (pixel-scroll-precision-mode t)
 
 (smartparens-global-strict-mode t)
+
+(provide 'ca-init)
