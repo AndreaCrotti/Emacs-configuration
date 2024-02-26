@@ -994,6 +994,9 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (define-key clojure-mode-map (kbd "<M-return>") 'clerk-show)
 (pixel-scroll-precision-mode t)
 
+(use-package gptel)
+(use-package org-ai)
+
 (smartparens-global-strict-mode t)
 
 (provide 'ca-init)
