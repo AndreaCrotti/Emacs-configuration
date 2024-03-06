@@ -356,6 +356,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
          (clojurec-mode . lsp)
          (clojurescript-mode . lsp)
          (dockerfile-mode . lsp)
+         (go-mode . lsp)
          (java-mode . lsp)
          (json-mode . lsp)
          (elixir-mode . lsp)
