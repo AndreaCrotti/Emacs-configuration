@@ -1,4 +1,4 @@
-
+;; -*- lexical-binding: t -*-
 (setq base (expand-file-name "~/Emacs-Configuration/lisp/"))
 
 (add-to-list 'load-path base)
@@ -939,7 +939,15 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package zig-mode)
 
+(defun lsp-go-install-save-hooks ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  ;; (add-hook 'before-save-hook #'lsp-organize-imports t t)
+  )
+
 (use-package go-mode)
+(add-hook 'go-mode-hook
+          #'lsp-go-install-save-hooks)
+
 (use-package chezmoi)
 
 (use-package highlight-indent-guides
@@ -999,5 +1007,9 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package org-ai)
 
 (smartparens-global-strict-mode t)
+(use-package erlang)
+(use-package company-erlang)
+(use-package tree-sitter)
+(use-package tree-sitter-indent)
 
 (provide 'ca-init)
