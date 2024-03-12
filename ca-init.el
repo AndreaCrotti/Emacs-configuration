@@ -45,7 +45,7 @@
         ("gnu" . "http://elpa.gnu.org/packages/")
         ("melpa-stable" . "https://stable.melpa.org/packages/")))
 
-(setq use-package-always-ensure t)
+;; (setq use-package-always-ensure t)
 
 (eval-when-compile (require 'cl))
 
@@ -98,8 +98,8 @@
   (global-auto-revert-mode))
 
 (use-package log4j-mode
-  :config
-  (add-hook 'log4j-mode-hook #'auto-revert-tail-mode))
+  :hook
+  (log4j-mode . auto-revert-tail-mode))
 
 (use-package beacon
   :custom
@@ -136,8 +136,7 @@
 
 (use-package cider
   :pin melpa-stable
-  :ensure t
-  :init (add-hook 'cider-mode-hook #'clj-refactor-mode)
+  :hook (cider-mode . clj-refactor-mode)
   :diminish subword-mode
   :bind (("C-<f5>" . cider-test-run-test))
   ;; add this when the syntax is fixed
@@ -174,39 +173,40 @@
 
 (use-package cider-hydra
   :after cider
-  :config
-  (add-hook 'clojure-mode-hook #'cider-hydra-mode))
+  :hook
+  (clojure-mode . cider-hydra-mode))
 
 (use-package clojure-mode
   :mode (("\\.clj\\'" . clojure-mode)
          ("\\.edn\\'" . clojure-mode))
   :bind
   (("C-c l" . lsp-clojure-refactor-menu/body))
+  :hook
+  (clojure-mode . subword-mode)
   :init
-  (add-hook 'clojure-mode-hook #'subword-mode)
   (add-to-list 'auto-mode-alist '("\\.bb" . clojure-mode)))
 
 (use-package clojure-mode-extra-font-locking)
 (use-package jet)
 
-(use-package company
-  :init (global-company-mode)
-  :custom
-  (company-tooltip-align-annotations t)
-  (company-minimum-prefix-length 1)
-  (company-idle-delay 0.2)
-  (company-show-numbers t))
+;; (use-package company
+;;   :init (global-company-mode)
+;;   :custom
+;;   (company-tooltip-align-annotations t)
+;;   (company-minimum-prefix-length 1)
+;;   (company-idle-delay 0.2)
+;;   (company-show-numbers t))
 
 (use-package command-log-mode)
 
-(use-package company-dict)
-(use-package company-restclient)
-(use-package company-shell)
-(use-package company-math)
+;; (use-package company-dict)
+;; (use-package company-restclient)
+;; (use-package company-shell)
+;; (use-package company-math)
 (use-package merlin)
 (use-package ess)
-(use-package company-terraform)
-(use-package company-web)
+;; (use-package company-terraform)
+;; (use-package company-web)
 
 (use-package csv-mode)
 (use-package dap-mode
@@ -257,8 +257,8 @@
 (use-package flyspell
   :diminish flyspell-mode
   :config
-  (add-hook 'text-mode-hook 'flyspell-mode)
-  (add-hook 'prog-mode-hook 'flyspell-prog-mode))
+  :hook ((text-mode . flyspell-mode)
+         (prog-mode . flyspell-prog-mode)))
 
 (use-package graphviz-dot-mode)
 (use-package graphql-mode)
@@ -289,7 +289,8 @@
 
 (use-package idle-highlight-mode
   :diminish idle-highlight-mode
-  :config (add-hook 'prog-mode-hook 'idle-highlight-mode))
+  :hook
+  (prog-mode . idle-highlight-mode))
 
 (use-package inf-clojure)
 (use-package json-mode)
@@ -418,8 +419,9 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package lsp-metals)
 
 (use-package lsp-ui
+  :hook
+  (lsp-mode . lsp-ui-mode)
   :config
-  (add-hook 'lsp-mode-hook 'lsp-ui-mode)
   (setq lsp-ui-sideline-enable t)
   (setq lsp-ui-sideline-show-hover nil)
   (setq lsp-ui-doc-position 'bottom)
@@ -436,22 +438,20 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package restclient
   :init
   (add-to-list 'auto-mode-alist '("\\.rest" . restclient-mode))
-  :config
-  (add-hook 'restclient-mode-hook 'outline-minor-mode)
-  (add-hook 'restclient-mode-hook
-            (lambda ()
-              (outline-minor-mode t)
-              (local-set-key (kbd "<tab>") 'outline-toggle-children)
-              (setq outline-regexp "#+"))))
+  :hook
+  ((restclient-mode . outline-minor-mode)
+   (restclient-mode . (lambda ()
+                        (outline-minor-mode t)
+                        (local-set-key (kbd "<tab>") 'outline-toggle-children)
+                        (setq outline-regexp "#+")))))
 
 (use-package rust-mode
   :config
-  (setq rust-format-on-save t)
-  (add-hook 'rust-mode-hook #'company-mode))
+  (setq rust-format-on-save t))
 
 (use-package flycheck-rust
-  :config
-  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+  :hook
+  (flycheck-mode . flycheck-rust-setup))
 
 (use-package cargo
   :hook
@@ -640,13 +640,18 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package rainbow-delimiters
   :delight
-  :config
-  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+  :hook
+  (prog-mode . rainbow-delimiters-mode))
 
 (use-package rainbow-mode
   :delight
-  :config
-  (add-hook 'prog-mode-hook #'rainbow-mode))
+  :hook
+  (prog-mode . rainbow-mode))
+
+(use-package rainbow-identifiers
+  :ensure t
+  :hook
+  (prog-mode . rainbow-identifiers-mode))
 
 (use-package restclient)
 (use-package scala-mode
@@ -706,10 +711,16 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :init
   (vertico-prescient-mode))
 
+;; Optionally use the `orderless' completion style.
 (use-package orderless
-  :custom
-  (completion-styles '(orderless basic))
-  (completion-category-overrides '((file (styles basic partial-completion)))))
+  :init
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
+  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+  (setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion)))))
+
 
 (use-package marginalia
   :config
@@ -797,11 +808,11 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package ibuffer-vc
   :defer t
-  :init (add-hook 'ibuffer-hook
-                  (lambda ()
-                    (ibuffer-vc-set-filter-groups-by-vc-root)
-                    (unless (eq ibuffer-sorting-mode 'alphabetic)
-                      (ibuffer-do-sort-by-alphabetic)))))
+  :hook
+  (ibuffer . (lambda ()
+               (ibuffer-vc-set-filter-groups-by-vc-root)
+               (unless (eq ibuffer-sorting-mode 'alphabetic)
+                 (ibuffer-do-sort-by-alphabetic)))))
 
 (use-package typescript-mode)
 
@@ -931,11 +942,10 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :custom
   (sqlformat-command 'sqlfluff)
   ;; how do we make this smarter?
-  (sqlformat-args '("--dialect" "mysql")))
+  (sqlformat-args '("--dialect" "mysql"))
+  :hook (sql-interactive-mode . (lambda ()
+                                  (toggle-truncate-lines t))))
 
-(add-hook 'sql-interactive-mode-hook
-          (lambda ()
-            (toggle-truncate-lines t)))
 
 (use-package zig-mode)
 
@@ -944,9 +954,9 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   ;; (add-hook 'before-save-hook #'lsp-organize-imports t t)
   )
 
-(use-package go-mode)
-(add-hook 'go-mode-hook
-          #'lsp-go-install-save-hooks)
+(use-package go-mode
+  :hook
+  (go-mode . lsp-go-install-save-hooks))
 
 (use-package chezmoi)
 
@@ -975,6 +985,12 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
                 cider-repl-mode-hook
                 eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+(use-package eshell
+  :hook
+  (eshell-mode . (lambda ()
+                   (setq-local corfu-auto nil)
+                   (corfu-mode))))
 
 (use-package eat)
 (use-package exercism)
@@ -1008,8 +1024,56 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (smartparens-global-strict-mode t)
 (use-package erlang)
-(use-package company-erlang)
+;; (use-package company-erlang)
 (use-package tree-sitter)
 (use-package tree-sitter-indent)
 
+(use-package gleam-mode
+  :straight (gleam-mode :type git
+                        :host github
+                        :repo "gleam-lang/gleam-mode")
+  )
+
+(use-package treesit-auto
+  :ensure t
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all))
+
 (provide 'ca-init)
+
+(use-package combobulate
+  :ensure t
+  :straight t
+  :preface
+  ;; You can customize Combobulate's key prefix here.
+  ;; Note that you may have to restart Emacs for this to take effect!
+  (setq combobulate-key-prefix "C-c o"))
+
+(use-package embark)
+(use-package corfu
+  :custom
+  (corfu-auto-delay 0.1)
+  (corfu-auto-prefix 2)
+  (corfu-auto t)
+  (corfu-quit-no-match 'separator)
+
+  (corfu-cycle t)
+  :init
+  (global-corfu-mode)
+  :hook
+  (corfu-mode . corfu-popupinfo-mode)
+  (corfu-mode . corfu-history-mode)
+  (corfu-mode . corfu-indexed-mode))
+
+
+(use-package corfu-terminal
+  :ensure t
+  :config
+  (unless (display-graphic-p)
+    (corfu-terminal-mode +1)))
+
+(use-package emacs
+  :init
+  (setq tab-always-indent 'complete))
+
+(use-package epkg)
