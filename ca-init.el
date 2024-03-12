@@ -1039,9 +1039,10 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   )
 
 (use-package treesit-auto
-  :ensure t
-  :config
-  (treesit-auto-add-to-auto-mode-alist 'all))
+  ;; causes some issue for cider for example
+  ;; :config
+  ;; (treesit-auto-add-to-auto-mode-alist 'all)
+  )
 
 (provide 'ca-init)
 
