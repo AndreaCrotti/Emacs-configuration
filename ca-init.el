@@ -1056,7 +1056,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (corfu-auto-prefix 2)
   (corfu-auto t)
   (corfu-quit-no-match 'separator)
-
   (corfu-cycle t)
   :init
   (global-corfu-mode)
@@ -1065,6 +1064,15 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (corfu-mode . corfu-history-mode)
   (corfu-mode . corfu-indexed-mode))
 
+(use-package kind-icon
+  :after corfu
+  :custom
+  (kind-icon-default-style '(:padding 0 :stroke 0 :margin 0 :radius 0 :height 0.8 :scale 0.8 :background nil))
+  (kind-icon-default-face 'corfu-default)
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
+(use-package cape)
 
 (use-package corfu-terminal
   :ensure t
