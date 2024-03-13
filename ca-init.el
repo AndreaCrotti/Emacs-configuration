@@ -29,7 +29,6 @@
       native-comp-async-jobs-number 4
       native-comp-async-report-warnings-errors nil)
 
-;; Profile emacs startup
 (add-hook 'emacs-startup-hook
           (lambda ()
             (message "*** Emacs loaded in %s with %d garbage collections."
@@ -446,6 +445,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package cargo
   :hook
   (rust-mode . cargo-minor-mode))
+
+(use-package cargo-mode)
 
 (use-package jq-mode)
 
@@ -1076,6 +1077,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (setq tab-always-indent 'complete))
 
 (use-package epkg)
+(use-package separedit)
 
 (provide 'ca-init)
 ;;; ca-init ends here
