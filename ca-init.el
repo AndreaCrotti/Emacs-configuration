@@ -189,24 +189,10 @@
 (use-package clojure-mode-extra-font-locking)
 (use-package jet)
 
-;; (use-package company
-;;   :init (global-company-mode)
-;;   :custom
-;;   (company-tooltip-align-annotations t)
-;;   (company-minimum-prefix-length 1)
-;;   (company-idle-delay 0.2)
-;;   (company-show-numbers t))
-
 (use-package command-log-mode)
 
-;; (use-package company-dict)
-;; (use-package company-restclient)
-;; (use-package company-shell)
-;; (use-package company-math)
 (use-package merlin)
 (use-package ess)
-;; (use-package company-terraform)
-;; (use-package company-web)
 
 (use-package csv-mode)
 (use-package dap-mode
@@ -1028,7 +1014,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (smartparens-global-strict-mode t)
 (use-package erlang)
-;; (use-package company-erlang)
 (use-package tree-sitter)
 (use-package tree-sitter-indent)
 

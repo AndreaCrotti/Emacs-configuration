@@ -2,8 +2,6 @@
 ;; Emacs SQL client `ejc-sql'.
 ;;
 (require 'ejc-sql)
-;; Require completion frontend (autocomplete or company). One of them or both.
-(require 'ejc-company)
 
 (setq nrepl-sync-request-timeout 60)
 (setq clomacs-httpd-default-port 8090) ; Use a port other than 8080.
@@ -33,12 +31,6 @@
 ;; Add run SQL key familiar to users of PLSQL Developer.
 (define-key ejc-sql-mode-keymap (kbd "<F8>") 'ejc-eval-user-sql-at-point)
 
-(defun k/ejc-after-emacs-init-hook ()
-  (push 'ejc-company-backend company-backends)
-  ;; In case of `company-mode' is used by default this can be useful:
-  ;; (company-quickhelp-mode)
-  )
-
 (add-hook 'after-init-hook 'k/ejc-after-emacs-init-hook)
 
 (defun k/sql-mode-hook ()
@@ -53,7 +45,6 @@
 
 (defun k/ejc-sql-mode-hook ()
   ;; Enable one of the completion frontend by by default but not both.
-  (company-mode t)    ; or `company-mode'.
   (ejc-eldoc-setup)      ; Setup ElDoc.
   ;; (font-lock-warn-todo)       ; See custom/look-and-feel.el
   (rainbow-delimiters-mode t) ; https://github.com/Fanael/rainbow-delimiters
