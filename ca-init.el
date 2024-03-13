@@ -1044,8 +1044,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   ;; (treesit-auto-add-to-auto-mode-alist 'all)
   )
 
-(provide 'ca-init)
-
 (use-package combobulate
   :ensure t
   :straight t
@@ -1062,12 +1060,15 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (corfu-auto t)
   (corfu-quit-no-match 'separator)
   (corfu-cycle t)
+  (corfu-count 20)
+  (corfu-max-width 120)
+  (corfu-popupinfo-delay '(1.5 0.5))
+  (corfu-popupinfo-hide nil)
+  (corfu-popinfo-mode t)
+  (corfu-history-mode t)
+  (corfu-indexed-mode t)
   :init
-  (global-corfu-mode)
-  :hook
-  (corfu-mode . corfu-popupinfo-mode)
-  (corfu-mode . corfu-history-mode)
-  (corfu-mode . corfu-indexed-mode))
+  (global-corfu-mode))
 
 (use-package kind-icon
   :after corfu
@@ -1090,3 +1091,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (setq tab-always-indent 'complete))
 
 (use-package epkg)
+
+(provide 'ca-init)
+;;; ca-init ends here
