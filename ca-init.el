@@ -511,7 +511,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package ox-asciidoc)
 
 (defun ca-org-mode-setup ()
-  (org-indent-mode)
+  "few org mode settings"
+  (org-indent-mode t)
   (variable-pitch-mode 1)
   (auto-fill-mode 0)
   (visual-line-mode 1))
