@@ -372,11 +372,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
          ("M-'" . lsp-treemacs-call-hierarchy))
 
   :config
-  (setq gc-cons-threshold 100000000)
-  (setq read-process-output-max (* 1024 1024))
-  (setq lsp-idle-delay 0.500)
-  (setq lsp-use-plists nil)
-  (setq lsp-completion-provider :capf)
   ;; add paths to your local installation of project mgmt tools, like lein
   (setenv "PATH" (concat "/usr/local/bin" path-separator (getenv "PATH")))
   (dolist (m '(clojure-mode
@@ -389,10 +384,16 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (setq lsp-clojure-server-command '("bash" "-c" "clojure-lsp"))
 
   :custom
+  (lsp-idle-delay 0.5)
+  (read-process-output-max (* 1024 1024))
+  (lsp-completion-provider :capf)
+  (gc-cons-threshold 100000000)
+
   ;; turn this on to capture client/server comms before
   ;; submitting bug reports with `lsp-workspace-show-log`
   (lsp-log-io t)
   (lsp-lens-enable t)
+  (lsp-eldoc-render-all t)
   (lsp-signature t)
   (lsp-eldoc-enable-hover t)
   (lsp-enable-indentation nil)
@@ -401,7 +402,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (lsp-idle-delay .01)
   (lsp-keymap-prefix nil)
   (lsp-treemacs-sync-mode t)
-  (lsp-file-watch-threshold 5000))
+  (lsp-file-watch-threshold 5000)
+  (lsp-dired-mode t))
 
 (use-package graphql)
 (use-package graphql-doc)
@@ -416,11 +418,12 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package lsp-ui
   :hook
   (lsp-mode . lsp-ui-mode)
-  :config
-  (setq lsp-ui-sideline-enable t)
-  (setq lsp-ui-sideline-show-hover nil)
-  (setq lsp-ui-doc-position 'bottom)
-  (lsp-ui-doc-show))
+  :custom
+  (lsp-ui-imenu-auto-refresh 'after-save)
+  (lsp-ui-sideline-enable t)
+  (lsp-ui-sideline-show-hover nil)
+  (lsp-ui-doc-position 'bottom)
+  (lsp-ui-doc-mode t))
 
 (use-package lsp-tailwindcss)
 
