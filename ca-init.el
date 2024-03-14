@@ -403,6 +403,12 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (lsp-treemacs-sync-mode t)
   (lsp-file-watch-threshold 5000))
 
+(use-package graphql)
+(use-package graphql-doc)
+(use-package graphql-mode)
+(use-package graphql-ts-mode)
+(use-package ob-graphql)
+
 (use-package lsp-java)
 
 (use-package lsp-metals)
