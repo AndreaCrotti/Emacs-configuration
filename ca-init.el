@@ -470,6 +470,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   ;; :hook (magit-mode . magit-delta-mode)
   )
 
+(use-package magit-lfs)
+
 (use-package marginalia
   :bind (("M-A" . marginalia-cycle)
          :map minibuffer-local-map
@@ -528,17 +530,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :bind
   (("C-c a" . org-agenda))
   :config
-  (setq org-ellipsis " ▾"
-        org-hide-emphasis-markers t
-        org-src-fontify-natively t
-        org-fontify-quote-and-verse-blocks t
-        org-src-tab-acts-natively t
-        org-edit-src-content-indentation 2
-        org-hide-block-startup nil
-        org-src-preserve-indentation nil
-        org-startup-folded 'content
-        org-cycle-separator-lines 2
-        org-babel-clojure-backend 'cider)
+  (define-key org-mode-map (kbd "C-c C-r") verb-command-map)
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((dot . t)
@@ -549,8 +541,18 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
      (plantuml . t)))
   (add-to-list 'org-structure-template-alist '("N" . "notes"))
   :custom
-  (org-src-tab-acts-natively t)
+  (org-babel-clojure-backend 'cider)
+  (org-cycle-separator-lines 2)
+  (org-edit-src-content-indentation 2)
+  (org-ellipsis " ▾")
+  (org-fontify-quote-and-verse-blocks t)
+  (org-hide-block-startup nil)
   (org-hide-emphasis-markers t)
+  (org-hide-emphasis-markers t)
+  (org-src-preserve-indentation nil)
+  (org-src-tab-acts-natively t)
+  (org-src-tab-acts-natively t)
+  (org-startup-folded 'content)
   (org-agenda-files (list (file-truename "~/RoamNotes/")
                           (file-truename "~/RoamNotes/daily/"))))
 
@@ -949,6 +951,10 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :hook
   (go-mode . lsp-go-install-save-hooks))
 
+(use-package gorepl-mode
+  :hook
+  (go-mode . gorepl-mode))
+
 (use-package chezmoi)
 
 (use-package highlight-indent-guides
@@ -1078,6 +1084,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package epkg)
 (use-package separedit)
+(use-package bats-mode)
+(use-package verb)
 
 (provide 'ca-init)
 ;;; ca-init ends here
