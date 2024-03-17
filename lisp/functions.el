@@ -43,3 +43,5 @@
               (sp-backward-up-sexp))
           (setq done t))))
     (message "Path: %s" path)))
+
+(provide 'functions)

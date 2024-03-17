@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t -*-
 (setq base (expand-file-name "~/Emacs-Configuration/lisp/"))
-
+(setq use-package-always-ensure t)
 (add-to-list 'load-path base)
 (setq package-enable-at-startup nil)
 
@@ -61,8 +61,9 @@
 (require 'package)
 
 (setq custom-safe-themes t)
-(load-file (make-relative-path "functions.el"))
-(load-file (make-relative-path "misc.el"))
+(require 'functions)
+(require 'misc)
+(require 'os)
 
 (require 'use-package)
 (setq use-package-verbose t)
@@ -906,6 +907,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (dolist (f '("aliases.el" "hacks.el" "custom.el"))
   (when (file-exists-p (make-relative-path f))
+    ;; use require here also if possible
     (message "loading extra file" f)
     (load-file (make-relative-path f))))
 
@@ -1026,11 +1028,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package tree-sitter)
 (use-package tree-sitter-indent)
 
-(use-package gleam-mode
-  :straight (gleam-mode :type git
-                        :host github
-                        :repo "gleam-lang/gleam-mode")
-  )
 
 (use-package treesit-auto
   ;; causes some issue for cider for example

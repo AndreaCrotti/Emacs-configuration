@@ -44,3 +44,5 @@
       display-time-default-load-average nil)
 
 (global-display-line-numbers-mode t)
+
+(provide 'misc)
