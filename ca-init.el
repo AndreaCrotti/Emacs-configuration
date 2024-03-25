@@ -352,6 +352,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
          (elixir-mode . lsp)
          (elm-mode . lsp)
          ;; (graphql-mode . lsp)
+         (haskell-mode . lsp)
          (json-mode . lsp)
          (kotlin-mode . lsp)
          (markdown-mode . lsp)
@@ -1085,6 +1086,14 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package separedit)
 (use-package bats-mode)
 (use-package verb)
+
+
+(use-package haskell-mode)
+(use-package lsp-haskell)
+(use-package nix-haskell-mode)
+(use-package hsearch)
+(use-package ghci-completion)
+(use-package flymake-hlint)
 
 (provide 'ca-init)
 ;;; ca-init ends here
