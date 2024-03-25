@@ -353,6 +353,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
          (elm-mode . lsp)
          ;; (graphql-mode . lsp)
          (haskell-mode . lsp)
+         (lua-mode . lsp)
          (json-mode . lsp)
          (kotlin-mode . lsp)
          (markdown-mode . lsp)
@@ -951,6 +952,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (add-hook 'before-save-hook #'lsp-format-buffer t t)
   ;; (add-hook 'before-save-hook #'lsp-organize-imports t t)
   )
+
+(use-package lua-mode)
 
 (use-package go-mode
   :hook
