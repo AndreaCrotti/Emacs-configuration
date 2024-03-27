@@ -1,6 +1,5 @@
 ;; -*- lexical-binding: t -*-
 (setq base (expand-file-name "~/Emacs-Configuration/lisp/"))
-(setq use-package-always-ensure t)
 (add-to-list 'load-path base)
 (setq package-enable-at-startup nil)
 
@@ -43,8 +42,6 @@
         ("nongnu" . "https://elpa.nongnu.org/nongnu/")
         ("gnu" . "http://elpa.gnu.org/packages/")
         ("melpa-stable" . "https://stable.melpa.org/packages/")))
-
-;; (setq use-package-always-ensure t)
 
 (eval-when-compile (require 'cl))
 
@@ -497,9 +494,9 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package olivetti)
 
 (use-package markdown-mode
-  :hook
-  (markdown-mode . mixed-pitch-mode)
-  (markdown-mode . olivetti-mode)
+  ;; :hook
+  ;; (markdown-mode . mixed-pitch-mode)
+  ;; (markdown-mode . olivetti-mode)
   :init
   ;; (add-hook 'markdown-mode-hook (lambda () (buffer-face-mode t)))
   (add-to-list 'auto-mode-alist '("\\.md" . markdown-mode))
@@ -654,10 +651,11 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :hook
   (prog-mode . rainbow-mode))
 
+;; this might be a bit too much colour
 (use-package rainbow-identifiers
-  :ensure t
-  :hook
-  (prog-mode . rainbow-identifiers-mode))
+  ;; :hook
+  ;; (prog-mode . rainbow-identifiers-mode)
+  )
 
 (use-package restclient)
 (use-package scala-mode
@@ -1040,7 +1038,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   )
 
 (use-package combobulate
-  :ensure t
   :straight t
   :preface
   ;; You can customize Combobulate's key prefix here.
@@ -1048,22 +1045,27 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (setq combobulate-key-prefix "C-c o"))
 
 (use-package embark)
+
+
 (use-package corfu
   :custom
   (corfu-auto-delay 0.1)
   (corfu-auto-prefix 2)
-  (corfu-auto t)
+  (corfu-auto nil)
   (corfu-quit-no-match 'separator)
   (corfu-cycle t)
   (corfu-count 20)
   (corfu-max-width 120)
   (corfu-popupinfo-delay '(1.5 0.5))
   (corfu-popupinfo-hide nil)
-  (corfu-popinfo-mode t)
-  (corfu-history-mode t)
-  (corfu-indexed-mode t)
+
   :init
-  (global-corfu-mode))
+  (global-corfu-mode)
+
+  :config
+  (corfu-popupinfo-mode t)
+  (corfu-history-mode t)
+  (corfu-indexed-mode t))
 
 (use-package kind-icon
   :after corfu
@@ -1076,7 +1078,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package cape)
 
 (use-package corfu-terminal
-  :ensure t
   :config
   (unless (display-graphic-p)
     (corfu-terminal-mode +1)))
@@ -1094,7 +1095,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package haskell-mode)
 (use-package lsp-haskell)
 (use-package nix-haskell-mode)
-(use-package hsearch)
+;; (use-package hsearch)
 (use-package ghci-completion)
 (use-package flymake-hlint)
 
