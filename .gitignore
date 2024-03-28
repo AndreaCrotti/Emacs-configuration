@@ -35,3 +35,6 @@ custom.el
 /url/
 /tree-sitter/
 /recentf
+/org-persist/
+/request/
+/history
