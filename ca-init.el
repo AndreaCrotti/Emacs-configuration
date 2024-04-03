@@ -46,7 +46,7 @@
 (eval-when-compile (require 'cl))
 
 (defun make-relative-path
-  (filename)
+    (filename)
   "Create a relative path"
   (concat base filename))
 
@@ -244,7 +244,6 @@
          (prog-mode . flyspell-prog-mode)))
 
 (use-package graphviz-dot-mode)
-(use-package graphql-mode)
 (use-package gist)
 (use-package gitlab)
 (use-package gitlab-ci-mode)
@@ -348,7 +347,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
          (json-mode . lsp)
          (elixir-mode . lsp)
          (elm-mode . lsp)
-         ;; (graphql-mode . lsp)
+         (graphql-mode . lsp)
          (haskell-mode . lsp)
          (lua-mode . lsp)
          (json-mode . lsp)
@@ -408,7 +407,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package graphql)
 (use-package graphql-doc)
 (use-package graphql-mode)
-(use-package graphql-ts-mode)
+;; (use-package graphql-ts-mode)
 (use-package ob-graphql)
 
 (use-package lsp-java)
@@ -620,6 +619,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package posframe)
 
+;; eval `M-x nerd-icons-install-fonts' if you are seeing weird unicode glyphs
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode))
 
