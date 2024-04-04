@@ -119,7 +119,7 @@
   "Open the API portal."
   (interactive)
   (cider-nrepl-sync-request:eval
-   "(do (ns dev) (def portal ((requiring-resolve 'portal.api/open) {:theme :portal.colors/solarized-dark})) (add-tap (requiring-resolve 'portal.api/submit)))"))
+   "(do (ns dev) (def portal ((requiring-resolve 'portal.api/open) {:theme :portal.colors/solarized-dark, :launcher :emacs})) (add-tap (requiring-resolve 'portal.api/submit)))"))
 
 (defun portal.api/clear ()
   "Clear the state of the portal."
@@ -371,16 +371,12 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
          ("M-'" . lsp-treemacs-call-hierarchy))
 
   :config
-  ;; add paths to your local installation of project mgmt tools, like lein
-  (setenv "PATH" (concat "/usr/local/bin" path-separator (getenv "PATH")))
   (dolist (m '(clojure-mode
                clojurec-mode
                clojurescript-mode
                clojurex-mode))
     (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
-
-  ;; Optional: In case `clojure-lsp` is not in your PATH
-  (setq lsp-clojure-server-command '("bash" "-c" "clojure-lsp"))
+  (add-to-list 'lsp-language-id-configuration '(direnv-envrc-mode . "shellscript"))
 
   :custom
   (lsp-idle-delay 0.5)
@@ -392,7 +388,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   ;; submitting bug reports with `lsp-workspace-show-log`
   (lsp-log-io t)
   (lsp-lens-enable t)
-  (lsp-eldoc-render-all t)
+  (lsp-eldoc-render-all nil)
   (lsp-signature t)
   (lsp-eldoc-enable-hover t)
   (lsp-enable-indentation nil)
