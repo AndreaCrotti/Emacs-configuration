@@ -119,7 +119,7 @@
   "Open the API portal."
   (interactive)
   (cider-nrepl-sync-request:eval
-   "(do (ns dev) (def portal ((requiring-resolve 'portal.api/open) {:theme :portal.colors/solarized-dark, :launcher :emacs})) (add-tap (requiring-resolve 'portal.api/submit)))"))
+   "(do (ns dev) (def portal ((requiring-resolve 'portal.api/open) {:theme :portal.colors/solarized-dark})) (add-tap (requiring-resolve 'portal.api/submit)))"))
 
 (defun portal.api/clear ()
   "Clear the state of the portal."
@@ -1094,6 +1094,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 ;; (use-package hsearch)
 (use-package ghci-completion)
 (use-package flymake-hlint)
+(use-package doom-themes)
 
 (provide 'ca-init)
 ;;; ca-init ends here
