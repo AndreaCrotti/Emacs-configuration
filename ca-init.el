@@ -838,8 +838,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :config
   (setq ripgrep-arguments '("--max-columns 150" "--max-columns-preview")))
 
-(use-package indium)
-
 ;; Enable the www ligature in every possible major mode
 (use-package ligature
   :config
@@ -1023,6 +1021,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (smartparens-global-strict-mode t)
 (use-package erlang)
 (use-package tree-sitter)
+(use-package tree-sitter-langs)
 (use-package tree-sitter-indent)
 
 
