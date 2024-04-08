@@ -360,6 +360,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
          (sh-mode . lsp)
          (typescript-mode . lsp)
          (terraform-mode . lsp)
+         (ocaml-mode  . lsp)
          (tuareg-mode . lsp)
          (web-mode . lsp)
          (yaml-mode . lsp)
@@ -384,8 +385,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (lsp-completion-provider :capf)
   (gc-cons-threshold 100000000)
 
-  ;; turn this on to capture client/server comms before
-  ;; submitting bug reports with `lsp-workspace-show-log`
   (lsp-log-io t)
   (lsp-lens-enable t)
   (lsp-eldoc-render-all nil)
@@ -393,7 +392,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (lsp-eldoc-enable-hover t)
   (lsp-enable-indentation nil)
   (lsp-enable-folding t)
-  (lsp-headerline-breadcrumb-enable nil)
+  (lsp-headerline-breadcrumb-enable t)
   (lsp-idle-delay .01)
   (lsp-keymap-prefix nil)
   (lsp-treemacs-sync-mode t)
@@ -1047,7 +1046,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :custom
   (corfu-auto-delay 0.1)
   (corfu-auto-prefix 2)
-  (corfu-auto nil)
+  (corfu-auto t)
   (corfu-quit-no-match 'separator)
   (corfu-cycle t)
   (corfu-count 20)
