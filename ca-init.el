@@ -384,7 +384,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (read-process-output-max (* 1024 1024))
   (lsp-completion-provider :capf)
   (gc-cons-threshold 100000000)
-
+  (lsp-headerline-breadcrumb-segments '(symbols))
+  (lsp-clojure-custom-server-command '("/opt/homebrew/bin/clojure-lsp"))
   (lsp-log-io t)
   (lsp-lens-enable t)
   (lsp-eldoc-render-all nil)
@@ -1043,9 +1044,9 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package corfu
   :custom
-  (corfu-auto-delay 0.1)
+  (corfu-auto-delay 0.2)
   (corfu-auto-prefix 2)
-  (corfu-auto t)
+  (corfu-auto nil)
   (corfu-quit-no-match 'separator)
   (corfu-cycle t)
   (corfu-count 20)
