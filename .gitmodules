@@ -1,3 +1,6 @@
 [submodule "use-package"]
 	path = use-package
 	url = git@github.com:jwiegley/use-package.git
+[submodule "cider-storm"]
+	path = cider-storm
+	url = git@github.com:flow-storm/cider-storm.git
