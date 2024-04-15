@@ -381,6 +381,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
                clojurex-mode))
     (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
   (add-to-list 'lsp-language-id-configuration '(direnv-envrc-mode . "shellscript"))
+  (add-to-list 'lsp-language-id-configuration '(forge-post-mode . "text"))
 
   :custom
   (lsp-idle-delay 0.5)
