@@ -55,6 +55,8 @@
   (add-to-list 'load-path (make-relative-path "use-package"))
   (require 'use-package))
 
+(add-to-list 'load-path (make-relative-path "cider-storm"))
+
 (require 'package)
 
 (setq custom-safe-themes t)
@@ -197,8 +199,8 @@
   (lsp-mode . dap-mode)
   (lsp-mode . dap-ui-mode))
 
-(use-package diff-hl
-  :config (global-diff-hl-mode t))
+;; (use-package diff-hl
+;;   :config (global-diff-hl-mode t))
 
 (use-package hl-todo
   :config (global-hl-todo-mode t))
@@ -256,6 +258,7 @@
 (use-package git-timemachine)
 
 (use-package gitconfig)
+
 ;; (use-package git-gutter
 ;;   :diminish
 ;;   :hook ((text-mode . git-gutter-mode)
@@ -393,6 +396,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (lsp-eldoc-enable-hover t)
   (lsp-enable-indentation nil)
   (lsp-enable-folding t)
+  ;; this is really a problem only on MAC, but maybe we don't need it anyway
+  (lsp-enable-file-watchers nil)
   (lsp-headerline-breadcrumb-enable t)
   (lsp-idle-delay .01)
   (lsp-keymap-prefix nil)
@@ -1020,6 +1025,9 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package org-ai)
 
 (smartparens-global-strict-mode t)
+;; hack to work around https://github.com/Fuco1/smartparens/issues/1204 for now
+(defalias 'sp--syntax-class-to-char #'syntax-class-to-char)
+
 (use-package erlang)
 (use-package tree-sitter)
 (use-package tree-sitter-langs)
@@ -1046,7 +1054,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :custom
   (corfu-auto-delay 0.2)
   (corfu-auto-prefix 2)
-  (corfu-auto nil)
+  (corfu-auto t)
   (corfu-quit-no-match 'separator)
   (corfu-cycle t)
   (corfu-count 20)
@@ -1094,6 +1102,10 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package ghci-completion)
 (use-package flymake-hlint)
 (use-package doom-themes)
+
+(use-package exec-path-from-shell
+  :config
+  (exec-path-from-shell-initialize))
 
 (provide 'ca-init)
 ;;; ca-init ends here
