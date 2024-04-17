@@ -386,7 +386,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :custom
   (gc-cons-threshold 100000000)
   (lsp-clojure-custom-server-command '("/opt/homebrew/bin/clojure-lsp"))
-  (lsp-completion-provider :capf)
+  (lsp-completion-provider :none)
+  (lsp-completion-show-detail t)
   (lsp-dired-mode t)
   (lsp-eldoc-enable-hover t)
   (lsp-eldoc-render-all nil)
@@ -999,13 +1000,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package dune)
 (use-package tuareg)
 
-(setq treesit-language-source-alist
-      '((astro "https://github.com/virchau13/tree-sitter-astro")
-        (css "https://github.com/tree-sitter/tree-sitter-css")
-        (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")))
-
-(add-to-list 'auto-mode-alist '("\\.astro" . astro-ts-mode))
-
 (defun clerk-show ()
   "Show clerk."
   (interactive)
@@ -1091,7 +1085,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package separedit)
 (use-package bats-mode)
 (use-package verb)
-
 
 (use-package haskell-mode)
 (use-package lsp-haskell)
