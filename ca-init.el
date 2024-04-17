@@ -399,7 +399,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (lsp-idle-delay 0.5)
   (lsp-keymap-prefix nil)
   (lsp-lens-enable t)
-  (lsp-log-io t)
+  (lsp-log-io nil)
   (lsp-signature t)
   (lsp-treemacs-sync-mode t)
   (read-process-output-max (* 1024 1024)))
