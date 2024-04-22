@@ -1096,7 +1096,12 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package exec-path-from-shell
   :config
-  (exec-path-from-shell-initialize))
+  (exec-path-from-shell-initialize)
+  (add-to-list 'exec-path-from-shell-variables "LSP_USE_PLISTS"))
 
+(use-package ts-fold
+  :straight (ts-fold :type git :host github :repo "emacs-tree-sitter/ts-fold"))
+
+(use-package protobuf-mode)
 (provide 'ca-init)
 ;;; ca-init ends here
