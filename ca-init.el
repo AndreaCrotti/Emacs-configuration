@@ -1041,7 +1041,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package embark)
 
-
 (use-package corfu
   :custom
   (corfu-auto-delay 0.2)
@@ -1053,6 +1052,12 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (corfu-max-width 120)
   (corfu-popupinfo-delay '(1.5 0.5))
   (corfu-popupinfo-hide nil)
+  :bind (:map corfu-map
+              ("C-j" . corfu-next)
+              ("C-k" . corfu-previous)
+              ("TAB" . corfu-insert)
+              ([tab] . corfu-insert)
+              ("C-f" . corfu-insert))
 
   :init
   (global-corfu-mode)
