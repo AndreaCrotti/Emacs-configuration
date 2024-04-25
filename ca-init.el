@@ -138,6 +138,7 @@
   :hook (cider-mode . clj-refactor-mode)
   :diminish subword-mode
   :bind (("C-<f5>" . cider-test-run-test))
+
   ;; add this when the syntax is fixed
   ;; :hook
   ;; (lambda ()
@@ -147,8 +148,10 @@
   :config
   (setq cider-font-lock-dynamically '(macro core function var)
         nrepl-hide-special-buffers t
-
         cider-overlays-use-font-lock t)
+  ;; only necessary for corfu?
+  ;; (add-to-list 'completion-category-defaults '(cider (styles basic)))
+
   :custom
   (cider-prompt-for-symbol nil)
   (cider-repl-display-help-banner nil)
@@ -339,6 +342,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :hook ((lsp-mode . lsp-enable-which-key-integration)
          (c-mode . lsp)
          (c-ts-mode . lsp)
+         (c-sharp-mode . lsp)
          (cc-mode . lsp)
          (clojure-mode . lsp)
          (clojure-ts-mode . lsp)
@@ -352,6 +356,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
          (elm-mode . lsp)
          (graphql-mode . lsp)
          (haskell-mode . lsp)
+         (html-mode . lsp)
          (lua-mode . lsp)
          (json-mode . lsp)
          (kotlin-mode . lsp)
@@ -386,7 +391,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :custom
   (gc-cons-threshold 100000000)
   (lsp-clojure-custom-server-command '("/opt/homebrew/bin/clojure-lsp"))
-  (lsp-completion-provider :none)
+  ;; change it to :none if using corfu
+  (lsp-completion-provider :capf)
   (lsp-completion-show-detail t)
   (lsp-dired-mode t)
   (lsp-eldoc-enable-hover t)
@@ -701,22 +707,22 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :custom
   (vertico-cycle t)
   (vertico-resize t)
-  (vertico-scroll-margin 0)
+  (vertico-scroll-margin 10)
   (vertico-count 20))
 
 (use-package vertico-prescient
   :init
   (vertico-prescient-mode))
 
-;; Optionally use the `orderless' completion style.
-(use-package orderless
-  :init
-  ;; Configure a custom style dispatcher (see the Consult wiki)
-  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
-  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
-  (setq completion-styles '(orderless basic)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion)))))
+;; ;; Optionally use the `orderless' completion style.
+;; (use-package orderless
+;;   :init
+;;   ;; Configure a custom style dispatcher (see the Consult wiki)
+;;   ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
+;;   ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+;;   (setq completion-styles '(orderless basic)
+;;         ;; completion-category-defaults nil
+;;         completion-category-overrides '((file (styles partial-completion)))))
 
 
 (use-package marginalia
@@ -989,10 +995,11 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 (use-package eshell
-  :hook
-  (eshell-mode . (lambda ()
-                   (setq-local corfu-auto nil)
-                   (corfu-mode))))
+  ;; :hook
+  ;; (eshell-mode . (lambda ()
+  ;;                  (setq-local corfu-auto nil)
+  ;;                  (corfu-mode)))
+  )
 (use-package eat)
 (use-package exercism)
 (use-package leetcode)
@@ -1041,46 +1048,46 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package embark)
 
-(use-package corfu
-  :custom
-  (corfu-auto-delay 0.2)
-  (corfu-auto-prefix 2)
-  (corfu-auto t)
-  (corfu-quit-no-match 'separator)
-  (corfu-cycle t)
-  (corfu-count 20)
-  (corfu-max-width 120)
-  (corfu-popupinfo-delay '(1.5 0.5))
-  (corfu-popupinfo-hide nil)
-  :bind (:map corfu-map
-              ("C-j" . corfu-next)
-              ("C-k" . corfu-previous)
-              ("TAB" . corfu-insert)
-              ([tab] . corfu-insert)
-              ("C-f" . corfu-insert))
+;; (use-package corfu
+;;   :custom
+;;   (corfu-auto-delay 0.2)
+;;   (corfu-auto-prefix 2)
+;;   (corfu-auto t)
+;;   (corfu-quit-no-match 'separator)
+;;   (corfu-cycle t)
+;;   (corfu-count 20)
+;;   (corfu-max-width 120)
+;;   (corfu-popupinfo-delay '(1.5 0.5))
+;;   (corfu-popupinfo-hide nil)
+;;   :bind (:map corfu-map
+;;               ("C-j" . corfu-next)
+;;               ("C-k" . corfu-previous)
+;;               ("TAB" . corfu-insert)
+;;               ([tab] . corfu-insert)
+;;               ("C-f" . corfu-insert))
 
-  :init
-  (global-corfu-mode)
+;;   :init
+;;   (global-corfu-mode)
 
-  :config
-  (corfu-popupinfo-mode t)
-  (corfu-history-mode t)
-  (corfu-indexed-mode t))
+;;   :config
+;;   (corfu-popupinfo-mode t)
+;;   (corfu-history-mode t)
+;;   (corfu-indexed-mode t))
 
-(use-package kind-icon
-  :after corfu
-  :custom
-  (kind-icon-default-style '(:padding 0 :stroke 0 :margin 0 :radius 0 :height 0.8 :scale 0.8 :background nil))
-  (kind-icon-default-face 'corfu-default)
-  :config
-  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+;; (use-package kind-icon
+;;   :after corfu
+;;   :custom
+;;   (kind-icon-default-style '(:padding 0 :stroke 0 :margin 0 :radius 0 :height 0.8 :scale 0.8 :background nil))
+;;   (kind-icon-default-face 'corfu-default)
+;;   :config
+;;   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 (use-package cape)
 
-(use-package corfu-terminal
-  :config
-  (unless (display-graphic-p)
-    (corfu-terminal-mode +1)))
+;; (use-package corfu-terminal
+;;   :config
+;;   (unless (display-graphic-p)
+;;     (corfu-terminal-mode +1)))
 
 (use-package emacs
   :init
@@ -1107,6 +1114,29 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package ts-fold
   :straight (ts-fold :type git :host github :repo "emacs-tree-sitter/ts-fold"))
 
+
+(use-package shannon-max
+  :ensure t
+  :straight (shannon-max :type git :host github :repo "sstraust/shannonmax"))
+
 (use-package protobuf-mode)
+
+(use-package company
+  :init (global-company-mode)
+  :custom
+  (company-tooltip-align-annotations t)
+  (company-minimum-prefix-length 0)
+  (company-idle-delay 0.2)
+  (company-show-numbers t))
+
+
+(use-package company-dict)
+(use-package company-restclient)
+(use-package company-shell)
+(use-package company-math)
+(use-package company-terraform)
+(use-package company-web)
+(use-package company-fuzzy)
+
 (provide 'ca-init)
 ;;; ca-init ends here
