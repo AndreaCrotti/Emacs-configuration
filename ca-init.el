@@ -391,6 +391,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :custom
   (gc-cons-threshold 100000000)
   (lsp-clojure-custom-server-command '("/opt/homebrew/bin/clojure-lsp"))
+  (lsp-completion-enable nil)
   ;; change it to :none if using corfu
   (lsp-completion-provider :capf)
   (lsp-completion-show-detail t)
