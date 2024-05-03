@@ -210,6 +210,8 @@
 
 (use-package diminish)
 (use-package docker)
+(use-package docker-api)
+(use-package docker-cli)
 (use-package dockerfile-mode)
 (use-package docker-compose-mode)
 (use-package dracula-theme)
@@ -361,6 +363,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
          (json-mode . lsp)
          (kotlin-mode . lsp)
          (markdown-mode . lsp)
+         (protobuf-mode . lsp)
          (python-mode . lsp)
          (python-ts-mode . lsp)
          (rust-mode . lsp)
@@ -473,6 +476,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package forge)
 
 (use-package magit
+  :after forge
   :bind (("\C-xg" . magit-status))
   ;; should we load forge automatically if possible?
   :config (require 'forge)
