@@ -505,9 +505,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (marginalia-mode))
 
 (use-package mixed-pitch)
-
 (use-package olivetti)
-
 (use-package markdown-mode
   ;; :hook
   ;; (markdown-mode . mixed-pitch-mode)
@@ -849,6 +847,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (treemacs-tag-follow-mode nil)
   (treemacs-tag-follow-delay 3)
   )
+
+(use-package treemacs-icons-dired)
 
 (use-package treemacs-projectile
   :after (treemacs projectile))
