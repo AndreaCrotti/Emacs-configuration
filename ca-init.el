@@ -178,6 +178,7 @@
   :hook
   (clojure-mode . cider-hydra-mode))
 
+(use-package kibit-helper)
 (use-package clojure-mode
   :mode (("\\.clj\\'" . clojure-mode)
          ("\\.edn\\'" . clojure-mode))
@@ -1145,6 +1146,19 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package company-terraform)
 (use-package company-web)
 (use-package company-fuzzy)
+(use-package company-quickhelp
+  :config
+  (company-quickhelp-mode))
+
+(use-package swiper)
+(use-package fancy-compilation
+  :ensure t
+  :commands (fancy-compilation-mode))
+
+(with-eval-after-load 'compile
+  (fancy-compilation-mode))
+
+(use-package multi-compile)
 
 (provide 'ca-init)
 ;;; ca-init ends here
