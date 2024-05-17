@@ -256,6 +256,7 @@
 (use-package gitlab)
 (use-package gitlab-ci-mode)
 (use-package gitlab-ci-mode-flycheck)
+(use-package git-modes)
 (use-package git-commit)
 (use-package git-auto-commit-mode
   :custom
@@ -491,6 +492,9 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   )
 
 (use-package magit-lfs)
+(use-package magit-stats)
+(use-package magit-annex)
+(use-package magit-find-file)
 
 (use-package marginalia
   :bind (("M-A" . marginalia-cycle)
