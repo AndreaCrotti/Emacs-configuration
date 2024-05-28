@@ -161,6 +161,8 @@
   (cider-repl-use-pretty-printing t)
   (cider-repl-prompt-function 'cider-repl-prompt-abbreviated)
   (cider-repl-tab-command #'indent-for-tab-command)
+
+  ;; enable again when it works on @30
   (cider-enrich-classpath t)
   (cider-repl-buffer-size-limit 100000)
   (cider-repl-require-ns-on-set nil)
@@ -919,12 +921,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (global-set-key (kbd "M-p") 'ca-prev-defun)
 (global-set-key (kbd "M-n") 'ca-next-defun)
 
-(dolist (f '("aliases.el" "hacks.el" "custom.el"))
-  (when (file-exists-p (make-relative-path f))
-    ;; use require here also if possible
-    (message "loading extra file" f)
-    (load-file (make-relative-path f))))
-
 (defhydra hydra-zoom (global-map "C-<f2>")
   "zoom"
   ("g" text-scale-increase "in")
@@ -1104,7 +1100,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package emacs
   :init
-  (setq tab-always-indent 'complete))
+  (setq tab-always-indent 'complete)
+  (column-number-mode t))
 
 (use-package epkg)
 (use-package separedit)
@@ -1163,6 +1160,12 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (fancy-compilation-mode))
 
 (use-package multi-compile)
+
+(dolist (f '("aliases.el" "hacks.el" "custom.el"))
+  (when (file-exists-p (make-relative-path f))
+    ;; use require here also if possible
+    (message "loading extra file" f)
+    (load-file (make-relative-path f))))
 
 (provide 'ca-init)
 ;;; ca-init ends here
