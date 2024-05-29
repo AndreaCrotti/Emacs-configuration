@@ -1156,6 +1156,10 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :ensure t
   :commands (fancy-compilation-mode))
 
+(use-package so-long
+  :config
+  (global-so-long-mode t))
+
 (with-eval-after-load 'compile
   (fancy-compilation-mode))
 
