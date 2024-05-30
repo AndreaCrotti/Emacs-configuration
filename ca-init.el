@@ -347,39 +347,38 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
   :hook ((lsp-mode . lsp-enable-which-key-integration)
          (c-mode . lsp)
-         (c-ts-mode . lsp)
          (c-sharp-mode . lsp)
+         (c-ts-mode . lsp)
          (cc-mode . lsp)
          (clojure-mode . lsp)
          (clojure-ts-mode . lsp)
          (clojurec-mode . lsp)
          (clojurescript-mode . lsp)
          (dockerfile-mode . lsp)
-         (go-mode . lsp)
-         (java-mode . lsp)
-         (json-mode . lsp)
          (elixir-mode . lsp)
          (elm-mode . lsp)
+         (go-mode . lsp)
          (graphql-mode . lsp)
          (haskell-mode . lsp)
          (html-mode . lsp)
-         (lua-mode . lsp)
+         (java-mode . lsp)
          (json-mode . lsp)
          (kotlin-mode . lsp)
+         (lua-mode . lsp)
          (markdown-mode . lsp)
+         (ocaml-mode  . lsp)
          (protobuf-mode . lsp)
          (python-mode . lsp)
          (python-ts-mode . lsp)
          (rust-mode . lsp)
          (scala-mode . lsp)
          (sh-mode . lsp)
-         (typescript-mode . lsp)
          (terraform-mode . lsp)
-         (ocaml-mode  . lsp)
          (tuareg-mode . lsp)
+         (typescript-mode . lsp)
          (web-mode . lsp)
-         (yaml-mode . lsp)
          (xml-mode . lsp)
+         (yaml-mode . lsp)
          (zig-mode . lsp))
 
   :bind (("M-?" . lsp-find-definition)
@@ -838,6 +837,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package treemacs
   :after (projectile)
   :custom
+  (treemacs-resize-icons 10)
   (treemacs-filewatch-mode t)
   (treemacs-follow-mode t)
   ;; this keeps on asking the mode otherwise
@@ -848,6 +848,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (treemacs-project-follow-mode t)
   (treemacs-tag-follow-mode nil)
   (treemacs-tag-follow-delay 3)
+  :hook
+  ((treemacs-mode . (lambda () (text-scale-adjust -3))))
   )
 
 (use-package treemacs-icons-dired)
@@ -1151,7 +1153,10 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :config
   (company-quickhelp-mode))
 
-(use-package swiper)
+(use-package swiper
+  :bind
+  ("M-s o" . swiper))
+
 (use-package fancy-compilation
   :ensure t
   :commands (fancy-compilation-mode))
