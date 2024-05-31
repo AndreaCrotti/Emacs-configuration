@@ -1170,6 +1170,12 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package multi-compile)
 
+(use-package writegood-mode
+  :hook ((markdown-mode nroff-mode org-mode
+                        mail-mode
+                        git-commit-mode)
+         . writegood-mode))
+
 (dolist (f '("aliases.el" "hacks.el" "custom.el"))
   (when (file-exists-p (make-relative-path f))
     ;; use require here also if possible
