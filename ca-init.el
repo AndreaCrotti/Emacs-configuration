@@ -373,6 +373,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
          (rust-mode . lsp)
          (scala-mode . lsp)
          (sh-mode . lsp)
+         (sql-mode. lsp)
          (terraform-mode . lsp)
          (tuareg-mode . lsp)
          (typescript-mode . lsp)
@@ -607,6 +608,9 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package citar
   :custom
   (citar-bibliography '("~/RoamNotes/references.bib")))
+
+(use-package sql-indent
+  :hook (sql-mode . sqlind-minor-mode))
 
 (use-package websocket
   :after org-roam)
