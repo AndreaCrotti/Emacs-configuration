@@ -563,6 +563,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
      (nix . t)
      (rust . t)
      (clojure . t)
+     (sql . t)
      (plantuml . t)))
   (add-to-list 'org-structure-template-alist '("N" . "notes"))
   :custom
@@ -1159,7 +1160,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package swiper
   :bind
-  ("M-s o" . swiper))
+  ("C-r" . swiper-backward)
+  ("C-s" . swiper))
 
 (use-package fancy-compilation
   :ensure t
