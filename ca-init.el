@@ -1160,8 +1160,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package swiper
   :bind
-  ("C-r" . swiper-backward)
-  ("C-s" . swiper))
+  ("C-r" . swiper-isearch-backward)
+  ("C-s" . swiper-isearch))
 
 (use-package fancy-compilation
   :ensure t
