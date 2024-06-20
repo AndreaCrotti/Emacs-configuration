@@ -250,11 +250,7 @@
 (use-package flycheck-clj-kondo)
 ;; (use-package flycheck-clojure)
 (use-package flycheck-pos-tip)
-(use-package flyspell
-  :diminish flyspell-mode
-  :config
-  :hook ((text-mode . flyspell-mode)
-         (prog-mode . flyspell-prog-mode)))
+
 
 (use-package graphviz-dot-mode)
 (use-package gist)
@@ -270,6 +266,12 @@
 (use-package git-timemachine)
 
 (use-package gitconfig)
+
+(use-package jinx
+  :hook (emacs-startup . global-jinx-mode)
+  :bind (;; ("M-$" . jinx-correct)
+         ;; ("C-M-$" . jinx-languages)
+         ))
 
 ;; (use-package git-gutter
 ;;   :diminish
@@ -1146,10 +1148,9 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :init (global-company-mode)
   :custom
   (company-tooltip-align-annotations t)
-  (company-minimum-prefix-length 0)
+  (company-minimum-prefix-length 1)
   (company-idle-delay 0.2)
   (company-show-numbers t))
-
 
 (use-package company-dict)
 (use-package company-restclient)
