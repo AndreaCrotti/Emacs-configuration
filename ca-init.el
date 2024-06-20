@@ -154,6 +154,9 @@
 
   :custom
   (cider-prompt-for-symbol nil)
+  ;; workaroudn the issue with `clear' and the output not being
+  ;; printed out
+  (cider-repl-display-output-before-window-boundaries nil)
   (cider-repl-display-help-banner nil)
   (cider-repl-pop-to-buffer-on-connect 'display-only)
   (cider-repl-display-in-current-window nil)
@@ -611,7 +614,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (citar-bibliography '("~/RoamNotes/references.bib")))
 
 (use-package sql-indent
-  :hook (sql-mode . sqlind-minor-mode))
+  ;; :hook (sql-mode . sqlind-minor-mode)
+  )
 
 (use-package websocket
   :after org-roam)
@@ -1181,6 +1185,14 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
                         mail-mode
                         git-commit-mode)
          . writegood-mode))
+
+(use-package ellama
+  :init
+  (setopt ellama-language "English")
+  (require 'llm-ollama)
+  (setopt ellama-provider
+	  (make-llm-ollama
+	   :chat-model "codellama" :embedding-model "codellama")))
 
 (dolist (f '("aliases.el" "hacks.el" "custom.el"))
   (when (file-exists-p (make-relative-path f))
