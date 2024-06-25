@@ -815,6 +815,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (darkroom-mode 1)
   (display-line-numbers-mode 0))
 
+(size-indication-mode t)
+
 (defun ac/leave-focus-mode ()
   "Leave focus mode."
   (interactive)
