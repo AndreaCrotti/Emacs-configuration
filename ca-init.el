@@ -4,6 +4,13 @@
 (setq package-enable-at-startup nil)
 
 (defvar bootstrap-version)
+
+(unless (package-installed-p 'quelpa)
+  (with-temp-buffer
+    (url-insert-file-contents "https://raw.githubusercontent.com/quelpa/quelpa/master/quelpa.el")
+    (eval-buffer)
+    (quelpa-self-upgrade)))
+
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
       (bootstrap-version 6))
@@ -164,6 +171,7 @@
   (cider-repl-use-pretty-printing t)
   (cider-repl-prompt-function 'cider-repl-prompt-abbreviated)
   (cider-repl-tab-command #'indent-for-tab-command)
+  (cider-ns-code-reload-tool 'clj-reload)
 
   ;; enable again when it works on @30
   (cider-enrich-classpath t)
@@ -1189,13 +1197,17 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
                         git-commit-mode)
          . writegood-mode))
 
-(use-package ellama
-  :init
-  (setopt ellama-language "English")
-  (require 'llm-ollama)
-  (setopt ellama-provider
-	  (make-llm-ollama
-	   :chat-model "codellama" :embedding-model "codellama")))
+(use-package khoj :pin melpa-stable :bind ("C-c s" . 'khoj))
+
+(use-package visual-regexp)
+
+;; (use-package ellama
+;;   :init
+;;   (setopt ellama-language "English")
+;;   ;; (require 'llm-ollama)
+;;   (setopt ellama-provider
+;; 	  (make-llm-ollama
+;; 	   :chat-model "codellama" :embedding-model "codellama")))
 
 (dolist (f '("aliases.el" "hacks.el" "custom.el"))
   (when (file-exists-p (make-relative-path f))
