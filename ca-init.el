@@ -180,6 +180,9 @@
   (nrepl-log-messages t)
   (cider-auto-test-mode t))
 
+(use-package cider-decompile)
+(use-package clj-decompiler)
+
 (use-package babashka)
 
 (use-package neil
@@ -1215,5 +1218,9 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
     (message "loading extra file" f)
     (load-file (make-relative-path f))))
 
+(use-package nodejs-repl)
+
+(require 'asdf)
+(asdf-enable)
 (provide 'ca-init)
 ;;; ca-init ends here
