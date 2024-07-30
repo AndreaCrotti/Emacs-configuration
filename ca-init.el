@@ -1200,8 +1200,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
                         git-commit-mode)
          . writegood-mode))
 
-(use-package khoj :pin melpa-stable :bind ("C-c s" . 'khoj))
-
 (use-package visual-regexp)
 
 ;; (use-package ellama
@@ -1219,6 +1217,12 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
     (load-file (make-relative-path f))))
 
 (use-package nodejs-repl)
+(use-package biome)
+
+(use-package biomejs-format)
+
+(use-package js-format)
+(use-package vterm)
 
 (require 'asdf)
 (asdf-enable)
