@@ -1224,7 +1224,10 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package js-format)
 (use-package vterm)
 
+(use-package prettier-js)
+
 (require 'asdf)
 (asdf-enable)
+
 (provide 'ca-init)
 ;;; ca-init ends here
