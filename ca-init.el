@@ -253,7 +253,6 @@
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
 
-(use-package fancy-narrow)
 (use-package find-file-in-repository)
 (use-package flycheck
   :init (global-flycheck-mode))
@@ -269,7 +268,6 @@
 (use-package gitlab-ci-mode)
 (use-package gitlab-ci-mode-flycheck)
 (use-package git-modes)
-(use-package git-commit)
 (use-package git-auto-commit-mode
   :custom
   (gac-debounce-interval 0.5))
