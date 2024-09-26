@@ -1226,6 +1226,10 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (require 'asdf)
 (asdf-enable)
+(straight-use-package 'gptel)
+
+(use-package app-launcher
+  :straight '(app-launcher :host github :repo "SebastienWae/app-launcher"))
 
 (provide 'ca-init)
 ;;; ca-init ends here
