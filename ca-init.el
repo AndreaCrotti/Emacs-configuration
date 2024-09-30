@@ -432,6 +432,11 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (lsp-treemacs-sync-mode t)
   (read-process-output-max (* 1024 1024)))
 
+(use-package elixir-mode)
+(use-package inf-elixir)
+;; (use-package elixir-ts-mode)
+(use-package flycheck-elixir)
+
 (use-package graphql)
 (use-package graphql-doc)
 (use-package graphql-mode)
