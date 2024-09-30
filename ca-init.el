@@ -1072,10 +1072,11 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 
 (use-package treesit-auto
-  ;; causes some issue for cider for example
-  ;; :config
-  ;; (treesit-auto-add-to-auto-mode-alist 'all)
-  )
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
 
 (use-package combobulate
   :straight t
