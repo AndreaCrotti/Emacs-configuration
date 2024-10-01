@@ -1070,7 +1070,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package tree-sitter-langs)
 (use-package tree-sitter-indent)
 
-
 (use-package treesit-auto
   :custom
   (treesit-auto-install 'prompt)
@@ -1152,8 +1151,9 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (add-to-list 'exec-path-from-shell-variables "LSP_USE_PLISTS"))
 
 (use-package ts-fold
-  :straight (ts-fold :type git :host github :repo "emacs-tree-sitter/ts-fold"))
-
+  :straight (ts-fold :type git :host github :repo "emacs-tree-sitter/ts-fold")
+  :config
+  (global-ts-fold-mode))
 
 (use-package shannon-max
   :ensure t
