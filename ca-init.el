@@ -436,6 +436,9 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package inf-elixir)
 ;; (use-package elixir-ts-mode)
 (use-package flycheck-elixir)
+(use-package mix
+  :hook
+  (elixir-mode . mix-mode-hook))
 
 (use-package graphql)
 (use-package graphql-doc)
