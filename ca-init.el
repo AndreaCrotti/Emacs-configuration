@@ -410,7 +410,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
   :custom
   (gc-cons-threshold 100000000)
-  (lsp-clojure-custom-server-command '("/opt/homebrew/bin/clojure-lsp"))
   (lsp-completion-enable nil)
   ;; change it to :none if using corfu
   (lsp-completion-provider :capf)
@@ -1172,6 +1171,11 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (company-idle-delay 0.2)
   (company-show-numbers t))
 
+(use-package company-jedi
+  ;; is this actually doing anything?
+  ;; :config
+  ;; (add-to-list 'company-backends 'company-jedi)
+  )
 (use-package company-dict)
 (use-package company-restclient)
 (use-package company-shell)
@@ -1233,6 +1237,11 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package prettier-js)
 
+(use-package astro-ts-mode
+  :config
+  (add-to-list 'auto-mode-alist (cons "\\.astro\\'" 'astro-ts-mode)))
+
+(use-package kubernetes)
 (require 'asdf)
 (asdf-enable)
 (straight-use-package 'gptel)
