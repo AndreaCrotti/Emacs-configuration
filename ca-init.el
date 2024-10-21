@@ -672,7 +672,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :bind (("<f6>" . projectile-ripgrep)
          ("C-<f6>" . projectile-replace)
          ("<f7>" . projectile-find-file)
-         ("<f8>" . projectile-run-shell)
+         ("<f8>" . projectile-run-vterm)
          ("<f9>" . projectile-command-map)
          :map projectile-mode-map
          ("s-d" . projectile-find-dir)
