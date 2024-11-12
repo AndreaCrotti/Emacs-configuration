@@ -352,6 +352,11 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   ("ua" lsp-clojure-unwind-all)
   ("uw" lsp-clojure-unwind-thread))
 
+(use-package elpy
+  :ensure t
+  :hook ((python-mode . elpy-mode))
+  :init (elpy-enable))
+
 (use-package lsp-mode
   :custom
   ;; (lsp-pylsp-plugins-autopep8-enabled  nil)
@@ -430,6 +435,11 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (lsp-signature t)
   (lsp-treemacs-sync-mode t)
   (read-process-output-max (* 1024 1024)))
+
+(use-package python
+  :custom
+  ;; should use ipython really
+  (python-shell-interpreter "python3"))
 
 (use-package poetry)
 (use-package pyenv-mode)
