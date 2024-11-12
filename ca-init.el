@@ -439,6 +439,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (lsp-treemacs-sync-mode t)
   (read-process-output-max (* 1024 1024)))
 
+(use-package blacken)
 (use-package python
   :custom
   ;; should use ipython really
