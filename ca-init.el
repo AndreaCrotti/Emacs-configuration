@@ -249,7 +249,9 @@
 ;;   :custom
 ;;   (clomacs-httpd-default-port 8090))
 
-(use-package emmet-mode)
+(use-package emmet-mode
+  :hook (html-mode . emmet-mode))
+
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
 
@@ -393,6 +395,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
          (scala-mode . lsp)
          (sh-mode . lsp)
          (sql-mode. lsp)
+         (tex-mode . lsp)
          (terraform-mode . lsp)
          (tuareg-mode . lsp)
          (typescript-mode . lsp)
@@ -443,6 +446,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package poetry)
 (use-package pyenv-mode)
+(use-package pytest)
 (use-package elixir-mode)
 (use-package inf-elixir)
 ;; (use-package elixir-ts-mode)
@@ -1253,6 +1257,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :config
   (add-to-list 'auto-mode-alist (cons "\\.astro\\'" 'astro-ts-mode)))
 
+(use-package pipenv)
 (use-package kubernetes)
 (require 'asdf)
 (asdf-enable)
