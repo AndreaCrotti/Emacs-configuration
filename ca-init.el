@@ -1230,6 +1230,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
     (message "loading extra file" f)
     (load-file (make-relative-path f))))
 
+(require 'ca-python)
+
 (use-package nodejs-repl)
 (use-package biome)
 
