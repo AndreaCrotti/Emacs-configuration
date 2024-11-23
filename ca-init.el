@@ -354,11 +354,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   ("ua" lsp-clojure-unwind-all)
   ("uw" lsp-clojure-unwind-thread))
 
-(use-package elpy
-  :ensure t
-  :hook ((python-mode . elpy-mode))
-  :init (elpy-enable))
-
 (use-package lsp-mode
   :custom
   ;; (lsp-pylsp-plugins-autopep8-enabled  nil)
@@ -439,15 +434,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (lsp-treemacs-sync-mode t)
   (read-process-output-max (* 1024 1024)))
 
-(use-package blacken)
-(use-package python
-  :custom
-  ;; should use ipython really
-  (python-shell-interpreter "python3"))
-
-(use-package poetry)
-(use-package pyenv-mode)
-(use-package pytest)
 (use-package elixir-mode)
 (use-package inf-elixir)
 ;; (use-package elixir-ts-mode)
@@ -1258,11 +1244,20 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :config
   (add-to-list 'auto-mode-alist (cons "\\.astro\\'" 'astro-ts-mode)))
 
-(use-package pipenv)
 (use-package kubernetes)
 (require 'asdf)
 (asdf-enable)
 (straight-use-package 'gptel)
+
+(use-package combobulate
+   :custom
+   ;; You can customize Combobulate's key prefix here.
+   ;; Note that you may have to restart Emacs for this to take effect!
+   (combobulate-key-prefix "C-c o")
+   :hook ((prog-mode . combobulate-mode))
+   ;; Amend this to the directory where you keep Combobulate's source
+   ;; code.
+   :load-path ("~/src/forks/combobulate/"))
 
 (use-package app-launcher
   :straight '(app-launcher :host github :repo "SebastienWae/app-launcher"))
