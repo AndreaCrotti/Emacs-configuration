@@ -1,4 +1,5 @@
-(use-package blacken)
+(use-package blacken
+  :ensure t)
 
 (use-package python
   :custom
@@ -21,14 +22,15 @@
 (use-package python-pytest
   :ensure t)
 
-(use-package python-black)
+(use-package python-black
+  :ensure t)
 
 (use-package python-isort)
 
 (use-package ruff-format)
 
 (use-package pet
-  :ensure-system-package (dasel sqlite3)
+  ;; :ensure-system-package (dasel sqlite3)
   :config
   (add-hook 'python-mode-hook
             (lambda ()
