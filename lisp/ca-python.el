@@ -1,11 +1,11 @@
 (use-package blacken)
+
 (use-package python
   :custom
   ;; should use ipython really
   (python-shell-interpreter "python3"))
 
 (use-package elpy
-  :ensure t
   :hook ((python-mode . elpy-mode))
   :init (elpy-enable))
 
@@ -18,18 +18,16 @@
 (use-package dap-python
   :after lsp)
 
-(use-package python-pytest)
+(use-package python-pytest
+  :ensure t)
 
 (use-package python-black)
 
-(use-package python-isort
-  :ensure t)
+(use-package python-isort)
 
-(use-package ruff-format
-  :ensure t)
+(use-package ruff-format)
 
 (use-package pet
-  :ensure t
   :ensure-system-package (dasel sqlite3)
   :config
   (add-hook 'python-mode-hook
