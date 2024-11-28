@@ -949,7 +949,9 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (setq zoom-mode t
         zoom-size '(0.618 . 0.618)))
 
-(use-package terraform-mode)
+(use-package terraform-mode
+  :ensure-system-package terraform)
+
 (use-package terraform-doc)
 
 (use-package hungry-delete
@@ -966,7 +968,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package tern)
 
-(use-package sly)
+(use-package sly
+  :ensure-system-package sbcl)
 
 (global-set-key (kbd "M-p") 'ca-prev-defun)
 (global-set-key (kbd "M-n") 'ca-next-defun)
@@ -994,8 +997,11 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package github-browse-file)
 
-(use-package sqlite3)
+(use-package sqlite3
+  :ensure-system-package sqlite3)
+
 (use-package sqlformat
+  :ensure-system-package sqlfluff
   :custom
   (sqlformat-command 'sqlfluff)
   ;; how do we make this smarter?
@@ -1004,16 +1010,19 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
                                   (toggle-truncate-lines t))))
 
 
-(use-package zig-mode)
+(use-package zig-mode
+  :ensure-system-package zig)
 
 (defun lsp-go-install-save-hooks ()
   (add-hook 'before-save-hook #'lsp-format-buffer t t)
   ;; (add-hook 'before-save-hook #'lsp-organize-imports t t)
   )
 
-(use-package lua-mode)
+(use-package lua-mode
+  :ensure-system-package lua)
 
 (use-package go-mode
+  :ensure-system-package go
   :hook
   (go-mode . lsp-go-install-save-hooks))
 
@@ -1021,7 +1030,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :hook
   (go-mode . gorepl-mode))
 
-(use-package chezmoi)
+(use-package chezmoi
+  :ensure-system-package chezmoi)
 
 (use-package highlight-indent-guides
   :custom (highlight-indent-guides-method 'character)
@@ -1039,8 +1049,9 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package svelte-mode)
 
 (use-package direnv
- :config
- (direnv-mode))
+  :ensure-system-package direnv
+  :config
+  (direnv-mode))
 
 (use-package envrc
   :hook
@@ -1107,46 +1118,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package embark)
 
-;; (use-package corfu
-;;   :custom
-;;   (corfu-auto-delay 0.2)
-;;   (corfu-auto-prefix 2)
-;;   (corfu-auto t)
-;;   (corfu-quit-no-match 'separator)
-;;   (corfu-cycle t)
-;;   (corfu-count 20)
-;;   (corfu-max-width 120)
-;;   (corfu-popupinfo-delay '(1.5 0.5))
-;;   (corfu-popupinfo-hide nil)
-;;   :bind (:map corfu-map
-;;               ("C-j" . corfu-next)
-;;               ("C-k" . corfu-previous)
-;;               ("TAB" . corfu-insert)
-;;               ([tab] . corfu-insert)
-;;               ("C-f" . corfu-insert))
-
-;;   :init
-;;   (global-corfu-mode)
-
-;;   :config
-;;   (corfu-popupinfo-mode t)
-;;   (corfu-history-mode t)
-;;   (corfu-indexed-mode t))
-
-;; (use-package kind-icon
-;;   :after corfu
-;;   :custom
-;;   (kind-icon-default-style '(:padding 0 :stroke 0 :margin 0 :radius 0 :height 0.8 :scale 0.8 :background nil))
-;;   (kind-icon-default-face 'corfu-default)
-;;   :config
-;;   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
-
 (use-package cape)
-
-;; (use-package corfu-terminal
-;;   :config
-;;   (unless (display-graphic-p)
-;;     (corfu-terminal-mode +1)))
 
 (use-package emacs
   :init
