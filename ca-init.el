@@ -25,6 +25,7 @@
 
 (straight-use-package 'use-package)
 
+(require 'use-package-ensure-system-package)
 ;; performance changes
 
 
@@ -264,7 +265,9 @@
 (use-package flycheck-pos-tip)
 
 
-(use-package graphviz-dot-mode)
+(use-package graphviz-dot-mode
+  :ensure-system-package dot)
+
 (use-package gist)
 (use-package gitlab)
 (use-package gitlab-ci-mode)
@@ -494,11 +497,14 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package cargo-mode)
 
-(use-package jq-mode)
+(use-package jq-mode
+  :ensure-system-package jq)
 
-(use-package jq-format)
+(use-package jq-format
+  :ensure-system-package jq)
 
-(use-package restclient-jq)
+(use-package restclient-jq
+  :ensure-system-package jq)
 
 (use-package forge)
 
@@ -507,7 +513,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :bind (("\C-xg" . magit-status))
   ;; should we load forge automatically if possible?
   :config (require 'forge)
-  )
+  :ensure-system-package git)
 
 
 (use-package magit-todos
@@ -517,10 +523,17 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   ;; :hook (magit-mode . magit-delta-mode)
   )
 
-(use-package magit-lfs)
-(use-package magit-stats)
-(use-package magit-annex)
-(use-package magit-find-file)
+(use-package magit-lfs
+  :after magit)
+
+(use-package magit-stats
+  :after magit)
+
+(use-package magit-annex
+  :after magit)
+
+(use-package magit-find-file
+  :after magit)
 
 (use-package marginalia
   :bind (("M-A" . marginalia-cycle)
@@ -862,7 +875,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package winner
   :config (winner-mode t))
 
-(use-package wakatime-mode)
+(use-package wakatime-mode
+  :ensure-system-package wakatime-cli)
 
 (use-package all-the-icons)
 
@@ -892,6 +906,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package treemacs-all-the-icons)
 
 (use-package ripgrep
+  :ensure-system-package rg
   :config
   (setq ripgrep-arguments '("--max-columns 150" "--max-columns-preview")))
 
@@ -917,7 +932,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :bind
   (("C-x C-r" . sudo-edit)))
 
-(use-package fish-mode)
+(use-package fish-mode
+  :ensure-system-package fish)
 
 (use-package hideshow
   :hook ((prog-mode . hs-minor-mode))
