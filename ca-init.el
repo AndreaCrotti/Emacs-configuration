@@ -27,6 +27,7 @@
 
 (require 'use-package-ensure-system-package)
 ;; performance changes
+(use-package system-packages)
 
 
 (setq gc-cons-threshold (* 50 1000 1000))
@@ -906,7 +907,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package treemacs-all-the-icons)
 
 (use-package ripgrep
-  :ensure-system-package rg
+  :ensure-system-package (rg . ripgrep)
   :config
   (setq ripgrep-arguments '("--max-columns 150" "--max-columns-preview")))
 
