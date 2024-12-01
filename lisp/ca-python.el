@@ -4,7 +4,7 @@
 (use-package python
   :custom
   ;; should use ipython really
-  (python-shell-interpreter "python3"))
+  (python-shell-interpreter "ipython"))
 
 (use-package elpy
   :hook ((python-mode . elpy-mode))
@@ -14,9 +14,6 @@
   :after lsp)
 
 (use-package lsp-pyright
-  :after lsp)
-
-(use-package dap-python
   :after lsp)
 
 (use-package python-pytest
@@ -34,7 +31,7 @@
   :config
   (add-hook 'python-mode-hook
             (lambda ()
-              (setq-local python-shell-interpreter (pet-executable-find "python")
+              (setq-local python-shell-interpreter (pet-executable-find "ipython")
                           python-shell-virtualenv-root (pet-virtualenv-root))
 
               (pet-flycheck-setup)
