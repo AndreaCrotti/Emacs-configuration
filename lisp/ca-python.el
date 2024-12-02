@@ -61,4 +61,10 @@
                 (setq-local python-isort-command isort-executable)
                 (python-isort-on-save-mode)))))
 
+(use-package company-jedi
+  ;; is this actually doing anything?
+  ;; :config
+  ;; (add-to-list 'company-backends 'company-jedi)
+  )
+
 (provide 'ca-python)

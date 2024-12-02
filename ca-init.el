@@ -4,6 +4,7 @@
 (setq package-enable-at-startup nil)
 
 (defvar bootstrap-version)
+(setq use-package-always-ensure t)
 
 (unless (package-installed-p 'quelpa)
   (with-temp-buffer
@@ -28,7 +29,6 @@
 (require 'use-package-ensure-system-package)
 ;; performance changes
 (use-package system-packages)
-
 
 (setq gc-cons-threshold (* 50 1000 1000))
 
@@ -120,99 +120,8 @@
   :config
   (browse-kill-ring-default-keybindings))
 
-(use-package clj-refactor
-  :custom
-  (cljr-auto-clean-ns nil)
-  (cljr-auto-sort-ns nil)
-  (cljr-add-ns-to-blank-clj-files nil))
-
-(defun portal.api/open ()
-  "Open the API portal."
-  (interactive)
-  (cider-nrepl-sync-request:eval
-   "(do (ns dev) (def portal ((requiring-resolve 'portal.api/open) {:theme :portal.colors/solarized-dark})) (add-tap (requiring-resolve 'portal.api/submit)))"))
-
-(defun portal.api/clear ()
-  "Clear the state of the portal."
-  (interactive)
-  (cider-nrepl-sync-request:eval "(portal.api/clear)"))
-
-(defun portal.api/close ()
-  "Close the portal."
-  (interactive)
-  (cider-nrepl-sync-request:eval "(portal.api/close)"))
-
-(use-package cider
-  :pin melpa-stable
-  :hook (cider-mode . clj-refactor-mode)
-  :diminish subword-mode
-  :bind (("C-<f5>" . cider-test-run-test))
-
-  ;; add this when the syntax is fixed
-  ;; :hook
-  ;; (lambda ()
-  ;;   (add-to-list
-  ;;    'completion-at-point-functions
-  ;;    #'cape-cider-lsp))
-  :config
-  (setq cider-font-lock-dynamically '(macro core function var)
-        nrepl-hide-special-buffers t
-        cider-overlays-use-font-lock t)
-  ;; only necessary for corfu?
-  ;; (add-to-list 'completion-category-defaults '(cider (styles basic)))
-
-  :custom
-  (cider-prompt-for-symbol nil)
-  ;; workaroudn the issue with `clear' and the output not being
-  ;; printed out
-  (cider-repl-display-output-before-window-boundaries nil)
-  (cider-repl-display-help-banner nil)
-  (cider-repl-pop-to-buffer-on-connect 'display-only)
-  (cider-repl-display-in-current-window nil)
-  (cider-repl-use-clojure-font-lock t)
-  (cider-repl-use-pretty-printing t)
-  (cider-repl-prompt-function 'cider-repl-prompt-abbreviated)
-  (cider-repl-tab-command #'indent-for-tab-command)
-  (cider-ns-code-reload-tool 'clj-reload)
-
-  ;; enable again when it works on @30
-  (cider-enrich-classpath t)
-  (cider-repl-buffer-size-limit 100000)
-  (cider-repl-require-ns-on-set nil)
-  (nrepl-log-messages t)
-  (cider-auto-test-mode t))
-
-(use-package cider-decompile)
-(use-package clj-decompiler)
-
-(use-package babashka)
-
-(use-package neil
-  :custom
-  (neil-inject-dep-to-project-p t))
-
-(use-package cider-hydra
-  :after cider
-  :hook
-  (clojure-mode . cider-hydra-mode))
-
-(use-package kibit-helper)
-(use-package clojure-mode
-  :mode (("\\.clj\\'" . clojure-mode)
-         ("\\.edn\\'" . clojure-mode))
-  :bind
-  (("C-c l" . lsp-clojure-refactor-menu/body))
-  :hook
-  (clojure-mode . subword-mode)
-  :init
-  (add-to-list 'auto-mode-alist '("\\.bb" . clojure-mode)))
-
-(use-package clojure-mode-extra-font-locking)
-(use-package jet)
-
 (use-package command-log-mode)
 
-(use-package merlin)
 (use-package ess)
 
 (use-package csv-mode)
@@ -247,9 +156,6 @@
   (ediff-window-setup-function (quote ediff-setup-windows-plain)))
 
 (use-package elein)
-;; (use-package ejc-sql
-;;   :custom
-;;   (clomacs-httpd-default-port 8090))
 
 (use-package emmet-mode
   :hook (html-mode . emmet-mode))
@@ -261,10 +167,7 @@
 (use-package flycheck
   :init (global-flycheck-mode))
 
-(use-package flycheck-clj-kondo)
-;; (use-package flycheck-clojure)
 (use-package flycheck-pos-tip)
-
 
 (use-package graphviz-dot-mode
   :ensure-system-package dot)
@@ -306,17 +209,6 @@
   :hook
   (prog-mode . idle-highlight-mode))
 
-(use-package inf-clojure)
-(use-package json-mode)
-
-(use-package kaocha-runner
-  :bind (:map clojure-mode-map
-              ("C-c k t" . kaocha-runner-run-test-at-point)
-              ("C-c k r" . kaocha-runner-run-tests)
-              ("C-c k a" . kaocha-runner-run-all-tests)
-              ("C-c k w" . kaocha-runner-show-warnings)
-              ("C-c k h" . kaocha-runner-hide-windows)))
-
 (use-package know-your-http-well)
 (use-package kotlin-mode)
 (use-package gradle-mode)
@@ -328,35 +220,6 @@
 
 (use-package less-css-mode)
 (use-package log4j-mode)
-
-(defhydra lsp-clojure-refactor-menu (:color blue :hint nil)
-  "
-Threading                      Code Manip                      Namespace                       Misc
-------------------------------------------------------------------------------------------------------------------------------------------------------
-_th_: Thread first             _el_: Expand let                _cn_: Clean ns                  _cp_: Cycle privacy
-_tf_: Thread first all         _il_: Introduce let             _am_: Add missing libspec       _cc_: Cycle coll
-_tt_: Thread last              _ml_: Move to let
-_tl_: Thread last all          _ef_: Extract function
-_ua_: Unwind all               _rn_: Rename
-_uw_: Unwind thread            _mf_: Move formattedtextfield
-"
-
-  ("am" lsp-clojure-add-missing-libspec)
-  ("cc" lsp-clojure-cycle-coll)
-  ("cn" lsp-clojure-clean-ns)
-  ("cp" lsp-clojure-cycle-privacy)
-  ("ef" lsp-clojure-extract-function)
-  ("el" lsp-clojure-expand-let)
-  ("il" lsp-clojure-introduce-let)
-  ("mf" lsp-clojure-move-form)
-  ("ml" lsp-clojure-move-to-let)
-  ("rn" lsp-rename)
-  ("tf" lsp-clojure-thread-first-all)
-  ("th" lsp-clojure-thread-first)
-  ("tl" lsp-clojure-thread-last-all)
-  ("tt" lsp-clojure-thread-last)
-  ("ua" lsp-clojure-unwind-all)
-  ("uw" lsp-clojure-unwind-thread))
 
 (use-package lsp-mode
   :custom
@@ -467,13 +330,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (lsp-ui-doc-mode t))
 
 (use-package lsp-tailwindcss)
-
-(use-package eredis)
-(use-package redis)
 (use-package tldr)
-
 (use-package rfc-mode)
-
 (use-package restclient
   :init
   (add-to-list 'auto-mode-alist '("\\.rest" . restclient-mode))
@@ -483,20 +341,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
                         (outline-minor-mode t)
                         (local-set-key (kbd "<tab>") 'outline-toggle-children)
                         (setq outline-regexp "#+")))))
-
-(use-package rust-mode
-  :config
-  (setq rust-format-on-save t))
-
-(use-package flycheck-rust
-  :hook
-  (flycheck-mode . flycheck-rust-setup))
-
-(use-package cargo
-  :hook
-  (rust-mode . cargo-minor-mode))
-
-(use-package cargo-mode)
 
 (use-package jq-mode
   :ensure-system-package jq)
@@ -579,14 +423,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (auto-fill-mode 0)
   (visual-line-mode 1))
 
-(use-package ob-clojurescript)
-(use-package ob-rust)
-
-(require 'ob-clojure)
-
 (use-package ob-nix)
-(use-package ob-sql-mode)
-(use-package org-sql)
 
 (use-package org
   :hook (org-mode . ca-org-mode-setup)
@@ -648,10 +485,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :custom
   (citar-bibliography '("~/RoamNotes/references.bib")))
 
-(use-package sql-indent
-  ;; :hook (sql-mode . sqlind-minor-mode)
-  )
-
 (use-package websocket
   :after org-roam)
 
@@ -681,24 +514,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 ;; eval `M-x nerd-icons-install-fonts' if you are seeing weird unicode glyphs
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode))
-
-(use-package projectile
-  :diminish projectile
-  :config
-  (projectile-global-mode)
-  :bind (("<f6>" . projectile-ripgrep)
-         ("C-<f6>" . projectile-replace)
-         ("<f7>" . projectile-find-file)
-         ("<f8>" . projectile-run-vterm)
-         ("<f9>" . projectile-command-map)
-         :map projectile-mode-map
-         ("s-d" . projectile-find-dir)
-         ("s-p" . projectile-switch-project)
-         ("s-f" . projectile-find-file)
-         ("s-a" . projectile-ag))
-  :custom
-  (projectile-completion-system 'default)
-  (projectile-switch-project-action 'projectile-find-file))
 
 (use-package rainbow-delimiters
   :delight
@@ -792,7 +607,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :diminish "U"
   :init (global-undo-tree-mode))
 
-(use-package web-mode)
 (use-package which-key)
 (use-package wordnut)
 (use-package yaml-mode)
@@ -871,40 +685,11 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
                (unless (eq ibuffer-sorting-mode 'alphabetic)
                  (ibuffer-do-sort-by-alphabetic)))))
 
-(use-package typescript-mode)
-
 (use-package winner
   :config (winner-mode t))
 
 (use-package wakatime-mode
   :ensure-system-package wakatime-cli)
-
-(use-package all-the-icons)
-
-(use-package treemacs
-  :after (projectile)
-  :custom
-  (treemacs-resize-icons 10)
-  (treemacs-filewatch-mode t)
-  (treemacs-follow-mode t)
-  ;; this keeps on asking the mode otherwise
-  (treemacs-fringe-indicator-mode nil)
-  (treemacs-git-commit-diff-mode nil)
-  (treemacs-git-mode t)
-  (treemacs-indent-guide-mode t)
-  (treemacs-project-follow-mode t)
-  (treemacs-tag-follow-mode nil)
-  (treemacs-tag-follow-delay 3)
-  :hook
-  ((treemacs-mode . (lambda () (text-scale-adjust -3))))
-  )
-
-(use-package treemacs-icons-dired)
-
-(use-package treemacs-projectile
-  :after (treemacs projectile))
-
-(use-package treemacs-all-the-icons)
 
 (use-package ripgrep
   :ensure-system-package (rg . ripgrep)
@@ -950,11 +735,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (setq zoom-mode t
         zoom-size '(0.618 . 0.618)))
 
-(use-package terraform-mode
-  :ensure-system-package terraform)
-
-(use-package terraform-doc)
-
 (use-package hungry-delete
   :init
   (global-hungry-delete-mode t))
@@ -964,13 +744,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :hook (flycheck-mode  . flycheck-grammarly-setup)
   :custom
   (flycheck-grammarly-check-time 0.8))
-
-(use-package tide)
-
-(use-package tern)
-
-(use-package sly
-  :ensure-system-package sbcl)
 
 (global-set-key (kbd "M-p") 'ca-prev-defun)
 (global-set-key (kbd "M-n") 'ca-next-defun)
@@ -998,38 +771,10 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package github-browse-file)
 
-(use-package sqlite3
-  :ensure-system-package sqlite3)
-
-(use-package sqlformat
-  :ensure-system-package sqlfluff
-  :custom
-  (sqlformat-command 'sqlfluff)
-  ;; how do we make this smarter?
-  (sqlformat-args '("--dialect" "mysql"))
-  :hook (sql-interactive-mode . (lambda ()
-                                  (toggle-truncate-lines t))))
-
-
-(use-package zig-mode
-  :ensure-system-package zig)
-
 (defun lsp-go-install-save-hooks ()
   (add-hook 'before-save-hook #'lsp-format-buffer t t)
   ;; (add-hook 'before-save-hook #'lsp-organize-imports t t)
   )
-
-(use-package lua-mode
-  :ensure-system-package lua)
-
-(use-package go-mode
-  :ensure-system-package go
-  :hook
-  (go-mode . lsp-go-install-save-hooks))
-
-(use-package gorepl-mode
-  :hook
-  (go-mode . gorepl-mode))
 
 (use-package chezmoi
   :ensure-system-package chezmoi)
@@ -1041,14 +786,7 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package crux)
 (use-package minimap)
 (use-package bm)
-(use-package ssh-tunnels)
-(use-package ssh)
-(use-package ssh-agency)
-(use-package ssh-config-mode)
 (use-package focus)
-
-(use-package svelte-mode)
-
 (use-package direnv
   :ensure-system-package direnv
   :config
@@ -1072,55 +810,16 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   ;;                  (corfu-mode)))
   )
 (use-package eat)
-(use-package exercism)
-(use-package leetcode)
 (use-package carbon-now-sh)
-(use-package dune)
-(use-package tuareg)
 
-(defun clerk-show ()
-  "Show clerk."
-  (interactive)
-  (when-let
-      ((filename
-        (buffer-file-name)))
-    (save-buffer)
-    (cider-interactive-eval
-     (concat "(nextjournal.clerk/show! \"" filename "\")"))))
-
-(define-key clojure-mode-map (kbd "<M-return>") 'clerk-show)
 (pixel-scroll-precision-mode t)
-
-(use-package gptel)
-(use-package org-ai)
 
 (smartparens-global-strict-mode t)
 ;; hack to work around https://github.com/Fuco1/smartparens/issues/1204 for now
 (defalias 'sp--syntax-class-to-char #'syntax-class-to-char)
 
-(use-package erlang)
-(use-package tree-sitter)
-(use-package tree-sitter-langs)
-(use-package tree-sitter-indent)
-
-(use-package treesit-auto
-  :custom
-  (treesit-auto-install 'prompt)
-  :config
-  (treesit-auto-add-to-auto-mode-alist 'all)
-  (global-treesit-auto-mode))
-
-(use-package combobulate
-  :straight t
-  :preface
-  ;; You can customize Combobulate's key prefix here.
-  ;; Note that you may have to restart Emacs for this to take effect!
-  (setq combobulate-key-prefix "C-c o"))
-
 (use-package embark)
-
 (use-package cape)
-
 (use-package emacs
   :init
   (setq tab-always-indent 'complete)
@@ -1130,13 +829,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 (use-package separedit)
 (use-package bats-mode)
 (use-package verb)
-
-(use-package haskell-mode)
-(use-package lsp-haskell)
-(use-package nix-haskell-mode)
-;; (use-package hsearch)
-(use-package ghci-completion)
-(use-package flymake-hlint)
 (use-package doom-themes)
 
 (use-package exec-path-from-shell
@@ -1163,17 +855,10 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (company-idle-delay 0.2)
   (company-show-numbers t))
 
-(use-package company-jedi
-  ;; is this actually doing anything?
-  ;; :config
-  ;; (add-to-list 'company-backends 'company-jedi)
-  )
 (use-package company-dict)
 (use-package company-restclient)
 (use-package company-shell)
 (use-package company-math)
-(use-package company-terraform)
-(use-package company-web)
 (use-package company-fuzzy)
 (use-package company-quickhelp
   :config
@@ -1205,50 +890,15 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
 
 (use-package visual-regexp)
 
-;; (use-package ellama
-;;   :init
-;;   (setopt ellama-language "English")
-;;   ;; (require 'llm-ollama)
-;;   (setopt ellama-provider
-;; 	  (make-llm-ollama
-;; 	   :chat-model "codellama" :embedding-model "codellama")))
-
 (dolist (f '("aliases.el" "hacks.el" "custom.el"))
   (when (file-exists-p (make-relative-path f))
     ;; use require here also if possible
     (message "loading extra file" f)
     (load-file (make-relative-path f))))
 
-(require 'ca-python)
-
-(use-package nodejs-repl)
-(use-package biome)
-
-(use-package biomejs-format)
-
-(use-package js-format)
 (use-package vterm)
-
-(use-package prettier-js)
-
-(use-package astro-ts-mode
-  :config
-  (add-to-list 'auto-mode-alist (cons "\\.astro\\'" 'astro-ts-mode)))
-
-(use-package kubernetes)
 (require 'asdf)
 (asdf-enable)
-(straight-use-package 'gptel)
-
-(use-package combobulate
-   :custom
-   ;; You can customize Combobulate's key prefix here.
-   ;; Note that you may have to restart Emacs for this to take effect!
-   (combobulate-key-prefix "C-c o")
-   :hook ((prog-mode . combobulate-mode))
-   ;; Amend this to the directory where you keep Combobulate's source
-   ;; code.
-   :load-path ("~/src/forks/combobulate/"))
 
 (use-package app-launcher
   :straight '(app-launcher :host github :repo "SebastienWae/app-launcher"))
