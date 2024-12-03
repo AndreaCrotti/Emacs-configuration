@@ -14,5 +14,7 @@
 (use-package kubernetes)
 (use-package typescript-mode)
 (use-package web-mode)
+(use-package emmet-mode
+  :hook (html-mode . emmet-mode))
 
 (provide 'ca-web)

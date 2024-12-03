@@ -2,7 +2,6 @@
 
 (use-package haskell-mode)
 (use-package lsp-haskell)
-(use-package nix-haskell-mode)
 (use-package ghci-completion)
 
 (use-package zig-mode
@@ -44,5 +43,20 @@
   (setq rust-format-on-save t))
 
 (use-package ob-rust)
+
+(use-package kotlin-mode)
+(use-package gradle-mode)
+(use-package flycheck-gradle)
+
+(use-package elixir-mode)
+(use-package inf-elixir)
+(use-package flycheck-elixir)
+(use-package mix
+  :hook
+  (elixir-mode . mix-mode-hook))
+
+(use-package scala-mode
+  :interpreter
+  ("scala" . scala-mode))
 
 (provide 'ca-research)

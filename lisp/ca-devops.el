@@ -10,4 +10,10 @@
 
 (use-package terraform-doc)
 
+(use-package docker)
+(use-package docker-api)
+(use-package docker-cli)
+(use-package dockerfile-mode)
+(use-package docker-compose-mode)
+
 (provide 'ca-devops)

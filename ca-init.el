@@ -137,17 +137,11 @@
   :config (global-hl-todo-mode t))
 
 (use-package diminish)
-(use-package docker)
-(use-package docker-api)
-(use-package docker-cli)
-(use-package dockerfile-mode)
-(use-package docker-compose-mode)
 (use-package dracula-theme)
 (use-package edit-server)
 (use-package eldoc
   :diminish eldoc-mode
   :config (global-eldoc-mode))
-
 
 (use-package ediff
   :custom
@@ -156,9 +150,6 @@
   (ediff-window-setup-function (quote ediff-setup-windows-plain)))
 
 (use-package elein)
-
-(use-package emmet-mode
-  :hook (html-mode . emmet-mode))
 
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
@@ -173,16 +164,12 @@
   :ensure-system-package dot)
 
 (use-package gist)
-(use-package gitlab)
-(use-package gitlab-ci-mode)
-(use-package gitlab-ci-mode-flycheck)
 (use-package git-modes)
 (use-package git-auto-commit-mode
   :custom
   (gac-debounce-interval 0.5))
 
 (use-package git-timemachine)
-
 (use-package gitconfig)
 
 (use-package jinx
@@ -210,9 +197,6 @@
   (prog-mode . idle-highlight-mode))
 
 (use-package know-your-http-well)
-(use-package kotlin-mode)
-(use-package gradle-mode)
-(use-package flycheck-gradle)
 (use-package imenu)
 
 (use-package imenu-anywhere
@@ -301,24 +285,11 @@
   (lsp-treemacs-sync-mode t)
   (read-process-output-max (* 1024 1024)))
 
-(use-package elixir-mode)
-(use-package inf-elixir)
-;; (use-package elixir-ts-mode)
-(use-package flycheck-elixir)
-(use-package mix
-  :hook
-  (elixir-mode . mix-mode-hook))
-
 (use-package graphql)
 (use-package graphql-doc)
 (use-package graphql-mode)
-;; (use-package graphql-ts-mode)
 (use-package ob-graphql)
-
-(use-package lsp-java)
-
 (use-package lsp-metals)
-
 (use-package lsp-ui
   :hook
   (lsp-mode . lsp-ui-mode)
@@ -351,35 +322,6 @@
 (use-package restclient-jq
   :ensure-system-package jq)
 
-(use-package forge)
-
-(use-package magit
-  :after forge
-  :bind (("\C-xg" . magit-status))
-  ;; should we load forge automatically if possible?
-  :config (require 'forge)
-  :ensure-system-package git)
-
-
-(use-package magit-todos
-  :after magit)
-
-(use-package magit-delta
-  ;; :hook (magit-mode . magit-delta-mode)
-  )
-
-(use-package magit-lfs
-  :after magit)
-
-(use-package magit-stats
-  :after magit)
-
-(use-package magit-annex
-  :after magit)
-
-(use-package magit-find-file
-  :after magit)
-
 (use-package marginalia
   :bind (("M-A" . marginalia-cycle)
          :map minibuffer-local-map
@@ -407,9 +349,6 @@
   ("C-<" . mc/mark-previous-like-this)
   ("C-c C-<" . mc/mark-all-like-this))
 
-(use-package nix-mode)
-(use-package guix)
-
 (use-package ox-reveal
   :custom
   (org-reveal-root "/home/andrea/src/forks/reveal.js"))
@@ -423,8 +362,6 @@
   (auto-fill-mode 0)
   (visual-line-mode 1))
 
-(use-package ob-nix)
-
 (use-package org
   :hook (org-mode . ca-org-mode-setup)
   :bind
@@ -435,7 +372,6 @@
    'org-babel-load-languages
    '((dot . t)
      (calc . t)
-     (nix . t)
      (rust . t)
      (clojure . t)
      (sql . t)
@@ -532,10 +468,6 @@
   )
 
 (use-package restclient)
-(use-package scala-mode
-  :interpreter
-  ("scala" . scala-mode))
-
 (use-package smart-mode-line)
 ;; (use-package smart-mode-line-powerline-theme)
 ;; (use-package smart-mode-line
@@ -623,10 +555,6 @@
 (use-package yasnippet-snippets
   :after yasnippet)
 
-(setq dired-auto-revert-buffer 1)
-(setq dired-isearch-filenames 'dwim)
-(setq dired-listing-switches "-al")
-
 (use-package time
   :init (display-time-mode))
 
@@ -648,10 +576,6 @@
 ;; TODO: reconfigure these two??
 (global-prettify-symbols-mode t)
 (transient-mark-mode t)
-
-(use-package diredfl
-  :config
-  (diredfl-global-mode))
 
 (use-package ibuffer
   :bind (("C-x C-b" . ibuffer)))
