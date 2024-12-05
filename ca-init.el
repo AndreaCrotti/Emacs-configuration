@@ -595,9 +595,6 @@
   ;; (add-hook 'before-save-hook #'lsp-organize-imports t t)
   )
 
-(use-package chezmoi
-  :ensure-system-package chezmoi)
-
 (use-package highlight-indent-guides
   :custom (highlight-indent-guides-method 'character)
   :hook ((prog-mode . highlight-indent-guides-mode)))
