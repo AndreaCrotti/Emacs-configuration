@@ -7,7 +7,7 @@
   (python-shell-interpreter "ipython"))
 
 (use-package elpy
-  :hook ((python-mode . elpy-mode))
+  :hook ((python-ts-mode . elpy-mode))
   :init (elpy-enable))
 
 (use-package lsp-jedi
@@ -29,37 +29,18 @@
 (use-package pet
   ;; :ensure-system-package (dasel sqlite3)
   :config
-  (add-hook 'python-mode-hook
+  (add-hook 'python-ts-mode-hook
             (lambda ()
-              (setq-local python-shell-interpreter (pet-executable-find "ipython")
+               (setq-local python-shell-interpreter (pet-executable-find "ipython")
                           python-shell-virtualenv-root (pet-virtualenv-root))
+              (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter
+                          lsp-pyright-venv-path python-shell-virtualenv-root)
+              (setq-local dap-python-executable python-shell-interpreter)
+              (setq-local python-pytest-executable (pet-executable-find "pytest"))
 
               (pet-flycheck-setup)
               (flycheck-mode)
-
-              (setq-local lsp-jedi-executable-command
-                          (pet-executable-find "jedi-language-server"))
-
-              (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter
-                          lsp-pyright-venv-path python-shell-virtualenv-root)
-
-              (lsp)
-
-              (setq-local dap-python-executable python-shell-interpreter)
-
-              (setq-local python-pytest-executable (pet-executable-find "pytest"))
-
-              (when-let ((ruff-executable (pet-executable-find "ruff")))
-                (setq-local ruff-format-command ruff-executable)
-                (ruff-format-on-save-mode))
-
-              (when-let ((black-executable (pet-executable-find "black")))
-                (setq-local python-black-command black-executable)
-                (python-black-on-save-mode))
-
-              (when-let ((isort-executable (pet-executable-find "isort")))
-                (setq-local python-isort-command isort-executable)
-                (python-isort-on-save-mode)))))
+              (ruff-format-on-save-mode t))))
 
 (use-package company-jedi
   ;; is this actually doing anything?
