@@ -59,4 +59,6 @@
   :interpreter
   ("scala" . scala-mode))
 
+(use-package lsp-metals)
+
 (provide 'ca-research)

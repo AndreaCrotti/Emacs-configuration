@@ -1,3 +1,14 @@
+
+(use-package github-browse-file)
+(use-package gist)
+(use-package git-modes)
+(use-package git-auto-commit-mode
+  :custom
+  (gac-debounce-interval 0.5))
+
+(use-package git-timemachine)
+(use-package gitconfig)
+
 (use-package forge)
 (use-package magit
   :after forge

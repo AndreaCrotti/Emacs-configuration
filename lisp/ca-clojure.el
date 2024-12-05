@@ -1,5 +1,7 @@
 (use-package flycheck-clj-kondo)
 
+(use-package elein)
+
 (use-package inf-clojure)
 
 (defhydra lsp-clojure-refactor-menu (:color blue :hint nil)

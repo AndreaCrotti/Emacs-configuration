@@ -4,7 +4,6 @@
 (setq package-enable-at-startup nil)
 
 (defvar bootstrap-version)
-(setq use-package-always-ensure t)
 
 (require 'use-package-ensure-system-package)
 ;; performance changes
@@ -60,7 +59,6 @@
 (use-package use-package-hydra)
 (use-package major-mode-hydra)
 (use-package pretty-hydra)
-
 (use-package async)
 
 (use-package auto-package-update
@@ -110,9 +108,6 @@
   (lsp-mode . dap-mode)
   (lsp-mode . dap-ui-mode))
 
-;; (use-package diff-hl
-;;   :config (global-diff-hl-mode t))
-
 (use-package hl-todo
   :config (global-hl-todo-mode t))
 
@@ -129,8 +124,6 @@
   (ediff-split-window-function (quote split-window-vertically))
   (ediff-window-setup-function (quote ediff-setup-windows-plain)))
 
-(use-package elein)
-
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
 
@@ -142,28 +135,6 @@
 
 (use-package graphviz-dot-mode
   :ensure-system-package dot)
-
-(use-package gist)
-(use-package git-modes)
-(use-package git-auto-commit-mode
-  :custom
-  (gac-debounce-interval 0.5))
-
-(use-package git-timemachine)
-(use-package gitconfig)
-
-(use-package jinx
-  :hook (emacs-startup . global-jinx-mode)
-  :bind (;; ("M-$" . jinx-correct)
-         ;; ("C-M-$" . jinx-languages)
-         ))
-
-;; (use-package git-gutter
-;;   :diminish
-;;   :hook ((text-mode . git-gutter-mode)
-;;          (prog-mode . git-gutter-mode))
-;;   :config
-;;   (setq git-gutter:update-interval 2))
 
 (use-package guru-mode
   :custom
@@ -265,11 +236,6 @@
   (lsp-treemacs-sync-mode t)
   (read-process-output-max (* 1024 1024)))
 
-(use-package graphql)
-(use-package graphql-doc)
-(use-package graphql-mode)
-(use-package ob-graphql)
-(use-package lsp-metals)
 (use-package lsp-ui
   :hook
   (lsp-mode . lsp-ui-mode)
@@ -280,7 +246,6 @@
   (lsp-ui-doc-position 'bottom)
   (lsp-ui-doc-mode t))
 
-(use-package lsp-tailwindcss)
 (use-package tldr)
 (use-package rfc-mode)
 (use-package restclient
@@ -309,19 +274,6 @@
 
   :init
   (marginalia-mode))
-
-(use-package mixed-pitch)
-(use-package olivetti)
-(use-package markdown-mode
-  ;; :hook
-  ;; (markdown-mode . mixed-pitch-mode)
-  ;; (markdown-mode . olivetti-mode)
-  :init
-  ;; (add-hook 'markdown-mode-hook (lambda () (buffer-face-mode t)))
-  (add-to-list 'auto-mode-alist '("\\.md" . markdown-mode))
-  :bind
-  ("M-<left>" . markdown-promote)
-  ("M-<right>" . markdown-demote))
 
 (use-package multiple-cursors
   :bind
@@ -394,12 +346,6 @@
   :config
   (org-roam-setup)
   (require 'org-roam-protocol))
-
-(use-package org-roam-bibtex)
-
-(use-package citar
-  :custom
-  (citar-bibliography '("~/RoamNotes/references.bib")))
 
 (use-package websocket
   :after org-roam)
@@ -560,26 +506,8 @@
 (use-package ibuffer
   :bind (("C-x C-b" . ibuffer)))
 
-(defun ac/enter-focus-mode ()
-  "Enter focus mode."
-  (interactive)
-  (darkroom-mode 1)
-  (display-line-numbers-mode 0))
-
 (size-indication-mode t)
 
-(defun ac/leave-focus-mode ()
-  "Leave focus mode."
-  (interactive)
-  (darkroom-mode 0)
-  (display-line-numbers-mode 1))
-
-(defun ac/toggle-focus-mode ()
-  "Toggle focus mode."
-  (interactive)
-  (if (symbol-value darkroom-mode)
-      (ac/leave-focus-mode)
-    (ac/enter-focus-mode)))
 
 (use-package ibuffer-vc
   :defer t
@@ -591,9 +519,6 @@
 
 (use-package winner
   :config (winner-mode t))
-
-(use-package wakatime-mode
-  :ensure-system-package wakatime-cli)
 
 (use-package ripgrep
   :ensure-system-package (rg . ripgrep)
@@ -673,8 +598,6 @@
 
 (use-package writeroom-mode)
 
-(use-package github-browse-file)
-
 (defun lsp-go-install-save-hooks ()
   (add-hook 'before-save-hook #'lsp-format-buffer t t)
   ;; (add-hook 'before-save-hook #'lsp-organize-imports t t)
@@ -691,14 +614,6 @@
 (use-package minimap)
 (use-package bm)
 (use-package focus)
-(use-package direnv
-  :ensure-system-package direnv
-  :config
-  (direnv-mode))
-
-(use-package envrc
-  :hook
-  (after-init . envrc-global-mode))
 
 (dolist (mode '(org-mode-hook
                 term-mode-hook
@@ -707,12 +622,6 @@
                 eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
-(use-package eshell
-  ;; :hook
-  ;; (eshell-mode . (lambda ()
-  ;;                  (setq-local corfu-auto nil)
-  ;;                  (corfu-mode)))
-  )
 (use-package eat)
 (use-package carbon-now-sh)
 
@@ -734,11 +643,6 @@
 (use-package bats-mode)
 (use-package verb)
 (use-package doom-themes)
-
-(use-package exec-path-from-shell
-  :config
-  (exec-path-from-shell-initialize)
-  (add-to-list 'exec-path-from-shell-variables "LSP_USE_PLISTS"))
 
 (use-package protobuf-mode)
 
@@ -777,12 +681,6 @@
 
 (use-package multi-compile)
 
-(use-package writegood-mode
-  :hook ((markdown-mode nroff-mode org-mode
-                        mail-mode
-                        git-commit-mode)
-         . writegood-mode))
-
 (use-package visual-regexp)
 
 (dolist (f '("aliases.el" "hacks.el" "custom.el"))
@@ -792,8 +690,6 @@
     (load-file (make-relative-path f))))
 
 (use-package vterm)
-(require 'asdf)
-(asdf-enable)
 
 (provide 'ca-init)
 ;;; ca-init ends here

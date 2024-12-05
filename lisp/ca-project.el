@@ -1,3 +1,17 @@
+(use-package exec-path-from-shell
+  :config
+  (exec-path-from-shell-initialize)
+  (add-to-list 'exec-path-from-shell-variables "LSP_USE_PLISTS"))
+
+(use-package direnv
+  :ensure-system-package direnv
+  :config
+  (direnv-mode))
+
+(use-package envrc
+  :hook
+  (after-init . envrc-global-mode))
+
 (use-package all-the-icons)
 
 (use-package treemacs-icons-dired)
@@ -51,5 +65,8 @@
   :hook
   ((treemacs-mode . (lambda () (text-scale-adjust -3))))
   )
+
+(require 'asdf)
+(asdf-enable)
 
 (provide 'ca-project)
