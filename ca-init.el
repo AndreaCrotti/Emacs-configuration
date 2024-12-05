@@ -6,26 +6,6 @@
 (defvar bootstrap-version)
 (setq use-package-always-ensure t)
 
-(unless (package-installed-p 'quelpa)
-  (with-temp-buffer
-    (url-insert-file-contents "https://raw.githubusercontent.com/quelpa/quelpa/master/quelpa.el")
-    (eval-buffer)
-    (quelpa-self-upgrade)))
-
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 6))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
-
-(straight-use-package 'use-package)
-
 (require 'use-package-ensure-system-package)
 ;; performance changes
 (use-package system-packages)
@@ -760,15 +740,6 @@
   (exec-path-from-shell-initialize)
   (add-to-list 'exec-path-from-shell-variables "LSP_USE_PLISTS"))
 
-(use-package ts-fold
-  :straight (ts-fold :type git :host github :repo "emacs-tree-sitter/ts-fold")
-  :config
-  (global-ts-fold-mode))
-
-(use-package shannon-max
-  :ensure t
-  :straight (shannon-max :type git :host github :repo "sstraust/shannonmax"))
-
 (use-package protobuf-mode)
 
 (use-package company
@@ -823,9 +794,6 @@
 (use-package vterm)
 (require 'asdf)
 (asdf-enable)
-
-(use-package app-launcher
-  :straight '(app-launcher :host github :repo "SebastienWae/app-launcher"))
 
 (provide 'ca-init)
 ;;; ca-init ends here
