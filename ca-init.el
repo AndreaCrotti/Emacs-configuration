@@ -508,7 +508,6 @@
 
 (size-indication-mode t)
 
-
 (use-package ibuffer-vc
   :defer t
   :hook
@@ -547,17 +546,10 @@
   :bind
   (("C-x C-r" . sudo-edit)))
 
-(use-package fish-mode
-  :ensure-system-package fish)
-
 (use-package hideshow
   :hook ((prog-mode . hs-minor-mode))
   :bind
   (("C-<tab>" . hs-toggle-hiding)))
-
-(use-package shell
-  :init
-  (dirtrack-mode))
 
 (use-package zoom
   :init
@@ -656,7 +648,6 @@
 
 (use-package company-dict)
 (use-package company-restclient)
-(use-package company-shell)
 (use-package company-math)
 (use-package company-fuzzy)
 (use-package company-quickhelp
@@ -688,8 +679,6 @@
     ;; use require here also if possible
     (message "loading extra file" f)
     (load-file (make-relative-path f))))
-
-(use-package vterm)
 
 (provide 'ca-init)
 ;;; ca-init ends here
