@@ -61,6 +61,12 @@
 (use-package pretty-hydra)
 (use-package async)
 
+(defhydra ca-lsp-refactor-menu (:color blue :hint nil)
+  "
+  _rn_: Rename
+  "
+  ("rn" lsp-rename))
+
 (use-package auto-package-update
   :config
   (setq auto-package-update-delete-old-versions t)
@@ -203,7 +209,8 @@
 
   :bind (("M-?" . lsp-find-definition)
          ;; ("M-/" . lsp-find-references)
-         ("M-'" . lsp-treemacs-call-hierarchy))
+         ("M-'" . lsp-treemacs-call-hierarchy)
+         ("C-c l" . ca-lsp-refactor-menu/body))
 
   :config
   (dolist (m '(clojure-mode
