@@ -17,6 +17,7 @@
    :hook ((prog-mode . combobulate-mode))
    ;; Amend this to the directory where you keep Combobulate's source
    ;; code.
+   ;;TODO: make sure this actually exists somewhere
    :load-path ("~/src/forks/combobulate/"))
 
 ;; (use-package ellama
