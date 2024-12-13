@@ -1,5 +1,7 @@
 
-(use-package vterm)
+(use-package vterm
+  :custom
+  (vterm-shell "/usr/bin/fish"))
 
 (use-package shell
   :init

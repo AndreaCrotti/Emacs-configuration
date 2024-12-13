@@ -7,7 +7,9 @@
 
 (require 'use-package-ensure-system-package)
 ;; performance changes
-(use-package system-packages)
+(use-package system-packages
+  :custom
+  (system-packages-use-sudo t))
 
 (setq gc-cons-threshold (* 50 1000 1000))
 
@@ -702,6 +704,7 @@
 (use-package company
   :init (global-company-mode)
   :custom
+  (company-show-quick-access t)
   (company-tooltip-align-annotations t)
   (company-minimum-prefix-length 1)
   (company-idle-delay 0.2)
