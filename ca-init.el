@@ -5,6 +5,7 @@
 
 (defvar bootstrap-version)
 
+(setq use-package-always-ensure t)
 (require 'use-package-ensure-system-package)
 ;; performance changes
 (use-package system-packages
@@ -258,7 +259,8 @@
          (xml-mode . lsp)
          (yaml-mode . lsp)
          (yaml-ts-mode . lsp)
-         (zig-mode . lsp))
+         (zig-mode . lsp)
+         (zig-ts-mode . lsp))
 
   :bind (("M-?" . lsp-find-definition)
          ;; ("M-/" . lsp-find-references)
