@@ -1,5 +1,6 @@
 (use-package company-terraform)
 
+(use-package kubernetes)
 (use-package ssh-tunnels)
 (use-package ssh)
 (use-package ssh-agency)
