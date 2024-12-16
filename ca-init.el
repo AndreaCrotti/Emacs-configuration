@@ -56,9 +56,6 @@
 (require 'os)
 
 (require 'use-package)
-(setq use-package-verbose t)
-(setq use-package-always-unsure t)
-
 (use-package use-package-hydra)
 (use-package major-mode-hydra)
 (use-package pretty-hydra)
@@ -71,9 +68,10 @@
   ("rn" lsp-rename))
 
 (use-package auto-package-update
+  :custom
+  (auto-package-update-delete-old-versions t)
+  (auto-package-update-hide-results t)
   :config
-  (setq auto-package-update-delete-old-versions t)
-  (setq auto-package-update-hide-results t)
   (auto-package-update-maybe))
 
 (use-package ack)
@@ -82,14 +80,14 @@
   (add-to-list 'auto-mode-alist (cons "\\.adoc\\'" 'adoc-mode))
   (add-to-list 'auto-mode-alist (cons "\\.txt\\'" 'adoc-mode))
   :config
-  (setq outline-regexp "[=]+")
-  )
+  (setq-local outline-regexp "[=]+"))
 
 (use-package ag)
 ;; (use-package auto-highlight-symbol)
 (use-package autorevert
+  :custom
+  (auto-revert-interval 2)
   :config
-  (setq auto-revert-interval 1)
   (global-auto-revert-mode))
 
 (use-package log4j-mode
@@ -324,7 +322,7 @@
    (restclient-mode . (lambda ()
                         (outline-minor-mode t)
                         (local-set-key (kbd "<tab>") 'outline-toggle-children)
-                        (setq outline-regexp "#+")))))
+                        (setq-local outline-regexp "#+")))))
 
 (use-package jq-mode
   :ensure-system-package jq)
@@ -461,7 +459,6 @@
   ;; (prog-mode . rainbow-identifiers-mode)
   )
 
-(use-package restclient)
 (use-package smart-mode-line)
 ;; (use-package smart-mode-line-powerline-theme)
 ;; (use-package smart-mode-line
@@ -628,12 +625,6 @@
   :init
   (global-hungry-delete-mode t))
 
-(use-package flycheck-grammarly
-  :after flycheck
-  :hook (flycheck-mode  . flycheck-grammarly-setup)
-  :custom
-  (flycheck-grammarly-check-time 0.8))
-
 (global-set-key (kbd "M-p") 'ca-prev-defun)
 (global-set-key (kbd "M-n") 'ca-next-defun)
 
@@ -679,7 +670,6 @@
                 eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
-(use-package eat)
 (use-package carbon-now-sh)
 
 (pixel-scroll-precision-mode t)
@@ -697,7 +687,6 @@
 
 (use-package epkg)
 (use-package separedit)
-(use-package bats-mode)
 (use-package verb)
 (use-package doom-themes)
 

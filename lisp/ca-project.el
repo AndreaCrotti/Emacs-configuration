@@ -16,9 +16,11 @@
 
 (use-package treemacs-icons-dired)
 
-(setq dired-auto-revert-buffer 1)
-(setq dired-isearch-filenames 'dwim)
-(setq dired-listing-switches "-al")
+(use-package dired
+  :custom
+  (dired-auto-revert-buffer 1)
+  (dired-isearch-filenames 'dwim)
+  (dired-listing-switches "-al"))
 
 (use-package treemacs-projectile
   :after (treemacs projectile))

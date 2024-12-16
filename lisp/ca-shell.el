@@ -12,4 +12,6 @@
 (use-package fish-mode
   :ensure-system-package fish)
 
+(use-package bats-mode)
+
 (provide 'ca-shell)
