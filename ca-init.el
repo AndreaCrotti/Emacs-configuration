@@ -245,6 +245,7 @@
          (python-mode . lsp)
          (python-ts-mode . lsp)
          (rust-mode . lsp)
+         (rust-ts-mode . lsp)
          (scala-mode . lsp)
          (sh-mode . lsp)
          (sql-mode. lsp)
@@ -302,13 +303,15 @@
   :custom
   (lsp-ui-imenu-auto-refresh 'after-save)
   (lsp-ui-sideline-show-code-actions t)
-  (lsp-ui-sideline-enable t)
-  (lsp-ui-sideline-show-hover t)
+  (lsp-ui-sideline-enable nil)
+  (lsp-ui-sideline-show-hover nil)
   (lsp-ui-doc-position 'bottom)
-  (lsp-ui-doc-mode t)
+  (lsp-ui-doc-mode nil)
   (lsp-ui-peek-enable t)
-  (lsp-ui-peek-show-directory t)
+  (lsp-ui-peek-show-directory nil)
   (lsp-ui-doc-side 'right)
+  (lsp-ui-imenu-mode nil)
+  (lsp-ui-doc-show-with-mouse nil)
   (lsp-ui-imenu-auto-refresh 'after-save)
   (lsp-ui-doc-show-with-mouse t))
 
@@ -356,7 +359,8 @@
 (defun ca-org-mode-setup ()
   "few org mode settings"
   (org-indent-mode t)
-  (variable-pitch-mode 1)
+  ;; this messes up with the tables for example
+  ;; (variable-pitch-mode 1)
   (auto-fill-mode 0)
   (visual-line-mode 1))
 
@@ -627,6 +631,8 @@
 
 (global-set-key (kbd "M-p") 'ca-prev-defun)
 (global-set-key (kbd "M-n") 'ca-next-defun)
+
+(use-package hydra)
 
 (defhydra hydra-zoom (global-map "C-<f2>")
   "zoom"

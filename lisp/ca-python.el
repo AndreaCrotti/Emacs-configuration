@@ -1,3 +1,5 @@
+(setq python-shell-completion-native-enable nil)
+
 (use-package blacken
   :ensure t)
 
@@ -36,6 +38,8 @@
                           lsp-pyright-venv-path python-shell-virtualenv-root)
               (setq-local dap-python-executable python-shell-interpreter)
               (setq-local python-pytest-executable (pet-executable-find "pytest"))
+              (setq-local ruff-format-command (pet-executable-find "ruff"))
+              (setq-local flycheck-python-mypy-python-executable (pet-executable-find "mypy"))
               (ruff-format-on-save-mode t))))
 
 (use-package company-jedi
