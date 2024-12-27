@@ -4,7 +4,6 @@
   (add-to-list 'exec-path-from-shell-variables "LSP_USE_PLISTS"))
 
 (use-package direnv
-  :ensure-system-package direnv
   :config
   (direnv-mode))
 

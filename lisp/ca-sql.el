@@ -1,8 +1,6 @@
-(use-package sqlite3
-  :ensure-system-package sqlite3)
+(use-package sqlite3)
 
 (use-package sqlformat
-  :ensure-system-package sqlfluff
   :custom
   (sqlformat-command 'sqlfluff)
   ;; how do we make this smarter?

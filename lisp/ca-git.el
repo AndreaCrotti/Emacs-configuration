@@ -14,8 +14,7 @@
   :after forge
   :bind (("\C-xg" . magit-status))
   ;; should we load forge automatically if possible?
-  :config (require 'forge)
-  :ensure-system-package git)
+  :config (require 'forge))
 
 
 (use-package magit-todos

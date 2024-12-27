@@ -4,14 +4,11 @@
 (use-package lsp-haskell)
 (use-package ghci-completion)
 
-(use-package zig-mode
-  :ensure-system-package zig)
+(use-package zig-mode)
 
-(use-package lua-mode
-  :ensure-system-package lua)
+(use-package lua-mode)
 
 (use-package go-mode
-  :ensure-system-package go
   :hook
   (go-mode . lsp-go-install-save-hooks))
 
@@ -25,8 +22,7 @@
 (use-package leetcode)
 (use-package erlang)
 (use-package flymake-hlint)
-(use-package sly
-  :ensure-system-package sbcl)
+(use-package sly)
 
 (use-package rust-mode
   :config

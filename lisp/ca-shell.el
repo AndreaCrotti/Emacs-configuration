@@ -9,8 +9,7 @@
 
 (use-package company-shell)
 
-(use-package fish-mode
-  :ensure-system-package fish)
+(use-package fish-mode)
 
 (use-package bats-mode)
 

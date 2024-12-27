@@ -6,12 +6,6 @@
 (defvar bootstrap-version)
 
 (setq use-package-always-ensure t)
-(require 'use-package-ensure-system-package)
-;; performance changes
-(use-package system-packages
-  :custom
-  (system-packages-use-sudo t))
-
 (setq gc-cons-threshold (* 50 1000 1000))
 
 (setq native-comp-jit-compilation t
@@ -185,8 +179,7 @@
 
 (use-package flycheck-pos-tip)
 
-(use-package graphviz-dot-mode
-  :ensure-system-package dot)
+(use-package graphviz-dot-mode)
 
 (use-package guru-mode
   :custom
@@ -327,14 +320,11 @@
                         (local-set-key (kbd "<tab>") 'outline-toggle-children)
                         (setq-local outline-regexp "#+")))))
 
-(use-package jq-mode
-  :ensure-system-package jq)
+(use-package jq-mode)
 
-(use-package jq-format
-  :ensure-system-package jq)
+(use-package jq-format)
 
-(use-package restclient-jq
-  :ensure-system-package jq)
+(use-package restclient-jq)
 
 (use-package marginalia
   :bind (("M-A" . marginalia-cycle)
@@ -589,7 +579,6 @@
   :config (winner-mode t))
 
 (use-package ripgrep
-  :ensure-system-package (rg . ripgrep)
   :config
   (setq ripgrep-arguments '("--max-columns 150" "--max-columns-preview")))
 
