@@ -9,9 +9,6 @@
 (use-package biomejs-format)
 (use-package js-format)
 (use-package prettier-js)
-(use-package astro-ts-mode
-  :config
-  (add-to-list 'auto-mode-alist (cons "\\.astro\\'" 'astro-ts-mode)))
 
 (use-package company-web)
 (use-package typescript-mode)
