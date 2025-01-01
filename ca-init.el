@@ -628,8 +628,6 @@
   ("g" text-scale-increase "in")
   ("l" text-scale-decrease "out"))
 
-(use-package doom-themes)
-
 (use-package recentf
   :custom
   (recentf-max-saved-items 200)
