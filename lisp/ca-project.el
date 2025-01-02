@@ -44,7 +44,7 @@
          ("s-a" . projectile-ag))
   :custom
   (projectile-completion-system 'default)
-  (projectile-switch-project-action 'projectile-find-file))
+  (projectile-switch-project-action #'projectile-find-file))
 
 
 (use-package treemacs
