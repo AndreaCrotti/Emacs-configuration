@@ -650,7 +650,6 @@
   ("C-s" . swiper-isearch))
 
 (use-package fancy-compilation
-  :ensure t
   :commands (fancy-compilation-mode))
 
 (use-package so-long

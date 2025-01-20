@@ -17,13 +17,7 @@
 (use-package lsp-pyright
   :after lsp)
 
-(use-package python-pytest
-  :ensure t)
-
-(use-package python-black
-  :ensure t)
-
-(use-package python-isort)
+(use-package python-pytest)
 
 (use-package ruff-format)
 
