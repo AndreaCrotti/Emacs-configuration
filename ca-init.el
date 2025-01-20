@@ -5,7 +5,7 @@
 
 (defvar bootstrap-version)
 
-(setq use-package-always-ensure t)
+(setq use-package-always-ensure nil)
 (setq gc-cons-threshold (* 50 1000 1000))
 
 (setq native-comp-jit-compilation t
