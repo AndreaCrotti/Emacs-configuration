@@ -9,8 +9,7 @@
   (python-shell-interpreter "ipython"))
 
 (use-package elpy
-  ;; :hook ((python-ts-mode . elpy-mode))
-  :init (elpy-enable))
+  :config (elpy-enable))
 
 (use-package lsp-jedi
   :after lsp)

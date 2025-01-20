@@ -20,12 +20,4 @@
    ;;TODO: make sure this actually exists somewhere
    :load-path ("~/src/forks/combobulate/"))
 
-;; (use-package ellama
-;;   :init
-;;   (setopt ellama-language "English")
-;;   ;; (require 'llm-ollama)
-;;   (setopt ellama-provider
-;; 	  (make-llm-ollama
-;; 	   :chat-model "codellama" :embedding-model "codellama")))
-
 (provide 'ca-treesit)

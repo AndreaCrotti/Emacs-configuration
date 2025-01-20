@@ -4,8 +4,8 @@
   (vterm-shell "/usr/bin/fish"))
 
 (use-package shell
-  :init
-  (dirtrack-mode))
+  :config
+  (dirtrack-mode t))
 
 (use-package company-shell)
 

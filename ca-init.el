@@ -89,6 +89,8 @@
   (log4j-mode . auto-revert-tail-mode))
 
 (use-package beacon
+  :config
+  (beacon-mode t)
   :custom
   (beacon-blink-duration 0.5))
 
@@ -152,17 +154,16 @@
 (use-package repeat
 
   :config
-  (repeat-mode))
+  (repeat-mode t))
 
 (use-package hl-todo
   :config (global-hl-todo-mode t))
 
 (use-package diminish)
 (use-package dracula-theme)
-(use-package edit-server)
 (use-package eldoc
   :diminish eldoc-mode
-  :config (global-eldoc-mode))
+  :config (global-eldoc-mode t))
 
 (use-package ediff
   :custom
@@ -175,7 +176,7 @@
 
 (use-package find-file-in-repository)
 (use-package flycheck
-  :init (global-flycheck-mode))
+  :config (global-flycheck-mode t))
 
 (use-package flycheck-pos-tip)
 
@@ -202,12 +203,6 @@
 (use-package log4j-mode)
 
 (use-package lsp-mode
-  :custom
-  ;; (lsp-pylsp-plugins-autopep8-enabled  nil)
-  (lsp-pylsp-plugins-black-enabled t)
-  ;; (lsp-pylsp-plugins-flake8-enabled nil)
-  (lsp-pylsp-plugins-isort-enabled t)
-
   :hook ((lsp-mode . lsp-enable-which-key-integration)
          (c-mode . lsp)
          (c-sharp-mode . lsp)
@@ -308,7 +303,6 @@
   (lsp-ui-imenu-auto-refresh 'after-save)
   (lsp-ui-doc-show-with-mouse t))
 
-(use-package tldr)
 (use-package rfc-mode)
 (use-package restclient
   :init
@@ -326,23 +320,11 @@
 
 (use-package restclient-jq)
 
-(use-package marginalia
-  :bind (("M-A" . marginalia-cycle)
-         :map minibuffer-local-map
-         ("M-A". marginalia-cycle))
-
-  :init
-  (marginalia-mode))
-
 (use-package multiple-cursors
   :bind
   ("C->" . mc/mark-next-like-this)
   ("C-<" . mc/mark-previous-like-this)
   ("C-c C-<" . mc/mark-all-like-this))
-
-(use-package ox-reveal
-  :custom
-  (org-reveal-root "/home/andrea/src/forks/reveal.js"))
 
 (use-package ox-asciidoc)
 
@@ -366,8 +348,7 @@
      (calc . t)
      (rust . t)
      (clojure . t)
-     (sql . t)
-     (plantuml . t)))
+     (sql . t)))
   (add-to-list 'org-structure-template-alist '("N" . "notes"))
   :custom
   (org-babel-clojure-backend 'cider)
@@ -391,8 +372,6 @@
 
 (use-package org-roam
   :after org
-  :init
-  (setq org-roam-v2-ack t)
   :custom
   (org-roam-directory (file-truename "~/RoamNotes"))
   (org-roam-completion-everywhere t)
@@ -429,8 +408,6 @@
   :config
   (persistent-scratch-autosave-mode))
 
-(use-package plantuml-mode)
-
 (use-package posframe)
 
 ;; eval `M-x nerd-icons-install-fonts' if you are seeing weird unicode glyphs
@@ -438,30 +415,16 @@
   :hook (after-init . doom-modeline-mode))
 
 (use-package rainbow-delimiters
-  :delight
   :hook
   (prog-mode . rainbow-delimiters-mode))
 
 (use-package rainbow-mode
-  :delight
   :hook
   (prog-mode . rainbow-mode))
 
-;; this might be a bit too much colour
-(use-package rainbow-identifiers
-  ;; :hook
-  ;; (prog-mode . rainbow-identifiers-mode)
-  )
-
 (use-package smart-mode-line)
-;; (use-package smart-mode-line-powerline-theme)
-;; (use-package smart-mode-line
-;;   :custom
-;;   (sml/theme 'powerline)
-;;   :init (sml/setup))
 
 (use-package smartparens
-  :delight
   :config
   (show-smartparens-global-mode t)
   (require 'smartparens-config)
@@ -486,8 +449,8 @@
    ("M-B" . sp-backward-symbol)))
 
 (use-package vertico
-  :init
-  (vertico-mode)
+  :config
+  (vertico-mode t)
   :custom
   (vertico-cycle t)
   (vertico-resize t)
@@ -495,23 +458,8 @@
   (vertico-count 20))
 
 (use-package vertico-prescient
-  :init
-  (vertico-prescient-mode))
-
-;; ;; Optionally use the `orderless' completion style.
-;; (use-package orderless
-;;   :init
-;;   ;; Configure a custom style dispatcher (see the Consult wiki)
-;;   ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
-;;   ;;       orderless-component-separator #'orderless-escapable-split-on-space)
-;;   (setq completion-styles '(orderless basic)
-;;         ;; completion-category-defaults nil
-;;         completion-category-overrides '((file (styles partial-completion)))))
-
-
-(use-package marginalia
   :config
-  (marginalia-mode))
+  (vertico-prescient-mode t))
 
 (use-package time
   :custom
@@ -522,7 +470,7 @@
 (use-package toml-mode)
 (use-package undo-tree
   :diminish "U"
-  :init (global-undo-tree-mode))
+  :config (global-undo-tree-mode t))
 
 (use-package which-key)
 (use-package wordnut)
@@ -541,10 +489,10 @@
   :after yasnippet)
 
 (use-package time
-  :init (display-time-mode))
+  :config (display-time-mode))
 
 (use-package paren
-  :init (show-paren-mode))
+  :config (show-paren-mode))
 
 ;; (use-package vega-view)
 
@@ -553,10 +501,10 @@
 ;;   :config (which-func-mode t))
 
 (use-package which-key
-  :init (which-key-mode t))
+  :config (which-key-mode t))
 
 (use-package windmove
-  :init (windmove-default-keybindings 'shift))
+  :config (windmove-default-keybindings 'shift))
 
 ;; TODO: reconfigure these two??
 (global-prettify-symbols-mode t)
@@ -609,13 +557,8 @@
   :bind
   (("C-<tab>" . hs-toggle-hiding)))
 
-(use-package zoom
-  :init
-  (setq zoom-mode t
-        zoom-size '(0.618 . 0.618)))
-
 (use-package hungry-delete
-  :init
+  :config
   (global-hungry-delete-mode t))
 
 (global-set-key (kbd "M-p") 'ca-prev-defun)
@@ -673,10 +616,9 @@
 
 (use-package embark)
 (use-package cape)
-(use-package emacs
-  :init
-  (setq tab-always-indent 'complete)
-  (column-number-mode t))
+
+(setq tab-always-indent 'complete)
+(column-number-mode t)
 
 (use-package epkg)
 (use-package separedit)
@@ -686,7 +628,7 @@
 (use-package protobuf-mode)
 
 (use-package company
-  :init (global-company-mode)
+  :config (global-company-mode t)
   :custom
   (company-show-quick-access t)
   (company-tooltip-align-annotations t)
