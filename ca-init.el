@@ -61,13 +61,6 @@
   "
   ("rn" lsp-rename))
 
-(use-package auto-package-update
-  :custom
-  (auto-package-update-delete-old-versions t)
-  (auto-package-update-hide-results t)
-  :config
-  (auto-package-update-maybe))
-
 (use-package ack)
 (use-package adoc-mode
   :init
@@ -82,7 +75,7 @@
   :custom
   (auto-revert-interval 2)
   :config
-  (global-auto-revert-mode))
+  (global-auto-revert-mode t))
 
 (use-package log4j-mode
   :hook
@@ -152,7 +145,6 @@
 
 ;; Enable repeat mode for more ergonomic `dape' use
 (use-package repeat
-
   :config
   (repeat-mode t))
 
@@ -406,7 +398,7 @@
 (use-package paradox)
 (use-package persistent-scratch
   :config
-  (persistent-scratch-autosave-mode))
+  (persistent-scratch-autosave-mode t))
 
 (use-package posframe)
 
@@ -482,23 +474,16 @@
   (yas-wrap-around-region t)
 
   :config
-  (yas-reload-all)
-  (yas-global-mode))
+  (yas-global-mode t))
 
 (use-package yasnippet-snippets
   :after yasnippet)
 
 (use-package time
-  :config (display-time-mode))
+  :config (display-time-mode t))
 
 (use-package paren
-  :config (show-paren-mode))
-
-;; (use-package vega-view)
-
-;;enable again when the issue currently happening is fixed
-;; (use-package which-func
-;;   :config (which-func-mode t))
+  :config (show-paren-mode t))
 
 (use-package which-key
   :config (which-key-mode t))
@@ -642,7 +627,7 @@
 (use-package company-fuzzy)
 (use-package company-quickhelp
   :config
-  (company-quickhelp-mode))
+  (company-quickhelp-mode t))
 
 (use-package swiper
   :bind

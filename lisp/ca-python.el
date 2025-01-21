@@ -35,10 +35,4 @@
               (setq-local flycheck-python-mypy-python-executable (pet-executable-find "mypy"))
               (ruff-format-on-save-mode t))))
 
-(use-package company-jedi
-  ;; is this actually doing anything?
-  ;; :config
-  ;; (add-to-list 'company-backends 'company-jedi)
-  )
-
 (provide 'ca-python)

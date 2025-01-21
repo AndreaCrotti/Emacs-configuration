@@ -16,7 +16,6 @@
   ;; should we load forge automatically if possible?
   :config (require 'forge))
 
-
 (use-package magit-todos
   :after magit)
 

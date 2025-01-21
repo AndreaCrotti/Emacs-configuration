@@ -5,7 +5,7 @@
 
 (use-package direnv
   :config
-  (direnv-mode))
+  (direnv-mode t))
 
 (use-package envrc
   :hook
@@ -24,14 +24,14 @@
 
 (use-package diredfl
   :config
-  (diredfl-global-mode))
+  (diredfl-global-mode t))
 
 (use-package treemacs-all-the-icons)
 
 (use-package projectile
   :diminish projectile
   :config
-  (projectile-global-mode)
+  (projectile-global-mode t)
   :bind (("<f6>" . projectile-ripgrep)
          ("C-<f6>" . projectile-replace)
          ("<f7>" . projectile-find-file)

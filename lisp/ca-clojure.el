@@ -75,33 +75,26 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   ;;   (add-to-list
   ;;    'completion-at-point-functions
   ;;    #'cape-cider-lsp))
-  :config
-  (setq cider-font-lock-dynamically '(macro core function var)
-        nrepl-hide-special-buffers t
-        cider-overlays-use-font-lock t)
-  ;; only necessary for corfu?
-  ;; (add-to-list 'completion-category-defaults '(cider (styles basic)))
 
   :custom
+  (cider-auto-test-mode t)
+  (cider-enrich-classpath t)
+  (cider-font-lock-dynamically '(macro core function var))
+  (cider-ns-code-reload-tool 'clj-reload)
+  (cider-overlays-use-font-lock t)
   (cider-prompt-for-symbol nil)
-  ;; workaroudn the issue with `clear' and the output not being
-  ;; printed out
-  (cider-repl-display-output-before-window-boundaries nil)
+  (cider-repl-buffer-size-limit 100000)
   (cider-repl-display-help-banner nil)
-  (cider-repl-pop-to-buffer-on-connect 'display-only)
   (cider-repl-display-in-current-window nil)
+  (cider-repl-display-output-before-window-boundaries nil)
+  (cider-repl-pop-to-buffer-on-connect 'display-only)
+  (cider-repl-prompt-function 'cider-repl-prompt-abbreviated)
+  (cider-repl-require-ns-on-set nil)
+  (cider-repl-tab-command #'indent-for-tab-command)
   (cider-repl-use-clojure-font-lock t)
   (cider-repl-use-pretty-printing t)
-  (cider-repl-prompt-function 'cider-repl-prompt-abbreviated)
-  (cider-repl-tab-command #'indent-for-tab-command)
-  (cider-ns-code-reload-tool 'clj-reload)
-
-  ;; enable again when it works on @30
-  (cider-enrich-classpath t)
-  (cider-repl-buffer-size-limit 100000)
-  (cider-repl-require-ns-on-set nil)
-  (nrepl-log-messages t)
-  (cider-auto-test-mode t))
+  (nrepl-hide-special-buffers t)
+  (nrepl-log-messages t))
 
 (use-package cider-decompile)
 (use-package clj-decompiler)
