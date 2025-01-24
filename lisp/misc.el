@@ -27,9 +27,7 @@
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-(set-fringe-mode 10)
+(set-fringe-mode 2)
 
 (global-unset-key (kbd "C-z"))
 
@@ -37,8 +35,6 @@
 ;; (set-face-attribute 'default nil :font "Fira Code" :height 140)
 
 (set-default-coding-systems 'utf-8)
-
-(server-start)
 
 (setq display-time-format "%l:%M %p %b %y"
       display-time-default-load-average nil)

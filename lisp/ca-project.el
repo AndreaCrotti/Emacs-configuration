@@ -62,10 +62,6 @@
   (treemacs-tag-follow-mode nil)
   (treemacs-tag-follow-delay 3)
   :hook
-  ((treemacs-mode . (lambda () (text-scale-adjust -3))))
-  )
-
-(require 'asdf)
-(asdf-enable)
+  (treemacs-mode . (lambda () (text-scale-adjust -2))))
 
 (provide 'ca-project)
