@@ -642,7 +642,7 @@
   (global-so-long-mode t))
 
 (with-eval-after-load 'compile
-  (fancy-compilation-mode))
+  (fancy-compilation-mode t))
 
 (use-package multi-compile)
 
