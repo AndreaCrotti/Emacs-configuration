@@ -47,7 +47,6 @@
 (setq custom-safe-themes t)
 (require 'functions)
 (require 'misc)
-(require 'os)
 
 (require 'use-package)
 (use-package use-package-hydra)
