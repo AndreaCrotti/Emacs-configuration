@@ -35,13 +35,6 @@
   "Create a relative path"
   (concat base filename))
 
-(eval-when-compile
-  ;; Following line is not needed if use-package.el is in ~/.emacs.d
-  (add-to-list 'load-path (make-relative-path "use-package"))
-  (require 'use-package))
-
-(add-to-list 'load-path (make-relative-path "cider-storm"))
-
 (require 'package)
 
 (setq custom-safe-themes t)
