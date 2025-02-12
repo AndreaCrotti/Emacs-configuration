@@ -459,6 +459,9 @@
 (use-package which-key)
 (use-package wordnut)
 (use-package yaml-mode)
+(use-package yaml-pro
+  :hook
+  (yaml-ts-mode . yaml-pro))
 
 (use-package yasnippet
   :custom
