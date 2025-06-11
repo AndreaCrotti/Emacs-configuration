@@ -67,7 +67,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :pin melpa-stable
   :hook (cider-mode . clj-refactor-mode)
   :diminish subword-mode
-  :bind (("C-<f5>" . cider-test-run-test))
+  :bind (:map clojure-mode-map
+              ("C-<f5>" . cider-test-run-test))
 
   ;; add this when the syntax is fixed
   ;; :hook

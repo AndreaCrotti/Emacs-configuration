@@ -4,6 +4,9 @@
   :ensure t)
 
 (use-package python
+  :bind (:map python-ts-mode-map
+              ("C-<f5>" . python-pytest-run-def-or-class-at-point-dwim))
+
   :custom
   ;; should use ipython really
   (python-shell-interpreter "ipython"))
