@@ -122,6 +122,8 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   :init
   (add-to-list 'auto-mode-alist '("\\.bb" . clojure-mode)))
 
+(use-package clojure-ts-mode)
+
 (use-package clojure-mode-extra-font-locking)
 (use-package jet)
 (use-package ob-clojurescript)
