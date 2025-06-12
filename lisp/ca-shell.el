@@ -13,4 +13,6 @@
 
 (use-package bats-mode)
 
+(add-to-list 'exec-path "~/.local/bin")
+
 (provide 'ca-shell)
