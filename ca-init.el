@@ -201,6 +201,7 @@
          (elixir-mode . lsp)
          (elm-mode . lsp)
          (go-mode . lsp)
+         (go-ts-mode . lsp)
          (graphql-mode . lsp)
          (haskell-mode . lsp)
          (html-mode . lsp)
