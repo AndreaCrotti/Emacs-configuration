@@ -1,6 +1,6 @@
 (use-package gptel
   :custom
-  (gptel-default-mode #'markdown-mode))
+  (gptel-default-mode #'org-mode))
 
 (use-package org-ai)
 
