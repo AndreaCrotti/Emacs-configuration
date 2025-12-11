@@ -10,5 +10,6 @@
 (require 'ca-web)
 (require 'ca-shell)
 (require 'ca-writing)
+(require 'ca-mobile)
 
 (provide 'ca-all)
