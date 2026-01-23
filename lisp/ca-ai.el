@@ -19,7 +19,6 @@
   (aidermacs-use-architect-mode t)
   (aidermacs-default-model "sonnet"))
 
-(use-package aider)
 (use-package claude-code)
 
 (use-package eca)
