@@ -64,7 +64,6 @@ _uw_: Unwind thread            _mf_: Move formattedtextfield
   (cider-nrepl-sync-request:eval "(portal.api/close)"))
 
 (use-package cider
-  :pin melpa-stable
   :hook (cider-mode . clj-refactor-mode)
   :diminish subword-mode
   :bind (:map clojure-mode-map

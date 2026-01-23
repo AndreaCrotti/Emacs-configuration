@@ -24,4 +24,6 @@
 
 (use-package aider)
 
+(use-package eca)
+
 (provide 'ca-ai)
