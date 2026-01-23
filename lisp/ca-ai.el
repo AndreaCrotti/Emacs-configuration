@@ -23,6 +23,7 @@
   (aidermacs-default-model "sonnet"))
 
 (use-package aider)
+(use-package claude-code)
 
 (use-package eca)
 
