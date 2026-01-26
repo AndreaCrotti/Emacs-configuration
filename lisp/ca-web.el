@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (use-package graphql)
 (use-package graphql-doc)
 (use-package graphql-mode)

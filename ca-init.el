@@ -1,4 +1,7 @@
 ;; -*- lexical-binding: t -*-
+(desktop-save-mode t)
+(setq desktop-dirname "~/.emacs.d/")
+
 (setq base (expand-file-name "~/Emacs-Configuration/lisp/"))
 (add-to-list 'load-path base)
 (setq package-enable-at-startup nil)

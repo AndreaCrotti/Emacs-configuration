@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (use-package mixed-pitch)
 (use-package olivetti)
 (use-package markdown-mode

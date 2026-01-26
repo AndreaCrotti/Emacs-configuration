@@ -1,6 +1,5 @@
+;; -*- lexical-binding: t; -*-
 (use-package flycheck-clj-kondo)
-
-(use-package elein)
 
 (use-package inf-clojure)
 

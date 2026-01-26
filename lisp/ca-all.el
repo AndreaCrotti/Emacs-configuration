@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (require 'ca-ai)
 (require 'ca-clojure)
 (require 'ca-devops)

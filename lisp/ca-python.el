@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (setq python-shell-completion-native-enable nil)
 
 (use-package blacken

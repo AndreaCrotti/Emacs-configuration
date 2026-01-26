@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (use-package tree-sitter)
 (use-package tree-sitter-langs)
 (use-package tree-sitter-indent)
