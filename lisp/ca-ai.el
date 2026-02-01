@@ -6,9 +6,6 @@
 
 (use-package eca)
 (use-package gemini)
-(use-package efrit
-  :load-path "~/forks/efrit/lisp")
-
 (use-package macher
   :custom
   ;; The org UI has structured navigation and nice content folding.
