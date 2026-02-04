@@ -199,6 +199,7 @@
          (clojure-ts-mode . lsp-deferred)
          (clojurec-mode . lsp-deferred)
          (clojurescript-mode . lsp-deferred)
+         (css-mode . lsp-deferred)
          (dockerfile-mode . lsp-deferred)
          (dockerfile-ts-mode . lsp-deferred)
          (elixir-mode . lsp-deferred)
