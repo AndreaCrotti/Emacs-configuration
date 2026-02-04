@@ -5,7 +5,6 @@
 (use-package claude-code)
 
 (use-package eca)
-(use-package gemini)
 (use-package macher
   :custom
   ;; The org UI has structured navigation and nice content folding.
