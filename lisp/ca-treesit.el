@@ -8,7 +8,9 @@
   :custom
   (treesit-auto-install 'prompt)
   :config
-  (treesit-auto-add-to-auto-mode-alist 'all)
+  ;TODO: enable when surely works
+  (treesit-auto-add-to-auto-mode-alist nil)
+  ;; (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode t))
 
 ;; (use-package combobulate
