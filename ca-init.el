@@ -56,7 +56,6 @@
   "
   ("rn" lsp-rename))
 
-(use-package ack)
 (use-package adoc-mode
   :init
   (add-to-list 'auto-mode-alist (cons "\\.adoc\\'" 'adoc-mode))
