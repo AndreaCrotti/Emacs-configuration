@@ -51,10 +51,4 @@
   :hook
   (elixir-mode . mix-mode-hook))
 
-(use-package scala-mode
-  :interpreter
-  ("scala" . scala-mode))
-
-(use-package lsp-metals)
-
 (provide 'ca-research)
