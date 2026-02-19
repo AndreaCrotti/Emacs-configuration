@@ -25,8 +25,7 @@
                      gcs-done)))
 
 (setq package-archives
-      '(("org" . "https://orgmode.org/elpa/")
-        ("melpa" . "http://melpa.org/packages/")
+      '(("melpa" . "http://melpa.org/packages/")
         ("nongnu" . "https://elpa.nongnu.org/nongnu/")
         ("gnu" . "http://elpa.gnu.org/packages/")
         ("melpa-stable" . "https://stable.melpa.org/packages/")))
@@ -288,8 +287,6 @@
   (lsp-ui-peek-show-directory nil)
   (lsp-ui-doc-side 'right)
   (lsp-ui-imenu-mode nil)
-  (lsp-ui-doc-show-with-mouse nil)
-  (lsp-ui-imenu-auto-refresh 'after-save)
   (lsp-ui-doc-show-with-mouse t))
 
 (use-package rfc-mode)
@@ -345,9 +342,7 @@
   (org-fontify-quote-and-verse-blocks t)
   (org-hide-block-startup nil)
   (org-hide-emphasis-markers t)
-  (org-hide-emphasis-markers t)
   (org-src-preserve-indentation nil)
-  (org-src-tab-acts-natively t)
   (org-src-tab-acts-natively t)
   (org-startup-folded 'content)
   (org-agenda-files (list (file-truename "~/RoamNotes/")
