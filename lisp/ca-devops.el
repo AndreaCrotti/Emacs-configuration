@@ -17,5 +17,6 @@
 (use-package docker-cli)
 (use-package dockerfile-mode)
 (use-package docker-compose-mode)
+(use-package kdl-mode)
 
 (provide 'ca-devops)
