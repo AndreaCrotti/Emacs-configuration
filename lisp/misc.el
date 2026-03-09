@@ -23,11 +23,6 @@
 (global-set-key [f1] 'delete-window)
 (global-set-key [f2] 'split-window-horizontally)
 
-(when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-(when (fboundp 'horizontal-scroll-bar-mode) (horizontal-scroll-bar-mode -1))
-(when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
-
 (set-fringe-mode 2)
 
 (global-unset-key (kbd "C-z"))

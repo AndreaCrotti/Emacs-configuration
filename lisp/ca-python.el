@@ -13,12 +13,6 @@
   ;; should use ipython really
   (python-shell-interpreter "ipython"))
 
-(use-package elpy
-  :config (elpy-enable))
-
-(use-package lsp-jedi
-  :after lsp)
-
 (use-package lsp-pyright
   :after lsp)
 

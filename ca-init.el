@@ -4,13 +4,7 @@
 
 (setq base (expand-file-name "~/Emacs-Configuration/lisp/"))
 (add-to-list 'load-path base)
-(setq package-enable-at-startup nil)
-
 (defvar bootstrap-version)
-
-(setq use-package-always-ensure nil)
-(setq gc-cons-threshold (* 100 1000 1000))
-
 (setq native-comp-jit-compilation t
       native-comp-async-query-on-exit t
       native-comp-async-jobs-number 4
@@ -38,6 +32,7 @@
   (concat base filename))
 
 (require 'package)
+(package-initialize)
 
 (setq custom-safe-themes t)
 (require 'functions)
@@ -88,11 +83,6 @@
 
 
 (use-package csv-mode)
-(use-package dap-mode
-  :hook
-  (lsp-mode . dap-mode)
-  (lsp-mode . dap-ui-mode))
-
 (use-package dape
   :preface
   ;; By default dape shares the same keybinding prefix as `gud'
@@ -173,9 +163,6 @@
 
 (use-package imenu)
 
-(use-package imenu-anywhere
-  :bind (("<f5>" . imenu-anywhere)))
-
 (use-package less-css-mode)
 
 (use-package lsp-mode
@@ -183,50 +170,36 @@
   :hook ((lsp-mode . lsp-enable-which-key-integration)
          (c-mode . lsp-deferred)
          (c-sharp-mode . lsp-deferred)
-         (c-ts-mode . lsp-deferred)
          (cc-mode . lsp-deferred)
          (clojure-mode . lsp-deferred)
-         (clojure-ts-mode . lsp-deferred)
          (clojurec-mode . lsp-deferred)
          (clojurescript-mode . lsp-deferred)
          (css-mode . lsp-deferred)
          (dockerfile-mode . lsp-deferred)
-         (dockerfile-ts-mode . lsp-deferred)
          (elixir-mode . lsp-deferred)
          (elm-mode . lsp-deferred)
          (go-mode . lsp-deferred)
-         (go-ts-mode . lsp-deferred)
          (graphql-mode . lsp-deferred)
          (haskell-mode . lsp-deferred)
          (html-mode . lsp-deferred)
-         (html-ts-mode . lsp-deferred)
          (java-mode . lsp-deferred)
-         (java-ts-mode . lsp-deferred)
          (json-mode . lsp-deferred)
-         (json-ts-mode . lsp-deferred)
          (kotlin-mode . lsp-deferred)
          (lua-mode . lsp-deferred)
          (markdown-mode . lsp-deferred)
-
          (protobuf-mode . lsp-deferred)
          (python-mode . lsp-deferred)
-         (python-ts-mode . lsp-deferred)
          (rust-mode . lsp-deferred)
-         (rust-ts-mode . lsp-deferred)
          (scala-mode . lsp-deferred)
          (sh-mode . lsp-deferred)
          (sql-mode. lsp-deferred)
          (tex-mode . lsp-deferred)
          (terraform-mode . lsp-deferred)
-
          (typescript-mode . lsp-deferred)
-         (typescript-ts-mode . lsp-deferred)
          (web-mode . lsp-deferred)
          (xml-mode . lsp-deferred)
          (yaml-mode . lsp-deferred)
-         (yaml-ts-mode . lsp-deferred)
-         (zig-mode . lsp-deferred)
-         (zig-ts-mode . lsp-deferred))
+         (zig-mode . lsp-deferred))
 
   :bind (("M-?" . lsp-find-definition)
          ;; ("M-/" . lsp-find-references)
@@ -428,9 +401,22 @@
   (vertico-scroll-margin 10)
   (vertico-count 20))
 
-(use-package vertico-prescient
+(use-package orderless
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles partial-completion)))))
+
+(use-package marginalia
   :config
-  (vertico-prescient-mode t))
+  (marginalia-mode t))
+
+(use-package consult
+  :bind
+  ("C-s" . consult-line)
+  ("C-r" . consult-line)
+  ("C-c r" . consult-ripgrep)
+  ("C-x b" . consult-buffer)
+  ("<f5>" . consult-imenu))
 
 (use-package time
   :custom
@@ -485,9 +471,6 @@
 (use-package winner
   :config (winner-mode t))
 
-(use-package ripgrep
-  :config
-  (setq ripgrep-arguments '("--max-columns 150" "--max-columns-preview")))
 
 ;; Enable the www ligature in every possible major mode
 (use-package ligature
@@ -596,10 +579,6 @@
   :config
   (company-quickhelp-mode t))
 
-(use-package swiper
-  :bind
-  ("C-r" . swiper-isearch-backward)
-  ("C-s" . swiper-isearch))
 
 (use-package fancy-compilation
   :commands (fancy-compilation-mode))
