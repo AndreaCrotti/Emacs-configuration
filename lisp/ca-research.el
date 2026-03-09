@@ -1,6 +1,5 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package merlin)
 
 (use-package haskell-mode)
 (use-package lsp-haskell)
@@ -18,13 +17,8 @@
   :hook
   (go-mode . gorepl-mode))
 
-(use-package dune)
-(use-package tuareg)
-(use-package exercism)
-(use-package leetcode)
-(use-package erlang)
+
 (use-package flymake-hlint)
-(use-package sly)
 
 (use-package rust-mode
   :config

@@ -10,7 +10,6 @@
   (gac-debounce-interval 0.5))
 
 (use-package git-timemachine)
-(use-package gitconfig)
 
 (use-package forge)
 (use-package magit
