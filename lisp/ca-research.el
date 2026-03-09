@@ -32,8 +32,6 @@
 
 (use-package cargo-mode)
 
-(use-package ob-rust)
-
 (use-package kotlin-mode)
 (use-package gradle-mode)
 (use-package flycheck-gradle)

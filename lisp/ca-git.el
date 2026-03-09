@@ -1,5 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 
+(use-package git-auto-commit-mode)
 (use-package github-browse-file
   :defer t)
 (use-package gist
