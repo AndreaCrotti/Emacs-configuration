@@ -5,8 +5,6 @@
 (use-package eca)
 
 (use-package gptel
-  :config
-  (require 'macher)
   :custom
   (gptel-default-mode #'org-mode)
   (gptel-max-tokens 5000))

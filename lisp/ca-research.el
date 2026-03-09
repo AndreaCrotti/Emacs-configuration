@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (use-package merlin)
 
 (use-package haskell-mode)
@@ -26,17 +28,15 @@
 
 (use-package rust-mode
   :config
+  (setq rust-format-on-save t))
+
 (use-package flycheck-rust
-  :hook
-  (flycheck-mode . flycheck-rust-setup))
+  :hook (flycheck-mode . flycheck-rust-setup))
 
 (use-package cargo
-  :hook
-  (rust-mode . cargo-minor-mode))
+  :hook (rust-mode . cargo-minor-mode))
 
 (use-package cargo-mode)
-
-  (setq rust-format-on-save t))
 
 (use-package ob-rust)
 

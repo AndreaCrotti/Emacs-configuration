@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defun ca-next-defun ()
   (interactive)
   (end-of-defun 2)
@@ -20,7 +22,6 @@
   (interactive)
   ;; (ca-indent-buffer)
   (ca-untabify-buffer)
-  ;TODO: use whitespace cleanup instead?
   (delete-trailing-whitespace))
 
 (defun ca-remove-dos-eol ()

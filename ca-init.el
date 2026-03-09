@@ -9,7 +9,7 @@
 (defvar bootstrap-version)
 
 (setq use-package-always-ensure nil)
-(setq gc-cons-threshold (* 50 1000 1000))
+(setq gc-cons-threshold (* 100 1000 1000))
 
 (setq native-comp-jit-compilation t
       native-comp-async-query-on-exit t
@@ -25,12 +25,12 @@
                      gcs-done)))
 
 (setq package-archives
-      '(("melpa" . "http://melpa.org/packages/")
+      '(("melpa" . "https://melpa.org/packages/")
         ("nongnu" . "https://elpa.nongnu.org/nongnu/")
-        ("gnu" . "http://elpa.gnu.org/packages/")
+        ("gnu" . "https://elpa.gnu.org/packages/")
         ("melpa-stable" . "https://stable.melpa.org/packages/")))
 
-(eval-when-compile (require 'cl))
+(eval-when-compile (require 'cl-lib))
 
 (defun make-relative-path
     (filename)
@@ -62,8 +62,6 @@
   :config
   (setq-local outline-regexp "[=]+"))
 
-(use-package ag)
-;; (use-package auto-highlight-symbol)
 (use-package autorevert
   :custom
   (auto-revert-interval 2)
@@ -120,9 +118,6 @@
   (setq dape-buffer-window-arrangement 'gud)
   (setq dape-info-hide-mode-line nil)
 
-  ;; Pulse source line (performance hit)
-  ;; (add-hook 'dape-display-source-hook 'pulse-momentary-highlight-one-line)
-
   ;; Showing inlay hints
   (setq dape-inlay-hints t)
 
@@ -178,14 +173,12 @@
   :hook
   (prog-mode . idle-highlight-mode))
 
-(use-package know-your-http-well)
 (use-package imenu)
 
 (use-package imenu-anywhere
   :bind (("<f5>" . imenu-anywhere)))
 
 (use-package less-css-mode)
-(use-package log4j-mode)
 
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
@@ -251,7 +244,6 @@
   (add-to-list 'lsp-language-id-configuration '(forge-post-mode . "text"))
 
   :custom
-  (gc-cons-threshold 100000000)
   (lsp-completion-enable nil)
   ;; change it to :none if using corfu
   (lsp-completion-provider :capf)
@@ -447,14 +439,14 @@
   :custom
   (display-time-24hr-format t)
   (display-time-default-load-average nil)
-  (display-time-mode))
+  :config
+  (display-time-mode t))
 
 (use-package toml-mode)
 (use-package undo-tree
   :diminish "U"
   :config (global-undo-tree-mode t))
 
-(use-package which-key)
 (use-package wordnut)
 (use-package yaml-mode)
 (use-package yaml-ts-mode)
@@ -470,9 +462,6 @@
 (use-package yasnippet-snippets
   :after yasnippet)
 
-(use-package time
-  :config (display-time-mode t))
-
 (use-package paren
   :config (show-paren-mode t))
 
@@ -482,7 +471,6 @@
 (use-package windmove
   :config (windmove-default-keybindings 'shift))
 
-;; TODO: reconfigure these two??
 (global-prettify-symbols-mode t)
 (transient-mark-mode t)
 
@@ -596,8 +584,6 @@
 (setq tab-always-indent 'complete)
 (column-number-mode t)
 
-(use-package epkg)
-(use-package separedit)
 (use-package verb)
 (use-package doom-themes)
 
@@ -639,11 +625,9 @@
 
 (use-package visual-regexp)
 
-(dolist (f '("aliases.el" "hacks.el" "custom.el"))
-  (when (file-exists-p (make-relative-path f))
-    ;; use require here also if possible
-    (message "loading extra file" f)
-    (load-file (make-relative-path f))))
+(require 'aliases)
+(require 'hacks)
+(require 'custom)
 
 (provide 'ca-init)
 ;;; ca-init ends here
