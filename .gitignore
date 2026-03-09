@@ -39,3 +39,4 @@ custom.el
 /request/
 /history
 .aider*
+/.envrc

@@ -443,9 +443,7 @@
   (display-time-mode t))
 
 (use-package toml-mode)
-(use-package undo-tree
-  :diminish "U"
-  :config (global-undo-tree-mode t))
+(use-package vundo)
 
 (use-package wordnut)
 (use-package yaml-mode)
