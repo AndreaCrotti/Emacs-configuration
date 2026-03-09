@@ -47,7 +47,6 @@
 (use-package use-package-hydra)
 (use-package major-mode-hydra)
 (use-package pretty-hydra)
-(use-package async)
 
 (defhydra ca-lsp-refactor-menu (:color blue :hint nil)
   "
@@ -87,7 +86,6 @@
 
 (use-package command-log-mode)
 
-(use-package ess)
 
 (use-package csv-mode)
 (use-package dap-mode
@@ -209,7 +207,7 @@
          (kotlin-mode . lsp-deferred)
          (lua-mode . lsp-deferred)
          (markdown-mode . lsp-deferred)
-         (ocaml-mode  . lsp-deferred)
+
          (protobuf-mode . lsp-deferred)
          (python-mode . lsp-deferred)
          (python-ts-mode . lsp-deferred)
@@ -220,7 +218,7 @@
          (sql-mode. lsp-deferred)
          (tex-mode . lsp-deferred)
          (terraform-mode . lsp-deferred)
-         (tuareg-mode . lsp-deferred)
+
          (typescript-mode . lsp-deferred)
          (typescript-ts-mode . lsp-deferred)
          (web-mode . lsp-deferred)
@@ -377,12 +375,11 @@
 
 (use-package org-msg)
 
-(use-package paradox)
+
 (use-package persistent-scratch
   :config
   (persistent-scratch-autosave-mode t))
 
-(use-package posframe)
 
 ;; eval `M-x nerd-icons-install-fonts' if you are seeing weird unicode glyphs
 (use-package doom-modeline
@@ -556,10 +553,7 @@
   :custom (highlight-indent-guides-method 'character)
   :hook ((prog-mode . highlight-indent-guides-mode)))
 
-(use-package crux)
-(use-package minimap)
-(use-package bm)
-(use-package focus)
+
 
 (dolist (mode '(org-mode-hook
                 term-mode-hook
@@ -576,8 +570,6 @@
 ;; hack to work around https://github.com/Fuco1/smartparens/issues/1204 for now
 (defalias 'sp--syntax-class-to-char #'syntax-class-to-char)
 
-(use-package embark)
-(use-package cape)
 
 (setq tab-always-indent 'complete)
 (column-number-mode t)

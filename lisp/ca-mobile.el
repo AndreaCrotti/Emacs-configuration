@@ -5,7 +5,6 @@
 
 (use-package cmake-ide)
 
-(use-package flutter)
 
 (use-package hover
   :after dart-mode

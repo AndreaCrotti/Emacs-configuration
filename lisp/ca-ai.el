@@ -2,7 +2,6 @@
 
 (use-package org-ai)
 
-(use-package eca)
 
 (use-package gptel
   :custom
