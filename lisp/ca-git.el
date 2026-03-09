@@ -1,7 +1,9 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package github-browse-file)
-(use-package gist)
+(use-package github-browse-file
+  :defer t)
+(use-package gist
+  :defer t)
 (use-package git-modes)
 (use-package git-auto-commit-mode
   :custom
@@ -27,12 +29,15 @@
   :after magit)
 
 (use-package magit-stats
+  :defer t
   :after magit)
 
 (use-package magit-annex
+  :defer t
   :after magit)
 
 (use-package magit-find-file
+  :defer t
   :after magit)
 
 (provide 'ca-git)

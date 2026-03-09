@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; hacky changes that should be done directly in the original package
 ;; they were in
 
@@ -32,13 +33,6 @@ Turning on wordnut mode runs the normal hook `wordnut-mode-hook'.
   (org-mode)
   (view-mode))
 
-;; change the size of markup in asciidoc documents to
-;; something that mmakes more sense
-;; (dolist (i (number-sequence 0 5))
-;;   (let ((new-height (+ 1.0 (/ (- 10.0 i) 20.0))))
-;;     (set-face-attribute
-;;      (intern (format "markup-title-%d-face" i)) nil :height new-height)))
-
 (defun 4k-p ()
   (> (x-display-pixel-width) 7000))
 
@@ -50,3 +44,5 @@ Turning on wordnut mode runs the normal hook `wordnut-mode-hook'.
         (if (4k-p)
             (set-face-attribute 'default frame :font "Fira Code" :height 150)
           (set-face-attribute 'default frame :font "Fira Code" :height 120)))))
+
+(provide 'hacks)

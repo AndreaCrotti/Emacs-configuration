@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defalias 'bb 'bury-buffer)
 (defalias 'bu 'browse-url)
 (defalias 'dml 'delete-matching-lines)
@@ -14,3 +16,5 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 (defalias 'ys 'yas/reload-all)
 (defalias 'yv 'yas/visit-snippet-file)
+
+(provide 'aliases)
