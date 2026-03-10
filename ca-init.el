@@ -288,7 +288,6 @@
 (use-package org
   :hook (org-mode . ca-org-mode-setup)
   :config
-  (define-key org-mode-map (kbd "C-c C-r") verb-command-map)
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((dot . t)
