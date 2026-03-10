@@ -36,5 +36,8 @@
       display-time-default-load-average nil)
 
 (global-display-line-numbers-mode t)
+(setq completion-ignore-case t)
+(setq read-file-name-completion-ignore-case t)
+(setq read-buffer-completion-ignore-case t)
 
 (provide 'misc)
