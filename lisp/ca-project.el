@@ -21,6 +21,8 @@
 (setq dired-isearch-filenames 'dwim)
 (setq dired-listing-switches "-al")
 
+(use-package ripgrep)
+
 (use-package treemacs-projectile
   :after (treemacs projectile))
 
