@@ -293,7 +293,6 @@
    'org-babel-load-languages
    '((dot . t)
      (calc . t)
-     (rust . t)
      (clojure . t)
      (sql . t)))
   (add-to-list 'org-structure-template-alist '("N" . "notes"))
@@ -357,14 +356,6 @@
 ;; eval `M-x nerd-icons-install-fonts' if you are seeing weird unicode glyphs
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode))
-
-(use-package rainbow-delimiters
-  :hook
-  (prog-mode . rainbow-delimiters-mode))
-
-(use-package rainbow-mode
-  :hook
-  (prog-mode . rainbow-mode))
 
 (use-package smart-mode-line)
 
