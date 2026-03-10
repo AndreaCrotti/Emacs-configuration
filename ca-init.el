@@ -215,8 +215,7 @@
   (add-to-list 'lsp-language-id-configuration '(forge-post-mode . "text"))
 
   :custom
-  (lsp-completion-enable nil)
-  ;; change it to :none if using corfu
+  (lsp-completion-enable t)
   (lsp-completion-provider :capf)
   (lsp-completion-show-detail t)
   (lsp-dired-mode t)
@@ -552,22 +551,15 @@
 
 (use-package protobuf-mode)
 
-(use-package company
-  :config (global-company-mode t)
+(use-package corfu
   :custom
-  (company-show-quick-access t)
-  (company-tooltip-align-annotations t)
-  (company-minimum-prefix-length 1)
-  (company-idle-delay 0.2)
-  (company-show-numbers t))
-
-(use-package company-dict)
-(use-package company-restclient)
-(use-package company-math)
-(use-package company-fuzzy)
-(use-package company-quickhelp
+  (corfu-auto t)
+  (corfu-auto-delay 0.2)
+  (corfu-auto-prefix 1)
+  (corfu-cycle t)
+  (corfu-preselect 'prompt)
   :config
-  (company-quickhelp-mode t))
+  (global-corfu-mode t))
 
 
 (use-package fancy-compilation
