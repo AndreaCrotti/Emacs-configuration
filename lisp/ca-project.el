@@ -16,6 +16,7 @@
 (use-package all-the-icons)
 
 (use-package treemacs-icons-dired)
+(use-package lsp-treemacs)
 
 (setq dired-auto-revert-buffer 1)
 (setq dired-isearch-filenames 'dwim)

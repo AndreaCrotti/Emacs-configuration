@@ -559,8 +559,27 @@
 (setq tab-always-indent 'complete)
 (column-number-mode t)
 
-(use-package verb)
 (use-package doom-themes)
+
+(use-package powerline
+  :ensure t
+  :config
+  (powerline-default-theme)
+  (set-face-attribute 'mode-line nil
+                      :background "#bd93f9" :foreground "#282a36"
+                      :box nil)
+  (set-face-attribute 'mode-line-inactive nil
+                      :background "#44475a" :foreground "#6272a4"
+                      :box nil)
+  (set-face-attribute 'powerline-active1 nil
+                      :background "#44475a" :foreground "#f8f8f2")
+  (set-face-attribute 'powerline-active2 nil
+                      :background "#282a36" :foreground "#8be9fd")
+  (set-face-attribute 'powerline-inactive1 nil
+                      :background "#383a59" :foreground "#6272a4")
+  (set-face-attribute 'powerline-inactive2 nil
+                      :background "#282a36" :foreground "#6272a4"))
+
 
 (use-package protobuf-mode)
 
