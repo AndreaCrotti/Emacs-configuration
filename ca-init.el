@@ -26,18 +26,31 @@
 
 (eval-when-compile (require 'cl-lib))
 
+(setq package-enable-at-startup nil)
+(defvar bootstrap-version)
+(let* ((bootstrap-file
+        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+       (bootstrap-version 6))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+(setq straight-use-package-by-default t)
+
 (defun make-relative-path
     (filename)
   "Create a relative path"
   (concat base filename))
 
-(require 'package)
-(package-initialize)
-
 (setq custom-safe-themes t)
 (require 'functions)
 (require 'misc)
 
+(straight-use-package 'use-package)
 (require 'use-package)
 (use-package use-package-hydra)
 (use-package major-mode-hydra)
