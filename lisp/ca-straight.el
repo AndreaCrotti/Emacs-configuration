@@ -18,5 +18,21 @@
 (straight-use-package 'use-package)
 (require 'use-package)
 
+(defvar ca-straight-versions-file
+  (expand-file-name "straight/versions/default.el" user-emacs-directory)
+  "Lockfile used by straight.el to pin package versions.")
+
+(setq straight-frozen-versions-file ca-straight-versions-file)
+
+(defun ca-straight-freeze-versions ()
+  "Write current package versions to the straight lockfile."
+  (interactive)
+  (straight-freeze-versions))
+
+(defun ca-straight-thaw-versions ()
+  "Unpin packages by clearing the straight lockfile."
+  (interactive)
+  (straight-thaw-versions))
+
 (provide 'ca-straight)
 ;;; ca-straight.el ends here
