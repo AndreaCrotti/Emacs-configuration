@@ -621,7 +621,7 @@
 
 (require 'aliases)
 (require 'hacks)
-(require 'custom)
+(require 'local)
 
 (provide 'ca-init)
 ;;; ca-init ends here
