@@ -26,20 +26,8 @@
 
 (eval-when-compile (require 'cl-lib))
 
-(setq package-enable-at-startup nil)
-(defvar bootstrap-version)
-(let* ((bootstrap-file
-        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-       (bootstrap-version 6))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
-(setq straight-use-package-by-default t)
+(defvar ca-use-straight-el t
+  "When non-nil, bootstrap straight.el and install packages via use-package.")
 
 (defun make-relative-path
     (filename)
@@ -50,8 +38,11 @@
 (require 'functions)
 (require 'misc)
 
-(straight-use-package 'use-package)
-(require 'use-package)
+(if ca-use-straight-el
+    (require 'ca-straight)
+  (require 'package)
+  (package-initialize)
+  (require 'use-package))
 (use-package use-package-hydra)
 (use-package major-mode-hydra)
 (use-package pretty-hydra)
