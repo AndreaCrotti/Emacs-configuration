@@ -21,14 +21,6 @@
 (use-package ruff-format)
 
 (defun pet-setup ()
-  (setq-local python-shell-interpreter (pet-executable-find "ipython")
-              python-shell-virtualenv-root (pet-virtualenv-root))
-  (setq-local lsp-pyright-python-executable-cmd (pet-executable-find "python")
-              lsp-pyright-venv-path python-shell-virtualenv-root)
-  (setq-local dap-python-executable (pet-executable-find "python"))
-  (setq-local python-pytest-executable (pet-executable-find "pytest"))
-  (setq-local ruff-format-command (pet-executable-find "ruff"))
-  (setq-local flycheck-python-mypy-python-executable (pet-executable-find "mypy"))
   (ruff-format-on-save-mode t)
   (pet-mode t))
 
