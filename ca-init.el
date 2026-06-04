@@ -252,6 +252,12 @@
   (lsp-treemacs-sync-mode t)
   (read-process-output-max (* 1024 1024)))
 
+(setq lsp-servers
+      '(yamlls pyright dockerfile-ls postgres-ls json-ls clojure-lsp jsts-ls bash-ls))
+
+(dolist (lsp lsp-servers)
+  (lsp-install-server t lsp))
+
 (use-package lsp-ui
   :hook
   (lsp-mode . lsp-ui-mode)
@@ -597,6 +603,7 @@
 (use-package multi-compile)
 
 (use-package visual-regexp)
+
 
 (require 'aliases)
 (require 'hacks)
