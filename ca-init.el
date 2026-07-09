@@ -29,11 +29,6 @@
 (defvar ca-use-straight-el t
   "When non-nil, bootstrap straight.el and install packages via use-package.")
 
-(defun make-relative-path
-    (filename)
-  "Create a relative path"
-  (concat base filename))
-
 (setq custom-safe-themes t)
 (require 'functions)
 (require 'misc)
@@ -46,12 +41,6 @@
 (use-package use-package-hydra)
 (use-package major-mode-hydra)
 (use-package pretty-hydra)
-
-(defhydra ca-lsp-refactor-menu (:color blue :hint nil)
-  "
-  _rn_: Rename
-  "
-  ("rn" lsp-rename))
 
 (use-package adoc-mode
   :init
@@ -102,9 +91,6 @@
   :config
   ;; Turn on global bindings for setting breakpoints with mouse
   (dape-breakpoint-global-mode)
-
-  ;; Info buffers to the right
-  (setq dape-buffer-window-arrangement 'right)
 
   ;; Info buffers like gud (gdb-mi)
   (setq dape-buffer-window-arrangement 'gud)
@@ -220,7 +206,7 @@
   :bind (("M-?" . lsp-find-definition)
          ;; ("M-/" . lsp-find-references)
          ("M-'" . lsp-treemacs-call-hierarchy)
-         ("C-c l" . ca-lsp-refactor-menu/body))
+         ("C-c l" . lsp-rename))
 
   :config
   (dolist (m '(clojure-mode
@@ -251,12 +237,6 @@
   (lsp-signature t)
   (lsp-treemacs-sync-mode t)
   (read-process-output-max (* 1024 1024)))
-
-(setq lsp-servers
-      '(yamlls pyright dockerfile-ls postgres-ls json-ls clojure-lsp jsts-ls bash-ls))
-
-(dolist (lsp lsp-servers)
-  (lsp-install-server t lsp))
 
 (use-package lsp-ui
   :hook
@@ -377,8 +357,6 @@
 ;; eval `M-x nerd-icons-install-fonts' if you are seeing weird unicode glyphs
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode))
-
-(use-package smart-mode-line)
 
 (use-package smartparens
   :config
@@ -515,15 +493,10 @@
   :config
   (global-hungry-delete-mode t))
 
-(global-set-key (kbd "M-p") 'ca-prev-defun)
+(global-set-key (kbd "M-p") 'beginning-of-defun)
 (global-set-key (kbd "M-n") 'ca-next-defun)
 
 (use-package hydra)
-
-(defhydra hydra-zoom (global-map "C-<f2>")
-  "zoom"
-  ("g" text-scale-increase "in")
-  ("l" text-scale-decrease "out"))
 
 (use-package recentf
   :custom
