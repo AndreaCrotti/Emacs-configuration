@@ -42,7 +42,7 @@
 (defun magit-sem-diff ()
   (interactive)
   (let ((default-directory (magit-toplevel)))
-    (compile (format "sem diff --from HEAD --to %s" (magit-main-branch)))))
+    (compile (format "sem diff --from %s --to HEAD" (magit-main-branch)))))
 
 (transient-append-suffix 'magit-diff "d"
   '("S" "Semantic diff" magit-sem-diff))
