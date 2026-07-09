@@ -40,3 +40,4 @@ custom.el
 /history
 .aider*
 /.envrc
+/lisp/local.el
