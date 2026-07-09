@@ -36,7 +36,7 @@
 (use-package projectile
   :diminish projectile
   :config
-  (projectile-global-mode t)
+  (projectile-mode t)
   :bind (("<f6>" . projectile-ripgrep)
          ("C-<f6>" . projectile-replace)
          ("<f7>" . projectile-find-file)
