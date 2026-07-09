@@ -18,6 +18,8 @@
 (setq visible-bell nil
       ring-bell-function 'ignore) ; Turn beep off
 
+(setq use-short-answers t) ; y/n instead of yes/no
+
 (savehist-mode t) ; save also minibuffer history, very useful
 
 (global-set-key [f1] 'delete-window)
