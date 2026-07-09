@@ -13,6 +13,6 @@
 (use-package docker-cli :defer t)
 (use-package dockerfile-mode)
 (use-package docker-compose-mode)
-(use-package kdl-mode)
+(use-package rego-mode)
 
 (provide 'ca-devops)
