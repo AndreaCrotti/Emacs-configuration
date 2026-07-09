@@ -13,7 +13,6 @@
 (defalias 'rs 'replace-string)
 (defalias 'sh 'shell)
 (defalias 'ws 'whitespace-mode)
-(defalias 'yes-or-no-p 'y-or-n-p)
 (defalias 'ys 'yas/reload-all)
 (defalias 'yv 'yas/visit-snippet-file)
 
