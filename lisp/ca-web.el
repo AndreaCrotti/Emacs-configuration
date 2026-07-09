@@ -18,6 +18,4 @@
 (use-package emmet-mode
   :hook (html-mode . emmet-mode))
 
-(use-package lsp-tailwindcss)
-
 (provide 'ca-web)
