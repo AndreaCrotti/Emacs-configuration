@@ -12,6 +12,7 @@
 (use-package git-timemachine)
 
 (use-package forge)
+(use-package transient)
 (use-package magit
   :after forge
   :bind (("\C-xg" . magit-status))

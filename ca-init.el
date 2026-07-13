@@ -24,8 +24,6 @@
         ("gnu" . "https://elpa.gnu.org/packages/")
         ("melpa-stable" . "https://stable.melpa.org/packages/")))
 
-(eval-when-compile (require 'cl-lib))
-
 (defvar ca-use-straight-el t
   "When non-nil, bootstrap straight.el and install packages via use-package.")
 
@@ -38,10 +36,6 @@
   (require 'package)
   (package-initialize)
   (require 'use-package))
-(use-package use-package-hydra)
-(use-package major-mode-hydra)
-(use-package pretty-hydra)
-
 (use-package adoc-mode
   :init
   (add-to-list 'auto-mode-alist (cons "\\.adoc\\'" 'adoc-mode))
@@ -150,8 +144,6 @@
   :diminish idle-highlight-mode
   :hook
   (prog-mode . idle-highlight-mode))
-
-(use-package imenu)
 
 (use-package less-css-mode)
 

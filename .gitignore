@@ -41,3 +41,4 @@ custom.el
 .aider*
 /.envrc
 /lisp/local.el
+/.claude/

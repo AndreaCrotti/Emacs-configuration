@@ -24,21 +24,6 @@
   (setq buffer-display-table (make-display-table))
   (aset buffer-display-table ?\^M []))
 
-;; TODO: trigger it automatically whenever you are on a data structure??
-(defun get-path ()
-  "Get the path in a certain data structure"
-  (let (path done)
-    (save-excursion
-      (while (not done)
-        (if (and (sp-backward-sexp)
-                 (save-excursion (sp-backward-up-sexp)))
-            (progn
-              (when-let ((thing (thing-at-point 'symbol)))
-                (push (substring-no-properties thing) path))
-              (sp-backward-up-sexp))
-          (setq done t))))
-    (message "Path: %s" path)))
-
 (defun file-notify-rm-all-watches ()
   "Remove all existing file notification watches from Emacs."
   (interactive)
@@ -46,21 +31,6 @@
    (lambda (key _value)
      (file-notify-rm-watch key))
    file-notify-descriptors))
-
-(defun redis-ks ()
-  (interactive)
-  (let ((buffer (apply #'make-comint-in-buffer
-                       "redis"
-                       redis-process-buffer-name
-                       redis-cli-executable
-                       nil
-                       '("-h"
-                         "localhost"
-                         "-p"
-                         "16378"))))
-    (with-current-buffer buffer
-      (redis-cli-mode))
-    (pop-to-buffer buffer t)))
 
 (defun advice-ns-get-selection (original &rest args)
   (let* ((actual-string (apply original args))
