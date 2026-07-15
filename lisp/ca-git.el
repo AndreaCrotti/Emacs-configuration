@@ -9,8 +9,6 @@
   :custom
   (gac-debounce-interval 0.5))
 
-(use-package git-timemachine)
-
 (use-package forge)
 (use-package transient)
 (use-package magit
