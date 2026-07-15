@@ -5,9 +5,16 @@
 (use-package blacken
   :ensure t)
 
+(defun uv-sync ()
+  "Run `uv sync' in the current project root."
+  (interactive)
+  (let ((default-directory (projectile-project-root)))
+    (compile "uv sync")))
+
 (use-package python
   :bind (:map python-ts-mode-map
-              ("C-<f5>" . python-pytest-run-def-or-class-at-point-dwim))
+              ("C-<f5>" . python-pytest-run-def-or-class-at-point-dwim)
+              ("C-c C-u" . uv-sync))
 
   :custom
   ;; should use ipython really
