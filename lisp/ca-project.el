@@ -69,4 +69,13 @@
   :hook
   (treemacs-mode . (lambda () (text-scale-adjust -2))))
 
+(use-package nyan-mode
+  :config
+  (nyan-mode t)
+  :custom
+  (nyan-animate-nyancat t)
+  (nyan-bar-length 24)
+  (nyan-minimum-window-width 82)
+  (nyan-wavy-trail nil))
+
 (provide 'ca-project)
